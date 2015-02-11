@@ -1,0 +1,4 @@
+-On fais un escape game: le but c'est de sortir vivant et dans un ceratin laps de temps un Labyrinthe ou un Batiment selon des "salles" ou des couloirs choisis aléatoirement parmis une liste.
+Un systeme pts de vie et de santée mentale pt pour l'éduc, Un gaz toxique pour la chimie ,Un choix de porte éventuel pour la Philo
+
+-Ajout d'un masque à gas ainsi que des cartouches de masque afin de stopper le timmer du gas afin de donner plus de temps au joueur pour sortir du labyrinthe. Les cartouches seront quand même rare et ne dureront pas trop longtemps. Leur durée pourrait être générée aléatoirement. 
