@@ -1,4 +1,11 @@
-# Projet-SIM
 
-[![Join the chat at https://gitter.im/richerarc/Projet-SIM](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/richerarc/Projet-SIM?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Projet d'intégration de Science Informatique et Mathématique
+#Analyse pour le projet d'intégration
+
+##Déroulement d'une parti
+
+##Intégration des différente matières
+
+##Librairie utilisé
+SDL [www.libsdl.org](https://www.libsdl.org "www.libsdl.org").
+
+OpenGl [www.opengl.org](https://www.opengl.org "www.opengl.org"). 
