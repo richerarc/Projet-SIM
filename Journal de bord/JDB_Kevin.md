@@ -18,3 +18,12 @@
 
 20:25 2015-02-10: Nous devrions ce rencontrer sur Gitter pour parler des besoins et de l'analyse
 		  pour le projet.
+		  Nous nous somme rencontrés Damien,Brandon, Nicolas et moi sur Gitter ce soir
+		  j'ai proposer mes idées pour le déroulement d'une partie et des inclusions.
+		  Verdict de la soirée :
+		  On fais un escape game: le but c'est de sortir vivant et
+		  dans un ceratin laps de temps un Labyrinthe ou un Batiment selon des "salles" ou 
+		  des couloirs choisis aléatoirement parmis une liste. Un systeme pts de vie et de
+		  santée mentale pt pour l'éduc, Un gaz toxique pour la chimie ,Un choix de porte
+		  éventuel pour la Philo". 
+		  temps du débat:  1h  participants 4.2/14 (Jessy as été présent quelques secondes) 
