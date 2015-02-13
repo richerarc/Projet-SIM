@@ -16,3 +16,6 @@
   12h50
   -rien à faire, donc modélisation d'un luger (pistolet allemand) qui pourrait servir pour le jeu.
   14h10
+  15h25
+  -finalisation du luger (retouche de la gachette).
+  15h35
