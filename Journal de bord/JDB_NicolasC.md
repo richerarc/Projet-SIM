@@ -14,5 +14,5 @@
   21h30
 13 fév
   12h50
-  -rien à faire donc modélisation d'un luger (pistolet allemand) qui pourrait servir pour le jeu.
+  -rien à faire, donc modélisation d'un luger (pistolet allemand) qui pourrait servir pour le jeu.
   14h10
