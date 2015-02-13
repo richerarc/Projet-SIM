@@ -12,3 +12,7 @@
   20h30
   -discussion avec les membres du groupe d'algorithmie des salles pour définir le fonctionemment des portes/connecteurs.
   21h30
+13 fév
+  12h50
+  -rien à faire donc modélisation d'un luger (pistolet allemand) qui pourrait servir pour le jeu.
+  14h10
