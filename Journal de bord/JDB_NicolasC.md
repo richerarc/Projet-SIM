@@ -9,3 +9,6 @@
   11h45
   -discussion da l'analyse des besoiin et séparation des tâches.
   12h15
+  20h30
+  -discussion avec les membres du groupe d'algorithmie des salles pour définir le fonctionemment des portes/connecteurs.
+  21h30
