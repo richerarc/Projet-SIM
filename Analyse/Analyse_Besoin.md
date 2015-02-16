@@ -29,6 +29,8 @@ Objets à retrouver (ex. les notes du journal)
 
 Munnitions
 
+nombre d'objet décrit : 11
+
 ####Salles
 Salle de départ : Vide avec une seule porte de sortie, et une indication du danger d'asphyxie au gaz avec un minuteur.
 
@@ -48,6 +50,8 @@ Salle de repos (avec le lit et/ou magasines louches...)
 
 Salle de sortie : Elle possède à la fois un choix, piège et un puzzle, pour ajouter à la difficulté du jeu.
 
+nombre de salle décrite : 9
+
 ####Connecteurs
 
 Coulloir droit
@@ -60,6 +64,8 @@ Trou au sol
 
 Porte qui s'ouvre directement sur une autre pièce
 
+Nombre de connecteur décrit : 7
+
 ####Puzzles
 Reconnecter des portes logiques (et/ou/ou exclusif) avec des fils receuillie en chemin.
 
@@ -67,9 +73,9 @@ Tir sur cible, dans un but quelconque.
 
 Limitation physique (modulation de gavité, ventilation intense) qui l'obligerons à une précision absolue.
 
-Puzzle de vitesse (ex. objet non vital à ratraper avant qu'une corde ne soit sectionné)
+Puzzle de vitesse (ex. objet non vital à ratraper avant qu'une corde ne soit sectionné, briser un bassin d'eau qui contient un objet, mais il y a des fils electrique (avec du courat) au sol.)
 
-
+Nombre de puzzle décrit: 8
 
 ####Pièges
 
@@ -81,24 +87,32 @@ Piège armé tirant un quelconque projectile.
 
 Douche d'acide.
 
+Chemin de barbelée, besoin de pince/couteau pour passer
+
+piege a frequence: un pedule avec une lame au bout
+
+Nombre de piège décrit: 6 
+
 ####Choix
 
-Menacer la vie d'un autre pour sauver la sienne.
+Sauver quelqu'un au risque de perdre : ex. Un homme cri à l'aide, si vous l'aider, cela à pour conséquence de vous faire perdre du temps, et un peu de vie, mais il vous remercie en vous donnant une note et deux balles de fusil; Si vous le laisser à son sort, une porte s'ouvre, où le puzzle àà résoudre nécéssite deux balles que vous n'avez peut être pas, et votre santé mentale baisse.
 
-Découvrir tout les secrets (notes), ou s'échapper au plus vite. 
+Menacer la vie d'un autre pour sauver la sienne : un piège vous menace vous et un autre personnage, si vous choisisser de vous en sauver, l'autre fait face à une mort inévitable, mais vous pourrez continuer sans aucun dommage, sauf une baisse de santé mentale. Si vous le laisser sauf, vous risquez la mort, mais avez une chance de vous en sortir. plus tard le personnage vous sera utile.
+
+Découvrir tout les secrets (notes), ou s'échapper au plus vite : Si le personnage fini le jeux au plus vite, il sort sain et sauf, mais l'histoire nous dit qu'il fut rédiculisé pour n'avoir fait aucune découverte. le joueur n'obtient aucun point moraux. Si on trouve des note, plus de point moraux seront obtenu. si tout les secret du jeu sont mis à découvert, c'est une victoire absolu; toutefois, en cherchant plus de secret, le personnage augmente ses change de mourir.
 
 ##Intégration des différente matières
 	Maths: À travers la programmation et dans l'implémentation de la physique.
 	
-	Physique: Il y aura des saut et trajectoire de projectile, et électricité.
+	Physique: Il y aura des saut et trajectoire de projectile gravété, physique du vent, et physique électrique.
 	
 	Chimie: Le gaz mortel et les cartouche d'oxygène/antidotes.
 	
 	Philosophie: Différents choix proposé au joueur qui modifieront le cours de la partie.
 	
-	Anglais: Le jeux sera programmé en anglais.
+	Anglais: La langue du jeux sera l'anglais.
 
-	Français: Le code sera commenté en français.
+	Français: Le code sera en français.
 
 
 ##Librairie utilisé
