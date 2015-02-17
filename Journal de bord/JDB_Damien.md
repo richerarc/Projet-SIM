@@ -8,3 +8,6 @@
 	Création d'un fichier texte où j'ai placé ce qui est sorti de la discution de ce soir.
 -Jeudi 12 février 2015 (10:05 à 11:40)
 	Nous avons parlé plus précisément du jeu en classe et apris un peu de Blender
+-Lundi 16 février 2015 (10:55 à 13:00)
+	Discution du fonctionnement de l'arbre afin de créer des "paths" qui fonctione et ayant un niveau de difficulté réglable à chaque début de partie.
+ 	Richier, Julien et moi avons travaillé sur l'analyse du projet. Nous avons décris en détail le déroulement d'une partie.
