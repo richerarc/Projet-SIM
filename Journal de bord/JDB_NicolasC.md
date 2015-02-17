@@ -19,3 +19,7 @@
   15h25
   -finalisation du luger (retouche de la gachette).
   15h35
+17 fév
+  13h15
+  -ébauche des diagrammes de classe en équipe pour les portes en tout genre et pour les salles.
+  14h45
