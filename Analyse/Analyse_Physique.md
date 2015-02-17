@@ -1,25 +1,29 @@
-#Analyse pour la physique du projet d'intégration
+#Analyse pour la physique du projet d'intÃ©gration
 
-##Description des éléments du jeu contenant de la physique
+##Description des Ã©lÃ©ments du jeu contenant de la physique
 
 ###Physique de l'environnement
-La gravité : Tous les objets et personnages sont bien sûr affectés par la gravité. Elle peut changer en cours de partie.
+La gravitÃ© : Tous les objets et personnages sont bien sÃ»r affectÃ©s par la gravitÃ©. Elle peut changer en cours de partie.
 
-Le vent : Le vent affecte les projectiles et le mouvement des personnages. Plus le vent sera fort, plus le déplacement sera difficile ou plus il sera facile, tout dépendra de l'orientation du vent.
+Le vent : Le vent affecte les projectiles et le mouvement des personnages. Plus le vent sera fort, plus le dÃ©placement sera difficile ou plus il sera facile, tout dÃ©pendra de l'orientation du vent.
 
-L'électricité : Les fils électriques et les courants électriques créeront des champs électriques et les balles de fusil seront affectées à ce champ. Tout autre objet métallique aussi affecté à cette force.
+L'Ã©lectricitÃ© : Les fils Ã©lectriques et les courants Ã©lectriques crÃ©eront des champs Ã©lectriques et les balles de fusil seront affectÃ©es par ce champ. Tout autre objet mÃ©tallique aussi affectÃ© Ã  cette force.
 
 ###Physique du personnage
-Mouvement du personnage : Le personnage est affecté par la gravité dans chaque déplacement qu'il fait.
+Mouvement du personnage : Le personnage est affectÃ© par la gravitÃ© dans chaque dÃ©placement qu'il fait, il pourrait aussi Ãªtre affectÃ© par un vent dans un piÃ¨ge ou puzzle, etc...
 
-Saut du personnage : Le personnage pourra atteindre une hauteur maximale et avoir une portée qui varie selon sa vitesse.
+Saut du personnage : Le personnage pourra atteindre une hauteur maximale et avoir une portÃ©e qui varie selon sa vitesse.
+
+Chute libre : Le personnage pourra tomber en chute libre, par exemple lorsqu'il passe par les connexions appelÃ©es "trous".
 
 ###Physique des objets
-Projectile de lancée : Le projectile suit une trajectoire normale, mais qui rebondit quand il atteint un autre objet. Les rebonds varient d'un objet à l'autre. Le projectile crée des dommages.
+Chute libre : Un objet tombe en chute libre lorsqu'on le lÃ¢che et rebondit au sol. 
 
-Arme à projectile : L'arme envoie une balle de fusil, ou autre. La particule qui est lancée avance en ligne droite très rapidement, mais ne rebondit pas, elle inflige seulement des dégâts.
+Projectile de lancÃ©e : Le projectile suit une trajectoire parabolique, mais il rebondit quand il atteint un autre objet. Les rebonds varient d'un objet Ã  l'autre. Le projectile crÃ©e des dommages lorsqu'il atteint le joueur avec une certaine Ã©nergie cinÃ©tique.
 
-##Librairie utilisée
+Arme Ã  projectile : L'arme envoie une balle de fusil, ou autre. Le projectile qui est lancÃ©e avance en ligne droite trÃ¨s rapidement, mais ne rebondit pas, il inflige seulement des dÃ©gÃ¢ts au personnage ou il s'incruste dans un objet.
+
+##Librairie utilisÃ©e
 SDL [www.libsdl.org](https://www.libsdl.org "www.libsdl.org").
 
 OpenGl [www.opengl.org](https://www.opengl.org "www.opengl.org"). 
