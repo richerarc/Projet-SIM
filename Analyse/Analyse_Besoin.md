@@ -1,62 +1,67 @@
+﻿#Analyse pour le projet d'intégration
 
-#Analyse pour le projet d'intégration
-
-##Description du jeux
+##Description du jeu
 
 ###Mise en contexte
-Le but du jeu est de s'échapper d'un "maze" (Escape Game).  Le jeu se déroulera à la première personne: le personnage principal (Joueur) débute dans une pièce, prédéfinie. En avancent dans le jeu, le joueur sera confronté à différents choix, qui modifieront la façon  de trouver la sortie (ex. chemins plus longs, plus risqués, etc.). Le joueur aurait comme principale difficulté: de devoir s'échapper avant qu'un gaz toxique ne l'asphyxie totalement (représenté par un décompte). Pour se protéger du gaz, des cartouches d'oxygènes seront disposés de façon aléatoire et qui donneront plus de temps au joueur pour atteindre son but. La santé physique et la santé mentale seraient deux facteurs que le joueur devra surveiller. La santé physique le maintiendra en vie (évidement); la santé mentale, en se dégradant, affectera la capacité du joueur à progresser dans le jeu (ex. déplacement plus lent, moins de temps pour les puzzle/choix, etc.). Le chemin vers la sortie, sera généré aléatoirement selon une liste de pièce (pièce, couloir, cul-de-sac) prédéfinie.
+Le but du jeu est de s'échapper d'un labyrinthe (Escape Game).  Le jeu se déroulera à la première personne: le personnage principal (Joueur) débute dans une pièce prédéfinie. En avançant dans le jeu, le joueur sera confronté à différents choix, qui modifieront la façon  de trouver la sortie (exemple : chemins plus longs, plus risqués, etc.). Le joueur aurait comme principale difficulté: de devoir s'échapper avant qu'un gaz toxique ne l'asphyxie totalement (représenté par un décompte). Pour se protéger du gaz, des cartouches d'oxygène seront disposées de façon aléatoire et donneront plus de temps au joueur pour atteindre son but. La santé physique et la santé mentale seraient deux facteurs que le joueur devra surveiller. La santé physique le maintiendra en vie (évidement); la santé mentale, en se dégradant, affectera la capacité du joueur à progresser dans le jeu (exemple : déplacement plus lent, moins de temps pour les puzzle/choix, etc.). Le chemin vers la sortie sera généré aléatoirement selon une liste de pièces (pièces, couloirs, culs-de-sac) prédéfinies.
 
 ###Histoire
-Le personnage principal est un journaliste. Jeune dans le métié, et envieux d'une histoire que fera de lui un grand éditorialiste, il choisi de s'intérèsser au cas particulié d'un camps de concentration abbandonné pour y découvrir les secrets laisser par les derniers occupants, mais il sera confronté à des complications inatendu...
+Le personnage principal est un journaliste. Jeune dans le métier et envieux d'une histoire que fera sa renommée, il choisit de s'intéresser au cas particulier d'un camp de concentration abandonné pour y découvrir les secrets laissés par les derniers occupants, mais il sera confronté à des complications inattendues...
 
 ###Déroulement de la parti
-Le joueur se réveille dans une pièce, sa santé est à 75%, et la santé mentale 90%.
-Dès le départ, un gaz menace de le tuer par asphyxie. Il à 2hrs pour s'échaper. Il ouvre la première porte, se retrouve dans une pièce carré et face à 3 portes. Au centre de la pièce il y a une table sur laquelle se trouve une note (la première) et une balle de billard. Le joueur prend la note et la balle. La porte à gauche barré la porte en face de lui à une croix (rouge) dessus et la porte de droite est... une porte. Il choisi d'aller à droite. La porte donne sur un escalier, Le joueur monte et arrive dans la pièce de départ. Le personnage est troublé il perd 20% de santé mentale. IL retourne dans le pièce à trois portes, choisi celle en face de lui (avec la croix rouge). Il arrive dans une pièce ronde, où des débrits sur le sol rendent le déplacement difficile, une bibliothèque jit sur le plancher, et un tâs de déchets se trouve devant un petit bureau. Dans la bibliothèque le joueur trouve une autre note, et en escaladant le tâs de débrits, il trouve une arme à feu vide sur le bureau , il la ramasse. À sa gauche se trouve une autre porte, qui mêne sur un long couloir. En le traversant il voit sur le mur une indication de courant électrique. En continuant, il arrive devant le piège, par terre se trouve une balle de fusil, et voit au loin un petit fusible qui pourrait être celui du piège. Il a le choix de passé au travert pour garder ça balle où de tenté de désactiver le piège en tirant sa seule balle. Il le fait et atteint le fusible. Mauvais fusible, le bon était derière lui, il n'a plus de balle. Il passe à travert du piège (en courant), et perd 10% de sa vie. Il accède à une pièce dans laquelle se trouve une clée derrière une vitre et où un conduit d'aération produit un fort courant d'air. Il lance la balle de billard pour casser la vitre, et manque sa cible, elle rebondit sur le mur. Il la ramasse et recommence quelque fois avant d'y arriver. Il ramasse donc la clé, et revient sur ses pas. En retrouant dans le couloir, le piège électrique a disparu. Il continue son chemin et arrive sur un tout autre pièce pas encore visitée. Il est encore une fois troublé, et perd cette fois 10% de santé mentale. Dans cette pièce se trouve un lit. Il peut s'y étendre pour récupérer de la santé physique/mentale, mais perd du temps au compteur. Il choisi de dormir. Il perd 20 min (Temps de jeux) sa vie à augmenté de 10% et sa santé mentale de 30%. Comme il a dormi, il ne sera plus vraiment surpris par les étranges évènements qui se déroule autour de lui. Il enprunte la seule autre porte de la pièce qui le ramène encore une fois à la pièce de départ. Elle à changé, sur le mur à droite une inscription "You got one key...". Il se dirige dans la pièce suivante (à trois portes) et se sert de la clé pour la débarrer la porte de gauche. Il hésite, il peut sortir, mais peut aussi rester et essayer d'en découvrir plus sur ce lieu étrage. Il choisi de sortir. Le jeux prend fin, et affiche deux accomplissement : "First game!" et "Easy path", laissant croire que plus de notes, et autres pièces et objets étaient à découvrir. 
+Le joueur se réveille dans une pièce, sa santé physique est à 75% et sa santé mentale à 90%.
+Dès le départ, un gaz menace de le tuer par asphyxie. Il a 2 heures (temps de jeu) pour s'échapper. Il ouvre la première porte, se retrouve dans une pièce carré et face à 3 portes. Au centre de la pièce, il y a une table sur laquelle se trouve une note (la première) et une balle de billard. Le joueur prend la note et la balle. La porte à gauche est barrée, la porte en face de lui a une croix rouge dessus et la porte de droite est... une porte. Il choisit d'aller à droite.
+La porte donne sur un escalier; le joueur monte et arrive dans la pièce de départ. Le personnage est troublé il perd 20% de santé mentale. Il retourne dans la pièce à trois portes, choisit celle en face de lui (avec la croix rouge).
+Il arrive dans une pièce ronde où des débris sur le sol rendent le déplacement difficile, une bibliothèque git sur le plancher et un tas de déchets se trouve devant un petit bureau. Dans la bibliothèque, le joueur trouve une autre note et, en escaladant le tas de débris, il trouve une arme à feu vide sur le bureau. Il la ramasse. 
+À sa gauche se trouve une autre porte qui mène sur un long couloir. En le traversant, il voit sur le mur une indication de courant électrique. En continuant, il arrive devant le piège. Par terre se trouve une balle de fusil et il voit au loin un petit fusible qui pourrait être celui du piège. Il a le choix de passer au travers pour garder sa balle ou de tenter de désactiver le piège en tirant sa seule balle. Il tire et atteint le fusible. Par contre, c’était le mauvais fusible, le bon étant derrière lui. Il n'a plus de balle.
+Il passe à travers le piège (en courant), et perd 10% de sa vie. Il accède à une pièce dans laquelle se trouve une clé derrière une vitre et où un conduit d'aération produit un fort courant d'air. Il lance la balle de billard pour casser la vitre et manque sa cible. Elle rebondit sur le mur, il la ramasse et recommence quelques fois avant d'y arriver. Il ramasse donc la clé et revient sur ses pas.
+En retournant dans le couloir, le piège électrique a disparu. Il continue son chemin et arrive sur une toute autre pièce pas encore visitée. Il est encore une fois troublé et perd cette fois 10% de santé mentale. Dans cette pièce se trouve un lit. Il peut s'y étendre pour récupérer de la santé physique/mentale, mais perd du temps au compteur. Il choisit de dormir. Il perd 20 minutes (temps de jeu), sa vie a été augmentée de 10% et sa santé mentale de 30%. Comme il a dormi, il ne sera plus surpris par les étranges évènements qui se déroulent autour de lui.
+Il emprunte la seule autre porte de la pièce qui le ramène encore une fois à la pièce de départ qui a changé. Sur le mur à droite se trouve une inscription:  "You got one key...". Il se dirige dans la pièce suivante (à trois portes) et se sert de la clé pour la débarrer la porte de gauche. Il hésite; il peut sortir, mais peut aussi rester et essayer d'en découvrir plus sur ce lieu étrange. Il choisit de sortir. Le jeu prend fin et affiche deux accomplissements : "First game!" et "Easy path", laissant croire que plus de notes, d’autres pièces et d’objets étaient à découvrir. 
 
 ###Liste des pièges/puzzles/choix/objets/salles
 ####Objets
-Une arme à projectile. (ex. fusil)
+Une arme à projectiles (exemple : fusil)
 
-Des projectile de lancer (ex. balles, grenades, roches)
+Des projectiles de lancer (exemple : balles, grenades, roches)
 
-Objets pour rénérer la santé physique/mentale (ex. nourriture, boissons spéciales, magazines louches...)
+Objets pour régénérer la santé physique/mentale (exemple : nourriture, boissons spéciales, magazines louches...)
 
 Couteau
 
-Objets utiles au puzzle (ex. fils électrique, fusible, clées, et autres objets déjà nommés)
+Objets utiles au puzzle (exemple : fils électriques, fusible, clés, et autres objets déjà nommés)
 
-Objets à retrouver (ex. les notes du journal)
+Objets à retrouver (les notes du journal)
 
-Munnitions
+Munitions
 
-nombre d'objet décrit : 11
+Nombre d'objets décris : 11
 
 ####Salles
-Salle de départ : Vide avec une seule porte de sortie, et une indication du danger d'asphyxie au gaz avec un minuteur.
+Salle de départ : Vide avec une seule porte de sortie et une indication du danger d'asphyxie au gaz avec un minuteur.
 
-Salles #1 : Salle rectangle avec un certain nombre de porte, qui comporte un objet fréquent (ex. roche)
+Salles #1 : Salle rectangle avec un certain nombre de portes, qui comporte un objet fréquent (exemple : roche)
 
-Salle #2 : Salle rectangle avec un certain nombre de porte, et un puzzle/piège qui donne accès à un objet plus vital. (ex. clée)
+Salle #2 : Salle rectangle avec un certain nombre de portes et un puzzle/piège qui donne accès à un objet plus vital (exemple : clé)
 
-Salle #3 : Salle ronde avec un certain nombre de porte, qui comporte un objet fréquent (ex. roche)
+Salle #3 : Salle ronde avec un certain nombre de portes qui comporte un objet fréquent (exemple : roche)
 
-Salle #4 : Salle ronde avec un certain nombre de porte, et un puzzle/piège qui donne accès à un objet plus vital. (ex. clée)
+Salle #4 : Salle ronde avec un certain nombre de portes et un puzzle/piège qui donne accès à un objet plus vital (exemple : clé)
 
-Salle #5 : Salle ronde ou rectangle qui possède un plancher non plat (ex débrits au sol, placher ondulé, de biais) et des puzzles / pièges / choix.
+Salle #5 : Salle ronde ou rectangle qui possède un plancher non plat (exemple : débris au sol, plancher ondulé, de biais) et des puzzles / pièges / choix.
 
-Salle #6 Salle avec les inscriptions qui indique l'avancement au joueur.
+Salle #6 Salle avec les inscriptions qui indiquent l'avancement au joueur.
 
-Salle de repos (avec le lit et/ou magasines louches...)
+Salle de repos (avec le lit et/ou magazines louches...)
 
 Salle de sortie : Elle possède à la fois un choix, piège et un puzzle, pour ajouter à la difficulté du jeu.
 
-nombre de salle décrite : 9
+Nombre de salles décrites : 9
 
 ####Connecteurs
 
-Coulloir droit
+Couloir droit
 
-Coulloir arcqué / avec un coude 
+Couloir arqué / avec un coude 
 
 Escalier  (monte ou descend)
 
@@ -64,53 +69,53 @@ Trou au sol
 
 Porte qui s'ouvre directement sur une autre pièce
 
-Nombre de connecteur décrit : 7
+Nombre de connecteurs décrits : 7
 
 ####Puzzles
-Reconnecter des portes logiques (et/ou/ou exclusif) avec des fils receuillie en chemin.
+Reconnecter des portes logiques (et/ou/ou exclusif) avec des fils recueillis en chemin.
 
-Tir sur cible, dans un but quelconque.
+Tir sur cible dans un but quelconque.
 
-Limitation physique (modulation de gavité, ventilation intense) qui l'obligerons à une précision absolue.
+Limitation physique (modulation de gravité, ventilation intense) qui l'obligeront à une précision absolue.
 
-Puzzle de vitesse (ex. objet non vital à ratraper avant qu'une corde ne soit sectionné, briser un bassin d'eau qui contient un objet, mais il y a des fils electrique (avec du courat) au sol.)
+Puzzle de vitesse (ex. objet non vital à rattraper avant qu'une corde ne soit sectionnée, briser un bassin d'eau qui contient un objet, mais il y a des fils électriques avec du courant au sol.)
 
-Nombre de puzzle décrit: 8
+Nombre de puzzles décrits: 8
 
 ####Pièges
 
-Porte / coulloir truqué avec un courant éléctrique. (impacte la santé physique)
+Porte / couloir truqué(e) avec un courant électrique. (impact la santé physique)
 
-Agencement de pièces et couloirs fesant un chemin circulaire, dont seulement 1 chemin peut l'en sortir (impacte la santé mentale)
+Agencement de pièces et couloirs faisant un chemin circulaire dont seulement un chemin peut l'en sortir (impact la santé mentale)
 
 Piège armé tirant un quelconque projectile.
 
 Douche d'acide.
 
-Chemin de barbelée, besoin de pince/couteau pour passer
+Chemin de barbelés, besoin de pince/couteau pour passer
 
-piege a frequence: un pedule avec une lame au bout
+piège à fréquence : un pendule avec une lame au bout
 
-Nombre de piège décrit: 6 
+Nombre de pièges décrits: 6 
 
 ####Choix
 
-Sauver quelqu'un au risque de perdre : ex. Un homme cri à l'aide, si vous l'aider, cela à pour conséquence de vous faire perdre du temps, et un peu de vie, mais il vous remercie en vous donnant une note et deux balles de fusil; Si vous le laisser à son sort, une porte s'ouvre, où le puzzle àà résoudre nécéssite deux balles que vous n'avez peut être pas, et votre santé mentale baisse.
+Sauver quelqu'un au risque de perdre : Un homme crie à l'aide. Si vous l'aidez, cela aura pour conséquence de vous faire perdre du temps et un peu de vie. Par contre, il vous remercie en vous donnant une note et deux balles de fusil. Si vous le laissez à son sort, une porte s'ouvre où le puzzle à résoudre nécessite deux balles que vous n'avez peut-être pas et votre santé mentale baisse.
 
-Menacer la vie d'un autre pour sauver la sienne : un piège vous menace vous et un autre personnage, si vous choisisser de vous en sauver, l'autre fait face à une mort inévitable, mais vous pourrez continuer sans aucun dommage, sauf une baisse de santé mentale. Si vous le laisser sauf, vous risquez la mort, mais avez une chance de vous en sortir. plus tard le personnage vous sera utile.
+Menacer la vie d'un autre pour sauver la sienne : Un piège vous menace vous et un autre personnage. Si vous choisissez de vous en sauver, l'autre personnage fait face à une mort inévitable, mais vous pourrez continuer sans aucun dommage, sauf une baisse de santé mentale. Si vous le laissez sauf, vous risquez la mort, mais avez une chance de vous en sortir. Plus tard, le personnage vous sera utile.
 
-Découvrir tout les secrets (notes), ou s'échapper au plus vite : Si le personnage fini le jeux au plus vite, il sort sain et sauf, mais l'histoire nous dit qu'il fut rédiculisé pour n'avoir fait aucune découverte. le joueur n'obtient aucun point moraux. Si on trouve des note, plus de point moraux seront obtenu. si tout les secret du jeu sont mis à découvert, c'est une victoire absolu; toutefois, en cherchant plus de secret, le personnage augmente ses change de mourir.
+Découvrir tous les secrets (notes) ou s'échapper au plus vite : Si le personnage finit le jeu au plus vite, il sort sain et sauf, mais l'histoire nous dit qu'il fut ridiculisé pour n'avoir fait aucune découverte. Le joueur n'obtient aucun point moral. Si on trouve des notes, plus de points moraux seront obtenus. Si tous les secret du jeu sont mis à découvert, c'est une victoire absolue. Toutefois, en cherchant plus de secrets, le personnage augmente ses chances de mourir.
 
-##Intégration des différente matières
+##Intégration des différentes matières
 	Maths: À travers la programmation et dans l'implémentation de la physique.
 	
-	Physique: Il y aura des saut et trajectoire de projectile gravété, physique du vent, et physique électrique.
+	Physique: Il y aura des sauts, des trajectoires de projectiles, de la gravité, de la physique du vent et de la physique électrique.
 	
-	Chimie: Le gaz mortel et les cartouche d'oxygène/antidotes.
+	Chimie: Le gaz mortel, les cartouches d'oxygène et les antidotes.
 	
-	Philosophie: Différents choix proposé au joueur qui modifieront le cours de la partie.
+	Philosophie: Différents choix proposés au joueur qui modifieront le cours de la partie.
 	
-	Anglais: La langue du jeux sera l'anglais.
+	Anglais: La langue du jeu sera l'anglais.
 
 	Français: Le code sera en français.
 
