@@ -1,14 +1,22 @@
-12 fÈvrier 2015
+###**`12 f√©vrier 2015`**
 
-- 10h ‡ 10h30 : J'ai participÈ ‡ l'Èlaboration finale du concept du jeu. Le gameplay et
+- 10h √† 10h30 : J'ai particip√© √† l'√©laboration finale du concept du jeu. Le gameplay et
 le principe des changements de salles sont maintenant plus clairs. 
 
-- 11h40 ‡ 12h : Nous avons aussi divisÈ notre projet en 3 sous-parties, soit la physique,
-la partie graphique et la partie algorithmique... Je n'ai pas peu restÈ plus longtemps 
-malheureusement, mais il a ÈtÈ dÈterminÈ que je suis le "chef" de la partie physique.
+- 11h40 √† 12h : Nous avons aussi divis√© notre projet en 3 sous-parties, soit la physique,
+la partie graphique et la partie algorithmique... Je n'ai pas peu rest√© plus longtemps 
+malheureusement, mais il a √©t√© d√©termin√© que je suis le "chef" de la partie physique.
 
-16 fÈvrier 2015
+###**`15 f√©vrier 2015`**
 
-- 11h ‡ 11h45: Je suis allÈ parler ‡ Patrick, avec Richer et Damien, sur le contenu de l'analyse et sur ce qu'il faut y modifier. Nous sommes ensuite allÈs peaufiner l'analyse. J'ai participÈ ‡ la crÈation d'un exemple d'une partie de jeu et ‡ la crÈation de quelques puzzles et quelques piËces.
+- 11h √† 11h45: Je suis all√© parler √† Patrick, avec Richer et Damien, sur le contenu de l'analyse et sur ce qu'il faut y modifier. Nous sommes ensuite all√©s peaufiner l'analyse. J'ai particip√© √† la cr√©ation d'un exemple d'une partie de jeu et √† la cr√©ation de quelques puzzles et quelques pi√®ces.
 
-- 20h40 ‡ 21h00 : J'ai commencÈ une brËve analyse sur la physique afin d'avoir une base de discussion pour demain. 
+- 20h40 √† 21h00 : J'ai commenc√© une br√®ve analyse sur la physique afin d'avoir une base de discussion pour demain. 
+
+###**`17 f√©vrier 2015`**
+
+- 8h30 √† 9h : J'ai discut√© de la structuration et de l'analyse de notre physique avec Gabriel et Xavier. 
+
+- 12h40 √† 14h40 : Nous avons commenc√© un petit diagramme de classe pour bien imager notre physique. Nous avons discut√© avec les autres √©quipes afin de savoir leur besoin dans la physique.
+
+- 14h40 √† 17h40 : Nous avons √©labor√© sur le projet, nous avons fix√© les normes de programmations et quelques notions du c++. Nous savons exactement ce qu'il faut ajouter √† notre analyse pour pouvoir commencer √† d√©velopper le programme.
