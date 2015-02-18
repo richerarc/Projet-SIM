@@ -36,3 +36,8 @@ Nous avons discuter plus en détails du jeu et sommes arrivées a un concept fin
 L'analyse à pris forme tout au long de ce laps de temps. Il y a eu formations des équipes (Divide and Conquer). Le 16 (aujourd'hui) l'analyse fut complètée par collaboration de tout le monde et corrigée par moi même. Nous discuterons de nos besoins pour les graphiques (menus2D, cameras,etc...) avec mon équipe demain avant le cours.
 
 **Temps: 1h**
+
+###**`17 février 2015`**###
+Nous avons parler avant le cours de comment nous allons procéder pour la gestion de l'affichage. Brandon est arrivé avec une nouvelle façon de faire qu'il devra bien nous expliquer pour que nous puissions bien l'utiliser. En classe Richer et Brandon nous ont montrer quelques fonctionalités de `C++11` que nous auront probablement a utiliser durant le projet. Nous avons aussi mis au oint les normes de programmation que nous allons utiliser. Nous avons également en fin de cours discuter sur l'élaboration de pièges plus complexes. Nous complèterons l'analyse demain mation pour laisser le temps de macération des différentes idées.
+
+**Temps: 4h**  
