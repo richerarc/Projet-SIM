@@ -18,6 +18,13 @@ Il passe à travers le piège (en courant), et perd 10% de sa vie. Il accède à
 En retournant dans le couloir, le piège électrique a disparu. Il continue son chemin et arrive sur une toute autre pièce pas encore visitée. Il est encore une fois troublé et perd cette fois 10% de santé mentale. Dans cette pièce se trouve un lit. Il peut s'y étendre pour récupérer de la santé physique/mentale, mais perd du temps au compteur. Il choisit de dormir. Il perd 20 minutes (temps de jeu), sa vie a été augmentée de 10% et sa santé mentale de 30%. Comme il a dormi, il ne sera plus surpris par les étranges évènements qui se déroulent autour de lui.
 Il emprunte la seule autre porte de la pièce qui le ramène encore une fois à la pièce de départ qui a changé. Sur le mur à droite se trouve une inscription:  "You got one key...". Il se dirige dans la pièce suivante (à trois portes) et se sert de la clé pour la débarrer la porte de gauche. Il hésite; il peut sortir, mais peut aussi rester et essayer d'en découvrir plus sur ce lieu étrange. Il choisit de sortir. Le jeu prend fin et affiche deux accomplissements : "First game!" et "Easy path", laissant croire que plus de notes, d’autres pièces et d’objets étaient à découvrir. 
 
+###User Interface
+####Menus
+Un menu play, un menu options et un menu pause seront les différents menus principaux. Un gestionnaire d'inventaire sera aussi nécéssaire.
+
+####GUI
+Une barre de vie et une barre de santée mentale sera affiché en bas à gauche de l'écran. Une gauge de temps sera également affichée en haut de l'écran et elle représentra le temps restant pour terminer le jeu.
+
 ###Liste des pièges/puzzles/choix/objets/salles
 ####Objets
 Une arme à projectiles (exemple : fusil)
@@ -74,9 +81,9 @@ Nombre de connecteurs décrits : 7
 ####Puzzles
 Reconnecter des portes logiques (et/ou/ou exclusif) avec des fils recueillis en chemin.
 
-Tir sur cible dans un but quelconque.
+Tir sur cible dans un but quelconque. Un porte sera surmontée d'une "Balance" débalancée que nous devrons la rebalencer a l'aide d'objets trouver sur le sol de la pièce et les lancer dans les plaquettes de la balance.
 
-Limitation physique (modulation de gravité, ventilation intense) qui l'obligeront à une précision absolue.
+Une pièce consiste à activer un levier avec un objet trouvé à travers les pièces précédentes. Deux courants d'air seront activés permettant l'accès a la porte. (le levier poeut etre activé a la main mais le joueur sera coincé)
 
 Puzzle de vitesse (ex. objet non vital à rattraper avant qu'une corde ne soit sectionnée, briser un bassin d'eau qui contient un objet, mais il y a des fils électriques avec du courant au sol.)
 

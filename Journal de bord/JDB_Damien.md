@@ -11,3 +11,9 @@
 -Lundi 16 février 2015 (10:55 à 13:00)
 	Discution du fonctionnement de l'arbre afin de créer des "paths" qui fonctione et ayant un niveau de difficulté réglable à chaque début de partie.
  	Richier, Julien et moi avons travaillé sur l'analyse du projet. Nous avons décris en détail le déroulement d'une partie.
+			(15:00-20:00(aka après-midi))
+	Discution sur Gitter de choses (Pièges et puzzles) à ajouter à l'analyse.
+-Mardi 17 février 2015(13:00 à 17:20)
+	Cours de C++ 11 ainsi que discution des les normes de programmation.
+	Discution sur les classes qu'on aura besoin pour notre partie du programme.
+	Discution sur l'analyse par rapport à ce qui lui manque.

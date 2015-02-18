@@ -1,20 +1,28 @@
-30 janvier 2015
+###30 janvier 2015
 
-J'ai proposÈ une idÈe de jeu du genre escape game dans lequel deux joueur s'affronte, un cherche ‡ trouver l'autre alors que le deuxiËme lui en empËche par divers moyens(piËges, mobs, etc...). Elle semble avoir ÈtÈ trËs bien reÁus.
+J'ai propos√© une id√©e de jeu du genre escape game dans lequel deux joueur s'affronte, un cherche √† trouver l'autre alors que le deuxi√®me lui en emp√®che par divers moyens(pi√®ges, mobs, etc...). Elle semble avoir √©t√© tr√®s bien re√ßus.
 
-2 fÈvrier 2015
+###2 f√©vrier 2015
 
-Nous avons eu une rencontre dans le C-220 pour discuter du projet o˘ j'ai peu Èlaborer plus mon idÈe, ‡ savoir le dÈroulement d'une partie. Nous avons proposÈ des style de jeux et ceux qui ont ressortis le plus sont : escape game, shooter et infinite runner.
+Nous avons eu une rencontre dans le C-220 pour discuter du projet o√π j'ai peu √©laborer plus mon id√©e, √† savoir le d√©roulement d'une partie. Nous avons propos√© des style de jeux et ceux qui ont ressortis le plus sont : escape game, shooter et infinite runner.
 
 
-3 fÈvrier 2015
+###3 f√©vrier 2015
 
-Nous avons fait un vote avec toute la classe et je crois que nous sommes pas mal tous dÈcidÈ ‡ faire un escape game!
+Nous avons fait un vote avec toute la classe et je crois que nous sommes pas mal tous d√©cid√© √† faire un escape game!
 
-10 fÈvrier 2015
+###10 f√©vrier 2015
 
 Je me pratique dans blender et j'ai fait un lit!
 
-12 fÈvrier 2015
+###12 f√©vrier 2015
 
-Nous nous sommes sÈparÈs les t‚ches pour dÈbuter le projet, je travaillerai la physique du jeu avec Julien, Xavier, Nicolas et Nathan. Nous nous sommes aussi fixÈ une date limite pour ce qui est de l'Èlaboration des premiers UML qui sera mardi le 17 fÈvrier.
+Nous nous sommes s√©par√©s les t√¢ches pour d√©buter le projet, je travaillerai la physique du jeu avec Julien, Xavier, Nicolas et Nathan. Nous nous sommes aussi fix√© une date limite pour ce qui est de l'√©laboration des premiers UML qui sera mardi le 17 f√©vrier.
+
+###16 f√©vrier 2015
+
+J'ai r√©vis√© un peu l'analyse des besoins avec Richer.
+
+###17 f√©vrier 2015
+
+Durant l'avant-midi, moi et Xavier avons travaill√©s sur les diagrammes en ce qui concerne la physique, nous pensons que le diagramme d'√©tat n'est pas vraiment n√©cessaire. Nous avons aussi avanc√© l'analyse des besoins de la physique. Par la suite, la classe s'est r√©unie vers 1h pour parler du projet et √©changer nos id√©es entrautre sur la mani√®re de construire les classes pour la physique. Nous aurons probablement une classe qui contient les formules et calculs n√©cessaire avec plusieurs #define pour ce qui est des constantes. Nous avons aussi abord√© un peu le sujet des collisions, Brandon nous a apport√© une id√©e certainement fiable et simple, mais qui demanderas probablement trop au processeur pour qu'elle soit justifi√©. Nous avons ensuite eu un petit cours de C++11 pour apprendre √† utiliser les structure de donn√© d√©j√† pr√©sente dans visual studio. Finalement, nous avons √©tabli des normes de programmation pas trop exigente, qui se rapprochent selon moi du "Bon sens" parce qu'on ne perdra plus de temps √† faire trop de commentaires sans non plus rendre notre code incompr√©hensible. Finalement, nous avons donn√©s en groupe quelques nouvelles id√©es de pi√®ges.
