@@ -26,6 +26,9 @@ Un menu play, un menu options et un menu pause seront les différents menus prin
 Une barre de vie et une barre de santée mentale sera affiché en bas à gauche de l'écran. Une gauge de temps sera également affichée en haut de l'écran et elle représentra le temps restant pour terminer le jeu.
 
 ###Liste des pièges/puzzles/choix/objets/salles
+###Génération Aléatoire du labyrinthe
+À chaque nouvelle partie, on génère la pièce aléatoirement, en tenant compte de trois aspects:la chemins possibles, leur formes et leur contenu(objets et pièges). Le but est  que, d'une partie à l'autre, le joueur ait environ la même difficulté mais que les piece génerées ne soient pas les mêmes, exemple; une piece carré avec un piege quelconque mais une différente piece peut avoir le même piege. Ce qui change d'une partie a l'autre: les pieces, les puzzles et les objets dans le but de créer des parties les plus différentes possible en laissant un nombre de possibilités toujours égale. Un genre de "rogue like". Nous allons essayer de le faire à fin que ce soit équilibré pour éviter qu'un joueur se retrouve face à une partie trop facile ou trop difficile. La carte sera consitué de pièces de différente taille et de différente forme et inter-reliés par des connecteurs. L'implémentation de l'algorithme de génération du labyrinthe sera l'élément difficile, car ,tel qu'il est, il nécéssite de faire attention aux probabilitées.
+
 ####Objets
 Une arme à projectiles (exemple : fusil)
 
@@ -81,11 +84,17 @@ Nombre de connecteurs décrits : 7
 ####Puzzles
 Reconnecter des portes logiques (et/ou/ou exclusif) avec des fils recueillis en chemin.
 
-Tir sur cible dans un but quelconque. Un porte sera surmontée d'une "Balance" débalancée que nous devrons la rebalencer a l'aide d'objets trouver sur le sol de la pièce et les lancer dans les plaquettes de la balance.
+Tir sur cible dans un but quelconque.
 
-Une pièce consiste à activer un levier avec un objet trouvé à travers les pièces précédentes. Deux courants d'air seront activés permettant l'accès a la porte. (le levier poeut etre activé a la main mais le joueur sera coincé)
+Un porte sera surmontée d'une "Balance" débalancée que nous devrons la rebalencer à l'aide d'objets trouver sur le sol de la pièce et les lancer dans les plaquettes de la balance.
 
-Puzzle de vitesse (ex. objet non vital à rattraper avant qu'une corde ne soit sectionnée, briser un bassin d'eau qui contient un objet, mais il y a des fils électriques avec du courant au sol.)
+Une pièce consiste à activer un levier avec un objet trouvé à travers les pièces précédentes. Deux courants d'air seront activés permettant l'accès a la porte. (le levier peut être activé à la main mais le joueur sera coincé)
+
+Une très longue pièce consistera  en un plafond qui tombe et remonte et ou seulement quelque trous sont sécuritaires qu'il faudra traverser (exemple: https://www.youtube.com/watch?v=N2_mN5DgJaM). 
+
+Un salle où un puzzle nécéssite de connaitre une certain code qui serait sur une note trouvé dans une salle précédente pour débloquer la porte. 
+
+Puzzle de vitesse (ex. objet non vital à rattraper avant qu'une corde ne soit sectionnée)
 
 Nombre de puzzles décrits: 8
 
@@ -109,7 +118,7 @@ Nombre de pièges décrits: 6
 
 Sauver quelqu'un au risque de perdre : Un homme crie à l'aide. Si vous l'aidez, cela aura pour conséquence de vous faire perdre du temps et un peu de vie. Par contre, il vous remercie en vous donnant une note et deux balles de fusil. Si vous le laissez à son sort, une porte s'ouvre où le puzzle à résoudre nécessite deux balles que vous n'avez peut-être pas et votre santé mentale baisse.
 
-Menacer la vie d'un autre pour sauver la sienne : Un piège vous menace vous et un autre personnage. Si vous choisissez de vous en sauver, l'autre personnage fait face à une mort inévitable, mais vous pourrez continuer sans aucun dommage, sauf une baisse de santé mentale. Si vous le laissez sauf, vous risquez la mort, mais avez une chance de vous en sortir. Plus tard, le personnage vous sera utile.
+Menacer la vie d'un autre pour sauver la sienne : Un piège vous menace vous et un autre personnage. Si vous choisissez de vous en sauver, l'autre personnage fait face à une mort inévitable, mais vous pourrez continuer sans aucun dommage, sauf une baisse de santé mentale. Si vous le laissez sauf, vous risquez la mort, mais avez une chance de vous en sortir.
 
 Découvrir tous les secrets (notes) ou s'échapper au plus vite : Si le personnage finit le jeu au plus vite, il sort sain et sauf, mais l'histoire nous dit qu'il fut ridiculisé pour n'avoir fait aucune découverte. Le joueur n'obtient aucun point moral. Si on trouve des notes, plus de points moraux seront obtenus. Si tous les secret du jeu sont mis à découvert, c'est une victoire absolue. Toutefois, en cherchant plus de secrets, le personnage augmente ses chances de mourir.
 
