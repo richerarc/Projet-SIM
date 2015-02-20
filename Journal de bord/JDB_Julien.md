@@ -20,3 +20,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 - 12h40 à 14h40 : Nous avons commencé un petit diagramme de classe pour bien imager notre physique. Nous avons discuté avec les autres équipes afin de savoir leur besoin dans la physique.
 
 - 14h40 à 17h40 : Nous avons élaboré sur le projet, nous avons fixé les normes de programmations et quelques notions du c++. Nous savons exactement ce qu'il faut ajouter à notre analyse pour pouvoir commencer à développer le programme.
+
+###**`19 février 2015`**
+
+- 1h à 2h : Richer, Kevin, Jessy et moi avons pensé à d'autre idée de puzzles et de salles. (Avec la collaboration de Félix) 
