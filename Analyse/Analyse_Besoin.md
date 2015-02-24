@@ -49,7 +49,7 @@ Objets pour régénérer la santé physique/mentale (exemple : nourriture, boiss
 
 Couteau
 
-Objets utiles aux casse-têtex (exemple : fils électriques, fusible, clés, et autres objets déjà nommés)
+Objets utiles aux casse-têtes (exemple : fils électriques, fusible, clés, et autres objets déjà nommés)
 
 Objets à retrouver (les notes du journal)
 
