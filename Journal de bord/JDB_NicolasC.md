@@ -25,3 +25,7 @@
   14h45
   -cours de c++11 et discussion des normes de programmation.
   16h50
+24 fév
+  16h30
+  -développement de l'UML pour les portes, pièces et gestionnaire (données membres).
+  17h45
