@@ -18,11 +18,11 @@ Il passe au travers du piège (en courant), et perd 10% de sa vie. Il accède à
 En retournant dans le couloir, le piège électrique a disparu. Il continue son chemin et arrive sur une toute autre pièce qui n'est pas encore visitée. Il est encore une fois troublé et perd cette fois 10% de santé mentale. Dans cette pièce se trouve un lit. Il peut s'y étendre pour récupérer de la santé physique/mentale, mais perd du temps au compteur. Il choisit de dormir. Il perd 20 minutes (temps de jeu), sa vie a été augmentée de 10% et sa santé mentale de 30%. Comme il a dormi, il ne sera plus surpris par les étranges évènements qui se déroulent autour de lui.
 Il emprunte la seule autre porte de la pièce qui le ramène encore une fois à la pièce de départ qui a changé. Sur le mur à droite se trouve une inscription:  "You got one key...". Il se dirige dans la pièce suivante (à trois portes) et se sert de la clé pour la débarrer la porte de gauche. Il hésite; il peut sortir, mais peut aussi rester et essayer d'en découvrir plus sur ce lieu étrange. Il choisit de sortir. Le jeu prend fin et affiche deux accomplissements : "First game!" et "Easy path", laissant croire que plus de notes, d’autres pièces et objets étaient à découvrir. 
 
-###User Interface
+###Interface de l'utilisateur
 ####Menus
 Un menu de début de partie, un menu d'options et un menu de pause seront les différents menus principaux. Un gestionnaire d'inventaire sera aussi nécéssaire.
 
-####GUI
+####Interface grafique
 Une barre de vie et une barre de santé mentale sera affichée en bas à gauche de l'écran. Une gauge de temps sera également affichée en haut de l'écran et elle représentra le temps restant pour terminer le jeu.
 
 ###Liste des pièges/casse-têtes/choix/objets/salles
