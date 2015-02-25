@@ -15,3 +15,5 @@
 `Ven. 20 févr.` J'ai fais quelques ajout à la cédule du projet. Les modifications sont sur le serveur. `0h30`
 
 `Mar. 24 févr.` Nous avons commencé la conception. Nous avons d'abord planché sur les pièces, porte/portail, et sur le gestionaire de lien (pour les pièce -> connecteur -> pièce) en utilisant une std::map pour associé des pièces et des portes. Nous avons aussi convenu d'utilisé le patron de conception "Singleton" et "Manufacture"(Factory). Le projet part, à mon avis, sur une bonne base. `4h00`
+
+`Mar. 24 févr.` test sur travis, et désactivation temporaire du service `0h45`
