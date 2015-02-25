@@ -1,9 +1,9 @@
 language : cpp
 before_install:
-    sudo apt-get install libsdl2.0-dev 
-    sudo apt-get install libsdl-image2.0-dev
-    sudo apt-get install libsdl-mixer2.0-dev
-    sudo apt-get install libsdl-ttf2.0-dev
+    sudo apt-get install libsdl2-dev 
+    sudo apt-get install libsdl-image2-dev
+    sudo apt-get install libsdl-mixer2-dev
+    sudo apt-get install libsdl-ttf2-dev
 install: make get-deps
 before_script: cd sources
 script: make ..
