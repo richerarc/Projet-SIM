@@ -24,3 +24,11 @@ la gestion de la physique sur les objets
 Discution avec la classe sur la librairie standard de c++ et sur les normes de programmation du projet, 
 Précision avec le prof sur ce qu'il manque dans l'analyse du projet
 
+24 février
+-environ 2h
+Discution de classe sur la classe singleton et la factory que nous utiliserons dans le projet
+
+-environ 1h
+Recherche des formules pertinente à utiliser pour la physique du jeu
+et comment nous pourrions les utiliser
+
