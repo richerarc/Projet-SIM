@@ -13,3 +13,5 @@
 `Mar. 17 févr.` Nous avons commencé à déterminer les différentes exigeances nécéssaire pour la génération aléatoire le la map. Nous avons imagine un système de porte, qui pointe sur d'autre porte et les salles (pièces et connecteurs) contiennent ces portes. Nous Avons établie les norme de programmation, vu en classe quelque nouveau concept pour certain, et nous avons discuté pour les petit point manquant de l'analyse des besoins. `4h00`
 
 `Ven. 20 févr.` J'ai fais quelques ajout à la cédule du projet. Les modifications sont sur le serveur. `0h30`
+
+`Mar. 24 févr.` Nous avons commencé la conception. Nous avons d'abord planché sur les pièces, porte/portail, et sur le gestionaire de lien (pour les pièce -> connecteur -> pièce) en utilisant une std::map pour associé des pièces et des portes. Nous avons aussi convenu d'utilisé le patron de conception "Singleton" et "Manufacture"(Factory). Le projet part, à mon avis, sur une bonne base. `4h00`
