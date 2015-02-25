@@ -1,2 +1,7 @@
 language : cpp
+before_install:
+    sudo apt-get install libsdl2.0-dev libsdl-image2.0-dev libsdl-mixer2.0-dev libsdl-ttf2.0-dev
+    sudo apt-get install freeglut3
+install: make get-deps
 before_script: cd sources
+script: make ..
