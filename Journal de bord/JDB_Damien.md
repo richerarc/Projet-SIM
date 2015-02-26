@@ -17,3 +17,7 @@
 	Cours de C++ 11 ainsi que discution des les normes de programmation.
 	Discution sur les classes qu'on aura besoin pour notre partie du programme.
 	Discution sur l'analyse par rapport à ce qui lui manque.
+-Mardi 24 février 2015 (14:40 à 17:20)
+	Commencement de l'UML.
+-Jeudi 26 février 2015 (10:05 à 11:50)
+	Mise à jours de l'UML.
