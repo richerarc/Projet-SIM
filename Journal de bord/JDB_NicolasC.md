@@ -29,3 +29,7 @@
   16h30
   -développement de l'UML pour les portes, pièces et gestionnaire (données membres).
   17h45
+26 fév
+  10h15
+  -continuation de l'UML (optimisation et définition des méthodes).
+  12h00
