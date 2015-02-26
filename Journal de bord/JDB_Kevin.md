@@ -26,3 +26,8 @@ L'analyse à pris forme tout au long de ce laps de temps. Il y a eu formations d
 Nous avons parler avant le cours de comment nous allons procéder pour la gestion de l'affichage. Brandon est arrivé avec une nouvelle façon de faire qu'il devra bien nous expliquer pour que nous puissions bien l'utiliser. En classe Richer et Brandon nous ont montrer quelques fonctionalités de `C++11` que nous auront probablement a utiliser durant le projet. Nous avons aussi mis au oint les normes de programmation que nous allons utiliser. Nous avons également en fin de cours discuter sur l'élaboration de pièges plus complexes. Nous complèterons l'analyse demain mation pour laisser le temps de macération des différentes idées.
 
 **Temps: 4h**  
+
+###**`24 février 2015`**###
+Discussions avec toute l'équipe sur différents patrons de conceptions et mies a jour complémentaire sur certaines fonctionallité de `C++11`et Brandon nous as montrer sa façon de travailler pour gérer les événeemnts.
+
+**Temps: 3h**
