@@ -6,17 +6,17 @@ before_install:
   - echo $LC_ALL
 install:
     # SDL2
-    - curl -O http://www.libsdl.org/release/SDL2-2.0.0.tar.gz
-    - tar -xzvf SDL2-2.0.0.tar.gz
+    - curl -O http://www.libsdl.org/release/SDL2-2.0.0.zip
+    - unzip SDL2-2.0.0.zip
     - (cd SDL2-2.0.0 && ./configure && make && sudo make install)
-    - curl -O http://www.libsdl.org/release/SDL2_mixer-2.0.0.tar.gz
-    - tar -xzvf SDL2_mixer-2.0.0.tar.gz
+    - curl -O http://www.libsdl.org/release/SDL2_mixer-2.0.0.zip
+    - unzip SDL2_mixer-2.0.0.zip
     - (cd SDL2_mixer-2.0.0 && ./configure && make && sudo make install)
-    - curl -O http://www.libsdl.org/release/SDL2_image-2.0.0.tar.gz
-    - tar -xzvf SDL2_image-2.0.0.tar.gz
+    - curl -O http://www.libsdl.org/release/SDL2_image-2.0.0.zip
+    - unzip SDL2_image-2.0.0.zip
     - (cd SDL2_image-2.0.0 && ./configure && make && sudo make install)
-    - curl -O http://www.libsdl.org/release/SDL2_ttf-2.0.0.tar.gz
-    - tar -xzvf SDL2_ttf-2.0.0.tar.gz
+    - curl -O http://www.libsdl.org/release/SDL2_ttf-2.0.0.zip
+    - unzip SDL2_ttf-2.0.0.zip
     - (cd SDL2_ttf-2.0.0 && ./configure && make && sudo make install)
     - make get-deps
 before_script: cd sources
@@ -29,8 +29,8 @@ notifications:
     - richer.arc@gmail.com
   email:
     on_success: change
-    on_failure: always
-    on_errored: always
+    on_failure: change
+    on_errored: change
 os:
   - linux
 env:
