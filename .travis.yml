@@ -1,9 +1,9 @@
 language : cpp
+compiler:
+  - g++
 before_install:
-    sudo apt-get install libsdl2-dev 
-    sudo apt-get install libsdl-image2-dev
-    sudo apt-get install libsdl-mixer2-dev
-    sudo apt-get install libsdl-ttf2-dev
+  - echo $LANG
+  - echo $LC_ALL
 install:
     # SDL2
     - curl -O http://www.libsdl.org/release/SDL2-2.0.0.tar.gz
@@ -20,4 +20,27 @@ install:
     - (cd SDL2_ttf-2.0.0 && ./configure && make && sudo make install)
     - make get-deps
 before_script: cd sources
-script: make ..
+script: make && make test
+branches:
+  only:
+    - master
+notifications:
+  recipients:
+    - richer.arc@gmail.com
+  email:
+    on_success: change
+    on_failure: always
+    on_errored: always
+os:
+  - linux
+env:
+
+addons:
+  coverity_scan:
+    project:
+      name: "richerarc/Projet-SIIM"
+      description: "Build submitted via Travis CI"
+    notification_email: richer.arc@gmail.com
+    build_command_prepend: "make clean"
+    build_command:   "make"
+    branch_pattern: master
