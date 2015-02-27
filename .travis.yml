@@ -21,7 +21,8 @@ install:
     - unzip SDL2_ttf-2.0.12.zip
     - (cd SDL2_ttf-2.0.12 && ./configure && make && sudo make install)
     - cd ..
-before_script: cd sources
+    - pwd
+before_script: cd ~/Projet-SIM/sources/
 script: make && make test
 branches:
   only:
