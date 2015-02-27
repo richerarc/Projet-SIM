@@ -31,3 +31,8 @@ Nous avons parler avant le cours de comment nous allons procéder pour la gestio
 Discussions avec toute l'équipe sur différents patrons de conceptions et mies a jour complémentaire sur certaines fonctionallité de `C++11`et Brandon nous as montrer sa façon de travailler pour gérer les événeemnts.
 
 **Temps: 3h**
+
+###**`26 février 2015`**###
+Brandon nous a montré et expliqué la facon donc nous allons structuré le jeu. Ça me semble logique alors nous avons commencer à faire le UML. J'ai aussi commencer à faire un model de Pendule-Guillotine, jai également fait quelques modifications dans la classe Vecteurs pour la rendre plus lisible et plus claire. Ce matin J'ai terminé mon model loader , le probleme était du texte que blender entre dans ses fichiers obj.
+
+**Temps 4h**
