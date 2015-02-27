@@ -41,9 +41,9 @@ env:
 addons:
   coverity_scan:
     project:
-      name: "richerarc/Projet-SIIM"
+      name: "richerarc/Projet-SIM"
       description: "Build submitted via Travis CI"
     notification_email: richer.arc@gmail.com
-    build_command_prepend: "make clean"
+    #build_command_prepend: "make clean"
     build_command:   "make"
     branch_pattern: master
