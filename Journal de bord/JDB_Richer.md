@@ -17,3 +17,5 @@
 `Mar. 24 févr.` Nous avons commencé la conception. Nous avons d'abord planché sur les pièces, porte/portail, et sur le gestionaire de lien (pour les pièce -> connecteur -> pièce) en utilisant une std::map pour associé des pièces et des portes. Nous avons aussi convenu d'utilisé le patron de conception "Singleton" et "Manufacture"(Factory). Le projet part, à mon avis, sur une bonne base. `4h00`
 
 `Mar. 24 févr.` test sur travis, et désactivation temporaire du service `0h45`
+
+`Jeu. 26 févr.` Finalisation du premier cicle de conception. J'ai assigné Damien sur la hiérarchie de classe des salles, Dominique sur celle du contenu des salles, Nicolas sur le gestionnaire de lien, et moi sur "l'usine". J'ai aussi continuer les test avec travis CI,ça risque de devenir concluent. `3h00`
