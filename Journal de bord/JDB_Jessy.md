@@ -14,3 +14,11 @@ Nous avons définis nos normes de programmation puis complêté l'analyse.
 19 février de 12h30 à 13h30:
 
 Discution et analyse.
+
+24 février de 2h à 18h: 
+
+Brandon nous a expliqué comment sera structuré la graphique du jeue
+
+26 février de 10h à 14h:
+
+Nous avons commencé les UML 
