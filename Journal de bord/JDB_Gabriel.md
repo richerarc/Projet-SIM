@@ -26,3 +26,11 @@ J'ai révisé un peu l'analyse des besoins avec Richer.
 ###17 février 2015
 
 Durant l'avant-midi, moi et Xavier avons travaillés sur les diagrammes en ce qui concerne la physique, nous pensons que le diagramme d'état n'est pas vraiment nécessaire. Nous avons aussi avancé l'analyse des besoins de la physique. Par la suite, la classe s'est réunie vers 1h pour parler du projet et échanger nos idées entrautre sur la manière de construire les classes pour la physique. Nous aurons probablement une classe qui contient les formules et calculs nécessaire avec plusieurs #define pour ce qui est des constantes. Nous avons aussi abordé un peu le sujet des collisions, Brandon nous a apporté une idée certainement fiable et simple, mais qui demanderas probablement trop au processeur pour qu'elle soit justifié. Nous avons ensuite eu un petit cours de C++11 pour apprendre à utiliser les structure de donné déjà présente dans visual studio. Finalement, nous avons établi des normes de programmation pas trop exigente, qui se rapprochent selon moi du "Bon sens" parce qu'on ne perdra plus de temps à faire trop de commentaires sans non plus rendre notre code incompréhensible. Finalement, nous avons donnés en groupe quelques nouvelles idées de pièges.
+
+### 24 février 2015
+
+Nous avons d'abord apris quelques patrons de conception dont le singleton et la factory. Je crois avoir bien compris le principe, mais je vais probablement essayé d'en faire une moi-même afin de mieux comprendre! Ensuite, nous nous sommes regroupé en équipes et avons fais un remue-méninges, nous avons parlé de pendules, de projectiles, gravité qui ne s'appliquera pas su les projectiles, etc... Nous avons aussi débuté un diagramme pour notre classe physique qui contiendra majoritairement des fonctions ou procédures statiques.
+
+### 26 février 2015
+
+Aujourd'hui, nous avons complèté en partie le diagramme de classe physique et avons discuté sur la manière qu'on va calculer le mouvement d'un pendule. Nous avons aussi établi des normes de modélisation.
