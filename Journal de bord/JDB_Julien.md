@@ -24,3 +24,11 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`19 février 2015`**
 
 - 1h à 2h : Richer, Kevin, Jessy et moi avons pensé à d'autre idée de puzzles et de salles. (Avec la collaboration de Félix) 
+
+###**`24 février 2015`**
+
+- 2h40 à 5h20 : Nous avons parlé des patrons de conceptions, le singleton et la factory. Nous avons commencé la conception de nos formules de physiques.
+
+###**`26 février 2015`**
+
+- 10h à 12h : Nous avons continué la conception de nos formules. Nous savons maintenant quoi demander en paramètre à nos fonctions et ce qu'ils retournent.
