@@ -34,3 +34,11 @@ Nous avons d'abord apris quelques patrons de conception dont le singleton et la 
 ### 26 février 2015
 
 Aujourd'hui, nous avons complèté en partie le diagramme de classe physique et avons discuté sur la manière qu'on va calculer le mouvement d'un pendule. Nous avons aussi établi des normes de modélisation.
+
+### 27 février 2015
+
+Je me suis fait une classe singleton et une factory, ca bien été et je comprend mieux comment ca marche.
+
+### 01 mars 2015
+
+Moi et julien avons avancé l'analyse pour la physique, pendant qu'il travaillait sur le diagramme de classe, j'ai fait une brève description des fonctions et des procédures que nous allons utilisé dans le fichier Formule de physique, nous avons ajouté quelques nouvelles fonctions et deux classes(plan/droite). J'ai aussi envoyé un mio à mon professeur de physique pour savoir comment intégrer le magnétisme dans notre projet, bref les formules dont nous aurons besoin.
