@@ -32,3 +32,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`26 février 2015`**
 
 - 10h à 12h : Nous avons continué la conception de nos formules. Nous savons maintenant quoi demander en paramètre à nos fonctions et ce qu'ils retournent.
+
+###**`1er mars 2015`**
+
+- 12h à 3h : J'ai retravaillé le diagramme de classe du moteur de physique. J'ai aussi travaillé avec Gabriel pour expliquer clairement chaque fonction (ce que la fonctionne retourne et les paramètres qu'elle demande).
