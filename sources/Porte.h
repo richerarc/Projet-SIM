@@ -14,19 +14,19 @@ public:
 		verrouillee = verrou;
 	}
 
-	unsigned int obtenirID(){
+	unsigned int obtID(){
 		return ID;
 	}
-	bool obtenirSortable(){
+	bool obtSortable(){
 		return sortable;
 	}
-	void definirSortable(bool sortie){
+	void defSortable(bool sortie){
 		sortable = sortie;
 	}
-	bool obtenirVerrou(){
+	bool obtVerrou(){
 		return verrouillee;
 	}
-	void definirVerrou(bool verrou){
+	void defVerrou(bool verrou){
 		verrouillee = verrou;
 	}
 };
