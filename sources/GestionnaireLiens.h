@@ -20,4 +20,16 @@ public:
 	std::tuple<unsigned int, unsigned int> destination(std::tuple<unsigned int, unsigned int, bool> sortie){
 		return connections.find(sortie)->second;
 	}
+	Porte obtPorte(unsigned int _ID){
+		for (auto it : portes){
+			if (it.obtenirID() == _ID)
+				return it;
+		}
+	}
+	Salle obtSalle(unsigned int _ID){
+		for (auto it : salles){
+			if (it.ObtenirID() == _ID)
+				return it;
+		}
+	}
 };
