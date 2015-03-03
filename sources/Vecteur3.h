@@ -15,7 +15,7 @@ public:
 		return sqrt((x * x) + (y * y) + (z * z));
 	}
 	
-	void normalizer() {
+	void normaliser() {
 		T norme = Norme();
 		x /= norme;
 		y /= norme;
@@ -34,7 +34,7 @@ public:
 		z += autre.z;
 	}
 	
-	void operator-=(Vector3<T>& autre) {
+	void operator-=(Vecteur3<T>& autre) {
 		x -= autre.x;
 		y -= autre.y;
 		z -= autre.z;
@@ -46,12 +46,12 @@ public:
 		z *= scalaire;
 	}
 
-	T produitScalaire(Vector3<T>& autre) {
-		return ((this->x * autre.x) + (this->y * autre.y) + (this->.z * autre.z));
+	T produitScalaire(Vecteur3<T>& autre) {
+		return ((this->x * autre.x) + (this->y * autre.y) + (this->z * autre.z));
 	}
 
-	Vector3<T> produitVectoriel(Vector3<T>& autre) {
-		Vector3<T> vectP;
+	Vecteur3<T> produitVectoriel(Vecteur3<T>& autre) {
+		Vecteur3<T> vectP;
 		vectP.x = (this->y * autre.z) - (autre.y * this->z);
 		vectP.y = (this->z * autre.x) - (autre.z * this->x);
 		vectP.z = (this->x * autre.y) - (autre.x * this->y);
@@ -60,26 +60,26 @@ public:
 };
 
 template<typename T>
-Vector3<T> operator*(Vector3<T>& vect, float scalaire) {
-	return Vector3<T>(vect.x * scalaire, vect.y * scalaire, vect.z * scalaire);
+Vecteur3<T> operator*(Vecteur3<T>& vect, float scalaire) {
+	return Vecteur3<T>(vect.x * scalaire, vect.y * scalaire, vect.z * scalaire);
 }
 
 template<typename T>
-Vector3<T> operator/(Vector3<T>& vect, float scalaire) {
-	return Vector3<T>(vect.x / scalaire, vect.y / scalaire, vect.z / scalaire);
+Vecteur3<T> operator/(Vecteur3<T>& vect, float scalaire) {
+	return Vecteur3<T>(vect.x / scalaire, vect.y / scalaire, vect.z / scalaire);
 }
 	
 template<typename T>
-Vector3<T> operator+(Vector3<T>& gauche, Vector3<T>& droite) {
+Vecteur3<T> operator+(Vecteur3<T>& gauche, Vecteur3<T>& droite) {
 	return Vecteur3<T>(gauche.x + droite.x, gauche.y + droite.y, gauche.z + droite.z);
 }
 
 template<typename T>
-Vector3<T> operator-(Vector3<T>& gauche, Vector3<T>& droite) {
+Vecteur3<T> operator-(Vecteur3<T>& gauche, Vecteur3<T>& droite) {
 	return Vecteur3<T>(gauche.x - droite.x, gauche.y - droite.y, gauche.z - droite.z);
 }
 
-typedef Vector3<int> Vector3i;
-typedef Vector3<unsigned int> Vector3ui;
-typedef Vector3<float> Vector3f;
-typedef Vector3<double> Vector3d;
+typedef Vecteur3<int> Vecteur3i;
+typedef Vecteur3<unsigned int> Vecteur3ui;
+typedef Vecteur3<float> Vecteur3f;
+typedef Vecteur3<double> Vecteur3d;
