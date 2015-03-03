@@ -47,14 +47,14 @@ public:
 		return sqrt(x * x + y * y); 
 	}
 
-	void normalizer() { 
+	void normaliser() { 
 		float module = norme(); 
 		this->x /= module; this->y /= module; 
 	}
 		
 		
 };
-typedef Vector2<int> Vector2i;
-typedef Vector2<unsigned int> Vector2ui;
-typedef Vector2<float> Vector2f;
-typedef Vector2<double> Vector2d;
+typedef Vecteur2<int> Vecteur2i;
+typedef Vecteur2<unsigned int> Vecteur2ui;
+typedef Vecteur2<float> Vecteur2f;
+typedef Vecteur2<double> Vecteur2d;
