@@ -56,3 +56,6 @@ Brandon nous a montré et expliqué la facon donc nous allons structuré le jeu.
 J'ai terminer le model de pendule, il reste juste à le texturer. J'ai aussi corriger une erreur, dans le calcul du produit vectoriel dans la classe Vecteur3, qui aurrait sûrement mené à beaucoup de "!$%?&" plus tard dans le projet. Je me suis également documenté sur différents éléments: la map, le tuple, simgleton, factory, etc... J'ai ajouté un fichier Models et en même temps j'y ai inséré les normes de Modélisation.
 
 **Temps 4h**
+
+###**`3 mars 2015`**###
+J'ai corriger des erreurs dans la classe Vecteur2. j'ai également discuter avec l'équipe sur certains points.
