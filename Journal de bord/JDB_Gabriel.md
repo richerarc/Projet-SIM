@@ -42,3 +42,7 @@ Je me suis fait une classe singleton et une factory, ca bien été et je compren
 ### 01 mars 2015
 
 Moi et julien avons avancé l'analyse pour la physique, pendant qu'il travaillait sur le diagramme de classe, j'ai fait une brève description des fonctions et des procédures que nous allons utilisé dans le fichier Formule de physique, nous avons ajouté quelques nouvelles fonctions et deux classes(plan/droite). J'ai aussi envoyé un mio à mon professeur de physique pour savoir comment intégrer le magnétisme dans notre projet, bref les formules dont nous aurons besoin.
+
+### 02 mars 2015
+
+Ajout d'un chronomètre à la conception de la physique.

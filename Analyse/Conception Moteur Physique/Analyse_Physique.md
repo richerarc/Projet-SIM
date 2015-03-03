@@ -23,6 +23,10 @@ Projectile de lancée : Le projectile suit une trajectoire parabolique, mais il 
 
 Arme à projectile : L'arme envoie une balle de fusil, ou autre. Le projectile qui est lancée avance en ligne droite très rapidement, mais ne rebondit pas, il inflige seulement des dégâts au personnage ou il s'incruste dans un objet.
 
+La physique sera basée sur un chronomètre que nous partirons au début du jeu. Il servira de temps dans nos équations, par exemple pour l'angle d'un pendule :
+
+    θ(t) = θm*cos( wt )
+
 ##Librairie utilisée
 SDL [www.libsdl.org](https://www.libsdl.org "www.libsdl.org").
 

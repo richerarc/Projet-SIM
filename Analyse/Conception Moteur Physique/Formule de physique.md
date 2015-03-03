@@ -70,7 +70,7 @@ Fonction qui retourne l'énergie cinétique à partir d'une masse et d'un vecteu
 
     k = ½m*v²
 
-##Détails sur les procédures et fonctions de la classe plan:
+##Détails sur les procédures et fonctions de la classe Plan:
 
 ####Plan(Vecteur3 p1, Vecteur3 p2, Vecteur3 p3);
 
@@ -91,7 +91,7 @@ http://homeomath.imingo.net/geoesp7.htm
 
 Fonction qui retourne les point d'intersection entre un plan et une droite. Retourne NULL si il n'y en a pas.
 
-##Détails sur les procédures et fonctions de la classe droite:
+##Détails sur les procédures et fonctions de la classe Droite:
 
 ####Droite(Vecteur3 p1, Vecteur3 p2);
 
@@ -100,5 +100,13 @@ Calcul du vecteur directeur:
     vecteurDirecteur = A X B
 
 
+##Détails sur la classe Chrono
 
+Cette classe va nous donner la variable t pour nos fonctions. Par exemple, pour trouver l'angle du pendule simple, nous avons besoin du temps:
+
+    θ(t) = θm*cos( wt )
+
+que nous donnera cette classe!
+
+Le chrono sera activé au début de la partie.
 
