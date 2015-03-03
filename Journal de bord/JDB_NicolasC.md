@@ -33,7 +33,11 @@
   10h15
   -continuation de l'UML (optimisation et définition des méthodes).
   12h00
-02 mars
+02 mar
   11h30
   -début de la classe GestionnaireLiens (reste accesseurs).
   12h00
+03 mar
+  14h45
+  -accesseurs de la classe GestionnaireLiens (reste correctifs à faire quand porte et salle seront corrigées).
+  15h00
