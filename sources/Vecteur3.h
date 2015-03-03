@@ -52,8 +52,8 @@ public:
 
 	Vector3<T> produitVectoriel(Vector3<T>& autre) {
 		Vector3<T> vectP;
-		vectP.x = (this->y * autre.z) - (autre.z * this->y);
-		vectP.y = (this->z * autre.x) - (autre.x * this->z);
+		vectP.x = (this->y * autre.z) - (autre.y * this->z);
+		vectP.y = (this->z * autre.x) - (autre.z * this->x);
 		vectP.z = (this->x * autre.y) - (autre.x * this->y);
 		return vectP;
 	}
