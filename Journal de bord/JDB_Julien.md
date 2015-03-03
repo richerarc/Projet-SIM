@@ -40,3 +40,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`2 mars 2015`**
 
 - 20h30 à 21h : Ajout d'un morceau assez important dans le diagramme de classe du moteur de physique, la gestion du temps.
+
+###**`3 mars 2015`**
+
+- 7h30 : La classe Vecteur3 est maintenant totalement en français. La classe s'appelait Vecteur3 et Vector3...
