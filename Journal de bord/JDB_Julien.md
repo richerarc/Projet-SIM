@@ -23,11 +23,11 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 
 ###**`19 février 2015`**
 
-- 1h à 2h : Richer, Kevin, Jessy et moi avons pensé à d'autre idée de puzzles et de salles. (Avec la collaboration de Félix) 
+- 13h à 14h : Richer, Kevin, Jessy et moi avons pensé à d'autre idée de puzzles et de salles. (Avec la collaboration de Félix) 
 
 ###**`24 février 2015`**
 
-- 2h40 à 5h20 : Nous avons parlé des patrons de conceptions, le singleton et la factory. Nous avons commencé la conception de nos formules de physiques.
+- 14h40 à 17h20 : Nous avons parlé des patrons de conceptions, le singleton et la factory. Nous avons commencé la conception de nos formules de physiques.
 
 ###**`26 février 2015`**
 
@@ -35,4 +35,8 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 
 ###**`1er mars 2015`**
 
-- 12h à 3h : J'ai retravaillé le diagramme de classe du moteur de physique. J'ai aussi travaillé avec Gabriel pour expliquer clairement chaque fonction (ce que la fonctionne retourne et les paramètres qu'elle demande).
+- 12h à 15h : J'ai retravaillé le diagramme de classe du moteur de physique. J'ai aussi travaillé avec Gabriel pour expliquer clairement chaque fonction (ce que la fonctionne retourne et les paramètres qu'elle demande).
+
+###**`2 mars 2015`**
+
+- 20h30 à 21h : Ajout d'un morceau assez important dans le diagramme de classe du moteur de physique, la gestion du temps.
