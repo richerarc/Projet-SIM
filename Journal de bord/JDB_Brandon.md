@@ -14,4 +14,5 @@
   de 23h30 à minuit
 	Implémentation des deux classes de Vecteurs principales : Vecteur2 et Vecteur3.
 	Implémentation du Singleton.
-	
+3 mars de 13h à 15h
+	Finalisation du diagramme UML.
