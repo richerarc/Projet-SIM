@@ -6,9 +6,9 @@ private:
 	bool sortable;
 	bool verrouillee;
 public:
-	Porte(Vecteur3<double> positionDepart, unsigned int identifiant, bool sortie, bool verrou){
+	Porte(Vecteur3d positionDepart, unsigned int identifiant, bool sortie, bool verrou){
 		//Le modele de la porte est assignée ici, à faire quand tous les trucs de graphiques requis seront faits
-		position = Vecteur<double>(positionDepart.x, positionDepart.y, positionDepart.z);
+		position = Vecteur3d(positionDepart.x, positionDepart.y, positionDepart.z);
 		ID = Identifiant;
 		sortable = sortie;
 		verrouillee = verrou;
