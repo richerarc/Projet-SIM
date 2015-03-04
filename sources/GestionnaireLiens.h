@@ -1,10 +1,11 @@
 #pragma once
-#include "Singleton.h"
-#include "Salle.h"
-#include "Porte.h"
 #include <map>
 #include <tuple>
 #include <list>
+#include "Singleton.h"
+#include "Salle.h"
+#include "Porte.h"
+#include "Fabrique.h"
 class GestionnaireLens : public Singleton<GestionnaireLens>{
 private:
 	std::map<std::tuple<unsigned int, unsigned int, bool>, std::tuple<unsigned int, unsigned int>> connections;

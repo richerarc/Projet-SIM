@@ -1,4 +1,4 @@
-
+#pragma once
 
 class Porte : public Contenu{
 private:

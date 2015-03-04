@@ -1,5 +1,5 @@
+#pragma once
 #include "Vecteur3.h"
-
 class Salle{
 protected:
 	unsigned int ID;

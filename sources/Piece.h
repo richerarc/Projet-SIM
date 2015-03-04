@@ -1,4 +1,5 @@
-#include <list>
+#pragma once
+#include "Contenu.h"
 
 class Piece{
 private:
