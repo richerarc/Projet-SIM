@@ -3,32 +3,35 @@
 class Salle{
 protected:
 	unsigned int ID;
-	Vecteur3<double> Pos;
-	Vecteur3<double> PosEntreePortail;
+	Vecteur3<double> pos;
+	Vecteur3<double> posEntreePortail;
 	//Modele help wth dude
 public:
-	Salle(){
-
+	Salle(unsigned int Id, Vecteur3<double> Pos, Vecteur3<double> PosEntreePortail, /*modele*/){
+		ID = Id;
+		pos = Pos;
+		posEntreePortail = PosEntreePortail;
+		/*modele*/
 	}
 
-	unsigned int ObtenirID(){
+	unsigned int obtenirID(){
 		return ID;
 	}
 
-	Vecteur3 ObtenirPos(){
-		return Pos;
+	Vecteur3 obtenirPos(){
+		return pos;
 	}
 
-	void ModifierPos(Vecteur3 Vecteur){
-		Pos = Vecteur;
+	void modifierPos(Vecteur3 Vecteur){
+		pos = Vecteur;
 	}
 
-	Vecteur3 ObtenirPosEntrePortail(){
-		return Pos;
+	Vecteur3 obtenirPosEntrePortail(){
+		return posEntreePortail;
 	}
 
-	void ModifierPosEntrePortail(Vecteur3 Vecteur){
-		Pos = Vecteur;
+	void modifierPosEntrePortail(Vecteur3 Vecteur){
+		posEntreePortail = Vecteur;
 	}
 
 	//Accesseurs de modele.
