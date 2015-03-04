@@ -23,3 +23,6 @@
 	Mise à jours de l'UML.
 -Lundi 2 mars 2015 (13:00 à 14:00 )
 	Début de la classe Salle.
+-Mardi 3 mars 2015 (15:00 à 19:15 )
+	Début de la classe Piece
+	Modification de la classe Salle.
