@@ -46,3 +46,13 @@ Moi et julien avons avancé l'analyse pour la physique, pendant qu'il travaillai
 ### 02 mars 2015
 
 Ajout d'un chronomètre à la conception de la physique.
+
+### 04 mars 2015
+
+3/4/2015 9:02:39 AM 
+
+Nous discutons au cégep des sons dont nous aurons besoin éventuellement pour le jeu, sons de pas, de vent, etc...
+
+3/4/2015 9:41:45 AM 
+
+Merge des modifications apportées au diagramme de classe de la physique du jeu.
