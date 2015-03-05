@@ -1,23 +1,23 @@
 #pragma once
-#include "Model.h"
+#include "Modele.h"
 #include "Texture.h"
 #include <vector>
 
-class Model3D{
+class Modele3D{
 private:
-	Model model;
+	Modele modele;
 	Texture texture;
 	Vecteur3f echelle;
-	float boiteDeCollision[8];
+	float boiteDeCollision[24];
 	void calculerBoiteDeCollision(){
 		std::vector<float> tmpX;
 		std::vector<float> tmpY;
 		std::vector<float> tmpZ;
 		float xmax, xmin, ymax, ymin, zmax, zmin;
 		for (int i = 0; i < nbrFaces; ++i){
-			tmpX.push_back(modele->obtVertices()[i * 3]);
-			tmpY.push_back(modele->obtVertices()[i * 3 + 1]);
-			tmpZ.push_back(modele->obtVertices()[i * 3 + 2]);
+			tmpX.push_back(modele.obtVertices()[i * 3]);
+			tmpY.push_back(modele.obtVertices()[i * 3 + 1]);
+			tmpZ.push_back(modele.obtVertices()[i * 3 + 2]);
 		}
 		xmax = Maths::obtValeurMax(tmpX);
 		xmin = Maths::obtValeurMin(tmpX);
@@ -48,27 +48,27 @@ public:
 
 	Model3D(){}
 
-	Model3D(Model &model, Texture &texture){
-		this->model = model;
+	Modele3D(Modele modele, Texture texture){
+		this->modele = modele;
 		this->texture = texture;
 	}
 
 	~Model3D(){}
 
-	void defModel(Model &model){
-		this->model = modeltmp;
+	void defModele(Modele modele){
+		this->modele = modele;
 	}
 
-	void defTexture(Texture &texture){
+	void defTexture(Texture texture){
 		this->texture = Texture;
 	}
 
-	void defEchelle(Vecteur3f &echelle){
+	void defEchelle(Vecteur3f echelle){
 		this->echelle = echelle;
 	}
 
-	Model obtModel(){
-		return model;
+	Model obtModele(){
+		return modele;
 	}
 
 	Vecteur3f obtEchelle(){
