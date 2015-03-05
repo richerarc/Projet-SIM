@@ -1,10 +1,10 @@
 DEBUG=yes
 CC=g++
 ifeq ($(DEBUG),yes)
-	CFLAGS=-W -Wall -pedantic -g
+	CFLAGS= -std=c++11 -W -Wall -pedantic -L/usr/local/lib -lsdl2 -g
 	LDFLAGS=
 else
-	CFLAGS=-W -Wall -pedantic -L/usr/local/lib -lsdl2
+	CFLAGS=-std=c++11 -W -Wall -pedantic -L/usr/local/lib -lsdl2
 	LDFLAGS=
 endif
 
