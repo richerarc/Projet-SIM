@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Singleton.h"
 #include "Vecteur3.h"
+#include "Chrono.h"
 
-class Physique {
+class Physique : public Singleton<Physique>{
 private:
 
 	double gravite;
