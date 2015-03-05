@@ -4,7 +4,7 @@ ifeq ($(DEBUG),yes)
 	CFLAGS=-W -Wall -pedantic -g
 	LDFLAGS=
 else
-	CFLAGS=-W -Wall -pedantic
+	CFLAGS=-W -Wall -pedantic -L/usr/local/lib -lsdl2
 	LDFLAGS=
 endif
 
