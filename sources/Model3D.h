@@ -14,7 +14,7 @@ private:
 		std::vector<float> tmpY;
 		std::vector<float> tmpZ;
 		float xmax, xmin, ymax, ymin, zmax, zmin;
-		for (int i = 0; i < nbrFaces; ++i){
+		for (int i = 0; i < modele.obtNbrFaces; ++i){
 			tmpX.push_back(modele.obtVertices()[i * 3]);
 			tmpY.push_back(modele.obtVertices()[i * 3 + 1]);
 			tmpZ.push_back(modele.obtVertices()[i * 3 + 2]);
@@ -34,11 +34,11 @@ private:
 				break;
 			case 1:
 				if ((i % 12) < 6) boiteDeCollision[i] = ymax;
-				else boitDeCollision[i] = ymin;
+				else boiteDeCollision[i] = ymin;
 				break;
 			case 2:
 				if ((i % 6) < 3) boiteDeCollision[i] = zmax;
-				else boitDeCollision[i] = zmin;
+				else boiteDeCollision[i] = zmin;
 				break;
 			}
 		}
@@ -46,28 +46,35 @@ private:
 
 public:
 
-	Model3D(){}
+	Modele3D(){
+		this->echelle.x = 1;
+		this->echelle.y = 1;
+		this->echelle.z = 1;
+	}
 
 	Modele3D(Modele modele, Texture texture){
 		this->modele = modele;
 		this->texture = texture;
+		this->echelle.x = 1;
+		this->echelle.y = 1;
+		this->echelle.z = 1;
 	}
 
-	~Model3D(){}
+	~Modele3D(){}
 
 	void defModele(Modele modele){
 		this->modele = modele;
 	}
 
 	void defTexture(Texture texture){
-		this->texture = Texture;
+		this->texture = texture;
 	}
 
 	void defEchelle(Vecteur3f echelle){
 		this->echelle = echelle;
 	}
 
-	Model obtModele(){
+	Modele obtModele(){
 		return modele;
 	}
 
