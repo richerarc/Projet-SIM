@@ -3,15 +3,17 @@
 #include <queue>
 #include <fstream>
 #include <iostream>
-
+#include "Maths.h"
+#include "Vecteur3.h"
 class Modele{
 private:
 	float* vertices;
 	float* textures;
-	float* normals;
+	float* normales;
 	Vecteur3f taille;
 	unsigned int nbrVertices;
 	unsigned int nbrFaces;
+
 
 public:
 
@@ -26,8 +28,8 @@ public:
 			delete vertices;
 		if (textures)
 			delete textures;
-		if (normals)
-			delete normals;
+		if (normales)
+			delete normales;
 	}
 
 	bool Charger(const char* chemin){
@@ -38,8 +40,8 @@ public:
 			std::queue<float> Vertices;
 			std::vector<float> tmpTextures;
 			std::queue<float> Textures;
-			std::vector<float> tmpNormals;
-			std::queue<float> Normals;
+			std::vector<float> tmpNormales;
+			std::queue<float> Normales;
 
 			while (!Fichier.eof()){
 				Fichier >> temp;
@@ -52,9 +54,9 @@ public:
 					}
 					else if (temp[1] == 'n'){
 						Fichier >> X >> Y >> Z;
-						tmpNormals.push_back(SDL_atof(X));
-						tmpNormals.push_back(SDL_atof(Y));
-						tmpNormals.push_back(SDL_atof(Z));
+						tmpNormales.push_back(SDL_atof(X));
+						tmpNormales.push_back(SDL_atof(Y));
+						tmpNormales.push_back(SDL_atof(Z));
 					}
 					else if (temp[1] == NULL){
 						Fichier >> X >> Y >> Z;
@@ -107,7 +109,7 @@ public:
 									break;
 								case 2:
 									for (int k = 0; k < 3; k++)
-										Normals.push(tmpNormals[(SDL_atoi(Ligne.c_str()) - 1) * 3 + k]);
+										Normales.push(tmpNormales[(SDL_atoi(Ligne.c_str()) - 1) * 3 + k]);
 									break;
 								}
 							}
@@ -128,13 +130,6 @@ public:
 					Vertices.pop();
 				}
 			}
-			else
-			{ 
-				vertices = nullptr;
-				normals = nullptr;
-				textures = nullptr;
-				return false;
-			}
 
 			if (Textures.size()){
 				textures = new float[Textures.size()];
@@ -144,26 +139,19 @@ public:
 					Textures.pop();
 				}
 			}
-			else 
-				textures = nullptr;
 
-			if (Normals.size())
+			if (Normales.size())
 			{
-				normals = new float[nbrVertices];
+				normales = new float[nbrVertices];
 				for (int i = 0; i < nbrVertices; i++)
 				{
-					normals[i] = Normals.front();
-					Normals.pop();
+					normales[i] = Normales.front();
+					Normales.pop();
 				}
 			}
-			else
-				normals = nullptr;
 			calculerTaille();
 			return true;
 		}
-		vertices = nullptr;
-		normals = nullptr;
-		textures = nullptr;
 		return false;
 	}
 
@@ -194,7 +182,7 @@ public:
 	}
 
 	float* obtNormales(){
-		return normals;
+		return normales;
 	}
 
 	unsigned int obtNbrVertices(){
