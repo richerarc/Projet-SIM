@@ -22,3 +22,12 @@ Brandon nous a expliqué comment sera structuré la graphique du jeue
 26 février de 10h à 14h:
 
 Nous avons commencé les UML 
+
+04 mars de 9h10 à 12h:
+Rencontre avec Kev,Richer,Gab à l'école. Moi et Kev nous nous sommes attribué des tâches:
+-J'ai fait la classe Texture et testé elle fonctionne
+-J'ai commencé la classe Sprite2D
+-J'ai commencé la classe Texte2D
+
+de 18h à 19h30:
+-J'ai continué la classe Sprite2D je crois bien qu'elle est terminée
