@@ -2,7 +2,6 @@
 #include <map>
 #include <tuple>
 #include <list>
-#include "Singleton.h"
 #include "Salle.h"
 #include "Porte.h"
 #include "Fabrique.h"

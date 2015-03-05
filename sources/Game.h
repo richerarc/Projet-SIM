@@ -1,8 +1,14 @@
 #pragma once
+#include <math.h>
+#include "Vecteur3.h"
+#include "Singleton.h"
+#include "Vecteur2.h"
+#include "Vecteur3.h"
+#include "GestionnaireLiens.h"
 
 class Game{
 public:
-    satic void start(){
-
-    }
-}
+	static void start(){
+		
+	}
+};

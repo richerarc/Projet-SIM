@@ -16,7 +16,7 @@ public:
 	}
 	
 	void normaliser() {
-		T norme = Norme();
+		T norme = norme();
 		x /= norme;
 		y /= norme;
 		z /= norme;

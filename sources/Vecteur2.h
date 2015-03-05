@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <SDL2/SDL.h>
 
 template<typename T>
 class Vecteur2{
