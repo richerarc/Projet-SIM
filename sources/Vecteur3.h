@@ -16,10 +16,10 @@ public:
 	}
 	
 	void normaliser() {
-		T norme = norme();
-		x /= norme;
-		y /= norme;
-		z /= norme;
+		T Norme = norme();
+		x /= Norme;
+		y /= Norme;
+		z /= Norme;
 	}
 
 	void inverser() {
