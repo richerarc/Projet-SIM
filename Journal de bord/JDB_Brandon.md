@@ -16,3 +16,9 @@
 	Implémentation du Singleton.
 3 mars de 13h à 15h
 	Finalisation du diagramme UML.
+4 mars de 19h à 20h
+	Séparation des tâches
+	Implémentation des classes:
+	GestionnaireEvenements, Souris et Clavier.
+	
+	
