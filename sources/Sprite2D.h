@@ -15,10 +15,10 @@ public:
 		return texture;
 	}
 
-	void defTexture(Texture* paramTexture){
-		texture = paramTexture;
+	void defTexture(Texture* texture){
+		this-> texture = texture;
 	}
-	//Ceci sera utile pour plutard, ne pas supprimer.
+	//Ceci sera utile pour plutard quand je vais avoir a afficher le sprite, ne pas supprimer.
 	/*glBegin(GL_QUADS);
 	glTexCoord2i(0, texture->obtSurface.h);
 	glVertex2i(0, 0);
