@@ -44,3 +44,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`3 mars 2015`**
 
 - 7h30 : La classe Vecteur3 est maintenant totalement en français. La classe s'appelait Vecteur3 et Vector3...
+
+###**`5 mars 2015`**
+
+- 8h25 à 8h35 : J'ai ajouté deux includes dans la classe Physique et cette classe hérite maintenant de la classe Singleton.
