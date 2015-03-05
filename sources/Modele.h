@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-class Model{
+class Modele{
 private:
 	float* vertices;
 	float* textures;
@@ -14,9 +14,9 @@ private:
 	unsigned int nbrFaces;
 public:
 
-	Model(){}
+	Modele(){}
 
-	~Model(){
+	~Modele(){
 		if (vertices)
 			delete vertices;
 		if (textures)
