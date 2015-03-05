@@ -10,7 +10,7 @@
 #include <SDL2\SDL_mixer.h>
 #endif
 
-#include "Game.h"
+#include "Jeu.h"
 
 int main(int argc, char* argv[]){
 	
