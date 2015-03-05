@@ -2,7 +2,7 @@
 
 class Contenu {
 protected:
-	Model3d modele;
+	Model3D modele;
 	Vecteur3d position;
 public:
 	Vecteur3d obtPosition(){
