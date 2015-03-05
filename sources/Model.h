@@ -12,7 +12,7 @@ private:
 	float* vertices;
 	float* textures;
 	float* normals;
-	Vecteur3f Taille;
+	Vecteur3f taille;
 	unsigned int nbrVertices;
 	unsigned int nbrFaces;
 public:
@@ -166,31 +166,21 @@ public:
 	}
 
 	void calculerTaille(){
-		float xMin = 0.0f, xMax = 0.0f, yMin = 0.0f, yMax = 0.0f, zMin = 0.0f, zMax = 0.0f;
-		for (int i = 0; i < nbrVertices; i += 3)
-		{
-			if (vertices[i] > xMax)
-				xMax = vertices[i];
-			else if (vertices[i] < xMin)
-				xMin = vertices[i];
-
-			if (vertices[i + 1] > yMax)
-				yMax = vertices[i + 1];
-			else if (vertices[i + 1] < yMin)
-				yMin = vertices[i + 1];
-
-			if (vertices[i + 2] > zMax)
-				zMax = vertices[i + 2];
-			else if (vertices[i + 2] < zMin)
-				zMin = vertices[i + 2];
+		std::vector<float> tmpX;
+		std::vector<float> tmpY;
+		std::vector<float> tmpZ;
+		for (int i = 0; i < nbrFaces; ++i){
+			tmpX.push_back(vertices[i * 3]);
+			tmpY.push_back(vertices[i * 3 + 1]);
+			tmpZ.push_back(vertices[i * 3 + 2]);
 		}
-		Taille.x = xMax - xMin;
-		Taille.y = yMax - yMin;
-		Taille.z = zMax - zMin;
+		taille.x = Maths::obtValeurMax(tmpX) - Maths::obtValeurMin(tmpX);
+		taille.y = Maths::obtValeurMax(tmpY) - Maths::obtValeurMin(tmpY);
+		taille.z = Maths::obtValeurMax(tmpZ) - Maths::obtValeurMin(tmpZ);
 	}
 
 	Vecteur3f obtTaille(){
-		return Taille;
+		return taille;
 	}
 
 	float* obtVertices(){
