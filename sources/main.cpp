@@ -14,6 +14,6 @@
 
 int main(int argc, char* argv[]){
 	
-	Game::start();
+	Jeu::demarrer();
 	return 0;
 }
