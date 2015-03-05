@@ -12,9 +12,14 @@ private:
 	Vecteur3f taille;
 	unsigned int nbrVertices;
 	unsigned int nbrFaces;
+
 public:
 
 	Modele(){}
+
+	Modele(const char* chemin){
+		Charger(chemin);
+	}
 
 	~Modele(){
 		if (vertices)
