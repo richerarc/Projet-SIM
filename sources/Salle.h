@@ -1,5 +1,5 @@
+#pragma once
 #include "Vecteur3.h"
-
 class Salle{
 protected:
 	unsigned int ID;
@@ -14,23 +14,23 @@ public:
 		/*modele*/
 	}
 
-	unsigned int obtenirID(){
+	unsigned int obtID(){
 		return ID;
 	}
 
-	Vecteur3 obtenirPos(){
+	Vecteur3 obtPos(){
 		return pos;
 	}
 
-	void modifierPos(Vecteur3 Vecteur){
+	void modifPos(Vecteur3 Vecteur){
 		pos = Vecteur;
 	}
 
-	Vecteur3 obtenirPosEntrePortail(){
+	Vecteur3 obtPosEntrePortail(){
 		return posEntreePortail;
 	}
 
-	void modifierPosEntrePortail(Vecteur3 Vecteur){
+	void modifPosEntrePortail(Vecteur3 Vecteur){
 		posEntreePortail = Vecteur;
 	}
 

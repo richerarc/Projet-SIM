@@ -1,4 +1,5 @@
-#include <list>
+#pragma once
+#include "Contenu.h"
 
 class Piece{
 private:
@@ -11,11 +12,11 @@ public:
 		//Pas trop sur yo
 	}
 
-	void ajouterObjet(*Objet Objet){ // Objet thingy
+	void ajoutObjet(*Objet Objet){ // Objet thingy
 		objets.push_back(Objet);
 	}
 
-	Objet obtenirObjet(unsigned int position,bool effacer){ //Permet soir d'obtenir l'objet ou de le retirer/supprimer de la liste.
+	Objet obtObjet(unsigned int position,bool effacer){ //Permet soir d'obtenir l'objet ou de le retirer/supprimer de la liste.
 		if (!effacer)
 			return objets[position];
 		else{
@@ -24,11 +25,11 @@ public:
 		}	
 	}
 
-	void modifierProb(float prob){
+	void modiProb(float prob){
 		valeurProb = prob;
 	}
 
-	float obtenirValeurProb(){
+	float obtValeurProb(){
 		return valeurProb;
 	}
 

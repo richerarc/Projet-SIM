@@ -1,14 +1,14 @@
-
+#pragma once
 
 class Contenu {
 protected:
 	Model3d modele;
-	Vecteur3<double> position;
+	Vecteur3d position;
 public:
-	Vecteur3<double> obtPosition(){
+	Vecteur3d obtPosition(){
 		return position;
 	}
-	void defPosition(Vecteur3<double> nouvPosition){
+	void defPosition(Vecteur3d nouvPosition){
 		position.x = nouvPosition.x;
 		position.y = nouvPosition.y;
 		position.z = nouvPosition.z;
