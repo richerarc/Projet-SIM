@@ -2,8 +2,9 @@
 #include <map>
 #include <tuple>
 #include <list>
-#include "Salle.h"
+#include "Contenu.h"
 #include "Porte.h"
+#include "Salle.h"
 #include "Fabrique.h"
 class GestionnaireLens : public Singleton<GestionnaireLens>{
 private:
@@ -22,13 +23,13 @@ public:
 	}
 	Porte obtPorte(unsigned int _ID){
 		for (auto it : portes){
-			if (it.obtenirID() == _ID)
+			if (it.obtID() == _ID)
 				return it;
 		}
 	}
 	Salle obtSalle(unsigned int _ID){
 		for (auto it : salles){
-			if (it.ObtenirID() == _ID)
+			if (it.obtID() == _ID)
 				return it;
 		}
 	}
