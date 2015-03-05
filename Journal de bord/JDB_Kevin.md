@@ -63,4 +63,6 @@ J'ai corriger des erreurs dans la classe Vecteur2. j'ai également discuter avec
 **Temps 30min**
 
 ###**`4 mars 2015`**###
-Aujourd'hui, j'Avais organiser une journée prise de son avec notre "sound man" préféré Fabien. De 1h15 à 3h nous avons enregistré plusieurs sons pour notre jeu. J'ai commencé, en avant-midi la classe Model et que j'ai terminé après souper. J'ai ensuite commencer la classe Model3D.
+Aujourd'hui, j'Avais organiser une journée prise de son avec notre "sound man" préféré Fabien. De 1h15 à 3h nous avons enregistré plusieurs sons pour notre jeu. J'ai commencé, en avant-midi la classe Model et que j'ai terminé après souper. J'ai ensuite commencer la classe Model3D. De l'optimisation reste à faire dans mes deux classes, je continurai demain.
+
+**Temps 7h** 
