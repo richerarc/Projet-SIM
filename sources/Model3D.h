@@ -1,5 +1,5 @@
 #pragma once
-#include "Model.h"
+#include "Modele.h"
 #include "Texture.h"
 #include <vector>
 
