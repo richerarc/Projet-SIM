@@ -9,7 +9,6 @@ private:
 	unsigned int nbrVertices;
 	unsigned int nbrFaces;
 
-
 public:
 
 	Modele(){}

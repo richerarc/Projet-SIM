@@ -9,7 +9,6 @@
 #include "Modele.h"
 #include "Texture.h"
 #include "Objet3D.h"
-
 class Modele3D : public Objet3D {
 private:
 	Modele modele;
@@ -32,7 +31,7 @@ private:
 		zmax = Maths::obtValeurMax(tmpZ);
 		zmin = Maths::obtValeurMin(tmpZ);
 
-		for (int i = 0, i < 24, i++){
+		for (int i = 0; i < 24; i++){
 			switch (i % 3){
 			case 0:
 				if (i < 12) boiteDeCollision[i] = xmax;
@@ -52,7 +51,8 @@ private:
 
 public:
 
-	Modele3D(){}
+	Modele3D(){
+	}
 
 	Modele3D(Modele &modele, Texture &texture){
 		this->modele = modele;
@@ -69,7 +69,7 @@ public:
 		this->texture = texture;
 	}
 
-		void defEchelle(float echX,float echY,float echZ){
+	void defEchelle(float echX,float echY,float echZ){
 		for (int i = 0; i < modele.obtNbrFaces(); i++)
 		{
 			modele.obtVertices()[i * 3] *= echX;
