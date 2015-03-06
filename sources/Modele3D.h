@@ -7,7 +7,6 @@ class Modele3D{
 private:
 	Modele modele;
 	Texture texture;
-	Vecteur3f echelle;
 	float boiteDeCollision[24];
 	void calculerBoiteDeCollision(){
 		std::vector<float> tmpX;
@@ -46,18 +45,11 @@ private:
 
 public:
 
-	Modele3D(){
-		this->echelle.x = 1;
-		this->echelle.y = 1;
-		this->echelle.z = 1;
-	}
+	Modele3D(){}
 
 	Modele3D(Modele &modele, Texture &texture){
 		this->modele = modele;
 		this->texture = texture;
-		this->echelle.x = 1;
-		this->echelle.y = 1;
-		this->echelle.z = 1;
 	}
 
 	~Modele3D(){}
@@ -70,16 +62,19 @@ public:
 		this->texture = texture;
 	}
 
-	void defEchelle(Vecteur3f echelle){
-		this->echelle = echelle;
+		void defEchelle(float echX,float echY,float echZ){
+		for (int i = 0; i < modele.obtNbrFaces(); i++)
+		{
+			modele.obtVertices()[i * 3] *= echX;
+			modele.obtVertices()[i * 3 + 1] *= echY;
+			modele.obtVertices()[i * 3 + 2] *= echZ;
+		}
+		calculerBoiteDeCollision();
+		modele.calculerTaille();
 	}
 
 	Modele obtModele(){
 		return modele;
-	}
-
-	Vecteur3f obtEchelle(){
-		return echelle;
 	}
 
 	float* obtBoiteDeCollision(){
