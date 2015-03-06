@@ -14,7 +14,7 @@ private:
 		std::vector<float> tmpY;
 		std::vector<float> tmpZ;
 		float xmax, xmin, ymax, ymin, zmax, zmin;
-		for (int i = 0; i < modele.obtNbrFaces; ++i){
+		for (int i = 0; i < modele.obtNbrFaces(); ++i){
 			tmpX.push_back(modele.obtVertices()[i * 3]);
 			tmpY.push_back(modele.obtVertices()[i * 3 + 1]);
 			tmpZ.push_back(modele.obtVertices()[i * 3 + 2]);
