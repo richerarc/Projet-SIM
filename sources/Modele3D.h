@@ -51,8 +51,7 @@ private:
 
 public:
 
-	Modele3D(){
-	}
+	Modele3D(){}
 
 	Modele3D(Modele &modele, Texture &texture){
 		this->modele = modele;
