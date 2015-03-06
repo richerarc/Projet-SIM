@@ -52,7 +52,7 @@ public:
 		this->echelle.z = 1;
 	}
 
-	Modele3D(Modele modele, Texture texture){
+	Modele3D(Modele &modele, Texture &texture){
 		this->modele = modele;
 		this->texture = texture;
 		this->echelle.x = 1;
@@ -62,11 +62,11 @@ public:
 
 	~Modele3D(){}
 
-	void defModele(Modele modele){
+	void defModele(Modele &modele){
 		this->modele = modele;
 	}
 
-	void defTexture(Texture texture){
+	void defTexture(Texture &texture){
 		this->texture = texture;
 	}
 
