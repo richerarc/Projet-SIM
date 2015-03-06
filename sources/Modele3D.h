@@ -1,9 +1,16 @@
 #pragma once
+
+#include <vector>
+#include <queue>
+#include <fstream>
+#include <iostream>
+#include "Vecteur3.h"
+#include "Maths.h"
 #include "Modele.h"
 #include "Texture.h"
-#include <vector>
+#include "Objet3D.h"
 
-class Modele3D{
+class Modele3D : public Objet3D {
 private:
 	Modele modele;
 	Texture texture;
