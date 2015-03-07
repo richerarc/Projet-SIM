@@ -21,3 +21,5 @@
 `Jeu. 26 févr.` Finalisation du premier cicle de conception. J'ai assigné Damien sur la hiérarchie de classe des salles, Dominique sur celle du contenu des salles, Nicolas sur le gestionnaire de lien, et moi sur "l'usine". J'ai aussi continuer les test avec travis CI,ça risque de devenir concluent. `3h00`
 
 `Mer. 04 mars` Aujourd'hui, nous avons commencer à prendre les sons pour le jeu. Nous avons fait ceci avec l'aide de Fabien(étudiant en musique) et de son matériel audio. J'ai commencer à structurer les includes pour un main plus concluant, et j'ai changé quelque chose dans le makefile en espérant qu'il compile avec SDL. j'ai commencer la fabrique (et pas mal fini aussi) il me manque quelque truc des autres avant de pouvoir commit la vrai. j'ai aussi commencer la sérialisation de mon côté, et je devrait l'ajouté sous peu. `8h00`
+
+`Ven. 06 mars` J'ai changée quelque petit truc dans les classe héritant de Salle et de Contenu. j'ai aussi monter ce qui nous servira à sérialiser les pièces et connecteurs. En plus d'avoir fait un couteau avec blender`4h30`
