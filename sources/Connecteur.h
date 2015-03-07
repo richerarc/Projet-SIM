@@ -1,4 +1,4 @@
-class Connecteur{
+class Connecteur : public Salle{
 private:
 
 public:

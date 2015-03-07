@@ -1,7 +1,7 @@
 #pragma once
 #include "Contenu.h"
 
-class Piece{
+class Piece : public Salle{
 private:
 	std::list</**Objet*/> objets;
 	float valeurProb;
