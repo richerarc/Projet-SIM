@@ -32,3 +32,15 @@ Discution de classe sur la classe singleton et la factory que nous utiliserons d
 Recherche des formules pertinente à utiliser pour la physique du jeu
 et comment nous pourrions les utiliser
 
+4 mars
+
+-environ 1h30
+Enregistrement de sons d'ambiance, du personnage et d'objet pour le projet 
+avec l'aide de Fabien (étudiant en musique) pour les instruments d'enregistrement et logiciel de montage de son.
+
+5 mars
+
+-environ 1h30
+Création des classes Plan et Droite pour les classes de physique. Je n'ai pas encore pu les tester 
+et il y a surement possibilité de les améliorer.
+
