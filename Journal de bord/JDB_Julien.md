@@ -48,3 +48,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`5 mars 2015`**
 
 - 8h25 à 8h35 : J'ai ajouté deux includes dans la classe Physique et cette classe hérite maintenant de la classe Singleton.
+
+###**`6 mars 2015`**
+
+- 9h à 9h20 : J'ai travaillé sur la fonction déterminant de quel côté d'une droite le point est, mais je ne suis pas certain à 100% que ça fonctionne.
