@@ -29,3 +29,5 @@
 -Mercredi 4 mars 2015 (10:00 à 11:00)
 	Début de la classe Connecteur.
 	Modification de la classe Piece et Salle.
+-Samedi 7 mars 2015 (16:30 à 17:16)
+	Modification de la classe Piece et Connecteur.
