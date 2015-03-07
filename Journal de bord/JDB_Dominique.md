@@ -5,3 +5,5 @@
 02/03/2015 : J'ai fait les classes contenu et porte pour la partie Algorythme, elles sont toujours incomplètes mais c'est parce qu'elles dépendent d'éléments pas encore codés.
 
 03/03/2015 : Légère corrections dans les classes soumises hier au niveau des normes de programmation.
+
+06/03/2015 : Ajout de constructeurs pour les contenus.
