@@ -20,8 +20,8 @@ public:
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface->w, surface->h, 0, GL_BGR, GL_UNSIGNED_BYTE, surface->pixels);
 		return (surface != NULL);
 	}
-	Vecteur2 obtTaille(){
-		return Vecteur2(surface->w, surface->h);
+	Vecteur2ui obtTaille(){
+		return Vecteur2ui(surface->w, surface->h);
 	}
 	SDL_Surface* obtSurface(){
 		return surface;

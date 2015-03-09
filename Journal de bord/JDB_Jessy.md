@@ -31,3 +31,15 @@ Rencontre avec Kev,Richer,Gab à l'école. Moi et Kev nous nous sommes attribué de
 
 de 18h à 19h30:
 -J'ai continué la classe Sprite2D je crois bien qu'elle est terminée
+
+/////////////////////////////////////////////////////////
+Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout quelle journée jai faite sa mais c'était durant la semaine de relache
+
+06 mars environ 1h de travaille:
+-J'ai modifier une petit élément dans la classe Texture 
+-J'ai continuer la classe Texte2D mais il reste quelques petits détailles à vérifier
+
+07 mars environ 1h de travaille:
+-Cette fois-ci j'ai surtout réfléchis et discuter avec Brandon sur le fonctionnement de la classe Objet2D
+-J'ai commencé la classe(données membres constructeurs etc)
+-J'ai commencé la méthode d'affichage

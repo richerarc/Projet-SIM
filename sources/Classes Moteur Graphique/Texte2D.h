@@ -4,7 +4,10 @@
 #include <SDL2\SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <string>
-class Texte2D{
+#include "Objet2D.h"
+#include "Vecteur3.h"
+//Note à moi-même : constructeur 
+class Texte2D : public Objet2D{
 public:
 	std::string texte;
 	std::string cheminPolice;
@@ -13,34 +16,28 @@ public:
 	SDL_Color couleur;
 	TTF_Font* police;
 
-	Texte2D(){
+	Texte2D(Vecteur3f position, Vecteur3f orientation, Vecteur3f origine, Vecteur3i echelle) : Objet2D(position,orientation,origine,echelle){
 	}
 
-	Texte2D(std::string paramTexte, const char* cheminPolice, unsigned int paramTaille, unsigned int paramStyle){
-		texte = paramTexte;
-		taille = paramTaille;
-		police = TTF_OpenFont(cheminPolice ,taille);
-		couleur = { 1, 1, 1, 255 };
-
-	}
 	~Texte2D(){
 		TTF_CloseFont(police);
 	}
 
-	void defTexte(std::string paramTexte){
-	
+	void defTexte(std::string texte){
+		this->texte = texte;
 	}
-	void defPolice(const char* cheminPolice){
-		police = TTF_OpenFont(cheminPolice, taille);
+	void defPolice(const char* pathPolice){
+		police = TTF_OpenFont(pathPolice, taille);
 	}
-	void defTaille(unsigned int paramTaille){
-		taille = paramTaille;
+	void defTaille(unsigned int taille){
+		this->taille = taille;
 	}
-	void defStyle(unsigned int paramStyle){
+	void defStyle(unsigned int style){
+		this->style = style;
 	}
 
-	void defCouleur(SDL_Color paramCouleur){
-		couleur = paramCouleur;
+	void defCouleur(SDL_Color couleur){
+		this-> couleur = couleur;
 	}
 
 

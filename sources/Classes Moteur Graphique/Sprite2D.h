@@ -1,10 +1,12 @@
 #pragma once
+
 #include "Texture.h"
-class Sprite2D{
+#include "Vecteur3.h"
+class Sprite2D : public Objet2D{
 public:
 	Texture* texture;
 
-	Sprite2D(){
+	Sprite2D(Vecteur3* position, Vecteur3* orientation, Vecteur3* origine, Vecteur3* echelle) : Objet2D(Vecteur3* position, Vecteur3* orientation, Vecteur3* origine, Vecteur3* echelle){
 		texture = nullptr;
 	}
 
@@ -15,10 +17,10 @@ public:
 		return texture;
 	}
 
-	void defTexture(Texture* texture){
-		this-> texture = texture;
+	void defTexture(Texture* paramTexture){
+		texture = paramTexture;
 	}
-	//Ceci sera utile pour plutard quand je vais avoir a afficher le sprite, ne pas supprimer.
+	//Ceci sera utile pour plutard, ne pas supprimer.
 	/*glBegin(GL_QUADS);
 	glTexCoord2i(0, texture->obtSurface.h);
 	glVertex2i(0, 0);
