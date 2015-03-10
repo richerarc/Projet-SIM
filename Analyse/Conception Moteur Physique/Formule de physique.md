@@ -62,7 +62,7 @@ Fonction qui retourne la position d'un point par rapport à une droite:
 - 0 = Point sur la droite
 - 1 = Point à droite de la droite
 
-Les Deux premiers vecteurs(point) servent à représenter la droite et le dernier est celui dont on retourne l'état par rapport à la droite.
+Les deux premiers vecteurs(point) servent à représenter la droite, le troisième est le point et le dernier vecteur est la normale du plan dans lequel le point se trouve.
 
 ####Double obtenirEnergieCinetique(Double masse Vecteur3 Vitesse);
 
@@ -90,6 +90,10 @@ http://www.ilemaths.net/maths_t-droites-plans-cours.php
 http://homeomath.imingo.net/geoesp7.htm
 
 Fonction qui retourne les point d'intersection entre un plan et une droite. Retourne NULL si il n'y en a pas.
+
+####void recalculerPlan(Vecteur3 p1, Vecteur3 p2, Vecteur3 p3);
+
+Fonction qui recalcule un plan.
 
 ##Détails sur les procédures et fonctions de la classe Droite:
 
