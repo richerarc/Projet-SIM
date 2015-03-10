@@ -20,3 +20,6 @@ Durée: 30 min
 --10 Mars 2015 (15h30) --
 
 J'essaie les issues.. (test)
+Jai fait des modifications dans Modele3D et Objet3D avec l'aide de Kevin et Brandon
+
+Durée: environ 2h
