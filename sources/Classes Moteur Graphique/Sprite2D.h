@@ -1,14 +1,14 @@
 #pragma once
-
 #include "Texture.h"
 #include "Vecteur3.h"
 class Sprite2D : public Objet2D{
 public:
 	Texture* texture;
 
-	Sprite2D(Vecteur3* position, Vecteur3* orientation, Vecteur3* origine, Vecteur3* echelle) : Objet2D(Vecteur3* position, Vecteur3* orientation, Vecteur3* origine, Vecteur3* echelle){
-		texture = nullptr;
+	Sprite2D(Vecteurf position , Texture* texture) : Objet2D(position){
+		this->texture = texture;
 	}
+	Sprite2D(){}
 
 	~Sprite2D(){
 	}
@@ -17,8 +17,8 @@ public:
 		return texture;
 	}
 
-	void defTexture(Texture* paramTexture){
-		texture = paramTexture;
+	void defTexture(Texture* texture){
+		this->texture = texture;
 	}
 	//Ceci sera utile pour plutard, ne pas supprimer.
 	/*glBegin(GL_QUADS);

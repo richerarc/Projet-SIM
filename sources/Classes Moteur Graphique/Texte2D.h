@@ -6,24 +6,34 @@
 #include <string>
 #include "Objet2D.h"
 #include "Vecteur3.h"
-//Note à moi-même : constructeur 
+
 class Texte2D : public Objet2D{
 public:
 	std::string texte;
-	std::string cheminPolice;
-	unsigned int style;
 	unsigned int taille;
 	SDL_Color couleur;
+	SDL_Surface* surface;
 	TTF_Font* police;
 
-	Texte2D(Vecteur3f position, Vecteur3f orientation, Vecteur3f origine, Vecteur3i echelle) : Objet2D(position,orientation,origine,echelle){
-	}
+	Texte2D(Vecteur3f position) : Objet2D(position){}
 
+	Texte2D(const std::string &texte,const char* pathPolice, unsigned int taille, Vecteur3f position) : Objet2D(position){
+		this->texte = texte;
+		police = TTF_OpenFont(pathPolice, taille);
+		this->taille = taille;
+		couleur = {0,0,0};
+	}
 	~Texte2D(){
+		if (surface != nullptr){
+			SDL_FreeSurface(surface);
+			surface = nullptr;
+		}
 		TTF_CloseFont(police);
 	}
-
-	void defTexte(std::string texte){
+	void chargerSurface(){
+		surface = TTF_RenderText_Solid(police,texte.c_str(),couleur);
+	}
+	void defTexte(const std::string &texte){
 		this->texte = texte;
 	}
 	void defPolice(const char* pathPolice){
@@ -32,18 +42,11 @@ public:
 	void defTaille(unsigned int taille){
 		this->taille = taille;
 	}
-	void defStyle(unsigned int style){
-		this->style = style;
-	}
-
 	void defCouleur(SDL_Color couleur){
 		this-> couleur = couleur;
 	}
-
-
 	std::string obtTexte(){ return texte; }
 	unsigned int obtTaille(){ return taille; }
-	unsigned int obtStyle(){ return style; }
 	SDL_Color obtCouleur(){ return couleur; }
 
 
