@@ -46,18 +46,18 @@ public:
 	Obstacle(){}
 	Obstacle(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Contenu(nouvPosition, modele, ID){}
 };
-class Piege : public Contenu{
+class Piege : public Obstacle{
 public:
 	Piege(){}
-	Piege(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Contenu(nouvPosition, modele, ID){}
+	Piege(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Obstacle(nouvPosition, modele, ID){}
 };
-class Choix : public Contenu{
+class Choix : public Obstacle{
 public:
 	Choix(){}
-	Choix(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Contenu(nouvPosition, modele, ID){}
+	Choix(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Obstacle(nouvPosition, modele, ID){}
 };
-class Puzzle : public Contenu{
+class Puzzle : public Obstacle{
 public:
 	Puzzle(){}
-	Puzzle(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Contenu(nouvPosition, modele, ID){}
+	Puzzle(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Obstacle(nouvPosition, modele, ID){}
 };
