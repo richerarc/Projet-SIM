@@ -1,15 +1,15 @@
 #pragma once
 #include "Texture.h"
 #include "Vecteur3.h"
+#include "Objet2D.h"
 class Sprite2D : public Objet2D{
 public:
 	Texture* texture;
 
-	Sprite2D(Vecteurf position , Texture* texture) : Objet2D(position){
+	Sprite2D(Vecteur3f position , Texture* texture) : Objet2D(position){
 		this->texture = texture;
+		this->surface = texture->obtSurface();
 	}
-	Sprite2D(){}
-
 	~Sprite2D(){
 	}
 
@@ -19,16 +19,6 @@ public:
 
 	void defTexture(Texture* texture){
 		this->texture = texture;
+		this->surface = texture->obtSurface();
 	}
-	//Ceci sera utile pour plutard, ne pas supprimer.
-	/*glBegin(GL_QUADS);
-	glTexCoord2i(0, texture->obtSurface.h);
-	glVertex2i(0, 0);
-	glTexCoord2i(texture->obtSurface.w, texture->obtSurface.h);
-	glVertex2i(texture->obtSurface.w, 0);
-	glTexCoord2i(texture->obtSurface.w, 0);
-	glVertex2i(texture->obtSurface.w, texture->obtSurface.h);
-	glTexCoord2i(0, 0);
-	glVertex2i(0, texture->obtSurface.h);
-	glEnd();*/
 };
