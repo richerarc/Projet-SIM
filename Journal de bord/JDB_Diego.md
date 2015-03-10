@@ -16,3 +16,7 @@ Durée: 30min - 1h
 Retour de la semaine de relache. J'ai fait une partie de la classe Objet3D. Elle devrait être finie demain avant le cours.
 
 Durée: 30 min
+
+--10 Mars 2015 (15h30) --
+
+J'essaie les issues.. (test)

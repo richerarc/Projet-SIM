@@ -6,6 +6,7 @@
 class Texture{
 public:
 	SDL_Surface* surface;
+
 	Texture(){
 		surface = nullptr;
 	}

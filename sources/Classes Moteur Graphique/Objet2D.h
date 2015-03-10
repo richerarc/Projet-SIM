@@ -7,21 +7,13 @@ private:
 	Vecteur3f orientation;
 	Vecteur3f origine;
 	Vecteur3i echelle;
+	SDL_Surface* surface;
 public:
-	Objet2D(Vecteur3f position, Vecteur3f orientation, Vecteur3f origine, Vecteur3i echelle){
+	Objet2D(Vecteur3f position){
 		this->position = position;
-		this->orientation = orientation;
-		this->origine = origine;
-		this->echelle = echelle;
 	}
-	void afficherTexte(Texte2D* texte){
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
-		glColor3f(texte->obtCouleur().r, texte->obtCouleur().g, texte->obtCouleur().b);
-		glRasterPos2i(position.x,position.y);
-		for (std::string::iterator i = texte->obtTexte().begin(); i != texte->obtTexte().end(); ++i){
-		}
+	void afficher(){
+	
 	}
 
 };
