@@ -36,4 +36,4 @@ Mardi 10 mars 2015 ------
 
 2:30 à 5:30
 
-Nous avons discuté des normes de modélisation et comment se servir des "issues" sur github. Nous avons ensuite séparés nos tâches pour la physique.
+Nous avons discuté des normes de modélisation et comment se servir des "issues" sur github. Nous avons ensuite séparés nos tâches pour la physique. J'ai travaillé un peu sur le magnétisme avec Gab et sur le diagramme d'états avec Xavier.
