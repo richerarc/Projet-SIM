@@ -25,5 +25,3 @@
 `Ven. 06 mars` J'ai changée quelque petit truc dans les classe héritant de Salle et de Contenu. j'ai aussi monter ce qui nous servira à sérialiser les pièces et connecteurs. En plus d'avoir fait un couteau avec blender`4h30`
 
 `Dim. 08 mars` j'ai fait une classe qui permet de mixer des sons, et d'ajouté et de gérer la musique du projet. `2h30`
-
-test
