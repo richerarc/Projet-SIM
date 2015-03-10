@@ -1,17 +1,24 @@
 #pragma once
 #include <chrono>
-#include "Time.h"
+#include "Temps.h"
 
 using namespace std::chrono;
 
-namespace sdl{
-	class Clock
-	{
-	public:
-		Clock();
-		sdl::Time getElapsedTime();
-		sdl::Time restart();
-	private:
-		high_resolution_clock::time_point elapsedTimeSinceLastRestart;
-	};
-}
+class Chrono
+{
+public:
+	Chrono(){
+		this->dernierTemps = high_resolution_clock::now();
+	}
+	Temps obtTempsEcoule(){
+		std::chrono::duration<double> span = duration_cast<duration<double>>(high_resolution_clock::now() - dernierTemps);
+		return Temps(span.count());
+	}
+	Temps repartir(){
+		double time = obtTempsEcoule().enSecondes();
+		this->dernierTemps = high_resolution_clock::now();
+		return Temps(time);
+	}
+private:
+	high_resolution_clock::time_point dernierTemps;
+};
