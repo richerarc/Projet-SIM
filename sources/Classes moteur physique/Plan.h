@@ -9,12 +9,7 @@ private:
 	Vecteur3d d;
 public:
 	Plan(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3) {
-		Vecteur3d u = point1.produitVectoriel(point2);
-		Vecteur3d v = point1.produitVectoriel(point3);
-		normale = u.produitVectoriel(v);
-		d.x = u.x * point1.x;
-		d.y = u.y * point1.y;
-		d.z = u.z * point1.z;
+		calculerPlan(point1, point2, point3);
 	}
 
 	Vecteur3d insertionDroitePlan(Droite& droite) {
@@ -35,6 +30,15 @@ public:
 		else {
 			return NULL;
 		}
+	}
+
+	void calculerPlan(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3) {
+		Vecteur3d u = point1 - point2;
+		Vecteur3d v = point1 - point3;
+		normale = u.produitVectoriel(v);
+		d.x = u.x * point1.x;
+		d.y = u.y * point1.y;
+		d.z = u.z * point1.z;
 	}
 
 	double obtenirAnglePlan() {
