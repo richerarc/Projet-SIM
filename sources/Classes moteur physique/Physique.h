@@ -48,12 +48,24 @@ public:
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
 
-	int positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point) {
+	double positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point, Vecteur3D& normale) {
 		
-		Vecteur3d VectTmp = droite1 - droite2;
-		Vecteur3d VectRes(-Vect.y, Vect.x, Vect.z);
-		return VectRes(point - droite1);
+		normale.normaliser();
+
+		if (normale.x > normale.y && normale.x > normale.z) {
 			
+			return (droite2.y - droite1.y) * (point.z - droite1.z) - (droite2.z - droite1.z) * (point.y - droite1.y);
+		}
+		
+		if (normale.y > normale.x && normale.y > normale.z) {
+
+			return (droite2.x - droite1.x) * (point.z - droite1.z) - (droite2.z - droite1.z) * (point.x - droite1.x);
+		}
+
+		if (normale.z > normale.x && normale.z > normale.y) {
+			
+			return (droite2.x - droite1.x) * (point.y - droite1.y) - (droite2.y - droite1.y) * (point.x - droite1.x);
+		}	
 	}
 
 	double obtenirEnergieCinetique(double masse, Vecteur3d& vecteurVitesseObjet) {
