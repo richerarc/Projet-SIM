@@ -9,11 +9,8 @@ private:
 public:
 
 	Objet3D(){
-		position = new Vecteur3f();
-		origine = new Vecteur3f();
-		orientation = new Vecteur3f();
 	}
-	
+
 	~Objet3D(){
 	}
 
@@ -29,20 +26,58 @@ public:
 		return orientation;
 	}
 
-	void defPosition(Vecteur3f pos){
+	void defPosition(Vecteur3f &pos){
 		position = pos;
 	}
 
-	void defOrigine(Vecteur3f org){
+	void defOrigine(Vecteur3f &org){
 		origine = org;
 	}
 
-	void defOrientation(Vecteur3f ort){
+	void defOrientation(Vecteur3f &ort){
 		orientation = ort;
 	}
-
-	void Afficher(){
-		
+	void rotationner(Vecteur3f &rot){
+		orientation += rot;
 	}
+
+	void deplacer(Vecteur3f &dep){
+		position += dep;
+	}
+
+	void defPosition(int axeX, int axeY, int axeZ){
+		position.x = axeX;
+		position.y = axeY;
+		position.z = axeZ;
+	}
+
+	void defOrigine(int axeX, int axeY, int axeZ){
+		origine.x = axeX;
+		origine.y = axeY;
+		origine.z = axeZ;
+	}
+
+	void defOrientation(int axeX, int axeY, int axeZ){
+		orientation.x = axeX;
+		orientation.y = axeY;
+		orientation.z = axeZ;
+
+	}
+
+	void rotationner(float axeX, float axeY, float axeZ){
+		orientation.x += axeX;
+		orientation.y += axeY;
+		orientation.z += axeZ;
+	}
+
+	void deplacer(int axeX, int axeY, int axeZ){
+		position.x += axeX;
+		position.y += axeY;
+		position.z += axeZ;
+	}
+
+	virtual void rafraichir() = 0;
+
+	virtual void afficher() = 0;
 
 };
