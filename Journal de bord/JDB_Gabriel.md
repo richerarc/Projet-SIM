@@ -68,3 +68,14 @@ Nous sommes allé faire des enregistrement de sons avec un ami en musique, très
 3/4/2015 5:54:01 PM 
 
 Petite modification dans la classe vecteur pour la procédure normaliser, l'appel de la fonction norme n'était pas exacte et le nom de la variable qui prend la norme s'appelait norme, comme la fonction, donc le programme ne compilait pas. Ajout d'un dossier "Classes et code pour le moteur physique" avec la classe Chrono.
+
+### 09 mars 2015
+
+Aujourd'hui je suis allé voir le professeur de physique Charles Naaman pour discuter de l'application du magnétisme dans notre jeux. Suite à une longue discution et simplification de formule nous somme arrivé à trouver la formule suivante :
+
+    F = -6 * khi * Bext / Z
+    où khi est la suseptibilité magnétique du matériaux
+    , Bext est le champs magnétique créé par l'aimant 
+    et Z la distance entre l'aimant et l'objet aimanté.
+
+Le problème avec cette formule, c'est qu'elle ne tient compte que d'un plan. Alors il va probablement que je retravaille là-dessus avec mon professeur pour l'amélioré, mais je sens qu'on est proche! Je l'ai mis en code et je l'ai testé, bien qu'il nous faut un champs magnétique de 1 tesla pour que ça fonctionne, les résultats semblent acceptables.

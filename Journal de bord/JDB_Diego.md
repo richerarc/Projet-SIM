@@ -5,3 +5,14 @@ En bref, depuis le 2 février, nous avons tous trravaillé en ensemble pour avoir 
 
 Durée: un estimé d'environ 10 à 15h depuis le 2 février.
 
+-- 05 Mars 2015 (10h00) --
+
+Je devrais vraiement ecrire plus dans mon journal. À date, on a créé les classes les plus basic. Moi, j'ai contribué seulement a la classe Modele3D pour le moment. Elle semble être finie.
+
+Durée: 30min - 1h
+
+-- 09 Mars 2015 (21h00) --
+
+Retour de la semaine de relache. J'ai fait une partie de la classe Objet3D. Elle devrait être finie demain avant le cours.
+
+Durée: 30 min

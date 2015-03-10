@@ -1,10 +1,5 @@
 #pragma once
-#include <vector>
-#include <queue>
-#include <fstream>
-#include <iostream>
-#include "Maths.h"
-#include "Vecteur3.h"
+
 class Modele{
 private:
 	float* vertices;
@@ -13,7 +8,6 @@ private:
 	Vecteur3f taille;
 	unsigned int nbrVertices;
 	unsigned int nbrFaces;
-
 
 public:
 
