@@ -8,22 +8,41 @@ private:
 
 public:
 
-	Objet3D(){}
+	Objet3D(){
+		position = new Vecteur3f();
+		origine = new Vecteur3f();
+		orientation = new Vecteur3f();
+	}
 	
-	~Objet3D(){}
+	~Objet3D(){
+	}
 
-	Vecteur3f obtPosition(){}
+	Vecteur3f obtPosition(){
+		return position;
+	}
 
-	Vecteur3f obtOrigine(){}
+	Vecteur3f obtOrigine(){
+		return origine;
+	}
 
-	Vecteur3f obtOrientation(){}
+	Vecteur3f obtOrientation(){
+		return orientation;
+	}
 
-	void defPosition(Vecteur3f pos){}
+	void defPosition(Vecteur3f pos){
+		position = pos;
+	}
 
-	void defOrigine(Vecteur3f pos){}
+	void defOrigine(Vecteur3f org){
+		origine = org;
+	}
 
-	void defOrientation(Vecteur3f pos){}
+	void defOrientation(Vecteur3f ort){
+		orientation = ort;
+	}
 
-	void Afficher(){}
+	void Afficher(){
+		
+	}
 
 };
