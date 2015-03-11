@@ -3,14 +3,20 @@
 class Salle{
 protected:
 	unsigned int ID;
+	unsigned int nbrPortes;
 	Vecteur3d pos;
 	Modele3D modele;
 public:
 	Salle(){}
 	
-	Salle(Vecteur3d Pos, Modele3D modele){
+	Salle(Vecteur3d Pos, Modele3D modele,unsigned int nbrPorte){
+		nbrPortes = nbrPorte;
 		pos = Pos;
 		this->modele = modele;
+	}
+
+	unsigned int obtNbrPortes(){
+		return nbrPortes;
 	}
 
 	unsigned int obtID(){

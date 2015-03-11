@@ -6,6 +6,8 @@
 
 ⇒ Le centre de l'objet doit être à 0,0,0.
 
+⇒ Un étage correspond à 2,74m.
+
 ⇒ S'assurer de réduire les surfaces planes à une face:
 
 Exemple, si une surface d'un cube est subdivisé en quatre faces, regroupez-les.

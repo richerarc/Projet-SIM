@@ -25,3 +25,15 @@ Mardi 24 Février 2015 ------
 12:00 à 2:30
 
 Révision et correction de fautes de grammaire, de syntaxe, d'ortographe, etc. Dans l'analyse des besoins.
+
+Jeudi 26 Février 2015 ------
+
+10:00 à 12:00
+
+Nous avons vu ensemble les patrons de conception comme le singleton et le factory. En tant qu'équipe de physique, nous avons discuté aussi des formules que nous aurons besoin.
+
+Mardi 10 mars 2015 ------
+
+2:30 à 5:30
+
+Nous avons discuté des normes de modélisation et comment se servir des "issues" sur github. Nous avons ensuite séparés nos tâches pour la physique. J'ai travaillé un peu sur le magnétisme avec Gab et sur le diagramme d'états avec Xavier.

@@ -73,3 +73,10 @@ Aujourd'hui j'ai avancer et corriger quelque erreurs, Diego à fait le calcul de
 Il reste a finir la classe Model3D et à faire la classe Objet3D ainsi que la classe camera avant de faire les gestionnaires. j'ai parti un sous groupe pour moi et diego j'attends de ses nouvelles pour lui laisser du travail, je ne veux pas tout faire.
 
 **Temps 2h** 
+
+
+###**`10 mars 2015`**
+
+Aujourd'hui j'ai pousser un peu Diego pour l'aider a repartir la machine. Nous avons continuer à coder objet3D. J'ai aussi éclaircis quelques points avec Brandon sur les transformations (qui seront plus simples que nous avions pensé). Il reste a gerer l'Affichage et le reglage de la boite de coillision à faire. Richer nous a montrer les issues sur github qui seront un allier utile a GanttProject.
+
+**Temps 3h**

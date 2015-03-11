@@ -80,8 +80,8 @@ http://www.ilemaths.net/maths_t-droites-plans-cours.php
 
     ax+by+cz+d = 0
 
-- u = p1 X p2
-- v = p1 X p3
+- u = p1 - p2
+- v = p1 - p3
 - normale = u X v
 - d = u * p1
 
