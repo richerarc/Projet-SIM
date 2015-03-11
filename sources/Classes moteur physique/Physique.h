@@ -9,6 +9,8 @@ private:
 
 	double gravite;
 	double constanteDeFriction;
+	double champsMagnetique;
+	double sensibiliteMagnetique;
 	Chrono temps;
 
 public:
@@ -17,6 +19,8 @@ public:
 		temps.partir();
 		constanteDeFriction = 0.5;
 		gravite = 9.8;
+		champsMagnetique = 4;
+		sensibiliteMagnetique = 0.0072;
 	}
 
 	Vecteur3d obtenirNormaleSurface(Vecteur3d& position, double rayon) {
@@ -37,6 +41,24 @@ public:
 	
 	void appliquerFrottement(Objet& objet) {
 		objet.vecteurVitesse -= constanteDeFriction * obtenirForceNormale(objet.masse, objet.vecteurPosition);
+	}
+
+	// Procédure qui applique la force d'attraction magnétique sur un objet
+	//(La force du champs et la sensibilité magnétique de l'objet sont constant).
+	void appliquerMagnetisme(double& masseObjet, Vecteur3d& positionObjet, Vecteur3d& vecteurVitesseObjet, Vecteur3d& positionAimant) {
+
+	double distanceObjetAimant = sqrt(pow(positionAimant.x - positionObjet.x, 2) + pow(positionAimant.y - positionObjet.y, 2) + pow(positionAimant.z - positionObjet.z, 2));
+	double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (masseObjet * distanceObjetAimant);
+
+	Vecteur3d vecteurProportionnel = { positionAimant.x - positionObjet.x, positionAimant.y - positionObjet.y, positionAimant.z - positionObjet.z };
+	vecteurProportionnel.normaliser();
+
+	Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
+
+	vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
+
+	vecteurVitesseObjet += vecteurAcceleration;
+
 	}
 	
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega) {

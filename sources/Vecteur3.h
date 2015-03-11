@@ -46,6 +46,12 @@ public:
 		z *= scalaire;
 	}
 
+	void prodruitParUnVecteur(Vecteur3<T>& autre) {
+		x *= autre.x;
+		y *= autre.y;
+		z *= autre.z;
+	}
+
 	T produitScalaire(Vecteur3<T>& autre) {
 		return ((this->x * autre.x) + (this->y * autre.y) + (this->z * autre.z));
 	}
