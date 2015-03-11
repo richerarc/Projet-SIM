@@ -4,23 +4,17 @@ class Contenu {
 protected:
 	unsigned int ID;
 	Modele3D modele;
-	Vecteur3d position;
 public:
 	Contenu(){}
-	Contenu(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID){
-		position.x = nouvPosition.x;
-		position.y = nouvPosition.y;
-		position.z = nouvPosition.z;
+	Contenu(Modele3D modele, unsigned int ID){
 		this->modele = modele;
 		this->ID = ID;
 	}
-	Vecteur3d obtPosition(){
-		return position;
+	Vecteur3d obtPos(){
+		return modele->obtPosition();
 	}
-	void defPosition(Vecteur3d nouvPosition){
-		position.x = nouvPosition.x;
-		position.y = nouvPosition.y;
-		position.z = nouvPosition.z;
+	void defPosition(int axeX, int axeY, int axeZ){
+		modele->defPosition(axeX, axeY, axeZ);
 	}
 	
 	void defID(unsigned int ID){
@@ -39,25 +33,25 @@ public:
 class Objet : public Contenu{
 public:
 	Objet(){}
-	Objet(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Contenu(nouvPosition, modele, ID){}
+	Objet(Modele3D modele, unsigned int ID) : Contenu(modele, ID){}
 };
 class Obstacle : public Contenu{
 public:
 	Obstacle(){}
-	Obstacle(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Contenu(nouvPosition, modele, ID){}
+	Obstacle(Modele3D modele, unsigned int ID) : Contenu(modele, ID){}
 };
 class Piege : public Obstacle{
 public:
 	Piege(){}
-	Piege(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Obstacle(nouvPosition, modele, ID){}
+	Piege(Modele3D modele, unsigned int ID) : Obstacle(modele, ID){}
 };
 class Choix : public Obstacle{
 public:
 	Choix(){}
-	Choix(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Obstacle(nouvPosition, modele, ID){}
+	Choix(Modele3D modele, unsigned int ID) : Obstacle(modele, ID){}
 };
 class Puzzle : public Obstacle{
 public:
 	Puzzle(){}
-	Puzzle(Vecteur3d nouvPosition, Modele3D modele, unsigned int ID) : Obstacle(nouvPosition, modele, ID){}
+	Puzzle(Modele3D modele, unsigned int ID) : Obstacle(modele, ID){}
 };

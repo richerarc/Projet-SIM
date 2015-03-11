@@ -6,12 +6,11 @@ class Piece : public Salle{
 private:
 	std::list<Objet*> objets;
 	float valeurProb;
-	Obstacle obstacle;
 
 public:
 	Piece(){}
 	
-	Piece(Vecteur3d Pos, Obstacle obstacle, Modele3D modele) : public Salle(Pos, modele){
+	Piece(Modele3D modele, int ID) : public Salle(modele, ID){
 		this->obstacle = obstacle;
 	}
 
@@ -32,13 +31,5 @@ public:
 
 	float obtValeurProb(){
 		return valeurProb;
-	}
-	
-	void defObstacle(Obstacle obstacle){
-		this->obstacle = obstacle;
-	}
-
-	Obstacle obtObstacle(){
-		return this->obstacle;
 	}
 };
