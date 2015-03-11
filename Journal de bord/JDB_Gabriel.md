@@ -79,3 +79,11 @@ Aujourd'hui je suis allé voir le professeur de physique Charles Naaman pour dis
     et Z la distance entre l'aimant et l'objet aimanté.
 
 Le problème avec cette formule, c'est qu'elle ne tient compte que d'un plan. Alors il va probablement que je retravaille là-dessus avec mon professeur pour l'amélioré, mais je sens qu'on est proche! Je l'ai mis en code et je l'ai testé, bien qu'il nous faut un champs magnétique de 1 tesla pour que ça fonctionne, les résultats semblent acceptables.
+
+### 10 mars 2015
+
+Nous avons discuté en groupe de l'utilisation de github (les issues) et des sons qui remplaceront en partie l'interface graphique.
+
+Nous nous sommes ensuite distribué les diverses tâches reliées à la physique, j'ai reçus le mandat de travailler sur le magnétisme. J'avais déjà avancé le sujet, il ne me restait plus qu'à l'appliquer à l'ordinateur. En normalisant mon vecteur que je créais avec la distance entre l'objet et l'aimant, comme tu m'as conseillé et avec d'autres ajustements, j'ai pu arrivé à un calcul plus que satisfaisant. J'ai ajouté le tout à la classe Physique. Je vais retourné voir mon professeur de physique avec mon programme pour être sur que le résultat est valide.
+
+J'ai aussi fait une modification à la classe vecteur par l'ajout d'un opération qui multiplie le vecteur en mémoire par un autre.
