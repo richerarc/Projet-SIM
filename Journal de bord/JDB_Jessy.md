@@ -43,3 +43,9 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 -Cette fois-ci j'ai surtout réfléchis et discuter avec Brandon sur le fonctionnement de la classe Objet2D
 -J'ai commencé la classe(données membres constructeurs etc)
 -J'ai commencé la méthode d'affichage
+
+10 mars 14hà 17h30:
+-Modification de la classe Texte2D
+-Modification de Sprite2D
+-Continuer le afficher de la classe Objet2D
+-Tester le afficher, ne marche pas

@@ -1,27 +1,54 @@
 #pragma once
 #include "Vecteur3.h"
-//Note à moi-même: AfficherTexture vs AfficherTexte
 class Objet2D{
-private:
-	Vecteur3f position; 
+protected:
+	Vecteur3f position;
 	Vecteur3f orientation;
 	Vecteur3f origine;
 	Vecteur3i echelle;
+	SDL_Surface* surface;
 public:
-	Objet2D(Vecteur3f position, Vecteur3f orientation, Vecteur3f origine, Vecteur3i echelle){
+	Objet2D(Vecteur3f position){
 		this->position = position;
-		this->orientation = orientation;
-		this->origine = origine;
-		this->echelle = echelle;
 	}
-	void afficherTexte(Texte2D* texte){
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
+	void afficher(){
+		glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_LIGHTING);
+		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glColor3f(texte->obtCouleur().r, texte->obtCouleur().g, texte->obtCouleur().b);
-		glRasterPos2i(position.x,position.y);
-		for (std::string::iterator i = texte->obtTexte().begin(); i != texte->obtTexte().end(); ++i){
-		}
+		glOrtho(0, 500, 0, 500, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glEnable(GL_TEXTURE_2D);
+		unsigned int ID;
+		glGenTextures(1, &ID);
+		glBindTexture(GL_TEXTURE_2D, ID);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);//Réduire la texture
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);//Agrandire la texture
+		glBegin(GL_QUADS);
+		glTexCoord2i(0,surface->h);
+		glVertex2i(0, 0);
+		glTexCoord2i(surface->w, surface->h);
+		glVertex2i(surface->w, 0);
+		glTexCoord2i(surface->w, 0);
+		glVertex2i(surface->w, surface->h);
+		glTexCoord2i(0, 0);
+		glVertex2i(0, surface->h);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnd();
 	}
 
+	void defPosition(Vecteur3f position){
+		this->position = position;
+	}
+	void defOrigine(Vecteur3f origine){
+		this->origine = origine;
+	}
+	void defEchelle(Vecteur3i echelle){
+		this->echelle = echelle;
+	}
+	Vecteur3f obtPosition(){ return position; }
+	Vecteur3f obtOrigine(){ return origine; }
+	Vecteur3f obtOrientation(){ return orientation; }
+	Vecteur3i obtEchelle(){ return echelle; }
 };

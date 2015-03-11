@@ -13,7 +13,7 @@ class Modele3D : public Objet3D {
 private:
 	Modele modele;
 	Texture texture;
-	float boiteDeCollision[24];
+	Vecteur3f boiteDeCollision[8];
 	void calculerBoiteDeCollision(){
 		std::vector<float> tmpX;
 		std::vector<float> tmpY;
@@ -31,27 +31,31 @@ private:
 		zmax = Maths::obtValeurMax(tmpZ);
 		zmin = Maths::obtValeurMin(tmpZ);
 
-		for (int i = 0; i < 24; i++){
-			switch (i % 3){
-			case 0:
-				if (i < 12) boiteDeCollision[i] = xmax;
-				else boiteDeCollision[i] = xmin;
-				break;
-			case 1:
-				if ((i % 12) < 6) boiteDeCollision[i] = ymax;
-				else boiteDeCollision[i] = ymin;
-				break;
-			case 2:
-				if ((i % 6) < 3) boiteDeCollision[i] = zmax;
-				else boiteDeCollision[i] = zmin;
-				break;
+		for (int i = 0; i < 8; i++){
+			boiteDeCollision[i] = Vecteur3f();
+			for (int j = 0; j < 3; j++){
+				switch (j % 3){
+				case 0:
+					if (j < 12) boiteDeCollision[j] = xmax;
+					else boiteDeCollision[j] = xmin;
+					break;
+				case 1:
+					if ((j % 12) < 6) boiteDeCollision[j] = ymax;
+					else boiteDeCollision[j] = ymin;
+					break;
+				case 2:
+					if ((j % 6) < 3) boiteDeCollision[j] = zmax;
+					else boiteDeCollision[j] = zmin;
+					break;
+				}
 			}
 		}
 	}
 
 public:
 
-	Modele3D(){}
+	Modele3D(){
+	}
 
 	Modele3D(Modele &modele, Texture &texture){
 		this->modele = modele;
@@ -68,7 +72,7 @@ public:
 		this->texture = texture;
 	}
 
-	void defEchelle(float echX,float echY,float echZ){
+	void defEchelle(float echX, float echY, float echZ){
 		for (int i = 0; i < modele.obtNbrFaces(); i++)
 		{
 			modele.obtVertices()[i * 3] *= echX;
@@ -83,11 +87,27 @@ public:
 		return modele;
 	}
 
-	float* obtBoiteDeCollision(){
+	Vecteur3f* obtBoiteDeCollision(){
 		return boiteDeCollision;
 	}
 
 	Texture obtTexture(){
 		return texture;
 	}
+
+	virtual void rafraichir(){
+		glPushMatrix();
+		glLoadIdentity();
+
+
+		glPopMatrix();
+	};
+
+	virtual void afficher(){
+		glPushMatrix();
+		glLoadIdentity();
+		float* boiteModifiable = new float[24];
+		//Kevin s'aime........
+		glPopMatrix();
+	};
 };

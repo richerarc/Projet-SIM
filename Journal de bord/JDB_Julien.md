@@ -51,4 +51,14 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 
 ###**`6 mars 2015`**
 
-- 9h à 9h20 : J'ai travaillé sur la fonction déterminant de quel côté d'une droite le point est, mais je ne suis pas certain à 100% que ça fonctionne.
+- 21h à 21h20 : J'ai travaillé sur la fonction déterminant de quel côté d'une droite le point est, mais je ne suis pas certain à 100% que ça fonctionne.
+
+###**`9 mars 2015`**
+
+- 19h40 à 21h : J'ai fait quelque modification dans le diagramme de classe du moteur de physique. J'ai ensuite expliqué les changements dans le documents des formules. Dans les changements, j'ai ajouté les fonctions qui calcul les collisions.
+
+###**`10 mars 2015`**
+
+- 12h30 à 13h : J'ai refait la fonction déterminant de quel côté d'une droite un point se trouve, elle gère maintenant les points en 3D.
+
+- 14h40 à 17h : J'ai discuté avec les autres membres de mon équipe sur le fonctionnement des collisions et sur d'autres formules. Nous nous sommes divisés en sous-équipe : une équipe sur les collisions, une sur le magnétisme et l'autre sur les formules de physiques indépendantes. 

@@ -41,3 +41,7 @@
   14h45
   -accesseurs de la classe GestionnaireLiens (reste correctifs à faire quand porte et salle seront corrigées).
   15h00
+10 mar
+  15h30
+  -division des tâches et début des discussions du fonctionnement de l'atribution des liens.
+  17h30
