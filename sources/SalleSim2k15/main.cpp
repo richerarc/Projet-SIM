@@ -12,6 +12,15 @@ int main(int argc, char** argv){
 	SDL_Event* SDLEvent = new SDL_Event();
 	Salle* Piece1;
 	Salle* Piece2;
+	//Piece1 = new Salle(m_pSDLRenderer, true, 0, 0,3);
+	//Piece2 = new Salle(m_pSDLRenderer, false, 5, 5,2);
+	SDL_Rect Rectangle;
+	Rectangle.x = 0;
+	Rectangle.y = 0;
+	Rectangle.w = 90;
+	Rectangle.h = 90;
+	SDL_SetRenderDrawColor(m_pSDLRenderer, 0, 0, 0, 255);
+	SDL_RenderDrawRect(m_pSDLRenderer, &Rectangle);
 	while (Open){
 		SDL_RenderPresent(m_pSDLRenderer);
 		SDL_SetRenderDrawColor(m_pSDLRenderer, 255, 255, 255, 255);
@@ -26,6 +35,16 @@ int main(int argc, char** argv){
 			}
 		}
 		//Algorythme ici
+		/* Exemple fonctionnel
+		Piece1->dessinerSalle();
+		Piece1->lierAvec(Piece2, false, 1, 0);
+		Piece1->lierAvec(Piece2, true, 1, 1);
+		Piece1->lierAvec(Piece2, false, 1, 2);
+		Piece1->lierAvec(Piece2, true, 1, 3);
+		
+		Piece2->dessinerSalle();
+		
+		*/
 	}
 	SDL_Quit();
 	return 0;
