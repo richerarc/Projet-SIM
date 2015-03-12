@@ -30,26 +30,14 @@ private:
 		ymin = Maths::obtValeurMin(tmpY);
 		zmax = Maths::obtValeurMax(tmpZ);
 		zmin = Maths::obtValeurMin(tmpZ);
-
-		for (int i = 0; i < 8; i++){
-			boiteDeCollision[i] = Vecteur3f();
-			for (int j = 0; j < 3; j++){
-				switch (j % 3){
-				case 0:
-					if (j < 12) boiteDeCollision[j] = xmax;
-					else boiteDeCollision[j] = xmin;
-					break;
-				case 1:
-					if ((j % 12) < 6) boiteDeCollision[j] = ymax;
-					else boiteDeCollision[j] = ymin;
-					break;
-				case 2:
-					if ((j % 6) < 3) boiteDeCollision[j] = zmax;
-					else boiteDeCollision[j] = zmin;
-					break;
-				}
-			}
-		}
+		boiteDeCollision[0] = Vecteur3f(xmax, ymax, zmax);
+		boiteDeCollision[1] = Vecteur3f(xmax, ymax, zmin);
+		boiteDeCollision[2] = Vecteur3f(xmax, ymin, zmax);
+		boiteDeCollision[3] = Vecteur3f(xmax, ymin, zmin);
+		boiteDeCollision[4] = Vecteur3f(xmin, ymax, zmax);
+		boiteDeCollision[5] = Vecteur3f(xmin, ymax, zmin);
+		boiteDeCollision[6] = Vecteur3f(xmin, ymin, zmax);
+		boiteDeCollision[7] = Vecteur3f(xmin, ymin, zmin);
 	}
 
 public:
@@ -106,8 +94,7 @@ public:
 	virtual void afficher(){
 		glPushMatrix();
 		glLoadIdentity();
-		float* boiteModifiable = new float[24];
-		//Kevin s'aime........
+
 		glPopMatrix();
 	};
 };
