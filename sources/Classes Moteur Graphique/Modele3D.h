@@ -95,6 +95,25 @@ public:
 		glPushMatrix();
 		glLoadIdentity();
 
+		float cosx = cos(Maths::degreARadian(orientation.x));
+		float sinx = sin(Maths::degreARadian(orientation.x));
+		float cosy = cos(Maths::degreARadian(orientation.y));
+		float siny = sin(Maths::degreARadian(orientation.y));
+		float cosz = cos(Maths::degreARadian(orientation.z));
+		float sinz = sin(Maths::degreARadian(orientation.z));
+
+		for (int i = 0, i < 8, i++){
+			boiteDeCollision[i].y = (boiteDeCollision[i].y * cosx - boiteDeCollision[i].z * sinx);
+			boiteDeCollision[i].z = (boiteDeCollision[i].z * cosx + boiteDeCollision[i].y * sinx);
+
+			boiteDeCollision[i].x = (cosy * boiteDeCollision[i].x + boiteDeCollision[i].z * siny);
+			boiteDeCollision[i].z = (-siny * boiteDeCollision[i].x + boiteDeCollision[i].z * cosy);
+
+			boiteDeCollision[i].x = (cosz * boiteDeCollision[i].x - boiteDeCollision[i].y * sinz);
+			boiteDeCollision[i].y = (sinz * boiteDeCollision[i].x + boiteDeCollision[i].y * cosz);
+		}
+
+
 		glPopMatrix();
 	};
 };
