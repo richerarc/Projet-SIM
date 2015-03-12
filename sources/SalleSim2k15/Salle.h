@@ -18,6 +18,20 @@ public:
 		typeSalle = Type;
 		this->nbrLiens = nbrLiens;
 	}
+	int obtEntree(){
+		return entre;
+	}
+	int obtSortie(){
+		return sortie;
+	}
+
+	int obtNbrLiens(){
+		return nbrLiens;
+	}
+
+	void defNbrLiens(int nbrLiens){
+		this->nbrLiens = nbrLiens;
+	}
 
 	int obtX(){
 		return X;
@@ -145,8 +159,8 @@ public:
 		if (TypeLien){ //si Porte
 			SDL_SetRenderDrawColor(Renderer, 0, 255, 0, 255);
 			SDL_Rect Rectangle;
-			Rectangle.x = sortix;
-			Rectangle.y = sortiy;
+			Rectangle.x = sortix + 1;
+			Rectangle.y = sortiy + 1;
 			Rectangle.w = 10;
 			Rectangle.h = 10;
 			SDL_RenderDrawRect(Renderer, &Rectangle);
@@ -190,7 +204,7 @@ public:
 			SDL_RenderDrawLine(Renderer, X + 25, Y + 20, X + 25, Y + 50);
 			SDL_RenderDrawLine(Renderer, X + 30, Y + 20, X + 30, Y + 50);
 			break;
-		case4:
+		case 4:
 			SDL_RenderDrawLine(Renderer, X + 20, Y + 20, X + 20, Y + 50);
 			SDL_RenderDrawLine(Renderer, X + 25, Y + 20, X + 25, Y + 50);
 			SDL_RenderDrawLine(Renderer, X + 30, Y + 20, X + 30, Y + 50);
