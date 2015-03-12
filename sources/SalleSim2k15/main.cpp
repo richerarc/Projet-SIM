@@ -12,8 +12,6 @@ int main(int argc, char** argv){
 	SDL_Event* SDLEvent = new SDL_Event();
 	Salle* Piece1;
 	Salle* Piece2;
-	//Piece1 = new Salle(m_pSDLRenderer, true, 0, 0,3);
-	//Piece2 = new Salle(m_pSDLRenderer, false, 5, 5,2);
 	SDL_Rect Rectangle;
 	Rectangle.x = 0;
 	Rectangle.y = 0;
@@ -21,6 +19,8 @@ int main(int argc, char** argv){
 	Rectangle.h = 90;
 	SDL_SetRenderDrawColor(m_pSDLRenderer, 0, 0, 0, 255);
 	SDL_RenderDrawRect(m_pSDLRenderer, &Rectangle);
+	//Piece1 = new Salle(m_pSDLRenderer, true, 0, 0,3);
+	//Piece2 = new Salle(m_pSDLRenderer, false, 5, 5,2);
 	while (Open){
 		SDL_RenderPresent(m_pSDLRenderer);
 		SDL_SetRenderDrawColor(m_pSDLRenderer, 255, 255, 255, 255);
