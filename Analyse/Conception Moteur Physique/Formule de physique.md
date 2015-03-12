@@ -1,12 +1,12 @@
 ##Formule de physiques
 
-- Formule de pendule (composé et/ou simple)
-- Formule avec la gravité
+- Formule de pendule (composé et/ou simple)					(fait)
+- Formule avec la gravité									(fait)
 - Formule trajectoire des profectiles
-- Formules de magnétisme
-- Formule d'un plan
-- Formule indicant de quel côté d'une droite le point est
-- Formule de distance entre deux point
+- Formules de magnétisme									(fait)
+- Formule d'un plan											(fait)
+- Formule indicant de quel côté d'une droite le point est	(fait)
+- Formule de distance entre deux point						(fait)
 - Formule de frottement
 - Formule pour appliquer le vent
 

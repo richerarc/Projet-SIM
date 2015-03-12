@@ -63,6 +63,12 @@ public:
 		vectP.z = (this->x * autre.y) - (autre.x * this->y);
 		return vectP;
 	}
+
+	double angleEntreVecteurs(Vecteur3<T> autre) {
+
+		return SDL_acos(this->produitScalaire(autre) / (this->norme() * autre->norme()));
+
+	}
 };
 
 template<typename T>
