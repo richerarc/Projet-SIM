@@ -4,14 +4,13 @@ class Salle{
 protected:
 	unsigned int ID;
 	unsigned int nbrPortes;
-	Vecteur3d pos;
 	Modele3D modele;
 public:
 	Salle(){}
 	
-	Salle(Vecteur3d Pos, Modele3D modele,unsigned int nbrPorte){
+	Salle(Modele3D modele,unsigned int nbrPorte, int ID){
 		nbrPortes = nbrPorte;
-		pos = Pos;
+		this->ID = ID;
 		this->modele = modele;
 	}
 
@@ -28,11 +27,11 @@ public:
 	}
 
 	Vecteur3d obtPos(){
-		return pos;
+		return modele->obtPosition();
 	}
 
-	void modifPos(Vecteur3d Vecteur){
-		pos = Vecteur;
+	void defPosition(int axeX, int axeY, int axeZ){
+		modele->defPosition(axeX, axeY, axeZ);
 	}
 
 	Modele3D obtModele(){

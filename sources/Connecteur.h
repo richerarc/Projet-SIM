@@ -6,7 +6,7 @@ private:
 public:
 	Connecteur(){}
 	
-	Connecteur(Vecteur3d Pos, Modele3D modele) : public Salle(Pos, modele){}
+	Connecteur(Modele3D modele, int ID) : public Salle(modele, ID){}
  		 
 	
 };

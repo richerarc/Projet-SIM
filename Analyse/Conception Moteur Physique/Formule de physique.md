@@ -1,20 +1,16 @@
 ##Formule de physiques
 
-- Formule de pendule (composé et/ou simple)
-- Formule avec la gravité
+- Formule de pendule (composé et/ou simple)-----------------(fait)
+- Formule avec la gravité-------------------------------------------(fait)
 - Formule trajectoire des profectiles
-- Formules de magnétisme
-- Formule d'un plan
-- Formule indicant de quel côté d'une droite le point est
-- Formule de distance entre deux point
-- Formule de frottement
+- Formules de magnétisme-----------------------------------------(fait)
+- Formule d'un plan--------------------------------------------------(fait)
+- Formule indicant de quel côté d'une droite le point est-----(fait)
+- Formule de distance entre deux point--------------------------(fait)
+- Formule de frottement---------------------------------------------(fait)
 - Formule pour appliquer le vent
 
 ##Détail sur les procédure et fonctions de la classe Physique:
-
-####Vecteur3 obtenirNormalSurface(Vecteur3, Double);
-
-Cette fonction permet d'obtenir la normal d'un face ou d'un groupe de faces. Elle prend un vecteur qui sera la position  du vecteur de la normale et un double qui est le rayon dans lequel on fait nos calculs. Ca ve servir principalement pour les rebonds.
 
 ####Vecteur3 obtenirForceNormal(Double masse, Vecteur3 Position);
 
@@ -39,7 +35,7 @@ Procédure qui applique le vent au vecteur d'un objet en addition de vecteur.
 
 Applique le frottement à un objet lorsqu'il est en collision selon une constante de frottement(identique pour tous les matériaux pour l'instant, donc le bois glisse autant que la glace!) et la force normale.
 
-####Double penduleSimple(Double angleMaximal, Double frequenceAngulaire);
+####Double obtenirAnglePenduleSimple(Double angleMaximal, Double frequenceAngulaire);
 
 Fonction qui retourne l'angle d'un pendule simple selon le temps, son angle maximal et sa fréquence angulaire.
 

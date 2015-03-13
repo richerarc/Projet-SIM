@@ -11,3 +11,5 @@
 3 mars: division des taches: je travail sur l'environnement 2D.
 
 10 mars: presentation des "issues" github. Creation de la classe Gestionnaire 2D
+
+12 mars: Creation de la classe Gestionnaire 3D et tenter d'aider Jessy

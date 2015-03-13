@@ -25,3 +25,9 @@
 `Ven. 06 mars` J'ai changée quelque petit truc dans les classe héritant de Salle et de Contenu. j'ai aussi monter ce qui nous servira à sérialiser les pièces et connecteurs. En plus d'avoir fait un couteau avec blender`4h30`
 
 `Dim. 08 mars` j'ai fait une classe qui permet de mixer des sons, et d'ajouté et de gérer la musique du projet. `2h30`
+
+`Mar. 10 mars` J'ai montré à la classe l'utilisation des "issues" sur Github pour structurer notre travail. Du côté de notre sous-équipe, nous avons terminer l'ensemble des classes de base qui constitue le support pour le génération, et en attendant de pouvoir afficher et positionné des pièce dans l'univers 3D, nous commençons la génération. Pour ceci, j'ai mit Dominique et Damien sur la création d'un programme de "test" qui nous permettra d'afficher en 2D la génération de nos cartes. Nicolas et moi travaillons sur l'algorythme et le générateur. Nous avons aussi établie quelque changement sur la façons de traiter les différentes mise au points discuter avec Patrick. `4h00`
+
+`Mer. 11 mars` J'ai fait quelques modifications dans les classes de Salles, qui ne prendrons plus de positions, mais utiliserons celle comprise dans les modeles 3D. j'ai terminer la fabrique, mais il manque le gestionnaire de ressources de Brandon. `1h00`
+
+`Jeu. 12 mars` J'ai appris la théorie des graphes, et je l'ai appliqué pour le début de notre algorithme de génération. Moi et nico avec travaillé dessus. `6h00`

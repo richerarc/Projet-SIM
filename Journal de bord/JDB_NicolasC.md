@@ -45,3 +45,9 @@
   15h30
   -division des tâches et début des discussions du fonctionnement de l'atribution des liens.
   17h30
+12 mar
+  8h30
+  -gossage pour faire un algorithme de ratio connecteurs/salles (allant de fonciont compliquée à ligne de code       simple).
+  10h00
+  -discussions avec Richer pour l'utilisation de graphes et de matrices pour la génération et création de petits graphes
+  11h45

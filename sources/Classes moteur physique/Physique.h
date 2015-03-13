@@ -23,11 +23,9 @@ public:
 		sensibiliteMagnetique = 0.0072;
 	}
 
-	Vecteur3d obtenirNormaleSurface(Vecteur3d& position, double rayon) {
+	double obtenirForceNormale(double Masse, Vecteur3d& Vitesse, Vecteur3d Normale) {
 
-	}
-
-	double obtenirForceNormale(double masse, Vecteur3d& position) {
+		return masse * gravite * SDL_cos(Vitesse->angleEntreVecteurs(Normale) - 90);
 
 	}
 

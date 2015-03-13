@@ -37,3 +37,7 @@ Mardi 10 mars 2015 ------
 2:30 à 5:30
 
 Nous avons discuté des normes de modélisation et comment se servir des "issues" sur github. Nous avons ensuite séparés nos tâches pour la physique. J'ai travaillé un peu sur le magnétisme avec Gab et sur le diagramme d'états avec Xavier.
+
+Jeudi 12 mars 2015 -----
+
+J'ai ajouté une fonction qui calcule et retourne l'angle entre deux vecteurs. Cela m'a aidé à faire la fonction qui calcule la force normale qu'un objet reçoit de la surface. Minis modifs sur le diagramme de classe et les documents de physique.

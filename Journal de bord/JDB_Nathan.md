@@ -44,3 +44,22 @@ avec l'aide de Fabien (étudiant en musique) pour les instruments d'enregistremen
 Création des classes Plan et Droite pour les classes de physique. Je n'ai pas encore pu les tester 
 et il y a surement possibilité de les améliorer.
 
+9 mars
+
+-environ 45 minutes
+Discution avec le prof de physique Charles Naaman pour trouver une formule utilisable pour le magnétisme. On est arrivé avec une formule utilisable en 2D, 
+une deuxième discution est necessaire pour une formule en 3D.
+
+10 mars
+
+-environ 10 minutes
+Réglage des problèmes de la classe Plan
+
+-environ 1 heure
+Discution avec l'équipe de physique sur les collisions et la friction, 
+et détermination de ceux qui travailleront sur les collision et la friction. Discution sur les formules qu'on va devoir utiliser.
+
+
+
+
+
