@@ -2,7 +2,7 @@
 #include <map>
 #include <tuple>
 #include <list>
-#include "Model3D.h"
+#include "Modele3D.h"
 #include "Contenu.h"
 #include "Porte.h"
 #include "Salle.h"
