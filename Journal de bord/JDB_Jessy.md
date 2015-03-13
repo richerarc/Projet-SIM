@@ -49,3 +49,6 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 -Modification de Sprite2D
 -Continuer le afficher de la classe Objet2D
 -Tester le afficher, ne marche pas
+
+12 mars de 10h à 12h:
+-J'ai continuer le afficher de la classe Objet2D, maintenant il m'affiche un rectangle blanc c'est un premier pas vers la gloire.
