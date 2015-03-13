@@ -53,6 +53,9 @@ namespace graphe{
 		Graphe(int nbrSommet){
 			nombreSommet = nbrSommet;
 			matrice = new int[nbrSommet * nbrSommet];
+			for (int i = 0; i < nbrSommet * nbrSommet; i++){
+				matrice[i] = 0;
+			}
 			sommetsMarques = new int[nbrSommet]();
 			for (int i = 0; i < nbrSommet; i++){
 				sommetsMarques[i] = 0;
