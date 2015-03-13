@@ -37,7 +37,7 @@ namespace graphe{
 			matrice[(indice * nombreSommet) + indiceTemp]++;
 			matrice[(indiceTemp * nombreSommet) + indice]++;
 			if (niveau < nbrSommetParArbre){
-				if ((sommetsMarques[indice] < 8) || (rand() % 2)){
+				if ((sommetsMarques[indice] >= 4) || (rand() %2)){
 					creerArbre(indiceTemp, ++niveau);
 				}
 				else{
