@@ -29,3 +29,5 @@
 `Mar. 10 mars` J'ai montré à la classe l'utilisation des "issues" sur Github pour structurer notre travail. Du côté de notre sous-équipe, nous avons terminer l'ensemble des classes de base qui constitue le support pour le génération, et en attendant de pouvoir afficher et positionné des pièce dans l'univers 3D, nous commençons la génération. Pour ceci, j'ai mit Dominique et Damien sur la création d'un programme de "test" qui nous permettra d'afficher en 2D la génération de nos cartes. Nicolas et moi travaillons sur l'algorythme et le générateur. Nous avons aussi établie quelque changement sur la façons de traiter les différentes mise au points discuter avec Patrick. `4h00`
 
 `Mer. 11 mars` J'ai fait quelques modifications dans les classes de Salles, qui ne prendrons plus de positions, mais utiliserons celle comprise dans les modeles 3D. j'ai terminer la fabrique, mais il manque le gestionnaire de ressources de Brandon. `1h00`
+
+`Jeu. 12 mars` J'ai appris la théorie des graphes, et je l'ai appliqué pour le début de notre algorithme de génération. Moi et nico avec travaillé dessus. `6h00`
