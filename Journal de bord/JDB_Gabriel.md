@@ -87,3 +87,18 @@ Nous avons discuté en groupe de l'utilisation de github (les issues) et des son
 Nous nous sommes ensuite distribué les diverses tâches reliées à la physique, j'ai reçus le mandat de travailler sur le magnétisme. J'avais déjà avancé le sujet, il ne me restait plus qu'à l'appliquer à l'ordinateur. En normalisant mon vecteur que je créais avec la distance entre l'objet et l'aimant, comme tu m'as conseillé et avec d'autres ajustements, j'ai pu arrivé à un calcul plus que satisfaisant. J'ai ajouté le tout à la classe Physique. Je vais retourné voir mon professeur de physique avec mon programme pour être sur que le résultat est valide.
 
 J'ai aussi fait une modification à la classe vecteur par l'ajout d'un opération qui multiplie le vecteur en mémoire par un autre.
+
+### 12 mars 2015
+
+Avec l'accord de mes coéquippiers, j'ai commencé à travailler sur l'application du vent sur un objet dans le jeu. J'ai tout d'abord été cherché la formule requise et je l'ai compris du mieux que j'ai pu pour ensuite voir comment je pourrais l'adaptée au code. Tout d'abord, selon ce tableau :
+
+http://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Drag-fr.svg/220px-Drag-fr.svg.png
+
+Il semble que plus l'objet est courbé, plus le coefficient de trainée est petit. Donc je me suis vite rendu compte que je devrai me servir des normales pour faire une somme de tous les angles entre le vecteur du vent et la normale qui sont plus petit que 90 (négatif jusqu'à -90). Je diviserai ensuite le résultat par le nombre de face touchées par le vent. Ainsi le coefficient ne devrait pas dépaser 1(en radian) et une surface planne me donnera 1, comme le cube dans le tableau. Pour ce qui est de la surface, à chaque fois qu'un angle est plus petit que 90, cela implique que le vent applique une force sur la surface donc j'additionne toutes les surfaces poussées.
+
+J'ai travaillé à le mettre en code, je crois être dans la bonne voie.
+J'ai aussi aidé mes coéquippiers dans ce qu'ils avaient à faire.
+
+### 13 mars 2015
+
+Après avoir fini de mettre le tout en code, je me suis rendu compte que je n'avais pas à utiliser le arccos pour voir mon angle entre 90 et -90, après avoir fais quelque calculs dans les quatres quadrants d'un angle, le vent ne pouvait avoir un impacte que quand l'angle était plus petit que 0 (négatif jusqu'à 1). J'ai aussi testé le tout avec les diverses forme du tableau que j'ai lié un peu plus haut et, par exemple, pour une sphère, mon coefficient était de 0.43. Considérant le nombre limité de faces, je suis très satisfait du résultat! J'ai push ma procédure dans notre classe physique.

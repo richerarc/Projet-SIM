@@ -33,8 +33,62 @@ public:
 		vecteurVitesseObjet.y -= gravite;
 	}
 
-	void appliquerVent(Vecteur3d& VecteurVitesseObjet) {
-	
+	void AppliquerVent(Vecteur3d vecteurVitesseVent, float tableauNormales[], unsigned int nombreFace, float tableauVertices[], Vecteur3d& vecteurVitesseObjet, double& masseObjet) {
+
+		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
+
+		double coefficientTrainer = 0;
+		double surface = 0;
+
+		nombreFace *= 3;
+
+		unsigned int nombreFaceSousPression = 0;
+
+		for (unsigned int parcoursFace = 0; parcoursFace < nombreFace;) {
+			Vecteur3d vecteurNormale = { (tableauNormales[parcoursFace] + tableauNormales[parcoursFace + 3] + tableauNormales[parcoursFace + 6]) / 3,
+				(tableauNormales[parcoursFace + 1] + tableauNormales[parcoursFace + 4] + tableauNormales[parcoursFace + 7]) / 3,
+				(tableauNormales[parcoursFace + 2] + tableauNormales[parcoursFace + 5] + tableauNormales[parcoursFace + 8]) / 3 };
+
+			double angleEntreVecteursVentNormale = (vecteurVitesseVent.produitScalaire(vecteurNormale)) / (vecteurVitesseVent.norme() * vecteurNormale.norme());
+			if (angleEntreVecteursVentNormale < 0) {
+				coefficientTrainer += abs(angleEntreVecteursVentNormale);
+				// Calcul de la surface selon la formule d'héron:
+
+				// a : Point 1 à point 2;
+				double a = sqrt(pow(tableauVertices[parcoursFace] - tableauVertices[parcoursFace + 3], 2) +
+					pow(tableauVertices[parcoursFace + 1] - tableauVertices[parcoursFace + 4], 2) +
+					pow(tableauVertices[parcoursFace + 2] - tableauVertices[parcoursFace + 5], 2));
+
+				// a : Point 1 à point 3;
+				double b = sqrt(pow(tableauVertices[parcoursFace] - tableauVertices[parcoursFace + 6], 2) +
+					pow(tableauVertices[parcoursFace + 1] - tableauVertices[parcoursFace + 7], 2) +
+					pow(tableauVertices[parcoursFace + 2] - tableauVertices[parcoursFace + 8], 2));
+
+				// a : Point 2 à point 3;
+				double c = sqrt(pow(tableauVertices[parcoursFace + 3] - tableauVertices[parcoursFace + 6], 2) +
+					pow(tableauVertices[parcoursFace + 4] - tableauVertices[parcoursFace + 7], 2) +
+					pow(tableauVertices[parcoursFace + 5] - tableauVertices[parcoursFace + 8], 2));
+
+				// Demi-périmètre;
+				double s = 0.5 * (a + b + c);
+
+				surface += sqrt(s*(s - a)*(s - b)*(s - c));
+				nombreFaceSousPression++;
+
+			}
+			parcoursFace += 9;
+		}
+
+		coefficientTrainer /= nombreFaceSousPression;
+
+		accelerationSelonForceVent *= (coefficientTrainer * surface / masseObjet);
+
+		vecteurVitesseVent.normaliser();
+
+		// Nécéssite l'ajout d'un division par le temps...
+		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
+
+		vecteurVitesseObjet += vecteurVitesseAppliquer;
 	}
 	
 	void appliquerFrottement(Objet& objet) {
