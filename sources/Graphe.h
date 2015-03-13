@@ -34,8 +34,8 @@ namespace graphe{
 			sommetsMarques[indice]++;
 			int indiceTemp = obtIndiceAleatioreNonMarque();
 			sommetsMarques[indiceTemp]++;
-			matrice[(indice * 36) + indiceTemp]++;
-			matrice[(indiceTemp * 36) + indice]++;
+			matrice[(indice * nombreSommet) + indiceTemp]++;
+			matrice[(indiceTemp * nombreSommet) + indice]++;
 			if (niveau < nbrSommetParArbre){
 				if ((sommetsMarques[indice] < 8) || (rand() % 2)){
 					creerArbre(indiceTemp, ++niveau);
@@ -71,7 +71,7 @@ namespace graphe{
 		int degreEntrant(int indice){
 			int ittCompte = 0;
 			for(int i = 0; i < nombreSommet; i++){
-				if (matrice[(indice * 36) + i])
+				if (matrice[(indice * nombreSommet) + i])
 					ittCompte++;
 			}
 			return ittCompte;
@@ -79,7 +79,7 @@ namespace graphe{
 		int degreSortant(int indice){
 			int ittCompte = 0;
 			for(int i = 0; i < nombreSommet; i++){
-				if (matrice[(i * 36) + indice])
+				if (matrice[(i * nombreSommet) + indice])
 					ittCompte++;
 			}
 			return ittCompte;
