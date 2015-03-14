@@ -18,7 +18,7 @@ public:
 	Physique() {
 		temps.partir();
 		constanteDeFriction = 0.5;
-		gravite = 9.8;
+		gravite = -9.8;
 		champsMagnetique = 4;
 		sensibiliteMagnetique = 0.0072;
 	}
@@ -30,7 +30,7 @@ public:
 	}
 
 	void appliquerGravite(Vecteur3d& vecteurVitesseObjet) {
-		vecteurVitesseObjet.y -= gravite;
+		vecteurVitesseObjet.y += gravite;
 	}
 
 	void AppliquerVent(Vecteur3d vecteurVitesseVent, float tableauNormales[], unsigned int nombreFace, float tableauVertices[], Vecteur3d& vecteurVitesseObjet, double& masseObjet) {
@@ -44,15 +44,21 @@ public:
 
 		unsigned int nombreFaceSousPression = 0;
 
+		// Boucle sur toutes les faces de l'objet
 		for (unsigned int parcoursFace = 0; parcoursFace < nombreFace;) {
+
+			// Vecteur normal de la face selon une moyenne de ceux des vertices.
 			Vecteur3d vecteurNormale = { (tableauNormales[parcoursFace] + tableauNormales[parcoursFace + 3] + tableauNormales[parcoursFace + 6]) / 3,
 				(tableauNormales[parcoursFace + 1] + tableauNormales[parcoursFace + 4] + tableauNormales[parcoursFace + 7]) / 3,
 				(tableauNormales[parcoursFace + 2] + tableauNormales[parcoursFace + 5] + tableauNormales[parcoursFace + 8]) / 3 };
 
 			double angleEntreVecteursVentNormale = (vecteurVitesseVent.produitScalaire(vecteurNormale)) / (vecteurVitesseVent.norme() * vecteurNormale.norme());
+
+			// Si l'angle entre le vecteur normal et le vecteur du vent est négatif
 			if (angleEntreVecteursVentNormale < 0) {
+
 				coefficientTrainer += abs(angleEntreVecteursVentNormale);
-				// Calcul de la surface selon la formule d'héron:
+				// Calcul de la surface selon la formule d'héron: sqrt(s(s-a)(s-b)(s-c))
 
 				// a : Point 1 à point 2;
 				double a = sqrt(pow(tableauVertices[parcoursFace] - tableauVertices[parcoursFace + 3], 2) +
@@ -73,16 +79,19 @@ public:
 				double s = 0.5 * (a + b + c);
 
 				surface += sqrt(s*(s - a)*(s - b)*(s - c));
+
 				nombreFaceSousPression++;
 
 			}
-			parcoursFace += 9;
+			parcoursFace += 9; // Prochaine face(3vertice*xyz)
 		}
 
 		coefficientTrainer /= nombreFaceSousPression;
 
+		// Fin du calcul...
 		accelerationSelonForceVent *= (coefficientTrainer * surface / masseObjet);
 
+		// Mise en proportion pour l'addition...
 		vecteurVitesseVent.normaliser();
 
 		// Nécéssite l'ajout d'un division par le temps...
@@ -96,10 +105,10 @@ public:
 	}
 
 	// Procédure qui applique la force d'attraction magnétique sur un objet
-	//(La force du champs et la sensibilité magnétique de l'objet sont constant).
+	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
 	void appliquerMagnetisme(double& masseObjet, Vecteur3d& positionObjet, Vecteur3d& vecteurVitesseObjet, Vecteur3d& positionAimant) {
 
-	double distanceObjetAimant = sqrt(pow(positionAimant.x - positionObjet.x, 2) + pow(positionAimant.y - positionObjet.y, 2) + pow(positionAimant.z - positionObjet.z, 2));
+	double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, positionObjet);
 	double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (masseObjet * distanceObjetAimant);
 
 	Vecteur3d vecteurProportionnel = { positionAimant.x - positionObjet.x, positionAimant.y - positionObjet.y, positionAimant.z - positionObjet.z };
@@ -118,7 +127,6 @@ public:
 	}
 
 	double distanceEntreDeuxPoints(Vecteur3d& point1, Vecteur3d& point2) {
-		point1.normaliser();
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
 
