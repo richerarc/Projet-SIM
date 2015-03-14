@@ -31,3 +31,5 @@
 `Mer. 11 mars` J'ai fait quelques modifications dans les classes de Salles, qui ne prendrons plus de positions, mais utiliserons celle comprise dans les modeles 3D. j'ai terminer la fabrique, mais il manque le gestionnaire de ressources de Brandon. `1h00`
 
 `Jeu. 12 mars` J'ai appris la théorie des graphes, et je l'ai appliqué pour le début de notre algorithme de génération. Moi et nico avec travaillé dessus. `6h00`
+
+`Ven. 13 mars` J'ai fini de corriger les classe de graphe. il ne manque que l'ajout de sous arbre prédéfinie. `1h00`
