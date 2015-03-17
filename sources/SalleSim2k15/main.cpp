@@ -22,16 +22,16 @@ bool labyrinthe[8][8] = { { 0, 1, 0, 0, 0, 0, 0, 0 },
 Salle* salles[8];
 
 void lectureTableau(SDL_Renderer* renderer){
-	for (int i = 0; i < 8;){
-		
+	for (int i = 0; i < 8; i++){
 		int nbrEntree = 0;
-		for (int j = 0; j < 8;j++){
-			if (labyrinthe[i][j] == true){
+		for (int x = 0; x < 8; x++){
+			if (labyrinthe[x][i] == true){
 				nbrEntree++;
 			}
+
 		}
 		salles[i] = new Salle(renderer, true, i, i, nbrEntree);
-		i++;
+
 	}
 }
 
@@ -43,7 +43,7 @@ void dessinerLabyrinthe(SDL_Renderer* renderer){
 				if (y == x){
 					if (labyrinthe[i][i] == true){
 						salles[i]->lierAvec(salles[i], true, 0, 1);
-						
+
 					}
 				}
 				else {
@@ -51,14 +51,14 @@ void dessinerLabyrinthe(SDL_Renderer* renderer){
 						if (labyrinthe[x][y] == true){
 							salles[i]->lierAvec(salles[x], true, porte, porte);
 							porte++;
-							SDL_RenderPresent(renderer);
+							porte = porte % 4;
 						}
 					}
 					else{
 						if (labyrinthe[x][y] == true){
-							salles[i]->lierAvec(salles[i - 1], true, porte, porte);
+							salles[i]->lierAvec(salles[x], true, porte, porte);
 							porte++;
-							SDL_RenderPresent(renderer);
+							porte = porte % 4;
 						}
 					}
 				}
