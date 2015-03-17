@@ -1,14 +1,14 @@
 #pragma once
 #include "Contenu.h"
 
-class Porte : public Contenu{
+class Porte : public Objet{
 private:
 	bool sortable;
 	bool verrouillee;
 public:
 	Porte(){}
 	
-	Porte(Vecteur3d positionDepart, Modele3D modele, unsigned int identifiant, bool sortie, bool verrou) : Contenu(positionDepart, modele, ID){
+	Porte(Modele3D modele, unsigned int ID, char* materiaux, double masse, bool sortie, bool verrou) : Objet(modele, ID, materiaux, masse){
 		sortable = sortie;
 		verrouillee = verrou;
 	}
