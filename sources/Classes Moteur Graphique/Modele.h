@@ -20,7 +20,7 @@ namespace gfx{
 		Modele(){}
 
 		Modele(const char* chemin){
-			Charger(chemin);
+			charger(chemin);
 		}
 
 		~Modele(){
@@ -32,7 +32,7 @@ namespace gfx{
 				delete normales;
 		}
 
-		bool Charger(const char* chemin){
+		bool charger(const char* chemin){
 			std::ifstream Fichier(chemin);
 			if (Fichier.is_open()){
 				char *X = new char(), *Y = new char(), *Z = new char(), *temp = new char();
