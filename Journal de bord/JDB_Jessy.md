@@ -57,3 +57,6 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 -J'arrive désormais a afficher une texture 2D mais j'ai des problemes avec l'affichage du texte
 -J'ai coder les fonctions pour mettre la texture à l'echelle et l'afficher de façon à ce que la position donnée soit celle de son origine au lieu d'un sommet.
 -Je l'ai fais avec des floats pour le moment car jai de petits problèmes techniques avec les classes vecteurs
+
+17 mars de 2h à 17h15:
+-J'ai continué l'environnement 2D , en particulier l'affichage, les rotations, l'origines etc.
