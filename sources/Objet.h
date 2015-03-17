@@ -8,8 +8,8 @@ protected:
 	double masse;
 	Vecteur3d vitesse;
 public:
-	Contenu(){}
-	Contenu(Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse){
+	Objet(){}
+	Objet(Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
