@@ -39,4 +39,4 @@
 #Mardi 17 mars 2015 (14:40 à 16:32)
 	Créaion des classes ObjetFixe et ObjetPhysique ainsi que l'UMLObjet.
 	Modification de la classe Objet.
-	Création de la classe SourceMagnetique.
+	Création de la classe SourceMagnetique. 
