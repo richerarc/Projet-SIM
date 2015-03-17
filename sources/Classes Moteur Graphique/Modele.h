@@ -1,4 +1,10 @@
 #pragma once
+#include "Vecteur3.h"
+#include "Maths.h"
+
+#include <fstream>
+#include <queue>
+
 namespace gfx{
 	class Modele{
 	private:
