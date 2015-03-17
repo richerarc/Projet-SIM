@@ -1,5 +1,6 @@
 #pragma once
-
+#include "Vecteur3.h"
+namespace gfx{
 class Objet3D{
 private:
 	Vecteur3f position;
@@ -81,3 +82,4 @@ public:
 	virtual void afficher() = 0;
 
 };
+}
