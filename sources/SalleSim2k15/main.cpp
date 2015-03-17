@@ -10,36 +10,64 @@ bool ouvert = true;
 //3<->4
 //4<->7
 
+int nbrSalles = 15;
+int nbrSallesParRangee = nbrSalles / 10 + 1;
 
-bool labyrinthe[8][8] = { { 0, 1, 0, 0, 0, 0, 0, 0 },
-{ 1, 0, 0, 1, 0, 0, 0, 0 },
-{ 0, 1, 0, 0, 0, 0, 0, 0 },
-{ 0, 1, 0, 0, 1, 0, 0, 0 },
-{ 0, 0, 0, 1, 0, 0, 0, 1 },
-{ 0, 0, 0, 0, 0, 0, 0, 0 },
-{ 0, 0, 0, 0, 0, 0, 0, 0 },
-{ 0, 0, 0, 0, 1, 0, 0, 0 } };
+bool labyrinthe[15][15] = {
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+	{ 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+
+	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+};
 Salle* salles[8];
 
 void lectureTableau(SDL_Renderer* renderer){
-	for (int i = 0; i < 8; i++){
+	int X = 0;
+	int Y = 0;
+	for (int i = 0; i < nbrSalles;i++){
 		int nbrEntree = 0;
-		for (int x = 0; x < 8; x++){
+		for (int x = 0; x < nbrSalles; x++){
 			if (labyrinthe[x][i] == true){
 				nbrEntree++;
 			}
 
 		}
-		salles[i] = new Salle(renderer, true, i, i, nbrEntree);
-
+		/*
+		
+		salles[i] = new Salle(renderer, true, X, y, nbrEntree);
+		X = (X + 10/nbrSallesParRangee);
+		if (X >= 9){
+			X = 0;
+			y++;
+		}
+		*/
+		salles[i] = new Salle(renderer, true, X, Y, nbrEntree);
+		X = X + 2;
+		if (X >= 10){
+			Y++;
+			X = 0;
+		}
 	}
 }
 
 void dessinerLabyrinthe(SDL_Renderer* renderer){
-	for (int i = 0; i < 8;){
+	for (int i = 0; i < nbrSalles;){
 		int porte = 0;
-		for (int y = 0; y < 8; y++){
-			for (int x = 0; x < 8; x++){
+		for (int y = 0; y < nbrSalles; y++){
+			for (int x = 0; x < nbrSalles; x++){
 				if (y == x){
 					if (labyrinthe[i][i] == true){
 						salles[i]->lierAvec(salles[i], true, 0, 1);
@@ -90,7 +118,7 @@ int main(int argc, char** argv){
 			}
 		}
 		//Algorythme ici
-		for (int i = 0; i < 8; i++){
+		for (int i = 0; i < nbrSalles; i++){
 			salles[i]->dessinerSalle();
 		}
 		dessinerLabyrinthe(m_pSDLRenderer);
