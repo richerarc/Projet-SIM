@@ -25,7 +25,7 @@ public:
 	}
 
 	static float radianADegre(float radian){
-		return ((radan * 180) / MATHS_PI);
+		return ((radian * 180) / MATHS_PI);
 	}
 
 };
