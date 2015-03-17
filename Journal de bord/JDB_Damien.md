@@ -36,3 +36,7 @@
 #Mercredi 11 mars 2015 (19:00 à 21:15)
 	Création de la classe Salle.h et modification du main de SalleSim2k15
 	Also...kitty 
+#Mardi 17 mars 2015 (14:40 à 16:32)
+	Créaion des classes ObjetFixe et ObjetPhysique ainsi que l'UMLObjet.
+	Modification de la classe Objet.
+	Création de la classe SourceMagnetique.
