@@ -11,6 +11,7 @@ private:
 	double constanteDeFriction;
 	double champsMagnetique;
 	double sensibiliteMagnetique;
+	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
 	void trouverPointFace(unsigned int numeroFace, Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, float* tabVertices) {
@@ -67,6 +68,18 @@ public:
 		gravite = -9.8;
 		champsMagnetique = 4;
 		sensibiliteMagnetique = 0.0072;
+
+		// Ajout des coefficients de restitution des différents matériaux
+		mapRestitution["metal"] = 0.9;
+		mapRestitution["bois"] = 0.5;
+		mapRestitution["plastic"] = 0.68;
+	}
+
+	void RebondObjetCarte(Objet3D& objet1, Vecteur3d vecteurNormal) {
+
+		double dScalaire = mapRestitution[objet1.obtMateriel()] * 2 * objet1.obtVitesse().produitScalaire(vecteurNormal);
+		objet1.obtVitesse() -= vecteurNormal * dScalaire;
+
 	}
 
 	double obtenirForceNormale(double Masse, Vecteur3d& Vitesse, Vecteur3d Normale) {
