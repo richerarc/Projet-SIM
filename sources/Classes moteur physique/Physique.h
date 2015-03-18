@@ -11,59 +11,14 @@ private:
 	double constanteDeFriction;
 	double champsMagnetique;
 	double sensibiliteMagnetique;
+	float frametime;
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
-	void trouverPointFace(unsigned int numeroFace, Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, float* tabVertices) {
-
-        	for (int j = 0; j < 3; j++) {
-           		switch (j) {
-
-            	case 0:
-                	point1 = { tabVertices[(j + numeroFace)  3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
-                	break;
-
-            	case 1:
-                	point2 = { tabVertices[(j + numeroFace) * 3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
-                	break;
-
-           	 case 2:
-                	point3 = { tabVertices[(j + numeroFace) * 3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
-               		break;
-            		}
-        	}
-    	}
-
-    	bool collisionDroiteModele(gfx::Modele& modele, Droite& rayonCollision, Vecteur3d& pointCollision) {
-
-        	double resultat1, resultat2, resultat3;
-        	Vecteur3d point1;
-       		Vecteur3d point2;
-        	Vecteur3d point3;
-
-        	for (unsigned int Nbrface = 0; Nbrface <  modele.obtNbrFaces(); Nbrface++) {
-
-           		trouverPointFace(Nbrface, point1, point2, point3, modele.obtVertices());
-            		plan.calculerPlan(point1, point2, point3);
-           		pointCollision = plan.insertionDroitePlan(rayonCollision);
-
-            		if (pointCollision != NULL) {
-
-                		resultat1 = positionPointDroite(point1, point2, pointCollision, plan.obtenirNormale);
-                		resultat2 = positionPointDroite(point2, point3, pointCollision, plan.obtenirNormale);
-                		resultat3 = positionPointDroite(point3, point1, pointCollision, plan.obtenirNormale);
-
-                		if ((resultat1 == 0 || resultat2 == 0 || resultat3 == 0)|| (resultat1 < 0 && resultat2 < 0 && resultat3 < 0) || (resultat1 > 0 && resultat2 > 0 && resultat3 > 0))
-                    			return true;
-            		}
-        	}
-       		return false;
-    	}
-	
 public:
 
 	Physique() {
-		temps.partir();
+		frametime = temps.repartir().enSecondes();
 		constanteDeFriction = 0.5;
 		gravite = -9.8;
 		champsMagnetique = 4;
@@ -75,21 +30,24 @@ public:
 		mapRestitution["plastic"] = 0.68;
 	}
 
-	void RebondObjetCarte(Objet3D& objet1, Vecteur3d vecteurNormal) {
+	void repartirTemps() {
+		frametime = temps.repartir().enSecondes();
+	}
+
+	
+	void RebondObjetCarte(gfx::Modele3D& objet1, Vecteur3d vecteurNormal) {
 
 		double dScalaire = mapRestitution[objet1.obtMateriel()] * 2 * objet1.obtVitesse().produitScalaire(vecteurNormal);
 		objet1.obtVitesse() -= vecteurNormal * dScalaire;
+	}
+	
+	double obtenirForceNormale(double masse, Vecteur3d& vitesse, Vecteur3d normale) {
 
+		return masse * gravite * SDL_cos(vitesse.angleEntreVecteurs(normale) - 90);
 	}
 
-	double obtenirForceNormale(double Masse, Vecteur3d& Vitesse, Vecteur3d Normale) {
-
-		return masse * gravite * SDL_cos(Vitesse->angleEntreVecteurs(Normale) - 90);
-
-	}
-
-	void appliquerGravite(Vecteur3d& vecteurVitesseObjet) {
-		vecteurVitesseObjet.y += gravite;
+	void appliquerGravite(Vecteur3d &vecteurVitesseObjet) {
+		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
 	void AppliquerVent(Vecteur3d vecteurVitesseVent, float tableauNormales[], unsigned int nombreFace, float tableauVertices[], Vecteur3d& vecteurVitesseObjet, double& masseObjet) {
@@ -156,13 +114,14 @@ public:
 		// Nécéssite l'ajout d'un division par le temps...
 		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
 
-		vecteurVitesseObjet += vecteurVitesseAppliquer;
+		vecteurVitesseObjet += vecteurVitesseAppliquer * frametime;
 	}
 	
-	void appliquerFrottement(Objet& objet) {
-		objet.vecteurVitesse -= constanteDeFriction * obtenirForceNormale(objet.masse, objet.vecteurPosition);
+	// MANQUE LA NORMALE
+	void appliquerFrottement(gfx::Modele3D& objet) {
+		//objet.obtVitesse().soustraire(constanteDeFriction * obtenirForceNormale(objet.obtMasse(), objet.obtPosition()));
 	}
-
+	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
 	void appliquerMagnetisme(double& masseObjet, Vecteur3d& positionObjet, Vecteur3d& vecteurVitesseObjet, Vecteur3d& positionAimant) {
@@ -177,19 +136,19 @@ public:
 
 	vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
 
-	vecteurVitesseObjet += vecteurAcceleration;
+	vecteurVitesseObjet += vecteurAcceleration * frametime;
 
 	}
 	
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega) {
-		return angleMaximal * SDL_cos(omega * temps.obtenirTemps());
+		return angleMaximal * SDL_cos(omega * frametime);
 	}
 
 	double distanceEntreDeuxPoints(Vecteur3d& point1, Vecteur3d& point2) {
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
 
-	double positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point, Vecteur3D& normale) {
+	double positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point, Vecteur3d& normale) {
 		
 		normale.normaliser();
 
