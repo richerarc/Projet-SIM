@@ -25,11 +25,11 @@ namespace gfx{
 
 		~Modele(){
 			if (vertices)
-				delete vertices;
+				delete[] vertices;
 			if (textures)
-				delete textures;
+				delete[] textures;
 			if (normales)
-				delete normales;
+				delete[] normales;
 		}
 
 		bool charger(const char* chemin){

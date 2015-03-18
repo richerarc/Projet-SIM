@@ -73,6 +73,7 @@ namespace gfx{
 		Modele3D(Modele &modele, Texture &texture): Objet3D() {
 			this->modele = modele;
 			this->texture = texture;
+			echelle = Vecteur3f(1, 1, 1);
 		}
 
 		~Modele3D(){}
