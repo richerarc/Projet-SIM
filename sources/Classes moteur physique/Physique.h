@@ -3,6 +3,8 @@
 #include "Singleton.h"
 #include "Vecteur3.h"
 #include "Chrono.h"
+#include "Droite.h"
+#include "Plan.h"
 
 class Physique : public Singleton<Physique>{
 private:
@@ -14,6 +16,52 @@ private:
 	float frametime;
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
+
+	void trouverPointFace(unsigned int numeroFace, Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, float* tabVertices) {
+
+        	for (int j = 0; j < 3; j++) {
+            		switch (j) {
+
+            	case 0:
+                	point1 = { tabVertices[(j + numeroFace)  3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
+                	break;
+
+           	 case 1:
+               	 	point2 = { tabVertices[(j + numeroFace) * 3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
+               		break;
+
+            	case 2:
+                	point3 = { tabVertices[(j + numeroFace) * 3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
+               		break;
+            		}
+        	}
+   	}
+
+    	bool collisionDroiteModele(gfx::Modele& modele, Droite& rayonCollision, Vecteur3d& pointCollision) {
+
+        	double resultat1, resultat2, resultat3;
+       		Vecteur3d point1;
+        	Vecteur3d point2;
+        	Vecteur3d point3;
+
+        	for (unsigned int Nbrface = 0; Nbrface <  modele.obtNbrFaces(); Nbrface++) {
+
+            		trouverPointFace(Nbrface, point1, point2, point3, modele.obtVertices());
+           	 	plan.calculerPlan(point1, point2, point3);
+            		pointCollision = plan.insertionDroitePlan(rayonCollision);
+
+            		if (pointCollision != NULL) {
+
+                		resultat1 = positionPointDroite(point1, point2, pointCollision, plan.obtenirNormale);
+                		resultat2 = positionPointDroite(point2, point3, pointCollision, plan.obtenirNormale);
+                		resultat3 = positionPointDroite(point3, point1, pointCollision, plan.obtenirNormale);
+
+                	if ((resultat1 == 0 || resultat2 == 0 || resultat3 == 0)|| (resultat1 < 0 && resultat2 < 0 && resultat3 < 0) || (resultat1 > 0 && resultat2 > 0 && resultat3 > 0))
+                    		return true;
+            		}
+        	}
+        	return false;
+    	}
 
 public:
 
