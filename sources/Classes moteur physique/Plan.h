@@ -42,7 +42,7 @@ public:
 	}
 
 	double obtenirAnglePlan() {
-		return acos(normale.y / (normal.norme()));
+		return acos(normale.y / (normale.norme()));
 	}
 
 	Vecteur3d obtenirNormale() {

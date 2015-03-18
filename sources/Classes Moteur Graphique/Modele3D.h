@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 #include <SDL2/SDL_opengl.h>
-
 #include "Vecteur3.h"
 #include "Maths.h"
 #include "Modele.h"
@@ -17,7 +16,7 @@ namespace gfx{
 		Modele modele;
 		Texture texture;
 		Vecteur3f boiteDeCollision[8];
-
+		Vecteur3f echelle;
 		void calculerBoiteDeCollision(){
 			std::vector<float> tmpX;
 			std::vector<float> tmpY;
