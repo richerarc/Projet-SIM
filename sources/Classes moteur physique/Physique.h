@@ -76,6 +76,7 @@ public:
 		mapRestitution["metal"] = 0.9;
 		mapRestitution["bois"] = 0.5;
 		mapRestitution["plastic"] = 0.68;
+		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
 	void repartirTemps() {
@@ -85,7 +86,7 @@ public:
 	
 	void RebondObjetCarte(gfx::Modele3D& objet1, Vecteur3d vecteurNormal) {
 
-		double dScalaire = mapRestitution[objet1.obtMateriel()] * 2 * objet1.obtVitesse().produitScalaire(vecteurNormal);
+		double dScalaire = (2 - mapRestitution[objet1.obtMateriel()]) * objet1.obtVitesse().produitScalaire(vecteurNormal);
 		objet1.obtVitesse() -= vecteurNormal * dScalaire;
 	}
 	
