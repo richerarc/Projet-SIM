@@ -84,3 +84,17 @@ Aujourd'hui j'ai pousser un peu Diego pour l'aider a repartir la machine. Nous a
 ###**`12 mars 2015`**
 
 J'ai avancer et corriger quelques classes, brandon et moi avons fait l'affichege des textures. J'ai également ajouter le gestionaire de ressources dans le projet. Les classes 3D semblent etre en voie d'etre complétées.
+
+**Temps 2h**
+
+###**`17 mars 2015`**
+
+J'ai configurer mon nouveau poste de travail, puis j'ai parler à Brandon pour l'affichage 3D ainsi que les différentes transformations. J'ai parler a Patrick pour les matrices de transformation d'OPENGL. Les sommets seront ainsi modifiés a chaque transformation pour faciliter la tache du groupe de physique.
+
+**Temps 3h**
+
+###**`18 mars2015`**
+
+À la demande de Brandon, ce matin j'ai coder la base de la classe Camera. Ce soir j'ai modifié le calcul de la rotation de la boite de colision. J'ai également fait en sorte que la rotation se fasse en fonction de l'origine de l'objet. Je devrai avoir une discission a propos de cet fonction avec Brandon demain. Les deux gestionaires(2D et 3D) seront a vérifier car ils ne sont pas au point.
+
+**Temps 4h** 
