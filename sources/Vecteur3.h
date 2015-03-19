@@ -46,6 +46,12 @@ public:
 		z *= scalaire;
 	}
 
+	void soustraire(T scalaire) {
+		x -= scalaire;
+		y -= scalaire;
+		y -= scalaire;
+	}
+
 	void prodruitParUnVecteur(Vecteur3<T>& autre) {
 		x *= autre.x;
 		y *= autre.y;
@@ -66,7 +72,7 @@ public:
 
 	double angleEntreVecteurs(Vecteur3<T> autre) {
 
-		return SDL_acos(this->produitScalaire(autre) / (this->norme() * autre->norme()));
+		return acos(this->produitScalaire(autre) / (this->norme() * autre->norme()));
 
 	}
 };
