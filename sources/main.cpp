@@ -13,7 +13,7 @@
 #include "Jeu.h"
 
 int main(int argc, char* argv[]){
-	
+	//Lenny McThrust is watching you
 	Jeu::demarrer();
 	return 0;
 }
