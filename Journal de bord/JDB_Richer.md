@@ -33,3 +33,5 @@
 `Jeu. 12 mars` J'ai appris la théorie des graphes, et je l'ai appliqué pour le début de notre algorithme de génération. Moi et nico avec travaillé dessus. `6h00`
 
 `Ven. 13 mars` J'ai fini de corriger les classe de graphe. il ne manque que l'ajout de sous arbre prédéfinie. `1h00`
+
+`Mar. 16 mars` Moi et Nico avons travaillé sur l'agorithme de génération de graphe. Il devrait bientôt être terminé. `3h40`

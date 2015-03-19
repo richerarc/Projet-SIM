@@ -2,8 +2,9 @@
 #include "Vecteur3.h"
 
 namespace gfx{
+
 	class Objet3D{
-	private:
+	protected:
 		Vecteur3f position;
 		Vecteur3f origine;
 		Vecteur3f orientation;
@@ -11,6 +12,9 @@ namespace gfx{
 	public:
 
 		Objet3D(){
+			position = Vecteur3f(0, 0, 0);
+			origine = Vecteur3f(0, 0, 0);
+			orientation = Vecteur3f(0, 0, 0);
 		}
 
 		~Objet3D(){
@@ -28,59 +32,30 @@ namespace gfx{
 			return orientation;
 		}
 
-		void defPosition(Vecteur3f &pos){
-			position = pos;
-		}
+		virtual void defPosition(Vecteur3f &pos) = 0;
 
-		void defOrigine(Vecteur3f &org){
-			origine = org;
-		}
+		virtual void defOrigine(Vecteur3f &org) = 0;
 
-		void defOrientation(Vecteur3f &ort){
-			orientation = ort;
-		}
-		void rotationner(Vecteur3f &rot){
-			orientation += rot;
-		}
+		virtual void defOrientation(Vecteur3f &ort) = 0;
 
-		void deplacer(Vecteur3f &dep){
-			position += dep;
-		}
+		virtual void rotationner(Vecteur3f &rot) = 0;
 
-		void defPosition(int axeX, int axeY, int axeZ){
-			position.x = axeX;
-			position.y = axeY;
-			position.z = axeZ;
-		}
+		virtual void deplacer(Vecteur3f &dep) = 0;
 
-		void defOrigine(int axeX, int axeY, int axeZ){
-			origine.x = axeX;
-			origine.y = axeY;
-			origine.z = axeZ;
-		}
+		virtual void defPosition(float axeX, float axeY, float axeZ) = 0;
 
-		void defOrientation(int axeX, int axeY, int axeZ){
-			orientation.x = axeX;
-			orientation.y = axeY;
-			orientation.z = axeZ;
+		virtual void defOrigine(float axeX, float axeY, float axeZ) = 0;
 
-		}
+		virtual void defOrientation(float axeX, float axeY, float axeZ) = 0;
 
-		void rotationner(float axeX, float axeY, float axeZ){
-			orientation.x += axeX;
-			orientation.y += axeY;
-			orientation.z += axeZ;
-		}
+		virtual void rotationner(float axeX, float axeY, float axeZ) = 0;
 
-		void deplacer(int axeX, int axeY, int axeZ){
-			position.x += axeX;
-			position.y += axeY;
-			position.z += axeZ;
-		}
-
-		virtual void rafraichir() = 0;
+		virtual void deplacer(float axeX, float axeY, float axeZ) = 0;
 
 		virtual void afficher() = 0;
 
 	};
 }
+
+
+
