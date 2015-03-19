@@ -20,5 +20,10 @@
 	Séparation des tâches
 	Implémentation des classes:
 	GestionnaireEvenements, Souris et Clavier.
-	
-	
+9 mars de 2h40 à 3h
+	Ajout des classes Chrono et Temps.
+de 3h à 5h20
+	Aide à l'équipe sur la conception.
+12 mars de 10h à 12h
+	Aide à Kévin pour les classes Model3D.
+	Fix de bugs.

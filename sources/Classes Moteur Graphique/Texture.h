@@ -1,9 +1,9 @@
 #pragma once
-#include "Vecteur2.h"
 
+#include "Vecteur2.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_image.h>
+#include <string>
 namespace gfx{
 	class Texture{
 	private:
@@ -11,13 +11,14 @@ namespace gfx{
 		GLuint ID;
 	public:
 
-		Texture(){
+		Texture() {
 			surface = nullptr;
 		}
 
-		~Texture(){
+		~Texture() {
 			if (surface != nullptr){
-				SDL_FreeSurface(surface);
+				if (surface->format != nullptr)
+					SDL_FreeSurface(surface);
 				surface = nullptr;
 			}
 		}
@@ -29,18 +30,18 @@ namespace gfx{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface->w, surface->w, 0, GL_BGR, GL_UNSIGNED_BYTE, surface->pixels);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			return (surface != NULL);
+			return (surface != nullptr);
 		}
 
 		GLuint obtID(){
 			return ID;
 		}
 
-		Vecteur2ui obtTaille(){
-			return Vecteur2ui(surface->w, surface->h);
+		Vecteur2f obtTaille() {
+			return Vecteur2f(surface->w, surface->h);
 		}
 
-		SDL_Surface* obtSurface(){
+		SDL_Surface* obtSurface() {
 			return surface;
 		}
 	};

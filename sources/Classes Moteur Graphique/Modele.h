@@ -1,4 +1,10 @@
 #pragma once
+#include "Vecteur3.h"
+#include "Maths.h"
+
+#include <fstream>
+#include <queue>
+
 namespace gfx{
 	class Modele{
 	private:
@@ -14,19 +20,19 @@ namespace gfx{
 		Modele(){}
 
 		Modele(const char* chemin){
-			Charger(chemin);
+			charger(chemin);
 		}
 
 		~Modele(){
 			if (vertices)
-				delete vertices;
+				delete[] vertices;
 			if (textures)
-				delete textures;
+				delete[] textures;
 			if (normales)
-				delete normales;
+				delete[] normales;
 		}
 
-		bool Charger(const char* chemin){
+		bool charger(const char* chemin){
 			std::ifstream Fichier(chemin);
 			if (Fichier.is_open()){
 				char *X = new char(), *Y = new char(), *Z = new char(), *temp = new char();

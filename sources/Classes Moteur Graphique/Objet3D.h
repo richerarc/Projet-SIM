@@ -1,83 +1,61 @@
 #pragma once
+#include "Vecteur3.h"
 
-class Objet3D{
-private:
-	Vecteur3f position;
-	Vecteur3f origine;
-	Vecteur3f orientation;
+namespace gfx{
 
-public:
+	class Objet3D{
+	protected:
+		Vecteur3f position;
+		Vecteur3f origine;
+		Vecteur3f orientation;
 
-	Objet3D(){
-	}
+	public:
 
-	~Objet3D(){
-	}
+		Objet3D(){
+			position = Vecteur3f(0, 0, 0);
+			origine = Vecteur3f(0, 0, 0);
+			orientation = Vecteur3f(0, 0, 0);
+		}
 
-	Vecteur3f obtPosition(){
-		return position;
-	}
+		~Objet3D(){
+		}
 
-	Vecteur3f obtOrigine(){
-		return origine;
-	}
+		Vecteur3f obtPosition(){
+			return position;
+		}
 
-	Vecteur3f obtOrientation(){
-		return orientation;
-	}
+		Vecteur3f obtOrigine(){
+			return origine;
+		}
 
-	void defPosition(Vecteur3f &pos){
-		position = pos;
-	}
+		Vecteur3f obtOrientation(){
+			return orientation;
+		}
 
-	void defOrigine(Vecteur3f &org){
-		origine = org;
-	}
+		virtual void defPosition(Vecteur3f &pos) = 0;
 
-	void defOrientation(Vecteur3f &ort){
-		orientation = ort;
-	}
-	void rotationner(Vecteur3f &rot){
-		orientation += rot;
-	}
+		virtual void defOrigine(Vecteur3f &org) = 0;
 
-	void deplacer(Vecteur3f &dep){
-		position += dep;
-	}
+		virtual void defOrientation(Vecteur3f &ort) = 0;
 
-	void defPosition(int axeX, int axeY, int axeZ){
-		position.x = axeX;
-		position.y = axeY;
-		position.z = axeZ;
-	}
+		virtual void rotationner(Vecteur3f &rot) = 0;
 
-	void defOrigine(int axeX, int axeY, int axeZ){
-		origine.x = axeX;
-		origine.y = axeY;
-		origine.z = axeZ;
-	}
+		virtual void deplacer(Vecteur3f &dep) = 0;
 
-	void defOrientation(int axeX, int axeY, int axeZ){
-		orientation.x = axeX;
-		orientation.y = axeY;
-		orientation.z = axeZ;
+		virtual void defPosition(float axeX, float axeY, float axeZ) = 0;
 
-	}
+		virtual void defOrigine(float axeX, float axeY, float axeZ) = 0;
 
-	void rotationner(float axeX, float axeY, float axeZ){
-		orientation.x += axeX;
-		orientation.y += axeY;
-		orientation.z += axeZ;
-	}
+		virtual void defOrientation(float axeX, float axeY, float axeZ) = 0;
 
-	void deplacer(int axeX, int axeY, int axeZ){
-		position.x += axeX;
-		position.y += axeY;
-		position.z += axeZ;
-	}
+		virtual void rotationner(float axeX, float axeY, float axeZ) = 0;
 
-	virtual void rafraichir() = 0;
+		virtual void deplacer(float axeX, float axeY, float axeZ) = 0;
 
-	virtual void afficher() = 0;
+		virtual void afficher() = 0;
 
-};
+	};
+}
+
+
+

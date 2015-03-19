@@ -52,3 +52,11 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 
 12 mars de 10h à 12h:
 -J'ai continuer le afficher de la classe Objet2D, maintenant il m'affiche un rectangle blanc c'est un premier pas vers la gloire.
+
+15 mars de 16h à 18h30:
+-J'arrive désormais a afficher une texture 2D mais j'ai des problemes avec l'affichage du texte
+-J'ai coder les fonctions pour mettre la texture à l'echelle et l'afficher de façon à ce que la position donnée soit celle de son origine au lieu d'un sommet.
+-Je l'ai fais avec des floats pour le moment car jai de petits problèmes techniques avec les classes vecteurs
+
+17 mars de 2h à 17h15:
+-J'ai continué l'environnement 2D , en particulier l'affichage, les rotations, l'origines etc.

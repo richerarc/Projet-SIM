@@ -84,7 +84,7 @@ Le problème avec cette formule, c'est qu'elle ne tient compte que d'un plan. Al
 
 Nous avons discuté en groupe de l'utilisation de github (les issues) et des sons qui remplaceront en partie l'interface graphique.
 
-Nous nous sommes ensuite distribué les diverses tâches reliées à la physique, j'ai reçus le mandat de travailler sur le magnétisme. J'avais déjà avancé le sujet, il ne me restait plus qu'à l'appliquer à l'ordinateur. En normalisant mon vecteur que je créais avec la distance entre l'objet et l'aimant, comme tu m'as conseillé et avec d'autres ajustements, j'ai pu arrivé à un calcul plus que satisfaisant. J'ai ajouté le tout à la classe Physique. Je vais retourné voir mon professeur de physique avec mon programme pour être sur que le résultat est valide.
+Nous nous sommes ensuite distribué les diverses tâches reliées à la physique, j'ai reçus le mandat de travailler sur le magnétisme. J'avais déjà avancé le sujet, il ne me restait plus qu'à l'appliquer à l'ordinateur. En normalisant mon vecteur que je créais avec la distance entre l'objet et l'aimant, comme tu m'as conseillé et avec d'autres ajustements, j'ai pu arrivé à un calcul plus que satisfaisant. J'ai ajouté le tout à la classe Physique et j'ai fermé l'issue #20. Je vais retourné voir mon professeur de physique avec mon programme pour être sur que le résultat est valide.
 
 J'ai aussi fait une modification à la classe vecteur par l'ajout d'un opération qui multiplie le vecteur en mémoire par un autre.
 
@@ -102,3 +102,19 @@ J'ai aussi aidé mes coéquippiers dans ce qu'ils avaient à faire.
 ### 13 mars 2015
 
 Après avoir fini de mettre le tout en code, je me suis rendu compte que je n'avais pas à utiliser le arccos pour voir mon angle entre 90 et -90, après avoir fais quelque calculs dans les quatres quadrants d'un angle, le vent ne pouvait avoir un impacte que quand l'angle était plus petit que 0 (négatif jusqu'à 1). J'ai aussi testé le tout avec les diverses forme du tableau que j'ai lié un peu plus haut et, par exemple, pour une sphère, mon coefficient était de 0.43. Considérant le nombre limité de faces, je suis très satisfait du résultat! J'ai push ma procédure dans notre classe physique.
+
+### 14 mars 2015
+
+Ce matin j'ai retravaillé les formules pour le magnétisme et le vent dans notre fichier markdown pour qu'elles soient cohérentes. J'ai aussi commenté les deux procédure plus tôt pour expliquer mieux comment elles fonctionnent.
+
+Je suis maintenant assigné à la gestion des rebond, je me suis créé une issue, et j'ai regardé comment coder une telle chose. J'ai regardé dans le livre *Physics for game developpers* pour trouver une formule que j'ai décortiquée et essayé de comprendre. Je vérifie aussi avec le groupe pour savoir s'il y aura des collisions entre deux objets en mouvement.
+
+J'ai fini de codé la collision entre deux objets en mouvement, je vais l'intégrée en même temps que les autres types de rebonds quand j'aurai fini.
+
+### 16 Mars 2015
+
+Xavier, Richer et moi avons discuté sur qui allait géré les objets qui sont influencé par la physique, on en a conclu qu'il y aurait une classe abstraite Objet qui pourrait être un piège à vent, du aimant, un objet fixe, ou un objet physique. Ils vont nous passer tous les objet lors de l'application de la physique et nous allons gérer ceux qui sont influencés.
+
+### 17 mars 2015
+
+J'ai codé le rebonds d'un objet sur une surface de la map, j'attends les collision à julien pour pouvoir les tester de manière plus concraite qu'en me disant que ca l'air correct. En attends, j'ai demandé au groupe de graphique s'ils avaient un engine de base que je pourrais utilisé. Il me l'on donné et j'ai fait quelques modifications, j'ai ajouté nos classe de physique et des objet en blender pour pouvoir faire des tests. J'ai aussi modifié la classe physique en ajout un ratio pour l'augmentation de la vitesse d'un objet selon le frametime, j'ai fait des modifications pour que le programme compile. J'ai voulu mettre l'engine sur git, mais on m'a FORTEMENT conseillé de ne pas mettre de vs sur git, heureusement que j'avais oublié de faire git add, il n'y a pas eu de problème. Je vais donc redistribuer l'engine au membres de mon équipe. Il y a aussi eu des changements dans les équipes, Xavier et Dean travaillent maintenant sur les menus.

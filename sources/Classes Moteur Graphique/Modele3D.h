@@ -11,13 +11,15 @@
 #include "Modele.h"
 #include "Texture.h"
 #include "Objet3D.h"
+
 namespace gfx{
 	class Modele3D : public Objet3D {
 	private:
 		Modele modele;
 		Texture texture;
-		Vecteur3f boiteDeCollision[8];
 
+		Vecteur3f echelle;
+		Vecteur3f boiteDeCollision[8];
 		void calculerBoiteDeCollision(){
 			std::vector<float> tmpX;
 			std::vector<float> tmpY;
@@ -34,14 +36,14 @@ namespace gfx{
 			ymin = Maths::obtValeurMin(tmpY);
 			zmax = Maths::obtValeurMax(tmpZ);
 			zmin = Maths::obtValeurMin(tmpZ);
-			boiteDeCollision[0] = Vecteur3f(xmax, ymax, zmax);
-			boiteDeCollision[1] = Vecteur3f(xmax, ymax, zmin);
-			boiteDeCollision[2] = Vecteur3f(xmax, ymin, zmax);
-			boiteDeCollision[3] = Vecteur3f(xmax, ymin, zmin);
-			boiteDeCollision[4] = Vecteur3f(xmin, ymax, zmax);
+			boiteDeCollision[0] = Vecteur3f(xmin, ymin, zmax);
+			boiteDeCollision[1] = Vecteur3f(xmin, ymax, zmax);
+			boiteDeCollision[2] = Vecteur3f(xmax, ymax, zmax);
+			boiteDeCollision[3] = Vecteur3f(xmax, ymin, zmax);
+			boiteDeCollision[4] = Vecteur3f(xmin, ymin, zmin);
 			boiteDeCollision[5] = Vecteur3f(xmin, ymax, zmin);
-			boiteDeCollision[6] = Vecteur3f(xmin, ymin, zmax);
-			boiteDeCollision[7] = Vecteur3f(xmin, ymin, zmin);
+			boiteDeCollision[6] = Vecteur3f(xmax, ymax, zmin);
+			boiteDeCollision[7] = Vecteur3f(xmax, ymin, zmin);
 		}
 
 		void RotationBoiteCollision(){
@@ -53,16 +55,15 @@ namespace gfx{
 			float sinz = sin(Maths::degreARadian(obtOrientation().z));
 
 			for (int i = 0; i < 8; i++){
-				boiteDeCollision[i].y = (boiteDeCollision[i].y * cosx - boiteDeCollision[i].z * sinx);
-				boiteDeCollision[i].z = (boiteDeCollision[i].z * cosx + boiteDeCollision[i].y * sinx);
+				boiteDeCollision[i].y = ((boiteDeCollision[i].y * cosx) - (boiteDeCollision[i].z * sinx));
+				boiteDeCollision[i].z = ((boiteDeCollision[i].z * cosx) + (boiteDeCollision[i].y * sinx));
 
-				boiteDeCollision[i].x = (cosy * boiteDeCollision[i].x + boiteDeCollision[i].z * siny);
-				boiteDeCollision[i].z = (-siny * boiteDeCollision[i].x + boiteDeCollision[i].z * cosy);
+				boiteDeCollision[i].x = (boiteDeCollision[i].x * cosy + boiteDeCollision[i].z * siny);
+				boiteDeCollision[i].z = (boiteDeCollision[i].z * cosy - boiteDeCollision[i].x * siny);
 
-				boiteDeCollision[i].x = (cosz * boiteDeCollision[i].x - boiteDeCollision[i].y * sinz);
-				boiteDeCollision[i].y = (sinz * boiteDeCollision[i].x + boiteDeCollision[i].y * cosz);
+				boiteDeCollision[i].x = (boiteDeCollision[i].x * cosz - boiteDeCollision[i].y * sinz);
+				boiteDeCollision[i].y = (boiteDeCollision[i].x * sinz + boiteDeCollision[i].y * cosz);
 			}
-
 		}
 
 	public:
@@ -71,9 +72,10 @@ namespace gfx{
 			echelle = Vecteur3f(1, 1, 1);
 		}
 
-		Modele3D(Modele &modele, Texture &texture): Objet3D() {
+		Modele3D(Modele &modele, Texture &texture) : Objet3D(){
 			this->modele = modele;
 			this->texture = texture;
+			echelle = Vecteur3f(1, 1, 1);
 		}
 
 		~Modele3D(){}
@@ -102,22 +104,82 @@ namespace gfx{
 			return texture;
 		}
 
-		virtual void rafraichir(){
-			glPushMatrix();
-			glLoadIdentity();
+		void defPosition(Vecteur3f &pos){
+			position = pos;
+		}
 
+		void defOrigine(Vecteur3f &org){
+			origine = org;
+		}
 
-			glPopMatrix();
-		};
+		void defOrientation(Vecteur3f &ort){
+			orientation = ort;
+		}
 
-		virtual void afficher(){
-			glBindTexture(GL_TEXTURE_2D, texture.obtID());
+		void rotationner(Vecteur3f &rot){
+			orientation += rot;
+		}
+
+		void deplacer(Vecteur3f &dep){
+			position += dep;
+		}
+
+		void defPosition(float axeX, float axeY, float axeZ){
+			position.x = axeX;
+			position.y = axeY;
+			position.z = axeZ;
+		}
+
+		void defOrigine(float axeX, float axeY, float axeZ){
+			origine.x = axeX;
+			origine.y = axeY;
+			origine.z = axeZ;
+		}
+
+		void defOrientation(float axeX, float axeY, float axeZ){
+			orientation.x = axeX;
+			orientation.y = axeY;
+			orientation.z = axeZ;
+		}
+
+		void rotationner(float axeX, float axeY, float axeZ){
+			orientation.x += axeX;
+			orientation.y += axeY;
+			orientation.z += axeZ;
+		}
+
+		void deplacer(float axeX, float axeY, float axeZ){
+			position.x += axeX;
+			position.y += axeY;
+			position.z += axeZ;
+		}
+
+		/*To Do*/
+		void rafraichirSommets(){
+			/*
 			glPushMatrix();
 				glLoadIdentity();
-				glTranslatef(position.x, position.y, position.z);
+				glTranslatef(position.x - origine.x, position.y - origine.y, position.z - origine.z);
 				glRotatef(orientation.x, 1, 0, 0);
 				glRotatef(orientation.y, 0, 1, 0);
 				glRotatef(orientation.z, 0, 0, 1);
+				glTranslatef(origine.x, origine.y, origine.z);
+				glScalef(echelle.x, echelle.y, echelle.z);
+				float b[16];
+				glGetFloatv(GL_MODELVIEW_MATRIX, b);
+			glPopMatrix();
+			*/
+		}
+
+		void afficher(){
+			glBindTexture(GL_TEXTURE_2D, texture.obtID());
+			glPushMatrix();
+				glLoadIdentity();
+				glTranslatef(position.x - origine.x, position.y - origine.y, position.z - origine.z);
+				glRotatef(orientation.x, 1, 0, 0);
+				glRotatef(orientation.y, 0, 1, 0);
+				glRotatef(orientation.z, 0, 0, 1);
+				glTranslatef(origine.x, origine.y, origine.z);
 				glScalef(echelle.x, echelle.y, echelle.z);
 				glVertexPointer(3, GL_FLOAT, 0, modele.obtVertices());
 				glTexCoordPointer(2, GL_FLOAT, 0, modele.obtTextures());

@@ -40,4 +40,12 @@ Nous avons discuté des normes de modélisation et comment se servir des "issues
 
 Jeudi 12 mars 2015 -----
 
+10:00 à 12:00
+
 J'ai ajouté une fonction qui calcule et retourne l'angle entre deux vecteurs. Cela m'a aidé à faire la fonction qui calcule la force normale qu'un objet reçoit de la surface. Minis modifs sur le diagramme de classe et les documents de physique.
+
+Mardi 17 mars 2015 -----
+
+2:30 à 5:30
+
+J'ai été mis dans l'équipe de l'interface avec Xavier, Samuel et Diego. Nous avons travaillé sur la conception, nous avons premièrement fait l'analyse des besoins. Ensuite, j'ai travaillé sur le diagramme de classes avec Samuel et Diego.
