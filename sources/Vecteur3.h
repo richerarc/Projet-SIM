@@ -16,10 +16,10 @@ public:
 	}
 	
 	void normaliser() {
-		T Norme = norme();
-		x /= Norme;
-		y /= Norme;
-		z /= Norme;
+		T module = norme();
+		x /= module;
+		y /= module;
+		z /= module;
 	}
 
 	void inverser() {
@@ -28,13 +28,13 @@ public:
 		z = -z;
 	}
 	
-	void operator+=(Vecteur3<T>& autre) {
+	void operator+=(Vecteur3<T> autre) {
 		x += autre.x;
 		y += autre.y;
 		z += autre.z;
 	}
 	
-	void operator-=(Vecteur3<T>& autre) {
+	void operator-=(Vecteur3<T> autre) {
 		x -= autre.x;
 		y -= autre.y;
 		z -= autre.z;
@@ -52,7 +52,7 @@ public:
 		y -= scalaire;
 	}
 
-	void prodruitParUnVecteur(Vecteur3<T>& autre) {
+	void produitParUnVecteur(Vecteur3<T>& autre) {
 		x *= autre.x;
 		y *= autre.y;
 		z *= autre.z;
@@ -78,22 +78,22 @@ public:
 };
 
 template<typename T>
-Vecteur3<T> operator*(Vecteur3<T>& vect, float scalaire) {
+Vecteur3<T> operator*(Vecteur3<T> vect, float scalaire) {
 	return Vecteur3<T>(vect.x * scalaire, vect.y * scalaire, vect.z * scalaire);
 }
 
 template<typename T>
-Vecteur3<T> operator/(Vecteur3<T>& vect, float scalaire) {
+Vecteur3<T> operator/(Vecteur3<T> vect, float scalaire) {
 	return Vecteur3<T>(vect.x / scalaire, vect.y / scalaire, vect.z / scalaire);
 }
 	
 template<typename T>
-Vecteur3<T> operator+(Vecteur3<T>& gauche, Vecteur3<T>& droite) {
+Vecteur3<T> operator+(Vecteur3<T> gauche, Vecteur3<T> droite) {
 	return Vecteur3<T>(gauche.x + droite.x, gauche.y + droite.y, gauche.z + droite.z);
 }
 
 template<typename T>
-Vecteur3<T> operator-(Vecteur3<T>& gauche, Vecteur3<T>& droite) {
+Vecteur3<T> operator-(Vecteur3<T> gauche, Vecteur3<T> droite) {
 	return Vecteur3<T>(gauche.x - droite.x, gauche.y - droite.y, gauche.z - droite.z);
 }
 
