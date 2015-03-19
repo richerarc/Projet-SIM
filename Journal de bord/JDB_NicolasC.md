@@ -55,3 +55,9 @@
   15h00
   -travail avec Richer pour l'algorithme qui associe les ponts aux arbres principaux.
   17h15
+19 mar
+  8h20
+  -ajout dans l'UML d'algo (Graphe et rajout du Gestionnaire de liens).
+  8h50
+  -modélisation d'un tunnel.
+  9h50
