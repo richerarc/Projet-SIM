@@ -1,3 +1,4 @@
+// Point
 #if defined(__APPLE__) && defined(__MACH__) && defined(__linux__)
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
