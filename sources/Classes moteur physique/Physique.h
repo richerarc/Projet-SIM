@@ -173,19 +173,19 @@ public:
 	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(double& masseObjet, Vecteur3d& positionObjet, Vecteur3d& vecteurVitesseObjet, Vecteur3d& positionAimant) {
+	void appliquerMagnetisme(gfx::modele3D& objet, Vecteur3d positionAimant) {
 
-	double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, positionObjet);
-	double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (masseObjet * distanceObjetAimant);
+		double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
+		double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (objet.obtMasse() * distanceObjetAimant);
 
-	Vecteur3d vecteurProportionnel = { positionAimant.x - positionObjet.x, positionAimant.y - positionObjet.y, positionAimant.z - positionObjet.z };
-	vecteurProportionnel.normaliser();
+		Vecteur3d vecteurProportionnel = { positionAimant.x - objet.obtPosition().x, positionAimant.y - objet.obtPosition().y, positionAimant.z - objet.obtPosition().z };
+		vecteurProportionnel.normaliser();
 
-	Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
+		Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
 
-	vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
+		vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
 
-	vecteurVitesseObjet += vecteurAcceleration * frametime;
+		objet.obtVitesse() += vecteurAcceleration * frametime;
 
 	}
 	
