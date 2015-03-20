@@ -99,14 +99,17 @@ public:
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void AppliquerVent(Vecteur3d vecteurVitesseVent, float tableauNormales[], unsigned int nombreFace, float tableauVertices[], Vecteur3d& vecteurVitesseObjet, double& masseObjet) {
+	void AppliquerVent(Vecteur3d vecteurVitesseVent, gfx::Modele3D& objet) {
+
+		float* tableauNormales = objet.obtModele().obtNormales();
+		float* tableauVertices = objet.obtModele().obtVertices();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		nombreFace *= 3;
+		double nombreFace = objet.obtModele().obtNbrFaces() * 3;
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -155,7 +158,7 @@ public:
 		coefficientTrainer /= nombreFaceSousPression;
 
 		// Fin du calcul...
-		accelerationSelonForceVent *= (coefficientTrainer * surface / masseObjet);
+		accelerationSelonForceVent *= (coefficientTrainer * surface / objet.obtMasse());
 
 		// Mise en proportion pour l'addition...
 		vecteurVitesseVent.normaliser();
@@ -163,7 +166,7 @@ public:
 		// Nécéssite l'ajout d'un division par le temps...
 		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
 
-		vecteurVitesseObjet += vecteurVitesseAppliquer * frametime;
+		objet.obtVitesse() += vecteurVitesseAppliquer * frametime;
 	}
 	
 	// MANQUE LA NORMALE
