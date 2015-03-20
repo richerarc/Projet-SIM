@@ -17,7 +17,8 @@ namespace gfx{
 		Modele modele;
 		Texture texture;
 		float matTrans[16];
-		float* SommetModifie;
+		float* SommetsModif;
+		float* NormalesModif;
 		Vecteur3f boiteDeCollisionModifiee[8]; //ToDo
 		Vecteur3f echelle;
 		bool Transformee; //Todo
@@ -33,7 +34,7 @@ namespace gfx{
 				glGetFloatv(GL_MODELVIEW_MATRIX, matTrans);
 			glPopMatrix();
 		}
-	
+
 	public:
 
 		Modele3D(){
@@ -44,10 +45,9 @@ namespace gfx{
 			this->modele = modele;
 			this->texture = texture;
 			echelle = Vecteur3f(1, 1, 1);
-			calculerBoiteDeCollision();
 		}
 
-		//ToDo
+		/*
 		Vecteur3f* obtBoiteDeCollisionModifiee(){
 			calculerMatriceTransformation();
 			float col[4];
@@ -68,6 +68,7 @@ namespace gfx{
 			}
 			return nullptr;
 		}
+		*/
 
 		float* obtSommetsModifies(){
 			calculerMatriceTransformation();
@@ -84,7 +85,7 @@ namespace gfx{
 				som[1] = (double)(matTrans[1] * somTemp[0]) + (double)(matTrans[5] * somTemp[1]) + (double)(matTrans[9] * somTemp[2]) + (double)(matTrans[13] * somTemp[3]);
 				som[2] = (double)(matTrans[2] * somTemp[0]) + (double)(matTrans[6] * somTemp[1]) + (double)(matTrans[10] * somTemp[2]) + (double)(matTrans[14] * somTemp[3]);
 				som[3] = (double)(matTrans[3] * somTemp[0]) + (double)(matTrans[7] * somTemp[1]) + (double)(matTrans[11] * somTemp[2]) + (double)(matTrans[15] * somTemp[3]);
-				
+
 				for (unsigned int j = 0; j < 3; j++)
 					sommets[i * 3 + j] = som[j] / som[3];
 			}
@@ -95,7 +96,6 @@ namespace gfx{
 
 		void defModele(Modele &modele){
 			this->modele = modele;
-			calculerBoiteDeCollision()
 		}
 
 		void defTexture(Texture &texture){
@@ -167,17 +167,17 @@ namespace gfx{
 		void afficher(){
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
-				glLoadIdentity();
-				glTranslatef(position.x - origine.x, position.y - origine.y, position.z - origine.z);
-				glRotatef(orientation.x, 1, 0, 0);
-				glRotatef(orientation.y, 0, 1, 0);
-				glRotatef(orientation.z, 0, 0, 1);
-				glTranslatef(origine.x, origine.y, origine.z);
-				glScalef(echelle.x, echelle.y, echelle.z);
-				glVertexPointer(3, GL_FLOAT, 0, modele.obtVertices());
-				glTexCoordPointer(2, GL_FLOAT, 0, modele.obtTextures());
-				glNormalPointer(GL_FLOAT, 0, modele.obtNormales());
-				glDrawArrays(GL_TRIANGLES, 0, modele.obtNbrFaces());
+			glLoadIdentity();
+			glTranslatef(position.x - origine.x, position.y - origine.y, position.z - origine.z);
+			glRotatef(orientation.x, 1, 0, 0);
+			glRotatef(orientation.y, 0, 1, 0);
+			glRotatef(orientation.z, 0, 0, 1);
+			glTranslatef(origine.x, origine.y, origine.z);
+			glScalef(echelle.x, echelle.y, echelle.z);
+			glVertexPointer(3, GL_FLOAT, 0, modele.obtVertices());
+			glTexCoordPointer(2, GL_FLOAT, 0, modele.obtTextures());
+			glNormalPointer(GL_FLOAT, 0, modele.obtNormales());
+			glDrawArrays(GL_TRIANGLES, 0, modele.obtNbrFaces());
 			glPopMatrix();
 		}
 	};
