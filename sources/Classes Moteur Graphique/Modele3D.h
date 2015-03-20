@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 #include <SDL2/SDL_opengl.h>
-
 #include "Vecteur3.h"
 #include "Maths.h"
 #include "Modele.h"
@@ -18,10 +17,10 @@ namespace gfx{
 		Modele modele;
 		Texture texture;
 		float matTrans[16];
+		float* SommetModifie;
+		Vecteur3f boiteDeCollisionModifiee[8]; //ToDo
 		Vecteur3f echelle;
-		Vecteur3f boiteDeCollision[8];//ToDo
 		bool Transformee; //Todo
-		
 		void calculerMatriceTransformation(){
 			glPushMatrix();
 				glLoadIdentity();
@@ -34,34 +33,7 @@ namespace gfx{
 				glGetFloatv(GL_MODELVIEW_MATRIX, matTrans);
 			glPopMatrix();
 		}
-
-		//ToDo
-		void calculerBoiteDeCollision(){
-			std::vector<float> tmpX;
-			std::vector<float> tmpY;
-			std::vector<float> tmpZ;
-			float xmax, xmin, ymax, ymin, zmax, zmin;
-			for (int i = 0; i < modele.obtNbrFaces(); ++i){
-				tmpX.push_back(modele.obtVertices()[i * 3]);
-				tmpY.push_back(modele.obtVertices()[i * 3 + 1]);
-				tmpZ.push_back(modele.obtVertices()[i * 3 + 2]);
-			}
-			xmax = Maths::obtValeurMax(tmpX);
-			xmin = Maths::obtValeurMin(tmpX);
-			ymax = Maths::obtValeurMax(tmpY);
-			ymin = Maths::obtValeurMin(tmpY);
-			zmax = Maths::obtValeurMax(tmpZ);
-			zmin = Maths::obtValeurMin(tmpZ);
-			boiteDeCollision[0] = Vecteur3f(xmin, ymin, zmax);
-			boiteDeCollision[1] = Vecteur3f(xmin, ymax, zmax);
-			boiteDeCollision[2] = Vecteur3f(xmax, ymax, zmax);
-			boiteDeCollision[3] = Vecteur3f(xmax, ymin, zmax);
-			boiteDeCollision[4] = Vecteur3f(xmin, ymin, zmin);
-			boiteDeCollision[5] = Vecteur3f(xmin, ymax, zmin);
-			boiteDeCollision[6] = Vecteur3f(xmax, ymax, zmin);
-			boiteDeCollision[7] = Vecteur3f(xmax, ymin, zmin);
-		}
-
+	
 	public:
 
 		Modele3D(){
@@ -76,23 +48,20 @@ namespace gfx{
 		}
 
 		//ToDo
-		Vecteur3f* obtBoiteDeCollision(){
+		Vecteur3f* obtBoiteDeCollisionModifiee(){
 			calculerMatriceTransformation();
 			float col[4];
 			float colTemp[4];
-
 			for (unsigned int i = 0; i < 8; i++)
 			{
 				colTemp[0] = boiteDeCollision[i].x;
 				colTemp[1] = boiteDeCollision[i].y;
 				colTemp[2] = boiteDeCollision[i].z;
 				colTemp[3] = 1;
-
 				col[0] = (double)(matTrans[0] * colTemp[0]) + (double)(matTrans[4] * colTemp[1]) + (double)(matTrans[8] * colTemp[2]) + (double)(matTrans[12] * colTemp[3]);
 				col[1] = (double)(matTrans[1] * colTemp[0]) + (double)(matTrans[5] * colTemp[1]) + (double)(matTrans[9] * colTemp[2]) + (double)(matTrans[13] * colTemp[3]);
 				col[2] = (double)(matTrans[2] * colTemp[0]) + (double)(matTrans[6] * colTemp[1]) + (double)(matTrans[10] * colTemp[2]) + (double)(matTrans[14] * colTemp[3]);
 				col[3] = (double)(matTrans[3] * colTemp[0]) + (double)(matTrans[7] * colTemp[1]) + (double)(matTrans[11] * colTemp[2]) + (double)(matTrans[15] * colTemp[3]);
-
 				boiteDeCollision[i].x = col[0] / col[3];
 				boiteDeCollision[i].y = col[1] / col[3];
 				boiteDeCollision[i].z = col[2] / col[3];
@@ -100,7 +69,7 @@ namespace gfx{
 			return nullptr;
 		}
 
-		float* obtommetsModifies(){
+		float* obtSommetsModifies(){
 			calculerMatriceTransformation();
 			float* sommets = new float[modele.obtNbrVertices()];
 			float som[4];
@@ -118,13 +87,9 @@ namespace gfx{
 				
 				for (unsigned int j = 0; j < 3; j++)
 					sommets[i * 3 + j] = som[j] / som[3];
-				//sommets[i * 3 + 0] = som[0] / som[3];
-				//sommets[i * 3 + 1] = som[1] / som[3];
-				//sommets[i * 3 + 2] = som[2] / som[3];
 			}
 			return sommets;
 		}
-
 
 		~Modele3D(){}
 
@@ -215,6 +180,5 @@ namespace gfx{
 				glDrawArrays(GL_TRIANGLES, 0, modele.obtNbrFaces());
 			glPopMatrix();
 		}
-
 	};
 }
