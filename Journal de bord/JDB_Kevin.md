@@ -104,3 +104,10 @@ J'ai configurer mon nouveau poste de travail, puis j'ai parler à Brandon pour l
 J'ai terminer la logique derriere le calcul matriciel 4X4. Donc j'ai du meme coup terminer la fonction qui permettera d'obtenir une version modifiée du tableau de vertices du modele3D. J'ai aussi semi-terminer la texturisation du pendule alors il sera bientot dans le Repo. j'ai également terminé la fonction qui modifie la boite de collision. Demain  je vais sans doute terminer le modele3D. Il me reste quelque petits questionnements j'en parlerai au gars demain.
 
 **Temps 5h**  
+
+
+##**`20 mars 2015`**
+
+J'ai en partie terminer les fonctions qui modifie les tableau maintenant ils se calculent seulement si l'objet subit une transformation par rapport a son dernier état. Il reste le calcul des normales mais ce calcul semble etre plus fastidieux alors je le ferai lundi quand je serai reposé. J'ai corriger quelques erreurs qui s'étaient gilssé dans modele.h et dans modele3D.
+
+**Temps 2h**
