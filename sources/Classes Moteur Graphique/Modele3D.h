@@ -20,8 +20,9 @@ namespace gfx{
 		float matTrans[16];
 		Vecteur3f echelle;
 		Vecteur3f boiteDeCollision[8];
+		bool Transformee; //Todo
 		
-		void obtMatriceTransformation(){
+		void calculerMatriceTransformation(){
 			glPushMatrix();
 				glLoadIdentity();
 				glTranslatef(position.x - origine.x, position.y - origine.y, position.z - origine.z);
@@ -60,26 +61,6 @@ namespace gfx{
 			boiteDeCollision[7] = Vecteur3f(xmax, ymin, zmin);
 		}
 
-		void RotationBoiteCollision(){
-			float cosx = cos(Maths::degreARadian(obtOrientation().x));
-			float sinx = sin(Maths::degreARadian(obtOrientation().x));
-			float cosy = cos(Maths::degreARadian(obtOrientation().y));
-			float siny = sin(Maths::degreARadian(obtOrientation().y));
-			float cosz = cos(Maths::degreARadian(obtOrientation().z));
-			float sinz = sin(Maths::degreARadian(obtOrientation().z));
-
-			for (int i = 0; i < 8; i++){
-				boiteDeCollision[i].y = ((boiteDeCollision[i].y * cosx) - (boiteDeCollision[i].z * sinx));
-				boiteDeCollision[i].z = ((boiteDeCollision[i].z * cosx) + (boiteDeCollision[i].y * sinx));
-
-				boiteDeCollision[i].x = (boiteDeCollision[i].x * cosy + boiteDeCollision[i].z * siny);
-				boiteDeCollision[i].z = (boiteDeCollision[i].z * cosy - boiteDeCollision[i].x * siny);
-
-				boiteDeCollision[i].x = (boiteDeCollision[i].x * cosz - boiteDeCollision[i].y * sinz);
-				boiteDeCollision[i].y = (boiteDeCollision[i].x * sinz + boiteDeCollision[i].y * cosz);
-			}
-		}
-
 	public:
 
 		Modele3D(){
@@ -90,12 +71,35 @@ namespace gfx{
 			this->modele = modele;
 			this->texture = texture;
 			echelle = Vecteur3f(1, 1, 1);
+			calculerBoiteDeCollision();
 		}
 
-		float* obtenirBoiteDeCollision(){}
+		Vecteur3f* obtBoiteDeCollision(){
+			calculerMatriceTransformation();
+			float col[4];
+			float colTemp[4];
+
+			for (unsigned int i = 0; i < 8; i++)
+			{
+				colTemp[0] = boiteDeCollision[i].x;
+				colTemp[1] = boiteDeCollision[i].y;
+				colTemp[2] = boiteDeCollision[i].z;
+				colTemp[3] = 1;
+
+				col[0] = (double)(matTrans[0] * colTemp[0]) + (double)(matTrans[4] * colTemp[1]) + (double)(matTrans[8] * colTemp[2]) + (double)(matTrans[12] * colTemp[3]);
+				col[1] = (double)(matTrans[1] * colTemp[0]) + (double)(matTrans[5] * colTemp[1]) + (double)(matTrans[9] * colTemp[2]) + (double)(matTrans[13] * colTemp[3]);
+				col[2] = (double)(matTrans[2] * colTemp[0]) + (double)(matTrans[6] * colTemp[1]) + (double)(matTrans[10] * colTemp[2]) + (double)(matTrans[14] * colTemp[3]);
+				col[3] = (double)(matTrans[3] * colTemp[0]) + (double)(matTrans[7] * colTemp[1]) + (double)(matTrans[11] * colTemp[2]) + (double)(matTrans[15] * colTemp[3]);
+
+				boiteDeCollision[i].x = col[0] / col[3];
+				boiteDeCollision[i].y = col[1] / col[3];
+				boiteDeCollision[i].z = col[2] / col[3];
+
+			}
+		}
 
 		float* obtommetsModifies(){
-			obtMatriceTransformation();
+			calculerMatriceTransformation();
 			float* sommets = new float[modele.obtNbrVertices()];
 			float som[4];
 			float somTemp[4];
@@ -124,6 +128,7 @@ namespace gfx{
 
 		void defModele(Modele &modele){
 			this->modele = modele;
+			calculerBoiteDeCollision()
 		}
 
 		void defTexture(Texture &texture){
