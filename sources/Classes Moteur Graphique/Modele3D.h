@@ -19,7 +19,7 @@ namespace gfx{
 		Texture texture;
 		float matTrans[16];
 		Vecteur3f echelle;
-		Vecteur3f boiteDeCollision[8];
+		Vecteur3f boiteDeCollision[8];//ToDo
 		bool Transformee; //Todo
 		
 		void calculerMatriceTransformation(){
@@ -35,6 +35,7 @@ namespace gfx{
 			glPopMatrix();
 		}
 
+		//ToDo
 		void calculerBoiteDeCollision(){
 			std::vector<float> tmpX;
 			std::vector<float> tmpY;
@@ -74,6 +75,7 @@ namespace gfx{
 			calculerBoiteDeCollision();
 		}
 
+		//ToDo
 		Vecteur3f* obtBoiteDeCollision(){
 			calculerMatriceTransformation();
 			float col[4];
@@ -94,8 +96,8 @@ namespace gfx{
 				boiteDeCollision[i].x = col[0] / col[3];
 				boiteDeCollision[i].y = col[1] / col[3];
 				boiteDeCollision[i].z = col[2] / col[3];
-
 			}
+			return nullptr;
 		}
 
 		float* obtommetsModifies(){
