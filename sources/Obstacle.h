@@ -2,5 +2,5 @@
 class Obstacle : public Objet{
 public:
 	Obstacle(){}
-	Obstacle(Modele3D modele, unsigned int ID,char* materiaux) : Objet(modele, ID, materiaux){}
+	Obstacle(Modele3D modele, unsigned int ID,char* materiaux) : Objet(modele, ID, materiaux, NULL, NULL){}
 };
