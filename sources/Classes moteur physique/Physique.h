@@ -89,6 +89,23 @@ public:
 		double dScalaire = (2 - mapRestitution[objet1.obtMateriel()]) * objet1.obtVitesse().produitScalaire(vecteurNormal);
 		objet1.obtVitesse() -= vecteurNormal * dScalaire;
 	}
+
+void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d vecteurNormal) {
+
+		Vecteur3d vVitesseRelative = objet1.obtVitesse() - objet2.obtVitesse();
+
+		double e = (mapRestitution[objet1.obtMateriel()] + mapRestitution[objet2.obtMateriel()]) / 2; // Moyenne des coefficients de restitution
+
+		double j = (-(1 + e) * (vVitesseRelative.produitScalaire(vecteurNormal))) / ((vecteurNormal.produitScalaire(vecteurNormal)) * (1 / objet1.obtMasse() + 1 / objet2.obtMasse()));
+
+		Vecteur3d vecteurNormal2 = vecteurNormal;
+
+		vecteurNormal *= j / objet1.obtMasse();
+		objet1.obtVitesse() += vecteurNormal;
+
+		vecteurNormal2 *= j / objet2.obtMasse();
+		objet2.obtVitesse() -= vecteurNormal2;
+	}
 	
 	double obtenirForceNormale(double masse, Vecteur3d& vitesse, Vecteur3d normale) {
 

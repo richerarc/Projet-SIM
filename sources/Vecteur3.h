@@ -72,7 +72,7 @@ public:
 
 	double angleEntreVecteurs(Vecteur3<T> autre) {
 
-		return acos(this->produitScalaire(autre) / (this->norme() * autre->norme()));
+		return acos(this->produitScalaire(autre) / (this->norme() * autre.norme()));
 
 	}
 };
