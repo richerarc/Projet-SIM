@@ -70,6 +70,7 @@ namespace gfx{
 				calculerMatriceTransformation();
 				float vecteurSommet[4];
 				float somTemp[4];
+				somTemp[3] = 1;
 				for (unsigned int i = 0; i < modele.obtNbrVertices() / 3; i++)
 				{
 					vecteurSommet[3] = 1;
