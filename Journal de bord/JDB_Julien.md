@@ -67,6 +67,10 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 
 - 11h à 14h30 : J'ai fait la première version des collisions entre un objet et une salle, mais je n'ai pas encore vérifié selon la position exacte de l'objet, car les calculs n'ont pas encore été faits. Je demande aussi temporairement une salle en paramètre, mais quand le gestionnaire de liens sera terminé je n'aurai plus besoins de demander une salle en paramètre.
 
-###**`15 mars 2015`**
+###**`17 mars 2015`**
 
 - 14h40 à 5h20 : J'ai continué a faire l'algorithme des collisions avec un objet et une salle. J'ai fait une fonction et une procédure pour enlever la redondance de code.
+
+###**`21 mars 2015`**
+
+- 11h à 14h et 15h à 20h : J'ai réglé tous les problèmes avec les classes et fonctions que j'ai de besoins pour implémenter mes collisions. La droite ne se créait pas de la bonne manière, mainteant oui et je l'ai testé avec des exemples d'algèbres linéaires. Même chose pour le plan, la variable d était un vecteur, mais c'est plutôt un double qu'il fallait mettre (un erreur de ma part quand j'ai expliqué comment créé un plan à Gab) et la fonction qui calculait un intersection entre une droite et un plan n'était pas bonne. Je l'ai donc refait et maintenant ça fonctionne. Finalement Kevin avait oublier un petit quelque chose dans la tranformation du tableaux de vertices dans la Classe Modele3D, je l'ai rajouté.
