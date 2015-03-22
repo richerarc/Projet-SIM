@@ -180,5 +180,7 @@ namespace gfx{
 			glDrawArrays(GL_TRIANGLES, 0, modele.obtNbrFaces());
 			glPopMatrix();
 		}
+
+		void rafraichir() {}
 	};
 }
