@@ -185,31 +185,31 @@ namespace gfx{
 			return texture;
 		}
 
-		void defPosition(Vecteur3d &pos){
+		void defPosition(Vecteur3d pos){
 			position = pos;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
-		void defOrigine(Vecteur3d &org){
+		void defOrigine(Vecteur3d org){
 			origine = org;
 		}
 
-		void defOrientation(Vecteur3d &ort){
+		void defOrientation(Vecteur3d ort){
 			orientation = ort;
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
-		void rotationner(Vecteur3d &rot){
+		void rotationner(Vecteur3d rot){
 			orientation += rot;
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
-		void deplacer(Vecteur3d &dep){
+		void deplacer(Vecteur3d dep){
 			position += dep;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;

@@ -32,15 +32,15 @@ namespace gfx{
 			return orientation;
 		}
 
-		virtual void defPosition(Vecteur3d &pos) = 0;
+		virtual void defPosition(Vecteur3d pos) = 0;
 
-		virtual void defOrigine(Vecteur3d &org) = 0;
+		virtual void defOrigine(Vecteur3d org) = 0;
 
-		virtual void defOrientation(Vecteur3d &ort) = 0;
+		virtual void defOrientation(Vecteur3d ort) = 0;
 
-		virtual void rotationner(Vecteur3d &rot) = 0;
+		virtual void rotationner(Vecteur3d rot) = 0;
 
-		virtual void deplacer(Vecteur3d &dep) = 0;
+		virtual void deplacer(Vecteur3d dep) = 0;
 
 		virtual void defPosition(double axeX, double axeY, double axeZ) = 0;
 
