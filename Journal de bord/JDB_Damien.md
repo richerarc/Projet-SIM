@@ -42,3 +42,4 @@
 	Création de la classe SourceMagnetique. 
 #Mardi 23 mars 2015 (11:00 à 12:58)
 	Vrai création et ajout de la classe SourceMagnetique
+	Début de l'analyse des armes.
