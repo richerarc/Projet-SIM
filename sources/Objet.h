@@ -19,9 +19,7 @@ public:
 		this->vitesse.z = vitesse.z;
 	}
 
-	Vecteur3d obtPos(){
-		return modele->obtPosition();
-	}
+	virtual Vecteur3d obtPosition(){} = 0;
 	void defPosition(int axeX, int axeY, int axeZ){
 		modele->defPosition(axeX, axeY, axeZ);
 	}
