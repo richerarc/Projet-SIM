@@ -127,3 +127,12 @@ Petite modification dans la classe Vecteur: Ajout d'un soustraire et remplacemen
 
 Tout d'abord, nous avons eu un petit cours de git pour apprendre l'utilisation des commandes. Ensuite j'ai réussi à régler mon problème, enfait lorsque j'appuyais sur la touche space, le gestionnaire d'événement ne remettait pas le "booléen" à false donc le rebonds se faisant sans arrêt au lieu d'une seule fois. Maintenant qu'il fonctionne, j'ai testé le rebond sous plusieurs angles et tout est bon! Après j'ai testé le vent, encore une fois tout s'applique bien, le nouveau vecteur est à un échelle respective de la force du vent et de la forme de l'objet, mais quand je sort de la procédure j'obtiens un DEGUB ASSERTION FAIL très fatiguant que je n'ai toujours pas pu régler. Avant de détruire mon odrinateur j'ai décidé d'allé testé le magnétisme, tout fonctionne parfaitement. J'ai fait quelques modification par-ci, par-là dans la classe physique et j'ai aussi mis à jour notre fichier de formules de physique. Il faudrait probablement metter aussi notre diagramme de classes à jour... peut-être... un jour... d'ici la fin de la session...
 
+###22 mars 2015
+
+J'ai corrigé plusieurs erreurs dans des classes faites par d'autres personnes dont j'avais besoin...(~30 min de gossage et il en reste encore)
+
+J'ai commencé à faire un procédure qui va parcourrir tous les objets d'un salle pour appliquer la physique, j'ai un peu de difficullté avec les dynamic_cast, il me donne des erreurs, j'ai fait quelques recherches sur internet, mais ce que j'ai fait devrais fonctionner.
+
+Bon après avoir travaillé pendant 5 min en commençant par l'application du vent je me suis tanné parce que les classes des objets, incluant le vent, ne sont pas complète je vais en discuter avec ceux qui travaillaient dessus.
+
+J'ai ajouté le rebond entre deux objet en mouvement (de base) dans la classe physique.
