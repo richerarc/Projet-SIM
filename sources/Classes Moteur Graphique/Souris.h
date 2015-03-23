@@ -19,7 +19,7 @@ public:
 	}
 
 	static void mettreAJourPosition(int x, int y){
-		position = Vecteur2f(x, y);
+		position = Vecteur2d(x, y);
 	}
 
 	static bool boutonAppuye(short bouton){
@@ -42,4 +42,4 @@ private:
 	static Vecteur2d position;
 	static Vecteur2d molette;
 };
-}
+

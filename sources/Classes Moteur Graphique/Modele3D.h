@@ -40,7 +40,7 @@ namespace gfx{
 			glRotated(orientation.z, 0, 0, 1);
 			glTranslated(origine.x, origine.y, origine.z);
 			glScaled(echelle.x, echelle.y, echelle.z);
-			glGetdoublev(GL_MODELVIEW_MATRIX, matTrans);
+			glGetDoublev(GL_MODELVIEW_MATRIX, matTrans);
 			glPopMatrix();
 		}
 
@@ -102,10 +102,10 @@ namespace gfx{
 					bteColTemp[1] = modele.obtBoiteDeCollision()[i].y;
 					bteColTemp[2] = modele.obtBoiteDeCollision()[i].z;
 					bteColTemp[3] = 1;
-					bteCol[0] = (matTrans[0] * bteColTemp[0]) + ((matTrans[4] * bteColTemp[1]) + (matTrans[8] * bteColTemp[2]) + (matTrans[12] * bteColTemp[3]);
-					bteCol[1] = (matTrans[1] * bteColTemp[0]) + ((matTrans[5] * bteColTemp[1]) + (matTrans[9] * bteColTemp[2]) + (matTrans[13] * bteColTemp[3]);
-					bteCol[2] = (matTrans[2] * bteColTemp[0]) + ((matTrans[6] * bteColTemp[1]) + (matTrans[10] * bteColTemp[2]) + (matTrans[14] * bteColTemp[3]);
-					bteCol[3] = (matTrans[3] * bteColTemp[0]) + ((matTrans[7] * bteColTemp[1]) + (matTrans[11] * bteColTemp[2]) + (matTrans[15] * bteColTemp[3]);
+					bteCol[0] = (matTrans[0] * bteColTemp[0]) + (matTrans[4] * bteColTemp[1]) + (matTrans[8] * bteColTemp[2]) + (matTrans[12] * bteColTemp[3]);
+					bteCol[1] = (matTrans[1] * bteColTemp[0]) + (matTrans[5] * bteColTemp[1]) + (matTrans[9] * bteColTemp[2]) + (matTrans[13] * bteColTemp[3]);
+					bteCol[2] = (matTrans[2] * bteColTemp[0]) + (matTrans[6] * bteColTemp[1]) + (matTrans[10] * bteColTemp[2]) + (matTrans[14] * bteColTemp[3]);
+					bteCol[3] = (matTrans[3] * bteColTemp[0]) + (matTrans[7] * bteColTemp[1]) + (matTrans[11] * bteColTemp[2]) + (matTrans[15] * bteColTemp[3]);
 
 					boiteDeCollisionModifiee[i].x = bteCol[0] / bteCol[3];
 					boiteDeCollisionModifiee[i].y = bteCol[1] / bteCol[3];
