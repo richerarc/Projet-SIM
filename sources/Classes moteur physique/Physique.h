@@ -76,6 +76,7 @@ public:
 		mapRestitution["metal"] = 0.9;
 		mapRestitution["bois"] = 0.5;
 		mapRestitution["plastic"] = 0.68;
+		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
 	void repartirTemps() {
@@ -85,8 +86,25 @@ public:
 	
 	void RebondObjetCarte(gfx::Modele3D& objet1, Vecteur3d vecteurNormal) {
 
-		double dScalaire = mapRestitution[objet1.obtMateriel()] * 2 * objet1.obtVitesse().produitScalaire(vecteurNormal);
+		double dScalaire = (2 - mapRestitution[objet1.obtMateriel()]) * objet1.obtVitesse().produitScalaire(vecteurNormal);
 		objet1.obtVitesse() -= vecteurNormal * dScalaire;
+	}
+
+void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d vecteurNormal) {
+
+		Vecteur3d vVitesseRelative = objet1.obtVitesse() - objet2.obtVitesse();
+
+		double e = (mapRestitution[objet1.obtMateriel()] + mapRestitution[objet2.obtMateriel()]) / 2; // Moyenne des coefficients de restitution
+
+		double j = (-(1 + e) * (vVitesseRelative.produitScalaire(vecteurNormal))) / ((vecteurNormal.produitScalaire(vecteurNormal)) * (1 / objet1.obtMasse() + 1 / objet2.obtMasse()));
+
+		Vecteur3d vecteurNormal2 = vecteurNormal;
+
+		vecteurNormal *= j / objet1.obtMasse();
+		objet1.obtVitesse() += vecteurNormal;
+
+		vecteurNormal2 *= j / objet2.obtMasse();
+		objet2.obtVitesse() -= vecteurNormal2;
 	}
 	
 	double obtenirForceNormale(double masse, Vecteur3d& vitesse, Vecteur3d normale) {
@@ -98,14 +116,17 @@ public:
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void AppliquerVent(Vecteur3d vecteurVitesseVent, float tableauNormales[], unsigned int nombreFace, float tableauVertices[], Vecteur3d& vecteurVitesseObjet, double& masseObjet) {
+	void AppliquerVent(Vecteur3d vecteurVitesseVent, gfx::Modele3D& objet) {
+
+		float* tableauNormales = objet.obtModele().obtNormales();
+		float* tableauVertices = objet.obtModele().obtVertices();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		nombreFace *= 3;
+		double nombreFace = objet.obtModele().obtNbrFaces() * 3;
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -154,7 +175,7 @@ public:
 		coefficientTrainer /= nombreFaceSousPression;
 
 		// Fin du calcul...
-		accelerationSelonForceVent *= (coefficientTrainer * surface / masseObjet);
+		accelerationSelonForceVent *= (coefficientTrainer * surface / objet.obtMasse());
 
 		// Mise en proportion pour l'addition...
 		vecteurVitesseVent.normaliser();
@@ -162,7 +183,7 @@ public:
 		// Nécéssite l'ajout d'un division par le temps...
 		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
 
-		vecteurVitesseObjet += vecteurVitesseAppliquer * frametime;
+		objet.obtVitesse() += vecteurVitesseAppliquer * frametime;
 	}
 	
 	// MANQUE LA NORMALE
@@ -172,19 +193,19 @@ public:
 	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(double& masseObjet, Vecteur3d& positionObjet, Vecteur3d& vecteurVitesseObjet, Vecteur3d& positionAimant) {
+	void appliquerMagnetisme(gfx::modele3D& objet, Vecteur3d positionAimant) {
 
-	double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, positionObjet);
-	double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (masseObjet * distanceObjetAimant);
+		double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
+		double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (objet.obtMasse() * distanceObjetAimant);
 
-	Vecteur3d vecteurProportionnel = { positionAimant.x - positionObjet.x, positionAimant.y - positionObjet.y, positionAimant.z - positionObjet.z };
-	vecteurProportionnel.normaliser();
+		Vecteur3d vecteurProportionnel = { positionAimant.x - objet.obtPosition().x, positionAimant.y - objet.obtPosition().y, positionAimant.z - objet.obtPosition().z };
+		vecteurProportionnel.normaliser();
 
-	Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
+		Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
 
-	vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
+		vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
 
-	vecteurVitesseObjet += vecteurAcceleration * frametime;
+		objet.obtVitesse() += vecteurAcceleration * frametime;
 
 	}
 	

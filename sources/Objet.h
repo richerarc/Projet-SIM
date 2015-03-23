@@ -3,13 +3,13 @@
 class Objet {
 protected:
 	unsigned int ID;
-	Modele3D modele;
+	gfx::Modele3D modele;
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
 public:
 	Objet(){}
-	Objet(Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse){
+	Objet(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -48,7 +48,7 @@ public:
 		return this->ID;
 	}
 	
-	Modele3D obtModele(){
+	gfx::Modele3D& obtModele(){
 		return modele;
 	}
 

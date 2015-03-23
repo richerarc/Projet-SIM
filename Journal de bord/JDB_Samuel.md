@@ -13,3 +13,7 @@
 10 mars: presentation des "issues" github. Creation de la classe Gestionnaire 2D
 
 12 mars: Creation de la classe Gestionnaire 3D et tenter d'aider Jessy
+
+17: mars debut analyse Interface.
+
+19 mars: cours sur GitHUb

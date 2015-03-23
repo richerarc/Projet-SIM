@@ -49,3 +49,13 @@ Mardi 17 mars 2015 -----
 2:30 à 5:30
 
 J'ai été mis dans l'équipe de l'interface avec Xavier, Samuel et Diego. Nous avons travaillé sur la conception, nous avons premièrement fait l'analyse des besoins. Ensuite, j'ai travaillé sur le diagramme de classes avec Samuel et Diego.
+
+Jeudi 19 mars 2015 -----
+
+10:00 à 12:00
+
+Cours sur git avec Patrick, nous sommes maintenant tous capable de faire les opérations sans l'environment graphique.
+
+12:30 à 2:30
+
+Travail sur les diagrammes avec Xavier. Il manque à compléter les classes de contrôles visuels, je vais essayer de finir ce soir car quand ce sera fait nous pourrons coder!
