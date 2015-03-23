@@ -24,7 +24,4 @@ public:
 	void defVerrou(bool verrou){
 		verrouillee = verrou;
 	}
-	Vecteur3d obtPosition(){
-		return modele->obtPosition();
-	}
 };

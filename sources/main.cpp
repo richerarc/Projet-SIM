@@ -14,7 +14,7 @@
 #include "Jeu.h"
 // Les bananes en pyjamas sont vraiment magnifiques
 int main(int argc, char* argv[]){
-	
+
 	Jeu::demarrer();
 	return 0;
 }
