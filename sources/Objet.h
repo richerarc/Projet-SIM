@@ -20,7 +20,7 @@ public:
 	}
 
 	virtual Vecteur3d obtPosition(){} = 0;
-	void defPosition(int axeX, int axeY, int axeZ){
+	void defPosition(double axeX, double axeY, double axeZ){
 		modele->defPosition(axeX, axeY, axeZ);
 	}
 	
