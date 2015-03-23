@@ -1,3 +1,5 @@
+
+
 class Vent : public Objet{
 private:
 	Vecteur3d position;
@@ -19,7 +21,7 @@ public:
 		this->position.z = position.z;
 	}
 	Vecteur3d obtPosition(){
-		return position;
+		return modele;
 	}
 
 	void defDimensions(){
