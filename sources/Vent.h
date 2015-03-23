@@ -2,11 +2,10 @@
 
 class Vent : public Objet{
 private:
-	Vecteur3d position;
-	Vecteur3d dimensions;
+	Vecteur3f position;
+	Vecteur3f dimensions;
 public:
-	Vent(){}
-	Vent(Vecteur3d vitesse, unsigned int ID, Vecteur3d position, Vecteur3d dimensions) : Objet(modele, ID, NULL, NULL, vitesse){
+	Vent(Vecteur3f vitesse, unsigned int ID, Vecteur3f position, Vecteur3f dimensions) : Objet(gfx::Modele3D(), ID, NULL, NULL, vitesse, position){
 		this->position.x = position.x;
 		this->position.y = position.y;
 		this->position.z = position.z;
@@ -15,22 +14,22 @@ public:
 		this->dimensions.z = dimensions.z;
 	}
 
-	void defPosition(Vecteur3d position){
+	void defPosition(Vecteur3f position){
 		this->position.x = position.x;
 		this->position.y = position.y;
 		this->position.z = position.z;
 	}
-	Vecteur3d obtPosition(){
-		return modele;
+	Vecteur3f obtPosition(){
+		return position;
 	}
 
-	void defDimensions(){
+	void defDimensions(Vecteur3f dimensions) {
 		this->dimensions.x = dimensions.x;
 		this->dimensions.y = dimensions.y;
 		this->dimensions.z = dimensions.z;
 	}
 
-	Vecteur3d obtDimensions(){
+	Vecteur3f obtDimensions() {
 		return dimensions;
 	}
 };
