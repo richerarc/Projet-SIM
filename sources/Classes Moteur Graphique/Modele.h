@@ -9,18 +9,18 @@ namespace gfx{
 
 	class Modele{
 	private:
-		float* vertices;
-		float* textures;
-		float* normales;
-		Vecteur3f taille;
+		double* vertices;
+		double* textures;
+		double* normales;
+		Vecteur3d taille;
 		unsigned int nbrVertices;
-		Vecteur3f boiteDeCollision[8];
+		Vecteur3d boiteDeCollision[8];
 
 		void calculerBoiteDeCollision(){
-			std::vector<float> tmpX;
-			std::vector<float> tmpY;
-			std::vector<float> tmpZ;
-			float xmax, xmin, ymax, ymin, zmax, zmin;
+			std::vector<double> tmpX;
+			std::vector<double> tmpY;
+			std::vector<double> tmpZ;
+			double xmax, xmin, ymax, ymin, zmax, zmin;
 			for (int i = 0; i < nbrVertices/3; ++i){
 				tmpX.push_back(vertices[i * 3]);
 				tmpY.push_back(vertices[i * 3 + 1]);
@@ -32,20 +32,20 @@ namespace gfx{
 			ymin = Maths::obtValeurMin(tmpY);
 			zmax = Maths::obtValeurMax(tmpZ);
 			zmin = Maths::obtValeurMin(tmpZ);
-			boiteDeCollision[0] = Vecteur3f(xmin, ymin, zmax);
-			boiteDeCollision[1] = Vecteur3f(xmin, ymax, zmax);
-			boiteDeCollision[2] = Vecteur3f(xmax, ymax, zmax);
-			boiteDeCollision[3] = Vecteur3f(xmax, ymin, zmax);
-			boiteDeCollision[4] = Vecteur3f(xmin, ymin, zmin);
-			boiteDeCollision[5] = Vecteur3f(xmin, ymax, zmin);
-			boiteDeCollision[6] = Vecteur3f(xmax, ymax, zmin);
-			boiteDeCollision[7] = Vecteur3f(xmax, ymin, zmin);
+			boiteDeCollision[0] = Vecteur3d(xmin, ymin, zmax);
+			boiteDeCollision[1] = Vecteur3d(xmin, ymax, zmax);
+			boiteDeCollision[2] = Vecteur3d(xmax, ymax, zmax);
+			boiteDeCollision[3] = Vecteur3d(xmax, ymin, zmax);
+			boiteDeCollision[4] = Vecteur3d(xmin, ymin, zmin);
+			boiteDeCollision[5] = Vecteur3d(xmin, ymax, zmin);
+			boiteDeCollision[6] = Vecteur3d(xmax, ymax, zmin);
+			boiteDeCollision[7] = Vecteur3d(xmax, ymin, zmin);
 		}
 
 		void calculerTaille(){
-			std::vector<float> tmpX;
-			std::vector<float> tmpY;
-			std::vector<float> tmpZ;
+			std::vector<double> tmpX;
+			std::vector<double> tmpY;
+			std::vector<double> tmpZ;
 			for (int i = 0; i < nbrVertices / 3; ++i){
 				tmpX.push_back(vertices[i * 3]);
 				tmpY.push_back(vertices[i * 3 + 1]);
@@ -77,12 +77,12 @@ namespace gfx{
 			std::ifstream Fichier(chemin);
 			if (Fichier.is_open()){
 				char *X = new char(), *Y = new char(), *Z = new char(), *temp = new char();
-				std::vector<float> tmpVertices;
-				std::queue<float> Vertices;
-				std::vector<float> tmpTextures;
-				std::queue<float> Textures;
-				std::vector<float> tmpNormales;
-				std::queue<float> Normales;
+				std::vector<double> tmpVertices;
+				std::queue<double> Vertices;
+				std::vector<double> tmpTextures;
+				std::queue<double> Textures;
+				std::vector<double> tmpNormales;
+				std::queue<double> Normales;
 
 				while (!Fichier.eof()){
 					Fichier >> temp;
@@ -163,7 +163,7 @@ namespace gfx{
 				nbrVertices = Vertices.size();
 
 				if (nbrVertices){
-					vertices = new float[nbrVertices];
+					vertices = new double[nbrVertices];
 					for (int i = 0; i < nbrVertices; i++)
 					{
 						vertices[i] = Vertices.front();
@@ -172,7 +172,7 @@ namespace gfx{
 				}
 
 				if (Textures.size()){
-					textures = new float[Textures.size()];
+					textures = new double[Textures.size()];
 					for (int i = 0; i < nbrVertices / 3 * 2; i++)
 					{
 						textures[i] = Textures.front();
@@ -182,7 +182,7 @@ namespace gfx{
 
 				if (Normales.size())
 				{
-					normales = new float[nbrVertices];
+					normales = new double[nbrVertices];
 					for (int i = 0; i < nbrVertices; i++)
 					{
 						normales[i] = Normales.front();
@@ -196,23 +196,23 @@ namespace gfx{
 			return false;
 		}
 
-		Vecteur3f* obtBoiteDeCollision(){
+		Vecteur3d* obtBoiteDeCollision(){
 			return boiteDeCollision;
 		}
 
-		Vecteur3f obtTaille(){
+		Vecteur3d obtTaille(){
 			return taille;
 		}
 
-		float* obtVertices(){
+		double* obtVertices(){
 			return vertices;
 		}
 
-		float* obtTextures(){
+		double* obtTextures(){
 			return textures;
 		}
 
-		float* obtNormales(){
+		double* obtNormales(){
 			return normales;
 		}
 

@@ -6,7 +6,7 @@ class Sprite2D : public Objet2D{
 public:
 	Texture* texture;
 
-	Sprite2D(Vecteur2f  position, Texture* texture) : Objet2D(position){
+	Sprite2D(Vecteur2d  position, Texture* texture) : Objet2D(position){
 		this->texture = texture;
 		this->surface = texture->obtSurface();
 	
@@ -26,11 +26,11 @@ public:
 			glMatrixMode(GL_MODELVIEW);
 			
 			glLoadIdentity();
-			glTranslatef(position.x - origine.x,position.y - origine.y , 0);
-		//	glTranslatef(origine.x, origine.y, 0.0f);
-		//	glTranslatef(-origine.x, -origine.y, 0.0f);
-			glRotatef(orientation, 0.0f, 0.0f, 1.0f);
-		//	glTranslatef(0.0f, 0.0f, 0.0f);
+			glTranslated(position.x - origine.x,position.y - origine.y , 0);
+		//	glTranslated(origine.x, origine.y, 0.0f);
+		//	glTranslated(-origine.x, -origine.y, 0.0f);
+			glRotated(orientation, 0.0f, 0.0f, 1.0f);
+		//	glTranslated(0.0f, 0.0f, 0.0f);
 			glPushMatrix();
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glEnable(GL_TEXTURE_2D);

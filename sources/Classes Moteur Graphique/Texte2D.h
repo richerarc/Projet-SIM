@@ -15,9 +15,9 @@ public:
 	TTF_Font* police;
 	GLuint ID;
 
-	//Texte2D(Vecteur3f position) : Objet2D(position){}
+	//Texte2D(Vecteur3d position) : Objet2D(position){}
 
-	Texte2D(const char* texte, const char* pathPolice, int taille, Vecteur2f  position) : Objet2D(position){
+	Texte2D(const char* texte, const char* pathPolice, int taille, Vecteur2d  position) : Objet2D(position){
 		this->texte = texte;
 		this->taille = taille;
 		police = TTF_OpenFont(pathPolice, taille);

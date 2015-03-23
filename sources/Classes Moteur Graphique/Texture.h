@@ -37,8 +37,8 @@ namespace gfx{
 			return ID;
 		}
 
-		Vecteur2f obtTaille() {
-			return Vecteur2f(surface->w, surface->h);
+		Vecteur2d obtTaille() {
+			return Vecteur2d(surface->w, surface->h);
 		}
 
 		SDL_Surface* obtSurface() {

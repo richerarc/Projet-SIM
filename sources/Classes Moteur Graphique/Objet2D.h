@@ -3,13 +3,13 @@
 #include "Vecteur2.h"
 class Objet2D{
 protected:
-	Vecteur2f position;
+	Vecteur2d position;
 	double orientation;
-	Vecteur2f origine;
-	Vecteur2f echelle;
+	Vecteur2d origine;
+	Vecteur2d echelle;
 	SDL_Surface* surface;
 public:
-	Objet2D(Vecteur2f position){
+	Objet2D(Vecteur2d position){
 		this->position = position;
 		echelle.x = 1;
 		echelle.y = 1;
@@ -23,16 +23,16 @@ public:
 	}
 	virtual void afficher() = 0;
 
-	void defPosition(Vecteur2f position){
+	void defPosition(Vecteur2d position){
 		this->position = position;
 	}
-	void deplacer(Vecteur2f position){
+	void deplacer(Vecteur2d position){
 		this->position = this->position + position;
 	}
-	void defOrigine(Vecteur2f origine){
+	void defOrigine(Vecteur2d origine){
 		this->origine = origine;
 	}
-	void defEchelle(Vecteur2f echelle){
+	void defEchelle(Vecteur2d echelle){
 		this->echelle = echelle;
 		surface->h = surface->h*echelle.y;
 		surface->w = surface->w*echelle.x;
@@ -44,8 +44,8 @@ public:
 		this->orientation = this->orientation + orientation;
 	}
 
-	Vecteur2f obtPosition(){ return position; }
-	Vecteur2f obtOrigine(){ return origine; }
+	Vecteur2d obtPosition(){ return position; }
+	Vecteur2d obtOrigine(){ return origine; }
 	double obtOrientation(){ return orientation; }
-	Vecteur2f obtEchelle(){ return echelle; }
+	Vecteur2d obtEchelle(){ return echelle; }
 };

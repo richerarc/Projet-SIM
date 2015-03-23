@@ -30,16 +30,16 @@ public:
 		return boutons.find(bouton) == boutons.end();
 	}
 
-	static Vecteur2f obtPosition(){
+	static Vecteur2d obtPosition(){
 		return position;
 	}
 
-	static Vecteur2f obtEtatMolette(){
+	static Vecteur2d obtEtatMolette(){
 		return molette;
 	}
 private:
 	static std::set<short> boutons;
-	static Vecteur2f position;
-	static Vecteur2f molette;
+	static Vecteur2d position;
+	static Vecteur2d molette;
 };
 }

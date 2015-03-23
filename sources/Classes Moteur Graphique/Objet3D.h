@@ -5,52 +5,52 @@ namespace gfx{
 
 	class Objet3D{
 	protected:
-		Vecteur3f position;
-		Vecteur3f origine;
-		Vecteur3f orientation;
+		Vecteur3d position;
+		Vecteur3d origine;
+		Vecteur3d orientation;
 
 	public:
 
 		Objet3D(){
-			position = Vecteur3f(0, 0, 0);
-			origine = Vecteur3f(0, 0, 0);
-			orientation = Vecteur3f(0, 0, 0);
+			position = Vecteur3d(0, 0, 0);
+			origine = Vecteur3d(0, 0, 0);
+			orientation = Vecteur3d(0, 0, 0);
 		}
 
 		~Objet3D(){
 		}
 
-		Vecteur3f obtPosition(){
+		Vecteur3d obtPosition(){
 			return position;
 		}
 
-		Vecteur3f obtOrigine(){
+		Vecteur3d obtOrigine(){
 			return origine;
 		}
 
-		Vecteur3f obtOrientation(){
+		Vecteur3d obtOrientation(){
 			return orientation;
 		}
 
-		virtual void defPosition(Vecteur3f &pos) = 0;
+		virtual void defPosition(Vecteur3d &pos) = 0;
 
-		virtual void defOrigine(Vecteur3f &org) = 0;
+		virtual void defOrigine(Vecteur3d &org) = 0;
 
-		virtual void defOrientation(Vecteur3f &ort) = 0;
+		virtual void defOrientation(Vecteur3d &ort) = 0;
 
-		virtual void rotationner(Vecteur3f &rot) = 0;
+		virtual void rotationner(Vecteur3d &rot) = 0;
 
-		virtual void deplacer(Vecteur3f &dep) = 0;
+		virtual void deplacer(Vecteur3d &dep) = 0;
 
-		virtual void defPosition(float axeX, float axeY, float axeZ) = 0;
+		virtual void defPosition(double axeX, double axeY, double axeZ) = 0;
 
-		virtual void defOrigine(float axeX, float axeY, float axeZ) = 0;
+		virtual void defOrigine(double axeX, double axeY, double axeZ) = 0;
 
-		virtual void defOrientation(float axeX, float axeY, float axeZ) = 0;
+		virtual void defOrientation(double axeX, double axeY, double axeZ) = 0;
 
-		virtual void rotationner(float axeX, float axeY, float axeZ) = 0;
+		virtual void rotationner(double axeX, double axeY, double axeZ) = 0;
 
-		virtual void deplacer(float axeX, float axeY, float axeZ) = 0;
+		virtual void deplacer(double axeX, double axeY, double axeZ) = 0;
 
 		virtual void afficher() = 0;
 
