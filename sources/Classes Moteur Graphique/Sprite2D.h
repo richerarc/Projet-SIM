@@ -1,31 +1,31 @@
 #pragma once
 #include "Texture.h"
-#include "Vecteur3.h"
 #include "Objet2D.h"
 #include "Fenetre.h"
-class Sprite2D : public Objet2D{
-public:
-	Texture* texture;
+namespace gfx{
+	class Sprite2D : public Objet2D{
+	public:
+		Texture* texture;
 
-	Sprite2D(Vecteur2d  position, Texture* texture) : Objet2D(position){
-		this->texture = texture;
-		this->surface = texture->obtSurface();
-	
-	}
-	~Sprite2D(){
-	}
+		Sprite2D(Vecteur2d  position, Texture* texture) : Objet2D(position){
+			this->texture = texture;
+			this->surface = texture->obtSurface();
 
-	Texture* obtTexture(){
-		return texture;
-	}
-	void afficher(gfx::Fenetre& fenetre){
-		
+		}
+		~Sprite2D(){
+		}
+
+		Texture* obtTexture(){
+			return texture;
+		}
+		void afficher(gfx::Fenetre& fenetre){
+
 			glDisable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
 			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1); //Remplacer les deux 500 par la windows
 			glMatrixMode(GL_MODELVIEW);
-			
+
 			glLoadIdentity();
 
 			glTranslated(-origine.x, -origine.y, 0.0f);
@@ -37,7 +37,7 @@ public:
 			glEnable(GL_TEXTURE_2D);
 			glBegin(GL_QUADS);
 
-			
+
 
 
 			glTexCoord2i(0, 1);
@@ -52,12 +52,13 @@ public:
 			glTexCoord2i(0, 0);
 			glVertex2d(position.x, surface->h + position.y); //4
 			glEnd();
-			
+
 			glPopMatrix();
-	
-	}
-	void defTexture(Texture* texture){
-		this->texture = texture;
-		this->surface = texture->obtSurface();
-	}
-};
+
+		}
+		void defTexture(Texture* texture){
+			this->texture = texture;
+			this->surface = texture->obtSurface();
+		}
+	};
+}
