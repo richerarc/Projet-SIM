@@ -27,3 +27,6 @@ de 3h à 5h20
 12 mars de 10h à 12h
 	Aide à Kévin pour les classes Model3D.
 	Fix de bugs.
+23 mars de 18h à 22h
+	Implémentation des classes Fenetre et ModeVideo.
+	
