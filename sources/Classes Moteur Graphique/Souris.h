@@ -42,4 +42,7 @@ private:
 	static Vecteur2d position;
 	static Vecteur2d molette;
 };
+std::set<short> Souris::boutons;
+Vecteur2d Souris::position;
+Vecteur2d Souris::molette;
 

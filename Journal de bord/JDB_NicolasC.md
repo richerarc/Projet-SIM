@@ -68,3 +68,7 @@
   19h00  
   -modélisation d'une porte avec une texture provisoire.  
   20h00  
+**24 mar**  
+  15h30  
+  -modélisation d'une salle carrée et modification de la porte.  
+  16h15  

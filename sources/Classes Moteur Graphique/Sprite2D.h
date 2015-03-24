@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Vecteur3.h"
 #include "Objet2D.h"
+#include "Fenetre.h"
 class Sprite2D : public Objet2D{
 public:
 	Texture* texture;
@@ -17,20 +18,20 @@ public:
 	Texture* obtTexture(){
 		return texture;
 	}
-	void afficher(){
+	void afficher(gfx::Fenetre& fenetre){
 		
 			glDisable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glOrtho(0, 720, 0, 720, -1, 1); //Remplacer les deux 500 par la windows
+			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1); //Remplacer les deux 500 par la windows
 			glMatrixMode(GL_MODELVIEW);
 			
 			glLoadIdentity();
-			glTranslated(position.x - origine.x,position.y - origine.y , 0);
-		//	glTranslated(origine.x, origine.y, 0.0f);
-		//	glTranslated(-origine.x, -origine.y, 0.0f);
+
+			glTranslated(-origine.x, -origine.y, 0.0f);
 			glRotated(orientation, 0.0f, 0.0f, 1.0f);
-		//	glTranslated(0.0f, 0.0f, 0.0f);
+			glTranslated(origine.x, origine.y, 0.0f);
+
 			glPushMatrix();
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glEnable(GL_TEXTURE_2D);
@@ -38,17 +39,18 @@ public:
 
 			
 
+
 			glTexCoord2i(0, 1);
-			glVertex2i(position.x, position.y);  //1
+			glVertex2d(position.x, position.y);  //1
 
 			glTexCoord2i(1, 1);
-			glVertex2i(surface->w + position.x, position.y); //2
+			glVertex2d(surface->w + position.x, position.y); //2
 
 			glTexCoord2i(1, 0);
-			glVertex2i(surface->w + position.x, surface->h + position.y); //3
+			glVertex2d(surface->w + position.x, surface->h + position.y); //3
 
 			glTexCoord2i(0, 0);
-			glVertex2i(position.x, surface->h + position.y); //4
+			glVertex2d(position.x, surface->h + position.y); //4
 			glEnd();
 			
 			glPopMatrix();

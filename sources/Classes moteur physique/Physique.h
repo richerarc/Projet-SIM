@@ -13,7 +13,7 @@ private:
 	double constanteDeFriction;
 	double champsMagnetique;
 	double sensibiliteMagnetique;
-	float frametime;
+	double frametime;
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
@@ -83,17 +83,17 @@ public:
 	}
 
 	
-	void RebondObjetCarte(gfx::Modele3D& objet1, Vecteur3d vecteurNormal) {
+	void RebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal) {
 
-		double dScalaire = (2 - mapRestitution[objet1.obtMateriel()]) * objet1.obtVitesse().produitScalaire(vecteurNormal);
-		objet1.obtVitesse() -= vecteurNormal * dScalaire;
+		double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
+		objet.obtVitesse() -= vecteurNormal * dScalaire;
 	}
 
-void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d vecteurNormal) {
+	void RebondObjetObjet(Objet& objet1, Objet& objet2, Vecteur3d vecteurNormal) {
 
 		Vecteur3d vVitesseRelative = objet1.obtVitesse() - objet2.obtVitesse();
 
-		double e = (mapRestitution[objet1.obtMateriel()] + mapRestitution[objet2.obtMateriel()]) / 2; // Moyenne des coefficients de restitution
+		double e = (mapRestitution[objet1.obtMateriaux()] + mapRestitution[objet2.obtMateriaux()]) / 2; // Moyenne des coefficients de restitution
 
 		double j = (-(1 + e) * (vVitesseRelative.produitScalaire(vecteurNormal))) / ((vecteurNormal.produitScalaire(vecteurNormal)) * (1 / objet1.obtMasse() + 1 / objet2.obtMasse()));
 
@@ -115,17 +115,17 @@ void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d ve
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void AppliquerVent(Vecteur3d vecteurVitesseVent, gfx::Modele3D& objet) {
+	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet) {
 
-		float* tableauNormales = objet.obtModele().obtNormales();
-		float* tableauVertices = objet.obtModele().obtVertices();
+		double* tableauNormales = objet.obtModele3D().obtNormalesModifies();
+		double* tableauVertices = objet.obtModele3D().obtSommetsModifies();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreFace = objet.obtModele().obtNbrFaces() * 3;
+		double nombreFace = objet.obtModele3D().obtModele().obtNbrSommets();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -186,13 +186,13 @@ void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d ve
 	}
 	
 	// MANQUE LA NORMALE
-	void appliquerFrottement(gfx::Modele3D& objet) {
+	void appliquerFrottement(Objet& objet) {
 		//objet.obtVitesse().soustraire(constanteDeFriction * obtenirForceNormale(objet.obtMasse(), objet.obtPosition()));
 	}
 	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(gfx::modele3D& objet, Vecteur3d positionAimant) {
+	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant) {
 
 		double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
 		double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (objet.obtMasse() * distanceObjetAimant);
