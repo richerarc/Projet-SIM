@@ -60,3 +60,9 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 
 17 mars de 2h à 17h15:
 -J'ai continué l'environnement 2D , en particulier l'affichage, les rotations, l'origines etc.
+
+21 mars de 12h à 13h:
+-J'ai corrigé un bug dans le gestionnaire2D
+
+24 mars de 14h30 à 17h30:
+-J'ai continué l'environnement 2D

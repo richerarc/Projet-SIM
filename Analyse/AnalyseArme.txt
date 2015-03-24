@@ -1,1 +1,7 @@
-Les armes dans le monde lorsqu’elles ne sont pas prisent par le joueur (donc sont dans le monde, par exemple, sur le sol) sont des objets physique affecté par la gravité. Lorsqu’une arme est ramassée par le joueur, l’arme n’est plus un objet physique. Une arme peut soit être une arme à feux ou une arme de mêlée. Chaque arme à une longueur d’attaque différente (armes à feu ont une longueur d’attaque plus longue qu’un couteau et un couteau à une longueur d’attaque plus longue qu’une épée). Les armes à feu ont des munitions limitées et une gosseur de chargeur alors que les armes de mêlée n’en ont pas.
+Les armes dans le monde lorsqu’elles ne sont pas prisent par le joueur (donc sont dans le monde, par exemple, sur le sol) 
+sont des objets physique affecté par la gravité. Lorsqu’une arme est ramassée par le joueur, l’arme n’est plus un objet physique.
+Une arme peut soit être une arme à feu ou une arme de mêlée. Chaque type d'arme possède sa propre classe qui gère ses interactions. Les armes à feu ont 
+des munitions limitées et une taille de chargeur alors que les armes de mêlée n’en ont pas. Les munitions lancées par une arme à feu sont des objets 
+physiques dont la masse et la vitesse initiale peuvent changer selon l'arme. D'autres objets pourront avoir des interactions avec le joueur.
+Cela inclut des objets pour restaurer des points de vie ou de santé mentale, des objets utiles pour les casse-têtes, des notes du journal de bord,
+des munition et des bonus qui amplifie temporairement le personnage.

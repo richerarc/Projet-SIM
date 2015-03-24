@@ -1,13 +1,14 @@
 class ControleVisuel{
 protected:
-	bool Active; //Determine l'activation du controle
-	Texte2D Texte; //Texte affiché sur le controle si il y a lieu
-	Sprtie2D Sprite; //Sprite d'animation du controle si il y a lieu (bouton)
-	Vecteur2 Position; //Position du controle
+	Texte2D  texte;		//Texte affiché sur le controle si il y a lieu
+	Sprite2D sprite;	//Sprite d'animation du controle si il y a lieu (bouton)
+	Vecteur2f position;	//Position du controle
+	Vecteur2f taille;
 
 
 	//ces fonctions de bases seront peut-etre nécéssaire pour les controles
-	virtual void Afficher() = 0;
-	virtual void Activation() = 0;
+	ControleVisuel(){}
+	virtual void afficher() = 0;
+	virtual void activation() = 0;
 
 };

@@ -11,10 +11,6 @@
 #include "Texture.h"
 #include "Objet3D.h"
 
-
-/*
-A tester pour les tableaux transformés
-*/
 namespace gfx{
 	class Modele3D : public Objet3D {
 	private:
@@ -74,7 +70,7 @@ namespace gfx{
 				for (unsigned int i = 0; i < modele.obtNbrVertices() / 3; i++)
 				{
 					for (unsigned int j = 0; j < 3; j++)
-						normalTemp[j] = modele.obtVertices()[i * 3 + j];
+						normalTemp[j] = modele.obtNormales()[i * 3 + j];
 
 					vecteurNormal[0] = (matTrans[0] * normalTemp[0]) + (matTrans[4] * normalTemp[1]) + (matTrans[8] * normalTemp[2]) + (matTrans[12] * normalTemp[3]);
 					vecteurNormal[1] = (matTrans[1] * normalTemp[0]) + (matTrans[5] * normalTemp[1]) + (matTrans[9] * normalTemp[2]) + (matTrans[13] * normalTemp[3]);
@@ -89,9 +85,9 @@ namespace gfx{
 						
 					}
 				}
-				sommet_Est_Transforme = false;
+				normale_Est_Transforme = false;
 			}
-			return sommetsModif;
+			return normalesModif;
 		}
 
 		double* obtSommetsModifies(){
@@ -174,6 +170,7 @@ namespace gfx{
 		void defEchelle(double echX, double echY, double echZ){
 			echelle = Vecteur3d(echX, echY, echZ);
 			sommet_Est_Transforme = true;
+			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
@@ -187,6 +184,7 @@ namespace gfx{
 
 		void defPosition(Vecteur3d pos){
 			position = pos;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -211,6 +209,7 @@ namespace gfx{
 
 		void deplacer(Vecteur3d dep){
 			position += dep;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -219,6 +218,7 @@ namespace gfx{
 			position.x = axeX;
 			position.y = axeY;
 			position.z = axeZ;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -251,6 +251,7 @@ namespace gfx{
 			position.x += axeX;
 			position.y += axeY;
 			position.z += axeZ;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -258,7 +259,7 @@ namespace gfx{
 		void afficher(){
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
-			glLoadIdentity();
+			//glLoadIdentity();
 			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
 			glRotated(orientation.x, 1, 0, 0);
 			glRotated(orientation.y, 0, 1, 0);

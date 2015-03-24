@@ -21,3 +21,4 @@ public:
 private:
 	static std::set<short> touches;
 };
+std::set<short> Clavier::touches;
