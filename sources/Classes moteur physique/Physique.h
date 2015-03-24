@@ -53,11 +53,7 @@ private:
 
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-				resultat1 = positionPointDroite(point1, point2, pointCollision, plan.obtenirNormale());
-				resultat2 = positionPointDroite(point2, point3, pointCollision, plan.obtenirNormale());
-				resultat3 = positionPointDroite(point3, point1, pointCollision, plan.obtenirNormale());
-
-				if ((resultat1 == 0 || resultat2 == 0 || resultat3 == 0) || (resultat1 < 0 && resultat2 < 0 && resultat3 < 0) || (resultat1 > 0 && resultat2 > 0 && resultat3 > 0)) {
+				if (pointDansTriangle(point1, point2, point3, pointCollision)) {
 					normale = { modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2] };
 					return true;
 				}
@@ -222,22 +218,22 @@ public:
 
 	double positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point, Vecteur3d& normale) {
 		
-		normale.normaliser();
+		Vecteur3d vect1 = point3 - point1;
+		Vecteur3d vect2 = point2 - point1;
+		Vecteur3d vect3 = point - point1;
 
-		if (normale.x > normale.y && normale.x > normale.z) {
-			
-			return (droite2.y - droite1.y) * (point.z - droite1.z) - (droite2.z - droite1.z) * (point.y - droite1.y);
-		}
-		
-		if (normale.y > normale.x && normale.y > normale.z) {
+		double produit11 = vect1.produitScalaire(vect1);
+		double produit12 = vect1.produitScalaire(vect2);
+		double produit13 = vect1.produitScalaire(vect3);
+		double produit22 = vect2.produitScalaire(vect2);
+		double produit23 = vect2.produitScalaire(vect3);
 
-			return (droite2.x - droite1.x) * (point.z - droite1.z) - (droite2.z - droite1.z) * (point.x - droite1.x);
-		}
+		double invDenom = 1 / (produit11 * produit22 - produit12 * produit12);
+		double u = (produit22 * produit13 - produit12 * produit23) * invDenom;
+		double v = (produit11 * produit23 - produit23 * produit13) * invDenom;
 
-		if (normale.z > normale.x && normale.z > normale.y) {
-			
-			return (droite2.x - droite1.x) * (point.y - droite1.y) - (droite2.y - droite1.y) * (point.x - droite1.x);
-		}	
+		return (u >= 0) && (v >= 0) && (u + v < 1);
+
 	}
 
 	double obtenirEnergieCinetique(double masse, Vecteur3d& vecteurVitesseObjet) {
@@ -262,12 +258,7 @@ public:
 
 			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
 
-				distance = distanceEntreDeuxPoints(point, pointCollision);
-				Vecteur3d f = point + rayonCollision.obtenirVecteurDirecteur() * 0.01;
-				d = distanceEntreDeuxPoints(f, pointCollision);
-
 				if (normale.y > 0 && pointCollision.y > point.y && objet.obtVitesse().y < 0) {
-					//objet.defPosition(pointCollision);
 					normale.normaliser();
 					RebondObjetCarte(objet, normale);
 					return true;
