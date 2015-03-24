@@ -70,7 +70,7 @@ namespace gfx{
 				for (unsigned int i = 0; i < modele.obtNbrVertices() / 3; i++)
 				{
 					for (unsigned int j = 0; j < 3; j++)
-						normalTemp[j] = modele.obtVertices()[i * 3 + j];
+						normalTemp[j] = modele.obtNormales()[i * 3 + j];
 
 					vecteurNormal[0] = (matTrans[0] * normalTemp[0]) + (matTrans[4] * normalTemp[1]) + (matTrans[8] * normalTemp[2]) + (matTrans[12] * normalTemp[3]);
 					vecteurNormal[1] = (matTrans[1] * normalTemp[0]) + (matTrans[5] * normalTemp[1]) + (matTrans[9] * normalTemp[2]) + (matTrans[13] * normalTemp[3]);
@@ -85,9 +85,9 @@ namespace gfx{
 						
 					}
 				}
-				sommet_Est_Transforme = false;
+				normale_Est_Transforme = false;
 			}
-			return sommetsModif;
+			return normalesModif;
 		}
 
 		double* obtSommetsModifies(){
