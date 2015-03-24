@@ -16,3 +16,5 @@
                           + Cours
 
 23/03/2015 : Modifications dans les classes objets 
+
+24/03/2015 : Continuation des objets avec Damien
