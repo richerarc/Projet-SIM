@@ -23,9 +23,8 @@ public:
 	}
 
 	void vider(){
-		if (objets.empty == false){
+		if ((!objets.empty()))
 			objets.clear();
-		}
 	}
 
 	~Gestionnaire2D(){
