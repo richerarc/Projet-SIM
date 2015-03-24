@@ -170,7 +170,7 @@ namespace gfx{
 		void defEchelle(double echX, double echY, double echZ){
 			echelle = Vecteur3d(echX, echY, echZ);
 			sommet_Est_Transforme = true;
-			normale_Est_Transformee = true;
+			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
@@ -184,7 +184,7 @@ namespace gfx{
 
 		void defPosition(Vecteur3d pos){
 			position = pos;
-			normale_Est_Transformee = true;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -209,7 +209,7 @@ namespace gfx{
 
 		void deplacer(Vecteur3d dep){
 			position += dep;
-			normale_Est_Transformee = true;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -218,7 +218,7 @@ namespace gfx{
 			position.x = axeX;
 			position.y = axeY;
 			position.z = axeZ;
-			normale_Est_Transformee = true;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -251,7 +251,7 @@ namespace gfx{
 			position.x += axeX;
 			position.y += axeY;
 			position.z += axeZ;
-			normale_Est_Transformee = true;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
