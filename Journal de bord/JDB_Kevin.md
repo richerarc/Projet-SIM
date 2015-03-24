@@ -111,3 +111,16 @@ J'ai terminer la logique derriere le calcul matriciel 4X4. Donc j'ai du meme cou
 J'ai en partie terminer les fonctions qui modifie les tableau maintenant ils se calculent seulement si l'objet subit une transformation par rapport a son dernier état. Il reste le calcul des normales mais ce calcul semble etre plus fastidieux alors je le ferai lundi quand je serai reposé. J'ai corriger quelques erreurs qui s'étaient gilssé dans modele.h et dans modele3D.
 
 **Temps 2h**
+
+##**`23 mars 2015`**
+
+J'ai fait la formule de l'obtention des normales mais des tests seront nécéssaires. J'ai aussis regler quelques problèmes une peu partout.
+
+**Temps 2h**
+
+
+##**`24 mars 2015`**
+
+J'ai débuger la camera avec brandon, j'ai corriger des trucs dans quelques classes pour rendre le projet fonctionnel. Ensuite nous avons pris des sons avec Fabien.
+
+**Temps 4h**
