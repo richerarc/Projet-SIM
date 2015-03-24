@@ -15,7 +15,6 @@ public:
 	TTF_Font* police;
 	GLuint ID;
 
-	//Texte2D(Vecteur3d position) : Objet2D(position){}
 
 	Texte2D(const char* texte, const char* pathPolice, int taille, Vecteur2d  position) : Objet2D(position){
 		this->texte = texte;
@@ -56,24 +55,23 @@ public:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glMatrixMode(GL_MODELVIEW);
-		glRotated(1, 0, 0, 1);
 
-			glBegin(GL_QUADS);
-			
-				glTexCoord2i(0, 1);
-				glVertex2i(position.x, position.y);  //1
+		glBegin(GL_QUADS);
 
-				glTexCoord2i(1, 1);
-				glVertex2i(surface->w + position.x, position.y); //2
+			glTexCoord2i(0, 1);
+			glVertex2d(position.x, position.y);  //1
 
-				glTexCoord2i(1, 0);
-				glVertex2i(surface->w + position.x, surface->h + position.y); //3
+			glTexCoord2i(1, 1);
+			glVertex2d(surface->w + position.x, position.y); //2
 
-				glTexCoord2i(0, 0);
-				glVertex2i(position.x, surface->h + position.y); //4
-				
+			glTexCoord2i(1, 0);
+			glVertex2d(surface->w + position.x, surface->h + position.y); //3
 
-			glEnd();
+			glTexCoord2i(0, 0);
+			glVertex2d(position.x, surface->h + position.y); //4
+
+
+		glEnd();
 
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);
