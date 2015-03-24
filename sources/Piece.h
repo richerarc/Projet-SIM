@@ -1,28 +1,28 @@
 #pragma once
+#include "Salle"
 #include "Contenu.h"
 
-class Piece{
+class Piece : public Salle{
 private:
-	std::list</**Objet*/> objets;
+	std::list<Objet*> objets;
 	float valeurProb;
-	/*Obstacle obstacle;*/
 
 public:
-	Piece(){
-		//Pas trop sur yo
+	Piece(){}
+	
+	Piece(Modele3D modele, int ID) : public Salle(modele, ID){
+		this->obstacle = obstacle;
 	}
 
-	void ajoutObjet(*Objet Objet){ // Objet thingy
-		objets.push_back(Objet);
+	void ajoutObjet(Objet *objet){
+		objets.push_back(objet);
 	}
 
-	Objet obtObjet(unsigned int position,bool effacer){ //Permet soir d'obtenir l'objet ou de le retirer/supprimer de la liste.
-		if (!effacer)
-			return objets[position];
-		else{
-			objets[position].erase;
-			return 0;
-		}	
+	Objet* obtObjet(unsigned int ID){
+		for(auto it: objets){
+			if(it->ID == ID)
+				return it
+		}
 	}
 
 	void modiProb(float prob){
@@ -32,6 +32,4 @@ public:
 	float obtValeurProb(){
 		return valeurProb;
 	}
-
-	/*Obstacle*/
 };

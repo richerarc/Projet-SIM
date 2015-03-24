@@ -1,22 +1,17 @@
 #pragma once
 
-class Porte : public Contenu{
+class Porte : public Objet{
 private:
-	unsigned int ID;
 	bool sortable;
 	bool verrouillee;
 public:
-	Porte(Vecteur3d positionDepart, unsigned int identifiant, bool sortie, bool verrou){
-		//Le modele de la porte est assignée ici, à faire quand tous les trucs de graphiques requis seront faits
-		position = Vecteur3d(positionDepart.x, positionDepart.y, positionDepart.z);
-		ID = Identifiant;
+	Porte(){}
+	
+	Porte(Modele3D modele, unsigned int ID, char* materiaux, double masse, bool sortie, bool verrou) : Objet(modele, ID, materiaux, masse){
 		sortable = sortie;
 		verrouillee = verrou;
 	}
 
-	unsigned int obtID(){
-		return ID;
-	}
 	bool obtSortable(){
 		return sortable;
 	}

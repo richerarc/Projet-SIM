@@ -44,3 +44,33 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`3 mars 2015`**
 
 - 7h30 : La classe Vecteur3 est maintenant totalement en français. La classe s'appelait Vecteur3 et Vector3...
+
+###**`5 mars 2015`**
+
+- 8h25 à 8h35 : J'ai ajouté deux includes dans la classe Physique et cette classe hérite maintenant de la classe Singleton.
+
+###**`6 mars 2015`**
+
+- 21h à 21h20 : J'ai travaillé sur la fonction déterminant de quel côté d'une droite le point est, mais je ne suis pas certain à 100% que ça fonctionne.
+
+###**`9 mars 2015`**
+
+- 19h40 à 21h : J'ai fait quelque modification dans le diagramme de classe du moteur de physique. J'ai ensuite expliqué les changements dans le documents des formules. Dans les changements, j'ai ajouté les fonctions qui calcul les collisions.
+
+###**`10 mars 2015`**
+
+- 12h30 à 13h : J'ai refait la fonction déterminant de quel côté d'une droite un point se trouve, elle gère maintenant les points en 3D.
+
+- 14h40 à 17h : J'ai discuté avec les autres membres de mon équipe sur le fonctionnement des collisions et sur d'autres formules. Nous nous sommes divisés en sous-équipe : une équipe sur les collisions, une sur le magnétisme et l'autre sur les formules de physiques indépendantes. 
+
+###**`15 mars 2015`**
+
+- 11h à 14h30 : J'ai fait la première version des collisions entre un objet et une salle, mais je n'ai pas encore vérifié selon la position exacte de l'objet, car les calculs n'ont pas encore été faits. Je demande aussi temporairement une salle en paramètre, mais quand le gestionnaire de liens sera terminé je n'aurai plus besoins de demander une salle en paramètre.
+
+###**`17 mars 2015`**
+
+- 14h40 à 5h20 : J'ai continué a faire l'algorithme des collisions avec un objet et une salle. J'ai fait une fonction et une procédure pour enlever la redondance de code.
+
+###**`21 mars 2015`**
+
+- 11h à 14h et 15h à 20h : J'ai réglé tous les problèmes avec les classes et fonctions que j'ai de besoins pour implémenter mes collisions. La droite ne se créait pas de la bonne manière, mainteant oui et je l'ai testé avec des exemples d'algèbres linéaires. Même chose pour le plan, la variable d était un vecteur, mais c'est plutôt un double qu'il fallait mettre (un erreur de ma part quand j'ai expliqué comment créé un plan à Gab) et la fonction qui calculait un intersection entre une droite et un plan n'était pas bonne. Je l'ai donc refait et maintenant ça fonctionne. Finalement Kevin avait oublier un petit quelque chose dans la tranformation du tableaux de vertices dans la Classe Modele3D, je l'ai rajouté.

@@ -31,3 +31,32 @@ Rencontre avec Kev,Richer,Gab à l'école. Moi et Kev nous nous sommes attribué de
 
 de 18h à 19h30:
 -J'ai continué la classe Sprite2D je crois bien qu'elle est terminée
+
+/////////////////////////////////////////////////////////
+Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout quelle journée jai faite sa mais c'était durant la semaine de relache
+
+06 mars environ 1h de travaille:
+-J'ai modifier une petit élément dans la classe Texture 
+-J'ai continuer la classe Texte2D mais il reste quelques petits détailles à vérifier
+
+07 mars environ 1h de travaille:
+-Cette fois-ci j'ai surtout réfléchis et discuter avec Brandon sur le fonctionnement de la classe Objet2D
+-J'ai commencé la classe(données membres constructeurs etc)
+-J'ai commencé la méthode d'affichage
+
+10 mars 14hà 17h30:
+-Modification de la classe Texte2D
+-Modification de Sprite2D
+-Continuer le afficher de la classe Objet2D
+-Tester le afficher, ne marche pas
+
+12 mars de 10h à 12h:
+-J'ai continuer le afficher de la classe Objet2D, maintenant il m'affiche un rectangle blanc c'est un premier pas vers la gloire.
+
+15 mars de 16h à 18h30:
+-J'arrive désormais a afficher une texture 2D mais j'ai des problemes avec l'affichage du texte
+-J'ai coder les fonctions pour mettre la texture à l'echelle et l'afficher de façon à ce que la position donnée soit celle de son origine au lieu d'un sommet.
+-Je l'ai fais avec des floats pour le moment car jai de petits problèmes techniques avec les classes vecteurs
+
+17 mars de 2h à 17h15:
+-J'ai continué l'environnement 2D , en particulier l'affichage, les rotations, l'origines etc.

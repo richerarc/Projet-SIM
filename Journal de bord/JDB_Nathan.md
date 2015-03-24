@@ -32,3 +32,57 @@ Discution de classe sur la classe singleton et la factory que nous utiliserons d
 Recherche des formules pertinente à utiliser pour la physique du jeu
 et comment nous pourrions les utiliser
 
+4 mars
+
+-environ 1h30
+Enregistrement de sons d'ambiance, du personnage et d'objet pour le projet 
+avec l'aide de Fabien (étudiant en musique) pour les instruments d'enregistrement et logiciel de montage de son.
+
+5 mars
+
+-environ 1h30
+Création des classes Plan et Droite pour les classes de physique. Je n'ai pas encore pu les tester 
+et il y a surement possibilité de les améliorer.
+
+9 mars
+
+-environ 45 minutes
+Discution avec le prof de physique Charles Naaman pour trouver une formule utilisable pour le magnétisme. On est arrivé avec une formule utilisable en 2D, 
+une deuxième discution est necessaire pour une formule en 3D.
+
+10 mars
+
+-environ 10 minutes
+Réglage des problèmes de la classe Plan
+
+-environ 1 heure
+Discution avec l'équipe de physique sur les collisions et la friction, 
+et détermination de ceux qui travailleront sur les collision et la friction. Discution sur les formules qu'on va devoir utiliser.
+
+12 mars
+
+-environ 2 heures
+Commencement sur le travail des collisions du joeur avec le sol (On en parle moi et julien sur comment on va faire)
+
+15 mars
+
+-environ 1 heure
+Création d'un model d'hélice à l'aide de blender
+
+17 mars
+
+-environ 3 heures
+Travail sur les collisions avec le joueur et le sol, on continue d'en parler moi et julien
+
+18 mars
+
+-environ 1h30
+Création d'un model de caméra de suveillance à l'aide de blender
+
+20 mars
+
+-environ 2 heures
+Cours sur Git donné par patrick à toute la classe
+
+
+
