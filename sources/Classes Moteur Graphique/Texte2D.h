@@ -6,7 +6,7 @@
 #include <string>
 #include "Objet2D.h"
 #include "Vecteur3.h"
-
+#include "Fenetre.h"
 class Texte2D : public Objet2D{
 public:
 	const char* texte;
@@ -42,11 +42,11 @@ public:
 		this->texte = texte;
 		chargerSurface();
 	}
-	void afficher(){
+	void afficher(gfx::Fenetre& fenetre){
 		glDisable(GL_DEPTH_TEST);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 720, 0, 720, -1, 1);
+		glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, ID);

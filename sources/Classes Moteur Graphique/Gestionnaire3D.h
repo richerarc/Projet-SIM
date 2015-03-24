@@ -1,38 +1,42 @@
-class Gestionnaire3D
-{
-private:
-	std::list<Objet3D*> objets;
+#pragma once
 
-public:
-	Gestionnaire3D(){
-	}
-
-	void afficherTout(){
-		for (auto &i : objets){
-			i->afficher();
+namespace gfx{
+	class Gestionnaire3D
+	{
+	private:
+		std::list<Objet3D*> objets;
+		Camera3D Cam;
+	public:
+		Gestionnaire3D(){
 		}
-	}
 
-	void retObjet(Objet3D* objet){
-		objets.remove(objet);
-	}
-
-	void ajouterObjet(Objet3D* Objet){
-		objets.push_back(Objet);
-	}
-
-	void vider(){
-		if (objets.empty == false){
-			objets.clear();
+		void afficherTout(){
+			for (auto &i : objets){
+				i->afficher();
+			}
 		}
-	}
 
-	void defCamera(Camera3D Camera){
+		void retObjet(Objet3D* objet){
+			objets.remove(objet);
+		}
 
-	}
+		void ajouterObjet(Objet3D* Objet){
+			objets.push_back(Objet);
+		}
 
-	~Gestionnaire3D(){
-		vider();
-	}
+		void vider(){
+			if (objets.empty == false){
+				objets.clear();
+			}
+		}
 
-};
+		void defCamera(Camera3D Camera){
+
+		}
+
+		~Gestionnaire3D(){
+			vider();
+		}
+
+	};
+}
