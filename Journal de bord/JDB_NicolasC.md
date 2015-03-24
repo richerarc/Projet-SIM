@@ -63,4 +63,8 @@
   9h50  
   13h40  
   -presque finalisation de l'agorithme qui associe les ponts aux arbres.  
-  -15h50
+  -15h50  
+**23 mar**  
+  19h00  
+  -modélisation d'une porte avec une texture provisoire.  
+  20h00  
