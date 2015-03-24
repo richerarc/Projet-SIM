@@ -46,7 +46,7 @@ public:
 		glDisable(GL_DEPTH_TEST);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 720, 0, 720, -1, 1);
+		glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, ID);
