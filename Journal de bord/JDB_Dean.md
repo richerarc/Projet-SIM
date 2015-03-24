@@ -59,3 +59,9 @@ Cours sur git avec Patrick, nous sommes maintenant tous capable de faire les op�
 12:30 à 2:30
 
 Travail sur les diagrammes avec Xavier. Il manque à compléter les classes de contrôles visuels, je vais essayer de finir ce soir car quand ce sera fait nous pourrons coder!
+
+Mardi 24 mars 2015 -----
+
+2:30 à 6:00
+
+Patrick(toi) nous a donné et expliqué un script pour faciliter notre utilisation de git. Après avoir arrangé ça, j'ai fini le diagramme de classe avec Xavier, nous serons maintenant prêt à coder le GUI :))))))
