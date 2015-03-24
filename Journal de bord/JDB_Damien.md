@@ -40,6 +40,8 @@
 	Créaion des classes ObjetFixe et ObjetPhysique ainsi que l'UMLObjet.
 	Modification de la classe Objet.
 	Création de la classe SourceMagnetique. 
-#Mardi 23 mars 2015 (11:00 à 12:58)
+#Lundi 23 mars 2015 (11:00 à 12:58)
 	Vrai création et ajout de la classe SourceMagnetique
 	Début de l'analyse des armes.
+#Mardi 24 mars 2015 (14:40 à 17:20)
+	Modification de l'UML pour l'ajout de classe d'armes et de classes d'objets fixe.
