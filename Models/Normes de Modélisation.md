@@ -6,10 +6,13 @@
 
 ⇒ Le centre de l'objet doit être à 0,0,0.
 
-⇒ Un étage correspond à 2,74m.
-
 ⇒ S'assurer de réduire les surfaces planes à une face:
 
 Exemple, si une surface d'un cube est subdivisé en quatre faces, regroupez-les.
 
-⇒ Le nom du model doit etre simple et consis. De plus, l'image pour la texture doit porter le même nom.
+⇒ Le nom du modele doit etre simple, consis et représentatif. De plus, l'image pour la texture doit porter le même nom.
+
+##Pour les Pièces
+
+- Selon le code du batiment, la hauteur minimale d'une piece est de 2,3 m.
+- Les autres dimensions Sont laissées au choix du modeleur.
