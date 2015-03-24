@@ -10,7 +10,7 @@ protected:
 	Vecteur3d position;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position){
+	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
