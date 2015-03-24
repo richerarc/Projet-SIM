@@ -57,7 +57,7 @@ public:
 		return this->ID;
 	}
 	
-	gfx::Modele3D obtModele(){
+	gfx::Modele3D& obtModele3D(){
 		return modele;
 	}
 
