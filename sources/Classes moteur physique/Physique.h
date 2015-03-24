@@ -202,7 +202,7 @@ public:
 
 		Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
 
-		vecteurAcceleration.prodruitParUnVecteur(vecteurProportionnel);
+		vecteurAcceleration.produitParUnVecteur(vecteurProportionnel);
 
 		objet.obtVitesse() += vecteurAcceleration * frametime;
 
@@ -254,7 +254,7 @@ public:
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
 
-	double positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point, Vecteur3d& normale) {
+	double pointDansTriangle(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, Vecteur3d& point) {
 		
 		Vecteur3d vect1 = point3 - point1;
 		Vecteur3d vect2 = point2 - point1;
@@ -278,14 +278,14 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D& objet, Salle& salle) {
+	bool collisionObjetSalle(Objet& objet, Salle& salle) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		double distance;
 		double d;
-		Vecteur3d* tabObjet = objet.obtBoiteDeCollisionModifiee();
+		Vecteur3d* tabObjet = objet.obtModele3D().obtBoiteDeCollisionModifiee();
 
 
 		for (int i = 0; i < 8; i++) {

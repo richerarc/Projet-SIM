@@ -7,6 +7,9 @@ private:
 	Vecteur3d point;
 	Vecteur3d vecteurDirecteur;
 public:
+
+	Droite() {}
+
 	Droite(Vecteur3d point, Vecteur3d vecteurDirecteur) {
 		this->vecteurDirecteur = vecteurDirecteur;
 		this->vecteurDirecteur.normaliser();

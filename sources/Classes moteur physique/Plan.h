@@ -10,6 +10,9 @@ private:
 	Vecteur3d normale;
 	double d;
 public:
+
+	Plan() {}
+
 	Plan(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3) {
 		calculerPlan(point1, point2, point3);
 	}
