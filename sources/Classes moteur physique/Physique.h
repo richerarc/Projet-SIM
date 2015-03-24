@@ -116,7 +116,7 @@ public:
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void AppliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet) {
+	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet) {
 
 		double* tableauNormales = objet.obtModele3D().obtNormalesModifies();
 		double* tableauVertices = objet.obtModele3D().obtSommetsModifies();
