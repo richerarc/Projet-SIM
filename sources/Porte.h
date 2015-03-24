@@ -7,7 +7,7 @@ private:
 public:
 	Porte(){}
 	
-	Porte(Modele3D modele, unsigned int ID, char* materiaux, double masse, bool sortie, bool verrou) : Objet(modele, ID, materiaux, masse){
+	Porte(gfx::Modele3D modele, unsigned int ID, char* materiaux, double masse, Vecteur3d position, bool sortie, bool verrou) : Objet(modele, ID, materiaux, masse,Vecteur3d(0.,0.,0.),position){
 		sortable = sortie;
 		verrouillee = verrou;
 	}

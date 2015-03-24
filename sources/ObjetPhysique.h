@@ -1,4 +1,4 @@
 class ObjetPhysique : public Objet{
 public:
-	ObjetPhysique(gfx::Modele3D modele, unsigned int ID, char* materiaux, Vecteur3f position) : Objet(modele, ID, materiaux, 0, Vecteur3f(0., 0., 0.), position){}
+	ObjetPhysique(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse, Vecteur3d position) : Objet(modele, ID, materiaux, masse, Vecteur3d(0., 0., 0.), position){}
 };

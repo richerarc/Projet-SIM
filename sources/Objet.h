@@ -6,11 +6,11 @@ protected:
 	gfx::Modele3D modele;
 	char* materiaux;
 	double masse;
-	Vecteur3f vitesse;
-	Vecteur3f position;
+	Vecteur3d vitesse;
+	Vecteur3d position;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3f vitesse, Vecteur3f position){
+	Objet(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -20,14 +20,14 @@ public:
 		this->vitesse.z = vitesse.z;
 		this->position = position;
 	}
-	virtual Vecteur3f obtPosition(){ return position; };
-	virtual void defPosition(double axeX, double axeY, double axeZ){
-		position.x = axeX;
-		position.y = axeY;
-		position.z = axeZ;
+	virtual Vecteur3d obtPosition(){ return position; };
+	virtual void defPosition(Vecteur3d position){
+		this->position.x = position.x;
+		this->position.y = position.y;
+		this->position.z = position.z;
 	}
-	virtual Vecteur3f obtDimensions(){ return 0; };
-	virtual void defDimensions(Vecteur3f dimensions){};
+	virtual Vecteur3d obtDimensions(){ return 0; };
+	virtual void defDimensions(Vecteur3d dimensions){};
 	virtual void defForce(double force){};
 	virtual double obtForce(){ return 0; };
 	virtual bool obtSortable(){return false;}
@@ -69,7 +69,7 @@ public:
 		return masse;
 	}
 
-	Vecteur3f obtVitesse(){
+	Vecteur3d obtVitesse(){
 		return vitesse;
 	}
 	
