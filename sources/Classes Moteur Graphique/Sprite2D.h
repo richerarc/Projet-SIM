@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Vecteur3.h"
 #include "Objet2D.h"
+#include "Fenetre.h"
 class Sprite2D : public Objet2D{
 public:
 	Texture* texture;
@@ -17,12 +18,12 @@ public:
 	Texture* obtTexture(){
 		return texture;
 	}
-	void afficher(){
+	void afficher(gfx::Fenetre& fenetre){
 		
 			glDisable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glOrtho(0, 720, 0, 720, -1, 1); //Remplacer les deux 500 par la windows
+			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1); //Remplacer les deux 500 par la windows
 			glMatrixMode(GL_MODELVIEW);
 			
 			glLoadIdentity();
