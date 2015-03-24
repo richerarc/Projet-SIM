@@ -7,24 +7,24 @@
 
 class Maths{
 public:
-	static float obtValeurMax(std::vector<float> &nombres){
-		float maximum = nombres[0];
+	static double obtValeurMax(std::vector<double> &nombres){
+		double maximum = nombres[0];
 		for (auto i : nombres)
 			maximum = std::max(maximum, i);
 		return maximum;
 	}
 
-	static float obtValeurMin(std::vector<float> &nombres){
-		float minimum = nombres[0];
+	static double obtValeurMin(std::vector<double> &nombres){
+		double minimum = nombres[0];
 		for (auto i : nombres)
 			minimum = std::min(minimum, i);
 		return minimum;
 	}
-	static float degreARadian(float degre){
+	static double degreARadian(double degre){
 		return ((degre * MATHS_PI) / 180);
 	}
 
-	static float radianADegre(float radian){
+	static double radianADegre(double radian){
 		return ((radian * 180) / MATHS_PI);
 	}
 

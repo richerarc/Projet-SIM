@@ -26,7 +26,7 @@ public:
 		this->position.y = position.y;
 		this->position.z = position.z;
 	}
-	virtual Vecteur3d obtDimensions(){ return 0; };
+	virtual Vecteur3d obtDimensions(){};
 	virtual void defDimensions(Vecteur3d dimensions){};
 	virtual void defForce(double force){};
 	virtual double obtForce(){ return 0; };
@@ -57,7 +57,7 @@ public:
 		return this->ID;
 	}
 	
-	gfx::Modele3D obtModele(){
+	gfx::Modele3D& obtModele3D(){
 		return modele;
 	}
 
@@ -69,7 +69,7 @@ public:
 		return masse;
 	}
 
-	Vecteur3d obtVitesse(){
+	Vecteur3d& obtVitesse(){
 		return vitesse;
 	}
 	

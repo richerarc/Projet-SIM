@@ -11,10 +11,6 @@
 #include "Texture.h"
 #include "Objet3D.h"
 
-
-/*
-A tester pour les tableaux transformés
-*/
 namespace gfx{
 	class Modele3D : public Objet3D {
 	private:
@@ -174,6 +170,7 @@ namespace gfx{
 		void defEchelle(double echX, double echY, double echZ){
 			echelle = Vecteur3d(echX, echY, echZ);
 			sommet_Est_Transforme = true;
+			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
@@ -187,6 +184,7 @@ namespace gfx{
 
 		void defPosition(Vecteur3d pos){
 			position = pos;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -211,6 +209,7 @@ namespace gfx{
 
 		void deplacer(Vecteur3d dep){
 			position += dep;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -219,6 +218,7 @@ namespace gfx{
 			position.x = axeX;
 			position.y = axeY;
 			position.z = axeZ;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -251,6 +251,7 @@ namespace gfx{
 			position.x += axeX;
 			position.y += axeY;
 			position.z += axeZ;
+			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -258,7 +259,7 @@ namespace gfx{
 		void afficher(){
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
-			glLoadIdentity();
+			//glLoadIdentity();
 			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
 			glRotated(orientation.x, 1, 0, 0);
 			glRotated(orientation.y, 0, 1, 0);

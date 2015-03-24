@@ -13,55 +13,54 @@ private:
 	double constanteDeFriction;
 	double champsMagnetique;
 	double sensibiliteMagnetique;
-	float frametime;
+	double frametime;
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
-	void trouverPointFace(unsigned int numeroFace, Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, float* tabVertices) {
+	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
-        	for (int j = 0; j < 3; j++) {
-            		switch (j) {
+		double resultat1, resultat2, resultat3;
+		Vecteur3d point1;
+		Vecteur3d point2;
+		Vecteur3d point3;
+		double* tabVertices;
+		Plan plan;
 
-            	case 0:
-                	point1 = { tabVertices[(j + numeroFace)  3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
-                	break;
+		gfx::Modele& modele = modele3D.obtModele();
 
-           	 case 1:
-               	 	point2 = { tabVertices[(j + numeroFace) * 3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
-               		break;
+		tabVertices = modele3D.obtSommetsModifies();
 
-            	case 2:
-                	point3 = { tabVertices[(j + numeroFace) * 3], tabVertices[(j + numeroFace) * 3 + 1], tabVertices[(j + numeroFace) * 3 + 2] };
-               		break;
-            		}
-        	}
-   	}
+		for (unsigned int Nbrface = 0; Nbrface < modele.obtNbrFaces(); Nbrface++) {
 
-    	bool collisionDroiteModele(gfx::Modele& modele, Droite& rayonCollision, Vecteur3d& pointCollision) {
+			for (int j = 0; j < 3; j++) {
+				switch (j) {
 
-        	double resultat1, resultat2, resultat3;
-       		Vecteur3d point1;
-        	Vecteur3d point2;
-        	Vecteur3d point3;
+				case 0:
+					point1 = { tabVertices[(j + Nbrface) * 3], tabVertices[(j + Nbrface) * 3 + 1], tabVertices[(j + Nbrface) * 3 + 2] };
+					break;
 
-        	for (unsigned int Nbrface = 0; Nbrface <  modele.obtNbrFaces(); Nbrface++) {
+				case 1:
+					point2 = { tabVertices[(j + Nbrface) * 3], tabVertices[(j + Nbrface) * 3 + 1], tabVertices[(j + Nbrface) * 3 + 2] };
+					break;
 
-            		trouverPointFace(Nbrface, point1, point2, point3, modele.obtVertices());
-           	 	plan.calculerPlan(point1, point2, point3);
-            		pointCollision = plan.insertionDroitePlan(rayonCollision);
+				case 2:
+					point3 = { tabVertices[(j + Nbrface) * 3], tabVertices[(j + Nbrface) * 3 + 1], tabVertices[(j + Nbrface) * 3 + 2] };
+					break;
+				}
+			}
 
-            		if (pointCollision != NULL) {
+			plan.calculerPlan(point1, point2, point3);
 
-                		resultat1 = positionPointDroite(point1, point2, pointCollision, plan.obtenirNormale);
-                		resultat2 = positionPointDroite(point2, point3, pointCollision, plan.obtenirNormale);
-                		resultat3 = positionPointDroite(point3, point1, pointCollision, plan.obtenirNormale);
+			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-                	if ((resultat1 == 0 || resultat2 == 0 || resultat3 == 0)|| (resultat1 < 0 && resultat2 < 0 && resultat3 < 0) || (resultat1 > 0 && resultat2 > 0 && resultat3 > 0))
-                    		return true;
-            		}
-        	}
-        	return false;
-    	}
+				if (pointDansTriangle(point1, point2, point3, pointCollision)) {
+					normale = { modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2] };
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 public:
 
@@ -84,17 +83,17 @@ public:
 	}
 
 	
-	void RebondObjetCarte(gfx::Modele3D& objet1, Vecteur3d vecteurNormal) {
+	void RebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal) {
 
-		double dScalaire = (2 - mapRestitution[objet1.obtMateriel()]) * objet1.obtVitesse().produitScalaire(vecteurNormal);
-		objet1.obtVitesse() -= vecteurNormal * dScalaire;
+		double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
+		objet.obtVitesse() -= vecteurNormal * dScalaire;
 	}
 
-void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d vecteurNormal) {
+	void RebondObjetObjet(Objet& objet1, Objet& objet2, Vecteur3d vecteurNormal) {
 
 		Vecteur3d vVitesseRelative = objet1.obtVitesse() - objet2.obtVitesse();
 
-		double e = (mapRestitution[objet1.obtMateriel()] + mapRestitution[objet2.obtMateriel()]) / 2; // Moyenne des coefficients de restitution
+		double e = (mapRestitution[objet1.obtMateriaux()] + mapRestitution[objet2.obtMateriaux()]) / 2; // Moyenne des coefficients de restitution
 
 		double j = (-(1 + e) * (vVitesseRelative.produitScalaire(vecteurNormal))) / ((vecteurNormal.produitScalaire(vecteurNormal)) * (1 / objet1.obtMasse() + 1 / objet2.obtMasse()));
 
@@ -116,17 +115,17 @@ void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d ve
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void AppliquerVent(Vecteur3d vecteurVitesseVent, gfx::Modele3D& objet) {
+	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet) {
 
-		float* tableauNormales = objet.obtModele().obtNormales();
-		float* tableauVertices = objet.obtModele().obtVertices();
+		double* tableauNormales = objet.obtModele3D().obtNormalesModifies();
+		double* tableauVertices = objet.obtModele3D().obtSommetsModifies();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreFace = objet.obtModele().obtNbrFaces() * 3;
+		double nombreFace = objet.obtModele3D().obtModele().obtNbrSommets();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -187,13 +186,13 @@ void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d ve
 	}
 	
 	// MANQUE LA NORMALE
-	void appliquerFrottement(gfx::Modele3D& objet) {
+	void appliquerFrottement(Objet& objet) {
 		//objet.obtVitesse().soustraire(constanteDeFriction * obtenirForceNormale(objet.obtMasse(), objet.obtPosition()));
 	}
 	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(gfx::modele3D& objet, Vecteur3d positionAimant) {
+	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant) {
 
 		double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
 		double accelerationMagnetique = (6 * sensibiliteMagnetique * champsMagnetique) / (objet.obtMasse() * distanceObjetAimant);
@@ -219,25 +218,55 @@ void RebondObjetObjet(gfx::Modele3D& objet1, gfx::Modele3D& objet2, Vecteur3d ve
 
 	double positionPointDroite(Vecteur3d& droite1, Vecteur3d& droite2, Vecteur3d& point, Vecteur3d& normale) {
 		
-		normale.normaliser();
+		Vecteur3d vect1 = point3 - point1;
+		Vecteur3d vect2 = point2 - point1;
+		Vecteur3d vect3 = point - point1;
 
-		if (normale.x > normale.y && normale.x > normale.z) {
-			
-			return (droite2.y - droite1.y) * (point.z - droite1.z) - (droite2.z - droite1.z) * (point.y - droite1.y);
-		}
-		
-		if (normale.y > normale.x && normale.y > normale.z) {
+		double produit11 = vect1.produitScalaire(vect1);
+		double produit12 = vect1.produitScalaire(vect2);
+		double produit13 = vect1.produitScalaire(vect3);
+		double produit22 = vect2.produitScalaire(vect2);
+		double produit23 = vect2.produitScalaire(vect3);
 
-			return (droite2.x - droite1.x) * (point.z - droite1.z) - (droite2.z - droite1.z) * (point.x - droite1.x);
-		}
+		double invDenom = 1 / (produit11 * produit22 - produit12 * produit12);
+		double u = (produit22 * produit13 - produit12 * produit23) * invDenom;
+		double v = (produit11 * produit23 - produit23 * produit13) * invDenom;
 
-		if (normale.z > normale.x && normale.z > normale.y) {
-			
-			return (droite2.x - droite1.x) * (point.y - droite1.y) - (droite2.y - droite1.y) * (point.x - droite1.x);
-		}	
+		return (u >= 0) && (v >= 0) && (u + v < 1);
+
 	}
 
 	double obtenirEnergieCinetique(double masse, Vecteur3d& vecteurVitesseObjet) {
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
-	}	
+	}
+
+	bool collisionObjetSalle(gfx::Modele3D& objet, Salle& salle) {
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point;
+		Vecteur3d normale;
+		double distance;
+		double d;
+		Vecteur3d* tabObjet = objet.obtBoiteDeCollisionModifiee();
+
+
+		for (int i = 0; i < 8; i++) {
+
+			point = tabObjet[i];
+
+			rayonCollision = Droite(point, objet.obtVitesse());
+
+			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
+
+				if (normale.y > 0 && pointCollision.y > point.y && objet.obtVitesse().y < 0) {
+					normale.normaliser();
+					RebondObjetCarte(objet, normale);
+					return true;
+				}
+
+			}
+		}
+		return false;
+	}
+
 };

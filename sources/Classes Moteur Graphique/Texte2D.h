@@ -6,7 +6,7 @@
 #include <string>
 #include "Objet2D.h"
 #include "Vecteur3.h"
-
+#include "Fenetre.h"
 class Texte2D : public Objet2D{
 public:
 	const char* texte;
@@ -15,7 +15,6 @@ public:
 	TTF_Font* police;
 	GLuint ID;
 
-	//Texte2D(Vecteur3d position) : Objet2D(position){}
 
 	Texte2D(const char* texte, const char* pathPolice, int taille, Vecteur2d  position) : Objet2D(position){
 		this->texte = texte;
@@ -43,11 +42,11 @@ public:
 		this->texte = texte;
 		chargerSurface();
 	}
-	void afficher(){
+	void afficher(gfx::Fenetre& fenetre){
 		glDisable(GL_DEPTH_TEST);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 720, 0, 720, -1, 1);
+		glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, ID);
@@ -56,24 +55,23 @@ public:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glMatrixMode(GL_MODELVIEW);
-		glRotated(1, 0, 0, 1);
 
-			glBegin(GL_QUADS);
-			
-				glTexCoord2i(0, 1);
-				glVertex2i(position.x, position.y);  //1
+		glBegin(GL_QUADS);
 
-				glTexCoord2i(1, 1);
-				glVertex2i(surface->w + position.x, position.y); //2
+			glTexCoord2i(0, 1);
+			glVertex2d(position.x, position.y);  //1
 
-				glTexCoord2i(1, 0);
-				glVertex2i(surface->w + position.x, surface->h + position.y); //3
+			glTexCoord2i(1, 1);
+			glVertex2d(surface->w + position.x, position.y); //2
 
-				glTexCoord2i(0, 0);
-				glVertex2i(position.x, surface->h + position.y); //4
-				
+			glTexCoord2i(1, 0);
+			glVertex2d(surface->w + position.x, surface->h + position.y); //3
 
-			glEnd();
+			glTexCoord2i(0, 0);
+			glVertex2d(position.x, surface->h + position.y); //4
+
+
+		glEnd();
 
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);
