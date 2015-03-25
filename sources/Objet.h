@@ -7,7 +7,6 @@ protected:
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
-	Vecteur3d position;
 public:
 	Objet(){}
 	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position){
@@ -18,13 +17,11 @@ public:
 		this->vitesse.x = vitesse.x;
 		this->vitesse.y = vitesse.y;
 		this->vitesse.z = vitesse.z;
-		this->position = position;
+		this->modele.defPosition(position);
 	}
-	virtual Vecteur3d obtPosition(){ return position; };
+	virtual Vecteur3d obtPosition(){ return this->modele.obtPosition; };
 	virtual void defPosition(Vecteur3d position){
-		this->position.x = position.x;
-		this->position.y = position.y;
-		this->position.z = position.z;
+		this->modele.defPosition(position);
 	}
 	virtual Vecteur3d obtDimensions(){};
 	virtual void defDimensions(Vecteur3d dimensions){};

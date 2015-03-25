@@ -7,11 +7,24 @@
 #include "Porte.h"
 #include "Salle.h"
 #include "Fabrique.h"
+
+struct InfoObjet {
+	const unsigned int ID;
+	const char* cheminFicher;
+};
+
+struct InfoSalle {
+	const unsigned int ID;
+	const unsigned int nbrPorte;
+	const char* cheminFicher;
+	std::list<InfoObjet>
+};
+
 class GestionnaireLiens : public Singleton<GestionnaireLiens>{
 private:
 	std::map<std::tuple<unsigned int, unsigned int, bool>, std::tuple<unsigned int, unsigned int>> connections;
-	std::list<Salle> salles;
-	std::list<Porte> portes;
+	std::list<InfoSalle> InfosSalles;
+	Salle *salleActive
 public:
 	GestionnaireLiens(){}
 	~GestionnaireLiens(){}
