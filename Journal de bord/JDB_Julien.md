@@ -74,3 +74,11 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`21 mars 2015`**
 
 - 11h à 14h et 15h à 20h : J'ai réglé tous les problèmes avec les classes et fonctions que j'ai de besoins pour implémenter mes collisions. La droite ne se créait pas de la bonne manière, mainteant oui et je l'ai testé avec des exemples d'algèbres linéaires. Même chose pour le plan, la variable d était un vecteur, mais c'est plutôt un double qu'il fallait mettre (un erreur de ma part quand j'ai expliqué comment créé un plan à Gab) et la fonction qui calculait un intersection entre une droite et un plan n'était pas bonne. Je l'ai donc refait et maintenant ça fonctionne. Finalement Kevin avait oublier un petit quelque chose dans la tranformation du tableaux de vertices dans la Classe Modele3D, je l'ai rajouté.
+
+###**`24 mars 2015`**
+
+- 13h  à 17h20 : J'ai continué les collisions avec un objet et une salle, je regarde maintenant selon chaque vertex de la boîte de collision de l'objet. J'ai aussi remplacé le formule qui déterminait si un point était d'un côté ou de l'autre d'une droite. Maintenant il y a une fonction qui détermine si un poit est dans un triangle. 
+
+###**`25 mars 2015`**
+
+- 11h à 13h et de 14h20 à 17h : J'ai remarqué que mes collisions ne fonctionnaient pas s'il y avait un plafon dans la pièce, car j'obtient deux point de collisions. J'ai tenté de comprendre pourquoi, mais sans succès.
