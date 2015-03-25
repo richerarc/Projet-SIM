@@ -35,3 +35,5 @@
 `Ven. 13 mars` J'ai fini de corriger les classe de graphe. il ne manque que l'ajout de sous arbre prédéfinie. `1h00`
 
 `Mar. 16 mars` Moi et Nico avons travaillé sur l'agorithme de génération de graphe. Il devrait bientôt être terminé. `3h40`
+
+`Mar. 24 mars` J'ai terminé l'algorithme de génération pour la carte. Nous avons travailler sur l'analise des interfaces, sur la hiérarchie des objet et quelque ajustement sur l'engine 3D. Tout le monde à une tâche claire à effectuer, en espérant que tous la fassent! `3h30`
