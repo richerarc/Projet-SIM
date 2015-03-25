@@ -13,7 +13,8 @@ namespace gfx{
 		std::map<const char*, gfx::Texture> textures;
 	public:
 		~GestionnaireRessources(){
-			modeles.empty();
+			for (auto it : modeles)
+				delete it.second;
 		}
 
 		bool chargerTexture(const char* chemin){
