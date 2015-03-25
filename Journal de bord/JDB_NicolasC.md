@@ -72,3 +72,7 @@
   15h30  
   -modélisation d'une salle carrée et modification de la porte.  
   16h15  
+**25 mar**  
+  13h40
+  -analyse avec Richer pour pouvoir générer les pièce sans avoir à tout générer dès le début.  
+  15h00
