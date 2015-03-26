@@ -19,6 +19,7 @@ public:
 		this->vitesse.z = vitesse.z;
 		this->modele.defPosition(position);
 	}
+	virtual void appliquerPhysique(std::list<Objet*> objets) {};
 	virtual Vecteur3d obtPosition(){ return this->modele.obtPosition; };
 	virtual void defPosition(Vecteur3d position){
 		this->modele.defPosition(position);
