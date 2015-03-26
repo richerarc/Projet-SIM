@@ -314,20 +314,26 @@ public:
 
 	bool collisionJoueurSalle(Joueur& joueur, Salle &salle) {
 		Vecteur3d pointCollision;
-		Vecteur3d point = joueur.obtModele3D().obtPosition();
-		Droite droitejoueur = Droite(point, Vecteur3d(0, 1, 0));
+		Vecteur3d point;
+		Droite droitejoueur;
 		Vecteur3d normale;
-		gfx::Modele modele = salle.obtModele();
+		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
 
-		if (collisionDroiteModele(salle.obtModele(), droitejoueur, pointCollision, normale)) {
-			if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
-				return true;
-			}
-			if (normale.x > 0 && pointCollision.x > point.x && joueur.obtVitesse().x < 0) {
-				return true;
-			}
-			if (normale.z > 0 && pointCollision.z > point.z && joueur.obtVitesse().z < 0) {
-				return true;
+		for (int i = 0; i < 8; i++) {
+			point = tabJoueur[i];
+
+			droitejoueur = Droite(point, joueur.obtVitesse());
+
+			if (collisionDroiteModele(salle.obtModele(), droitejoueur, pointCollision, normale)) {
+				if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
+					return true;
+				}
+				if (normale.x > 0 && pointCollision.x > point.x && joueur.obtVitesse().x < 0) {
+					return true;
+				}
+				if (normale.z > 0 && pointCollision.z > point.z && joueur.obtVitesse().z < 0) {
+					return true;
+				}
 			}
 		}
 		return false;
