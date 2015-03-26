@@ -11,7 +11,7 @@ public:
 		this->SpriteFond = SpriteFond;
 	}
 	std::list ObtenirListeControle(){
-		return Controles;
+		return ListeControles;
 	}
 
 };

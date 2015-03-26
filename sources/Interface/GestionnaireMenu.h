@@ -1,3 +1,4 @@
+
 class GestionnaireMenu : Singleton{
 private:
 	std::list<Menu*> Menus;
@@ -9,21 +10,21 @@ public:
 
 
 	void retirerMenu(Menu* Menu){
-		Menus.remove(Menu);
+		this->Menus.remove(Menu);
 	}
 
 	void ajouterMenu(Menu* Menu){
-		Menus.push_back(Menu);
+		this->Menus.push_back(Menu);
 	}
 
 	void vider(){
-		if (Menus.empty == false){
-			Menus.clear();
+		if (this->Menus.empty == false){
+			this->Menus.clear();
 		}
 	}
 
 	std::list ObtenirListeMenu(){
-		return Menus;
+		return this->Menus;
 	}
 
 	~GestionnaireMenu(){
