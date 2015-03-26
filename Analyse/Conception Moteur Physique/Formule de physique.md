@@ -9,8 +9,7 @@
 - Formule de frottement---------------------------------------------(fait)
 - Formule pour appliquer le vent----------------------------------(fait)
 - Formule pour les rebonds objet-Map---------------------------(fait)
-- formule pour les rebonds objet-objet
-- Formule trajectoire des profectiles
+- formule pour les rebonds objet-objet---------------------------(fait)
 
 ##Détail sur les procédure et fonctions de la classe Physique:
 
@@ -29,13 +28,13 @@ Fonction qui retourne la force normale d'un plan par rapport à un objet:
 Procédure qui applique la gravité sur un objet en l'additionnant à la composante verticale de son vecteur de déplacement.
 
 
-####appliquerVent(Vecteur3d vecteurVitesseVent, gfx::Modele3D& objet);
+####appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet);
 
 Procédure qui applique le vent au vecteur d'un objet en addition de vecteur. Pour trouver l'accélération que le vent donne à l'objet, je vais d'abord calculer l'angle entre le vecteur du vent et la normale de chaques faces de l'objet. Si l'angle est négatif, le vent applique une force sur la face. Je calcul l'aire de celle-ci et l'additionne à S, et l'angle négatif, j'additionne sa valeur absolue à C qui est le coefficient de trainée. Plus C est petit, plus l'objet est courbe alors je me fais un total de face touchée et je divise C par celui-ci pour avoir une valeur entre 0 et 1 (1 serait une face planne).
 
     a = (0.5 * masse volumique * vitesse vent * C * S) / m
 
-###appliquerMagnetisme(gfx::Modele3D& objet1, Vecteur3d positionAimant);
+###appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant, double force);
 
 Procédure qui applique la force d'attraction d'un aimant sur un objet selon sa masse, sa position et la position de l'aimant. La force de l'aimant est prédéterminée à 4 tesla et la sensibilité mangétique est celle du fer.
 
@@ -50,6 +49,10 @@ Procédure qui appliquera le rebonds à un objet(son vecteur) lorsqu'il entre en
     (2 - constante r) * vecteur vitesse de l'objet * vecteur normal du la surface)
 
 Ceci donne un scalaire qu'on multiplie au vecteur normal pour ensuite soustraire le résultat au vecteur vitesse de l'objet.
+
+####RebondObjetObjet(Objet& objet1, Objet& objet2, Vecteur3d vecteurNormal);
+
+Procédure qui appliquera le rebonds à deux objets (en mouvement) qui entrent en collision. Dépend de l'élasticité des objets.
 
 ####Double obtenirAnglePenduleSimple(Double angleMaximal, Double frequenceAngulaire);
 
@@ -103,9 +106,9 @@ Fonction qui retourne les point d'intersection entre un plan et une droite. Reto
 
 [Lien pour formules d'intersection](http://homeomath.imingo.net/geoesp7.htm)
 
-####void recalculerPlan(Vecteur3 p1, Vecteur3 p2, Vecteur3 p3);
+####void calculerPlan(Vecteur3 p1, Vecteur3 p2, Vecteur3 p3);
 
-Fonction qui recalcule un plan.
+Fonction qui recalcule un plan, comme dans le constructeur.
 
 ##Détails sur les procédures et fonctions de la classe Droite:
 
@@ -124,5 +127,5 @@ Cette classe va nous donner la variable t pour nos fonctions. Par exemple, pour 
 
 que nous donnera cette classe!
 
-Le chrono sera activé au début de la partie.
+Le chrono sera activé au début de la partie et rafrachie à chaque frame pour avoir le temps virtuel.
 
