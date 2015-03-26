@@ -47,3 +47,5 @@
 	Modification de l'UML pour l'ajout de classe d'armes et de classes d'objets fixe.
 #Mercredi 25 mars 2015 (14:30 à 15:00)
 	Modification de l'UML et de l'analyse d'objet.
+#Jeudi 26 mars 2015 (10:05 à 11:50)
+	Modification de l'UMLet l'analyse d'objet.
