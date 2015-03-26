@@ -17,7 +17,7 @@ public:
 		calculerPlan(point1, point2, point3);
 	}
 
-	bool insertionDroitePlan(Droite& droite, Vecteur3d& point) {
+	bool insertionDroitePlan(Droite& droite, std::vector<Vecteur3d>& pointsCollisions) {
 		if (normale.produitScalaire(droite.obtenirVecteurDirecteur()) != 0) {
 			
 			double nombre = (normale.x * droite.obtenirPoint().x) + (normale.y * droite.obtenirPoint().y) + (normale.z * droite.obtenirPoint().z) + d;
@@ -25,7 +25,7 @@ public:
 
 			k = -nombre / k;
 
-			point = Vecteur3d((droite.obtenirPoint().x + (k * droite.obtenirVecteurDirecteur().x)), (droite.obtenirPoint().y + (k * droite.obtenirVecteurDirecteur().y)), (droite.obtenirPoint().z + (k * droite.obtenirVecteurDirecteur().z)));
+			pointsCollisions.push_back(Vecteur3d((droite.obtenirPoint().x + (k * droite.obtenirVecteurDirecteur().x)), (droite.obtenirPoint().y + (k * droite.obtenirVecteurDirecteur().y)), (droite.obtenirPoint().z + (k * droite.obtenirVecteurDirecteur().z))));
 			return true;
 		}
 		return false;
