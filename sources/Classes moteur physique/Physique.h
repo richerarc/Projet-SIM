@@ -11,7 +11,6 @@ private:
 
 	double gravite;
 	double constanteDeFriction;
-	double champsMagnetique;
 	double sensibiliteMagnetique;
 	double frametime;
 	std::map<char*, double> mapRestitution;
@@ -73,7 +72,6 @@ public:
 		frametime = temps.repartir().enSecondes();
 		constanteDeFriction = 0.5;
 		gravite = -9.8;
-		champsMagnetique = 4;
 		sensibiliteMagnetique = 0.0072;
 
 		// Ajout des coefficients de restitution des différents matériaux
@@ -122,7 +120,7 @@ public:
 
 	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet) {
 
-		double* tableauNormales = objet.obtModele3D().obtModele().obtNormales(); //À MODIFIER LORSQUE LES MODIF DE NORMALES FONCTIONNENT!
+		double* tableauNormales = objet.obtModele3D().obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE NORMALES FONCTIONNENT!
 		double* tableauVertices = objet.obtModele3D().obtSommetsModifies();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
@@ -130,12 +128,12 @@ public:
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreFace = objet.obtModele3D().obtModele().obtNbrVertices();
+		double nombreVertice = objet.obtModele3D().obtModele()->obtNbrVertices();
 
 		unsigned int nombreFaceSousPression = 0;
 
 		// Boucle sur toutes les faces de l'objet
-		for (unsigned int parcoursFace = 0; parcoursFace < nombreFace;) {
+		for (unsigned int parcoursFace = 0; parcoursFace < nombreVertice;) {
 
 			// Vecteur normal de la face selon une moyenne de ceux des vertices.
 			Vecteur3d vecteurNormale = { (tableauNormales[parcoursFace] + tableauNormales[parcoursFace + 3] + tableauNormales[parcoursFace + 6]) / 3,
@@ -197,12 +195,12 @@ public:
 	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(Objet& objet, Objet& Aimant) {
+	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant, double force) {
 
-		double distanceObjetAimant = distanceEntreDeuxPoints(Aimant.obtPosition(), objet.obtPosition());
-		double accelerationMagnetique = (6 * sensibiliteMagnetique * Aimant.obtForce()) / (objet.obtMasse() * distanceObjetAimant);
+		double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
+		double accelerationMagnetique = (6 * sensibiliteMagnetique * force) / (objet.obtMasse() * distanceObjetAimant);
 
-		Vecteur3d vecteurProportionnel = { Aimant.obtPosition().x - objet.obtPosition().x, Aimant.obtPosition().y - objet.obtPosition().y, Aimant.obtPosition().z - objet.obtPosition().z };
+		Vecteur3d vecteurProportionnel = { positionAimant.x - objet.obtPosition().x, positionAimant.y - objet.obtPosition().y, positionAimant.z - objet.obtPosition().z };
 		vecteurProportionnel.normaliser();
 
 		Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
@@ -211,44 +209,6 @@ public:
 
 		objet.obtVitesse() += vecteurAcceleration * frametime;
 
-	}
-	
-	void appliquerPhysique(std::list<Objet*>& objets) {
-		for (auto it : objets) {
-			if (it->obtMasse() != 0) {
-				appliquerGravite(it->obtVitesse());
-			}
-			Vent* it_Vent = dynamic_cast<Vent*>(it);
-			if (it_Vent != nullptr) {
-				for (auto it_Objet : objets) {
-					if (it_Objet->obtMasse() != 0) {
-						if (it_Objet->obtModele3D().obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D().obtPosition().x <= it->obtPosition().x + it->obtDimensions().x) {
-							if (it_Objet->obtModele3D().obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D().obtPosition().y <= it->obtPosition().y + it->obtDimensions().y) {
-								if (it_Objet->obtModele3D().obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D().obtPosition().z <= it->obtPosition().z + it->obtDimensions().z) {
-									appliquerVent(it->obtVitesse(), *it_Objet);
-								}
-							}
-						}
-					}
-				}
-			}
-			Aimant* it_Aimant = dynamic_cast<Aimant*>(it);
-			if (it_Aimant != nullptr) {
-				for (auto it_Objet : objets) {
-					if (it_Objet->obtMasse() != 0) {
-						appliquerMagnetisme(*it_Objet, *it_Aimant);
-					}
-				}
-			}
-			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
-			if (it_ObjetFixe != nullptr) {
-				for (auto it_Objet : objets) {
-					if (it_Objet->obtMasse() != 0) {
-						// collisions
-					}
-				}
-			}
-		}
 	}
 
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega) {
