@@ -82,3 +82,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`25 mars 2015`**
 
 - 11h à 13h et de 14h20 à 17h : J'ai remarqué que mes collisions ne fonctionnaient pas s'il y avait un plafon dans la pièce, car j'obtient deux point de collisions. J'ai tenté de comprendre pourquoi, mais sans succès.
+
+###**`26 mars 2015`**
+
+- 9h30 à 14h40 et 16h à 17h : J'ai avancé dans les collisions avec une nouvelle théorie, qui ne fonctionne pas vraiment pour l'instant, mais j'ai débugger toute la journée pour trouver le problème, sans succès pour le moment.
