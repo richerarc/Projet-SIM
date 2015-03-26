@@ -146,3 +146,13 @@ Suite à une discution, nous avons finalement décidé de faire le physique(sauf
 ###25 mars 2015
 
 J'ai commencé à faire un avion en blender!
+
+###26 mars 2015
+
+**10:00-11:00** : Création des procédure appliquerPhysique dans les classes vent, aimant et objetPhysique.
+
+**11:00-11:20** : Ajout des includes dans les classes à dominique et damien.
+
+**11:20-11:40** : Test du "parcours" de la physique dans les classes vent, aimant et objet physique. L'application de la physique semble être correct, par contre je vais devoir faire afficher pour le voir vraiment bien mais l'affichage ne fonctionne pas...
+
+**11:40-12:00** : Bon j'ai réussi à faire afficher, le vent, le magnétisme, la gravité s'appliquent correctement!!
