@@ -1,9 +1,4 @@
 #pragma once
-#include "Singleton.h"
-#include <functional>
-#include <map>
-#include <vector>
-
 class GestionnaireEvenements : public Singleton<GestionnaireEvenements>
 {
 public:

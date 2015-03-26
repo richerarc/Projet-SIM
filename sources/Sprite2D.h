@@ -1,7 +1,3 @@
-#pragma once
-#include "Texture.h"
-#include "Objet2D.h"
-#include "Fenetre.h"
 namespace gfx{
 	class Sprite2D : public Objet2D{
 	public:

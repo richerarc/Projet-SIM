@@ -1,16 +1,4 @@
 #pragma once
-
-#include <vector>
-#include <queue>
-#include <fstream>
-#include <iostream>
-#include <SDL2/SDL_opengl.h>
-#include "Vecteur3.h"
-#include "Maths.h"
-#include "Modele.h"
-#include "Texture.h"
-#include "Objet3D.h"
-
 namespace gfx{
 	class Modele3D : public Objet3D {
 	private:

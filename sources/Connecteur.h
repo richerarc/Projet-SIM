@@ -1,5 +1,4 @@
-#pragma once
-#include "Salle.h"		
+#pragma once	
 class Connecteur : public Salle(){		
 private:
  		 

@@ -1,8 +1,4 @@
 #pragma once
-
-#include <vector>
-#include <algorithm>
-
 #define MATHS_PI 3.141592654
 
 class Maths{

@@ -1,8 +1,4 @@
 #pragma once
-#include <set>
-
-#include "Vecteur2.h"
-
 class Souris
 {
 public:

@@ -1,14 +1,13 @@
 #pragma once
-#include "Vecteur3.h"
 class Salle{
 protected:
 	unsigned int ID;
 	unsigned int nbrPortes;
-	Modele3D modele;
+	gfx::Modele3D modele;
 public:
 	Salle(){}
-	
-	Salle(Modele3D modele,unsigned int nbrPorte, int ID){
+
+	Salle(gfx::Modele3D modele, unsigned int nbrPorte, int ID){
 		nbrPortes = nbrPorte;
 		this->ID = ID;
 		this->modele = modele;
@@ -21,20 +20,20 @@ public:
 	unsigned int obtID(){
 		return ID;
 	}
-	
+
 	void setID(unsigned int ID){
 		this->ID = ID;
 	}
 
 	Vecteur3d obtPos(){
-		return modele->obtPosition();
+		return modele.obtPosition();
 	}
 
 	void defPosition(int axeX, int axeY, int axeZ){
-		modele->defPosition(axeX, axeY, axeZ);
+		modele.defPosition(axeX, axeY, axeZ);
 	}
 
-	Modele3D obtModele(){
+	gfx::Modele3D obtModele(){
 		return modele;
 	}
 };

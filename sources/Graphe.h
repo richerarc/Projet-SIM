@@ -428,9 +428,7 @@ namespace graphe{
 		int* matrice;
 		int nombreSommet;
 		
-		Graphe(){}
-		
-		void creer(unsigned int nbrSommet){
+		Graphe(int nbrSommet){
 			nombreSommet = nbrSommet;
 			matrice = new int[nbrSommet * nbrSommet];
 			for (int i = 0; i < nbrSommet * nbrSommet; i++){
@@ -458,6 +456,7 @@ namespace graphe{
 						matrice[(i * nombreSommet) + j] = 1;
 				}
 			}
+			
 		}
 		
 		int degre(int indice){
@@ -484,18 +483,18 @@ namespace graphe{
 		
 		void afficherMatrice(){
 			for (int i = 0; i < nombreSommet; i++) {
-				cout << "| ";
+				std::cout << "| ";
 				for (int j = 0; j < nombreSommet; j++) {
-					cout << matrice[(i * nombreSommet) + j] << " ";
+					std::cout << matrice[(i * nombreSommet) + j] << " ";
 				}
-				cout << " |" << endl;
+				std::cout << " |" << std::endl;
 			}
 			
 			for (int i = 0; i < nombreSommet; i++) {
 				if (i < 10)
-					cout<<"d(0"<<i<<") = "<<degre(i)<<" | d-(0"<<i<<") = "<<degreEntrant(i)<<" | d+(0"<<i<<") = "<<degreSortant(i)<<endl;
+					std::cout << "d(0" << i << ") = " << degre(i) << " | d-(0" << i << ") = " << degreEntrant(i) << " | d+(0" << i << ") = " << degreSortant(i) << std::endl;
 				else
-					cout<<"d("<<i<<") = "<<degre(i)<<" | d-("<<i<<") = "<<degreEntrant(i)<<" | d+("<<i<<") = "<<degreSortant(i)<<endl;
+					std::cout << "d(" << i << ") = " << degre(i) << " | d-(" << i << ") = " << degreEntrant(i) << " | d+(" << i << ") = " << degreSortant(i) << std::endl;
 			}
 
 		}

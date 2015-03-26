@@ -1,8 +1,4 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <vector>
-#include <iostream>
-
 namespace gfx{
 	class ModeVideo
 	{

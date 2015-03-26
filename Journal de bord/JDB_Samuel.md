@@ -22,4 +22,4 @@
 
 24 mars: creation des classes menu et gestionnaire menu. debut de la modelisation d'une banniere
 
-26 mars:  modification des classes ControleVisuel Menu et GestionnaireMenu, screenshot du Diagramme de classes
+26 mars:  modification des classes ControleVisuel Menu et GestionnaireMenu, screenshot du Diagramme de classes, creation de la classe étiquette

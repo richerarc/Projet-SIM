@@ -10,4 +10,5 @@ struct InfoSalle {
 	const unsigned int nbrPorte;
 	const char* cheminFicher;
 	std::list<InfoObjet> Objet;
+	std::list<BoiteCollision> boitesCollision;
 };

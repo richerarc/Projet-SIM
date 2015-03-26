@@ -66,3 +66,44 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 
 24 mars de 14h30 à 17h30:
 -J'ai continué l'environnement 2D
+
+26 mars de 9h à 12h15:
+-J'ai modifié la rotation pour les objets 2D
+-J'ai continué de tester l'environnement 2D
+
+-J'ai ensuite fais un ménage d'includes et reparé plusieurs petites erreurs dans différentes classe voici ce que j'ai fais:
+////////////////////////////////////////////////////////////////
+
+///////2D////////////
+-Gestionnaire2D modifier quelques trucs et modifier les includes
+-Objet2D modifier les includes
+-Sprite2D modifier les includes
+-Texte2D modifier les includes
+-Texture modifier les includes 
+///////Fenetre et caméra///////////
+-Fenetre modifier les includes
+-ModeVideo modifier les includes
+-Modifcation includes Souris
+-Modification includes Clavier
+/////////3D////////////
+-Gestionnaire3D modifier les includes
+-Objet3D modifier les includes
+-Modele3D modifier les includes
+/////mathematiques////////
+-Vecteur2 modifier includes
+-Maths modifier includes
+-Chrono modifier includes
+-Temps modifier includes
+-Graphe modifier erreurs 
+//////Generation de la map////////
+-Salle modification d'erreurs 
+-GestionnaireLiens modification includes il y a plusieurs erreurs dans cette classe
+-Aimant modification d'erreurs
+-Connecteur modification includes
+//////Objet/////////
+-Objets modification includes 
+-Porte modification includes
+//////////Evenements/////////////
+-GestionnaireEvenements modification includes
+
+////////////////////////////////////////////////////////////////

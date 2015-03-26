@@ -1,7 +1,5 @@
-#pragma once
-#include "Vecteur3.h"
-#include "Vecteur2.h"
-#include "Fenetre.h"
+#include "Texte2D.h"
+#include "Sprite2D.h"
 namespace gfx{
 	class Objet2D{
 	protected:
