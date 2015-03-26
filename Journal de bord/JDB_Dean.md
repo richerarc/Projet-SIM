@@ -65,3 +65,9 @@ Mardi 24 mars 2015 -----
 2:30 à 6:00
 
 Patrick(toi) nous a donné et expliqué un script pour faciliter notre utilisation de git. Après avoir arrangé ça, j'ai fini le diagramme de classe avec Xavier, nous serons maintenant prêt à coder le GUI :))))))
+
+Jeudi 26 mars 2015 -----
+
+10:00 à 13:00
+
+J'ai commencé la programmation du keybinding (GestionnaireControle) mais vers la fin j'ai arrêté pour arranger notre diagramme de Gantt pour qu'il ait plus d'allure.
