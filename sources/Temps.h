@@ -1,7 +1,4 @@
 #pragma once
-
-#include <chrono>
-
 class Temps{
 public:
 	Temps(){
