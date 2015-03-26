@@ -17,9 +17,8 @@ private:
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
-	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
+	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, std::vector<Vecteur3d>& pointsCollisions, std::vector<Vecteur3d>& normales) {
 
-		double resultat1, resultat2, resultat3;
 		Vecteur3d point1;
 		Vecteur3d point2;
 		Vecteur3d point3;
@@ -30,34 +29,40 @@ private:
 
 		tabVertices = modele3D.obtSommetsModifies();
 
-		for (unsigned int Nbrface = 0; Nbrface < modele.obtNbrFaces(); Nbrface++) {
+		for (unsigned int Nbrface = 0; Nbrface < modele.obtNbrSommets(); Nbrface += 3) {
 
 			for (int j = 0; j < 3; j++) {
 				switch (j) {
 
 				case 0:
-					point1 = { tabVertices[(j + Nbrface) * 3], tabVertices[(j + Nbrface) * 3 + 1], tabVertices[(j + Nbrface) * 3 + 2] };
+					point1 = { tabVertices[(Nbrface)* 3], tabVertices[(Nbrface)* 3 + 1], tabVertices[(Nbrface)* 3 + 2] };
 					break;
 
 				case 1:
-					point2 = { tabVertices[(j + Nbrface) * 3], tabVertices[(j + Nbrface) * 3 + 1], tabVertices[(j + Nbrface) * 3 + 2] };
+					point2 = { tabVertices[(Nbrface)* 3 + 3], tabVertices[(Nbrface)* 3 + 4], tabVertices[(Nbrface)* 3 + 5] };
 					break;
 
 				case 2:
-					point3 = { tabVertices[(j + Nbrface) * 3], tabVertices[(j + Nbrface) * 3 + 1], tabVertices[(j + Nbrface) * 3 + 2] };
+					point3 = { tabVertices[(Nbrface)* 3 + 6], tabVertices[(Nbrface)* 3 + 7], tabVertices[(Nbrface)* 3 + 8] };
 					break;
 				}
 			}
 
 			plan.calculerPlan(point1, point2, point3);
+			normales.push_back(Vecteur3d(modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2]));
 
-			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
+			if (plan.insertionDroitePlan(rayonCollision, pointsCollisions)) {
 
-				if (pointDansTriangle(point1, point2, point3, pointCollision)) {
-					normale = { modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2] };
-					return true;
+				if (!pointDansFace(point1, point2, point3, pointsCollisions[nbrCollisions])) {
+					pointsCollisions.pop_back();
+					normales.pop_back();
 				}
+				else
+					nbrCollisions++;
+
 			}
+			else
+				normales.pop_back();
 		}
 		return false;
 	}
@@ -280,9 +285,9 @@ public:
 
 	bool collisionObjetSalle(Objet& objet, Salle& salle) {
 		Droite rayonCollision;
-		Vecteur3d pointCollision;
+		std::vector<Vecteur3d> pointsCollisions;
 		Vecteur3d point;
-		Vecteur3d normale;
+		std::vector<Vecteur3d> normales;
 		double distance;
 		double d;
 		Vecteur3d* tabObjet = objet.obtModele3D().obtBoiteDeCollisionModifiee();
@@ -302,6 +307,33 @@ public:
 					return true;
 				}
 
+			}
+		}
+		return false;
+	}
+
+	bool collisionJoueurSalle(Joueur& joueur, Salle &salle) {
+		Vecteur3d pointCollision;
+		Vecteur3d point;
+		Droite droitejoueur;
+		Vecteur3d normale;
+		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
+
+		for (int i = 0; i < 8; i++) {
+			point = tabJoueur[i];
+
+			droitejoueur = Droite(point, joueur.obtVitesse());
+
+			if (collisionDroiteModele(salle.obtModele(), droitejoueur, pointCollision, normale)) {
+				if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
+					return true;
+				}
+				if (normale.x > 0 && pointCollision.x > point.x && joueur.obtVitesse().x < 0) {
+					return true;
+				}
+				if (normale.z > 0 && pointCollision.z > point.z && joueur.obtVitesse().z < 0) {
+					return true;
+				}
 			}
 		}
 		return false;
