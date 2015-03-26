@@ -136,3 +136,13 @@ J'ai commencé à faire un procédure qui va parcourrir tous les objets d'un sal
 Bon après avoir travaillé pendant 5 min en commençant par l'application du vent je me suis tanné parce que les classes des objets, incluant le vent, ne sont pas complète je vais en discuter avec ceux qui travaillaient dessus.
 
 J'ai ajouté le rebond entre deux objet en mouvement (de base) dans la classe physique.
+
+###24 mars 2014
+
+J'ai commencé à faire une procédure qui applique la physique sur une liste d'objet qui contient les objets physique, les objets fixes, le vent, les aimant, etc...
+
+Suite à une discution, nous avons finalement décidé de faire le physique(sauf les collisions pour le moment) dans les classes respectives. Par exemple, l'application du vent se fera dans la classe vent. Je vais travailler là dessus.
+
+###25 mars 2015
+
+J'ai commencé à faire un avion en blender!

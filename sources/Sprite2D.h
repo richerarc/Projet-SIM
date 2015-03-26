@@ -10,7 +10,8 @@ namespace gfx{
 		Sprite2D(Vecteur2d  position, Texture* texture) : Objet2D(position){
 			this->texture = texture;
 			this->surface = texture->obtSurface();
-
+			this->position.x = this->position.x + (surface->w / 2);
+			this->position.y = this->position.y + (surface->h / 2);
 		}
 		~Sprite2D(){
 		}
@@ -19,27 +20,25 @@ namespace gfx{
 			return texture;
 		}
 		void afficher(gfx::Fenetre& fenetre){
-
+	
 			glDisable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1); //Remplacer les deux 500 par la windows
+			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1); 
 			glMatrixMode(GL_MODELVIEW);
 
 			glLoadIdentity();
 
-			glTranslated(-origine.x, -origine.y, 0.0f);
+		
+			glTranslated(position.x - origine.x, position.y - origine.y, 0.0f);
 			glRotated(orientation, 0.0f, 0.0f, 1.0f);
 			glTranslated(origine.x, origine.y, 0.0f);
-
 			glPushMatrix();
+
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glEnable(GL_TEXTURE_2D);
 			glBegin(GL_QUADS);
-
-
-
-
+	
 			glTexCoord2i(0, 1);
 			glVertex2d(position.x, position.y);  //1
 
