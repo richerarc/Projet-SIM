@@ -428,7 +428,7 @@ namespace graphe{
 		int* matrice;
 		int nombreSommet;
 		
-		Graphe(int nbrSommet){
+		void creer(unsigned int nbrSommet){
 			nombreSommet = nbrSommet;
 			matrice = new int[nbrSommet * nbrSommet];
 			for (int i = 0; i < nbrSommet * nbrSommet; i++){
@@ -456,8 +456,8 @@ namespace graphe{
 						matrice[(i * nombreSommet) + j] = 1;
 				}
 			}
-			
 		}
+		
 		
 		int degre(int indice){
 			return degreEntrant(indice) + degreSortant(indice);

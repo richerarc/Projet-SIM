@@ -10,6 +10,9 @@
 #include "Fabrique.h"
 #include "graphe.h"
 
+typedef std::tuple<unsigned int, unsigned int, bool> Entree;
+typedef std::tuple<unsigned int, unsigned int> Sortie;
+
 struct InfoObjet {
 	const unsigned int ID;
 	const char* cheminFicher;
@@ -22,22 +25,20 @@ struct InfoSalle {
 	std::list<InfoObjet> Objet;
 };
 
-class Carte : public Singleton<GestionnaireLiens>{
+class Carte{
 private:
 	graphe::Graphe carte;
-	std::map<std::tuple<unsigned int, unsigned int, bool>, std::tuple<unsigned int, unsigned int>> Liens;
+	std::map<Entree, Sortie> liens;
 	std::list<InfoSalle> InfosSalles;
 	Salle *salleActive;
 	
-	void ajouterLien(std::tuple<unsigned int, unsigned int, bool> entree, std::tuple<unsigned int, unsigned int> sortie){
-		connections[entree] = sortie;
+	void ajouterLien(Entree entree, Sortie sortie){
+		liens[entree] = sortie;
 	}
 public:
-	GestionnaireLiens(){}
-	~GestionnaireLiens(){}
 	
 	std::tuple<unsigned int, unsigned int> destination(std::tuple<unsigned int, unsigned int, bool> sortie){
-		return connections[sortie];
+		return liens[sortie];
 	}
 	
 	void creer(const unsigned int limite){
@@ -45,13 +46,18 @@ public:
 		int itterateurPorte(0);
 		
 		int porte[limite];
+		Entree entree;
+		Sortie sortie;
 		for (int i = 0; i < limite; i++)
 			porte[i] = 0;
 		
 		for (int i = 0; i < limite; i++){
 			for (int j = 0; j < limite; j++){
 				if (carte.matrice[i * limite + j]){
-					ajouterLien(std::tuple<i, ++itterateurPorte, false>, std::tuple<j, ++porte[j]>)
+					entree = std::make_tuple(i, ++itterateurPorte, false);
+					sortie = std::make_tuple(j, porte[j]);
+					++porte[j];
+					ajouterLien(entree, sortie);
 				}
 			}
 		}
