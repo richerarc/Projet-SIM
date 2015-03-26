@@ -1,4 +1,4 @@
-class GestionnaireMenu{
+class GestionnaireMenu : Singleton{
 private:
 	std::list<Menu*> Menus;
 
