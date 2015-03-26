@@ -1,17 +1,5 @@
 #pragma once
-
-#include <string>
-#include <list>
-#include <iostream>
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-
-#include "Vecteur2.h"
 #include "ModeVideo.h"
-
-#include "Clavier.h"
-#include "Souris.h"
 
 namespace gfx{
 	class Fenetre{

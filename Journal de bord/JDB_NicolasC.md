@@ -76,3 +76,8 @@
   13h40
   -analyse avec Richer pour pouvoir générer les pièce sans avoir à tout générer dès le début.  
   15h00
+**26 mar**  
+  9h40  
+  -discussion avec Richer sur la façon à utiliser pour installer les objets/puzzles dans les pièces.  
+  -programmation des fichiers LectureFichier et BoiteCollision.  
+  12h00

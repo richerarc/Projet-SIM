@@ -24,7 +24,7 @@ struct InfoSalle {
 
 class Carte : public Singleton<GestionnaireLiens>{
 private:
-	graphe::Graphe Carte;
+	graphe::Graphe carte;
 	std::map<std::tuple<unsigned int, unsigned int, bool>, std::tuple<unsigned int, unsigned int>> Liens;
 	std::list<InfoSalle> InfosSalles;
 	Salle *salleActive;
@@ -40,7 +40,20 @@ public:
 		return connections[sortie];
 	}
 	
-	void creer(unsigned int limite){
-		Carte.creer(limite);
+	void creer(const unsigned int limite){
+		carte.creer(limite);
+		int itterateurPorte(0);
+		
+		int porte[limite];
+		for (int i = 0; i < limite; i++)
+			porte[i] = 0;
+		
+		for (int i = 0; i < limite; i++){
+			for (int j = 0; j < limite; j++){
+				if (carte.matrice[i * limite + j]){
+					ajouterLien(std::tuple<i, ++itterateurPorte, false>, std::tuple<j, ++porte[j]>)
+				}
+			}
+		}
 	}
 };

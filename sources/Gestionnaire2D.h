@@ -1,35 +1,36 @@
+#include "Objet2D.h"
+namespace gfx{
+	class Gestionnaire2D
+	{
+	private:
+		std::list<gfx::Objet2D*> objets;
 
-class Gestionnaire2D
-{
-private:
-	std::list<Objet2D*> objets;
+	public:
+		Gestionnaire2D(){
+		}
 
-public:
-	Gestionnaire2D(){		
-	}
+		void afficherTout(gfx::Fenetre& fenetre){
+			for (auto &i : objets){
+				i->afficher(fenetre);
+			}
+		}
 
-	void afficherTout(){	
-		for (auto &i : objets){
-			i->afficher();
-		}		
-	}
-	
-	void retObjet(Objet2D* objet){
-		objets.remove(objet);
-	}
+		void retObjet(gfx::Objet2D* objet){
+			objets.remove(objet);
+		}
 
-	void ajouterObjet(Objet2D* Objet){
-		objets.push_back(Objet);
-	}
+		void ajouterObjet(gfx::Objet2D* Objet){
+			objets.push_back(Objet);
+		}
 
-	void vider(){
-		if ((!objets.empty()))
-			objets.clear();
-	}
+		void vider(){
+			if ((!objets.empty()))
+				objets.clear();
+		}
 
-	~Gestionnaire2D(){
-		vider();
-	}
+		~Gestionnaire2D(){
+			vider();
+		}
 
-};
-
+	};
+}

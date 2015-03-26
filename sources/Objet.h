@@ -1,5 +1,10 @@
 #pragma once
-
+#include "ObjetPhysique.h"
+#include "Vent.h"
+#include "Aimant.h"
+#include "Porte.h"
+#include "Obstacle.h"
+#include "Connecteur.h"
 class Objet {
 protected:
 	unsigned int ID;

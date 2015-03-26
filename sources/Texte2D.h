@@ -1,10 +1,4 @@
-#pragma once
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-#include <SDL2\SDL_ttf.h>
-#include <SDL2/SDL_image.h>
-#include "Objet2D.h"
-#include "Fenetre.h"
+
 namespace gfx{
 	class Texte2D : public Objet2D{
 	public:

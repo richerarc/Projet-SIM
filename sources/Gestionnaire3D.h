@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Objet3D.h"
 namespace gfx{
 	class Gestionnaire3D
 	{
