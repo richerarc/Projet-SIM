@@ -1,4 +1,3 @@
-
 class Glisseur : public ControleVisuel {
 private:
 	bool enMouvement;
@@ -8,16 +7,15 @@ private:
 	Vecteur2f posGlisseur;
 public:
 
-	Glisseur(Vecteur2f position, Vecteur2f taille) : ControleVisuel() {
-		this->position = position;
-		pourcentage = 50;
-		this->taille = taille;
+	Glisseur(texte2D texte, sprite2D sprite, Vecteur2f position, Vecteur2f taille, float pourcentage) : ControleVisuel(texte, sprite, position, taille) {
+		if (purcentage <= 100.0f && pourcentage >= 0.0f) this->pourcentage = pourcentage;
+		else this->pourcentage = 100.0f;
 		enMouvement = false;
 		boutonSouris = false;
 	}
 
 	void defPourcentage(float pourcentage){
-		this->pourcentage = pourcentage;
+		if (purcentage <= 100.0f && pourcentage >= 0.0f) this->pourcentage = pourcentage;
 	}
 	void augmenter(){
 		this->pourcentage++;
@@ -26,18 +24,18 @@ public:
 		this->pourcentage--;
 	}
 
-	void rafraichirPourcentageGlisseur(){
+	void rafraichirPourcentage(){
 		pourcentage = ((posGlisseur.x - position.x) / taille.x) * 100.0;
 	}
 
-	bool gestEvenement(SDL_Event evenement){
-	
+	void gestEvenement(SDL_Event evenement){
+
 		if ((evenement.button.type = SDL_MOUSEBUTTONDOWN) && (!boutonSouris)){
 			tempx = evenement.button.x; tempy = evenement.button.y;
 			boutonSouris = true;
 		}
 		if (evenement.button.type = SDL_MOUSEBUTTONDOWN) {
-			if (((tempx > position.x) && (tempx < position.x + 20)) && ((tempx > position.x) && (tempx < position.x + 20)))
+			if (((tempx > position.x) && (tempx < position.x + 20.0)) && ((tempy > position.y) && (tempy < position.y + 20.0)))
 				enMouvement = true;
 		}
 		else {
@@ -45,15 +43,12 @@ public:
 			boutonSouris = false;
 		}
 		if (enMouvement){
-			posGlisseur = posGlisseur.x + evenement.motion.xrel;
+			posGlisseur.x = posGlisseur.x + evenement.motion.xrel;
 		}
-		rafraichirPourcentageGlisseur();
+		rafraichirPourcentage();
 	}
 
 	void afficher(){
-
-	}
-	void activation(){
-
+		sprite.afficher(position);
 	}
 };
