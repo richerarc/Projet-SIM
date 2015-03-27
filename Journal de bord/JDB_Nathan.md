@@ -84,5 +84,14 @@ Création d'un model de caméra de suveillance à l'aide de blender
 -environ 2 heures
 Cours sur Git donné par patrick à toute la classe
 
+24 mars
 
+-environ 3 heures
+Création de la classe Joueur et travail sur la fonction collisionJoueurSalle
+
+26 mars
+
+-environ 2 heures
+Modification de la classe joueur, travail sur la classe collisionJoueurSalle, 
+travail pour trouver une bonne formule qui calculera les collisions avec Julien.
 
