@@ -1,0 +1,48 @@
+IMPORTANT: Cette analyse n'est pas complète, elle n'est pas encore combiné avec une autre partie qui est sur mon ordi - Dom
+
+Objets utiles : 
+-Balle
+-Balance
+-Pendule
+-Munitions
+-Clé
+-Bouche d'aération
+-Fils
+-Caisse
+-Cadenas
+-Porte
+
+
+Objets fixes (à filtrer):
+-Bannière
+-Balance
+-Pendule
+-Pomme
+-Roche
+-Livre
+-Page
+-Poutre
+-Colonne
+-Brique
+-Fils électrique
+-Caisse
+-Crayon
+-Bibliotheque
+-Chaise
+-Bureau
+-Grillage
+-Barreau
+-Cadenas
+-Bouche d'aération
+-Chandelier
+-Chandelles
+-Crâne
+-Lanterne
+-Cadre
+-Armoire
+-Horloge
+-Lit
+-Os
+-Squelette
+-Incinérateur
+-Pile de vêtements

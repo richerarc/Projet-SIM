@@ -15,12 +15,16 @@ Chaque obj doit être accompsgné d'une texture qui lui est respective sinon ca pl
 #include <SDL2\SDL_opengl.h>
 #include <map>
 
-#include "Chrono.h"
 #include "Window.h"
-#include "GestionnaireRessources.h"
-#include "Modele3D.h"
 #include "Camera.h"
-#include "Physique.h"
+#include "Vecteur3.h"
+#include "Modele3D.h"
+#include "GestionnaireRessources.h"
+#include "Objet.h"
+#include "ObjetPhysique.h"
+#include "Vent.h"
+#include "ObjetFixe.h"
+#include "Aimant.h"
 
 
 int main(int argc, char** argv){
@@ -45,13 +49,21 @@ int main(int argc, char** argv){
 
 	Camera cam(Vecteur3f(0, 0, 2), Vecteur3f(0, 0, 0), Vecteur3f(0, 1, 0));
 	// Mettre les objets ICI:......................................................................................................................................................................
-	gfx::Modele3D objet(gfx::GestionnaireRessources::obtInstance().obtModele("sphere.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("sphere.png"));
-	gfx::Modele3D plan(gfx::GestionnaireRessources::obtInstance().obtModele("plan.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("plan.png"));
+	gfx::Modele3D modele3Dobjet(&gfx::GestionnaireRessources::obtInstance().obtModele("sphere.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("sphere.png"));
+	gfx::Modele3D modele3Dplan(&gfx::GestionnaireRessources::obtInstance().obtModele("plan.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("plan.png"));
+	gfx::Modele3D modele3Daimant(&gfx::GestionnaireRessources::obtInstance().obtModele("sphere.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("sphere.png"));
 
+	Objet* objet = new ObjetPhysique(modele3Dobjet, 1, "metal", 10, { 0, 0, -2 });
+	Objet* vent = new Vent({ 10, 0, 0 }, 3, { -10, -10, -10 }, { 20, 20, 20 });
+	Objet* plan = new ObjetFixe(modele3Dplan, 2, "metal", { 0, 0, -6 });
+	Objet* aimant = new Aimant(modele3Daimant, 4, { 0, 5, -5 }, 000);
 	// Définir les propriétées des objets ici:.....................................................................................................................................................
-	plan.defPosition(0, 0, -6);
-	objet.defPosition(0, 3, -6);
-	objet.defVitesse(0, 2, 0);
+	objet->defVitesse({ 0, 0, 0 });
+	std::list<Objet*> listeObjet;
+	listeObjet.push_front(objet);
+	listeObjet.push_front(vent);
+	listeObjet.push_front(plan);
+	listeObjet.push_front(aimant);
 
 
 	//glEnable(GL_LIGHTING);
@@ -74,11 +86,14 @@ int main(int argc, char** argv){
 		glLoadIdentity();
 		//Application de la Physique:.............................................................................................................................................................
 
-		Physique::obtInstance().appliquerGravite(objet.obtVitesse());
+		for (auto it : listeObjet) {
+			it->appliquerPhysique(listeObjet);
+		}
 
 		if (frametime) {
 			objet.defPosition(objet.obtPosition() + (objet.obtVitesse() * frametime));
 		}
+		
 		if (Clavier::toucheAppuyee(SDLK_w)){
 		}
 		if (Clavier::toucheAppuyee(SDLK_s)){
@@ -99,7 +114,7 @@ int main(int argc, char** argv){
 		if (Clavier::toucheAppuyee(SDLK_LEFT)){
 			plan.rotationner(-0.009, 0, 0); objet.rotationner(-0.009, 0, 0);
 		}
-		
+
 		// Affichage:.............................................................................................................................................................................
 		plan.afficher();
 		objet.afficher();

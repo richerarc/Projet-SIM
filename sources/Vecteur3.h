@@ -16,10 +16,10 @@ public:
 	}
 	
 	void normaliser() {
-		T Norme = norme();
-		x /= Norme;
-		y /= Norme;
-		z /= Norme;
+		T module = norme();
+		x /= module;
+		y /= module;
+		z /= module;
 	}
 
 	void inverser() {
@@ -28,13 +28,13 @@ public:
 		z = -z;
 	}
 	
-	void operator+=(Vecteur3<T>& autre) {
+	void operator+=(Vecteur3<T> autre) {
 		x += autre.x;
 		y += autre.y;
 		z += autre.z;
 	}
 	
-	void operator-=(Vecteur3<T>& autre) {
+	void operator-=(Vecteur3<T> autre) {
 		x -= autre.x;
 		y -= autre.y;
 		z -= autre.z;
@@ -52,7 +52,7 @@ public:
 		y -= scalaire;
 	}
 
-	void prodruitParUnVecteur(Vecteur3<T>& autre) {
+	void produitParUnVecteur(Vecteur3<T>& autre) {
 		x *= autre.x;
 		y *= autre.y;
 		z *= autre.z;
@@ -64,36 +64,36 @@ public:
 
 	Vecteur3<T> produitVectoriel(Vecteur3<T>& autre) {
 		Vecteur3<T> vectP;
-		vectP.x = (this->y * autre.z) - (autre.y * this->z);
-		vectP.y = (this->z * autre.x) - (autre.z * this->x);
-		vectP.z = (this->x * autre.y) - (autre.x * this->y);
+		vectP.x = (this->y * autre.z) - (this->z * autre.y);
+		vectP.y = (this->z * autre.x) - (this->x * autre.z);
+		vectP.z = (this->x * autre.y) - (this->y * autre.x);
 		return vectP;
 	}
 
 	double angleEntreVecteurs(Vecteur3<T> autre) {
 
-		return acos(this->produitScalaire(autre) / (this->norme() * autre->norme()));
+		return acos(this->produitScalaire(autre) / (this->norme() * autre.norme()));
 
 	}
 };
 
 template<typename T>
-Vecteur3<T> operator*(Vecteur3<T>& vect, float scalaire) {
+Vecteur3<T> operator*(Vecteur3<T> vect, float scalaire) {
 	return Vecteur3<T>(vect.x * scalaire, vect.y * scalaire, vect.z * scalaire);
 }
 
 template<typename T>
-Vecteur3<T> operator/(Vecteur3<T>& vect, float scalaire) {
+Vecteur3<T> operator/(Vecteur3<T> vect, float scalaire) {
 	return Vecteur3<T>(vect.x / scalaire, vect.y / scalaire, vect.z / scalaire);
 }
 	
 template<typename T>
-Vecteur3<T> operator+(Vecteur3<T>& gauche, Vecteur3<T>& droite) {
+Vecteur3<T> operator+(Vecteur3<T> gauche, Vecteur3<T> droite) {
 	return Vecteur3<T>(gauche.x + droite.x, gauche.y + droite.y, gauche.z + droite.z);
 }
 
 template<typename T>
-Vecteur3<T> operator-(Vecteur3<T>& gauche, Vecteur3<T>& droite) {
+Vecteur3<T> operator-(Vecteur3<T> gauche, Vecteur3<T> droite) {
 	return Vecteur3<T>(gauche.x - droite.x, gauche.y - droite.y, gauche.z - droite.z);
 }
 

@@ -49,3 +49,25 @@ Mardi 17 mars 2015 -----
 2:30 à 5:30
 
 J'ai été mis dans l'équipe de l'interface avec Xavier, Samuel et Diego. Nous avons travaillé sur la conception, nous avons premièrement fait l'analyse des besoins. Ensuite, j'ai travaillé sur le diagramme de classes avec Samuel et Diego.
+
+Jeudi 19 mars 2015 -----
+
+10:00 à 12:00
+
+Cours sur git avec Patrick, nous sommes maintenant tous capable de faire les opérations sans l'environment graphique.
+
+12:30 à 2:30
+
+Travail sur les diagrammes avec Xavier. Il manque à compléter les classes de contrôles visuels, je vais essayer de finir ce soir car quand ce sera fait nous pourrons coder!
+
+Mardi 24 mars 2015 -----
+
+2:30 à 6:00
+
+Patrick(toi) nous a donné et expliqué un script pour faciliter notre utilisation de git. Après avoir arrangé ça, j'ai fini le diagramme de classe avec Xavier, nous serons maintenant prêt à coder le GUI :))))))
+
+Jeudi 26 mars 2015 -----
+
+10:00 à 13:00
+
+J'ai commencé la programmation du keybinding (GestionnaireControle) mais vers la fin j'ai arrêté pour arranger notre diagramme de Gantt pour qu'il ait plus d'allure.

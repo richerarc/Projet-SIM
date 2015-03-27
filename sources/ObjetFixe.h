@@ -1,4 +1,7 @@
+#pragma once
+#include "Objet.h"
+
 class ObjetFixe : public Objet{
 public:
-	ObjetFixe(unsigned int ID, char* materiaux, Modele3D modele) : Objet(modele, ID, materiaux){}
+	ObjetFixe(gfx::Modele3D& modele, unsigned int ID, char* materiaux, Vecteur3d position) : Objet(modele, ID, materiaux, 0, Vecteur3d(0., 0., 0.), position){}
 };

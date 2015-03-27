@@ -1,15 +1,20 @@
 #pragma once
-
+#include "ObjetPhysique.h"
+#include "Vent.h"
+#include "Aimant.h"
+#include "Porte.h"
+#include "Obstacle.h"
+#include "Connecteur.h"
 class Objet {
 protected:
 	unsigned int ID;
-	Modele3D modele;
+	gfx::Modele3D modele;
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
 public:
 	Objet(){}
-	Objet(Modele3D modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse){
+	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -17,15 +22,22 @@ public:
 		this->vitesse.x = vitesse.x;
 		this->vitesse.y = vitesse.y;
 		this->vitesse.z = vitesse.z;
+		this->modele.defPosition(position);
 	}
+	virtual void appliquerPhysique(std::list<Objet*> objets) {};
+	virtual Vecteur3d obtPosition(){ return this->modele.obtPosition; };
+	virtual void defPosition(Vecteur3d position){
+		this->modele.defPosition(position);
+	}
+	virtual Vecteur3d obtDimensions(){};
+	virtual void defDimensions(Vecteur3d dimensions){};
+	virtual void defForce(double force){};
+	virtual double obtForce(){ return 0; };
+	virtual bool obtSortable(){return false;}
+	virtual void defSortable(bool sortie){}
+	virtual bool obtVerrou(){return false;}
+	virtual void defVerrou(bool verrou){}
 
-	Vecteur3d obtPos(){
-		return modele->obtPosition();
-	}
-	void defPosition(int axeX, int axeY, int axeZ){
-		modele->defPosition(axeX, axeY, axeZ);
-	}
-	
 	void defID(unsigned int ID){
 		this->ID = ID;
 	}
@@ -48,7 +60,7 @@ public:
 		return this->ID;
 	}
 	
-	Modele3D obtModele(){
+	gfx::Modele3D& obtModele3D(){
 		return modele;
 	}
 
@@ -60,7 +72,8 @@ public:
 		return masse;
 	}
 
-	Vecteur3d obtVitesse(){
+	Vecteur3d& obtVitesse(){
 		return vitesse;
 	}
+	
 };

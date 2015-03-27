@@ -59,7 +59,39 @@ Réglage des problèmes de la classe Plan
 Discution avec l'équipe de physique sur les collisions et la friction, 
 et détermination de ceux qui travailleront sur les collision et la friction. Discution sur les formules qu'on va devoir utiliser.
 
+12 mars
 
+-environ 2 heures
+Commencement sur le travail des collisions du joeur avec le sol (On en parle moi et julien sur comment on va faire)
 
+15 mars
 
+-environ 1 heure
+Création d'un model d'hélice à l'aide de blender
+
+17 mars
+
+-environ 3 heures
+Travail sur les collisions avec le joueur et le sol, on continue d'en parler moi et julien
+
+18 mars
+
+-environ 1h30
+Création d'un model de caméra de suveillance à l'aide de blender
+
+20 mars
+
+-environ 2 heures
+Cours sur Git donné par patrick à toute la classe
+
+24 mars
+
+-environ 3 heures
+Création de la classe Joueur et travail sur la fonction collisionJoueurSalle
+
+26 mars
+
+-environ 2 heures
+Modification de la classe joueur, travail sur la classe collisionJoueurSalle, 
+travail pour trouver une bonne formule qui calculera les collisions avec Julien.
 

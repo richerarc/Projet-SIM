@@ -1,6 +1,4 @@
 #pragma once
-#include <vector>
-
 template<typename T>
 class Vecteur2{
 public:

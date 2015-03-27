@@ -13,3 +13,10 @@
 12/03/2015 (cours) : Continuation de la création de l'afficheur de labyrinthe avec Damien.
 
 17/03/2015 (8h30 - 9h30): Finition de l'afficheur de labyrinthe.
+                          + Cours
+
+23/03/2015 : Modifications dans les classes objets 
+
+24/03/2015 : Continuation des objets avec Damien
+
+26/03/2015 : Continuation des umls des objets avec Damien

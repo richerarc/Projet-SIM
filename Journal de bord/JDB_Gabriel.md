@@ -118,3 +118,63 @@ Xavier, Richer et moi avons discuté sur qui allait géré les objets qui sont i
 ### 17 mars 2015
 
 J'ai codé le rebonds d'un objet sur une surface de la map, j'attends les collision à julien pour pouvoir les tester de manière plus concraite qu'en me disant que ca l'air correct. En attends, j'ai demandé au groupe de graphique s'ils avaient un engine de base que je pourrais utilisé. Il me l'on donné et j'ai fait quelques modifications, j'ai ajouté nos classe de physique et des objet en blender pour pouvoir faire des tests. J'ai aussi modifié la classe physique en ajout un ratio pour l'augmentation de la vitesse d'un objet selon le frametime, j'ai fait des modifications pour que le programme compile. J'ai voulu mettre l'engine sur git, mais on m'a FORTEMENT conseillé de ne pas mettre de vs sur git, heureusement que j'avais oublié de faire git add, il n'y a pas eu de problème. Je vais donc redistribuer l'engine au membres de mon équipe. Il y a aussi eu des changements dans les équipes, Xavier et Dean travaillent maintenant sur les menus.
+
+### 18 mars 2015
+
+Petite modification dans la classe Vecteur: Ajout d'un soustraire et remplacement du SDL_acos() qui ne semblait pas fonctionner par acos(). J'ai aussi testé le rebonds sur une surface plane avec un event de barre d'espace qui appel la procédure, il semble y avoir un problème, le vecteur de l'objet semble être modifié correctement, pourtant dans le monde 3D il ne semble pas se déplacer avec le nouveau vecteur, il rebondit a peine et retombe instantannément.
+
+### 19 mars 2015
+
+Tout d'abord, nous avons eu un petit cours de git pour apprendre l'utilisation des commandes. Ensuite j'ai réussi à régler mon problème, enfait lorsque j'appuyais sur la touche space, le gestionnaire d'événement ne remettait pas le "booléen" à false donc le rebonds se faisant sans arrêt au lieu d'une seule fois. Maintenant qu'il fonctionne, j'ai testé le rebond sous plusieurs angles et tout est bon! Après j'ai testé le vent, encore une fois tout s'applique bien, le nouveau vecteur est à un échelle respective de la force du vent et de la forme de l'objet, mais quand je sort de la procédure j'obtiens un DEGUB ASSERTION FAIL très fatiguant que je n'ai toujours pas pu régler. Avant de détruire mon odrinateur j'ai décidé d'allé testé le magnétisme, tout fonctionne parfaitement. J'ai fait quelques modification par-ci, par-là dans la classe physique et j'ai aussi mis à jour notre fichier de formules de physique. Il faudrait probablement metter aussi notre diagramme de classes à jour... peut-être... un jour... d'ici la fin de la session...
+
+###22 mars 2015
+
+J'ai corrigé plusieurs erreurs dans des classes faites par d'autres personnes dont j'avais besoin...(~30 min de gossage et il en reste encore)
+
+J'ai commencé à faire un procédure qui va parcourrir tous les objets d'un salle pour appliquer la physique, j'ai un peu de difficullté avec les dynamic_cast, il me donne des erreurs, j'ai fait quelques recherches sur internet, mais ce que j'ai fait devrais fonctionner.
+
+Bon après avoir travaillé pendant 5 min en commençant par l'application du vent je me suis tanné parce que les classes des objets, incluant le vent, ne sont pas complète je vais en discuter avec ceux qui travaillaient dessus.
+
+J'ai ajouté le rebond entre deux objet en mouvement (de base) dans la classe physique.
+
+###24 mars 2014
+
+J'ai commencé à faire une procédure qui applique la physique sur une liste d'objet qui contient les objets physique, les objets fixes, le vent, les aimant, etc...
+
+Suite à une discution, nous avons finalement décidé de faire le physique(sauf les collisions pour le moment) dans les classes respectives. Par exemple, l'application du vent se fera dans la classe vent. Je vais travailler là dessus.
+
+###25 mars 2015
+
+J'ai commencé à faire un avion en blender!
+
+###26 mars 2015
+
+**10:00-11:00** : Création des procédure appliquerPhysique dans les classes vent, aimant et objetPhysique.
+
+**11:00-11:20** : Ajout des includes dans les classes à dominique et damien.
+
+**11:20-11:40** : Test du "parcours" de la physique dans les classes vent, aimant et objet physique. L'application de la physique semble être correct, par contre je vais devoir faire afficher pour le voir vraiment bien mais l'affichage ne fonctionne pas...
+
+**11:40-12:00** : Bon j'ai réussi à faire afficher, le vent, le magnétisme, la gravité s'appliquent correctement!!
+
+**12:30-12:50** : Corrections et update dans le fichier Formules de physique.
+
+**12:50-14:10** : Travail sur mon avion, ça avance bien et je crois que je vais être fier du résultat!
+
+Durant la soiré j'ai discuté avec richer et, comme je m'y attendais parce que du côté physique Julien semble pouvoir gérer les collisions, je vais allé aider Damien et Dominique à faire les travail puisqu'ils semblent avoir de la difficulté. Pour l'instant ilsont un gros paquet de classes qui semblent trop nombreuses, je vais leur proposer une idée, l'utilisation d'un enum pour gérer les actions faites sur un objet. Leur travail consiste principalement à mettre en place tou ce qui est utile à l'utilisation des différents objets alors il me semble pertinent qu'au lieu de créer tout plein de classes, on se fait un enum d'action du genre:
+
+`enum action { Ramasser, Lancer, Manger, FaireExploser};`
+
+Puis dans la classe de l'objet il y aurait un appliquer action comme suit:
+
+`void appliquerAction(action) {`
+
+	`switch (action) {`
+		case RAMASSER:
+		case LANCER:
+		case MANGER:
+		case FAIREEXPLOSER:
+	}
+`}`
+
+Reste à voir si c'est une bonne façon de faire. Je vais probablement continué à faire un peu de physique par-ci par-là, mais Julien semble ne pas vouloir d'aide même après lui avoir demandé plusieurs fois...
