@@ -130,3 +130,9 @@ J'ai débuger la camera avec brandon, j'ai corriger des trucs dans quelques clas
 J'ai "pointeurisé modifier quelque trucs, pour permettre une meuileure gestion de la mémoire pour les modèles.
 
 **temps 1h**
+
+##**`26 mars 2015`**
+
+J'ai commencer une classe matrice... J'ai beaucoup de problemes je vais avoir besoin d'aide surement. J'espere que ça ne sera pas une perte de temps totale...
+
+**temps 5-6h**
