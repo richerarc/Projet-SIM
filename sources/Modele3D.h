@@ -1,21 +1,34 @@
 #pragma once
+
+#include <vector>
+#include <queue>
+#include <fstream>
+#include <iostream>
+#include <SDL2/SDL_opengl.h>
+#include "Vecteur3.h"
+#include "Matrices.h"
+#include "Maths.h"
+#include "Modele.h"
+#include "Texture.h"
+#include "Objet3D.h"
+
 namespace gfx{
 	class Modele3D : public Objet3D {
 	private:
 		Modele* modele;
 		Texture texture;
+		Matrice4X4d matriceTest;
 		double matTrans[16];
 		Vecteur3d echelle;
-
 		double* sommetsModif;
 		double* normalesModif;
 		Vecteur3d boiteDeCollisionModifiee[8];
-
 		bool sommet_Est_Transforme;
 		bool normale_Est_Transforme;
 		bool bDC_Est_Transformee;
 
 		void calculerMatriceTransformation(){
+			double mat[16];
 			glPushMatrix();
 			glLoadIdentity();
 			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
@@ -25,16 +38,19 @@ namespace gfx{
 			glTranslated(origine.x, origine.y, origine.z);
 			glScaled(echelle.x, echelle.y, echelle.z);
 			glGetDoublev(GL_MODELVIEW_MATRIX, matTrans);
+			glGetDoublev(GL_MODELVIEW_MATRIX, mat);
 			glPopMatrix();
+			matriceTest.defMatrice(mat);
 		}
 
 	public:
 
-		Modele3D(){
+		Modele3D() : Objet3D(){
 			echelle = Vecteur3d(1, 1, 1);
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
+			matriceTest = Matrice4X4d();
 		}
 
 		Modele3D(Modele *modele, Texture &texture) : Objet3D(){
@@ -46,12 +62,16 @@ namespace gfx{
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
+			matriceTest = Matrice4X4d();
 		}
 
 		double* obtNormalesModifies(){
+			double normalesModif2[108];
 			if (normale_Est_Transforme)
 			{
 				calculerMatriceTransformation();
+				matriceTest.inverser();
+				matriceTest.transposer();
 				double vecteurNormal[4];
 				double normalTemp[4];
 				normalTemp[3] = 1;
@@ -60,22 +80,30 @@ namespace gfx{
 					for (unsigned int j = 0; j < 3; j++)
 						normalTemp[j] = modele->obtNormales()[i * 3 + j];
 
+
+					vecteurNormal[0] = (matriceTest.obtMatrice()[0] * normalTemp[0]) + (matriceTest.obtMatrice()[4] * normalTemp[1]) + (matriceTest.obtMatrice()[8] * normalTemp[2]) + (matriceTest.obtMatrice()[12] * normalTemp[3]);
+					vecteurNormal[1] = (matriceTest.obtMatrice()[1] * normalTemp[0]) + (matriceTest.obtMatrice()[5] * normalTemp[1]) + (matriceTest.obtMatrice()[9] * normalTemp[2]) + (matriceTest.obtMatrice()[13] * normalTemp[3]);
+					vecteurNormal[2] = (matriceTest.obtMatrice()[2] * normalTemp[0]) + (matriceTest.obtMatrice()[6] * normalTemp[1]) + (matriceTest.obtMatrice()[10] * normalTemp[2]) + (matriceTest.obtMatrice()[14] * normalTemp[3]);
+					vecteurNormal[3] = (matriceTest.obtMatrice()[3] * normalTemp[0]) + (matriceTest.obtMatrice()[7] * normalTemp[1]) + (matriceTest.obtMatrice()[11] * normalTemp[2]) + (matriceTest.obtMatrice()[15] * normalTemp[3]); 
+
+					/*
 					vecteurNormal[0] = (matTrans[0] * normalTemp[0]) + (matTrans[4] * normalTemp[1]) + (matTrans[8] * normalTemp[2]) + (matTrans[12] * normalTemp[3]);
 					vecteurNormal[1] = (matTrans[1] * normalTemp[0]) + (matTrans[5] * normalTemp[1]) + (matTrans[9] * normalTemp[2]) + (matTrans[13] * normalTemp[3]);
 					vecteurNormal[2] = (matTrans[2] * normalTemp[0]) + (matTrans[6] * normalTemp[1]) + (matTrans[10] * normalTemp[2]) + (matTrans[14] * normalTemp[3]);
 					vecteurNormal[3] = (matTrans[3] * normalTemp[0]) + (matTrans[7] * normalTemp[1]) + (matTrans[11] * normalTemp[2]) + (matTrans[15] * normalTemp[3]);
+					*/
 
 					for (unsigned int j = 0; j < 3; j++){
 						if (vecteurNormal[3] != 1)
-							normalesModif[i * 3 + j] = vecteurNormal[j] / vecteurNormal[3];
+							normalesModif2[i * 3 + j] = vecteurNormal[j] / vecteurNormal[3];
 						else
-							normalesModif[i * 3 + j] = vecteurNormal[j];
+							normalesModif2[i * 3 + j] = vecteurNormal[j];
 						
 					}
 				}
 				normale_Est_Transforme = false;
 			}
-			return normalesModif;
+			return normalesModif2;
 		}
 
 		double* obtSommetsModifies(){
@@ -146,6 +174,7 @@ namespace gfx{
 		~Modele3D(){
 			delete[] sommetsModif;
 			delete[] normalesModif;
+//			delete matriceTest;
 		}
 
 		void defModele(Modele *modele){
@@ -161,7 +190,6 @@ namespace gfx{
 		void defEchelle(double echX, double echY, double echZ){
 			echelle = Vecteur3d(echX, echY, echZ);
 			sommet_Est_Transforme = true;
-			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
@@ -175,7 +203,6 @@ namespace gfx{
 
 		void defPosition(Vecteur3d pos){
 			position = pos;
-			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -200,7 +227,6 @@ namespace gfx{
 
 		void deplacer(Vecteur3d dep){
 			position += dep;
-			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -209,7 +235,6 @@ namespace gfx{
 			position.x = axeX;
 			position.y = axeY;
 			position.z = axeZ;
-			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
@@ -242,7 +267,6 @@ namespace gfx{
 			position.x += axeX;
 			position.y += axeY;
 			position.z += axeZ;
-			normale_Est_Transforme = true;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}

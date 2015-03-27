@@ -16,7 +16,7 @@ private:
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
-	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, std::vector<Vecteur3d>& pointsCollisions, std::vector<Vecteur3d>& normales) {
+	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, std::stack<Vecteur3d>& pointsCollisions, std::stack<Vecteur3d>& normales) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -48,20 +48,36 @@ private:
 			}
 
 			plan.calculerPlan(point1, point2, point3);
-			normales.push_back(Vecteur3d(modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2]));
+			normales.push(Vecteur3d(modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2]));
 
 			if (plan.insertionDroitePlan(rayonCollision, pointsCollisions)) {
 
-				if (!pointDansFace(point1, point2, point3, pointsCollisions[nbrCollisions])) {
-					pointsCollisions.pop_back();
-					normales.pop_back();
-				}
-				else
-					nbrCollisions++;
+				point = pointsCollisions.top() + rayonCollision.obtenirVecteurDirecteur();
 
+				if (!pointDansFace(point1, point2, point3, pointsCollisions.top(), normales.top())) {
+					pointsCollisions.pop();
+					normales.pop();
+				}
+				else {
+					if (memeCote(point, rayonCollision.obtenirPoint(), pointsCollisions.top(), point1)) {
+
+						double angle = normales.top().angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
+
+						if (angle > 120 && angle < 260)
+							return true;
+
+						pointsCollisions.pop();
+						normales.pop();
+					}
+
+					else {
+						pointsCollisions.pop();
+						normales.pop();
+					}
+				}
 			}
 			else
-				normales.pop_back();
+				normales.pop();
 		}
 		return false;
 	}
@@ -272,31 +288,37 @@ public:
 		return false;
 	}
 
-	bool collisionJoueurSalle(Joueur& joueur, Salle &salle) {
-		Vecteur3d pointCollision;
+	bool collisionObjetSalle(gfx::Modele3D& objet, Salle& salle) {
+		Droite rayonCollision;
+		std::stack<Vecteur3d> pointsCollisions;
 		Vecteur3d point;
-		Droite droitejoueur;
-		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
+		std::stack<Vecteur3d> normales;
+		Vecteur3d difference;
+		double d;
+		Vecteur3d* tabObjet = objet.obtBoiteDeCollisionModifiee();
 
-		for (int i = 0; i < 8; i++) {
-			point = tabJoueur[i];
 
-			droitejoueur = Droite(point, joueur.obtVitesse());
+		for (int roger = 0; roger < 8; roger++) {
 
-			if (collisionDroiteModele(salle.obtModele(), droitejoueur, pointCollision, normale)) {
-				if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
+			point = tabObjet[roger];
+
+			rayonCollision = Droite(point, objet.obtVitesse());
+
+			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointsCollisions, normales)) {
+
+				for (int i = pointsCollisions.size(); i > 0; i--) {
+
+					normales.top().normaliser();
+					RebondObjetCarte(objet, normales.top());
+					double angle = normales.top().angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
 					return true;
-				}
-				if (normale.x > 0 && pointCollision.x > point.x && joueur.obtVitesse().x < 0) {
-					return true;
-				}
-				if (normale.z > 0 && pointCollision.z > point.z && joueur.obtVitesse().z < 0) {
-					return true;
+
+					pointsCollisions.pop();
+					normales.pop();
+
 				}
 			}
 		}
 		return false;
 	}
-
 };

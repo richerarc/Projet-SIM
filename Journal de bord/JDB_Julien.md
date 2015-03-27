@@ -86,3 +86,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`26 mars 2015`**
 
 - 9h30 à 14h40 et 16h à 17h : J'ai avancé dans les collisions avec une nouvelle théorie, qui ne fonctionne pas vraiment pour l'instant, mais j'ai débugger toute la journée pour trouver le problème, sans succès pour le moment.
+
+###**`27 mars 2015`**
+
+- 10h30 à 12h30 et 1h45 à 2h30 : J'ai finalement trouvé l'emplacement de mon bug : la fonction qui déterminait si mon point était dans un triangle ne fonctionnenait pas totalement en trois dimensions je l'ai donc transformé entre deux dimensions et tout fonctionnait. Je regarde aussi maintenant l'angle entre le vecteur vitesse de l'objet et la normale de la face qui est en collision, si l'angle est dans près de 180 il y a collision.

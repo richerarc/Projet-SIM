@@ -108,6 +108,8 @@ public:
 			identite(); // imposible d'inverser on met l'identité
 			return false;
 		}
+		if (determinant > 0.99999876f && determinant < 1.000009)
+			determinant = 1.0f;
 
 		determinantInv = 1.0f / determinant;
 		matrice[0] = determinantInv * tmp[0];
@@ -142,6 +144,29 @@ class Matrice4X4
 private:
 	T matrice[16];
 	T matriceTrans[16];
+
+	void inversionEuclidienne(){
+
+		T tmp;
+		tmp = matrice[1]; 
+		matrice[1] = matrice[4]; 
+		matrice[4] = tmp;
+
+		tmp = matrice[2];
+		matrice[2] = matrice[8]; 
+		matrice[8] = tmp;
+
+		tmp = matrice[6]; 
+		matrice[6] = matrice[9];
+		matrice[9] = tmp;
+
+		T x = matrice[12];
+		T y = matrice[13];
+		T z = matrice[14];
+		matrice[12] = -(matrice[0] * x + matrice[4] * y + matrice[8] * z);
+		matrice[13] = -(matrice[1] * x + matrice[5] * y + matrice[9] * z);
+		matrice[14] = -(matrice[2] * x + matrice[6] * y + matrice[10] * z);
+	}
 
 	void inversionAffine(){
 		Matrice3X3<T> temp(matrice[0], matrice[1], matrice[2], matrice[4], matrice[5], matrice[6], matrice[8], matrice[9], matrice[10]);
@@ -317,15 +342,18 @@ public:
 	}
 
 	void transposer(){
-		std::swap(matrice[1], matrice[3]);
-		std::swap(matrice[2], matrice[6]);
-		std::swap(matrice[5], matrice[7]);
+		std::swap(matrice[1], matrice[4]);
+		std::swap(matrice[2], matrice[8]);
+		std::swap(matrice[3], matrice[12]);
+		std::swap(matrice[6], matrice[9]);
+		std::swap(matrice[7], matrice[13]);
+		std::swap(matrice[11], matrice[14]);
 	}
 
 	void inverser(){
 
 		if (matrice[3] == 0 && matrice[7] == 0 && matrice[11] == 0 && matrice[15] == 1)
-			inversionAffine();
+			inversionEuclidienne();
 		else
 			inversionGenerale();
 	}

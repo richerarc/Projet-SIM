@@ -136,3 +136,9 @@ J'ai "pointeurisé modifier quelque trucs, pour permettre une meuileure gestion 
 J'ai commencer une classe matrice... J'ai beaucoup de problemes je vais avoir besoin d'aide surement. J'espere que ça ne sera pas une perte de temps totale...
 
 **temps 5-6h**
+
+##**`27 mars 2015`**
+
+J'ai terminé les classes représentant les matrices. J'ai du demainder a richer de compiler su XCode pour touver mes erreurs alor maintenant la classe fonctionne alors il reste a tester avec le normales...
+
+**temps 2h**
