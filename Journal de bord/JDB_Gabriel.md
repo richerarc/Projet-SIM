@@ -156,3 +156,25 @@ J'ai commencé à faire un avion en blender!
 **11:20-11:40** : Test du "parcours" de la physique dans les classes vent, aimant et objet physique. L'application de la physique semble être correct, par contre je vais devoir faire afficher pour le voir vraiment bien mais l'affichage ne fonctionne pas...
 
 **11:40-12:00** : Bon j'ai réussi à faire afficher, le vent, le magnétisme, la gravité s'appliquent correctement!!
+
+**12:30-12:50** : Corrections et update dans le fichier Formules de physique.
+
+**12:50-14:10** : Travail sur mon avion, ça avance bien et je crois que je vais être fier du résultat!
+
+Durant la soiré j'ai discuté avec richer et, comme je m'y attendais parce que du côté physique Julien semble pouvoir gérer les collisions, je vais allé aider Damien et Dominique à faire les travail puisqu'ils semblent avoir de la difficulté. Pour l'instant ilsont un gros paquet de classes qui semblent trop nombreuses, je vais leur proposer une idée, l'utilisation d'un enum pour gérer les actions faites sur un objet. Leur travail consiste principalement à mettre en place tou ce qui est utile à l'utilisation des différents objets alors il me semble pertinent qu'au lieu de créer tout plein de classes, on se fait un enum d'action du genre:
+
+`enum action { Ramasser, Lancer, Manger, FaireExploser};`
+
+Puis dans la classe de l'objet il y aurait un appliquer action comme suit:
+
+`void appliquerAction(action) {`
+
+	`switch (action) {`
+		case RAMASSER:
+		case LANCER:
+		case MANGER:
+		case FAIREEXPLOSER:
+	}
+`}`
+
+Reste à voir si c'est une bonne façon de faire. Je vais probablement continué à faire un peu de physique par-ci par-là, mais Julien semble ne pas vouloir d'aide même après lui avoir demandé plusieurs fois...
