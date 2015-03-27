@@ -1,8 +1,9 @@
 
 #pragma once
-#define EPSILON = 0.00001
+double EPSILON = 0.00001;
+#include <math.h>
 #include "Vecteur3.h"
-template<class T>
+template<typename T>
 class Matrice3X3{
 private:
 	T matrice[9];
@@ -18,7 +19,7 @@ public:
 	}
 
 	Matrice3X3(T mat0, T mat1, T mat2, T mat3, T mat4, T mat5, T mat6, T mat7, T mat8){
-		defMatrice(mat0, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8)
+		defMatrice(mat0, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8);
 	}
 
 	~Matrice3X3(){}
@@ -53,7 +54,7 @@ public:
 		matrice[noLigne + 6] = ligne[2];
 	}
 
-	void defLigne(int noLigne, Vecteur3<T>& vec){
+	void defLigne(int noLigne, Vecteur3<T> vec){
 		matrice[noLigne] = vec.x;
 		matrice[noLigne + 3] = vec.y;
 		matrice[noLigne + 6] = vec.z;
@@ -65,13 +66,13 @@ public:
 		matrice[noCol * 3 + 2] = col[2];
 	}
 
-	void defColone(int noCol, Vecteur3<T>& vec){
+	void defColone(int noCol, Vecteur3<T> vec){
 		matrice[noCol * 3] = vec.x;
 		matrice[noCol * 3 + 1] = vec.y;
 		matrice[noCol * 3 + 2] = vec.z;
 	}
 
-	T* obtMatrice(){ return matrice; }
+	T* obtMatrice(){return matrice;}
 
 	T* obtTranspose(){
 
@@ -87,7 +88,7 @@ public:
 		return matriceTrans;
 	}
 
-	void inverser(){
+	bool inverser(){
 		double determinant, determinantInv;
 		T tmp[9];
 
@@ -103,10 +104,12 @@ public:
 
 		// Regarder si le determinant est 0
 		determinant = matrice[0] * tmp[0] + matrice[1] * tmp[3] + matrice[2] * tmp[6];
-		if (fabs(determinant) <= EPSILON)
-			identity(); // imposible d'inverser on met l'identité
+		if (fabs(determinant) <= EPSILON){
+			identite(); // imposible d'inverser on met l'identité
+			return false;
+		}
 
-		invDeterminant = 1.0f / determinant;
+		determinantInv = 1.0f / determinant;
 		matrice[0] = determinantInv * tmp[0];
 		matrice[1] = determinantInv * tmp[1];
 		matrice[2] = determinantInv * tmp[2];
@@ -116,6 +119,7 @@ public:
 		matrice[6] = determinantInv * tmp[6];
 		matrice[7] = determinantInv * tmp[7];
 		matrice[8] = determinantInv * tmp[8];
+		return true;
 	}
 
 	T& operator[](int index){
@@ -126,11 +130,13 @@ public:
 		matrice[0] = matrice[4] = matrice[8] = 1.0f;
 		matrice[1] = matrice[2] = matrice[3] = matrice[5] = matrice[6] = matrice[7] = 0.0f;
 	}
-
 };
+typedef Matrice3X3<int> Matrice3X3i;
+typedef Matrice3X3<unsigned int> Matrice3X3ui;
+typedef Matrice3X3<float> Matrice3X3f;
+typedef Matrice3X3<double> Matrice3X3d;
 
-
-template<class T>
+template<typename T>
 class Matrice4X4
 {
 private:
@@ -140,24 +146,24 @@ private:
 	void inversionAffine(){
 		Matrice3X3<T> temp(matrice[0], matrice[1], matrice[2], matrice[4], matrice[5], matrice[6], matrice[8], matrice[9], matrice[10]);
 		temp.inverser();
-		matrice[0] = temp[0];
-		matrice[1] = temp[1];
-		matrice[2] = temp[2];
-		matrice[4] = temp[3];
-		matrice[5] = temp[4];
-		matrice[6] = temp[5];
-		matrice[8] = temp[6];
-		matrice[9] = temp[7];
-		matrice[10] = temp[8];
-		double x = m[12];
-		double y = m[13];
-		double z = m[14];
-		matrice[12] = -(temp[0] * x + temp[3] * y + temp[6] * z);
-		matrice[13] = -(temp[1] * x + temp[4] * y + temp[7] * z);
-		matrice[14] = -(temp[2] * x + temp[5] * y + temp[8] * z);
+		matrice[0] = temp.obtMatrice()[0];
+		matrice[1] = temp.obtMatrice()[1];
+		matrice[2] = temp.obtMatrice()[2];
+		matrice[4] = temp.obtMatrice()[3];
+		matrice[5] = temp.obtMatrice()[4];
+		matrice[6] = temp.obtMatrice()[5];
+		matrice[8] = temp.obtMatrice()[6];
+		matrice[9] = temp.obtMatrice()[7];
+		matrice[10] = temp.obtMatrice()[8];
+		double x = matrice[12];
+		double y = matrice[13];
+		double z = matrice[14];
+		matrice[12] = -(temp.obtMatrice()[0] * x + temp.obtMatrice()[3] * y + temp.obtMatrice()[6] * z);
+		matrice[13] = -(temp.obtMatrice()[1] * x + temp.obtMatrice()[4] * y + temp.obtMatrice()[7] * z);
+		matrice[14] = -(temp.obtMatrice()[2] * x + temp.obtMatrice()[5] * y + temp.obtMatrice()[8] * z);
 	}
 
-	void inversionGenerale(){
+	bool inversionGenerale(){
 
 		double cofacteur0 = obtCofacteur(matrice[5], matrice[6], matrice[7], matrice[9], matrice[10], matrice[11], matrice[13], matrice[14], matrice[15]);
 		double cofacteur1 = obtCofacteur(matrice[4], matrice[6], matrice[7], matrice[8], matrice[10], matrice[11], matrice[12], matrice[14], matrice[15]);
@@ -165,8 +171,10 @@ private:
 		double cofacteur3 = obtCofacteur(matrice[4], matrice[5], matrice[6], matrice[8], matrice[9], matrice[10], matrice[12], matrice[13], matrice[14]);
 
 		double determinant = matrice[0] * cofacteur0 - matrice[1] * cofacteur1 + matrice[2] * cofacteur2 - matrice[3] * cofacteur3;
-		if (fabs(determinant) <= EPSILON)
-			return identity();
+		if (fabs(determinant) <= EPSILON){
+			identite();
+			return false;
+		}
 
 		double cofacteur4 = obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[9], matrice[10], matrice[11], matrice[13], matrice[14], matrice[15]);
 		double cofacteur5 = obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[8], matrice[10], matrice[11], matrice[12], matrice[14], matrice[15]);
@@ -201,7 +209,7 @@ private:
 		matrice[13] = determinantInv * cofacteur7;
 		matrice[14] = -determinantInv * cofacteur11;
 		matrice[15] = determinantInv * cofacteur15;
-
+		return true;
 	}
 
 	T obtCofacteur(T m0, T m1, T m2, T m3, T m4, T m5, T m6, T m7, T m8){
@@ -222,7 +230,7 @@ public:
 		defMatrice(mat0, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9, mat10, mat11, mat12, mat13, mat14, mat15);
 	}
 
-	~Matrice4X4();
+	~Matrice4X4(){}
 
 	void defMatrice(const T mat[16]){
 		matrice[0] = mat[0];
@@ -269,7 +277,7 @@ public:
 		matrice[noLigne + 12] = ligne[3];
 	}
 
-	void defLigne(int noLigne, Vecteur3<T>& vec){
+	void defLigne(int noLigne, Vecteur3<T> vec){
 		matrice[noLigne] = vec.x;
 		matrice[noLigne + 4] = vec.y;
 		matrice[noLigne + 8] = vec.z;
@@ -282,7 +290,7 @@ public:
 		matrice[noCol * 4 + 3] = col[3];
 	}
 
-	void defColone(int noCol, Vecteur3<T>& vec){
+	void defColone(int noCol, Vecteur3<T> vec){
 		matrice[noCol * 4] = vec.x;
 		matrice[noCol * 4 + 1] = vec.y;
 		matrice[noCol * 4 + 2] = vec.z;
@@ -308,7 +316,7 @@ public:
 		return matriceTrans;
 	}
 
-	void transpose(){
+	void transposer(){
 		std::swap(matrice[1], matrice[3]);
 		std::swap(matrice[2], matrice[6]);
 		std::swap(matrice[5], matrice[7]);
@@ -316,10 +324,10 @@ public:
 
 	void inverser(){
 
-		if (m[3] == 0 && m[7] == 0 && m[11] == 0 && m[15] == 1)
+		if (matrice[3] == 0 && matrice[7] == 0 && matrice[11] == 0 && matrice[15] == 1)
 			inversionAffine();
 		else
-			invertGenerale();
+			inversionGenerale();
 	}
 
 	T* obtMatrice(){ return matrice; }
@@ -334,4 +342,7 @@ public:
 	}
 
 };
-
+typedef Matrice4X4<int> Matrice4X4i;
+typedef Matrice4X4<unsigned int> Matrice4X4ui;
+typedef Matrice4X4<float> Matrice4X4f;
+typedef Matrice4X4<double> Matrice4X4d;
