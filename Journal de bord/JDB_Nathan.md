@@ -95,3 +95,8 @@ Création de la classe Joueur et travail sur la fonction collisionJoueurSalle
 Modification de la classe joueur, travail sur la classe collisionJoueurSalle, 
 travail pour trouver une bonne formule qui calculera les collisions avec Julien.
 
+29 mars
+
+-environ 1 heure
+Création d'un modele blender de piege électrique, ajout de mes autres modeles blender
+sur le serveur.
