@@ -142,3 +142,9 @@ J'ai commencer une classe matrice... J'ai beaucoup de problemes je vais avoir be
 J'ai terminé les classes représentant les matrices. J'ai du demainder a richer de compiler su XCode pour touver mes erreurs alor maintenant la classe fonctionne alors il reste a tester avec le normales...
 
 **temps 2h**
+
+##**`21 mars 2015`**
+
+J'ai ajuster le retour de la classe modifiée maintenant elle marche. 
+
+**temps 45 min**
