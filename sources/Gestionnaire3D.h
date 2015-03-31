@@ -8,11 +8,47 @@ namespace gfx{
 		//Camera3D Cam;
 		double hautY, droitX, ratio, angle, planProche, planLoin;
 
+		void defFrustum(){
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glFrustum(-droitX, droitX, -hautY, hautY, planProche, planLoin);
+			glMatrixMode(GL_MODELVIEW);
+		}
+
 	public:
+
 		Gestionnaire3D(gfx::Fenetre fenetre ){
 			hautY = Maths::degreARadian(70);
-			droitX = hautY* (fenetre.obtTaille().x / fenetre.obtTaille().y);
+			ratio = ((double)fenetre.obtTaille().x / (double)fenetre.obtTaille().y);
+			droitX = hautY * (ratio);
+			planProche = 1;
+			planLoin = 1000;
+			defFrustum();
+		}
 
+		Gestionnaire3D(){
+
+		}
+
+		void defHaut(double haut){
+			hautY = haut;
+			droitX = hautY * (ratio);
+			defFrustum();
+		}
+
+		void defAngleDeVue(double fov){
+			angle = fov;
+			hautY = Maths::degreARadian(fov);
+			droitX = hautY * (ratio);
+			defFrustum();
+		}
+
+		void defPlanProche(double planProche){
+			this->defPlanProche = planProche;
+		}
+
+		void defPlanLoin(double planLoin){
+			this->planLoin = planLoin;
 		}
 
 		void afficherTout(){
@@ -21,13 +57,12 @@ namespace gfx{
 			}
 		}
 
-		void defFrustrum(double angle, double ratio, double min, double max){
-			hautY = Maths::degreARadian(angle);
+		void defFrustum(double fov, double ratio, double min, double max){
+			hautY = Maths::degreARadian(fov);
 			droitX = hautY * ratio;
-			glMatrixMode(GL_PROJECTION); // Matrice de projection.
-			glLoadIdentity();
-			glFrustum(-droitX, droitX, -hautY, hautY, 1, 1000);
-			glMatrixMode(GL_MODELVIEW);
+			planProche = min;
+			planLoin = max;
+			defFrustum();
 		}
 
 		void retObjet(Objet3D* objet){
