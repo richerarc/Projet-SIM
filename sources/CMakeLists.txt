@@ -13,6 +13,7 @@ set(SDL2_INCLUDE_DIR /usr/local/include/SDL2/SDL.h)
 set(SDL2_IMAGE_DIR /usr/local/include/SDL2/SDL_image.h)
 set(GL_INCLUDE_DIR /usr/include/GL/gl.h)
 set(SDL2_LIBRARY /usr/local/lib/libSDL2.so)
+set(SDL2_IMAGE_LIBRARY /usr/lib/x86_64-linux-gnu/libSDL2_image.so)
 set(GL_LIBRARY /usr/lib/x86_64-linux-gnu/libGL.so)
 endif(APPLE)
 
