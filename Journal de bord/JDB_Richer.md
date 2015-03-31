@@ -39,3 +39,5 @@
 `Mar. 24 mars` J'ai terminé l'algorithme de génération pour la carte. Nous avons travailler sur l'analise des interfaces, sur la hiérarchie des objet et quelque ajustement sur l'engine 3D. Tout le monde à une tâche claire à effectuer, en espérant que tous la fassent! `3h30`
 
 `Jeu. 26 mars` J'ai écrit la fonction qui crée les liens entre les pièces, j'ai modéliser une pièce et une porte, et j'ai aidé Jessy à remaper les includes `2h10`
+
+`Lun. 30 mars` J'ai fait quelques petites modifications pour assurer que tout sera prêt pour finaliser la génération demain. `1h00`
