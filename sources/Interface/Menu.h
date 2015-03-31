@@ -10,7 +10,7 @@ public:
 		this->Actif = Actif;
 		this->SpriteFond = SpriteFond;
 	}
-	std::list ObtenirListeControle(){
+	std::list<ControleVisuel*> ObtenirListeControle(){
 		return ListeControles;
 	}
 

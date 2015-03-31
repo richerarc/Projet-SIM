@@ -1,5 +1,5 @@
 
-class GestionnaireMenu : Singleton{
+class GestionnaireMenu : public Singleton<GestionnaireMenu>{
 private:
 	std::list<Menu*> Menus;
 
@@ -23,7 +23,7 @@ public:
 		}
 	}
 
-	std::list ObtenirListeMenu(){
+	std::list<Menu*> ObtenirListeMenu(){
 		return this->Menus;
 	}
 

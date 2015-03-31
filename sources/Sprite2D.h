@@ -9,6 +9,9 @@ namespace gfx{
 			this->position.x = this->position.x + (surface->w / 2);
 			this->position.y = this->position.y + (surface->h / 2);
 		}
+		Sprite2D(){
+			texture = nullptr;
+		}
 		~Sprite2D(){
 		}
 

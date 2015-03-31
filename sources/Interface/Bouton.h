@@ -6,11 +6,11 @@ enum Etat {
 class Bouton : public Etiquette {
 private:
 	Etat EtatBouton;
-	Sprite2D SpriteSurvol;
-	Sprite2D SpriteClique;
+	gfx::Sprite2D SpriteSurvol;
+	gfx::Sprite2D SpriteClique;
 
 public:
-	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, Texte2D Texte, Sprite2D SpriteFond, Sprite2D SpriteClique, Sprite2D SpriteSurvol) {
+	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, gfx::Texte2D Texte, gfx::Sprite2D SpriteFond, gfx::Sprite2D SpriteClique, gfx::Sprite2D SpriteSurvol) : Etiquette(Texte, SpriteFond, VecteurPosition,  VecteurTaille)) {
 		EtatBouton = REPOS;
 		this->ObtenirPosition() = VecteurPosition;
 		this->ObtenirTaille() = VecteurTaille;
@@ -29,5 +29,12 @@ public:
 	void enClique(void) {
 		EtatBouton = CLIQUE;
 		this->SpriteClique.afficher();
+	}
+
+	bool gestEvennement(){
+		if (Souris::boutonAppuye(SDL_button_right)){
+			if ((Souris::obtPosition() >= this->Position) && (Souris::obtPosition() <= this->Position + this->Taille))
+			return true;
+		}
 	}
 };
