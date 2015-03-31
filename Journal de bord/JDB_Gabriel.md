@@ -178,3 +178,19 @@ Puis dans la classe de l'objet il y aurait un appliquer action comme suit:
 `}`
 
 Reste à voir si c'est une bonne façon de faire. Je vais probablement continué à faire un peu de physique par-ci par-là, mais Julien semble ne pas vouloir d'aide même après lui avoir demandé plusieurs fois...
+
+###28 mars 2015
+
+**10:00-11:30**: Réflexion profonde sur la manière de structurer nos classes objet, j'ai fait une nouvelle version puis je demanderai l'avis à mes coéquipiers.
+
+###30 mars 2015
+
+**11:30-12:30**: Discution avec M.Charles Naaman, professeur de physique, sur les rebonds de fou que je veux coder, c'est-à-dire des moment de force, etc.. Nous avons réussi à obtenir des formule(très grosse) pour calculer le tout, c'est quand même beau.
+
+**19:30-20:30**: Travail sur le formule de physique, j'ai plusieurs calculs à faire, un grosse berta avec un quadratique et autres.
+
+###31 mars 2015
+
+**9:00-11:20**: Plus de travail sur les formule, j'ai pu obtenir la vitesse final de l'objet qui me servira pour calculer la vitesse angulaire et la vitesse de rebond.
+
+**13:00-14:30**: Création d'un projet pour commencer à coder les formules, je n'ai pas encore fait de tests, mais la formule pour trouver la vitesse finale est codée.
