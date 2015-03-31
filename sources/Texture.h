@@ -1,3 +1,9 @@
+#pragma once
+
+#include "Vecteur2.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <string>
 namespace gfx{
 	class Texture{
 	private:
@@ -21,7 +27,7 @@ namespace gfx{
 			surface = IMG_Load(path);
 			glGenTextures(1, &ID);
 			glBindTexture(GL_TEXTURE_2D, ID);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface->w, surface->w, 0, GL_BGR, GL_UNSIGNED_BYTE, surface->pixels);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->w, 0, GL_BGRA, GL_UNSIGNED_BYTE, surface->pixels);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			return (surface != nullptr);
@@ -31,7 +37,7 @@ namespace gfx{
 			return ID;
 		}
 
-		Vecteur2ui obtTaille() {
+		Vecteur2d obtTaille() {
 			return Vecteur2d(surface->w, surface->h);
 		}
 

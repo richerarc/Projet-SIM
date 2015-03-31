@@ -20,13 +20,13 @@ namespace gfx{
 			if (vAngle < -89)
 				vAngle = -89;
 
-			devant.x = cos(vAngle * M_PI / 180) * cos(hAngle * M_PI / 180);
-			devant.y = cos(vAngle * M_PI / 180) * sin(hAngle * M_PI / 180);
-			devant.z = sin(vAngle * M_PI / 180);
+			devant.x = cos(vAngle * M_PI / 180) * sin(hAngle * M_PI / 180);
+			devant.y = sin(vAngle * M_PI / 180);
+			devant.z = cos(vAngle * M_PI / 180) * cos(hAngle * M_PI / 180);
 
 			devant.normaliser();
 
-			haut = Vecteur3f(0, 0, 1);
+			haut = Vecteur3f(0, 1, 0);
 
 			cote = devant.produitVectoriel(haut);
 			cote.normaliser();
@@ -34,13 +34,13 @@ namespace gfx{
 			haut = cote.produitVectoriel(devant);
 			haut.normaliser();
 
-			coustruireMatrice();
+			construireMatrice();
 		}
 	public:
 
 		CameraGodMode(Vecteur3f& position) : Camera(position, Vecteur3f(), Vecteur3f(0, 0, 1)){
-			this->vitesse = 0.01;
-			this->sensibilite = 0.2;
+			this->vitesse = 0.09;
+			this->sensibilite = 0.15;
 			
 			this->hAngle = 0;
 			this->vAngle = 0;
@@ -74,9 +74,9 @@ namespace gfx{
 			if (Clavier::toucheAppuyee(SDLK_d))
 				position += cote * vitesse * frametime;
 			if (Clavier::toucheAppuyee(SDLK_SPACE))
-				position.z += vitesse;
+				position.y += vitesse;
 			if (Clavier::toucheAppuyee(SDLK_LSHIFT))
-				position.z -= vitesse;
+				position.y -= vitesse;
 		}
 
 		

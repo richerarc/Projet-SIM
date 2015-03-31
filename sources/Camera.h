@@ -12,7 +12,7 @@ namespace gfx{
 			devant;
 		float matriceVue[4][4];
 
-		void coustruireMatrice(){
+		void construireMatrice(){
 			matriceVue[0][0] = cote.x;
 			matriceVue[1][0] = cote.y;
 			matriceVue[2][0] = cote.z;
@@ -28,12 +28,12 @@ namespace gfx{
 
 		void defCible(Vecteur3f& cible){
 			this->cible = cible;
-			coustruireMatrice();
+			construireMatrice();
 		}
 
 		void defHaut(Vecteur3f& haut){
 			this->haut = haut;
-			coustruireMatrice();
+			construireMatrice();
 		}
 
 		Vecteur3f obtCible(){ return cible; }
@@ -47,7 +47,7 @@ namespace gfx{
 			this->haut = haut;
 			matriceVue[3][0] = matriceVue[3][1] = matriceVue[3][2] = matriceVue[0][3] = matriceVue[1][3] = matriceVue[2][3] = 0;
 			matriceVue[3][3] = 1;
-			coustruireMatrice();
+			construireMatrice();
 		}
 
 		Camera(){
@@ -56,7 +56,7 @@ namespace gfx{
 			haut = Vecteur3f(0, 0, 0);
 			matriceVue[3][0] = matriceVue[3][1] = matriceVue[3][2] = matriceVue[0][3] = matriceVue[1][3] = matriceVue[2][3] = 0;
 			matriceVue[3][3] = 1;
-			coustruireMatrice();
+			construireMatrice();
 		}
 
 
@@ -69,7 +69,7 @@ namespace gfx{
 
 		void defPosition(Vecteur3f& position){
 			this->position = position;
-			coustruireMatrice();
+			construireMatrice();
 		}
 
 	};
