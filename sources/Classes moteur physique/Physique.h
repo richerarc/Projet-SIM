@@ -288,16 +288,35 @@ public:
 			rayonCollision = Droite(point, joueur.obtVitesse());
 
 			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
-				if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
-					Vecteur3d pointDiference = pointCollision - point;
-					joueur.defPosition(joueur.obtPosition() + pointDiference);
+				Vecteur3d pointDiference = pointCollision - point;
+				joueur.defPosition(joueur.obtPosition() + pointDiference);
 
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
 	}
 
+	bool collisionJoueurObjet(Joueur &joueur, Objet &objet) {
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point;
+		Vecteur3d normale;
+		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
+
+		for (int i = 0; i < 8; i++) {
+			point = tabJoueur[i];
+
+			rayonCollision = Droite(point, joueur.obtVitesse());
+
+			if (collisionDroiteBoiteDeCollision(objet.obtModele3D().obtBoiteDeCollisionModifiee(), rayonCollision, pointCollision, normale)) {
+				Vecteur3d pointDiference = pointCollision - point;
+				joueur.defPosition(joueur.obtPosition() + pointDiference);
+
+				return true;
+			}
+		}
+		return false;
+	}
 
 };
