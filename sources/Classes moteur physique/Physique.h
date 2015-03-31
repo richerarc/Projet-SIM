@@ -275,9 +275,9 @@ public:
 
 	bool collisionJoueurSalle(Joueur &joueur, Salle &salle) {
 		Droite rayonCollision;
-		std::vector<Vecteur3d> pointCollision;
+		Vecteur3d pointCollision;
 		Vecteur3d point;
-		std::vector<Vecteur3d> normale;
+		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
 
 
@@ -289,6 +289,9 @@ public:
 
 			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
 				if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
+					Vecteur3d pointDiference = pointCollision - point;
+					joueur.defPosition(joueur.obtPosition() + pointDiference);
+
 					return true;
 				}
 			}
