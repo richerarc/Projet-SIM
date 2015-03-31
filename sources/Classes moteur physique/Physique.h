@@ -246,9 +246,9 @@ public:
 
 	bool collisionObjetSalle(Objet& objet, Salle& salle) {
 		Droite rayonCollision;
-		std::vector<Vecteur3d> pointCollision;
+		Vecteur3d pointCollision;
 		Vecteur3d point;
-		std::vector<Vecteur3d> normale;
+		Vecteur3d normale;
 		double distance;
 		double d;
 		Vecteur3d* tabObjet = objet.obtModele3D().obtBoiteDeCollisionModifiee();
@@ -263,11 +263,14 @@ public:
 			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
 
 				if (normale.y > 0 && pointCollision.y > point.y && objet.obtVitesse().y < 0) {
+					
+					difference = pointCollision - point;
+					objet.defPosition(objet.obtPosition() + difference);
+
 					normale.normaliser();
 					RebondObjetCarte(objet, normale);
 					return true;
 				}
-
 			}
 		}
 		return false;
