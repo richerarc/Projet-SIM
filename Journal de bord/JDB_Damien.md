@@ -49,3 +49,5 @@
 	Modification de l'UML et de l'analyse d'objet.
 #Jeudi 26 mars 2015 (10:05 à 11:50)
 	Modification de l'UMLet l'analyse d'objet.
+#Mardi 31 mars 2015(11:50 à 12:10)
+	Ajout d'une liste d'actions pour les objets.
