@@ -3,7 +3,7 @@ namespace gfx{
 	public:
 		Texture* texture;
 
-		Sprite2D(Vecteur2d  position, Texture* texture) : Objet2D(position){
+		Sprite2D(Vecteur2f position, Texture* texture) : Objet2D(position){
 			this->texture = texture;
 			this->surface = texture->obtSurface();
 			this->position.x = this->position.x + (surface->w / 2);
@@ -26,9 +26,9 @@ namespace gfx{
 			glLoadIdentity();
 
 		
-			glTranslated(position.x - origine.x, position.y - origine.y, 0.0f);
-			glRotated(orientation, 0.0f, 0.0f, 1.0f);
-			glTranslated(origine.x, origine.y, 0.0f);
+			glTranslatef(position.x - origine.x, position.y - origine.y, 0.0f);
+			glRotatef(orientation, 0.0f, 0.0f, 1.0f);
+			glTranslatef(origine.x, origine.y, 0.0f);
 			glPushMatrix();
 
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
@@ -36,16 +36,16 @@ namespace gfx{
 			glBegin(GL_QUADS);
 	
 			glTexCoord2i(0, 1);
-			glVertex2d(position.x, position.y);  //1
+			glVertex2f(position.x, position.y);  //1
 
 			glTexCoord2i(1, 1);
-			glVertex2d(surface->w + position.x, position.y); //2
+			glVertex2f(surface->w + position.x, position.y); //2
 
 			glTexCoord2i(1, 0);
-			glVertex2d(surface->w + position.x, surface->h + position.y); //3
+			glVertex2f(surface->w + position.x, surface->h + position.y); //3
 
 			glTexCoord2i(0, 0);
-			glVertex2d(position.x, surface->h + position.y); //4
+			glVertex2f(position.x, surface->h + position.y); //4
 			glEnd();
 
 			glPopMatrix();

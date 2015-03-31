@@ -31,7 +31,7 @@ namespace gfx{
 			return ID;
 		}
 
-		Vecteur2d obtTaille() {
+		Vecteur2ui obtTaille() {
 			return Vecteur2d(surface->w, surface->h);
 		}
 
