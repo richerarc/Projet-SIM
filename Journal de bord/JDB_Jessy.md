@@ -71,39 +71,13 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 -J'ai modifié la rotation pour les objets 2D
 -J'ai continué de tester l'environnement 2D
 
--J'ai ensuite fais un ménage d'includes et reparé plusieurs petites erreurs dans différentes classe voici ce que j'ai fais:
-////////////////////////////////////////////////////////////////
+-J'ai ensuite fais un ménage d'includes et reparé plusieurs petites erreurs dans différentes classes.
 
-///////2D////////////
--Gestionnaire2D modifier quelques trucs et modifier les includes
--Objet2D modifier les includes
--Sprite2D modifier les includes
--Texte2D modifier les includes
--Texture modifier les includes 
-///////Fenetre et caméra///////////
--Fenetre modifier les includes
--ModeVideo modifier les includes
--Modifcation includes Souris
--Modification includes Clavier
-/////////3D////////////
--Gestionnaire3D modifier les includes
--Objet3D modifier les includes
--Modele3D modifier les includes
-/////mathematiques////////
--Vecteur2 modifier includes
--Maths modifier includes
--Chrono modifier includes
--Temps modifier includes
--Graphe modifier erreurs 
-//////Generation de la map////////
--Salle modification d'erreurs 
--GestionnaireLiens modification includes il y a plusieurs erreurs dans cette classe
--Aimant modification d'erreurs
--Connecteur modification includes
-//////Objet/////////
--Objets modification includes 
--Porte modification includes
-//////////Evenements/////////////
--GestionnaireEvenements modification includes
 
-////////////////////////////////////////////////////////////////
+31 mars  de 14h45 à 17h15 (2h30)
+-J'ai patché quelques bugs reliés aux modifications d'includes que j'avais fais
+-J'ai ajouter un constructeur par défault dans mes classes Texte2D, Objet2D et Sprite2D 
+-J'ai corrigé les destructeurs de ces mêmes classes
+
+de 19h à 20h(1h)
+-J'ai commencé à structurer la classe Jeu.h 

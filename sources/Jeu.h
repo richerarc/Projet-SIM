@@ -32,6 +32,11 @@
 
 #include "Objet.h"
 
+#include "Camera.h"
+#include "CameraGodMode.h"
+
+
+#include "Fenetre.h"
 #include "Gestionnaire2D.h"
 #include "Gestionnaire3D.h"
 #include "GestionnaireRessources.h"
@@ -39,16 +44,36 @@
 #include "GestionnaireEvenements.h"
 
 
-
-
-#include "Fenetre.h"
-#include "ModeVideo.h"
-#include "Camera.h"
-#include "CameraGodMode.h"
-
 class Jeu{
+
 public:
+
+private:
+	static gfx::Fenetre fenetre;
+	static SDL_Event evenement;
+	static gfx::Gestionnaire2D* gestionnaire2D;
+	static gfx::Gestionnaire3D* gestionnaire3D;
+	static GestionnaireEvenements* gestionnaireEvenement;
+	static GestionnaireRessources* gestionnaireRessources;
+
+public:
+
+
 	static void demarrer(){
-		
+		fenetre = gfx::Fenetre(gfx::ModeVideo(500, 500), "CoffeeTrip", false);
+		while (fenetre.estOuverte()){
+
+			while (fenetre.sonderEvenements(evenement)){
+				if (evenement.type == SDL_QUIT)
+					fenetre.fermer();
+			}
+
+			fenetre.vider();
+
+			//Affichages
+
+			fenetre.rafraichir();
+
+		}
 	}
 };
