@@ -1,8 +1,8 @@
 class Etiquette : public ControleVisuel{
 protected:
-	Texte2D Texte;
+	gfx::Texte2D Texte;
 public:
-	Etiquette(Texte2D Texte, Sprite2D Sprite, Vecteur2d VecteurPosition, Vecteur2d VecteurTaille){
+	Etiquette(gfx::Texte2D Texte, gfx::Sprite2D Sprite, Vecteur2f VecteurPosition, Vecteur2f VecteurTaille) : ControleVisuel(){
 		this->position = VecteurPosition;
 		this->Texte = Texte;
 		this->SpriteFond = Sprite;
