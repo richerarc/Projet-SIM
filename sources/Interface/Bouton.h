@@ -10,7 +10,7 @@ private:
 	gfx::Sprite2D SpriteClique;
 
 public:
-	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, gfx::Texte2D Texte, gfx::Sprite2D SpriteFond, gfx::Sprite2D SpriteClique, gfx::Sprite2D SpriteSurvol) : Etiquette(Texte, SpriteFond, VecteurPosition,  VecteurTaille)) {
+	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, gfx::Texte2D Texte, gfx::Sprite2D SpriteFond, gfx::Sprite2D SpriteClique, gfx::Sprite2D SpriteSurvol) : Etiquette(Texte, SpriteFond, VecteurPosition,  VecteurTaille) {
 		EtatBouton = REPOS;
 		this->ObtenirPosition() = VecteurPosition;
 		this->ObtenirTaille() = VecteurTaille;
@@ -21,19 +21,19 @@ public:
 
 	}
 
-	void enSurvol(void) {
+	void enSurvol(gfx::Fenetre& fenetre) {
 		EtatBouton = SURVOL;
-		this->SpriteSurvol.afficher();
+		this->SpriteSurvol.afficher(fenetre);
 	}
 
-	void enClique(void) {
+	void enClique(gfx::Fenetre& fenetre) {
 		EtatBouton = CLIQUE;
-		this->SpriteClique.afficher();
+		this->SpriteClique.afficher(fenetre);
 	}
 
 	bool gestEvennement(){
-		if (Souris::boutonAppuye(SDL_button_right)){
-			if ((Souris::obtPosition() >= this->Position) && (Souris::obtPosition() <= this->Position + this->Taille))
+		if (Souris::boutonAppuye(SDL_BUTTON_RIGHT)){
+			if ((Souris::obtPosition() >= this->position) && (Souris::obtPosition() <= this->position + this->taille))
 			return true;
 		}
 	}
