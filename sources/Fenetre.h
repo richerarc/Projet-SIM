@@ -11,9 +11,6 @@ namespace gfx{
 
 			sdlWindow = SDL_CreateWindow(titre.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)taille.x, (int)taille.y, SDL_WINDOW_OPENGL);
 
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 			SDLGLContext = SDL_GL_CreateContext(sdlWindow);
 
 			this->defTitre(titre);

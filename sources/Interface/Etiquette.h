@@ -1,4 +1,4 @@
-class Etiquette : ControleVisuel{
+class Etiquette : public ControleVisuel{
 protected:
 	Texte2D Texte;
 public:
@@ -17,11 +17,11 @@ public:
 		this->Texte.afficher();
 	}
 
-	Vecteur2d ObtenirPosition(){
+	Vecteur2f ObtenirPosition(){
 		return this->position;
 	}
 
-	Vecteur2d ObtenirTaille(){
+	Vecteur2f ObtenirTaille(){
 		return this->taille;
 	}
 };
