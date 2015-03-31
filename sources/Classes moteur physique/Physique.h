@@ -21,6 +21,7 @@ private:
 		Vecteur3d point1;
 		Vecteur3d point2;
 		Vecteur3d point3;
+		Vecteur3d point;
 		double* tabVertices;
 		Plan plan;
 
@@ -48,14 +49,14 @@ private:
 			}
 
 			plan.calculerPlan(point1, point2, point3);
-			normale = { modele.obtnormale()[Nbrface * 3], modele.obtnormale()[Nbrface * 3 + 1], modele.obtnormale()[Nbrface * 3 + 2]};
+			normale = { modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2]};
 
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-				point = pointCollision.top() + rayonCollision.obtenirVecteurDirecteur();
+				point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
 
-				if (pointDansFace(point1, point2, point3, pointCollision.top(), normale.top())) {
-					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision.top(), point1)) {
+				if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
+					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
 
 						double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
 						if (angle > 120 && angle < 260)
@@ -64,6 +65,15 @@ private:
 				}
 			}
 		}
+		return false;
+	}
+
+	bool memeCote(Vecteur3d point1, Vecteur3d point2, Vecteur3d droite1, Vecteur3d droite2) {
+
+		Vecteur3d produit1 = (droite2 - droite1).produitVectoriel(point1 - droite1);
+		Vecteur3d produit2 = (droite2 - droite1).produitVectoriel(point2 - droite1);
+		if (produit1.produitScalaire(produit2) >= 0)
+			return true;
 		return false;
 	}
 
@@ -220,21 +230,49 @@ public:
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
 
-	double pointDansTriangle(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, Vecteur3d& point) {
-		
-		Vecteur3d vect1 = point3 - point1;
-		Vecteur3d vect2 = point2 - point1;
-		Vecteur3d vect3 = point - point1;
+	bool pointDansFace(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, Vecteur3d& point, Vecteur3d normale) {
 
-		double produit11 = vect1.produitScalaire(vect1);
-		double produit12 = vect1.produitScalaire(vect2);
-		double produit13 = vect1.produitScalaire(vect3);
-		double produit22 = vect2.produitScalaire(vect2);
-		double produit23 = vect2.produitScalaire(vect3);
 
-		double invDenom = 1 / (produit11 * produit22 - produit12 * produit12);
-		double u = (produit22 * produit13 - produit12 * produit23) * invDenom;
-		double v = (produit11 * produit23 - produit23 * produit13) * invDenom;
+
+		Vecteur3d v0 = point3 - point1;
+		Vecteur3d v1 = point2 - point1;
+		Vecteur3d v2 = point - point1;
+
+		Vecteur2d vect0;
+		Vecteur2d vect1;
+		Vecteur2d vect2;
+
+		normale.normaliser();
+
+		if (abs(normale.x) > abs(normale.y) && abs(normale.x) > abs(normale.z)) {
+
+			vect0 = Vecteur2d(v0.y, v0.z);
+			vect1 = Vecteur2d(v1.y, v1.z);
+			vect2 = Vecteur2d(v2.y, v2.z);
+		}
+
+		if (abs(normale.y) > abs(normale.x) && abs(normale.y) > abs(normale.z)) {
+
+			vect0 = Vecteur2d(v0.x, v0.z);
+			vect1 = Vecteur2d(v1.x, v1.z);
+			vect2 = Vecteur2d(v2.x, v2.z);
+		}
+		if (abs(normale.z) > abs(normale.x) && abs(normale.z) > abs(normale.y)) {
+
+			vect0 = Vecteur2d(v0.x, v0.y);
+			vect1 = Vecteur2d(v1.x, v1.y);
+			vect2 = Vecteur2d(v2.x, v2.y);
+		}
+
+		double produit00 = vect0 * vect0;
+		double produit01 = vect0 * vect1;
+		double produit02 = vect0 * vect2;
+		double produit11 = vect1 * vect1;
+		double produit12 = vect1 * vect2;
+
+		double invDenom = 1 / (produit00 * produit11 - produit01 * produit01);
+		double u = (produit11 * produit02 - produit01 * produit12) * invDenom;
+		double v = (produit00 * produit12 - produit12 * produit02) * invDenom;
 
 		return (u >= 0) && (v >= 0) && (u + v < 1);
 
@@ -249,8 +287,7 @@ public:
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		double distance;
-		double d;
+		Vecteur3d difference;
 		Vecteur3d* tabObjet = objet.obtModele3D().obtBoiteDeCollisionModifiee();
 
 
@@ -261,16 +298,13 @@ public:
 			rayonCollision = Droite(point, objet.obtVitesse());
 
 			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
+				
+				difference = pointCollision - point;
+				objet.defPosition(objet.obtPosition() + difference);
 
-				if (normale.y > 0 && pointCollision.y > point.y && objet.obtVitesse().y < 0) {
-					
-					difference = pointCollision - point;
-					objet.defPosition(objet.obtPosition() + difference);
-
-					normale.normaliser();
-					RebondObjetCarte(objet, normale);
-					return true;
-				}
+				normale.normaliser();
+				RebondObjetCarte(objet, normale);
+				return true;
 			}
 		}
 		return false;
