@@ -1,7 +1,8 @@
 #pragma once
 #include "Vecteur3.h"
+#include "Objet.h"
 
-class Joueur {
+class Joueur : public Objet{
 private:
 	double hauteur;
 	double rayon;
@@ -9,9 +10,9 @@ private:
 	bool accroupie;
 
 public:
-	Joueur(gfx::Modele3D modele3D) {
-		hauteur = 1.80;
-		rayon = 0.25;
+	Joueur(gfx::Modele3D &modele3D, unsigned int ID, double masse, Vecteur3d position, double largeur, double hauteur) : Objet(modele3D, ID, NULL, masse, NULL, position){
+		this->hauteur = hauteur;
+		this->largeur = largeur;
 		this->modele3D = modele3D;
 	}
 

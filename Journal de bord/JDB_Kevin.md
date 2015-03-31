@@ -38,7 +38,7 @@ L'analyse à pris forme tout au long de ce laps de temps. Il y a eu formations d
 
 **Temps: 1h**
 
-###**`17 février 2015`**
+##**`17 février 2015`**
 Nous avons parler avant le cours de comment nous allons procéder pour la gestion de l'affichage. Brandon est arrivé avec une nouvelle façon de faire qu'il devra bien nous expliquer pour que nous puissions bien l'utiliser. En classe Richer et Brandon nous ont montrer quelques fonctionalités de `C++11` que nous auront probablement a utiliser durant le projet. Nous avons aussi mis au oint les normes de programmation que nous allons utiliser. Nous avons également en fin de cours discuter sur l'élaboration de pièges plus complexes. Nous complèterons l'analyse demain mation pour laisser le temps de macération des différentes idées.
 
 **Temps: 4h**  
@@ -124,3 +124,21 @@ J'ai fait la formule de l'obtention des normales mais des tests seront nécéssa
 J'ai débuger la camera avec brandon, j'ai corriger des trucs dans quelques classes pour rendre le projet fonctionnel. Ensuite nous avons pris des sons avec Fabien.
 
 **Temps 4h**
+
+##**`24 mars 2015`**
+
+J'ai "pointeurisé modifier quelque trucs, pour permettre une meuileure gestion de la mémoire pour les modèles.
+
+**temps 1h**
+
+##**`26 mars 2015`**
+
+J'ai commencer une classe matrice... J'ai beaucoup de problemes je vais avoir besoin d'aide surement. J'espere que ça ne sera pas une perte de temps totale...
+
+**temps 5-6h**
+
+##**`27 mars 2015`**
+
+J'ai terminé les classes représentant les matrices. J'ai du demainder a richer de compiler su XCode pour touver mes erreurs alor maintenant la classe fonctionne alors il reste a tester avec le normales...
+
+**temps 2h**

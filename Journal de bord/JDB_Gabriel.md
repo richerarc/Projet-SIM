@@ -136,3 +136,45 @@ J'ai commencé à faire un procédure qui va parcourrir tous les objets d'un sal
 Bon après avoir travaillé pendant 5 min en commençant par l'application du vent je me suis tanné parce que les classes des objets, incluant le vent, ne sont pas complète je vais en discuter avec ceux qui travaillaient dessus.
 
 J'ai ajouté le rebond entre deux objet en mouvement (de base) dans la classe physique.
+
+###24 mars 2014
+
+J'ai commencé à faire une procédure qui applique la physique sur une liste d'objet qui contient les objets physique, les objets fixes, le vent, les aimant, etc...
+
+Suite à une discution, nous avons finalement décidé de faire le physique(sauf les collisions pour le moment) dans les classes respectives. Par exemple, l'application du vent se fera dans la classe vent. Je vais travailler là dessus.
+
+###25 mars 2015
+
+J'ai commencé à faire un avion en blender!
+
+###26 mars 2015
+
+**10:00-11:00** : Création des procédure appliquerPhysique dans les classes vent, aimant et objetPhysique.
+
+**11:00-11:20** : Ajout des includes dans les classes à dominique et damien.
+
+**11:20-11:40** : Test du "parcours" de la physique dans les classes vent, aimant et objet physique. L'application de la physique semble être correct, par contre je vais devoir faire afficher pour le voir vraiment bien mais l'affichage ne fonctionne pas...
+
+**11:40-12:00** : Bon j'ai réussi à faire afficher, le vent, le magnétisme, la gravité s'appliquent correctement!!
+
+**12:30-12:50** : Corrections et update dans le fichier Formules de physique.
+
+**12:50-14:10** : Travail sur mon avion, ça avance bien et je crois que je vais être fier du résultat!
+
+Durant la soiré j'ai discuté avec richer et, comme je m'y attendais parce que du côté physique Julien semble pouvoir gérer les collisions, je vais allé aider Damien et Dominique à faire les travail puisqu'ils semblent avoir de la difficulté. Pour l'instant ilsont un gros paquet de classes qui semblent trop nombreuses, je vais leur proposer une idée, l'utilisation d'un enum pour gérer les actions faites sur un objet. Leur travail consiste principalement à mettre en place tou ce qui est utile à l'utilisation des différents objets alors il me semble pertinent qu'au lieu de créer tout plein de classes, on se fait un enum d'action du genre:
+
+`enum action { Ramasser, Lancer, Manger, FaireExploser};`
+
+Puis dans la classe de l'objet il y aurait un appliquer action comme suit:
+
+`void appliquerAction(action) {`
+
+	`switch (action) {`
+		case RAMASSER:
+		case LANCER:
+		case MANGER:
+		case FAIREEXPLOSER:
+	}
+`}`
+
+Reste à voir si c'est une bonne façon de faire. Je vais probablement continué à faire un peu de physique par-ci par-là, mais Julien semble ne pas vouloir d'aide même après lui avoir demandé plusieurs fois...

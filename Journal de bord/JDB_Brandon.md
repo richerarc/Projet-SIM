@@ -29,4 +29,5 @@ de 3h à 5h20
 	Fix de bugs.
 23 mars de 18h à 22h
 	Implémentation des classes Fenetre et ModeVideo.
-	
+24 mars de 10h à minuit
+	Début de l'implémentation des caméras, il reste quelques bugs à fixer.

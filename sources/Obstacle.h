@@ -1,4 +1,5 @@
-
+#pragma once 
+#include "Objet.h"
 class Obstacle : public Objet{
 public:
 	Obstacle(){}

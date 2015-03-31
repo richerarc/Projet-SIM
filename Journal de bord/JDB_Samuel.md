@@ -14,6 +14,12 @@
 
 12 mars: Creation de la classe Gestionnaire 3D et tenter d'aider Jessy
 
-17: mars debut analyse Interface.
+17 mars: debut analyse Interface.
 
-19 mars: cours sur GitHUb
+19 mars: cours sur GitHUb. Analyse Interface.
+
+20 mars: creation de la classe virtuelle ControleVisuel
+
+24 mars: creation des classes menu et gestionnaire menu. debut de la modelisation d'une banniere
+
+26 mars:  modification des classes ControleVisuel Menu et GestionnaireMenu, screenshot du Diagramme de classes, creation de la classe étiquette

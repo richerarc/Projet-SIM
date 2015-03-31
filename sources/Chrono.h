@@ -1,7 +1,4 @@
 #pragma once
-#include <chrono>
-#include "Temps.h"
-
 using namespace std::chrono;
 
 class Chrono

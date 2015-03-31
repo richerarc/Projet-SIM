@@ -23,3 +23,11 @@ J'essaie les issues.. (test)
 Jai fait des modifications dans Modele3D et Objet3D avec l'aide de Kevin et Brandon
 
 Durée: environ 2h
+
+
+-- 26 mars 2015 (11h50)--
+
+J'oublie toujours de mettre à jour mon JDB (je sais que tu parlais surtout de moi aujourdhui Patrick) 
+Bon dans les dernières deux semaines j'ai travaillé dans les classes de modeles 3D et dans l'interface, incluant les analyses de besoins, diagrammes des classes, etc. Aujourdhui, j'ai travaillé sur la classe Glisseur.h, je crois que la classe est terminée, mais je nai pas eu la chance de la tester. Bref, je m'engage à travailler mieux sur mon journal de bord.
+
+Durée: environ 1h45

@@ -1,6 +1,19 @@
-IMPORTANT: Cette analyse n'est pas complète, elle n'est pas encore combiné avec une autre partie qui est sur mon rodi - Dom
+IMPORTANT: Cette analyse n'est pas complète, elle n'est pas encore combiné avec une autre partie qui est sur mon ordi - Dom
 
-Objets fixes:
+Objets utiles : 
+-Balle
+-Balance
+-Pendule
+-Munitions
+-Clé
+-Bouche d'aération
+-Fils
+-Caisse
+-Cadenas
+-Porte
+
+
+Objets fixes (à filtrer):
 -Bannière
 -Balance
 -Pendule
