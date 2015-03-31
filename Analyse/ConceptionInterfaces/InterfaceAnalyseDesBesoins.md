@@ -5,14 +5,14 @@ Un menu principal qui contiendra des boutons qui font changer d’un menu a l’
 
 ####Menu principal :
 -	Label « [Game Name Here] ».
--	Bouton « New Game » : Permet de commencer une nouvelle partie,  mène ,a un nouveau menu.
+-	Bouton « New Game » : Mène au menu nouvelle partie.
 -	Bouton « Settings » : Permet de changer les options du jeu, mène à un nouveau menu.
 -	Bouton « Quit Game » : Permet de quitter le programme.
 
 ####Menu « New Game » :
 -	Label « New Game ».
 -	Label « Choose Difficulty ».
--	Boutons « Easy / Medium / Hard» : Permet de changer la difficulté du jeu.
+-	Boutons « Easy / Medium / Hard» : Permet de choisir la difficulté du jeu.
 -	Bouton « Back ».
 
 ####Menu « Settings » :
@@ -38,9 +38,9 @@ Un menu principal qui contiendra des boutons qui font changer d’un menu a l’
 -	Label « Keys».
 -	Labels & boutons des contrôles : Permettent de changer les contrôles du jeu :
   -	Mouvement (Haut, Bas, Droite, Gauche, S’accroupir, Sauter).
-  -	Actions (Utiliser, Tirer/Lancer, Ramasser objet, Déposer objet).
+  -	Actions (Utiliser, Tirer/Lancer).
   -	Options (FPS, Menu, Point de vue).
--	Bouton « Save Controls » : Permet de sauvegarder la configuration des touches.
+-	Bouton « Apply » : Permet de sauvegarder la configuration des touches.
 -	Bouton « Back ».
 
  
