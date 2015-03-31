@@ -50,6 +50,14 @@ Procédure qui appliquera le rebonds à un objet(son vecteur) lorsqu'il entre en
 
 Ceci donne un scalaire qu'on multiplie au vecteur normal pour ensuite soustraire le résultat au vecteur vitesse de l'objet.
 
+Test de calcul de rebond de fou:
+
+![](http://i.imgur.com/y9m8GtI.jpg)
+
+![](http://i.imgur.com/CelBxSx.jpg)
+
+![](http://i.imgur.com/eLGox8b.jpg)
+
 ####RebondObjetObjet(Objet& objet1, Objet& objet2, Vecteur3d vecteurNormal);
 
 Procédure qui appliquera le rebonds à deux objets (en mouvement) qui entrent en collision. Dépend de l'élasticité des objets.
