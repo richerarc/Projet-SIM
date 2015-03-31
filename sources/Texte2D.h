@@ -16,11 +16,12 @@ namespace gfx{
 			couleur = { 255, 255, 255, 255 };
 			chargerSurface();
 		}
+		Texte2D(){
+			this->texte = nullptr;
+			this->taille = 0;
+			police = nullptr;
+		}
 		~Texte2D(){
-			if (surface != nullptr){
-				SDL_FreeSurface(surface);
-				surface = nullptr;
-			}
 			TTF_CloseFont(police);
 		}
 		void chargerSurface(){
