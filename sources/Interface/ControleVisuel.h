@@ -1,8 +1,8 @@
 class ControleVisuel{
 protected:
-	Sprite2D SpriteFond;	
-	Vecteur2f position;	
-	Vecteur2f taille;
+	gfx::Sprite2D SpriteFond;	
+	gfx::Vecteur2f position;	
+	gfx::Vecteur2f taille;
 
 
 public:

@@ -84,6 +84,9 @@ namespace gfx{
 			}
 			return false;
 		}
+		Vecteur2f obtTaille(){
+			return this->taille;
+		}
 
 		bool estOuverte(){
 			if (fenetreOuverte)
