@@ -18,7 +18,7 @@ namespace gfx{
 		}
 
 		bool charger(const char* path){
-			surface = SDL_LoadBMP(path);
+			surface = IMG_Load(path);
 			glGenTextures(1, &ID);
 			glBindTexture(GL_TEXTURE_2D, ID);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface->w, surface->w, 0, GL_BGR, GL_UNSIGNED_BYTE, surface->pixels);
