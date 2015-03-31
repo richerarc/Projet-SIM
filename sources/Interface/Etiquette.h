@@ -12,9 +12,9 @@ public:
 		this->Texte.defPosition(VecteurPosition);
 	}
 
-	void afficher(){ //affichage de l'etiquette
-		this->SpriteFond.afficher();
-		this->Texte.afficher();
+	void afficher(gfx::Fenetre& fenetre){ //affichage de l'etiquette
+		this->SpriteFond.afficher(fenetre);
+		this->Texte.afficher(fenetre);
 	}
 
 	Vecteur2f ObtenirPosition(){
