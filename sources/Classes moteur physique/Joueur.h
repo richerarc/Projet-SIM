@@ -5,7 +5,7 @@
 class Joueur : public Objet{
 private:
 	double hauteur;
-	double rayon;
+	double largeur;
 	gfx::Modele3D modele3D;
 	bool accroupie;
 
@@ -16,12 +16,18 @@ public:
 		this->modele3D = modele3D;
 	}
 
+	void appliquerPhysique(Salle &salle) {
+		if (!Physique::obtInstance().collisionJoueurSalle(*this, salle)) {
+			Physique::obtInstance().appliquerGravite(vitesse);
+		}
+	}
+
 	double obtHauteur() {
 		return hauteur;
 	}
 
-	double obtRayon() {
-		return rayon;
+	double obtLargeur() {
+		return largeur;
 	}
 
 	gfx::Modele3D obtModele3D() {
