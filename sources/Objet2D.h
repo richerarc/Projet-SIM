@@ -15,12 +15,12 @@ namespace gfx{
 			echelle.y = 1;
 
 		}
-		~Objet2D(){
-			if (surface != nullptr){
-				SDL_FreeSurface(surface);
-				surface = nullptr;
-			}
+		Objet2D():Objet2D(Vecteur2f()){
 		}
+
+		~Objet2D(){
+		}
+
 		virtual void afficher(gfx::Fenetre& fenetre) = 0;
 
 		void defPosition(Vecteur2f position){
