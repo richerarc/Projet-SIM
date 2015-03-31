@@ -30,4 +30,11 @@ public:
 		EtatBouton = CLIQUE;
 		this->SpriteClique.afficher();
 	}
+
+	bool gestEvennement(){
+		if (Souris::boutonAppuye(SDL_button_right)){
+			if ((Souris::obtPosition() >= this->Position) && (Souris::obtPosition() <= this->Position + this->Taille))
+			return true;
+		}
+	}
 };
