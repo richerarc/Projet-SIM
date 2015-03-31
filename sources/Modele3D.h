@@ -50,6 +50,8 @@ namespace gfx{
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
+			sommetsModif = nullptr;
+			normalesModif = nullptr;
 			matriceTest = Matrice4X4d();
 		}
 
@@ -63,10 +65,11 @@ namespace gfx{
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
 			matriceTest = Matrice4X4d();
+			for (unsigned int i = 0; i < modele->obtNbrVertices(); i++)
+				normalesModif[i] = modele->obtNormales()[i];
 		}
 
 		double* obtNormalesModifies(){
-			double normalesModif2[108];
 			if (normale_Est_Transforme)
 			{
 				calculerMatriceTransformation();
@@ -95,15 +98,15 @@ namespace gfx{
 
 					for (unsigned int j = 0; j < 3; j++){
 						if (vecteurNormal[3] != 1)
-							normalesModif2[i * 3 + j] = vecteurNormal[j] / vecteurNormal[3];
+							normalesModif[i * 3 + j] = vecteurNormal[j] / vecteurNormal[3];
 						else
-							normalesModif2[i * 3 + j] = vecteurNormal[j];
+							normalesModif[i * 3 + j] = vecteurNormal[j];
 						
 					}
 				}
 				normale_Est_Transforme = false;
 			}
-			return normalesModif2;
+			return normalesModif;
 		}
 
 		double* obtSommetsModifies(){
@@ -172,15 +175,24 @@ namespace gfx{
 		}
 
 		~Modele3D(){
-			delete[] sommetsModif;
-			delete[] normalesModif;
-//			delete matriceTest;
+			if (sommetsModif){
+				delete[] sommetsModif;
+				sommetsModif = nullptr;
+			}
+			if (normalesModif){
+				delete[] normalesModif;
+				normalesModif = nullptr;
+			}
 		}
 
 		void defModele(Modele *modele){
 			this->modele = modele;
+			delete[] sommetsModif;
+			delete[]normalesModif;
 			sommetsModif = new double[modele->obtNbrVertices()];
 			normalesModif = new double[modele->obtNbrVertices()];
+			for (unsigned int i = 0; i < modele->obtNbrVertices(); i++)
+					normalesModif[i] = modele->obtNormales()[i];
 		}
 
 		void defTexture(Texture &texture){

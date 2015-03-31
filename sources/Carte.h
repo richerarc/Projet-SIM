@@ -13,18 +13,6 @@
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
 
-struct InfoObjet {
-	const unsigned int ID;
-	const char* cheminFicher;
-};
-
-struct InfoSalle {
-	const unsigned int ID;
-	const unsigned int nbrPorte;
-	const char* cheminFicher;
-	std::list<InfoObjet> Objet;
-};
-
 class Carte{
 private:
 	graphe::Graphe carte;

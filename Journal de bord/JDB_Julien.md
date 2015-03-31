@@ -4,8 +4,7 @@
 le principe des changements de salles sont maintenant plus clairs. 
 
 - 11h40 à 12h : Nous avons aussi divisé notre projet en 3 sous-parties, soit la physique,
-la partie graphique et la partie algorithmique... Je n'ai pas peu resté plus longtemps 
-malheureusement, mais il a été déterminé que je suis le "chef" de la partie physique.
+la partie graphique et la partie algorithmique... Je n'ai pas peu resté plus longtemps malheureusement, mais il a été déterminé que je suis le "chef" de la partie physique.
 
 ###**`15 février 2015`**
 
@@ -90,3 +89,7 @@ malheureusement, mais il a été déterminé que je suis le "chef" de la partie 
 ###**`27 mars 2015`**
 
 - 10h30 à 12h30 et 1h45 à 2h30 : J'ai finalement trouvé l'emplacement de mon bug : la fonction qui déterminait si mon point était dans un triangle ne fonctionnenait pas totalement en trois dimensions je l'ai donc transformé entre deux dimensions et tout fonctionnait. Je regarde aussi maintenant l'angle entre le vecteur vitesse de l'objet et la normale de la face qui est en collision, si l'angle est dans près de 180 il y a collision.
+
+###**`30 mars 2015`**
+
+- 10h à 10h10 : J'ai optimisé mes collisions en enlevant les piles que je demandais en paramètre dans la fonction collisionDroiteModele. Ces piles n'étaient plus utiles, car j'ai réglé le problème de de plusieurs points de collisions.

@@ -31,3 +31,5 @@ de 3h à 5h20
 	Implémentation des classes Fenetre et ModeVideo.
 24 mars de 10h à minuit
 	Début de l'implémentation des caméras, il reste quelques bugs à fixer.
+30 mars de 10h30 à 11h30
+	Finalisation de la caméra GodMode, parfaitement fonctionnelle, sauf que les axes sont inversés, à revoir.

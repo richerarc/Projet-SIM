@@ -102,9 +102,9 @@ public:
 
 	}
 
-	/*std::map<Action,int> obtenirControles(void) {
+	std::map<int,int> obtenirControles(void) {
 		return Controles;
-	}*/
+	}
 
 
 

@@ -2,6 +2,7 @@
 
 struct InfoObjet {
 	const unsigned int ID;
+	Vecteur3d position;
 	const char* cheminFicher;
 };
 
