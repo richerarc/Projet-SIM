@@ -1,10 +1,36 @@
 #pragma once
+/*
 #include "ObjetPhysique.h"
 #include "Vent.h"
 #include "Aimant.h"
 #include "Porte.h"
 #include "Obstacle.h"
 #include "Connecteur.h"
+*/
+//Objet
+//-ObjetFixe
+//---Pendule
+//---Balance
+//---Inactif
+//-ObjetInteractif
+//--Projectile
+//--ObjInv
+//---Fusil
+//---Couteau
+//---Clé
+//---Fil
+//---Balle
+//---AlimentPhysique
+//---AlimentMental
+//---Autre
+//
+//-Force
+//
+//
+
+enum typeAction {Rotation, Pousser, Osciller, Prendre, Ranger, Tirer, Recharger, Lancer, Utiliser};
+enum typeObjet {Pendule,Balance,Inactif,Projectile,Fusil,Couteau,Clef,Fil,Balle,AlimentPhysique,AlimentMental,Autre,Vent,Aimant};
+
 class Objet {
 protected:
 	unsigned int ID;
@@ -12,9 +38,10 @@ protected:
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
+	typeObjet type;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position){
+	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position, typeObjet type){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -23,21 +50,17 @@ public:
 		this->vitesse.y = vitesse.y;
 		this->vitesse.z = vitesse.z;
 		this->modele.defPosition(position);
+		this->type = type;
 	}
-	virtual void appliquerPhysique(std::list<Objet*> objets) {};
-	virtual Vecteur3d obtPosition(){ return this->modele.obtPosition; };
-	virtual void defPosition(Vecteur3d position){
+	virtual void appliquerPhysique(std::list<Objet*> objets) = 0;
+	virtual void appliquerAction(typeAction action) = 0;
+	Vecteur3d obtPosition(){ 
+		return this->modele.obtPosition(); 
+	};
+	void defPosition(Vecteur3d position){
 		this->modele.defPosition(position);
 	}
-	virtual Vecteur3d obtDimensions(){};
-	virtual void defDimensions(Vecteur3d dimensions){};
-	virtual void defForce(double force){};
-	virtual double obtForce(){ return 0; };
-	virtual bool obtSortable(){return false;}
-	virtual void defSortable(bool sortie){}
-	virtual bool obtVerrou(){return false;}
-	virtual void defVerrou(bool verrou){}
-
+	
 	void defID(unsigned int ID){
 		this->ID = ID;
 	}
