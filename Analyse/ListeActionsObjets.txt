@@ -1,0 +1,9 @@
+Rotation
+pousser
+Osciller
+Prendre
+Ranger
+Tirer
+Recharger
+Lancer
+Utiliser
