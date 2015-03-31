@@ -273,29 +273,28 @@ public:
 		return false;
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D& objet, Salle& salle) {
+	bool collisionJoueurSalle(Joueur &joueur, Salle &salle) {
 		Droite rayonCollision;
-		Vecteur3d pointCollision;
+		std::vector<Vecteur3d> pointCollision;
 		Vecteur3d point;
-		Vecteur3d normale;
-		Vecteur3d difference;
-		double d;
-		Vecteur3d* tabObjet = objet.obtBoiteDeCollisionModifiee();
+		std::vector<Vecteur3d> normale;
+		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
 
 
 		for (int i = 0; i < 8; i++) {
 
-			point = tabObjet[i];
+			point = tabJoueur[i];
 
-			rayonCollision = Droite(point, objet.obtVitesse());
+			rayonCollision = Droite(point, joueur.obtVitesse());
 
 			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
-
-				normale.normaliser();
-				RebondObjetCarte(objet, normale);
-				return true;
+				if (normale.y > 0 && pointCollision.y > point.y && joueur.obtVitesse().y < 0) {
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
+
+
 };
