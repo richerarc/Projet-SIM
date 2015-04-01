@@ -51,3 +51,5 @@
 	Modification de l'UMLet l'analyse d'objet.
 #Mardi 31 mars 2015(11:50 à 12:10)
 	Ajout d'une liste d'actions pour les objets.
+	Modification de la classe ObjetFixe en ajoutant un bool en privé afin de savoir si on peut interagir. Ajout d'accesseur afin d'obtenir et modifier l'interaction. Ajout d'appliquerAction qui permet d'appliquer une certaine action à l'objet fixe visé.
+	Début d'une analyse des actions pour chaque objet précédement établi comme utile pour le moment.

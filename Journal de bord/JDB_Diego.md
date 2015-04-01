@@ -31,3 +31,9 @@ J'oublie toujours de mettre à jour mon JDB (je sais que tu parlais surtout de mo
 Bon dans les dernières deux semaines j'ai travaillé dans les classes de modeles 3D et dans l'interface, incluant les analyses de besoins, diagrammes des classes, etc. Aujourdhui, j'ai travaillé sur la classe Glisseur.h, je crois que la classe est terminée, mais je nai pas eu la chance de la tester. Bref, je m'engage à travailler mieux sur mon journal de bord.
 
 Durée: environ 1h45
+
+-- 31 Mars 2015 (14h40) --
+
+J,ai travaillé sur ma classe Glisseuur.h, il y avait plusieurs erreurs. Je me suis retouvé sans otrdi pour la plus grande partie du cours alorsj'ai travaillé un peu averc Nathan. J'ai pas fait beaucoup de travail... La classe Glisseur.h est finie. manque deboguer.
+
+Durée: environ 1h 

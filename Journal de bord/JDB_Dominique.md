@@ -20,3 +20,5 @@
 24/03/2015 : Continuation des objets avec Damien
 
 26/03/2015 : Continuation des umls des objets avec Damien
+
+31/03/2015 (2h40 à 5h20) : J'ai mis à jour les objets suivant la nouvelle façon décidée avec Damien. Ensuite, nous avons commencé l'analyse des actions effectuables par ces objets.

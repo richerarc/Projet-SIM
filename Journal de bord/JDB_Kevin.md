@@ -143,8 +143,8 @@ J'ai terminé les classes représentant les matrices. J'ai du demainder a richer
 
 **temps 2h**
 
-##**`21 mars 2015`**
+##**`31 mars 2015`**
 
-J'ai ajuster le retour de la classe modifiée maintenant elle marche. 
+J'ai ajuster le retour de la classe modifiée maintenant elle marche, j'ai fais quelque modification dans les classes 2D et 3D, j'ai ajuster le frustum dans le gestionnaire 3D, j'ai corriger l'affichage des textures. 
 
-**temps 45 min**
+**temps 2h**
