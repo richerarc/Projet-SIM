@@ -75,7 +75,6 @@ public:
 	T* obtMatrice(){return matrice;}
 
 	T* obtTranspose(){
-
 		matriceTrans[0] = matrice[0];
 		matriceTrans[1] = matrice[3];
 		matriceTrans[2] = matrice[6];
@@ -132,6 +131,7 @@ public:
 		matrice[0] = matrice[4] = matrice[8] = 1.0f;
 		matrice[1] = matrice[2] = matrice[3] = matrice[5] = matrice[6] = matrice[7] = 0.0f;
 	}
+
 };
 typedef Matrice3X3<int> Matrice3X3i;
 typedef Matrice3X3<unsigned int> Matrice3X3ui;
@@ -201,39 +201,26 @@ private:
 			return false;
 		}
 
-		double cofacteur4 = obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[9], matrice[10], matrice[11], matrice[13], matrice[14], matrice[15]);
-		double cofacteur5 = obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[8], matrice[10], matrice[11], matrice[12], matrice[14], matrice[15]);
-		double cofacteur6 = obtCofacteur(matrice[0], matrice[1], matrice[3], matrice[8], matrice[9], matrice[11], matrice[12], matrice[13], matrice[15]);
-		double cofacteur7 = obtCofacteur(matrice[0], matrice[1], matrice[2], matrice[8], matrice[9], matrice[10], matrice[12], matrice[13], matrice[14]);
-		double cofacteur8 = obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[5], matrice[6], matrice[7], matrice[13], matrice[14], matrice[15]);
-		double cofacteur9 = obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[4], matrice[6], matrice[7], matrice[12], matrice[14], matrice[15]);
-		double cofacteur10 = obtCofacteur(matrice[0], matrice[1], matrice[3], matrice[4], matrice[5], matrice[7], matrice[12], matrice[13], matrice[15]);
-		double cofacteur11 = obtCofacteur(matrice[0], matrice[1], matrice[2], matrice[4], matrice[5], matrice[6], matrice[12], matrice[13], matrice[14]);
-		double cofacteur12 = obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[5], matrice[6], matrice[7], matrice[9], matrice[10], matrice[11]);
-		double cofacteur13 = obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[4], matrice[6], matrice[7], matrice[8], matrice[10], matrice[11]);
-		double cofacteur14 = obtCofacteur(matrice[0], matrice[1], matrice[3], matrice[4], matrice[5], matrice[7], matrice[8], matrice[9], matrice[11]);
-		double cofacteur15 = obtCofacteur(matrice[0], matrice[1], matrice[2], matrice[4], matrice[5], matrice[6], matrice[8], matrice[9], matrice[10]);
-
 		double determinantInv = 1.0f / determinant;
 		matrice[0] = determinantInv * cofacteur0;
-		matrice[1] = -determinantInv * cofacteur4;
-		matrice[2] = determinantInv * cofacteur8;
-		matrice[3] = -determinantInv * cofacteur12;
+		matrice[1] = -determinantInv * obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[9], matrice[10], matrice[11], matrice[13], matrice[14], matrice[15]);;
+		matrice[2] = determinantInv * obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[5], matrice[6], matrice[7], matrice[13], matrice[14], matrice[15]);;
+		matrice[3] = -determinantInv * obtCofacteur(matrice[1], matrice[2], matrice[3], matrice[5], matrice[6], matrice[7], matrice[9], matrice[10], matrice[11]);;
 
 		matrice[4] = -determinantInv * cofacteur1;
-		matrice[5] = determinantInv * cofacteur5;
-		matrice[6] = -determinantInv * cofacteur9;
-		matrice[7] = determinantInv * cofacteur13;
+		matrice[5] = determinantInv * obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[8], matrice[10], matrice[11], matrice[12], matrice[14], matrice[15]);;
+		matrice[6] = -determinantInv * obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[4], matrice[6], matrice[7], matrice[12], matrice[14], matrice[15]);;
+		matrice[7] = determinantInv * obtCofacteur(matrice[0], matrice[2], matrice[3], matrice[4], matrice[6], matrice[7], matrice[8], matrice[10], matrice[11]);;
 
 		matrice[8] = determinantInv * cofacteur2;
-		matrice[9] = -determinantInv * cofacteur6;
-		matrice[10] = determinantInv * cofacteur10;
-		matrice[11] = -determinantInv * cofacteur14;
+		matrice[9] = -determinantInv * obtCofacteur(matrice[0], matrice[1], matrice[3], matrice[8], matrice[9], matrice[11], matrice[12], matrice[13], matrice[15]);;
+		matrice[10] = determinantInv * obtCofacteur(matrice[0], matrice[1], matrice[3], matrice[4], matrice[5], matrice[7], matrice[12], matrice[13], matrice[15]);;
+		matrice[11] = -determinantInv * obtCofacteur(matrice[0], matrice[1], matrice[3], matrice[4], matrice[5], matrice[7], matrice[8], matrice[9], matrice[11]);;
 
 		matrice[12] = -determinantInv * cofacteur3;
-		matrice[13] = determinantInv * cofacteur7;
-		matrice[14] = -determinantInv * cofacteur11;
-		matrice[15] = determinantInv * cofacteur15;
+		matrice[13] = determinantInv * obtCofacteur(matrice[0], matrice[1], matrice[2], matrice[8], matrice[9], matrice[10], matrice[12], matrice[13], matrice[14]);;
+		matrice[14] = -determinantInv * obtCofacteur(matrice[0], matrice[1], matrice[2], matrice[4], matrice[5], matrice[6], matrice[12], matrice[13], matrice[14]);;
+		matrice[15] = determinantInv * obtCofacteur(matrice[0], matrice[1], matrice[2], matrice[4], matrice[5], matrice[6], matrice[8], matrice[9], matrice[10]);;
 		return true;
 	}
 
@@ -365,7 +352,7 @@ public:
 		matrice[1] = matrice[2] = matrice[3] = matrice[4] = matrice[6] = matrice[7] = matrice[8] = matrice[9] = matrice[11] = matrice[12] = matrice[13] = matrice[14] = 0.0f;
 	}
 
-	T operator[](int index){
+	T& operator[](int index){
 		return matrice[index];
 	}
 

@@ -41,3 +41,5 @@
 `Jeu. 26 mars` J'ai écrit la fonction qui crée les liens entre les pièces, j'ai modéliser une pièce et une porte, et j'ai aidé Jessy à remaper les includes `2h10`
 
 `Lun. 30 mars` J'ai fait quelques petites modifications pour assurer que tout sera prêt pour finaliser la génération demain. `1h00`
+
+`Mar. 31 mars` Moi et julien avons adapter le code pour qu'il compile sur mac, linux et windows sans problème. Nous avons créé un CMakelist.txt pour le projet. La génération continue, je pense finir le tout demain. `3h30`
