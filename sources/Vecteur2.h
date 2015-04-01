@@ -48,8 +48,16 @@ public:
 		float module = norme(); 
 		this->x /= module; this->y /= module; 
 	}
-		
-		
+	
+	T produitScalaire(Vecteur2<T>& autre) {
+		return ((this->x * autre.x) + (this->y * autre.y));
+	}
+
+	double angleEntreVecteurs(Vecteur2<T> autre) {
+
+		return acos(this->produitScalaire(autre) / (this->norme() * autre.norme()));
+
+	}	
 };
 typedef Vecteur2<int> Vecteur2i;
 typedef Vecteur2<unsigned int> Vecteur2ui;
