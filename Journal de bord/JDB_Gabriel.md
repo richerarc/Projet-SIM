@@ -149,17 +149,17 @@ J'ai commencé à faire un avion en blender!
 
 ###26 mars 2015
 
-**10:00-11:00** : Création des procédure appliquerPhysique dans les classes vent, aimant et objetPhysique.
+**1h00** : Création des procédure appliquerPhysique dans les classes vent, aimant et objetPhysique.
 
-**11:00-11:20** : Ajout des includes dans les classes à dominique et damien.
+**0h20** : Ajout des includes dans les classes à dominique et damien.
 
-**11:20-11:40** : Test du "parcours" de la physique dans les classes vent, aimant et objet physique. L'application de la physique semble être correct, par contre je vais devoir faire afficher pour le voir vraiment bien mais l'affichage ne fonctionne pas...
+**0h20** : Test du "parcours" de la physique dans les classes vent, aimant et objet physique. L'application de la physique semble être correct, par contre je vais devoir faire afficher pour le voir vraiment bien mais l'affichage ne fonctionne pas...
 
-**11:40-12:00** : Bon j'ai réussi à faire afficher, le vent, le magnétisme, la gravité s'appliquent correctement!!
+**0h20** : Bon j'ai réussi à faire afficher, le vent, le magnétisme, la gravité s'appliquent correctement!!
 
-**12:30-12:50** : Corrections et update dans le fichier Formules de physique.
+**0h20** : Corrections et update dans le fichier Formules de physique.
 
-**12:50-14:10** : Travail sur mon avion, ça avance bien et je crois que je vais être fier du résultat!
+**1h20** : Travail sur mon avion, ça avance bien et je crois que je vais être fier du résultat!
 
 Durant la soiré j'ai discuté avec richer et, comme je m'y attendais parce que du côté physique Julien semble pouvoir gérer les collisions, je vais allé aider Damien et Dominique à faire les travail puisqu'ils semblent avoir de la difficulté. Pour l'instant ilsont un gros paquet de classes qui semblent trop nombreuses, je vais leur proposer une idée, l'utilisation d'un enum pour gérer les actions faites sur un objet. Leur travail consiste principalement à mettre en place tou ce qui est utile à l'utilisation des différents objets alors il me semble pertinent qu'au lieu de créer tout plein de classes, on se fait un enum d'action du genre:
 
@@ -181,16 +181,20 @@ Reste à voir si c'est une bonne façon de faire. Je vais probablement continué
 
 ###28 mars 2015
 
-**10:00-11:30**: Réflexion profonde sur la manière de structurer nos classes objet, j'ai fait une nouvelle version puis je demanderai l'avis à mes coéquipiers.
+**1h30**: Réflexion profonde sur la manière de structurer nos classes objet, j'ai fait une nouvelle version puis je demanderai l'avis à mes coéquipiers.
 
 ###30 mars 2015
 
-**11:30-12:30**: Discution avec M.Charles Naaman, professeur de physique, sur les rebonds de fou que je veux coder, c'est-à-dire des moment de force, etc.. Nous avons réussi à obtenir des formule(très grosse) pour calculer le tout, c'est quand même beau.
+**1h**: Discution avec M.Charles Naaman, professeur de physique, sur les rebonds de fou que je veux coder, c'est-à-dire des moment de force, etc.. Nous avons réussi à obtenir des formule(très grosse) pour calculer le tout, c'est quand même beau.
 
-**19:30-20:30**: Travail sur le formule de physique, j'ai plusieurs calculs à faire, un grosse berta avec un quadratique et autres.
+**1h**: Travail sur le formule de physique, j'ai plusieurs calculs à faire, un grosse berta avec un quadratique et autres.
 
 ###31 mars 2015
 
-**9:00-11:20**: Plus de travail sur les formule, j'ai pu obtenir la vitesse final de l'objet qui me servira pour calculer la vitesse angulaire et la vitesse de rebond.
+**2h20**: Plus de travail sur les formule, j'ai pu obtenir la vitesse final de l'objet qui me servira pour calculer la vitesse angulaire et la vitesse de rebond.
 
-**13:00-14:30**: Création d'un projet pour commencer à coder les formules, je n'ai pas encore fait de tests, mais la formule pour trouver la vitesse finale est codée.
+**1h30**: Création d'un projet pour commencer à coder les formules, je n'ai pas encore fait de tests, mais la formule pour trouver la vitesse finale est codée.
+
+**2h20**: Codage de la nouvelle fonction de rebond, pas pire comme résultat jusqu'à maintenant, mais il reste encore beaucoup de chemin à faire j'ai l'impression.
+
+**3h00**: Codage de la nouvelle fonction, plus ça avance, plus c'est gros! Je devrai probablement allé voir mon professeur de physique pour m'assurer que ce que j'ai fait jusqu'à maintenant respecte la vie en général...
