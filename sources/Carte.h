@@ -8,7 +8,8 @@
 #include "Salle.h"
 #include "Info.h"
 #include "Fabrique.h"
-#include "graphe.h"
+#include "Graphe.h"
+#include "GestionaireChemins.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -46,6 +47,7 @@ public:
 					sortie = std::make_tuple(j, porte[j]);
 					++porte[j];
 					ajouterLien(entree, sortie);
+					
 				}
 			}
 		}
