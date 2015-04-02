@@ -11,4 +11,8 @@ public:
 	void appliquerPhysique(std::list<Objet*> objets) {
 		Physique::obtInstance().appliquerGravite(vitesse);
 	}
+
+	void appliquerAction(typeAction action){
+		//appliquer une action sur l'objet ici
+	}
 };
