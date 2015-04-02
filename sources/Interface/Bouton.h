@@ -19,16 +19,22 @@ public:
 		this->SpriteClique = SpriteClique;
 		this->SpriteFond = SpriteFond;
 
+		this->SpriteFond.obtTexture()->obtSurface()->h = VecteurTaille.y;
+		this->SpriteFond.obtTexture()->obtSurface()->w = VecteurTaille.x;
+		this->SpriteSurvol.obtTexture()->obtSurface()->h = VecteurTaille.y;
+		this->SpriteSurvol.obtTexture()->obtSurface()->w = VecteurTaille.x;
+		this->SpriteClique.obtTexture()->obtSurface()->h = VecteurTaille.y;
+		this->SpriteClique.obtTexture()->obtSurface()->w = VecteurTaille.x;
+
 	}
 
-	void enSurvol(gfx::Fenetre& fenetre) {
+	void enSurvol(void) {
 		EtatBouton = SURVOL;
-		this->SpriteSurvol.afficher(fenetre);
+		
 	}
 
-	void enClique(gfx::Fenetre& fenetre) {
+	void enClique(void) {
 		EtatBouton = CLIQUE;
-		this->SpriteClique.afficher(fenetre);
 	}
 
 	bool gestEvennement(){
