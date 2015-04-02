@@ -1,7 +1,7 @@
 #pragma once
 
 namespace gfx{
-	class Gestionnaire3D : Singleton<Gestionnaire3D>
+	class Gestionnaire3D : public Singleton<Gestionnaire3D>
 	{
 	private:
 		std::list<Objet3D*> objets;
