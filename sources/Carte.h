@@ -15,7 +15,7 @@
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
-typedef std::tuple<char*, char*> Modele_Text;
+typedef std::tuple<char*, char*, char*> Modele_Text;
 
 class Carte{
 private:
@@ -59,17 +59,26 @@ public:
 		ifstream fichierSalle("salle_text.txt");
 		ifstream fichierObjet("objet_text.txt");
 		
-		char* curseur1, curseur2;
-		
+		char* curseur1, curseur2, curseur3;
+		int itterateur(1);
 		while (!ficher.eof()) {
-			fichier >> curseur1; fichier >> curseur2;
-			cheminsModeleText.push_back(std::make_tuple(curseur1, curseur2));
+			fichier >> curseur1; fichier >> curseur2; fichier >> curseur3;
+			cheminsModeleText.push_back(std::make_tuple(curseur1, curseur2, curseur3));
+			++itterateur;
 		}
 		
+		InfoSalle salle;
+		int aleatoire;
 		
 		
 		for (int i = 0; i < limite; ++i){
-			
+			salle.ID = i;
+			salle.nbrPorte = carte.degreSortant(i);
+			aleatoire = rand() % itterateur;
+			salle.cheminModele = std::get<0>(cheminsModeleText[aleatoire]);
+			salle.cheminTexture = std::get<1>(cheminsModeleText[aleatoire]);
+			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), &salle);
+			infosSalles.push_back(salle);
 		}
 		
 		

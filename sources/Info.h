@@ -1,5 +1,5 @@
 #pragma once
-
+#include "BoiteCollision"
 struct InfoObjet {
 	const unsigned int ID;
 	Vecteur3d position;
