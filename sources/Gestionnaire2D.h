@@ -1,6 +1,6 @@
 #include "Objet2D.h"
 namespace gfx{
-	class Gestionnaire2D
+	class Gestionnaire2D : Singleton<Gestionnaire2D>
 	{
 	private:
 		std::list<gfx::Objet2D*> objets;
