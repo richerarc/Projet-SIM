@@ -1,7 +1,9 @@
 #pragma once 
-#include "Vecteur3.h"
 #include <SDL2/SDL_opengl.h>
-#include <GL/GLU.h>
+#include <math.h>
+#include "GestionnaireEvenements.h"
+#include "Vecteur3.h"
+#include "Maths.h"
 namespace gfx{
 	class Camera{
 	protected:

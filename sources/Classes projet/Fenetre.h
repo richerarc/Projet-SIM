@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <list>
 #include <iostream>
@@ -120,7 +119,6 @@ namespace gfx{
 
 		Vecteur2ui taille;
 
-		gfx::Gestionnaire3D Gestionnaire3D;
 
 		std::string titre;
 		SDL_Window* sdlWindow;

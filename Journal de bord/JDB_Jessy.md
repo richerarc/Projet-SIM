@@ -81,3 +81,7 @@ Semaine de relache: les dates sont fictives puisque je me rappelle plus du tout 
 
 de 19h à 20h(1h)
 -J'ai commencé à structurer la classe Jeu.h 
+
+2 avril de 9h40 à 12h(2h20)
+-J'ai travaillé avec Xavier sur l'utilisation du 2D pour qu'il puisse faire ses menus
+-J'ai recommencé le menage d'includes avec Kevin puisque je l'avais mal fait au départ

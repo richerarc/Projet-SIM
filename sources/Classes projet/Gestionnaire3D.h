@@ -1,5 +1,7 @@
 #pragma once
-
+#include <list>
+#include "Objet3D.h"
+#include "Singleton.h"
 namespace gfx{
 	class Gestionnaire3D
 	{

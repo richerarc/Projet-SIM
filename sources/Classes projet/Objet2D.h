@@ -1,5 +1,4 @@
-#include "Texte2D.h"
-#include "Sprite2D.h"
+#pragma once
 namespace gfx{
 	class Objet2D{
 	protected:

@@ -1,4 +1,8 @@
+#pragma once
+#include <list>
+#include "Fenetre.h"
 #include "Objet2D.h"
+#include "Singleton.h"
 namespace gfx{
 	class Gestionnaire2D
 	{

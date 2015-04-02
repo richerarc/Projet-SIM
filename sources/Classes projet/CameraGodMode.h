@@ -1,9 +1,6 @@
 #pragma once
-#include <SDL2\SDL.h>
-#include <math.h>
-
-#include "GestionnaireEvenements.h"
 #include "Camera.h"
+
 
 namespace gfx{
 	class CameraGodMode : public Camera{
@@ -20,9 +17,9 @@ namespace gfx{
 			if (vAngle < -89)
 				vAngle = -89;
 
-			devant.x = cos(vAngle * M_PI / 180) * sin(hAngle * M_PI / 180);
-			devant.y = sin(vAngle * M_PI / 180);
-			devant.z = cos(vAngle * M_PI / 180) * cos(hAngle * M_PI / 180);
+			devant.x = cos(vAngle * MATHS_PI / 180) * sin(hAngle * MATHS_PI / 180);
+			devant.y = sin(vAngle * MATHS_PI / 180);
+			devant.z = cos(vAngle * MATHS_PI / 180) * cos(hAngle * MATHS_PI / 180);
 
 			devant.normaliser();
 
