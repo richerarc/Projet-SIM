@@ -148,3 +148,12 @@ J'ai terminé les classes représentant les matrices. J'ai du demainder a richer
 J'ai ajuster le retour de la classe modifiée maintenant elle marche, j'ai fais quelque modification dans les classes 2D et 3D, j'ai ajuster le frustum dans le gestionnaire 3D, j'ai corriger l'affichage des textures. 
 
 **temps 2h**
+
+##**`1 avril 2015`**
+
+Aujourd'hui j'ai trouver pourquoi les textures n'affichaient pas correctement. J'ai debugger toute la matiné pour finalement voir que le format devait etre GL_RGBA et que les textures gardaient le systeme d'axe de Blender. Donc, pour regler le problème les images doivent être de format 32 bit, pour l'extension je crois que le png sera mieux, je n'ai parcontre pas tester avec le bmp.
+
+Par la suite, j'ai decouvert un "bug" dans le loder de model qui déclanche un point au return true quand il y as des commentaires dans le haut du fichier obj. J'ai tenter de touver pourquoi, mais sans succès. Il ne déclanche aps le point d'arret si il ny as pas de commentaires ce qui est vraiment bizzare.
+
+Jessy m'a annoncé sur gitter que la classe texture n'est plus compatible avec le 2D à cause du format qui était GL_RGB... Il vas falloir que je regarde ça avec lui demain pour tenter de trouver une façon que la texture prenne le bon format, donc plusieurs ajustements seront surement nécéssaires sur le moteur graphique.
+
