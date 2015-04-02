@@ -87,3 +87,5 @@
   -Ajout des fichiers de boîtes de collision (pieceL, salle4x4, tunnel, portes).  
   -Retrait d'un * en trop dans le lecteur de fichier.  
   16h40  
+**2 avr**  durée : 1 h 20 min  
+  -Vérification des boites de colisions dans la branche TestBoite (à continuer).  
