@@ -4,11 +4,27 @@
 #include "Physique.h"
 
 class ObjetPhysique : public Objet{
+private :
+	bool ramassable;
 public:
 
-	ObjetPhysique(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse, Vecteur3d position) : Objet(modele, ID, materiaux, masse, Vecteur3d(0., 0., 0.), position){}
+	ObjetPhysique(gfx::Modele3D modele, unsigned int ID, char* materiaux,double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne, bool ramassable) : Objet(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire,collisionInterne){
+		this->ramassable = ramassable;
+	}
 
 	void appliquerPhysique(std::list<Objet*> objets) {
 		Physique::obtInstance().appliquerGravite(vitesse);
+	}
+
+	void appliquerAction(typeAction action){
+		//appliquer une action sur l'objet ici
+	}
+
+	void defRamassable(bool ramassable){
+		this->ramassable = ramassable;
+	}
+
+	bool obtRamassable(){
+		return ramassable;
 	}
 };

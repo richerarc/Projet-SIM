@@ -37,3 +37,11 @@ Durée: environ 1h45
 J,ai travaillé sur ma classe Glisseuur.h, il y avait plusieurs erreurs. Je me suis retouvé sans otrdi pour la plus grande partie du cours alorsj'ai travaillé un peu averc Nathan. J'ai pas fait beaucoup de travail... La classe Glisseur.h est finie. manque deboguer.
 
 Durée: environ 1h 
+
+-- 2 Avril 2015 ( 10h05) --
+
+J'ai essayé tout le cours d'afficher graphiquement et tester mon glisseur, avec l'aide de Samuel, sans succès. Je ne commit pas les changements tout de suite, je vais le retravailler ce soir a la maison.
+
+Durée: 2h
+
+

@@ -38,10 +38,12 @@ protected:
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
-	typeObjet type;
+	bool collisionInterne;
+	Vecteur3d position;
+	Vecteur3d vitesseAngulaire;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position, typeObjet type){
+	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position,Vecteur3d vitesseAngulaire,bool collisionInterne){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -50,15 +52,24 @@ public:
 		this->vitesse.y = vitesse.y;
 		this->vitesse.z = vitesse.z;
 		this->modele.defPosition(position);
-		this->type = type;
+		this->collisionInterne = collisionInterne;
+		this->position.x = position.x;
+		this->position.y = position.y;
+		this->position.z = position.z;
+		this->vitesseAngulaire.x = vitesseAngulaire.x;
+		this->vitesseAngulaire.y = vitesseAngulaire.y;
+		this->vitesseAngulaire.z = vitesseAngulaire.z;
 	}
 	virtual void appliquerPhysique(std::list<Objet*> objets) = 0;
 	virtual void appliquerAction(typeAction action) = 0;
-	Vecteur3d obtPosition(){ 
-		return this->modele.obtPosition(); 
-	};
+	
 	void defPosition(Vecteur3d position){
-		this->modele.defPosition(position);
+		if (modele.obtModele() != NULL){
+			this->modele.defPosition(position);
+		}
+		this->position.x = position.x;
+		this->position.y = position.y;
+		this->position.z = position.z;
 	}
 	
 	void defID(unsigned int ID){
@@ -67,6 +78,16 @@ public:
 
 	void defMateriaux(char* materiaux){
 		this->materiaux = materiaux;
+	}
+
+	void defVitesseAngulaire(Vecteur3d vitesseAngulaire){
+		this->vitesseAngulaire.x = vitesseAngulaire.x;
+		this->vitesseAngulaire.y = vitesseAngulaire.y;
+		this->vitesseAngulaire.z = vitesseAngulaire.z;
+	}
+
+	void defCollisionInterne(bool collisionInterne){
+		this->collisionInterne = collisionInterne;
 	}
 
 	void defMasse(double masse){
@@ -99,4 +120,19 @@ public:
 		return vitesse;
 	}
 	
+	Vecteur3d& obtPosition(){
+		if (modele.obtModele() != NULL)
+			return this->modele.obtPosition();
+		else
+			return this->position;
+	}
+
+	bool obtCollisionInterne(){
+		return collisionInterne;
+	}
+
+	Vecteur3d& obtVitesseAngulaire(){
+		return vitesseAngulaire;
+	}
+
 };

@@ -37,11 +37,11 @@
 //
 //
 //#include "Fenetre.h"
-//#include "Gestionnaire2D.h"
-//#include "Gestionnaire3D.h"
+#include "Gestionnaire2D.h"
+#include "Gestionnaire3D.h"
 //#include "GestionnaireRessources.h"
 //#include "GestionnaireLiens.h"
-//#include "GestionnaireEvenements.h"
+#include "GestionnaireEvenements.h"
 
 
 class Jeu{
@@ -51,10 +51,8 @@ public:
 private:
 	static gfx::Fenetre fenetre;
 	static SDL_Event evenement;
-	static gfx::Gestionnaire2D* gestionnaire2D;
-	static gfx::Gestionnaire3D* gestionnaire3D;
-	static GestionnaireEvenements* gestionnaireEvenement;
-	static GestionnaireRessources* gestionnaireRessources;
+
+	
 
 public:
 
