@@ -16,7 +16,7 @@ private:
 	std::map<char*, double> mapRestitution;
 	Chrono temps;
 
-	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d pointCollision, Vecteur3d& normale) {
+	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -98,35 +98,73 @@ public:
 
 	void RebondDeFou(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
 
-		Vecteur3d pointDepart = objet.obtModele3D().obtBoiteDeCollisionModifiee()[4];
-		pointdecollision = pointDepart;
-		Vecteur3d positionCM = { pointDepart.x + objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x,
-			pointDepart.y + objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y,
-			pointDepart.z + objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z };
+		Vecteur3d positionCM = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x) / 2,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y) / 2,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z) / 2 };
 
-		Vecteur3d vitesseAngulaireFinale = { 0, 0, 0 };
+		double vitesseAngulaire;
 		Vecteur3d rayon = { positionCM.x - pointdecollision.x, positionCM.y - pointdecollision.y, positionCM.z - pointdecollision.z };
 
 		double vitesseFinale;
 		double c = 1 - mapRestitution[objet.obtMateriaux()];
 		double r = rayon.norme();
 		double theta = vecteurNormal.angleEntreVecteurs(positionCM);
-		double a = Physique::obtInstance().distanceEntreDeuxPoints(objet.obtModele3D().obtBoiteDeCollisionModifiee()[4], objet.obtModele3D().obtBoiteDeCollisionModifiee()[5]);
-		double b = Physique::obtInstance().distanceEntreDeuxPoints(objet.obtModele3D().obtBoiteDeCollisionModifiee()[4], objet.obtModele3D().obtBoiteDeCollisionModifiee()[0]);
 		double masse = objet.obtMasse();
 		double vi = objet.obtVitesse().norme();
-		double I = (objet.obtMasse() * (pow(a, 2) + pow(b, 2))) / 12;
 
+		rayon.normaliser();
+		Vecteur3d axederotation = rayon.produitVectoriel(vecteurNormal);
+		axederotation.normaliser();
 
-		vitesseFinale = vi*(((masse*pow(r, 2)*pow(sin(theta), 2)) + (sqrt(I*(pow(sin(theta), 2))*masse*pow(r, 2)*(pow(c, 2) - 1) + (pow(c, 2)*I))))) / ((masse*pow(r, 2) * pow(sin(theta), 2)) + (I));
+		Vecteur3d coteX = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x };
+		double longueurcoteX = coteX.norme();
+		coteX.normaliser();
 
-		vitesseAngulaireFinale.z = (rayon.x * objet.obtMasse() * (vitesseFinale - objet.obtVitesse().norme()) * sin(theta)) / I;
-		//vitesseAngulaireFinale.x = (rayon.y * objet.obtMasse() * (vitesseFinale - objet.obtVitesse().norme()) * sin(theta)) / I;
-		vitesseAngulaireFinale.x = (rayon.z * objet.obtMasse() * (vitesseFinale - objet.obtVitesse().norme()) * sin(theta)) / I;
-		objet.defVitesseAngulaire(vitesseAngulaireFinale);
+		Vecteur3d coteY = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x };
+		double longueurcoteY = coteY.norme();
+		coteY.normaliser();
+
+		Vecteur3d coteZ = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y,
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x };
+		double longueurcoteZ = coteZ.norme();
+		coteZ.normaliser();
+
+		double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, masse);
+
+		vitesseFinale = (vi*((masse*pow(r, 2)*pow(sin(theta), 2)) + sqrt(I*(((masse*pow(r, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I))))) / ((masse*pow(r, 2)*pow(sin(theta), 2)) + (I));
+
+		vitesseAngulaire = (r * objet.obtMasse() * (vitesseFinale - vi) * sin(theta)) / I;
+
+		Vecteur3d vvitesseAngulaire = axederotation * vitesseAngulaire;
+
+		objet.defVitesseAngulaire(vvitesseAngulaire);
 		objet.obtVitesse().normaliser();
 		objet.obtVitesse() *= vitesseFinale;
 		RebondObjetCarte(objet, vecteurNormal);
+	}
+
+	// Procédure qui donne le moment d'inertie d'un rectangle, tous les vecteurs doivent être normalisés(unitaires).
+	double calculerMomentInertie(Vecteur3d axederotation, Vecteur3d coteX, Vecteur3d coteY, Vecteur3d coteZ, double longueurcoteX, double longueurcoteY, double longueurcoteZ, double masse) {
+
+		double dcoteX = abs(coteX.produitScalaire(axederotation));
+		double dcoteY = abs(coteY.produitScalaire(axederotation));
+		double dcoteZ = abs(coteZ.produitScalaire(axederotation));
+
+		if (dcoteX > dcoteY && dcoteX > dcoteZ) {
+			return (masse * (pow(longueurcoteY, 2) + pow(longueurcoteZ, 2))) / 12;
+		}
+		if (dcoteY > dcoteX && dcoteY > dcoteZ) {
+			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteZ, 2))) / 12;
+		}
+		if (dcoteZ > dcoteX && dcoteZ > dcoteY) {
+			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteY, 2))) / 12;
+		}
+		return NULL;
 	}
 
 	void RebondDeFou2(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
