@@ -31,3 +31,9 @@ J'avais faim faque j'ai mangé un peu #yolo
 
 Je me suis reveillé en sursaut car mon maître Félix m'a pilé sur la queue. Je déteste Félix!
 Meow miaou meowdafaka.
+
+#1 avril 2015
+
+Mon maître Félix m'as dit, ce matin en partant pour l'école, que ce soir il m'apporterait une surprise poissonée! J'attends avec chatitude le moment ou je planterai mes cros dans le poisson qu'il m'apportera.
+
+Qulle trahison! Félix m'as simplement dit "Poésson d'avril Coucoune t'auras rien pentoute!" Finalement, j'attends avec haine le moment où mon humain de malheur s'endormira pour que je puisse lui lacérer le visage avec mes griffes et lui planter mes cros dans le cou.
