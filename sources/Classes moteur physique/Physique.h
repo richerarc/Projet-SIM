@@ -12,9 +12,7 @@ private:
 	double gravite;
 	double constanteDeFriction;
 	double sensibiliteMagnetique;
-	double frametime;
 	std::map<char*, double> mapRestitution;
-	Chrono temps;
 
 	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
@@ -80,7 +78,6 @@ private:
 public:
 
 	Physique() {
-		frametime = temps.repartir().enSecondes();
 		constanteDeFriction = 0.5;
 		gravite = -9.8;
 		sensibiliteMagnetique = 0.0072;
@@ -90,10 +87,6 @@ public:
 		mapRestitution["bois"] = 0.5;
 		mapRestitution["plastic"] = 0.68;
 		mapRestitution["ballerebondissante"] = 0.1;
-	}
-
-	void repartirTemps() {
-		frametime = temps.repartir().enSecondes();
 	}
 
 	void RebondDeFou(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
@@ -312,11 +305,11 @@ public:
 		return masse * gravite * SDL_cos(vitesse.angleEntreVecteurs(normale) - 90);
 	}
 
-	void appliquerGravite(Vecteur3d &vecteurVitesseObjet) {
+	void appliquerGravite(Vecteur3d &vecteurVitesseObjet, double frametime) {
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet) {
+	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet, double frametime) {
 
 		double* tableaunormale = objet.obtModele3D().obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
 		double* tableauVertices = objet.obtModele3D().obtSommetsModifies();
@@ -393,7 +386,7 @@ public:
 	
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant, double force) {
+	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant, double force, double frametime) {
 
 		double distanceObjetAimant = distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
 		double accelerationMagnetique = (6 * sensibiliteMagnetique * force) / (objet.obtMasse() * distanceObjetAimant);
@@ -409,7 +402,7 @@ public:
 
 	}
 
-	double obtenirAnglePenduleSimple(double angleMaximal, double omega) {
+	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double frametime) {
 		return angleMaximal * SDL_cos(omega * frametime);
 	}
 
@@ -423,8 +416,6 @@ public:
 
 	bool pointDansFace(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, Vecteur3d& point, Vecteur3d normale) {
 
-
-
 		Vecteur3d v0 = point3 - point1;
 		Vecteur3d v1 = point2 - point1;
 		Vecteur3d v2 = point - point1;
@@ -435,31 +426,31 @@ public:
 
 		normale.normaliser();
 
-		if (abs(normale.x) > abs(normale.y) && abs(normale.x) > abs(normale.z)) {
+		if (fabs(normale.x) > fabs(normale.y) && fabs(normale.x) > fabs(normale.z)) {
 
 			vect0 = Vecteur2d(v0.y, v0.z);
 			vect1 = Vecteur2d(v1.y, v1.z);
 			vect2 = Vecteur2d(v2.y, v2.z);
 		}
 
-		if (abs(normale.y) > abs(normale.x) && abs(normale.y) > abs(normale.z)) {
+		if (fabs(normale.y) > fabs(normale.x) && fabs(normale.y) > fabs(normale.z)) {
 
 			vect0 = Vecteur2d(v0.x, v0.z);
 			vect1 = Vecteur2d(v1.x, v1.z);
 			vect2 = Vecteur2d(v2.x, v2.z);
 		}
-		if (abs(normale.z) > abs(normale.x) && abs(normale.z) > abs(normale.y)) {
+		if (fabs(normale.z) > fabs(normale.x) && fabs(normale.z) > fabs(normale.y)) {
 
 			vect0 = Vecteur2d(v0.x, v0.y);
 			vect1 = Vecteur2d(v1.x, v1.y);
 			vect2 = Vecteur2d(v2.x, v2.y);
 		}
 
-		double produit00 = vect0 * vect0;
-		double produit01 = vect0 * vect1;
-		double produit02 = vect0 * vect2;
-		double produit11 = vect1 * vect1;
-		double produit12 = vect1 * vect2;
+		double produit00 = vect0.produitscalaire(vect0);
+		double produit01 = vect0.produitscalaire(vect1);
+		double produit02 = vect0.produitscalaire(vect2);
+		double produit11 = vect1.produitscalaire(vect1);
+		double produit12 = vect1.produitscalaire(vect2);
 
 		double invDenom = 1 / (produit00 * produit11 - produit01 * produit01);
 		double u = (produit11 * produit02 - produit01 * produit12) * invDenom;
