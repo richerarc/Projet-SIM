@@ -157,3 +157,5 @@ Par la suite, j'ai decouvert un "bug" dans le loder de model qui déclanche un p
 
 Jessy m'a annoncé sur gitter que la classe texture n'est plus compatible avec le 2D à cause du format qui était GL_RGB... Il vas falloir que je regarde ça avec lui demain pour tenter de trouver une façon que la texture prenne le bon format, donc plusieurs ajustements seront surement nécéssaires sur le moteur graphique.
 
+**Temps 3h**
+
