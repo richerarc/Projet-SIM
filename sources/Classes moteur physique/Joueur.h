@@ -16,10 +16,11 @@ public:
 		this->modele3D = modele3D;
 	}
 
-	void appliquerPhysique(Salle &salle) {
+	void appliquerPhysique(Salle &salle, double frametime) {
 		if (!Physique::obtInstance().collisionJoueurSalle(*this, salle)) {
 			Physique::obtInstance().appliquerGravite(vitesse);
 		}
+		defPosition(position + (vitesse * frametime));
 	}
 
 	double obtHauteur() {
