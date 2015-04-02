@@ -198,3 +198,9 @@ Reste à voir si c'est une bonne façon de faire. Je vais probablement continué
 **2h20**: Codage de la nouvelle fonction de rebond, pas pire comme résultat jusqu'à maintenant, mais il reste encore beaucoup de chemin à faire j'ai l'impression.
 
 **3h00**: Codage de la nouvelle fonction, plus ça avance, plus c'est gros! Je devrai probablement allé voir mon professeur de physique pour m'assurer que ce que j'ai fait jusqu'à maintenant respecte la vie en général...
+
+### 32 mars 2015(hehe)
+
+**1h00**: Discution intense entre physicien aka moi et mon prof pour résoudre des problèmes, on commence à arriver à quelque chose.
+
+**0h45**: Codage des nouvelles formules, le rebond, visuellement, est mon bon qu'il était, mais je sais qu'il est en fait meilleur, genre tsé comme... En fait, le calcul est c'est juste que la vitesse angulaire semble être proportionnellement correct, mais trop petite. Si je la multiplie, elle ressemble à l'ancienne, mais en mieux, bref encore du travail à faire.
