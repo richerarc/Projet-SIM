@@ -21,7 +21,7 @@ namespace gfx{
 			std::vector<double> tmpY;
 			std::vector<double> tmpZ;
 			double xmax, xmin, ymax, ymin, zmax, zmin;
-			for (int i = 0; i < nbrVertices/3; ++i){
+			for (int i = 0; i < nbrVertices / 3; ++i){
 				tmpX.push_back(vertices[i * 3]);
 				tmpY.push_back(vertices[i * 3 + 1]);
 				tmpZ.push_back(vertices[i * 3 + 2]);
@@ -91,9 +91,14 @@ namespace gfx{
 				std::vector<double> tmpNormales;
 				std::queue<double> Normales;
 
-				while (!Fichier.eof()){
+				while (!Fichier.eof())
+				{
 					Fichier >> temp;
-					if (temp[0] == 'v')
+					if (temp[0] == '#' || temp[0] == 'o' || temp[0] == 's')
+					{
+						Fichier.getline(temp, 256);
+					}
+					else if (temp[0] == 'v')
 					{
 						if (temp[1] == 't'){
 							Fichier >> X >> Y;
@@ -113,7 +118,8 @@ namespace gfx{
 							tmpVertices.push_back(SDL_atof(Z));
 						}
 					}
-					else if (temp[0] == 'f'){
+					else if (temp[0] == 'f')
+					{
 
 						Fichier >> X >> Y >> Z;
 						int it;
