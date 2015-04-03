@@ -176,3 +176,11 @@ Après les cours je suis rester jusqu'a 19h30 pour continuer ou jessy avait lais
 J'ai réglé les problèmes d'inclusion. J'ai fait le minimum pour qu'une fenetre affiche à l'écran et que toutes les classes du moteur graphique compilent. Je me suis rendu compte que je n'ai toujours pas fait la phase conception alors , avant de continuer à programmer, je vais entammer une bref analyse demain. 
 
 **Temps 9h30**
+
+##**`3 Avril 2015`**
+
+###`de 1h30 a 2h30 et de 4h30 a 17h30`###
+
+Ce matin je suis allé à l'école pour vérifier que j'avais bien tout mes classes a jour avec moi. J'ai arranger quelque trucs. Plus tard, chez moi, j'ai tentre d'inclure la physique au projet mais rien ne compile et rien ne fonctionne ce qui me prouve que les classes des pieces, des objets, du joueur et de la physique ne sont pas a jour en ne sont pas tous testés correctement, un ménage s'impoose dans le dossier sources du projet.
+
+**Temps 2h**
