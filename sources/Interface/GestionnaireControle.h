@@ -59,45 +59,52 @@ public:
 
 		}
 	}
-	void definirControle(Action Evenement, int Controle) {
+	bool definirControle(Action Evenement, int Controle) {
+		
+		for (std::map<int, int>::iterator it = Controles.begin(); it != Controles.end(); ++it) {
+			if (it->second == Controle)
+				return false;
+			
+		}
+		
 		Controles[Evenement] = Controle;
-
+		return true;
+		
 		
 	}
 
 	void sauvegarderControle(char* Emplacement) {
 		std::ofstream EcritureFichier(Emplacement);
 
-		EcritureFichier << "AVANCER" << " " ;
-		
+		EcritureFichier << "0" << std::endl;
 		EcritureFichier << Controles[AVANCER] << std::endl;
 
-		EcritureFichier << "RECULER" << " ";
+		EcritureFichier << "1" << std::endl;
 		EcritureFichier << Controles[RECULER] << std::endl;
 
-		EcritureFichier << "DROITE" << " ";
+		EcritureFichier << "2" << std::endl;
 		EcritureFichier << Controles[DROITE] << std::endl;
 
-		EcritureFichier << "GAUCHE" << " ";
+		EcritureFichier << "3" << std::endl;
 		EcritureFichier << Controles[GAUCHE] << std::endl;
 
-		EcritureFichier << "SAUTER" << " ";
+		EcritureFichier << "4" << std::endl;
 		EcritureFichier << Controles[SAUTER] << std::endl;
 
-		EcritureFichier << "ACCROUPIR" << " ";
+		EcritureFichier << "5" << std::endl;
 		EcritureFichier << Controles[ACCROUPIR] << std::endl;
 
-		EcritureFichier << "COURIR" << " ";
+		EcritureFichier << "6" << std::endl;
 		EcritureFichier << Controles[COURIR] << std::endl;
 
-		EcritureFichier << "TIRER" << " ";
+		EcritureFichier << "7" << std::endl;
 		EcritureFichier << Controles[TIRER] << std::endl;
 
-		EcritureFichier << "UTILISER" << " ";
+		EcritureFichier << "8" << std::endl;
 		EcritureFichier << Controles[UTILISER] << std::endl;
 
-		EcritureFichier << "INVENTAIRE" << " ";
-		EcritureFichier << Controles[INVENTAIRE] << std::endl;
+		EcritureFichier << "9" << std::endl;
+		EcritureFichier << Controles[INVENTAIRE];
 
 
 	}
