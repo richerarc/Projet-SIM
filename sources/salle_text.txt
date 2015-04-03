@@ -1,3 +1,4 @@
-pieceL.obj pieceL.png
-SalleCarree4x4.obj SalleCarree4x4.png
-PieceRonde5X5X2977.obj PieceRonde5X5X2977.png
+pieceL.obj pieceL.png pieceL.txt
+SalleCarree4x4.obj SalleCarree4x4.png SalleCarree4x4.png
+ConnecteurTunnel.obj ConnecteurTunnel.png ConnecteurTunnel.txt
+PieceRonde5X5X2977.obj PieceRonde5X5X2977.png PieceRonde5X5X2977.txt

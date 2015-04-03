@@ -22,3 +22,7 @@
 26/03/2015 : Continuation des umls des objets avec Damien
 
 31/03/2015 (2h40 à 5h20) : J'ai mis à jour les objets suivant la nouvelle façon décidée avec Damien. Ensuite, nous avons commencé l'analyse des actions effectuables par ces objets.
+
+02/04/2015 (10h00 à 12h45) : J'ai (encore) mis à jour l'uml des objets des objets avec Damien, on ne se sert maintenant plus d'un enum pour les objets, ils ont maintenant repris leur classe comme avant. La classe objet a reçu plusieurs nouvelles variables pour combler aux besoins du projet. Il reste maintenant à coder les modifications dans les classes.
+(2h30 à 3h40): J'ai codé les classes qui m'était assignée dans notre nouvelle analyse, il ne reste qu'à leur assigner leurs actions possibles et les cas particuliers de physique.
+
