@@ -13,6 +13,7 @@ private:
 	double constanteDeFriction;
 	double sensibiliteMagnetique;
 	std::map<char*, double> mapRestitution;
+	bool collision;
 
 	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
@@ -66,6 +67,56 @@ private:
 		return false;
 	}
 
+	bool collisionDroiteObjet(Objet& objet, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
+
+		Vecteur3d point1;
+		Vecteur3d point2;
+		Vecteur3d point3;
+		Vecteur3d point;
+		Vecteur3d* boiteCollision = objet.obtModele3D().obtBoiteDeCollisionModifiee();
+		Plan plan;
+		gfx::Modele& modele = objet.obtModele3D().obtModele();
+
+		for (unsigned int Nbrface = 0; Nbrface < 8; Nbrface ++) {
+
+			for (int j = 0; j < 3; j++) {
+				switch (j) {
+
+					case 0:
+						point1 = boiteCollision[Nbrface * 3 + j];
+						break;
+
+					case 1:
+						point2 = boiteCollision[Nbrface * 3 + j];
+						break;
+
+					case 2:
+						point3 = boiteCollision[Nbrface * 3 + j];
+						break;
+				}
+			}
+
+			plan.calculerPlan(point1, point2, point3);
+			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
+
+				point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
+
+				if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
+
+					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
+
+						normale = plan.obtenirNormale();
+						double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
+
+						if (angle > 120 && angle < 240)
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}	
+
 	bool memeCote(Vecteur3d point1, Vecteur3d point2, Vecteur3d droite1, Vecteur3d droite2) {
 
 		Vecteur3d produit1 = (droite2 - droite1).produitVectoriel(point1 - droite1);
@@ -81,6 +132,7 @@ public:
 		constanteDeFriction = 0.5;
 		gravite = -9.8;
 		sensibiliteMagnetique = 0.0072;
+		collision = false;
 
 		// Ajout des coefficients de restitution des différents matériaux
 		mapRestitution["metal"] = 0.9;
@@ -450,11 +502,11 @@ public:
 			vect2 = Vecteur2d(v2.x, v2.y);
 		}
 
-		double produit00 = vect0.produitscalaire(vect0);
-		double produit01 = vect0.produitscalaire(vect1);
-		double produit02 = vect0.produitscalaire(vect2);
-		double produit11 = vect1.produitscalaire(vect1);
-		double produit12 = vect1.produitscalaire(vect2);
+		double produit00 = vect0.produitScalaire(vect0);
+		double produit01 = vect0.produitScalaire(vect1);
+		double produit02 = vect0.produitScalaire(vect2);
+		double produit11 = vect1.produitScalaire(vect1);
+		double produit12 = vect1.produitScalaire(vect2);
 
 		double invDenom = 1 / (produit00 * produit11 - produit01 * produit01);
 		double u = (produit11 * produit02 - produit01 * produit12) * invDenom;
@@ -517,6 +569,30 @@ public:
 				return true;
 			}
 		}
+
+		std::list<Objet*> list = piece.obtListeObjet();
+
+		if (!collision) {
+
+			for (int i = objet.obtModele3D().obtModele().obtNbrVertices(); i > 0; i--) {
+
+				point = {vertices[i * 3 + 1], vertices[i * 3 + 2], vertices[i * 3 + 2]};
+				rayonCollision = Droite(point, objet.obtVitesse());
+
+				for (auto it : list) {
+
+					if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
+
+						RebondObjetObjet(objet, *it, normale);
+						collision = true;
+						return true;
+					}
+				}
+			}
+		}
+		else
+			collision = false;
+
 		return false;
 	}
 
@@ -532,7 +608,7 @@ public:
 
 			rayonCollision = Droite(point, joueur.obtVitesse());
 
-			if (collisionDroiteBoiteDeCollision(objet.obtModele3D().obtBoiteDeCollisionModifiee(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteBoiteDeCollision(objet, rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur.defPosition(joueur.obtPosition() + pointDiference);
 
