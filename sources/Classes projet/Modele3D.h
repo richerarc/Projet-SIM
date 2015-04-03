@@ -15,7 +15,6 @@ namespace gfx{
 		Modele* modele;
 		Texture texture;
 		Matrice4X4d matriceTransformation;
-		double matTrans[16];
 		Vecteur3d echelle;
 		double* sommetsModif;
 		double* normalesModif;
@@ -34,7 +33,6 @@ namespace gfx{
 			glRotated(orientation.z, 0, 0, 1);
 			glTranslated(origine.x, origine.y, origine.z);
 			glScaled(echelle.x, echelle.y, echelle.z);
-			glGetDoublev(GL_MODELVIEW_MATRIX, matTrans);
 			glGetDoublev(GL_MODELVIEW_MATRIX, mat);
 			glPopMatrix();
 			matriceTransformation.defMatrice(mat);
@@ -82,10 +80,10 @@ namespace gfx{
 					for (unsigned int j = 0; j < 3; j++)
 						normalTemp[j] = modele->obtNormales()[i * 3 + j];
 
-					vecteurNormal[0] = (matriceTransformation.obtMatrice()[0] * normalTemp[0]) + (matriceTransformation.obtMatrice()[4] * normalTemp[1]) + (matriceTransformation.obtMatrice()[8] * normalTemp[2]) + (matriceTransformation.obtMatrice()[12] * normalTemp[3]);
-					vecteurNormal[1] = (matriceTransformation.obtMatrice()[1] * normalTemp[0]) + (matriceTransformation.obtMatrice()[5] * normalTemp[1]) + (matriceTransformation.obtMatrice()[9] * normalTemp[2]) + (matriceTransformation.obtMatrice()[13] * normalTemp[3]);
-					vecteurNormal[2] = (matriceTransformation.obtMatrice()[2] * normalTemp[0]) + (matriceTransformation.obtMatrice()[6] * normalTemp[1]) + (matriceTransformation.obtMatrice()[10] * normalTemp[2]) + (matriceTransformation.obtMatrice()[14] * normalTemp[3]);
-					vecteurNormal[3] = (matriceTransformation.obtMatrice()[3] * normalTemp[0]) + (matriceTransformation.obtMatrice()[7] * normalTemp[1]) + (matriceTransformation.obtMatrice()[11] * normalTemp[2]) + (matriceTransformation.obtMatrice()[15] * normalTemp[3]); 
+					vecteurNormal[0] = (matriceTransformation[0] * normalTemp[0]) + (matriceTransformation[4] * normalTemp[1]) + (matriceTransformation[8] * normalTemp[2]) + (matriceTransformation[12] * normalTemp[3]);
+					vecteurNormal[1] = (matriceTransformation[1] * normalTemp[0]) + (matriceTransformation[5] * normalTemp[1]) + (matriceTransformation[9] * normalTemp[2]) + (matriceTransformation[13] * normalTemp[3]);
+					vecteurNormal[2] = (matriceTransformation[2] * normalTemp[0]) + (matriceTransformation[6] * normalTemp[1]) + (matriceTransformation[10] * normalTemp[2]) + (matriceTransformation[14] * normalTemp[3]);
+					vecteurNormal[3] = (matriceTransformation[3] * normalTemp[0]) + (matriceTransformation[7] * normalTemp[1]) + (matriceTransformation[11] * normalTemp[2]) + (matriceTransformation[15] * normalTemp[3]); 
 
 					for (unsigned int j = 0; j < 3; j++){
 						if (vecteurNormal[3] != 1)
@@ -111,10 +109,10 @@ namespace gfx{
 					for (unsigned int j = 0; j < 3; j++)
 						normalTemp[j] = modele->obtVertices()[i * 3 + j];
 
-					vecteurNormal[0] =(matriceTransformation.obtMatrice()[0] * normalTemp[0]) + (matriceTransformation.obtMatrice()[4] * normalTemp[1]) + (matriceTransformation.obtMatrice()[8] * normalTemp[2]) + (matriceTransformation.obtMatrice()[12] * normalTemp[3]);
-					vecteurNormal[1] =(matriceTransformation.obtMatrice()[1] * normalTemp[0]) + (matriceTransformation.obtMatrice()[5] * normalTemp[1]) + (matriceTransformation.obtMatrice()[9] * normalTemp[2]) + (matriceTransformation.obtMatrice()[13] * normalTemp[3]);
-					vecteurNormal[2] =(matriceTransformation.obtMatrice()[2] * normalTemp[0]) + (matriceTransformation.obtMatrice()[6] * normalTemp[1]) + (matriceTransformation.obtMatrice()[10] * normalTemp[2]) + (matriceTransformation.obtMatrice()[14] * normalTemp[3]);
-					vecteurNormal[3] =(matriceTransformation.obtMatrice()[3] * normalTemp[0]) + (matriceTransformation.obtMatrice()[7] * normalTemp[1]) + (matriceTransformation.obtMatrice()[11] * normalTemp[2]) + (matriceTransformation.obtMatrice()[15] * normalTemp[3]);
+					vecteurNormal[0] =(matriceTransformation[0] * normalTemp[0]) + (matriceTransformation[4] * normalTemp[1]) + (matriceTransformation[8] * normalTemp[2]) + (matriceTransformation[12] * normalTemp[3]);
+					vecteurNormal[1] =(matriceTransformation[1] * normalTemp[0]) + (matriceTransformation[5] * normalTemp[1]) + (matriceTransformation[9] * normalTemp[2]) + (matriceTransformation[13] * normalTemp[3]);
+					vecteurNormal[2] =(matriceTransformation[2] * normalTemp[0]) + (matriceTransformation[6] * normalTemp[1]) + (matriceTransformation[10] * normalTemp[2]) + (matriceTransformation[14] * normalTemp[3]);
+					vecteurNormal[3] =(matriceTransformation[3] * normalTemp[0]) + (matriceTransformation[7] * normalTemp[1]) + (matriceTransformation[11] * normalTemp[2]) + (matriceTransformation[15] * normalTemp[3]);
 
 					for (unsigned int j = 0; j < 3; j++){
 						if (vecteurNormal[3] != 1)
@@ -141,10 +139,10 @@ namespace gfx{
 					bteColTemp[0] = modele->obtBoiteDeCollision()[i].x;
 					bteColTemp[1] = modele->obtBoiteDeCollision()[i].y;
 					bteColTemp[2] = modele->obtBoiteDeCollision()[i].z;
-					bteCol[0] = (matriceTransformation.obtMatrice()[0] * bteColTemp[0]) + (matriceTransformation.obtMatrice()[4] * bteColTemp[1]) + (matriceTransformation.obtMatrice()[8] * bteColTemp[2]) + (matriceTransformation.obtMatrice()[12] * bteColTemp[3]);
-					bteCol[1] = (matriceTransformation.obtMatrice()[1] * bteColTemp[0]) + (matriceTransformation.obtMatrice()[5] * bteColTemp[1]) + (matriceTransformation.obtMatrice()[9] * bteColTemp[2]) + (matriceTransformation.obtMatrice()[13] * bteColTemp[3]);
-					bteCol[2] = (matriceTransformation.obtMatrice()[2] * bteColTemp[0]) + (matriceTransformation.obtMatrice()[6] * bteColTemp[1]) + (matriceTransformation.obtMatrice()[10] * bteColTemp[2]) + (matriceTransformation.obtMatrice()[14] * bteColTemp[3]);
-					bteCol[3] = (matriceTransformation.obtMatrice()[3] * bteColTemp[0]) + (matriceTransformation.obtMatrice()[7] * bteColTemp[1]) + (matriceTransformation.obtMatrice()[11] * bteColTemp[2]) + (matriceTransformation.obtMatrice()[15] * bteColTemp[3]);
+					bteCol[0] = (matriceTransformation[0] * bteColTemp[0]) + (matriceTransformation[4] * bteColTemp[1]) + (matriceTransformation[8] * bteColTemp[2]) + (matriceTransformation[12] * bteColTemp[3]);
+					bteCol[1] = (matriceTransformation[1] * bteColTemp[0]) + (matriceTransformation[5] * bteColTemp[1]) + (matriceTransformation[9] * bteColTemp[2]) + (matriceTransformation[13] * bteColTemp[3]);
+					bteCol[2] = (matriceTransformation[2] * bteColTemp[0]) + (matriceTransformation[6] * bteColTemp[1]) + (matriceTransformation[10] * bteColTemp[2]) + (matriceTransformation[14] * bteColTemp[3]);
+					bteCol[3] = (matriceTransformation[3] * bteColTemp[0]) + (matriceTransformation[7] * bteColTemp[1]) + (matriceTransformation[11] * bteColTemp[2]) + (matriceTransformation[15] * bteColTemp[3]);
 					if (bteCol[3] != 1)
 					{
 						boiteDeCollisionModifiee[i].x = bteCol[0] / bteCol[3];
