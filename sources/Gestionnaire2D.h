@@ -1,4 +1,9 @@
-#include "Objet2D.h"
+#pragma once
+#include <list>
+#include "Fenetre.h"
+#include "Sprite2D.h"
+#include "Texte2D.h"
+#include "Singleton.h"
 namespace gfx{
 	class Gestionnaire2D : public Singleton<Gestionnaire2D>
 	{
@@ -6,8 +11,6 @@ namespace gfx{
 		std::list<gfx::Objet2D*> objets;
 
 	public:
-		Gestionnaire2D(){
-		}
 
 		void afficherTout(gfx::Fenetre& fenetre){
 			for (auto &i : objets){

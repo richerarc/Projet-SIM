@@ -1,11 +1,8 @@
 #pragma once
-
 #include <vector>
 #include <queue>
 #include <fstream>
-#include <iostream>
-#include <SDL2/SDL_opengl.h>
-#include "Vecteur3.h"
+#include <iostream> 
 #include "Matrices.h"
 #include "Maths.h"
 #include "Modele.h"

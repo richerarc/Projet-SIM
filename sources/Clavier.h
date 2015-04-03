@@ -1,4 +1,6 @@
 #pragma once
+#include <set>
+
 class Clavier {
 public:
 	static void mettreAJourEtat(short touche, bool etat){

@@ -1,6 +1,6 @@
 #pragma once
 #define MATHS_PI 3.141592654
-
+#include <algorithm>
 class Maths{
 public:
 	static double obtValeurMax(std::vector<double> &nombres){

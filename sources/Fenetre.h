@@ -1,36 +1,38 @@
 #pragma once
-
 #include <string>
 #include <list>
 #include <iostream>
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-
 #include "Vecteur2.h"
 #include "ModeVideo.h"
-
 #include "Clavier.h"
 #include "Souris.h"
 
 namespace gfx{
 	class Fenetre{
+	protected:
+		Vecteur2ui taille;
+		std::string titre;
+		SDL_Window* sdlWindow;
+		SDL_GLContext SDLGLContext;
+		bool fenetreOuverte;
+		bool fenetrePleinEcran;
+
 	public:
 
-		Fenetre(ModeVideo mv, const std::string& titre, bool pe) : Fenetre(){
+		Fenetre(){}
+
+		Fenetre(ModeVideo mv, const std::string& titre, bool pe){
 			this->taille.x = mv.l;
 			this->taille.y = mv.h;
-
 			sdlWindow = SDL_CreateWindow(titre.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, taille.x, taille.y, SDL_WINDOW_OPENGL);
-
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 			SDLGLContext = SDL_GL_CreateContext(sdlWindow);
-
 			this->defTitre(titre);
 			defPleinEcran(pe);
 			fenetrePleinEcran = pe;
+			fenetreOuverte = true;
 		}
 
 		~Fenetre(){
@@ -111,23 +113,5 @@ namespace gfx{
 		void fermer(){
 			fenetreOuverte = false;
 		}
-
-	protected:
-		Fenetre(){
-			SDL_Init(SDL_INIT_VIDEO);
-			fenetreOuverte = true;
-		}
-
-		Vecteur2ui taille;
-
-		gfx::Gestionnaire3D Gestionnaire3D;
-
-		std::string titre;
-		SDL_Window* sdlWindow;
-		SDL_GLContext SDLGLContext;
-
-		bool fenetreOuverte;
-		bool fenetrePleinEcran;
-
 	};
 }

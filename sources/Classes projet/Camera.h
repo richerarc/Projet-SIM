@@ -1,13 +1,13 @@
 #pragma once 
-#include <SDL2/SDL_opengl.h>
 #include <math.h>
+#include "Maths.h"
 #include "GestionnaireEvenements.h"
 #include "Vecteur3.h"
-#include "Maths.h"
+
 namespace gfx{
 	class Camera{
 	protected:
-		Vecteur3f position,
+		Vecteur3d position,
 			cible,
 			haut,
 			cote,
@@ -28,22 +28,22 @@ namespace gfx{
 			matriceVue[2][2] = -devant.z;
 		}
 
-		void defCible(Vecteur3f& cible){
+		void defCible(Vecteur3d& cible){
 			this->cible = cible;
 			construireMatrice();
 		}
 
-		void defHaut(Vecteur3f& haut){
+		void defHaut(Vecteur3d& haut){
 			this->haut = haut;
 			construireMatrice();
 		}
 
-		Vecteur3f obtCible(){ return cible; }
-		Vecteur3f obtHaut(){ return haut; }
+		Vecteur3d obtCible(){ return cible; }
+		Vecteur3d obtHaut(){ return haut; }
 
 	public:
 
-		Camera(Vecteur3f& position, Vecteur3f& cible, Vecteur3f& haut){
+		Camera(Vecteur3d& position, Vecteur3d& cible, Vecteur3d& haut){
 			this->position = position;
 			this->cible = cible;
 			this->haut = haut;
@@ -53,9 +53,9 @@ namespace gfx{
 		}
 
 		Camera(){
-			position = Vecteur3f(0, 0, 0);
-			cible = Vecteur3f(0, 0, 0);
-			haut = Vecteur3f(0, 0, 0);
+			position = Vecteur3d(0, 0, 0);
+			cible = Vecteur3d(0, 0, 0);
+			haut = Vecteur3d(0, 0, 0);
 			matriceVue[3][0] = matriceVue[3][1] = matriceVue[3][2] = matriceVue[0][3] = matriceVue[1][3] = matriceVue[2][3] = 0;
 			matriceVue[3][3] = 1;
 			construireMatrice();
@@ -67,9 +67,9 @@ namespace gfx{
 			glTranslatef(-position.x, -position.y, -position.z);
 		}
 
-		Vecteur3f obtPosition(){ return position; }
+		Vecteur3d obtPosition(){ return position; }
 
-		void defPosition(Vecteur3f& position){
+		void defPosition(Vecteur3d& position){
 			this->position = position;
 			construireMatrice();
 		}

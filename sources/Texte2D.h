@@ -1,4 +1,7 @@
-
+#pragma once
+#include "Objet2D.h"
+#include "Texture.h"
+#include "Fenetre.h"
 namespace gfx{
 	class Texte2D : public Objet2D{
 	public:
