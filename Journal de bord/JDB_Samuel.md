@@ -25,3 +25,5 @@
 26 mars:  modification des classes ControleVisuel Menu et GestionnaireMenu, screenshot du Diagramme de classes, creation de la classe étiquette
 
 31 mars: croecctions d'erreurs dans Etiquette, ajout de la gestion d'evenement dans Bouton, et j'essaie de creer un programme pour tester l'interface. (2h40)
+
+2 avril: aide a Diego pour afficher le slider, correction (ajout du singleton) dans les gestionnaire 2D et 3D (2h)

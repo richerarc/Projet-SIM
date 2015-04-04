@@ -1,17 +1,16 @@
-class Menu{
-private:
+class Menu : public Singleton<Menu>{
+public:
 
-	std::list<ControleVisuel*> ListeControles;
 	bool Actif;
 	Sprite2D SpriteFond;
+	Etiquette Titre;
+	Bouton Retour;
 
-public:
-	Menu(bool Actif, Sprite2D SpriteFond){
+	Menu(bool Actif, Sprite2D SpriteFond, Etiquette Titre, Bouton Retour){
 		this->Actif = Actif;
 		this->SpriteFond = SpriteFond;
-	}
-	std::list<ControleVisuel*> ObtenirListeControle(){
-		return ListeControles;
+		this->Titre = Titre;
+		this->Retour = Retour;
 	}
 
 };

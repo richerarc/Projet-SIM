@@ -49,7 +49,10 @@
 	Modification de l'UML et de l'analyse d'objet.
 #Jeudi 26 mars 2015 (10:05 à 11:50)
 	Modification de l'UMLet l'analyse d'objet.
-#Mardi 31 mars 2015(11:50 à 12:10)
+#Mardi 31 mars 2015 (11:50 à 12:10)
 	Ajout d'une liste d'actions pour les objets.
 	Modification de la classe ObjetFixe en ajoutant un bool en privé afin de savoir si on peut interagir. Ajout d'accesseur afin d'obtenir et modifier l'interaction. Ajout d'appliquerAction qui permet d'appliquer une certaine action à l'objet fixe visé.
 	Début d'une analyse des actions pour chaque objet précédement établi comme utile pour le moment.
+#Jeudi 2 avril 2015 (10:00 à 13:00)
+	Modification de l'UML de l'algorymthe par rapport aux objets.
+	Modification de la classe Objet.h en ajoutant quelques données membre, des accesseurs et modification du constructeur.
