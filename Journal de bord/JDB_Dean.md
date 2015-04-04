@@ -96,8 +96,29 @@ J'ai commencé la programmation du keybinding (GestionnaireControle) mais vers l
 
 ### Durée: 3h
 
-##Mardi 30 mars 2015
+##Mardi 31 mars 2015
 
 ###14:30 à 17:00
 
 J'ai mis notre analyse dans un fichier MarkDown et je l'ai révisé, il fallait changer la composition de nos menus pour avoir un menu d'affichage, un menu de volume et un menu de controles dans les options. J'ai aussi modifier certaines méthodes de notre diagramme de classes, comme ajouter des paramètres pour des méthodes de controles visuels. J'ai aussi ajouter les datatypes d'état et d'action.
+
+###Durée: 2h30
+
+##Jeudi 2 avril 2015
+
+###10:00 à 13:00
+
+J'ai ENCORE modifié le diagramme de classes de l'interface puisque nous faisons maintenant une classe pour chaque menu différent que nous allons afficher. J'ai ensuite commencé à coder ces classes (MenuPrincipal ,MenuGraphique, MenuSon, etc.). J'ai arrêté en plein milieu pour aider Xavier à débugger son test pour le bouton. Pour l'instant ça semble marcher bien mais la façon dont nous devons afficher (en se servant du gestionnaire2D) n'était pas ce que je pensais que nous allions faire et je trouve que ça complique un peu les choses... Je vais finir de coder les menus ce soir ou demain.
+
+###Durée: 3h
+
+##Vendredi 3 avril 2015
+
+###12:30 à 13:30
+
+J'ai terminé de coder les classes des menus (MenuPrincipal, MenuNouvellePartie, MenuOptions, MenuGraphique, MenuSon, MenuControle). Ils héritent tous de la classe Menu. Je vais maintenant tenter d'en faire afficher au moins un quand Kevin aura fini de faire le main du projet.
+
+###Durée: 1h
+
+
+##Durée Totale: 38h

@@ -141,3 +141,7 @@ Temps : 10 min
 - 13h40 à 17h40 : J'ai fait un CMake avec Richer, on travail tous les deux avec CLion. J'ai continué à travailler sur la compatibilité entre Linux, Apple et Windows, j'ai enfin trouvé ce qui ne fonctionnait pas. J'ai mis le code compatible entre Windows et Linux. J'ai aussi ajouté quelques lignes de codes pour remonter mon objet lors d'une collision. J'ai commencé à penser au collision objet objet : je vais créer une nouvelle fonction déterminant s'il y a une collision entre une droite et une boîte de collision.
 
 Temps : 4h
+
+###**`2 avril 2015`**
+
+- 10h à 13h : J'ai commencer la fonction déterminant s'il y a une collision entre un objet et une droite. Nous avons discuté de l'avancement du projet et nous avonx regroupé quelques personnes pour commencer à afficher quelque chose dans le jeu. La physique est maintenant à jour dans le projet.
