@@ -141,56 +141,60 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
-	void RebondDeFou(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
+	void RebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
+		//pointdecollision.x = -1.5;
+		Vecteur3d vitesseAngulaireInitiale = objet.obtVitesseAngulaire();
 
-		Vecteur3d positionCM = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x) / 2,
-			objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y) / 2,
-			objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z) / 2 };
+		Vecteur3d positionCM = objet.obtModele3D().obtOrigine() + objet.obtPosition();
 
-		double vitesseAngulaire;
+		double wf;
 		Vecteur3d rayon = { positionCM.x - pointdecollision.x, positionCM.y - pointdecollision.y, positionCM.z - pointdecollision.z };
 
 		double vitesseFinale;
 		double c = 1 - mapRestitution[objet.obtMateriaux()];
 		double r = rayon.norme();
-		double theta = vecteurNormal.angleEntreVecteurs(positionCM);
+		double theta = vecteurNormal.angleEntreVecteurs(rayon);
 		double masse = objet.obtMasse();
 		double vi = objet.obtVitesse().norme();
+		double wi = objet.obtVitesseAngulaire().norme();
 
 		rayon.normaliser();
+		vecteurNormal.normaliser();
 		Vecteur3d axederotation = rayon.produitVectoriel(vecteurNormal);
 		axederotation.normaliser();
+		double norme = axederotation.norme();
 
 		Vecteur3d coteX = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x,
 			objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y,
-			objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x };
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z };
 		double longueurcoteX = coteX.norme();
 		coteX.normaliser();
 
 		Vecteur3d coteY = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x,
 			objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y,
-			objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x };
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z };
 		double longueurcoteY = coteY.norme();
 		coteY.normaliser();
 
 		Vecteur3d coteZ = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].x - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x,
 			objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].y - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y,
-			objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x };
+			objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z - objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].z };
 		double longueurcoteZ = coteZ.norme();
 		coteZ.normaliser();
 
 		double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, masse);
 
-		vitesseFinale = (vi*((masse*pow(r, 2)*pow(sin(theta), 2)) + sqrt(I*(((masse*pow(r, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I))))) / ((masse*pow(r, 2)*pow(sin(theta), 2)) + (I));
+		vitesseFinale = ((vi) / ((masse*pow(r, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(r, 2)*pow(sin(theta), 2)) - (sqrt(I*(((masse*pow(r, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
 
-		vitesseAngulaire = (r * objet.obtMasse() * (vitesseFinale - vi) * sin(theta)) / I;
+		wf = (r * masse * (vitesseFinale - vi) * sin(theta)) / I * 20;
 
-		Vecteur3d vvitesseAngulaire = axederotation * vitesseAngulaire;
-
+		Vecteur3d vvitesseAngulaire = axederotation * wf;
+		//objet.obtModele3D().defOrigine(pointdecollision);
 		objet.defVitesseAngulaire(vvitesseAngulaire);
 		objet.obtVitesse().normaliser();
+		double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
+		objet.obtVitesse() -= vecteurNormal * dScalaire;
 		objet.obtVitesse() *= vitesseFinale;
-		RebondObjetCarte(objet, vecteurNormal);
 	}
 
 	// Procédure qui donne le moment d'inertie d'un rectangle, tous les vecteurs doivent être normalisés(unitaires).
@@ -210,129 +214,6 @@ public:
 			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteY, 2))) / 12;
 		}
 		return NULL;
-	}
-
-	void RebondDeFou2(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
-
-		Vecteur3d pointDepart = objet.obtModele3D().obtBoiteDeCollisionModifiee()[4];
-
-		double c = 2 - mapRestitution[objet.obtMateriaux()];
-		double masse = objet.obtMasse();
-		Vecteur3d vitesseAngulaireFinale = { 0, 0, 0 };
-
-		// plan xy:
-		{
-			Vecteur2d positionCM = { pointDepart.x + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x / 2),
-				pointDepart.y + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y / 2) };
-
-			Vecteur2d vecteurNormaleXY = { vecteurNormal.x, vecteurNormal.y };
-
-			if (vecteurNormaleXY.norme() != 0) {
-
-				Vecteur2d vitInitiale = { objet.obtVitesse().x, objet.obtVitesse().y };
-
-				double vitesseFinaleXY;
-
-				double rayon = distanceEntreDeuxPoints2d(positionCM, { pointdecollision.x, pointdecollision.y });
-				double theta = vecteurNormaleXY.angleEntreVecteurs(positionCM);
-
-				Vecteur2d point4 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y };
-				Vecteur2d point5 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].y };
-				Vecteur2d point7 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y };
-
-				double a = distanceEntreDeuxPoints2d(point4, point5);
-				double b = distanceEntreDeuxPoints2d(point4, point7);
-
-				double I = (objet.obtMasse() * (pow(a, 2) + pow(b, 2))) / 12;
-				double vi = vitInitiale.norme();
-
-				if (((pointdecollision.x - positionCM.x <= 0) && (pointdecollision.y - positionCM.y <= 0)) || ((pointdecollision.x - positionCM.x >= 0) && (pointdecollision.y - positionCM.y >= 0)))
-					vitesseFinaleXY = ((vi) / ((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(rayon, 2)*pow(sin(theta), 2)) - (sqrt(I*(((masse*pow(rayon, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
-				else
-					vitesseFinaleXY = ((vi) / ((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (sqrt(I*(((masse*pow(rayon, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
-
-				vitesseAngulaireFinale.z = (rayon * objet.obtMasse() * (vitesseFinaleXY - vi) * sin(theta)) / I;
-			}
-		}
-		// plan xz:
-
-		{
-			Vecteur2d positionCM = { pointDepart.x + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x / 2),
-				pointDepart.z + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z / 2) };
-
-			Vecteur2d vecteurNormaleXZ = { vecteurNormal.x, vecteurNormal.z };
-
-			if (vecteurNormaleXZ.norme() != 0) {
-
-				Vecteur2d vitInitiale = { objet.obtVitesse().x, objet.obtVitesse().z };
-
-				double vitesseFinaleXZ;
-
-				double rayon = distanceEntreDeuxPoints2d(positionCM, { pointdecollision.x, pointdecollision.z });
-				double theta = vecteurNormaleXZ.angleEntreVecteurs(positionCM);
-
-				Vecteur2d point4 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y };
-				Vecteur2d point5 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[5].y };
-				Vecteur2d point0 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].y };
-
-				double a = distanceEntreDeuxPoints2d(point4, point5);
-				double b = distanceEntreDeuxPoints2d(point4, point0);
-
-				double I = (objet.obtMasse() * (pow(a, 2) + pow(b, 2))) / 12;
-				double vi = vitInitiale.norme();
-
-				if (((pointdecollision.z - positionCM.y <= 0) && (pointdecollision.x - positionCM.x <= 0)) || ((pointdecollision.z - positionCM.y >= 0) && (pointdecollision.x - positionCM.x >= 0)))
-					vitesseFinaleXZ = ((vi) / ((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(rayon, 2)*pow(sin(theta), 2)) - (sqrt(I*(((masse*pow(rayon, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
-				else
-					vitesseFinaleXZ = ((vi) / ((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (sqrt(I*(((masse*pow(rayon, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
-
-				vitesseAngulaireFinale.y = (rayon * objet.obtMasse() * (vitesseFinaleXZ - vi) * sin(theta)) / I;
-			}
-		}
-		// plan yz:
-
-		{
-			Vecteur2d positionCM = { pointDepart.y + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y / 2),
-				pointDepart.z + (objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].z / 2) };
-
-			Vecteur2d vecteurNormaleYZ = { vecteurNormal.y, vecteurNormal.z };
-
-			if (vecteurNormaleYZ.norme() != 0) {
-
-				Vecteur2d vitInitiale = { objet.obtVitesse().y, objet.obtVitesse().z };
-
-				double vitesseFinaleYZ;
-
-				double rayon = distanceEntreDeuxPoints2d(positionCM, { pointdecollision.y, pointdecollision.z });
-				double theta = vecteurNormaleYZ.angleEntreVecteurs(positionCM);
-
-				Vecteur2d point4 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[4].y };
-				Vecteur2d point7 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[7].y };
-				Vecteur2d point0 = { objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].x, objet.obtModele3D().obtBoiteDeCollisionModifiee()[0].y };
-
-				double a = distanceEntreDeuxPoints2d(point4, point7);
-				double b = distanceEntreDeuxPoints2d(point4, point0);
-
-				double I = (objet.obtMasse() * (pow(a, 2) + pow(b, 2))) / 12;
-				double vi = vitInitiale.norme();
-
-				if (((pointdecollision.z - positionCM.y <= 0) && (pointdecollision.y - positionCM.x <= 0)) || ((pointdecollision.z - positionCM.y >= 0) && (pointdecollision.y - positionCM.x >= 0)))
-					vitesseFinaleYZ = ((vi) / ((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(rayon, 2)*pow(sin(theta), 2)) - (sqrt(I*(((masse*pow(rayon, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
-				else
-					vitesseFinaleYZ = ((vi) / ((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (I)))*((masse*pow(rayon, 2)*pow(sin(theta), 2)) + (sqrt(I*(((masse*pow(rayon, 2)*pow(sin(theta), 2))*(pow(c, 2) - 1)) + (pow(c, 2)*I)))));
-
-				vitesseAngulaireFinale.x = (rayon * objet.obtMasse() * (vitesseFinaleYZ - vi) * sin(theta)) / I;
-			}
-		}
-
-		objet.defVitesseAngulaire(vitesseAngulaireFinale);
-		RebondObjetCarte(objet, vecteurNormal);
-	}
-	
-	void RebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal) {
-
-		double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
-		objet.obtVitesse() -= vecteurNormal * dScalaire;
 	}
 
 	void RebondObjetObjet(Objet& objet1, Objet& objet2, Vecteur3d vecteurNormal) {
