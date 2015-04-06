@@ -21,7 +21,7 @@ public:
 	Objet* obtObjet(unsigned int ID){
 		for(auto it: objets){
 			if (it->obtID() == ID)
-				return it
+				return it;
 		}
 	}
 
