@@ -13,7 +13,7 @@ Exemple, si une surface d'un cube est subdivisé en quatre faces, regroupez-les.
 ⇒ Le nom du modele doit etre simple, consis et représentatif. De plus, l'image pour la texture doit porter le même nom.
 
 #Notez Bien
-Les images doivent être de format png 32bits(RGBA) De plus, elles doivent être Rotationnées de 180° en plus de subir une transformation miroir sur l'horizontal.
+Les images doivent être de format png 32bits(RGBA) De plus, elles doivent subir une transformation miroir sur la verticale (Le heut se retrouve en bas et vice-versa).
 ##Pour les Pièces
 
 - Selon le code du batiment, la hauteur minimale d'une piece est de 2,3 m.
