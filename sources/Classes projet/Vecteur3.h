@@ -51,17 +51,17 @@ public:
 		y -= scalaire;
 	}
 
-	void produitParUnVecteur(Vecteur3<T>& autre) {
+	void produitParUnVecteur(Vecteur3<T> autre) {
 		x *= autre.x;
 		y *= autre.y;
 		z *= autre.z;
 	}
 
-	T produitScalaire(Vecteur3<T>& autre) {
+	T produitScalaire(Vecteur3<T> autre) {
 		return ((this->x * autre.x) + (this->y * autre.y) + (this->z * autre.z));
 	}
 
-	Vecteur3<T> produitVectoriel(Vecteur3<T>& autre) {
+	Vecteur3<T> produitVectoriel(Vecteur3<T> autre) {
 		Vecteur3<T> vectP;
 		vectP.x = (this->y * autre.z) - (this->z * autre.y);
 		vectP.y = (this->z * autre.x) - (this->x * autre.z);

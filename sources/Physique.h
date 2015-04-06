@@ -5,6 +5,7 @@
 #include "Chrono.h"
 #include "Droite.h"
 #include "Plan.h"
+#include "Joueur.h"
 
 class Physique : public Singleton<Physique>{
 private:
@@ -24,11 +25,11 @@ private:
 		double* tabVertices;
 		Plan plan;
 
-		gfx::Modele& modele = *modele3D.obtModele();
+		gfx::Modele* modele = modele3D.obtModele();
 
 		tabVertices = modele3D.obtSommetsModifies();
 
-		for (unsigned int Nbrface = 0; Nbrface < modele.obtNbrSommets(); Nbrface += 3) {
+		for (unsigned int Nbrface = 0; Nbrface < modele->obtNbrSommets(); Nbrface += 3) {
 
 			for (int j = 0; j < 3; j++) {
 				switch (j) {
@@ -48,7 +49,7 @@ private:
 			}
 
 			plan.calculerPlan(point1, point2, point3);
-			normale = { modele.obtNormales()[Nbrface * 3], modele.obtNormales()[Nbrface * 3 + 1], modele.obtNormales()[Nbrface * 3 + 2]};
+			normale = { modele->obtNormales()[Nbrface * 3], modele->obtNormales()[Nbrface * 3 + 1], modele->obtNormales()[Nbrface * 3 + 2]};
 
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
@@ -75,7 +76,7 @@ private:
 		Vecteur3d point;
 		Vecteur3d* boiteCollision = objet.obtModele3D().obtBoiteDeCollisionModifiee();
 		Plan plan;
-		gfx::Modele& modele = objet.obtModele3D().obtModele();
+		gfx::Modele* modele = objet.obtModele3D().obtModele();
 
 		for (unsigned int Nbrface = 0; Nbrface < 8; Nbrface ++) {
 
@@ -339,7 +340,7 @@ public:
 		return angleMaximal * SDL_cos(omega * frametime);
 	}
 
-	double distanceEntreDeuxPoints(Vecteur3d& point1, Vecteur3d& point2) {
+	double distanceEntreDeuxPoints(Vecteur3d point1, Vecteur3d point2) {
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
 
@@ -401,7 +402,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(Objet& objet, Salle& salle) {
+	bool collisionObjetSalle(Objet& objet, Piece& piece) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -416,48 +417,25 @@ public:
 
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(piece.obtModele(), rayonCollision, pointCollision, normale)) {
 				
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
 
 				normale.normaliser();
-				RebondObjetCarte(objet, normale);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	bool collisionJoueurSalle(Joueur &joueur, Salle &salle) {
-		Droite rayonCollision;
-		Vecteur3d pointCollision;
-		Vecteur3d point;
-		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
-
-
-		for (int i = 0; i < 8; i++) {
-
-			point = tabJoueur[i];
-
-			rayonCollision = Droite(point, joueur.obtVitesse());
-
-			if (collisionDroiteModele(salle.obtModele(), rayonCollision, pointCollision, normale)) {
-				Vecteur3d pointDiference = pointCollision - point;
-				joueur.defPosition(joueur.obtPosition() + pointDiference);
-
+				RebondObjetCarte(objet, normale, pointCollision);
 				return true;
 			}
 		}
 
+		
 		std::list<Objet*> list = piece.obtListeObjet();
 
 		if (!collision) {
 
-			for (int i = objet.obtModele3D().obtModele().obtNbrVertices(); i > 0; i--) {
+			for (int i = 0; i < 8; i++) {
 
-				point = {vertices[i * 3 + 1], vertices[i * 3 + 2], vertices[i * 3 + 2]};
+				point = tabObjet[i];
 				rayonCollision = Droite(point, objet.obtVitesse());
 
 				for (auto it : list) {
@@ -474,6 +452,32 @@ public:
 		else
 			collision = false;
 
+
+		return false;
+	}
+
+	bool collisionJoueurSalle(Joueur &joueur, Piece &piece) {
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point;
+		Vecteur3d normale;
+		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
+
+
+		for (int i = 0; i < 8; i++) {
+
+			point = tabJoueur[i];
+
+			rayonCollision = Droite(point, joueur.obtVitesse());
+
+			if (collisionDroiteModele(piece.obtModele(), rayonCollision, pointCollision, normale)) {
+				Vecteur3d pointDiference = pointCollision - point;
+				joueur.defPosition(joueur.obtPosition() + pointDiference);
+
+				return true;
+			}
+		}
+
 		return false;
 	}
 
@@ -489,7 +493,7 @@ public:
 
 			rayonCollision = Droite(point, joueur.obtVitesse());
 
-			if (collisionDroiteBoiteDeCollision(objet, rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur.defPosition(joueur.obtPosition() + pointDiference);
 
