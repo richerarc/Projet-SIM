@@ -221,7 +221,17 @@ Reste à voir si c'est une bonne façon de faire. Je vais probablement continué
 
 **1h00**: ÇA FONCTIONNE!!! J'ai presque fini la procédure, il aurait quelques ajustements à faire, mais en dehors de la procédure :
 
--Identifier un point de collision plus précis
--Pouvoir définir un point de rotation
+- Identifier un point de collision plus précis
+- Pouvoir définir un point de rotation
 
 Pour la définition d'un point de rotation, j'ai essayé avec l'origine, mais ça déplace légèrement l'objet lorsque je le modifie ou il disparait à l'infinit ce qui très mal. Je suis quand même très content du résultat et l'effort en a valu la peine!
+
+###06 avril 2015
+
+**2h30**: Test et optimisation de la procédure rebondObjetCarte, optimisation du genre au lieu d'avoir plusieurs sin(angle), je le calcul avant puis je l'utilise dans la formule. Le collision ne fonctionnent pas très bien, il reste aussi quelques problèmes dans la procédure, mais en général elle fonctionne bien:
+
+- Je multiplie la vitesse angulaire finale par 20 pour que ce soit plus 'réaliste'
+- Ne réagit pas bien lors de collision lente
+- Point de rotation au centre, je crois qu'il devrait plutôt être au point de collision
+- Point de collision imprécis
+- Commenter et optimisation à réviser
