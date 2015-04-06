@@ -39,12 +39,13 @@ namespace gfx{
 		}
 
 	public:
-
 		Modele3D() : Objet3D(){
 			echelle = Vecteur3d(1, 1, 1);
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
+			sommetsModif = nullptr;
+			normalesModif = nullptr;
 			matriceTransformation = Matrice4X4d();
 		}
 
@@ -163,8 +164,14 @@ namespace gfx{
 		}
 
 		~Modele3D(){
-			delete[] sommetsModif;
-			delete[] normalesModif;
+			if (sommetsModif){
+				delete[] sommetsModif;
+				sommetsModif = nullptr;
+			}
+			if (normalesModif){
+				delete[] normalesModif;
+				normalesModif = nullptr;
+			}
 		}
 
 		void defModele(Modele *modele){
