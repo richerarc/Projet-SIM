@@ -83,12 +83,12 @@ public:
 };
 
 template<typename T>
-Vecteur3<T> operator*(Vecteur3<T> vect, float scalaire) {
+Vecteur3<T> operator*(Vecteur3<T> vect, T scalaire) {
 	return Vecteur3<T>(vect.x * scalaire, vect.y * scalaire, vect.z * scalaire);
 }
 
 template<typename T>
-Vecteur3<T> operator/(Vecteur3<T> vect, float scalaire) {
+Vecteur3<T> operator/(Vecteur3<T> vect, T scalaire) {
 	return Vecteur3<T>(vect.x / scalaire, vect.y / scalaire, vect.z / scalaire);
 }
 	
