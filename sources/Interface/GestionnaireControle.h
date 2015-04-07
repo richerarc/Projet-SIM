@@ -10,8 +10,8 @@ private:
 
 public:
 	void lireControle(char* Emplacement) {
-		char Evenement[15];
-		char Touche[4];
+		char Evenement[3];
+		char Touche[13];
 		std::ifstream FichierDeLecture(Emplacement);
 		if (FichierDeLecture.is_open()) {
 			while (!FichierDeLecture.eof()) {
