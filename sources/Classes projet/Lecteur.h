@@ -1,4 +1,3 @@
-#include <SDL2_mixer/SDL_mixer.h>
 #include <map>
 
 class Lecteur {
