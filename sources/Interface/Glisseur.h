@@ -64,4 +64,11 @@ public:
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteGlisseur);
 
 	}
+	Vecteur2f ObtenirPosition(){
+		return position;
+	}
+	Vecteur2f ObtenirTaille(){
+		return taille;
+	}
+
 };
