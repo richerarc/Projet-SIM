@@ -6,15 +6,17 @@
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
 #include "Objet.h"
+/*
+#include les classes plus bases plus tard
+*/
 #include "ObjetFixe.h"
-#include "ObjetInventaire.h"
+#include "Pendule.h"
+#include "Porte.h"
 #include "ObjetPhysique.h"
 #include "Vent.h"
 #include "Aimant.h"
 #include "Porte.h"
 #include "Salle.h"
-#include "Piece.h"
-#include "Connecteur.h"
 #include "Carte.h"
 
 
@@ -38,7 +40,7 @@ public:
 			while (fenetre->sonderEvenements(evenement))
 			{
 				//Pour l'instant ce sera de cette facon qu'on quittera le jeu. plus tard se sera grace au menu pause j'imagine
-				if (evenement.type == SDL_QUIT || evenement.key.keysym.sym == SDL_SCANCODE_ESCAPE)
+				if (evenement.type == SDL_QUIT || evenement.key.keysym.sym == SDLK_ESCAPE)
 					fenetre->fermer();
 			}
 
