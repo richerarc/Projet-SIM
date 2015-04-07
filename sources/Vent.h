@@ -17,13 +17,13 @@ public:
 		this->dimensions.z = dimensions.z;
 	}
 
-	void appliquerPhysique(std::list<Objet*> objets) {
+	void appliquerPhysique(std::list<Objet*> objets, double frameTime) {
 		for (auto it : objets) {
 			if (it->obtMasse() != 0) {
 				if (it->obtModele3D().obtPosition().x >= obtModele3D().obtPosition().x && it->obtModele3D().obtPosition().x <= obtModele3D().obtPosition().x + dimensions.x) {
 					if (it->obtModele3D().obtPosition().y >= obtModele3D().obtPosition().y && it->obtModele3D().obtPosition().y <= obtModele3D().obtPosition().y + dimensions.y) {
 						if (it->obtModele3D().obtPosition().z >= obtModele3D().obtPosition().z && it->obtModele3D().obtPosition().z <= obtModele3D().obtPosition().z + dimensions.z) {
-							Physique::obtInstance().appliquerVent(vitesse, *it);
+							Physique::obtInstance().appliquerVent(vitesse, *it, frameTime);
 						}
 					}
 				}
