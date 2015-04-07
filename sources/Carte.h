@@ -76,7 +76,7 @@ public:
 			aleatoire = rand() % itterateur;
 			salle.cheminModele = std::get<0>(cheminsModeleText[aleatoire]);
 			salle.cheminTexture = std::get<1>(cheminsModeleText[aleatoire]);
-			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), &salle);
+			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
 			infosSalles.push_back(salle);
 		}
 		
