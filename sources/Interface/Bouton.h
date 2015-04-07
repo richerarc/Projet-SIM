@@ -1,8 +1,14 @@
-enum Etat {
-	REPOS,SURVOL,CLIQUE
-};
+#pragma once
+#include "Etiquette.h"
 #include "Sprite2D.h"
 #include "Texte2D.h"
+
+
+enum Etat {
+	REPOS, SURVOL, CLIQUE
+};
+
+
 class Bouton : public Etiquette {
 private:
 	Etat EtatBouton;
