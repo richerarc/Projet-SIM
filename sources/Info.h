@@ -1,18 +1,18 @@
 #pragma once
-#include "BoiteCollision"
+#include "BoiteCollision.h"
 struct InfoObjet {
-	const unsigned int ID;
+	unsigned int ID;
 	Vecteur3d position;
-	const char* cheminModele;
-	const char* cheminTexture;
-	
+	char* cheminModele;
+	char* cheminTexture;
+
 };
 
 struct InfoSalle {
-	const unsigned int ID;
-	const unsigned int nbrPorte;
-	const char* cheminModele;
-	const char* cheminTexture;
+	unsigned int ID;
+	unsigned int nbrPorte;
+	char* cheminModele;
+	char* cheminTexture;
 	std::list<InfoObjet> Objet;
-	std::list<BoiteCollision> boitesCollision;
+	std::list<BoiteCollision<double>> boitesCollision;
 };

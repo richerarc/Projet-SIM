@@ -1,6 +1,7 @@
 #pragma once
-#include "BoiteCollision.h"
+
 #include "Info.h"
+#include "BoiteCollision.h"
 #include <fstream>
 
 namespace LecteurFichier{
@@ -33,7 +34,7 @@ namespace LecteurFichier{
 						fichier >> x >> y >> z;
 						tabBoite[i] = Vecteur3<double>(x, y, z);
 					}
-					BoiteCollision boite(*tabBoite);
+					BoiteCollision<double> boite(tabBoite);
 					salle.boitesCollision.push_back(boite);
 				}
 			}
