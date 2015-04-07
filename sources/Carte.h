@@ -10,7 +10,8 @@
 #include "Info.h"
 #include "Fabrique.h"
 #include "Graphe.h"
-#include "GestionaireChemins.h"
+#include "GestionnaireChemin.h"
+#include "LecteurFichier.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -37,7 +38,7 @@ public:
 		carte.creer(limite);
 		int itterateurPorte(0);
 		
-		int porte[limite];
+		int* porte = new int[limite];
 		Entree entree;
 		Sortie sortie;
 		for (int i = 0; i < limite; ++i)
@@ -55,13 +56,13 @@ public:
 			}
 		}
 		
-		ifstream fichierSalle("salle_text.txt");
-		ifstream fichierObjet("objet_text.txt");
+		std::ifstream fichierSalle("salle_text.txt");
+		std::ifstream fichierObjet("objet_text.txt");
 		
-		char* curseur1, curseur2, curseur3;
+		char* curseur1, *curseur2, *curseur3;
 		int itterateur(1);
-		while (!ficher.eof()) {
-			fichier >> curseur1; fichier >> curseur2; fichier >> curseur3;
+		while (!fichierSalle.eof()) {
+			fichierSalle >> curseur1; fichierSalle >> curseur2; fichierSalle >> curseur3;
 			cheminsModeleText.push_back(std::make_tuple(curseur1, curseur2, curseur3));
 			++itterateur;
 		}
