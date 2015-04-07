@@ -105,3 +105,10 @@ sur le serveur.
 
 -environ 3 heures
 Re-ajout de la fonction collisionJoueurSalle dans la classe physique, puisqu'elle à été suprimmé et modification de celle-ci. Ajout de la fonction de collisionJoueurObjet dans la classe physique.
+
+2 mars
+
+-environ 2 heures
+Travail sur la classe Joueur (Ajout de la fonction appliquerPhysique qui gère la physique d'un joueur), 
+ajout de la fonciton collisionJoueurObjet qui permet de gèrer les collision entre le joueur et la bonding box d'un objet, 
+début de travail sur un main.cpp pour mettre en commun toutes les classes
