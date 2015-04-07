@@ -431,7 +431,7 @@ namespace graphe{
 		void creer(unsigned int nbrSommet){
 			nombreSommet = nbrSommet;
 			matrice = new int[nbrSommet * nbrSommet];
-			for (int i = 0; i < nbrSommet * nbrSommet; i++){
+			for (unsigned int i = 0; i < nbrSommet * nbrSommet; i++){
 				matrice[i] = 0;
 			}
 			ratio = (((rand() % 30) + 50.f) / 100);

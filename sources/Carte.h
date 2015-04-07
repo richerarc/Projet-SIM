@@ -40,11 +40,11 @@ public:
 		int* porte = new int[limite];
 		Entree entree;
 		Sortie sortie;
-		for (int i = 0; i < limite; ++i)
+		for (unsigned int i = 0; i < limite; ++i)
 			porte[i] = 0;
 		
-		for (int i = 0; i < limite; ++i){
-			for (int j = 0; j < limite; ++j){
+		for (unsigned int i = 0; i < limite; ++i){
+			for (unsigned int j = 0; j < limite; ++j){
 				if (carte.matrice[i * limite + j]){
 					entree = std::make_tuple(i, ++itterateurPorte, false);
 					sortie = std::make_tuple(j, porte[j]);
@@ -70,7 +70,7 @@ public:
 		int aleatoire;
 		
 		
-		for (int i = 0; i < limite; ++i){
+		for (unsigned int i = 0; i < limite; ++i){
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			aleatoire = rand() % itterateur;
