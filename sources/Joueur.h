@@ -13,7 +13,7 @@ private:
 	bool accroupie;
 
 public:
-	Joueur(gfx::Modele3D &modele3D, unsigned int ID, double masse, Vecteur3d position) : Objet(modele3D, ID, NULL, masse, NULL, position){
+	Joueur(gfx::Modele3D &modele3D, unsigned int ID, double masse, Vecteur3d position) : Objet(modele3D, ID, NULL, masse, NULL, position, NULL ,false){
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 0.2;
 	}
@@ -44,7 +44,7 @@ public:
 		gfx::Gestionnaire3D::obtInstance().defCamera(&camera);
 	}
 
-	gfx::Modele3D obtModele3D() {
+	gfx::Modele3D& obtModele3D() {
 		return modele3D;
 	}
 };
