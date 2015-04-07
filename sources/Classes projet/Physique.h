@@ -1,11 +1,9 @@
 #pragma once
-
 #include "Singleton.h"
 #include "Vecteur3.h"
 #include "Chrono.h"
 #include "Droite.h"
 #include "Plan.h"
-#include "Joueur.h"
 
 class Physique : public Singleton<Physique>{
 private:
@@ -412,14 +410,14 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(Objet& objet, Piece& piece) {
+	bool collisionObjetSalle(Objet& objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d difference;
 		Vecteur3d* tabObjet = objet.obtModele3D().obtBoiteDeCollisionModifiee();
-
+		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -427,7 +425,7 @@ public:
 
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(piece.obtModele(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 				
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
@@ -439,7 +437,7 @@ public:
 		}
 
 		
-		std::list<Objet*> list = piece.obtListeObjet();
+		std::list<Objet*> list = salle->obtListeObjet();
 
 		if (!collision) {
 
@@ -466,13 +464,13 @@ public:
 		return false;
 	}
 
-	bool collisionJoueurSalle(Joueur &joueur, Piece &piece) {
+	bool collisionJoueurSalle(Joueur &joueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
-
+		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -480,7 +478,7 @@ public:
 
 			rayonCollision = Droite(point, joueur.obtVitesse());
 
-			if (collisionDroiteModele(piece.obtModele(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur.defPosition(joueur.obtPosition() + pointDiference);
 
