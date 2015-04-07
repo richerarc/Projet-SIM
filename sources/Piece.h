@@ -1,5 +1,5 @@
 #pragma once
-#include "Salle"
+#include "Salle.h"
 #include "Objet.h"
 
 class Piece : public Salle{
@@ -10,7 +10,7 @@ private:
 public:
 	Piece(){}
 	
-	Piece(Modele3D modele, unsigned int nbrPortes, int ID) : Salle(modele, nbrPortes, ID){
+	Piece(gfx::Modele3D modele, unsigned int nbrPortes, int ID) : Salle(modele, nbrPortes, ID){
 		
 	}
 
