@@ -25,9 +25,6 @@ namespace gfx{
 			this->taille.x = mv.l;
 			this->taille.y = mv.h;
 			sdlWindow = SDL_CreateWindow(titre.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, taille.x, taille.y, SDL_WINDOW_OPENGL);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 			SDLGLContext = SDL_GL_CreateContext(sdlWindow);
 			this->defTitre(titre);
 			defPleinEcran(pe);
