@@ -14,6 +14,8 @@ Exemple, si une surface d'un cube est subdivisé en quatre faces, regroupez-les.
 
 #Notez Bien
 Les images doivent être de format png 32bits(RGBA) De plus, elles doivent subir une transformation miroir sur la verticale (Le heut se retrouve en bas et vice-versa).
+
+Enlever également les commentaires dans les fichiers .obj
 ##Pour les Pièces
 
 - Selon le code du batiment, la hauteur minimale d'une piece est de 2,3 m.
