@@ -1,7 +1,6 @@
 #pragma once
 #include "Objet.h"
 #include <list>
-#include "Physique.h"
 
 
 class ObjetInventaire : public Objet{
@@ -14,13 +13,6 @@ public:
 
 	ObjetInventaire(gfx::Modele3D modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool equipable, bool utilisable, bool dansInventaire, unsigned int quantite) : Objet(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire, false){
 		this->quantite = quantite;
-	}
-
-	void appliquerPhysique(std::list<Objet*> objets, double frameTime){
-		//physique ici
-		if (!dansInventaire){
-			Physique::obtInstance().appliquerGravite(vitesse, frameTime);
-		}
 	}
 
 	void appliquerAction(typeAction action){

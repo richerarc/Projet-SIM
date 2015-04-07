@@ -1,21 +1,22 @@
 #pragma once
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
-#include "Objet.h"
 #include "Piece.h"
 
-class Joueur : public Objet{
+class Joueur {
 private:
 	gfx::Modele3D modele3D;
 	gfx::Camera camera;
-
+	Vecteur3d position;
+	Vecteur3d vitesse;
 	float vitesseDeplacement;
 	bool accroupie;
 
 public:
-	Joueur(gfx::Modele3D &modele3D, unsigned int ID, double masse, Vecteur3d position) : Objet(modele3D, ID, NULL, masse, NULL, position, NULL ,false){
+	Joueur(gfx::Modele3D &modele3D, unsigned int ID, double masse, Vecteur3d position) {
 		this->modele3D = modele3D;
-		this->vitesseDeplacement = 0.2;
+		this->vitesseDeplacement = 0.2f;
+		this->position = position;
 	}
 
 	void deplacement(float frametime){
@@ -32,13 +33,6 @@ public:
 		camera.defPosition(position);
 	}
 
-	void appliquerPhysique(Piece &piece, double frametime) {
-		if (!Physique::obtInstance().collisionJoueurSalle(*this, piece)) {
-			Physique::obtInstance().appliquerGravite(vitesse, frametime);
-		}
-		defPosition(position + (vitesse * frametime));
-	}
-
 	void ajouterScene(){
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(&modele3D);
 		gfx::Gestionnaire3D::obtInstance().defCamera(&camera);
@@ -46,5 +40,17 @@ public:
 
 	gfx::Modele3D& obtModele3D() {
 		return modele3D;
+	}
+
+	void defPosition(Vecteur3d pos){
+		this->position = pos;
+	}
+
+	Vecteur3d& obtPosition(){
+		return this->position;
+	}
+
+	Vecteur3d& obtVitesse(){
+		return this->vitesse;
 	}
 };

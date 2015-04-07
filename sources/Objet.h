@@ -21,7 +21,7 @@ public:
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
-		this->masse = masse;;
+		this->masse = masse;
 		this->vitesse = vitesse;
 		this->modele.defPosition(position);
 		this->collisionInterne = collisionInterne;
@@ -29,7 +29,6 @@ public:
 		this->vitesseAngulaire = vitesseAngulaire;
 
 	}
-	virtual void appliquerPhysique();
 	//virtual void appliquerAction(typeAction action) = 0;
 	virtual void ajouterScene() = 0;
 

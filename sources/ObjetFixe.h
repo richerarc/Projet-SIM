@@ -12,9 +12,6 @@ public:
 	void appliqueAction(typeAction action){
 		//actions ici
 	}
-	void appliquerPhysique(std::list<Objet*> objets , double frameTime){
-		//physique ici
-	}
 
 	void defInteraction(bool interactif){
 		this->interactif = interactif;
