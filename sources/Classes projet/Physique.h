@@ -193,10 +193,11 @@ public:
 		axederotation.normaliser();
 
 		double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, masse);
-
-		double a = (masse / 2)*(1 + (masse*pow(r, 2)*pow(theta, 2)) / (I));
-		double b = (-pow(masse, 2)*pow(r, 2)*pow(theta, 2)*vi) / I;
-		double c = (masse*pow(vi, 2) / 2) * (((masse*pow(r, 2)*pow(theta, 2)) / (I)) - (pow(cr, 2)));
+		double r2theta2 = pow(r, 2)*pow(theta, 2);
+		double masser2theta2 = masse*r2theta2;
+		double a = (masse / 2)*(1 + (masser2theta2) / (I));
+		double b = (-pow(masse, 2)*r2theta2*vi) / I;
+		double c = (masse*pow(vi, 2) / 2) * (((masser2theta2) / (I)) - (pow(cr, 2)));
 
 		double vitesseFinale = (-b - sqrt(pow(b, 2) - 4 * a*c)) / (2 * a);
 
