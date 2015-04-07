@@ -16,10 +16,10 @@ public:
 		this->quantite = quantite;
 	}
 
-	void appliquerPhysique(std::list<Objet*> objets){
+	void appliquerPhysique(std::list<Objet*> objets, double frameTime){
 		//physique ici
 		if (!dansInventaire){
-			Physique::obtInstance().appliquerGravite(vitesse);
+			Physique::obtInstance().appliquerGravite(vitesse, frameTime);
 		}
 	}
 

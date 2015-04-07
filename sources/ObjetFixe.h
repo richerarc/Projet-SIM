@@ -12,7 +12,7 @@ public:
 	void appliqueAction(typeAction action){
 		//actions ici
 	}
-	void appliquerPhysique(std::list<Objet*> objets){
+	void appliquerPhysique(std::list<Objet*> objets , double frameTime){
 		//physique ici
 	}
 

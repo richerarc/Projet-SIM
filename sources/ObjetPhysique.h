@@ -12,8 +12,8 @@ public:
 		this->ramassable = ramassable;
 	}
 
-	void appliquerPhysique(std::list<Objet*> objets) {
-		Physique::obtInstance().appliquerGravite(vitesse);
+	void appliquerPhysique(std::list<Objet*> objets, double frameTime) {
+		Physique::obtInstance().appliquerGravite(vitesse, frameTime);
 	}
 
 	void appliquerAction(typeAction action){
