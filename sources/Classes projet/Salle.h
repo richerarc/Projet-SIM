@@ -4,6 +4,7 @@ protected:
 	unsigned int ID;
 	unsigned int nbrPortes;
 	gfx::Modele3D modele;
+	std::list<Objet*> objets;
 public:
 	Salle(){}
 
@@ -35,5 +36,21 @@ public:
 
 	gfx::Modele3D& obtModele(){
 		return modele;
+	}
+	
+	void ajoutObjet(Objet *objet){
+		objets.push_back(objet);
+	}
+	
+	Objet* obtObjet(unsigned int ID){
+		for(auto it: objets){
+			if (it->obtID() == ID)
+				return it;
+		}
+	}
+	
+	std::list<Objet*>& obtListeObjet() {
+		
+		return objets;
 	}
 };
