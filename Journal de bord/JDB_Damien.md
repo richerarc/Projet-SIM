@@ -56,3 +56,5 @@
 #Jeudi 2 avril 2015 (10:00 à 13:00)
 	Modification de l'UML de l'algorymthe par rapport aux objets.
 	Modification de la classe Objet.h en ajoutant quelques données membre, des accesseurs et modification du constructeur.
+#Lundi 6 avril 2015 (14:00 à 16:00)
+	Création des classes Pendules, Porte et balance.
