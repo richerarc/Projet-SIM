@@ -113,8 +113,8 @@ namespace gfx{
 		}
 
 		void appliquer(){
-			glMultMatrixf(&matriceVue[0][0]);
-			glTranslatef(-position.x, -position.y, -position.z);
+			glMultMatrixd(&matriceVue[0][0]);
+			glTranslated(-position.x, -position.y, -position.z);
 		}
 
 		Vecteur3d obtHaut(){ return this->haut; }
