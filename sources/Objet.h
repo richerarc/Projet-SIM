@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
 #include "Modele3D.h"
-#include "Physique.h"
 
 enum typeAction {Rotation, Pousser, Osciller, Prendre, Ranger, Tirer, Recharger, Lancer, Utiliser};
 enum typeObjet {Pendule,Balance,Inactif,Projectile,Fusil,Couteau,Clef,Fil,Balle,AlimentPhysique,AlimentMental,Autre,Vent,Aimant};
@@ -18,7 +17,7 @@ protected:
 	Vecteur3d vitesseAngulaire;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position){
+	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -28,6 +27,7 @@ public:
 		this->collisionInterne = collisionInterne;
 		this->position = position;
 		this->vitesseAngulaire = vitesseAngulaire;
+
 	}
 	virtual void appliquerPhysique();
 	//virtual void appliquerAction(typeAction action) = 0;
