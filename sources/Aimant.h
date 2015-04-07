@@ -13,10 +13,10 @@ public:
 		this->force = force;
 	}
 
-	void appliquerPhysique(std::list<Objet*> objets) {
+	void appliquerPhysique(std::list<Objet*> objets, double frameTime) {
 		for (auto it : objets) {
 			if (it->obtMasse() != 0) {
-				Physique::obtInstance().appliquerMagnetisme(*it, obtModele3D().obtPosition(), force);
+				Physique::obtInstance().appliquerMagnetisme(*it, obtModele3D().obtPosition(), force, frameTime);
 			}
 		}
 	}
