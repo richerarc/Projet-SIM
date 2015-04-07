@@ -32,3 +32,5 @@ Moi, richer et gabriel avont discuter sur la trajectoire et des problèmes qu'on
 Test sur le bouton et réarrengement des classes.
 ###Jeudi 2 Avril ~2h
 Travail sur le bouton et sur le gestionnaire de controle.
+###Mardi 7 avril ~2h
+Discussion général sur le projet et de ces nécéssités. Rencontre avec le proffesseur. Aide avec nico dans les inlcudes et reglé quelque bug (surtout le bug dans mon gestionnaire de controle).

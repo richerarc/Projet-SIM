@@ -87,8 +87,12 @@
   -Ajout des fichiers de boîtes de collision (pieceL, salle4x4, tunnel, portes).  
   -Retrait d'un * en trop dans le lecteur de fichier.  
   16h40  
-**2 avr**  durée : 1 h 20 min  
+**2 avr** durée : 1 h 20 min  
   -Vérification des boites de colisions dans la branche TestBoite (à continuer).  
 **4 avr** durée : 35 min  
   -Édition des fichiers existant de boite de collision pour qu'ils soir conformes aux axes d'OpenGL.  
-  -Création du fichier expliquant comment bâtir un fichier de de boite de collision.
+  -Création du fichier expliquant comment bâtir un fichier de de boite de collision.  
+**7 avr** durée : 2 h 30 min  
+  -Retour en équipe sur les classes.
+  -Explication des boites de collision à l'équipe.
+  -Début de l'algorithme pour mettre les portes dans les pièce (prise des infos de l'objet, de sa dimension )
