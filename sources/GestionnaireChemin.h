@@ -1,10 +1,10 @@
-#icnlude "Singleton.h"
+#include "Singleton.h"
 #include <map>
 #include <string>
 
 class GestionnaireChemin : public Singleton<GestionnaireChemin>{
 private:
-    char* chemin;
+    std::string chemin;
     std::map<char*, std::string> chemins;
 public:
 
@@ -13,12 +13,12 @@ public:
 #if defined(__UNIX__)
         while (argv[posString] != '/'){
             argv.erase(posString, 1);
-            uiPosString--;
+            posString--;
     }
 #elif defined (_WIN32)
         while (argv[posString] != '\\'){
             argv.erase(posString, 1);
-            uiPosString--;
+            posString--;
         }
 #endif
         argv.append("ressources");
@@ -28,11 +28,11 @@ public:
         argv.append("\\");
 #endif
 
-        chemin = argv.c_str();
+        chemin = argv;
     }
 
-    char* obtChemin(char* nomFichier){
-        if (!chemins.find(nomFichier)){
+   std::string obtChemin(char* nomFichier){
+        if (chemins.find(nomFichier) !=  chemins.end()){
             std::string cheminFichier(this->chemin);
             cheminFichier.append(nomFichier);
             chemins[nomFichier] = cheminFichier;
