@@ -33,7 +33,7 @@ public:
 		modele.defPosition(axeX, axeY, axeZ);
 	}
 
-	gfx::Modele3D obtModele(){
+	gfx::Modele3D& obtModele(){
 		return modele;
 	}
 };
