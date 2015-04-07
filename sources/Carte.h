@@ -8,7 +8,6 @@
 #include "Porte.h"
 #include "Salle.h"
 #include "Info.h"
-#include "Fabrique.h"
 #include "Graphe.h"
 #include "GestionnaireChemin.h"
 #include "LecteurFichier.h"
