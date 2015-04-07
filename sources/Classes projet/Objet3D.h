@@ -1,5 +1,5 @@
 #pragma once
-#include "Modele3D.h"
+#include "Vecteur3.h"
 namespace gfx{
 
 	class Objet3D{

@@ -89,3 +89,6 @@
   16h40  
 **2 avr**  durée : 1 h 20 min  
   -Vérification des boites de colisions dans la branche TestBoite (à continuer).  
+**4 avr** durée : 35 min  
+  -Édition des fichiers existant de boite de collision pour qu'ils soir conformes aux axes d'OpenGL.  
+  -Création du fichier expliquant comment bâtir un fichier de de boite de collision.

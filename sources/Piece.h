@@ -1,6 +1,6 @@
 #pragma once
 #include "Salle"
-#include "Contenu.h"
+#include "Objet.h"
 
 class Piece : public Salle{
 private:
@@ -10,8 +10,8 @@ private:
 public:
 	Piece(){}
 	
-	Piece(Modele3D modele, int ID) : public Salle(modele, ID){
-		this->obstacle = obstacle;
+	Piece(Modele3D modele, unsigned int nbrPortes, int ID) : Salle(modele, nbrPortes, ID){
+		
 	}
 
 	void ajoutObjet(Objet *objet){
@@ -20,8 +20,8 @@ public:
 
 	Objet* obtObjet(unsigned int ID){
 		for(auto it: objets){
-			if(it->ID == ID)
-				return it
+			if (it->obtID() == ID)
+				return it;
 		}
 	}
 
@@ -31,5 +31,10 @@ public:
 
 	float obtValeurProb(){
 		return valeurProb;
+	}
+
+	std::list<Objet*>& obtListeObjet() {
+
+		return objets;
 	}
 };

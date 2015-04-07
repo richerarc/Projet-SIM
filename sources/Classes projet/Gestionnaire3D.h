@@ -1,13 +1,15 @@
 #pragma once
 #include <list>
-#include "Objet3D.h"
+#include "CameraGodMode.h"
+#include "Modele3D.h"
 #include "Singleton.h"
+#include "Fenetre.h"
 namespace gfx{
-	class Gestionnaire3D
+	class Gestionnaire3D : public Singleton<Gestionnaire3D>
 	{
 	private:
 		std::list<Objet3D*> objets;
-		//Camera3D Cam;
+		gfx::Camera* camera;
 		double hautY, droitX, ratio, angle, planProche, planLoin;
 
 		void defFrustum(){
@@ -20,6 +22,8 @@ namespace gfx{
 	public:
 
 		Gestionnaire3D(gfx::Fenetre fenetre ){
+			/*à changer quand on aura une fps*/
+			camera = new gfx::CameraGodMode(Vecteur3d(0, 0, 0));
 			hautY = Maths::degreARadian(70);
 			ratio = ((double)fenetre.obtTaille().x / (double)fenetre.obtTaille().y);
 			droitX = hautY * (ratio);
@@ -29,7 +33,12 @@ namespace gfx{
 		}
 
 		Gestionnaire3D(){
-
+			camera = new gfx::CameraGodMode(Vecteur3d(0, 0, 0));
+			hautY = Maths::degreARadian(45);
+			ratio = (800.0f / 600.0f);
+			droitX = hautY * (ratio);
+			planProche = 1;
+			planLoin = 1000;
 		}
 
 		void defHaut(double haut){
@@ -46,7 +55,7 @@ namespace gfx{
 		}
 
 		void defPlanProche(double planProche){
-			this->defPlanProche = planProche;
+			this->planProche = planProche;
 		}
 
 		void defPlanLoin(double planLoin){
@@ -81,12 +90,14 @@ namespace gfx{
 			}
 		}
 
-	//	void defCamera(Camera3D Camera){
-
-	//	}
+		void defCamera(gfx::Camera* camera){
+			this->camera = camera;
+		}
 
 		~Gestionnaire3D(){
 			vider();
+			delete camera;
+			camera = nullptr;
 		}
 
 	};

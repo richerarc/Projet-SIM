@@ -5,7 +5,6 @@
 #include <vector>
 #include <fstream>
 #include "Modele3D.h"
-#include "Contenu.h"
 #include "Porte.h"
 #include "Salle.h"
 #include "Info.h"

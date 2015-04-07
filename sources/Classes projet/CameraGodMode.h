@@ -1,7 +1,6 @@
 #pragma once
 #include "Camera.h"
 
-
 namespace gfx{
 	class CameraGodMode : public Camera{
 	private:
@@ -17,13 +16,17 @@ namespace gfx{
 			if (vAngle < -89)
 				vAngle = -89;
 
-			devant.x = cos(vAngle * MATHS_PI / 180) * sin(hAngle * MATHS_PI / 180);
-			devant.y = sin(vAngle * MATHS_PI / 180);
-			devant.z = cos(vAngle * MATHS_PI / 180) * cos(hAngle * MATHS_PI / 180);
+			double vAngleRadian = vAngle * MATHS_PI / 180;
+			double hAngleRadian = hAngle * MATHS_PI / 180;
+			double cos_vAngle = cos(vAngleRadian);
+
+			devant.x = cos_vAngle * sin(hAngleRadian);
+			devant.y = sin(vAngleRadian);
+			devant.z = cos_vAngle * cos(hAngleRadian);
 
 			devant.normaliser();
 
-			haut = Vecteur3f(0, 1, 0);
+			haut = Vecteur3d(0, 1, 0);
 
 			cote = devant.produitVectoriel(haut);
 			cote.normaliser();
@@ -35,7 +38,7 @@ namespace gfx{
 		}
 	public:
 
-		CameraGodMode(Vecteur3f& position) : Camera(position, Vecteur3f(), Vecteur3f(0, 0, 1)){
+		CameraGodMode(Vecteur3d& position) : Camera(position, Vecteur3d(), Vecteur3d(0, 0, 1)){
 			this->vitesse = 0.09;
 			this->sensibilite = 0.15;
 			
