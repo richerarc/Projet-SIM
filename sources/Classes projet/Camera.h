@@ -1,9 +1,5 @@
 #pragma once 
-
-#include <SDL2\SDL.h>
-#include <SDL2\SDL_opengl.h>
 #include <math.h>
-
 #include "Maths.h"
 #include "GestionnaireEvenements.h"
 #include "Vecteur3.h"
