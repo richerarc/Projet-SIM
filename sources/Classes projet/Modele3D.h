@@ -39,7 +39,8 @@ namespace gfx{
 		}
 
 	public:
-		Modele3D() : Objet3D(){
+
+Modele3D() : Objet3D(){
 			echelle = Vecteur3d(1, 1, 1);
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
@@ -163,7 +164,8 @@ namespace gfx{
 			return boiteDeCollisionModifiee;
 		}
 
-		~Modele3D(){
+
+			~Modele3D(){
 			if (sommetsModif){
 				delete[] sommetsModif;
 				sommetsModif = nullptr;
