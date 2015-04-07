@@ -1,27 +1,29 @@
 #pragma once
+#include "ObjetFixe.h"
 
-class Porte : public Objet{
+class Porte : public ObjetFixe{
 private:
-	bool sortable;
 	bool verrouillee;
+	bool parcourue;
 public:
-	Porte(){}
-	
-	Porte(gfx::Modele3D modele, unsigned int ID, char* materiaux, double masse, Vecteur3d position, bool sortie, bool verrou) : Objet(modele, ID, materiaux, masse,Vecteur3d(0.,0.,0.),position){
-		sortable = sortie;
-		verrouillee = verrou;
+	Porte(gfx::Modele3D& modele, unsigned int ID, char* materiaux, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne, bool interactif, bool verrouillee, bool parcourue) : ObjetFixe(gfx::Modele3D& modele, unsigned int ID, char* materiaux, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne, bool interactif){
+		this->verrouillee = verrouillee;
+		this->parcourue = parcourue;
 	}
 
-	bool obtSortable(){
-		return sortable;
+	void defVerrouillee(bool verrouillee){
+		this->verrouillee = verrouillee;
 	}
-	void defSortable(bool sortie){
-		sortable = sortie;
+
+	void defParcourue(bool parcourue){
+		this->parcourue = parcourue;
 	}
-	bool obtVerrou(){
+
+	bool obtVerrouillee(){
 		return verrouillee;
 	}
-	void defVerrou(bool verrou){
-		verrouillee = verrou;
+
+	bool obtParcourue(){
+		return parcourue;
 	}
 };
