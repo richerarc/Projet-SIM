@@ -19,7 +19,7 @@ namespace gfx{
 			std::vector<double> tmpY;
 			std::vector<double> tmpZ;
 			double xmax, xmin, ymax, ymin, zmax, zmin;
-			for (int i = 0; i < nbrVertices / 3; ++i){
+			for (unsigned int i = 0; i < nbrVertices / 3; ++i){
 				tmpX.push_back(vertices[i * 3]);
 				tmpY.push_back(vertices[i * 3 + 1]);
 				tmpZ.push_back(vertices[i * 3 + 2]);
@@ -44,7 +44,7 @@ namespace gfx{
 			std::vector<double> tmpX;
 			std::vector<double> tmpY;
 			std::vector<double> tmpZ;
-			for (int i = 0; i < nbrVertices / 3; ++i){
+			for (unsigned int i = 0; i < nbrVertices / 3; ++i){
 				tmpX.push_back(vertices[i * 3]);
 				tmpY.push_back(vertices[i * 3 + 1]);
 				tmpZ.push_back(vertices[i * 3 + 2]);
@@ -175,7 +175,7 @@ namespace gfx{
 
 				if (nbrVertices){
 					vertices = new double[nbrVertices];
-					for (int i = 0; i < nbrVertices; i++)
+					for (unsigned int i = 0; i < nbrVertices; i++)
 					{
 						vertices[i] = Vertices.front();
 						Vertices.pop();
@@ -184,7 +184,7 @@ namespace gfx{
 
 				if (Textures.size()){
 					textures = new double[Textures.size()];
-					for (int i = 0; i < nbrVertices / 3 * 2; i++)
+					for (unsigned int i = 0; i < nbrVertices / 3 * 2; i++)
 					{
 						textures[i] = Textures.front();
 						Textures.pop();
@@ -194,7 +194,7 @@ namespace gfx{
 				if (Normales.size())
 				{
 					normales = new double[nbrVertices];
-					for (int i = 0; i < nbrVertices; i++)
+					for (unsigned int i = 0; i < nbrVertices; i++)
 					{
 						normales[i] = Normales.front();
 						Normales.pop();

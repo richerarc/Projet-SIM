@@ -1,10 +1,10 @@
 #pragma once
 #include "Camera.h"
-
+#include "Clavier.h"
 namespace gfx{
 	class CameraGodMode : public Camera{
 	private:
-		float vitesse;
+		double vitesse;
 	public:
 		CameraGodMode(Vecteur3d& position) : Camera(position, Vecteur3d(), Vecteur3d(0, 0, 1)){
 			this->vitesse = 0.09;

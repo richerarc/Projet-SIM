@@ -45,13 +45,13 @@ public:
 		z /= autre.z;
 	}
 
-	void operator*=(float scalaire) {
+	void operator*=(double scalaire) {
 		x *= scalaire;
 		y *= scalaire;
 		z *= scalaire;
 	}
 
-	void soustraire(T scalaire) {
+	void soustraire(double scalaire) {
 		x -= scalaire;
 		y -= scalaire;
 		y -= scalaire;

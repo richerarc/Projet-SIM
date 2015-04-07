@@ -16,11 +16,11 @@ namespace gfx{
 			haut,
 			cote,
 			devant;
-		float sensibilite;
+		double sensibilite;
 
-		float hAngle;
-		float vAngle;
-		float matriceVue[4][4];
+		double hAngle;
+		double vAngle;
+		double matriceVue[4][4];
 
 		void construireMatrice(){
 			matriceVue[0][0] = cote.x;
