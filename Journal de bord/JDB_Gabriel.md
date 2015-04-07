@@ -199,8 +199,39 @@ Reste à voir si c'est une bonne façon de faire. Je vais probablement continué
 
 **3h00**: Codage de la nouvelle fonction, plus ça avance, plus c'est gros! Je devrai probablement allé voir mon professeur de physique pour m'assurer que ce que j'ai fait jusqu'à maintenant respecte la vie en général...
 
-### 32 mars 2015(hehe)
+###32 mars 2015(hehe)
 
 **1h00**: Discution intense entre physicien aka moi et mon prof pour résoudre des problèmes, on commence à arriver à quelque chose.
 
 **0h45**: Codage des nouvelles formules, le rebond, visuellement, est mon bon qu'il était, mais je sais qu'il est en fait meilleur, genre tsé comme... En fait, le calcul est c'est juste que la vitesse angulaire semble être proportionnellement correct, mais trop petite. Si je la multiplie, elle ressemble à l'ancienne, mais en mieux, bref encore du travail à faire.
+
+###02 Avril 2015
+
+**2h30**: Travail sur les formules de physique/Aide Damien et Dominique.
+
+###04 Avril 2015
+
+**2h30**: Travail sur les formules.
+
+**2h00**: Codage des formules, ça fonctionne, mais l'objet accumule la vitesse angulaire et il se met à spiner n'importe comment après un certain temps, et au début, il n'en a presque pas.
+
+###05 Avril 2015
+
+**1h00**: Révision des formules... Quelques erreurs...
+
+**1h00**: ÇA FONCTIONNE!!! J'ai presque fini la procédure, il aurait quelques ajustements à faire, mais en dehors de la procédure :
+
+- Identifier un point de collision plus précis
+- Pouvoir définir un point de rotation
+
+Pour la définition d'un point de rotation, j'ai essayé avec l'origine, mais ça déplace légèrement l'objet lorsque je le modifie ou il disparait à l'infinit ce qui très mal. Je suis quand même très content du résultat et l'effort en a valu la peine!
+
+###06 avril 2015
+
+**2h30**: Test et optimisation de la procédure rebondObjetCarte, optimisation du genre au lieu d'avoir plusieurs sin(angle), je le calcul avant puis je l'utilise dans la formule. Le collision ne fonctionnent pas très bien, il reste aussi quelques problèmes dans la procédure, mais en général elle fonctionne bien:
+
+- Je multiplie la vitesse angulaire finale par 20 pour que ce soit plus 'réaliste'
+- Ne réagit pas bien lors de collision lente
+- Point de rotation au centre, je crois qu'il devrait plutôt être au point de collision
+- Point de collision imprécis
+- Commenter et optimisation à réviser

@@ -1,32 +1,7 @@
 #pragma once
-/*
-#include "ObjetPhysique.h"
-#include "Vent.h"
-#include "Aimant.h"
-#include "Porte.h"
-#include "Obstacle.h"
-#include "Connecteur.h"
-*/
-//Objet
-//-ObjetFixe
-//---Pendule
-//---Balance
-//---Inactif
-//-ObjetInteractif
-//--Projectile
-//--ObjInv
-//---Fusil
-//---Couteau
-//---Clé
-//---Fil
-//---Balle
-//---AlimentPhysique
-//---AlimentMental
-//---Autre
-//
-//-Force
-//
-//
+#include <list>
+#include "Modele3D.h"
+#include "Physique.h"
 
 enum typeAction {Rotation, Pousser, Osciller, Prendre, Ranger, Tirer, Recharger, Lancer, Utiliser};
 enum typeObjet {Pendule,Balance,Inactif,Projectile,Fusil,Couteau,Clef,Fil,Balle,AlimentPhysique,AlimentMental,Autre,Vent,Aimant};
@@ -43,33 +18,26 @@ protected:
 	Vecteur3d vitesseAngulaire;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux,double masse,Vecteur3d vitesse, Vecteur3d position,Vecteur3d vitesseAngulaire,bool collisionInterne){
+	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
 		this->masse = masse;;
-		this->vitesse.x = vitesse.x;
-		this->vitesse.y = vitesse.y;
-		this->vitesse.z = vitesse.z;
+		this->vitesse = vitesse;
 		this->modele.defPosition(position);
 		this->collisionInterne = collisionInterne;
-		this->position.x = position.x;
-		this->position.y = position.y;
-		this->position.z = position.z;
-		this->vitesseAngulaire.x = vitesseAngulaire.x;
-		this->vitesseAngulaire.y = vitesseAngulaire.y;
-		this->vitesseAngulaire.z = vitesseAngulaire.z;
+		this->position = position;
+		this->vitesseAngulaire = vitesseAngulaire;
 	}
-	virtual void appliquerPhysique(std::list<Objet*> objets) = 0;
-	virtual void appliquerAction(typeAction action) = 0;
-	
+	virtual void appliquerPhysique();
+	//virtual void appliquerAction(typeAction action) = 0;
+	virtual void ajouterScene() = 0;
+
 	void defPosition(Vecteur3d position){
 		if (modele.obtModele() != NULL){
 			this->modele.defPosition(position);
 		}
-		this->position.x = position.x;
-		this->position.y = position.y;
-		this->position.z = position.z;
+		this->position = position;
 	}
 	
 	void defID(unsigned int ID){
@@ -81,9 +49,7 @@ public:
 	}
 
 	void defVitesseAngulaire(Vecteur3d vitesseAngulaire){
-		this->vitesseAngulaire.x = vitesseAngulaire.x;
-		this->vitesseAngulaire.y = vitesseAngulaire.y;
-		this->vitesseAngulaire.z = vitesseAngulaire.z;
+		this->vitesseAngulaire = vitesseAngulaire;
 	}
 
 	void defCollisionInterne(bool collisionInterne){
@@ -95,9 +61,7 @@ public:
 	}
 
 	void defVitesse(Vecteur3d vitesse){
-		this->vitesse.x = vitesse.x;
-		this->vitesse.y = vitesse.y;
-		this->vitesse.z = vitesse.z;
+		this->vitesse = vitesse;
 	}
 	
 	unsigned int obtID(){
@@ -134,5 +98,7 @@ public:
 	Vecteur3d& obtVitesseAngulaire(){
 		return vitesseAngulaire;
 	}
+
+	
 
 };

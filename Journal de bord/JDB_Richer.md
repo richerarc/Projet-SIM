@@ -43,3 +43,5 @@
 `Lun. 30 mars` J'ai fait quelques petites modifications pour assurer que tout sera prêt pour finaliser la génération demain. `1h00`
 
 `Mar. 31 mars` Moi et julien avons adapter le code pour qu'il compile sur mac, linux et windows sans problème. Nous avons créé un CMakelist.txt pour le projet. La génération continue, je pense finir le tout demain. `3h30`
+
+`Jeu. 2 avr.` Aujourd'hui, j'ai fais un récapitulatif avec toute l'équipe, pour vérifier que tout le monde savais ce qu'il avait à faire pour qu'on atteigne nos objectifs. En gros, les menu sons en très grande parti terminé, Kevin et Jessy, ainsi que Brandon et Nathan, ayant terminer leur tâches travaille à faire un projet effectif, qui incluera tous les fichiers, affichera et gerera les évemenent. Pour ma part, en plus de ça j'ai finalisé le loading des InfoSalles, il ne reste qu'à tester pour la position des objets à l'intérieur, mais ça devrait ce faire au courant de la fin de semainde de pâques (petite incertidude sur ce point, je travaille 40 hrs cette fin de semaine...) `3h45`

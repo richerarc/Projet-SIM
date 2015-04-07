@@ -54,7 +54,7 @@ namespace graphe{
 		
 		int obtIndiceAleatoire(){
 			int indice;
-			for (int i = 0; i < nombreSommet; i++) {
+			for (int i = 0; i < nombreSommet; ++i) {
 				indice = rand() % nombreSommet;
 				if (degre(indice) < 8)
 					return indice;
@@ -64,7 +64,7 @@ namespace graphe{
 		
 		int obtIndiceAleatoireNonMarque(){
 			int indice;
-			for (int i = 0; i < nombreSommet; i++) {
+			for (int i = 0; i < nombreSommet; ++i) {
 				indice = rand() % nombreSommet;
 				if (degre(indice) == 0)
 					return indice;
@@ -76,8 +76,8 @@ namespace graphe{
 			if (!niveau)
 				sommetsArbres[itterateur] = indice;
 			int indiceTemp = obtIndiceAleatoireNonMarque();
-			matrice[(indice * nombreSommet) + indiceTemp]++;
-			matrice[(indiceTemp * nombreSommet) + indice]++;
+			++matrice[(indice * nombreSommet) + indiceTemp];
+			++matrice[(indiceTemp * nombreSommet) + indice];
 			if (++niveau < nbrSommetParArbre){
 				if ((degre(indice) >= 4) || (rand() %2)){
 					creerArbre(indiceTemp, niveau, nbrSommetParArbre);
@@ -91,7 +91,7 @@ namespace graphe{
 		
 		void ajouterPont(){
 			int sommetsRestant(0);
-			for (int i = 0; i < nombreSommet; i++){
+			for (int i = 0; i < nombreSommet; ++i){
 				if (!sommetsArbres[i]) sommetsRestant++;
 			}
 				// pont 1
@@ -442,7 +442,7 @@ namespace graphe{
 			ajouterPont();
 			
 			int indice = 0;
-			for (int i = 0; i < nombreSommet; i++){
+			for (int i = 0; i < nombreSommet; ++i){
 				if (!degreEntrant(i)){
 					indice = obtIndiceAleatoire();
 					matrice[(indice * nombreSommet) + i]++;
@@ -451,7 +451,7 @@ namespace graphe{
 					indice = obtIndiceAleatoire();
 					matrice[(i * nombreSommet) + indice]++;
 				}
-				for (int j = 0; j < nombreSommet; j++){
+				for (int j = 0; j < nombreSommet; ++j){
 					if ((i != j) && (matrice[(i * nombreSommet) + j]))
 						matrice[(i * nombreSommet) + j] = 1;
 				}
@@ -464,7 +464,7 @@ namespace graphe{
 		}
 		int degreSortant(int indice){
 			int ittCompte = 0;
-			for(int i = 0; i < nombreSommet; i++){
+			for(int i = 0; i < nombreSommet; ++i){
 				if (matrice[(indice * nombreSommet) + i])
 					ittCompte++;
 			}
@@ -472,7 +472,7 @@ namespace graphe{
 		}
 		int degreEntrant(int indice){
 			int ittCompte = 0;
-			for(int i = 0; i < nombreSommet; i++){
+			for(int i = 0; i < nombreSommet; ++i){
 				if (matrice[(i * nombreSommet) + indice])
 					ittCompte++;
 			}
