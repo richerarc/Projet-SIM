@@ -30,6 +30,14 @@ public:
 			position -= cote * vitesseDeplacement * frametime;
 		if (Clavier::toucheAppuyee(SDLK_d))
 			position += cote * vitesseDeplacement * frametime;
+		if (Clavier::toucheAppuyee(SDLK_LSHIFT)) {
+			camera.defPosition(Vecteur3d(camera.obtPosition().x, camera.obtPosition().y - 0.80, camera.obtPosition().z));
+			accroupie = true;
+		}
+		if (Clavier::toucheRelachee(SDLK_LSHIFT)) {
+			camera.defPosition(Vecteur3d(camera.obtPosition().x, camera.obtPosition().y + 0.80, camera.obtPosition().z));
+			accroupie = false;
+		}
 		camera.defPosition(position);
 	}
 
