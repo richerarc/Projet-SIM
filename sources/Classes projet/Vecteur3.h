@@ -39,6 +39,12 @@ public:
 		z -= autre.z;
 	}
 	
+	void operator/=(Vecteur3<T> autre) {
+		x /= autre.x;
+		y /= autre.y;
+		z /= autre.z;
+	}
+
 	void operator*=(float scalaire) {
 		x *= scalaire;
 		y *= scalaire;
