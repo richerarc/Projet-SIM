@@ -184,3 +184,9 @@ J'ai réglé les problèmes d'inclusion. J'ai fait le minimum pour qu'une fenetr
 Ce matin je suis allé à l'école pour vérifier que j'avais bien tout mes classes a jour avec moi. J'ai arranger quelque trucs. Plus tard, chez moi, j'ai tentre d'inclure la physique au projet mais rien ne compile et rien ne fonctionne ce qui me prouve que les classes des pieces, des objets, du joueur et de la physique ne sont pas a jour en ne sont pas tous testés correctement, un ménage s'impoose dans le dossier sources du projet.
 
 **Temps 2h**
+
+##**`7 Avril 2015`**
+
+Aujourd'hui j'ai commencer à inclure toutes les classes du projet dans Jeu.h. Évidemment j'ai eu beaucoup de problemès dans une panoplie de classe. J'ai demander de l'aide de Richer et Julien pour regler les problemes qui étaient dans les classes comme la physique et celles qui étaient du ressort de l'équipe d'algorithimie. J'ai pu finalement créer un projet qui inclus la majorité des classes sans erreurs de compilation.
+
+**Temps 4h**
