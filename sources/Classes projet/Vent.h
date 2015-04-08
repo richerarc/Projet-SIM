@@ -10,10 +10,8 @@ private:
 
 public:
 
-	Vent(gfx::Modele3D& modele, unsigned int ID, Vecteur3d vitesse, Vecteur3d position, Vecteur3d dimensions) : Objet(modele, ID, "air", 0., vitesse, position, Vecteur3d(0.,0.,0.),false){
-		this->dimensions.x = dimensions.x;
-		this->dimensions.y = dimensions.y;
-		this->dimensions.z = dimensions.z;
+	Vent(gfx::Modele3D* modele, unsigned int ID, Vecteur3d vitesse, Vecteur3d position, Vecteur3d dimensions) : Objet(modele, ID, "air", 0., vitesse, position, Vecteur3d(0.,0.,0.),false){
+		this->dimensions = dimensions;
 	}
 
 	void appliquerAction(typeAction action){

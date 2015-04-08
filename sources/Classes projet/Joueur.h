@@ -1,11 +1,10 @@
 #pragma once
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
-#include "Piece.h"
 
 class Joueur {
 private:
-	gfx::Modele3D modele3D;
+	gfx::Modele3D* modele3D;
 	gfx::Camera camera;
 	Vecteur3d position;
 	Vecteur3d vitesse;
@@ -13,7 +12,7 @@ private:
 	bool accroupie;
 
 public:
-	Joueur(gfx::Modele3D &modele3D, unsigned int ID, double masse, Vecteur3d position) {
+	Joueur(gfx::Modele3D* &modele3D, unsigned int ID, double masse, Vecteur3d position) {
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 0.2f;
 		this->position = position;
@@ -42,11 +41,11 @@ public:
 	}
 
 	void ajouterScene(){
-		gfx::Gestionnaire3D::obtInstance().ajouterObjet(&modele3D);
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele3D);
 		gfx::Gestionnaire3D::obtInstance().defCamera(&camera);
 	}
 
-	gfx::Modele3D& obtModele3D() {
+	gfx::Modele3D* obtModele3D() {
 		return modele3D;
 	}
 

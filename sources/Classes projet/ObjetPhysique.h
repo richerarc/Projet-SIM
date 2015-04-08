@@ -11,7 +11,7 @@ private :
 	bool dansInventaire;
 public:
 
-	ObjetPhysique(gfx::Modele3D modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne, bool ramassable, unsigned int quantite, bool equipable, bool utilisable,bool dansInventaire) : Objet(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire, collisionInterne){
+	ObjetPhysique(gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne, bool ramassable, unsigned int quantite, bool equipable, bool utilisable,bool dansInventaire) : Objet(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire, collisionInterne){
 		this->ramassable = ramassable;
 		this->quantite = quantite;
 		this->equipable = equipable;
