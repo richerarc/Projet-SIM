@@ -14,7 +14,7 @@ private:
 	std::map<char*, double> mapRestitution;
 	bool collision;
 
-	bool collisionDroiteModele(gfx::Modele3D& modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
+	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -23,9 +23,9 @@ private:
 		double* tabVertices;
 		Plan plan;
 
-		gfx::Modele* modele = modele3D.obtModele();
+		gfx::Modele* modele = modele3D->obtModele();
 
-		tabVertices = modele3D.obtSommetsModifies();
+		tabVertices = modele3D->obtSommetsModifies();
 
 		for (unsigned int Nbrface = 0; Nbrface < modele->obtNbrSommets(); Nbrface += 3) {
 
@@ -72,9 +72,9 @@ private:
 		Vecteur3d point2;
 		Vecteur3d point3;
 		Vecteur3d point;
-		Vecteur3d* boiteCollision = objet.obtModele3D().obtBoiteDeCollisionModifiee();
+		Vecteur3d* boiteCollision = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
 		Plan plan;
-		gfx::Modele* modele = objet.obtModele3D().obtModele();
+		gfx::Modele* modele = objet.obtModele3D()->obtModele();
 
 		for (unsigned int Nbrface = 0; Nbrface < 8; Nbrface ++) {
 
@@ -140,9 +140,54 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
+	void appliquerPhysiqueSurListeObjet(float frameTime) {
+		
+		std::list<Objet*> objets = Carte::obtInstance().salleActive->obtListeObjet();
+
+		for (auto it : objets) {
+			if (it->obtMasse() != 0) {
+				appliquerGravite(it->obtVitesse(), frameTime);
+			}
+			Vent* it_Vent = dynamic_cast<Vent*>(it);
+			if (it_Vent != nullptr) {
+				for (auto it_Objet : objets) {
+					if (it_Objet->obtMasse() != 0) {
+						/*
+						if (it_Objet->obtModele3D().obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D().obtPosition().x <= it->obtPosition().x + it->obtDimensions().x) {
+						if (it_Objet->obtModele3D().obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D().obtPosition().y <= it->obtPosition().y + it->obtDimensions().y) {
+						if (it_Objet->obtModele3D().obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D().obtPosition().z <= it->obtPosition().z + it->obtDimensions().z) {
+						Physique::obtInstance().appliquerVent(it->obtVitesse(), *it_Objet, frameTime);
+						}
+						}
+						}
+						*/
+					}
+				}
+			}
+			Aimant* it_Aimant = dynamic_cast<Aimant*>(it);
+			if (it_Aimant != nullptr) {
+				for (auto it_Objet : objets) {
+					if (it_Objet->obtMasse() != 0) {
+						appliquerMagnetisme(*it_Objet, it_Aimant->obtPosition(), it_Aimant->obtForce(), frameTime);
+					}
+				}
+			}
+			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
+			if (it_ObjetFixe != nullptr) {
+				for (auto it_Objet : objets) {
+					if (it_Objet->obtMasse() != 0) {
+						// collisions
+
+					}
+				}
+			}
+		}
+	}
+
+
 	void RebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
 
-		Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D().obtBoiteDeCollisionModifiee();
+		Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
 
 		Vecteur3d positionCM = { 0, 0, 0 };
 
@@ -257,15 +302,15 @@ public:
 
 	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet, double frametime) {
 
-		double* tableaunormale = objet.obtModele3D().obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
-		double* tableauVertices = objet.obtModele3D().obtSommetsModifies();
+		double* tableaunormale = objet.obtModele3D()->obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
+		double* tableauVertices = objet.obtModele3D()->obtSommetsModifies();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreVertice = objet.obtModele3D().obtModele()->obtNbrVertices();
+		double nombreVertice = objet.obtModele3D()->obtModele()->obtNbrVertices();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -416,7 +461,7 @@ public:
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d difference;
-		Vecteur3d* tabObjet = objet.obtModele3D().obtBoiteDeCollisionModifiee();
+		Vecteur3d* tabObjet = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
 		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
@@ -469,7 +514,7 @@ public:
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
+		Vecteur3d* tabJoueur = joueur.obtModele3D()->obtBoiteDeCollisionModifiee();
 		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
@@ -494,7 +539,7 @@ public:
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur.obtModele3D().obtBoiteDeCollisionModifiee();
+		Vecteur3d* tabJoueur = joueur.obtModele3D()->obtBoiteDeCollisionModifiee();
 
 		for (int i = 0; i < 8; i++) {
 			point = tabJoueur[i];

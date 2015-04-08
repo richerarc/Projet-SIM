@@ -29,7 +29,8 @@ namespace gfx{
 		unsigned int l;
 		unsigned int h;
 		SDL_DisplayMode md;
-
 		static std::vector<ModeVideo> modes;
 	};
+
+	std::vector<ModeVideo> gfx::ModeVideo::modes;
 }

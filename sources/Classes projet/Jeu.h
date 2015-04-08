@@ -10,14 +10,15 @@
 #include les classes plus bases plus tard
 */
 #include "ObjetFixe.h"
-#include "Pendule.h"
 #include "Porte.h"
 #include "ObjetPhysique.h"
 #include "Vent.h"
 #include "Aimant.h"
 #include "Porte.h"
-#include "Salle.h"
 #include "Carte.h"
+#include "Joueur.h"
+#include "Salle.h"
+#include "Physique.h"
 
 
 class Jeu{
