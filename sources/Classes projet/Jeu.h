@@ -45,9 +45,9 @@ public:
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 
-		gfx::Modele3D* crate = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("PieceL.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("PieceL.png"));
+		gfx::Modele3D* crate = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("pieceL.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("PieceL.png"));
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(crate);
-		crate->defPosition(0, 0, 5);
+		crate->defPosition(0, 0, -5);
 		crate->defOrigine(0, 0, 0);
 		while (fenetre->estOuverte())
 		{
