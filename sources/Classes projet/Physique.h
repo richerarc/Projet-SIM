@@ -141,26 +141,21 @@ public:
 	}
 
 	void appliquerPhysiqueSurListeObjet(float frameTime) {
-		
+
 		std::list<Objet*> objets = Carte::obtInstance().salleActive->obtListeObjet();
 
 		for (auto it : objets) {
-			if (it->obtMasse() != 0) {
-				appliquerGravite(it->obtVitesse(), frameTime);
-			}
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
 			if (it_Vent != nullptr) {
 				for (auto it_Objet : objets) {
 					if (it_Objet->obtMasse() != 0) {
-						/*
-						if (it_Objet->obtModele3D().obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D().obtPosition().x <= it->obtPosition().x + it->obtDimensions().x) {
-						if (it_Objet->obtModele3D().obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D().obtPosition().y <= it->obtPosition().y + it->obtDimensions().y) {
-						if (it_Objet->obtModele3D().obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D().obtPosition().z <= it->obtPosition().z + it->obtDimensions().z) {
-						Physique::obtInstance().appliquerVent(it->obtVitesse(), *it_Objet, frameTime);
+						if (it_Objet->obtModele3D()->obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D()->obtPosition().x <= it->obtPosition().x + it->obtDimensions().x) {
+							if (it_Objet->obtModele3D()->obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D()->obtPosition().y <= it->obtPosition().y + it->obtDimensions().y) {
+								if (it_Objet->obtModele3D()->obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D()->obtPosition().z <= it->obtPosition().z + it->obtDimensions().z) {
+									Physique::obtInstance().appliquerVent(it->obtVitesse(), *it_Objet, frameTime);
+								}
+							}
 						}
-						}
-						}
-						*/
 					}
 				}
 			}
@@ -172,14 +167,24 @@ public:
 					}
 				}
 			}
+			/*
+			Pendule* it_Pendule = dynamic_cast<Pendule*>(it);
+			if (it_Pendule != nullptr) {
+			obtenirAnglePenduleSimple(it_Pendule->obtAngleMax, it_Pendule->obtOmega, frameTime);
+			}
+			*/
 			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
 			if (it_ObjetFixe != nullptr) {
 				for (auto it_Objet : objets) {
 					if (it_Objet->obtMasse() != 0) {
-						// collisions
 
 					}
 				}
+			}
+			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
+			if (it_ObjetPhysique != nullptr) {
+				appliquerGravite(it_ObjetPhysique->obtVitesse(), frameTime);
+				collisionObjetSalle(*it_ObjetPhysique);
 			}
 		}
 	}

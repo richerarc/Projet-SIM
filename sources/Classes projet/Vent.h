@@ -24,7 +24,7 @@ public:
 		this->dimensions.z = dimensions.z;
 	}
 
-	Vecteur3d& obtDimensions(){
+	Vecteur3d obtDimensions(){
 		return dimensions;
 	}
 };

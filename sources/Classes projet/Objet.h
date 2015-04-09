@@ -31,6 +31,8 @@ public:
 	//virtual void appliquerAction(typeAction action) = 0;
 	virtual void ajouterScene() = 0;
 
+	virtual Vecteur3d obtDimensions() {};
+
 	void defPosition(Vecteur3d position){
 		if (modele->obtModele() != NULL){
 			this->modele->defPosition(position);
