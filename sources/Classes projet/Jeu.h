@@ -20,6 +20,10 @@
 #include "Salle.h"
 #include "Physique.h"
 
+#include "ControleVisuel.h"
+#include "Menu.h"
+#include "GestionnaireMenu.h"
+#include "GestionnaireControle.h"
 
 class Jeu{
 
