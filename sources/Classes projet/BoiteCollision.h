@@ -7,9 +7,7 @@ private:
 	Vecteur3<T> boiteCollision[8];
 public:
 	BoiteCollision(){}
-	~BoiteCollision(){
-		delete[] boiteCollision;
-	}
+	~BoiteCollision(){}
 
 	BoiteCollision(Vecteur3<T>* _boiteCollision){
 		for (int i = 0; i < 8; i++){

@@ -13,7 +13,7 @@ namespace gfx{
 		ModeVideo(unsigned int l, unsigned int h){
 			this->l = l;
 			this->h = h;
-			md = { SDL_PIXELFORMAT_RGBA8888, this->l, this->h, 0, 0 };
+			md = { SDL_PIXELFORMAT_RGBA8888, static_cast<int>(this->l), static_cast<int>(this->h), 0, 0 };
 		}
 
 		static std::vector<ModeVideo>& obtModes(){
