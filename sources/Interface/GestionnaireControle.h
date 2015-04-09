@@ -1,9 +1,13 @@
+#pragma once
+#include "Singleton.h"
 #include <map>
 #include <iostream>
 #include <fstream>
+
 enum Action {
 	AVANCER,RECULER,DROITE,GAUCHE,SAUTER,ACCROUPIR,COURIR,TIRER,UTILISER,INVENTAIRE
 };
+
 class GestionnaireControle: public Singleton<GestionnaireControle> {
 private:
 	std::map<int, int> Controles;

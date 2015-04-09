@@ -1,23 +1,37 @@
+#pragma once
+#include "Menu.h"
+
 class MenuOptions : public Menu {
+
+private:
+
+	Bouton* Graphique;
+	Bouton* Son;
+	Bouton* Controle;
 
 public:
 
-	Bouton Graphique;
-	Bouton Son;
-	Bouton Controle;
-
-	MenuOptions(Bouton Graphique, Bouton Son, Bouton Controle) : Menu(Actif, SpriteFond, Titre, Retour) {
+	MenuOptions(void) : Menu() {
 		
-		this->Graphique = Graphique;
-		this->Son = Son;
-		this->Controle = Controle;
+		this->Actif = false;
+		this->SpriteFond = new gfx::Sprite2D();
+		this->Titre = new Etiquette();
+		this->Retour = new Bouton();
 
-		this->SpriteFond = SpriteFond;
-		this->Titre = Titre;
-		this->Retour = Retour;
+		this->Graphique = new Bouton();
+		this->Son = new Bouton();
+		this->Controle = new Bouton();
 
 
 
+	}
+
+	bool obtActif(void) {
+		return Actif;
+	}
+
+	void defActif(bool Actif) {
+		this->Actif = Actif;
 	}
 
 
