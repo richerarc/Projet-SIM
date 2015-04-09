@@ -1,5 +1,6 @@
 #pragma once
 #include "Objet.h"
+#include "Modele3D.h"
 #include <list>
 
 class Aimant : public Objet{

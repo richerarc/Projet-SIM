@@ -126,7 +126,7 @@ Temps : 6h10
 
 ###**`27 mars 2015`**
 
-- 10h30 à 12h30 et 1h45 à 2h30 : J'ai finalement trouvé l'emplacement de mon bug : la fonction qui déterminait si mon point était dans un triangle ne fonctionnenait pas totalement en trois dimensions je l'ai donc transformé entre deux dimensions et tout fonctionnait. Je regarde aussi maintenant l'angle entre le vecteur vitesse de l'objet et la normale de la face qui est en collision, si l'angle est dans près de 180 il y a collision.
+- 10h30 à 12h30 et 13h45 à 14h30 : J'ai finalement trouvé l'emplacement de mon bug : la fonction qui déterminait si mon point était dans un triangle ne fonctionnenait pas totalement en trois dimensions je l'ai donc transformé entre deux dimensions et tout fonctionnait. Je regarde aussi maintenant l'angle entre le vecteur vitesse de l'objet et la normale de la face qui est en collision, si l'angle est dans près de 180 il y a collision.
 
 Temps : 2h45
 
@@ -145,3 +145,25 @@ Temps : 4h
 ###**`2 avril 2015`**
 
 - 10h à 13h : J'ai commencer la fonction déterminant s'il y a une collision entre un objet et une droite. Nous avons discuté de l'avancement du projet et nous avonx regroupé quelques personnes pour commencer à afficher quelque chose dans le jeu. La physique est maintenant à jour dans le projet.
+
+Temps : 3h
+
+###**`6 avril 2015`**
+
+- 11h30 à 13h30 : J'ai réarrangé la classe physique parce qu'elle n'était plus update (un problème de destruction de branche). Elle compile maintenant à 100% et elle est utilisable dans le projet sans problème pour la plupart de ses fonctions. Il reste les collisions à perfectionner.
+
+Temps : 2h
+
+###**`7 avril 2015`**
+
+- 13h à 14h40 : J'ai aider Kevin, avec la complissité de Richer et Gabriel, pour crééer un projet contenant toutes les classes du projet. Nous nous sommes assuré que tout compilait. Nous avons fait quelques constats avec la physique : on ne peut pas gérer la physique dans les objets et dans le joueur.
+
+- 14h40 à 17h20 : Grosse conversation avec tout le groupe pour discuter de l'avancement du projet et de la pertinance de chacune des classes du projet. Nous avons éliminé quelques classes et quelques fonctions. J'ai ensuite discuté avec Brandon des façons de gérer la physique et nous avons déterminé que la physique des objets allait être géré dans la classe Salle et que celle du joueur allait être dans la classe Jeu.
+
+19h30 à 21h : J'ai rendu le projet compatible sur linux en mettant tous les Modele3D en pointeur. J'ai aussi fait le constat que la physique ne pouvait pas être faite dans la classe Salle, parce que ça créait des inclusions circulaires. J'ai donc déplacé la procédure qui gérait la physique de la classe Salle vers la classe Physique en faisant un petit ajustement pour l'obtention de la liste d'objet de la salle.
+
+Temps : 4h50
+
+###**`8 avril 2015`**
+
+- 17h30 à 18h10 et 20h à 21h : J'ai fait des modifications dans la classe Jeu : j'ai ajouté un joueur, un chrono et une variable représentant le frameTime. Ces variables sont toutes statiques. J'ai aussi ajouter une procédure appliquant la physique de tout (Joueur et objets). J'ai aussi créé une salle temporairement pour que tout le monde puisse tester.
