@@ -11,6 +11,7 @@
 */
 #include "ObjetFixe.h"
 #include "Porte.h"
+#include "Pendule.h"
 #include "ObjetPhysique.h"
 #include "Vent.h"
 #include "Aimant.h"
