@@ -6,7 +6,7 @@
 class GestionnaireEvenements : public Singleton<GestionnaireEvenements>
 {
 public:
-	int ajouterUnRappel(Uint32 type, std::function<void(SDL_Event)> fonction){
+	int ajouterUnRappel(Uint32 type, std::function<void(SDL_Event&)> fonction){
 		fonctions[type].push_back(fonction);
 		return fonctions[type].size() - 1;
 	}
@@ -17,6 +17,6 @@ public:
 			it(event);
 	}
 private:
-	std::map<Uint32, std::vector<std::function<void(SDL_Event)>>> fonctions;
+	std::map<Uint32, std::vector<std::function<void(SDL_Event&)>>> fonctions;
 };
 
