@@ -5,7 +5,7 @@
 class Joueur {
 private:
 	gfx::Modele3D* modele3D;
-	gfx::Camera camera;
+	gfx::Camera* camera;
 	Vecteur3d position;
 	Vecteur3d vitesse;
 	float vitesseDeplacement;
@@ -19,11 +19,12 @@ public:
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 0.2f;
 		this->position = position;
+		camera = new gfx::Camera();
 	}
 
 	void deplacement(float frametime){
-		Vecteur3d devant = camera.obtDevant();
-		Vecteur3d cote = camera.obtDevant();
+		Vecteur3d devant = camera->obtDevant();
+		Vecteur3d cote = camera->obtCote();
 		if (Clavier::toucheAppuyee(SDLK_w))
 			position += devant * vitesseDeplacement * frametime;
 		if (Clavier::toucheAppuyee(SDLK_s))
@@ -33,19 +34,19 @@ public:
 		if (Clavier::toucheAppuyee(SDLK_d))
 			position += cote * vitesseDeplacement * frametime;
 		if (Clavier::toucheAppuyee(SDLK_LSHIFT)) {
-			camera.defPosition(Vecteur3d(camera.obtPosition().x, camera.obtPosition().y - 0.80, camera.obtPosition().z));
+			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y - 0.80, camera->obtPosition().z));
 			accroupie = true;
 		}
 		if (Clavier::toucheRelachee(SDLK_LSHIFT)) {
-			camera.defPosition(Vecteur3d(camera.obtPosition().x, camera.obtPosition().y + 0.80, camera.obtPosition().z));
+			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
 			accroupie = false;
 		}
-		camera.defPosition(position);
+		camera->defPosition(position);
 	}
 
 	void ajouterScene(){
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele3D);
-		gfx::Gestionnaire3D::obtInstance().defCamera(&camera);
+		gfx::Gestionnaire3D::obtInstance().defCamera(camera);
 	}
 
 	gfx::Modele3D* obtModele3D() {
