@@ -84,7 +84,7 @@ public:
 		return vitesse;
 	}
 	
-	Vecteur3d& obtPosition(){
+	Vecteur3d obtPosition(){
 		if (modele->obtModele() != NULL)
 			return this->modele->obtPosition();
 		else

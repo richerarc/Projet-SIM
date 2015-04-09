@@ -26,16 +26,16 @@ class Jeu{
 private:
 	static gfx::Fenetre *fenetre;
 	static SDL_Event evenement;
-	static Joueur joueur;
+	static Joueur* joueur;
 	static Chrono chrono;
 	static float frameTime;
 
 	static void appliquerPhysique() {
 
-		if (joueur.obtVitesse().norme() != 0) {
+		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(joueur)) {
-				Physique::obtInstance().appliquerGravite(joueur.obtVitesse(), frameTime);
-				joueur.defPosition(joueur.obtPosition() + joueur.obtVitesse() * frameTime);
+				Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			}
 		}
 
@@ -51,7 +51,7 @@ public:
 		TTF_Init();
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip",true);
 		fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
-		joueur = Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d());
+		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), 0, 87, Vecteur3d());
 		frameTime = chrono.obtTempsEcoule().enSecondes();
 
 		// Pour le moment : En attendant que la génération génère la map elle-même.
@@ -71,14 +71,15 @@ public:
 			}
 
 			// Mouvement ici
-			joueur.deplacement(frameTime);
+			joueur->deplacement(frameTime);
 			appliquerPhysique();
 
 			// Affichege ici
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
 
 			fenetre->rafraichir();
-		}	
+		}
+		delete joueur;
 		delete fenetre;
 		TTF_Quit();
 		SDL_Quit();
@@ -88,6 +89,6 @@ public:
 
 float Jeu::frameTime = 0;
 gfx::Fenetre* Jeu::fenetre = nullptr;
-Joueur Jeu::joueur;
+Joueur* Jeu::joueur = nullptr;
 Chrono Jeu::chrono;
 SDL_Event Jeu::evenement;

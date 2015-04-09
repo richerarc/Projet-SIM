@@ -514,23 +514,23 @@ public:
 		return false;
 	}
 
-	bool collisionJoueurSalle(Joueur &joueur) {
+	bool collisionJoueurSalle(Joueur* joueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur.obtModele3D()->obtBoiteDeCollisionModifiee();
+		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
 
 			point = tabJoueur[i];
 
-			rayonCollision = Droite(point, joueur.obtVitesse());
+			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur.defPosition(joueur.obtPosition() + pointDiference);
+				joueur->defPosition(joueur->obtPosition() + pointDiference);
 
 				return true;
 			}
@@ -539,21 +539,21 @@ public:
 		return false;
 	}
 
-	bool collisionJoueurObjet(Joueur &joueur, Objet &objet) {
+	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur.obtModele3D()->obtBoiteDeCollisionModifiee();
+		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 
 		for (int i = 0; i < 8; i++) {
 			point = tabJoueur[i];
 
-			rayonCollision = Droite(point, joueur.obtVitesse());
+			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur.defPosition(joueur.obtPosition() + pointDiference);
+				joueur->defPosition(joueur->obtPosition() + pointDiference);
 
 				return true;
 			}

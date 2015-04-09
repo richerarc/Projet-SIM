@@ -74,7 +74,7 @@ namespace gfx{
 
 	public:
 
-		Camera(Vecteur3d& position, Vecteur3d& cible, Vecteur3d& haut){
+		Camera(Vecteur3d position, Vecteur3d cible, Vecteur3d haut){
 			this->position = position;
 			this->cible = cible;
 			this->haut = haut;
@@ -121,7 +121,7 @@ namespace gfx{
 
 		Vecteur3d obtPosition(){ return position; }
 
-		void defPosition(Vecteur3d& position){
+		void defPosition(Vecteur3d position){
 			this->position = position;
 			construireMatrice();
 		}
