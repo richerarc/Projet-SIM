@@ -27,3 +27,5 @@
 (2h30 à 3h40): J'ai codé les classes qui m'était assignée dans notre nouvelle analyse, il ne reste qu'à leur assigner leurs actions possibles et les cas particuliers de physique.
 
 07/04/2015 (2h40 à 5h25) : J'ai mis ensemble les Objets Physiques et Objets Inventaire et ajusté les héritages en conséquences, car les Objets Inventaires n'étaient pas vraiment pertinents. J'ai aussi modélisé une clé, qui n'est pas encore dans le projet parce sa texture n'est pas faite.
+
+09/04/2015 (9h45 à 11h50) : J'ai finis de modéliser la clé et je l'ai texturé, et j'ai commencé à modelisé de la nourriture.
