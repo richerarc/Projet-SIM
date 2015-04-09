@@ -10,16 +10,13 @@ private:
 	Vecteur2f posGlisseur;
 public:
 
-	Glisseur(Vecteur2f position, Vecteur2f taille, float pourcentage) : ControleVisuel() {
+	Glisseur(gfx::Sprite2D * spriteFond, gfx::Sprite2D * spriteGlisseur, Vecteur2f position, Vecteur2f taille, float pourcentage) : ControleVisuel() {
 		if (pourcentage <= 100.0f && pourcentage >= 0.0f) this->pourcentage = pourcentage;
 		else this->pourcentage = 100.0f;
 		enMouvement = false;
 		boutonSouris = false;
-		gfx::GestionnaireRessources::obtInstance().chargerTexture("C:\\Users\\1326819\\Desktop\\fond.png");
-		gfx::GestionnaireRessources::obtInstance().chargerTexture("C:\\Users\\1326819\\Desktop\\glisseur.png");
-		SpriteFond = new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("C:\\Users\\1326819\\Desktop\\fond.png"));
-		spriteGlisseur = new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("C:\\Users\\1326819\\Desktop\\glisseur.png"));
-
+		SpriteFond = spriteFond;
+		this->spriteGlisseur = spriteGlisseur;
 	}
 
 	void defPourcentage(float pourcentage){
