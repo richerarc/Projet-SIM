@@ -1,16 +1,22 @@
-enum Etat {
-	REPOS,SURVOL,CLIQUE
-};
+#pragma once
+#include "Etiquette.h"
 #include "Sprite2D.h"
 #include "Texte2D.h"
+
+
+enum Etat {
+	REPOS, SURVOL, CLIQUE
+};
+
+
 class Bouton : public Etiquette {
 private:
 	Etat EtatBouton;
-	gfx::Sprite2D SpriteSurvol;
-	gfx::Sprite2D SpriteClique;
+	gfx::Sprite2D* SpriteSurvol;
+	gfx::Sprite2D* SpriteClique;
 
 public:
-	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, gfx::Texte2D Texte, gfx::Sprite2D SpriteFond, gfx::Sprite2D SpriteClique, gfx::Sprite2D SpriteSurvol) : Etiquette(Texte, SpriteFond, VecteurPosition,  VecteurTaille) {
+	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, gfx::Texte2D* Texte, gfx::Sprite2D* SpriteFond, gfx::Sprite2D* SpriteClique, gfx::Sprite2D* SpriteSurvol) : Etiquette(Texte, SpriteFond, VecteurPosition,  VecteurTaille) {
 		EtatBouton = REPOS;
 		this->ObtenirPosition() = VecteurPosition;
 		this->ObtenirTaille() = VecteurTaille;
@@ -37,10 +43,4 @@ public:
 		EtatBouton = CLIQUE;
 	}
 
-	bool gestEvennement(){
-		if (Souris::boutonAppuye(SDL_BUTTON_RIGHT)){
-			if ((Souris::obtPosition() >= this->position) && (Souris::obtPosition() <= this->position + this->taille))
-			return true;
-		}
-	}
 };

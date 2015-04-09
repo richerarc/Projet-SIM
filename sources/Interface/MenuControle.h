@@ -1,63 +1,74 @@
+#pragma once
+#include "Menu.h"
+
 class MenuControle : public Menu {
+
+private:
+
+	Etiquette* Avancer;
+	Etiquette* Reculer;
+	Etiquette* Droite;
+	Etiquette* Gauche;
+	Etiquette* Sauter;
+	Etiquette* Accroupir;
+	Etiquette* Courir;
+	Etiquette* Tirer;
+	Etiquette* Utiliser;
+	Etiquette* Inventaire;
+
+	Bouton* CtrlAvancer;
+	Bouton* CtrlReculer;
+	Bouton* CtrlDroite;
+	Bouton* CtrlGauche;
+	Bouton* CtrlSauter;
+	Bouton* CtrlAccroupir;
+	Bouton* CtrlCourir;
+	Bouton* CtrlTirer;
+	Bouton* CtrlUtiliser;
+	Bouton* CtrlInventaire;
 
 public:
 
-	Etiquette Avancer;
-	Etiquette Reculer;
-	Etiquette Droite;
-	Etiquette Gauche;
-	Etiquette Sauter;
-	Etiquette Accroupir;
-	Etiquette Courir;
-	Etiquette Tirer;
-	Etiquette Utiliser;
-	Etiquette Inventaire;
+	MenuControle(void) : Menu() {
 
-	Bouton CtrlAvancer;
-	Bouton CtrlReculer;
-	Bouton CtrlDroite;
-	Bouton CtrlGauche;
-	Bouton CtrlSauter;
-	Bouton CtrlAccroupir;
-	Bouton CtrlCourir;
-	Bouton CtrlTirer;
-	Bouton CtrlUtiliser;
-	Bouton CtrlInventaire;
-
-
-	MenuControle(Etiquette Avancer, Etiquette Reculer, Etiquette Droite, Etiquette Gauche, Etiquette Sauter, Etiquette Accroupir, Etiquette Courir, Etiquette Tirer, Etiquette Utiliser, Etiquette Inventaire,
-				 Bouton CtrlAvancer, Bouton CtrlReculer, Bouton CtrlDroite, Bouton CtrlGauche, Bouton CtrlSauter, Bouton CtrlAccroupir, Bouton CtrlCourir, Bouton CtrlTirer, Bouton CtrlUtiliser, Bouton CtrlInventaire)
-				 : Menu(Actif, SpriteFond, Titre, Retour) {
-
-		this->SpriteFond = SpriteFond;
-		this->Titre = Titre;
-		this->Retour = Retour;
+		this->Actif = false;
+		this->SpriteFond = new gfx::Sprite2D();
+		this->Titre = new Etiquette();
+		this->Retour = new Bouton();
 
 		
-		this->Avancer = Avancer;
-		this->Reculer = Reculer;
-		this->Droite = Droite;
-		this->Gauche = Gauche;
-		this->Sauter = Sauter;
-		this->Accroupir = Accroupir;
-		this->Courir = Courir;
-		this->Tirer = Tirer;
-		this->Utiliser = Utiliser;
-		this->Inventaire = Inventaire;
+		this->Avancer = new Etiquette();
+		this->Reculer = new Etiquette();
+		this->Droite = new Etiquette();
+		this->Gauche = new Etiquette();
+		this->Sauter = new Etiquette();
+		this->Accroupir = new Etiquette();
+		this->Courir = new Etiquette();
+		this->Tirer = new Etiquette();
+		this->Utiliser = new Etiquette();
+		this->Inventaire = new Etiquette();
 
-		this->CtrlAvancer = CtrlAvancer;
-		this->CtrlReculer = CtrlReculer;
-		this->CtrlDroite = CtrlDroite;
-		this->CtrlGauche = CtrlGauche;
-		this->CtrlSauter = CtrlSauter;
-		this->CtrlAccroupir = CtrlAccroupir;
-		this->CtrlCourir = CtrlCourir;
-		this->CtrlTirer = CtrlTirer;
-		this->CtrlUtiliser = CtrlUtiliser;
-		this->CtrlInventaire = CtrlInventaire;
+		this->CtrlAvancer = new Bouton();
+		this->CtrlReculer = new Bouton();
+		this->CtrlDroite = new Bouton();
+		this->CtrlGauche = new Bouton();
+		this->CtrlSauter = new Bouton();
+		this->CtrlAccroupir = new Bouton();
+		this->CtrlCourir = new Bouton();
+		this->CtrlTirer = new Bouton();
+		this->CtrlUtiliser = new Bouton();
+		this->CtrlInventaire = new Bouton();
 
 
 
+	}
+
+	bool obtActif(void) {
+		return Actif;
+	}
+
+	void defActif(bool Actif) {
+		this->Actif = Actif;
 	}
 
 
