@@ -12,6 +12,9 @@ private:
 	bool accroupie;
 
 public:
+
+	Joueur() {}
+
 	Joueur(gfx::Modele3D* modele3D, unsigned int ID, double masse, Vecteur3d position) {
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 0.2f;
