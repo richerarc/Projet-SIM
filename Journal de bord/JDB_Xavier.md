@@ -34,3 +34,5 @@ Test sur le bouton et réarrengement des classes.
 Travail sur le bouton et sur le gestionnaire de controle.
 ###Mardi 7 avril ~2h
 Discussion général sur le projet et de ces nécéssités. Rencontre avec le proffesseur. Aide avec nico dans les inlcudes et reglé quelque bug (surtout le bug dans mon gestionnaire de controle).
+###Jeudi 9 avril ~2h
+Travail sur les menus avec Nico. J'ai fini le menu principal. J'ai aussi discuté avec Richer pour la conception/comment gérer les événement de click dans les menus. J'ai aussi gossé avec les pointeurs pour les enlevers quelque 10 minutes plus tard.
