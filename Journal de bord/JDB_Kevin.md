@@ -190,3 +190,11 @@ Ce matin je suis allé à l'école pour vérifier que j'avais bien tout mes clas
 Aujourd'hui j'ai commencer à inclure toutes les classes du projet dans Jeu.h. Évidemment j'ai eu beaucoup de problemès dans une panoplie de classe. J'ai demander de l'aide de Richer et Julien pour regler les problemes qui étaient dans les classes comme la physique et celles qui étaient du ressort de l'équipe d'algorithimie. J'ai pu finalement créer un projet qui inclus la majorité des classes sans erreurs de compilation.
 
 **Temps 4h**
+
+##**`9 Avril 2015`**
+
+Ce matin nous avions un problème pour l'affichage des modeles alors j'ai résolu le problème.(LEs glEnableclientState n'étainet pas activées). Par la suite, un probleme avec les textures est survenu alors j'ai également réglé le problème. Maintenant tout affiche. Gabriel avait un problème avec l'origine que les cordonées étaient inversés j'ai également patcher ce problème. Je vais également parler au groupe a propos de l'origin de Blender... Finalement moi et Julien avons tenté de faire bouger la camera, nous n'avons apr réussis alors nous devrons régler le problème au plus vite.
+
+P.S:Comme il y avait un examen de physique cette apres midi, j'ai beaucoup fait de physique et moins de prog.
+
+**Temps 3h30**
