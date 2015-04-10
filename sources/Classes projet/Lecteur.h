@@ -6,20 +6,23 @@ private:
 	std::map<const char*, int> chaines;
 	std::map<const char*, Mix_Music*> musiques;
 public:
-	Lecteur(int nbrChaine){
+	Lecteur(){
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		Mix_AllocateChannels(nbrChaine);
-		chaines["toutes"] = -1;
 	}
 	
 	~Lecteur(){
-		Mix_CloseAudio();
 		for (auto it: sons){
 			Mix_FreeChunk(it.second);
 		}
 		for (auto it: musiques){
 			Mix_FreeMusic(it.second);
 		}
+		Mix_CloseAudio();
+	}
+	
+	void allouerChaines(int chaine){
+		Mix_AllocateChannels(chaine);
+		chaines["toutes"] = -1;
 	}
 	
 	void volume(const char* nom, int volume){
