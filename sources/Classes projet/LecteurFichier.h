@@ -49,20 +49,20 @@ namespace LecteurFichier{
 	BoiteCollision<double> lireBoiteObjet(char* cheminAcces){
 		std::ifstream fichier(cheminAcces);
 		char* ligne = new char();
-
+		Vecteur3<double> tabBoite[8];
+		double x, y, z;
 		while (!fichier.eof()){
 			fichier.getline(ligne, 256);
 			if (ligne == "Boite{"){
-				Vecteur3<double> tabBoite[8];
-				double x, y, z;
+
 				for (int i = 0; i < 8; ++i){
 					fichier >> x >> y >> z;
 					tabBoite[i] = Vecteur3<double>(x, y, z);
 				}
-				BoiteCollision<double> boite(tabBoite);
+
 			}
 		}
-
+		BoiteCollision<double> boite(tabBoite);
 		fichier.close();
 		return boite;
 	}
