@@ -30,8 +30,6 @@ public:
 	}
 	//virtual void appliquerAction(typeAction action) = 0;
 	virtual void ajouterScene();
-
-	virtual Vecteur3d obtDimensions();
 	
 	virtual Vecteur3d obtDimensions() { return NULL; }
 

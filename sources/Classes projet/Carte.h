@@ -74,8 +74,8 @@ public:
 		int ID(0), pos;
 		double x(0), y(0), z(0), xMin, xMax, yMin, yMax, zMin, zMax;
 		std::list<BoiteCollision<double>> boiteObjet;
-		Vecteur3d pos(0,0,0);
-
+		Vecteur3d pos3D(0,0,0);
+		InfoObjet objet;
 		for (unsigned int i = 0; i < limite; ++i){
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
@@ -84,17 +84,16 @@ public:
 			salle.cheminTexture = std::get<1>(cheminsModeleText[aleatoire]);
 			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
 			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte){
-				InfoObjet = objet;
 				objet.ID = IDPorte;
 				objet.cheminModele = "porte.obj";// "HARDCODÉ"
 				objet.cheminTexture = "porte.png";// "HARDCODÉ"
 
 				auto it = salle.boitesCollision.begin();
-				pos = rand() % salle.boitesCollision.size;
+				pos = rand() % salle.boitesCollision.size();
 				std::advance(it, pos);
 				do{
-					xMin = (*it).obtBoite[rand() % 8].x;
-					xMax = (*it).obtBoite[rand() % 8].x;
+					xMin = (*it).obtBoite()[rand() % 8].x;
+					xMax = (*it).obtBoite()[rand() % 8].x;
 				} while (xMin == xMax);
 				if (xMax < xMin){
 					x = xMin;
@@ -103,8 +102,8 @@ public:
 				}
 				x = xMax - xMin;
 				do{
-					yMin = (*it).obtBoite[rand() % 8].y;
-					yMax = (*it).obtBoite[rand() % 8].y;
+					yMin = (*it).obtBoite()[rand() % 8].y;
+					yMax = (*it).obtBoite()[rand() % 8].y;
 				} while (yMin == yMax);
 				if (yMax < yMin){
 					y = yMin;
@@ -113,8 +112,8 @@ public:
 				}
 				y = yMax - yMin;
 				do{
-					zMin = (*it).obtBoite[rand() % 8].z;
-					zMax = (*it).obtBoite[rand() % 8].z;
+					zMin = (*it).obtBoite()[rand() % 8].z;
+					zMax = (*it).obtBoite()[rand() % 8].z;
 				} while (zMin == zMax);
 				if (zMax < zMin){
 					z = zMin;
@@ -126,7 +125,7 @@ public:
 				if (pos > 1){
 					//regarder en x et en z si il y a des boites qui on des coordonées passé le point.
 				}
-				pos.y = yMin;
+				pos3D.y = yMin;
 				//4 possibilitées de positions
 				//pos.x = xMin; pos.z = rand() % (zMax - zMin) + zMin;
 				//pos.x = xMax; pos.z = rand() % (zMax - zMin) + zMin;
