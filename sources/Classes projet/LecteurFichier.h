@@ -41,9 +41,7 @@ namespace LecteurFichier{
 
 			fichier.close();
 		}
-
-		else
-			return false;
+		return false;
 	}
 
 
@@ -103,7 +101,6 @@ namespace LecteurFichier{
 			fichier.close();
 		}
 
-		else
-			return false;
+		return false;
 	}
 }

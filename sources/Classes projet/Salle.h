@@ -49,6 +49,7 @@ public:
 			if (it->obtID() == ID)
 				return it;
 		}
+		return nullptr;
 	}
 	
 	std::list<Objet*>& obtListeObjet() {
