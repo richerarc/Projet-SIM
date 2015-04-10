@@ -120,5 +120,28 @@ J'ai terminé de coder les classes des menus (MenuPrincipal, MenuNouvellePartie,
 
 ###Durée: 1h
 
+##Mardi 7 avril 2015
 
-##Durée Totale: 38h
+###14:40 à 16:40
+
+Nous avons fait une réunion pour voir où chaque équipe était rendue et ce que nous allons faire dans le futur. Moi et Xavier avons ensuite construit un projet dans lequel nous pourrions faire et tester les menus. Nous avons fait les inclusions dans les classes d'interface et corrigé les erreurs. Dans le fond on s'est assuré que les classes d'interface fonctionnaient ensemble sans bugs et nous avons corrigé certaines erreurs.
+
+###Durée: 2h
+
+##Jeudi 9 avril 2015
+
+###10:15 à 13:15
+
+J'ai travaillé avec Xavier pour tout mettre en pointeur dans les interfaces. On a ensuite changé la tructure de nos classes menus pour que les controles visuels
+soient créés dans le constructeur des menus. Liste des prochaines choses à faire:  
+  
+-  Créer les controles visuels dans les constructeurs des menus (menuPrincipal déjà fait)  
+-  Retravailler la conception.
+-  Faire une fonction aficher et retirer dans les classes d'interface.
+-  Gérer les évenements.
+
+
+###Durée 3h
+
+
+##Durée Totale: 43h

@@ -167,12 +167,11 @@ public:
 					}
 				}
 			}
-			/*
 			Pendule* it_Pendule = dynamic_cast<Pendule*>(it);
 			if (it_Pendule != nullptr) {
-			obtenirAnglePenduleSimple(it_Pendule->obtAngleMax, it_Pendule->obtOmega, frameTime);
+				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), frameTime);
+				it_Pendule->obtModele3D()->defOrientation(it_Pendule->obtVitesseAngulaire() * angle);
 			}
-			*/
 			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
 			if (it_ObjetFixe != nullptr) {
 				for (auto it_Objet : objets) {
@@ -398,8 +397,8 @@ public:
 
 	}
 
-	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double frametime) {
-		return angleMaximal * SDL_cos(omega * frametime);
+	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double phase, double frametime) {
+		return angleMaximal * SDL_cos(omega * frametime + phase);
 	}
 
 	double distanceEntreDeuxPoints(Vecteur3d point1, Vecteur3d point2) {

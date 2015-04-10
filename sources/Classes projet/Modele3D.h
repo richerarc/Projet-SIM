@@ -218,7 +218,9 @@ Modele3D() : Objet3D(){
 		}
 
 		void defOrigine(Vecteur3d org){
-			origine = org;
+			origine.x = -org.x;
+			origine.y = -org.y;
+			origine.z = -org.z;
 		}
 
 		void defOrientation(Vecteur3d ort){
@@ -250,9 +252,9 @@ Modele3D() : Objet3D(){
 		}
 
 		void defOrigine(double axeX, double axeY, double axeZ){
-			origine.x = axeX;
-			origine.y = axeY;
-			origine.z = axeZ;
+			origine.x = -axeX;
+			origine.y = -axeY;
+			origine.z = -axeZ;
 		}
 
 		void defOrientation(double axeX, double axeY, double axeZ){
@@ -284,7 +286,7 @@ Modele3D() : Objet3D(){
 		void afficher(){
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
-			//glLoadIdentity();
+			glLoadIdentity();
 			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
 			glRotated(orientation.x, 1, 0, 0);
 			glRotated(orientation.y, 0, 1, 0);

@@ -95,4 +95,7 @@
 **7 avr** durée : 2 h 30 min  
   -Retour en équipe sur les classes.
   -Explication des boites de collision à l'équipe.
-  -Début de l'algorithme pour mettre les portes dans les pièce (prise des infos de l'objet, de sa dimension )
+  -Début de l'algorithme pour mettre les portes dans les pièce (prise des infos de l'objet, de sa dimension).  
+**9 avr** durée : 1 h 30 min  
+  -Suite de l'algorithme (trouver sommet des boites, recherche des murs* et positionement par rapport aux murs*).  
+  *"L'analyse" de ces points a étét faite et ne il ne reste qu'a le traduire en code.

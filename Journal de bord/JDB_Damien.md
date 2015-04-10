@@ -58,3 +58,7 @@
 	Modification de la classe Objet.h en ajoutant quelques données membre, des accesseurs et modification du constructeur.
 #Lundi 6 avril 2015 (14:00 à 16:00)
 	Création des classes Pendules, Porte et balance.
+	Modification de l'UML d'algo en modifiant et supprimant des classes.
+	Début de modelage dans Blander d'un coutea(Au moins de mon mieux...)
+#Jeudi 9 avril 2015 (10:05 à 12:00)
+	Continuation du travail sur le modèle de couteau.

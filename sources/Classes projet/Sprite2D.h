@@ -55,6 +55,7 @@ namespace gfx{
 			glVertex2f(position.x, surface->h + position.y); //4
 			glEnd();
 
+			glDisable(GL_TEXTURE_2D);
 			glPopMatrix();
 
 		}
