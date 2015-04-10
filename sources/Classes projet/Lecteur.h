@@ -2,59 +2,62 @@
 
 class Lecteur {
 private:
-	std::map<const char*, Mix_Chunk*> sons;
-	std::map<const char*, int> chaines;
-	std::map<const char*, Mix_Music*> musiques;
+	std::map<std::string, Mix_Chunk*> sons;
+	std::map<std::string, int> chaines;
+	std::map<std::string, Mix_Music*> musiques;
 public:
-	Lecteur(int nbrChaine){
+	Lecteur(){
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		Mix_AllocateChannels(nbrChaine);
-		chaines["toutes"] = -1;
 	}
 	
 	~Lecteur(){
-		Mix_CloseAudio();
 		for (auto it: sons){
 			Mix_FreeChunk(it.second);
 		}
 		for (auto it: musiques){
 			Mix_FreeMusic(it.second);
 		}
+		Mix_CloseAudio();
 	}
 	
-	void volume(const char* nom, int volume){
+	void allouerChaines(int chaine){
+		Mix_AllocateChannels(chaine);
+		chaines["toutes"] = -1;
+	}
+	
+	void volume(std::string nom, int volume){
 		Mix_Volume(chaines[nom], volume);// "toutes" pour toute les chaines
 	}
 	
-	void creerChaine(int chaine, const char* nom){
+	void creerChaine(int chaine, std::string nom){
 		chaines[nom] = chaine;
 	}
 	
-	void jouerSon(const char* nom, int repetitions, int ticksFondu, int ticksDuree){
+	void jouerSon(std::string nom, int repetitions, int ticksFondu, int ticksDuree){
 		Mix_FadeInChannelTimed(chaines[nom], sons[nom], repetitions, ticksFondu, ticksDuree); // "toutes" pour toute les chaines et -1 pout durée max
 	}
 	
-	void arreterSon(const char* nom, int ticksFondu){
+	void arreterSon(std::string nom, int ticksFondu){
 		Mix_FadeOutChannel(chaines[nom], ticksFondu); // "toutes" pour toute les chaines
 	}
 	
-	void arretNetSon(const char* nom){
+	void arretNetSon(std::string nom){
 		Mix_HaltChannel(chaines[nom]); // "toutes" pour toute les chaines
 	}
 	
-	int sonEnEcoute(const char* nom){
+	int sonEnEcoute(std::string nom){
 		return Mix_Playing(chaines[nom]);
 	}
 	
-	int sonEnPause(const char* nom){
+	int sonEnPause(std::string nom){
 		return Mix_Paused(chaines[nom]);
 	}
 	
-	void ajouterSon(const char* chemin, const char* nom){
-		sons[nom] = Mix_LoadWAV(chemin);
+	void ajouterSon(std::string chemin, std::string nom){
+		sons[nom] = Mix_LoadWAV(chemin.c_str());
 	}
 	
-	void jouerMusique(const char* nomMusique, int repetitions, int ticksFondu){
+	void jouerMusique(std::string nomMusique, int repetitions, int ticksFondu){
 		Mix_FadeInMusic(musiques[nomMusique], repetitions, ticksFondu); // "toutes" pour toute les chaines et -1 pout durée max
 	}
 	
@@ -74,7 +77,7 @@ public:
 		return Mix_PausedMusic();
 	}
 	
-	void ajouterMusique(const char* chemin, const char* nom){
-		musiques[nom] = Mix_LoadMUS(chemin);
+	void ajouterMusique(std::string chemin, std::string nom){
+		musiques[nom] = Mix_LoadMUS(chemin.c_str());
 	}
 };

@@ -1,11 +1,12 @@
 #pragma once
-#include "Lecteur.h"
+#include "Singleton.h"
 #include "Fenetre.h"
 #include "GestionnaireRessources.h"
 #include "Gestionnaire3D.h"
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
 #include "Objet.h"
+#include "ControlleurAudio.h"
 /*
 #include les classes plus bases plus tard
 */
@@ -22,6 +23,7 @@
 #include "Physique.h"
 
 
+
 class Jeu{
 
 private:
@@ -30,7 +32,7 @@ private:
 	static Chrono chrono;
 	static float frameTime;
 	static Joueur* joueur;
-
+	
 	static void appliquerPhysique() {
 
 		if (joueur->obtVitesse().norme() != 0) {
@@ -51,6 +53,7 @@ public:
 	static void demarrer(){
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
+		
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip",false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45,800.0/600.0,1,1000);
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -79,10 +82,12 @@ public:
 				if (evenement.type == SDL_QUIT || evenement.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 					fenetre->fermer();
 			}
+			
 			fenetre->vider();
 			glLoadIdentity();
 			// Mouvement ici
 			joueur->deplacement(frameTime);
+
 			// Affichege ici
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
 

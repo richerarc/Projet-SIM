@@ -41,9 +41,7 @@ namespace LecteurFichier{
 
 			fichier.close();
 		}
-
-		else
-			return false;
+		return false;
 	}
 
 	BoiteCollision<double> lireBoiteObjet(char* cheminAcces){
@@ -124,7 +122,6 @@ namespace LecteurFichier{
 			fichier.close();
 		}
 
-		else
-			return false;
+		return false;
 	}
 }
