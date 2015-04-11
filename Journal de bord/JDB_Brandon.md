@@ -33,3 +33,7 @@ de 3h à 5h20
 	Début de l'implémentation des caméras, il reste quelques bugs à fixer.
 30 mars de 10h30 à 11h30
 	Finalisation de la caméra GodMode, parfaitement fonctionnelle, sauf que les axes sont inversés, à revoir.
+6 avril 2015 pendant 2h
+	Nous avons eu une rencontre de toute l'équipe afin de récapituler l'avancement du projet ainsi que pour expliquer l'utlilité des nouvelles classes ajoutées depuis le début. Nous avons commencé à élaborer le contenu de la classe Jeu moi, Richer et Kevin. J'ai mis la team d'interfaces au courant de la manière dont nous allions gérer les phases durant le jeu afin de les orient er vers une conception plus stabler de leurs interfaces. Nous avons aussi convenu que je devais me mettre sur l'implémentation des classes reliées aux phases dans le projet.
+11 avril 2015 pendant 1h30
+	J'ai discuté avec Kevin et il m'a fait part de la caméra qui ne fonctionnait pas lors de la mise en commun de la classe joueur, Caméra, Gestionnaire3D ainsi que Jeu. Du coup, j'ai donc réglé le problème. J'ai ensuite implémenté la base du système de Phases avec les classes GestionnairePhase ainsi que Phase qui servira d'interface pour les futures classes de Phase qui seront implémentées dans le futur au long de la progression du jeu.
