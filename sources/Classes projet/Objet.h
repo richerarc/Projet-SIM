@@ -26,12 +26,11 @@ public:
 		this->collisionInterne = collisionInterne;
 		this->position = position;
 		this->vitesseAngulaire = vitesseAngulaire;
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 
 	}
-	//virtual void appliquerAction(typeAction action) = 0;
-	virtual void ajouterScene();
-	
-	virtual Vecteur3d obtDimensions() { return NULL; }
+	virtual void appliquerAction(typeAction action) = 0;
+	//virtual void ajouterScene() = 0;
 
 	void defPosition(Vecteur3d position){
 		if (modele->obtModele() != NULL){
@@ -84,7 +83,7 @@ public:
 		return vitesse;
 	}
 	
-	Vecteur3d obtPosition(){
+	Vecteur3d& obtPosition(){
 		if (modele->obtModele() != NULL)
 			return this->modele->obtPosition();
 		else

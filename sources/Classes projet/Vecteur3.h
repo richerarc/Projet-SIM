@@ -45,6 +45,12 @@ public:
 		z /= autre.z;
 	}
 
+	void operator/=(double scalaire) {
+		x /= scalaire;
+		y /= scalaire;
+		z /= scalaire;
+	}
+
 	void operator*=(double scalaire) {
 		x *= scalaire;
 		y *= scalaire;

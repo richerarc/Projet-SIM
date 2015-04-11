@@ -13,6 +13,8 @@ namespace gfx{
 		Vecteur3d taille;
 		unsigned int nbrVertices;
 		Vecteur3d boiteDeCollision[8];
+		Vecteur3i indicesBoiteDeCollision[12];
+		static Vecteur3i* normalesBoiteDeCollision;
 
 		void calculerBoiteDeCollision(){
 			std::vector<double> tmpX;
@@ -30,6 +32,7 @@ namespace gfx{
 			ymin = Maths::obtValeurMin(tmpY);
 			zmax = Maths::obtValeurMax(tmpZ);
 			zmin = Maths::obtValeurMin(tmpZ);
+
 			boiteDeCollision[0] = Vecteur3d(xmin, ymin, zmax);
 			boiteDeCollision[1] = Vecteur3d(xmin, ymax, zmax);
 			boiteDeCollision[2] = Vecteur3d(xmax, ymax, zmax);
@@ -38,6 +41,31 @@ namespace gfx{
 			boiteDeCollision[5] = Vecteur3d(xmin, ymax, zmin);
 			boiteDeCollision[6] = Vecteur3d(xmax, ymax, zmin);
 			boiteDeCollision[7] = Vecteur3d(xmax, ymin, zmin);
+
+			indicesBoiteDeCollision[0] = Vecteur3i(0, 1, 2);
+			indicesBoiteDeCollision[1] = Vecteur3i(0, 2, 3);
+			indicesBoiteDeCollision[2] = Vecteur3i(4, 5, 6);
+			indicesBoiteDeCollision[3] = Vecteur3i(4, 6, 7);
+			indicesBoiteDeCollision[4] = Vecteur3i(0, 4, 3);
+			indicesBoiteDeCollision[5] = Vecteur3i(3, 4, 7);
+			indicesBoiteDeCollision[6] = Vecteur3i(1, 5, 2);
+			indicesBoiteDeCollision[7] = Vecteur3i(2, 5, 7);
+			indicesBoiteDeCollision[8] = Vecteur3i(0, 1, 4);
+			indicesBoiteDeCollision[9] = Vecteur3i(4, 1, 5);
+			indicesBoiteDeCollision[10] = Vecteur3i(3, 2, 7);
+			indicesBoiteDeCollision[11] = Vecteur3i(7, 2, 6);
+
+			if (!normalesBoiteDeCollision) {
+
+				normalesBoiteDeCollision = new Vecteur3i[6];
+
+				normalesBoiteDeCollision[0] = Vecteur3i(0, 0, 1);
+				normalesBoiteDeCollision[1] = Vecteur3i(0, 0, -1);
+				normalesBoiteDeCollision[2] = Vecteur3i(0, -1, 0);
+				normalesBoiteDeCollision[3] = Vecteur3i(0, 1, 0);
+				normalesBoiteDeCollision[4] = Vecteur3i(-1, 0, 0);
+				normalesBoiteDeCollision[5] = Vecteur3i(1, 0, 0);
+			}
 		}
 
 		void calculerTaille(){
@@ -211,6 +239,14 @@ namespace gfx{
 			return boiteDeCollision;
 		}
 
+		Vecteur3i* obtIndidesBoiteDeCollision() {
+			return indicesBoiteDeCollision;
+		}
+
+		Vecteur3i* obtNormalesBoiteDeCollision() {
+			return normalesBoiteDeCollision;
+		}
+
 		Vecteur3d obtTaille(){
 			return taille;
 		}
@@ -239,4 +275,6 @@ namespace gfx{
 			return nbrVertices / 9;
 		}
 	};
+
+	Vecteur3i* gfx::Modele::normalesBoiteDeCollision = nullptr;
 }
