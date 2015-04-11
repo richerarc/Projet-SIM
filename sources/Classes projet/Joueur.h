@@ -17,7 +17,7 @@ public:
 
 	Joueur(gfx::Modele3D* modele3D, unsigned int ID, double masse, Vecteur3d position) {
 		this->modele3D = modele3D;
-		this->vitesseDeplacement = 0.2f;
+		this->vitesseDeplacement = 1.f;
 		this->position = position;
 		camera = new gfx::Camera();
 	}
@@ -45,7 +45,7 @@ public:
 	}
 
 	void ajouterScene(){
-		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele3D);
+		//gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele3D);
 		gfx::Gestionnaire3D::obtInstance().defCamera(camera);
 	}
 

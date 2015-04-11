@@ -286,17 +286,17 @@ Modele3D() : Objet3D(){
 		void afficher(){
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
-			glLoadIdentity();
-			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
-			glRotated(orientation.x, 1, 0, 0);
-			glRotated(orientation.y, 0, 1, 0);
-			glRotated(orientation.z, 0, 0, 1);
-			glTranslated(origine.x, origine.y, origine.z);
-			glScaled(echelle.x, echelle.y, echelle.z);
-			glVertexPointer(3, GL_DOUBLE, 0, modele->obtVertices());
-			glTexCoordPointer(2, GL_DOUBLE, 0, modele->obtTextures());
-			glNormalPointer(GL_DOUBLE, 0, modele->obtNormales());
-			glDrawArrays(GL_TRIANGLES, 0, modele->obtNbrSommets());
+				//glLoadIdentity();
+				glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
+				glRotated(orientation.x, 1, 0, 0);
+				glRotated(orientation.y, 0, 1, 0);
+				glRotated(orientation.z, 0, 0, 1);
+				glTranslated(origine.x, origine.y, origine.z);
+				glScaled(echelle.x, echelle.y, echelle.z);
+				glVertexPointer(3, GL_DOUBLE, 0, modele->obtVertices());
+				glTexCoordPointer(2, GL_DOUBLE, 0, modele->obtTextures());
+				glNormalPointer(GL_DOUBLE, 0, modele->obtNormales());
+				glDrawArrays(GL_TRIANGLES, 0, modele->obtNbrSommets());
 			glPopMatrix();
 		}
 
