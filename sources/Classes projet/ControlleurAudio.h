@@ -1,9 +1,10 @@
 #pragma once
 #include "Lecteur.h"
 
+
 class ControlleurAudio : public Singleton<ControlleurAudio>{
 private:
-	Lecteur lecteur;
+	
 	int ittChaine;
 public:
 	
