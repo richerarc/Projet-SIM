@@ -106,9 +106,22 @@ sur le serveur.
 -environ 3 heures
 Re-ajout de la fonction collisionJoueurSalle dans la classe physique, puisqu'elle à été suprimmé et modification de celle-ci. Ajout de la fonction de collisionJoueurObjet dans la classe physique.
 
-2 mars
+2 avril
 
 -environ 2 heures
 Travail sur la classe Joueur (Ajout de la fonction appliquerPhysique qui gère la physique d'un joueur), 
 ajout de la fonciton collisionJoueurObjet qui permet de gèrer les collision entre le joueur et la bonding box d'un objet, 
 début de travail sur un main.cpp pour mettre en commun toutes les classes
+
+7 avril
+
+-environ 3 heures
+Discution de groupe pour permette à tout le monde de savoir comment les classes du projet fonctionne
+et à quoi elles servent. Travail sur la classe joueur (ajout du déplacement de la caméra quand le joueur s'accroupie).
+Ajout d'un model de joueur contenant seulement des vertices sans face. Discution avec Brandon sur un main qui utilisera la classe Jeu.h.
+
+9 avril
+
+-environ 2 heures
+Création d'un model de livre ouvert à l'aide de blender.
+
