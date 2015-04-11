@@ -160,10 +160,22 @@ Temps : 2h
 
 - 14h40 à 17h20 : Grosse conversation avec tout le groupe pour discuter de l'avancement du projet et de la pertinance de chacune des classes du projet. Nous avons éliminé quelques classes et quelques fonctions. J'ai ensuite discuté avec Brandon des façons de gérer la physique et nous avons déterminé que la physique des objets allait être géré dans la classe Salle et que celle du joueur allait être dans la classe Jeu.
 
-19h30 à 21h : J'ai rendu le projet compatible sur linux en mettant tous les Modele3D en pointeur. J'ai aussi fait le constat que la physique ne pouvait pas être faite dans la classe Salle, parce que ça créait des inclusions circulaires. J'ai donc déplacé la procédure qui gérait la physique de la classe Salle vers la classe Physique en faisant un petit ajustement pour l'obtention de la liste d'objet de la salle.
+- 19h30 à 21h : J'ai rendu le projet compatible sur linux en mettant tous les Modele3D en pointeur. J'ai aussi fait le constat que la physique ne pouvait pas être faite dans la classe Salle, parce que ça créait des inclusions circulaires. J'ai donc déplacé la procédure qui gérait la physique de la classe Salle vers la classe Physique en faisant un petit ajustement pour l'obtention de la liste d'objet de la salle.
 
 Temps : 4h50
 
 ###**`8 avril 2015`**
 
 - 17h30 à 18h10 et 20h à 21h : J'ai fait des modifications dans la classe Jeu : j'ai ajouté un joueur, un chrono et une variable représentant le frameTime. Ces variables sont toutes statiques. J'ai aussi ajouter une procédure appliquant la physique de tout (Joueur et objets). J'ai aussi créé une salle temporairement pour que tout le monde puisse tester.
+
+Temps : 1h40
+
+###**`9 avril 2015`**
+
+- 9h à 12h : J'ai discuté avec Richer et nous allons mettre tout le projet en pointeur. On a commencé avant le cours, mais on a arrêté pour ne pas empêcher les autres de travailler. J'ai ensuite refait mon CMakeliste pour utiliser SDL2_ttf et SDL2_mixer. J'ai ensuite aidé Kevin pour faire affiché les éléments dans la fenêtre avec leur texture, il manquait un glEnable(TEXTURE_2D). 
+
+Temps : 3h
+
+###**`10 avril 2015`**
+
+- 19h à 21h : J'ai finalement terminé les collisions entre deux objets, il manque les collisions interne, ce qui ne devrait pas prender trop de temps. J'ai ajouté un tableau de normales et d'indices dans la classe Modele pour faire mes collisions.
