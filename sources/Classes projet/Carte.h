@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <fstream>
+#include <cmath>
 #include "Modele3D.h"
 #include "Porte.h"
 #include "Salle.h"
@@ -28,6 +29,27 @@ private:
 		liens[entree] = sortie;
 	}
 
+	unsigned short aleatoire4Bit(unsigned short banqueDeBit){
+		switch (banqueDeBit){
+		case(1) :
+			return banqueDeBit;
+		case(2) :
+			return banqueDeBit;
+		case(4) :
+			return banqueDeBit;
+		case(8) :
+			return banqueDeBit;
+		default:
+			unsigned short renvoi;
+			do{
+				renvoi = 1;
+				for (unsigned short i = rand() % 4; i > 0 --i){
+					renvoi *= 2;
+				}
+			} while (banqueDeBit & renvoi != renvoi);
+			return renvoi;
+		}
+	}
 public:
 
 	Salle *salleActive;
@@ -72,9 +94,10 @@ public:
 		InfoSalle salle;
 		int aleatoire;
 		int ID(0), pos;
+		unsigned short directions; // x>0 = 1 , x<0 = 2 , z>0 = 4 , z<0 = 8
 		double x(0), y(0), z(0), xMin, xMax, yMin, yMax, zMin, zMax;
 		std::list<BoiteCollision<double>> boiteObjet;
-		Vecteur3d pos3D(0,0,0);
+		Vecteur3d pos3D(0, 0, 0);
 		InfoObjet objet;
 		for (unsigned int i = 0; i < limite; ++i){
 			salle.ID = i;
@@ -87,50 +110,71 @@ public:
 				objet.ID = IDPorte;
 				objet.cheminModele = "porte.obj";// "HARDCODÉ"
 				objet.cheminTexture = "porte.png";// "HARDCODÉ"
+				do{
+					auto it = salle.boitesCollision.begin();
+					pos = rand() % salle.boitesCollision.size();
+					std::advance(it, pos);
+					do{
+						xMin = (*it).obtBoite()[rand() % 8].x;
+						xMax = (*it).obtBoite()[rand() % 8].x;
+					} while (xMin == xMax);
+					if (xMax < xMin){
+						x = xMin;
+						xMin = xMax;
+						xMax = x;
+					}
+					x = abs(xMax - xMin);
+					do{
+						yMin = (*it).obtBoite()[rand() % 8].y;
+						yMax = (*it).obtBoite()[rand() % 8].y;
+					} while (yMin == yMax);
+					if (yMax < yMin){
+						y = yMin;
+						yMin = yMax;
+						yMax = y;
+					}
+					y = abs(yMax - yMin);
+					do{
+						zMin = (*it).obtBoite()[rand() % 8].z;
+						zMax = (*it).obtBoite()[rand() % 8].z;
+					} while (zMin == zMax);
+					if (zMax < zMin){
+						z = zMin;
+						zMin = zMax;
+						zMax = z;
+					}
+					z = abs(zMax - zMin);
 
-				auto it = salle.boitesCollision.begin();
-				pos = rand() % salle.boitesCollision.size();
-				std::advance(it, pos);
-				do{
-					xMin = (*it).obtBoite()[rand() % 8].x;
-					xMax = (*it).obtBoite()[rand() % 8].x;
-				} while (xMin == xMax);
-				if (xMax < xMin){
-					x = xMin;
-					xMin = xMax;
-					xMax = x;
-				}
-				x = xMax - xMin;
-				do{
-					yMin = (*it).obtBoite()[rand() % 8].y;
-					yMax = (*it).obtBoite()[rand() % 8].y;
-				} while (yMin == yMax);
-				if (yMax < yMin){
-					y = yMin;
-					yMin = yMax;
-					yMax = y;
-				}
-				y = yMax - yMin;
-				do{
-					zMin = (*it).obtBoite()[rand() % 8].z;
-					zMax = (*it).obtBoite()[rand() % 8].z;
-				} while (zMin == zMax);
-				if (zMax < zMin){
-					z = zMin;
-					zMin = zMax;
-					zMax = z;
-				}
-				z = zMax - zMin;
-				//Trouver les murs en regardant s'il y a d'autres boites à l'extérieur...
-				if (pos > 1){
-					//regarder en x et en z si il y a des boites qui on des coordonées passé le point.
-				}
+					directions = 0;
+					for (auto boite : salle.boitesCollision) {
+						for (short j = 0; j < 8; ++j){
+							if (!(((*boite).obtBoite()[j].x >= xMax) || (directions & 1 != 1)))
+								directions += 1;
+							if (!(((*boite).obtBoite()[j].x <= xMin) || (directions & 2 != 2)))
+								directions += 2;
+							if (!(((*boite).obtBoite()[j].z >= zMax) || (directions & 4 != 4)))
+								directions += 4;
+							if (!(((*boite).obtBoite()[j].z <= zMin) || (directions & 8 != 8)))
+								directions += 8;
+						}
+					}
+				} while (directions == 0);
+
 				pos3D.y = yMin;
-				//4 possibilitées de positions
-				//pos.x = xMin; pos.z = rand() % (zMax - zMin) + zMin;
-				//pos.x = xMax; pos.z = rand() % (zMax - zMin) + zMin;
-				//pos.x = rand() % (xMax - xMin) + xMin; pos.z = zMin;
-				//pos.x = rand() % (xMax - xMin) + xMin; pos.z = zMax;
+				switch (aleatoire4Bit(directions)){
+				case(1) :
+					pos3D.x = xMax; pos3D.z = rand() % (zMax - zMin) + zMin;
+					break;
+				case(2) :
+					pos3D.x = xMin; pos3D.z = rand() % (zMax - zMin) + zMin;
+					break;
+				case(4) :
+					pos3D.x = rand() % (xMax - xMin) + xMin; pos3D.z = zMax;
+					break;
+				case(8) :
+					pos3D.x = rand() % (xMax - xMin) + xMin; pos3D.z = zMin;
+					break;
+				}
 
 
 				boiteObjet.push_back(LecteurFichier::lireBoiteObjet("porte.txt"));// "HARDCODÉ"
