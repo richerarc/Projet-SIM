@@ -64,19 +64,9 @@ public:
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), 0, 87, Vecteur3d(-1,50,0));
 		frameTime = chrono.obtTempsEcoule().enSecondes();
-		gfx::Modele3D* crate = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Crate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Crate.png"));
-		gfx::Gestionnaire3D::obtInstance().ajouterObjet(crate);
 		joueur->ajouterScene();
 
 		Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
-
-		crate->defPosition(0, 0, 0);
-		crate->defOrigine(0, 0, 0);
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnable(GL_TEXTURE_2D);
 
 		while (fenetre->estOuverte())
 		{
@@ -102,11 +92,6 @@ public:
 
 			fenetre->rafraichir();
 		}
-	
-		glDisable(GL_TEXTURE_2D);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
 		
 		delete joueur;
 		delete fenetre;
