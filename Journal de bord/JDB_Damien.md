@@ -62,3 +62,5 @@
 	Début de modelage dans Blander d'un coutea(Au moins de mon mieux...)
 #Jeudi 9 avril 2015 (10:05 à 12:00)
 	Continuation du travail sur le modèle de couteau.
+#Lundi 13 avril 2015 (11:00 à 12:30)
+	Fin du modelage du couteau et début de la texture.
