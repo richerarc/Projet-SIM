@@ -24,19 +24,18 @@ namespace LecteurFichier{
 		if (fichier.is_open()){
 
 			char* ligne = new char();
-
+			Vecteur3<double> tabBoite[8];
+			double x, y, z;
 			while (!fichier.eof()){
 				fichier.getline(ligne, 256);
-				if (ligne == "Boite{"){
-					Vecteur3<double> tabBoite[8];
-					double x, y, z;
-					for (int i = 0; i < 8; ++i){
-						fichier >> x >> y >> z;
-						tabBoite[i] = Vecteur3<double>(x, y, z);
-					}
-					BoiteCollision<double> boite(tabBoite);
-					salle.boitesCollision.push_back(boite);
+				for (int i = 0; i < 8; ++i){
+					fichier >> x >> y >> z;
+					tabBoite[i] = Vecteur3<double>(x, y, z);
 				}
+				BoiteCollision<double> boite(tabBoite);
+				salle.boitesCollision.push_back(boite);
+				fichier.getline(ligne, 256);
+				fichier.getline(ligne, 256);
 			}
 
 			fichier.close();
@@ -49,16 +48,12 @@ namespace LecteurFichier{
 		char* ligne = new char();
 		Vecteur3<double> tabBoite[8];
 		double x, y, z;
-		while (!fichier.eof()){
-			fichier.getline(ligne, 256);
-			if (ligne == "Boite{"){
 
-				for (int i = 0; i < 8; ++i){
-					fichier >> x >> y >> z;
-					tabBoite[i] = Vecteur3<double>(x, y, z);
-				}
+		fichier.getline(ligne, 256);
 
-			}
+		for (int i = 0; i < 8; ++i){
+			fichier >> x >> y >> z;
+			tabBoite[i] = Vecteur3<double>(x, y, z);
 		}
 		BoiteCollision<double> boite(tabBoite);
 		fichier.close();
