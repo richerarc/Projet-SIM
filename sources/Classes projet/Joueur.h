@@ -8,6 +8,7 @@ private:
 	gfx::Camera* camera;
 	Vecteur3d position;
 	Vecteur3d vitesse;
+	double masse;
 	float vitesseDeplacement;
 	bool accroupie;
 	bool saut;
@@ -16,11 +17,12 @@ public:
 
 	Joueur() {}
 
-	Joueur(gfx::Modele3D* modele3D, unsigned int ID, double masse, Vecteur3d position) {
+	Joueur(gfx::Modele3D* modele3D, Vecteur3d position) {
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
 		this->position = position;
+		masse = 87.f;
 		camera = new gfx::Camera();
 		vitesse = { 0, 0.01, 0 };
 		saut = true;
@@ -52,12 +54,12 @@ public:
 			}
 			if (Clavier::toucheAppuyee(SDLK_d))
 				vitesse = cote * vitesseDeplacement;
-			if (Clavier::toucheAppuyee(SDLK_LSHIFT)) {
+			if (Clavier::toucheAppuyee(SDLK_LCTRL)) {
 				camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y - 0.80, camera->obtPosition().z));
 				accroupie = true;
 			}
 		}
-		if (Clavier::toucheRelachee(SDLK_LSHIFT)) {
+		if (Clavier::toucheRelachee(SDLK_LCTRL)) {
 			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
 			accroupie = false;
 		}
@@ -94,7 +96,9 @@ public:
 	Vecteur3d& obtVitesse(){
 		return this->vitesse;
 	}
-
+	double obtMasse(){
+		return masse;
+	}
 	float obtVitesseDeplacement(){
 		return vitesseDeplacement;
 	}

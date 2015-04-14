@@ -64,3 +64,5 @@
 	Continuation du travail sur le modèle de couteau.
 #Lundi 13 avril 2015 (11:00 à 12:30)
 	Fin du modelage du couteau et début de la texture.
+#Mardi 14 avril 2015 (13:25 à 13:35)
+	Finalisation du modèle et texture du couteau pour que la texture et l'Obj marche bien dans le code.

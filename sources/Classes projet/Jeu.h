@@ -68,7 +68,7 @@ public:
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
-		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), 0, 87, Vecteur3d(-1,50,0));
+		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1,50,0));
 		frameTime = chrono.obtTempsEcoule().enSecondes();
 		joueur->ajouterScene();
 
