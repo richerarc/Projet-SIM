@@ -36,3 +36,5 @@ Travail sur le bouton et sur le gestionnaire de controle.
 Discussion général sur le projet et de ces nécéssités. Rencontre avec le proffesseur. Aide avec nico dans les inlcudes et reglé quelque bug (surtout le bug dans mon gestionnaire de controle).
 ###Jeudi 9 avril ~2h
 Travail sur les menus avec Nico. J'ai fini le menu principal. J'ai aussi discuté avec Richer pour la conception/comment gérer les événement de click dans les menus. J'ai aussi gossé avec les pointeurs pour les enlevers quelque 10 minutes plus tard.
+### Mardi 14 Avril ~3h
+Conceptualisation des menus. Retour et critique sur tout les choses essentiels aux menus. Ont a delete tout ce que j'ai fait parce que on a decidé que c'était plus facile de faire des textes que des boutons. Il y a eu aussi une rencontre cet apres midi mais je ne le compte pas vraiment dans mon temps.
