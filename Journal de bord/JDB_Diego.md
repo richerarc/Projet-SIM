@@ -49,4 +49,12 @@ Durée: 2h
 J'oublie TOUJOURS le *** de journal de bord...
 Désolé
 
+en résumé, j'ai travaille sur le foutu Glisseur ces derniers temps.
+
 pas de travail  faitencore aujourdhui a 12h
+
+(12h30)
+
+Nouvelles equipes, notre équipe et moi avons discuté bien precisément ce qu'on doit faire et mis en place un vrai plaan qu'on va bien respecter. J'ai travaillé sur mon glisseur encore, je suis pas certain a 100% mais je pense quil est fini. Je passe a autre chose pour l'instant (priorités). Jessy et moi commençons  à concevoir la classe de menu pause.
+
+Durée: environ 4h 
