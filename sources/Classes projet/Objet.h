@@ -7,7 +7,7 @@ enum typeAction {Pousser, Osciller, Prendre, Ranger, Tirer, Lancer, Utiliser, Eq
 class Objet {
 protected:
 	unsigned int ID;
-	gfx::Modele3D modele;
+	gfx::Modele3D* modele;
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
@@ -16,24 +16,24 @@ protected:
 	Vecteur3d vitesseAngulaire;
 public:
 	Objet(){}
-	Objet(gfx::Modele3D& modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne){
+	Objet(gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne){
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
 		this->masse = masse;
 		this->vitesse = vitesse;
-		this->modele.defPosition(position);
+		this->modele->defPosition(position);
 		this->collisionInterne = collisionInterne;
 		this->position = position;
 		this->vitesseAngulaire = vitesseAngulaire;
-
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 	virtual void appliquerAction(typeAction action) = 0;
 	virtual void ajouterScene() = 0;
 
 	void defPosition(Vecteur3d position){
-		if (modele.obtModele() != NULL){
-			this->modele.defPosition(position);
+		if (modele->obtModele() != NULL){
+			this->modele->defPosition(position);
 		}
 		this->position = position;
 	}
@@ -66,7 +66,7 @@ public:
 		return this->ID;
 	}
 	
-	gfx::Modele3D& obtModele3D(){
+	gfx::Modele3D* obtModele3D(){
 		return modele;
 	}
 
@@ -83,8 +83,8 @@ public:
 	}
 	
 	Vecteur3d& obtPosition(){
-		if (modele.obtModele() != NULL)
-			return this->modele.obtPosition();
+		if (modele->obtModele() != NULL)
+			return this->modele->obtPosition();
 		else
 			return this->position;
 	}
