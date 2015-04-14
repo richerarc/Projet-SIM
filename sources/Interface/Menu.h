@@ -21,5 +21,7 @@ public:
 	}
 	virtual bool obtActif(void) = 0;
 	virtual void defActif(bool Actif) = 0;
+	virtual void afficher(void) = 0;
+	virtual void vider(void) = 0;
 
 };

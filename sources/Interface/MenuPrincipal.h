@@ -26,22 +26,22 @@ public:
 		gfx::Texture* TextureSpriteBNPSurvol = new gfx::Texture();
 		gfx::GestionnaireRessources::obtInstance().chargerTexture("C:\\Users\\Xavier\\Desktop\\turquoise.png");
 		NouvellePartie = new Bouton(Vecteur2f(150, 400),Vecteur2f(300, 150),
-			gfx::Texte2D("Nouvelle Partie", "arial.ttf", 9, Vecteur2f(150, 150)),
-			gfx::Sprite2D(Vecteur2f(150, 150), TextureSpriteBNPFond),
-			gfx::Sprite2D(Vecteur2f(150, 150), TextureSpriteBNPClique),
-			gfx::Sprite2D(Vecteur2f(150, 150), TextureSpriteBNPSurvol));
+			new gfx::Texte2D("Nouvelle Partie", "arial.ttf", 9, Vecteur2f(150, 400)),
+			new gfx::Sprite2D(Vecteur2f(150, 400), TextureSpriteBNPFond),
+			new gfx::Sprite2D(Vecteur2f(150, 400), TextureSpriteBNPClique),
+			new gfx::Sprite2D(Vecteur2f(150, 400), TextureSpriteBNPSurvol));
 
 
 
 		Options = new Bouton(Vecteur2f(150, 200), Vecteur2f(300, 150),
-			gfx::Texte2D("Options", "arial.ttf", 9, Vecteur2f(150, 180)),
-			gfx::Sprite2D(Vecteur2f(150,180),TextureSpriteBNPFond),
-			gfx::Sprite2D(Vecteur2f(150, 180), TextureSpriteBNPClique),
-			gfx::Sprite2D(Vecteur2f(150, 180), TextureSpriteBNPSurvol));
+			new gfx::Texte2D("Options", "arial.ttf", 9, Vecteur2f(150, 200)),
+			new gfx::Sprite2D(Vecteur2f(150, 200), TextureSpriteBNPFond),
+			new gfx::Sprite2D(Vecteur2f(150, 200), TextureSpriteBNPClique),
+			new gfx::Sprite2D(Vecteur2f(150, 200), TextureSpriteBNPSurvol));
 
-		this->Titre = new Etiquette(gfx::Texte2D("The Journalist", "arial.ttf", 20, Vecteur2f(150, 300)),gfx::Sprite2D(Vecteur2f(150,300),TextureSpriteBNPFond),Vecteur2f(150,700),Vecteur2f(300, 150));
+		this->Titre = new Etiquette( new gfx::Texte2D("The Journalist", "arial.ttf", 20, Vecteur2f(150, 300)), new gfx::Sprite2D(Vecteur2f(150,300),TextureSpriteBNPFond),Vecteur2f(150,300),Vecteur2f(300, 300));
 
-		this->Retour = new Bouton(Vecteur2f(150, 0), Vecteur2f(300, 150), gfx::Texte2D("Retour", "arial.ttf", 15, Vecteur2f(150, 110)), gfx::Sprite2D(Vecteur2f(150, 110), TextureSpriteBNPFond), gfx::Sprite2D(Vecteur2f(150, 110), TextureSpriteBNPClique), gfx::Sprite2D(Vecteur2f(150, 110), TextureSpriteBNPSurvol));
+		this->Retour = new Bouton(Vecteur2f(150, 0), Vecteur2f(300, 150), new gfx::Texte2D("Retour", "arial.ttf", 15, Vecteur2f(150, 0)), new gfx::Sprite2D(Vecteur2f(150, 0), TextureSpriteBNPFond),  new gfx::Sprite2D(Vecteur2f(150, 0), TextureSpriteBNPClique), new gfx::Sprite2D(Vecteur2f(150, 0), TextureSpriteBNPSurvol));
 
 	}
 	bool obtActif(void) {
@@ -52,7 +52,13 @@ public:
 		this->Actif = Actif;
 	}
 
-	
+	void afficher(void) {
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(this->SpriteFond);
+		NouvellePartie->afficher();
+		Options->afficher();
+		this->Titre->afficher();
+		this->Retour->afficher();
+	}
 
 
 };
