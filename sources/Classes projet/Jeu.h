@@ -52,6 +52,7 @@ public:
 	Jeu(){}
 
 	static void demarrer(){
+		srand(time(NULL));
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -66,8 +67,9 @@ public:
 		frameTime = chrono.obtTempsEcoule().enSecondes();
 		joueur->ajouterScene();
 
-		Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
-
+		Carte::obtInstance().creer(20);
+		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
+		
 		while (fenetre->estOuverte())
 		{
 			frameTime = chrono.repartir().enSecondes();
