@@ -26,8 +26,10 @@
 
 31 mars: croecctions d'erreurs dans Etiquette, ajout de la gestion d'evenement dans Bouton, et j'essaie de creer un programme pour tester l'interface. (2h40)
 
-2 avril: aide a Diego pour afficher le slider, correction (ajout du singleton) dans les gestionnaire 2D et 3D (2h)
+02 avril: aide a Diego pour afficher le slider, correction (ajout du singleton) dans les gestionnaire 2D et 3D (2h)
 
-7 avril: meeting de groupe puis ENCORE du travail sur le fucking slider (3h)
+07 avril: meeting de groupe puis ENCORE du travail sur le fucking slider (3h)
 
-9 avril: encore essayé d'aider diego pour le slider(2h) prochain cours je vais travailler sur les menu
+09 avril: encore essayé d'aider diego pour le slider(2h) prochain cours je vais travailler sur les menu
+
+14 avril: meeting de groupe pour la division des tache, je suis affecté au Joueur, nous avons travaillé sur l'analyse du joueur, le diagramme de classe, et correctio0n du bug parkinson (4h45)

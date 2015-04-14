@@ -39,18 +39,16 @@ private:
 	static Joueur* joueur;
 
 	static void appliquerPhysique() {
-
 		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(joueur)) {
 				Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
+				if (joueur->obtEtat() != 0)
+					joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			}
 			else
 				joueur->defSaut(false);
 		}
-
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
-
 	}
 
 public:
@@ -58,22 +56,24 @@ public:
 	Jeu(){}
 
 	static void demarrer(){
+		srand(time(NULL));
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		ControlleurAudio::obtInstance().initialiser(100);
-		
+
 
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-		
+
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
-		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1,50,0));
+		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1, 50, 0));
 		frameTime = chrono.obtTempsEcoule().enSecondes();
 		joueur->ajouterScene();
 
-		Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
-
+		Carte::obtInstance().creer(20);
+		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
+		
 		while (fenetre->estOuverte())
 		{
 			frameTime = chrono.repartir().enSecondes();
@@ -99,7 +99,7 @@ public:
 
 			fenetre->rafraichir();
 		}
-		
+
 		delete joueur;
 		delete fenetre;
 		ControlleurAudio::obtInstance().fermer();

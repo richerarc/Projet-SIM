@@ -125,3 +125,11 @@ Ajout d'un model de joueur contenant seulement des vertices sans face. Discution
 -environ 2 heures
 Création d'un model de livre ouvert à l'aide de blender.
 
+14 avril
+
+-environ 5 heures
+Discution de classe pour réétablir qui doit travailler dans où.
+Travail sur l'analyse des états de la classe Joueuroueur avec Kevin, Dominique, Samuel.
+Travail sur le diagramme de classe pour la classe Joueur avec les même personnes. 
+Travail sur la classe Joueur (réglage des états du joueur, réglage des problème du joueur qui fait un mouvement de haut/bas quand il n'est pas en mouvement (collision avec le sol)) avec les mêmes personnes encore une fois.
+

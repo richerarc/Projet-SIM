@@ -198,3 +198,9 @@ Ce matin nous avions un problème pour l'affichage des modeles alors j'ai résol
 P.S:Comme il y avait un examen de physique cette apres midi, j'ai beaucoup fait de physique et moins de prog.
 
 **Temps 3h30**
+
+##**`14 Avril 2015`**
+
+Cet après-midi nous avons fait une réunion de groupe pour réétablir nos prioritées. Ensuite, moi Nathan Dominique et Sam avons poursuivis l'analyse du joueur et avont regler quelques bugs.
+
+**Temps 5h**

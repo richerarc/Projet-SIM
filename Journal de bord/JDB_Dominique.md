@@ -31,3 +31,4 @@
 09/04/2015 (9h45 à 11h50) : J'ai finis de modéliser la clé et je l'ai texturé, et j'ai commencé à modelisé de la nourriture.
 
 14/04/2015 (8h30 à 9h15) : J'ai déplacé l'UML des objets dans son propre fichier, puis j'ai ajouté les switch des actions dans Objet.h, ObjetFixe.h et ObjetPhysique.h. Ils sont vides mais présents pour indiquer ce qu'ils peuvent faire.
+(12h35 à 5h15) : Nous avons (en groupe) discuté d'une nouvelle répartition des tâches dans le projet. Moi, Nathan, Samuel et Kevin sommes chargés de faire fonctionner le joueur et en avons fait l'analyse et les diagrammes. Nous avons ensuite modifié son code pour correspondre à cette analyse et avons ensuite reglé un bug où le joueur tremblait continuellement.

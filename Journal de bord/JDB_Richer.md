@@ -53,3 +53,5 @@
 `Ven. 10 avr.` J'ai fais la conception pour l'audio, et j'ai commencé les classes de bases pour le contrôleur. J'ai aussi commencé à faire du R&D pour l'implémentation du sons 3D avec les véritable formule de physique. `4h00`
 
 `Lun. 13 avr.` J'ai fini l'implémantation de la base permettant d'entendre du son. Par conséquent, nous entendons maintenant le bruit de fond, les battements cardiaques, et les bruits de pas. J'ai été voir un professeur de physique et j'ai commencer à faire de la recherche sur les bonnes formules à utiliser avec ses conseils. je continu de travailler la dessus. Finalement il apparait que SDL_Mixer ne permet pas de jouer avec le pitch des "sample" audio... je vais trouver un hack pour suronter ça. `6h00`
+
+`Mar. 14 avr.` Nous avons fait une rencontre aujourd'hui pour mettre les points sur les "i". J'ai terminer le diagramme de classe de l'audio (avec 2 hrs d'apprentissage de visio..............) je continue pour le sons multidimensionnel `5h00`
