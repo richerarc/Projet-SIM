@@ -44,4 +44,9 @@ J'ai essayé tout le cours d'afficher graphiquement et tester mon glisseur, avec 
 
 Durée: 2h
 
+-- 14a avril 2015 (12h18) --
 
+J'oublie TOUJOURS le *** de journal de bord...
+Désolé
+
+pas de travail  faitencore aujourdhui a 12h
