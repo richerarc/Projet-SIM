@@ -43,7 +43,7 @@ private:
 			unsigned short renvoi;
 			do{
 				renvoi = 1;
-				for (unsigned short i = rand() % 4; i > 0 --i){
+				for (unsigned short i = rand() % 4; i > 0; --i){
 					renvoi *= 2;
 				}
 			} while (banqueDeBit & renvoi != renvoi);
@@ -59,7 +59,6 @@ public:
 	}
 
 	void creer(const unsigned int limite){
-		carte.creer(limite);
 		int itterateurPorte(0);
 
 		int* porte = new int[limite];
