@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.h"
 #include "Sprite2D.h"
+#include "GestionnairePhases.h"
 
 
 class MenuPrincipal : public Menu {
@@ -11,14 +12,10 @@ private:
 
 public:
 	MenuPrincipal(void) : Menu() {
-		this->Actif = true;
 		
-		gfx::Texture* TextureSprite = new gfx::Texture();
-		gfx::GestionnaireRessources::obtInstance().chargerTexture("C:\\Users\\Xavier\\Desktop\\cube.png");
-		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), TextureSprite);
+		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("C:\\Users\\Xavier\\Desktop\\cube.png"));
 
-		gfx::Texture* TextureSpriteBNPFond = new gfx::Texture();
-		gfx::GestionnaireRessources::obtInstance().chargerTexture("C:\\Users\\Xavier\\Desktop\\blanc.png");
+		gfx::Texture* TextureSpriteBNPFond = &gfx::GestionnaireRessources::obtInstance().obtTexture("C:\\Users\\Xavier\\Desktop\\blanc.png");
 
 		gfx::Texture* TextureSpriteBNPClique = new gfx::Texture();
 		gfx::GestionnaireRessources::obtInstance().chargerTexture("C:\\Users\\Xavier\\Desktop\\rose.png");
@@ -50,6 +47,13 @@ public:
 	
 	void defActif(bool Actif) {
 		this->Actif = Actif;
+	}
+
+	void actualiser(){
+		if (NouvellePartie->enClique()){
+			GestionnairePhases::obtInstance().retirerPhase();
+			GestionnairePhases::obtInstance().ajouterPhase(new PhaseNouvellePartie());
+		}
 	}
 
 	void afficher(void) {

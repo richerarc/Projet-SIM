@@ -1,27 +1,18 @@
 #pragma once
 #include "Singleton.h"
 #include "ControleVisuel.h"
-#include "Bouton.h"
+#include "Texte2D.h"
 #include "GestionnaireRessources.h"
 #include "Gestionnaire2D.h"
-#include "Glisseur.h"
 
 class Menu {
 
 protected:
 
-	bool Actif;
 	gfx::Sprite2D* SpriteFond;
-	Etiquette* Titre;
-	Bouton* Retour;
+	Texte2D* Retour;
 
 public:
-	Menu(void){
-		
-	}
-	virtual bool obtActif(void) = 0;
-	virtual void defActif(bool Actif) = 0;
-	virtual void afficher(void) = 0;
-	virtual void vider(void) = 0;
+	virtual void actualiser() = 0;
 
 };

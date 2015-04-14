@@ -35,12 +35,15 @@ public:
 	}
 
 	void enSurvol(void) {
-		EtatBouton = SURVOL;
+		if (((Souris::obtPosition().x >= (double)this->position.x) && (Souris::obtPosition().x <= this->position.x + this->taille.x)) &&
+			(Souris::obtPosition().y >= (double)this->position.y) && (Souris::obtPosition().y <= this->position.y + this->taille.y)) {
+			EtatBouton = SURVOL;
+		}
 
 	}
 
-	void enClique(void) {
-		EtatBouton = CLIQUE;
+	bool enClique(void) {
+		return enSurvol() && Souris::boutonAppuye(SDL)
 	}
 
 	void afficher(void) {
