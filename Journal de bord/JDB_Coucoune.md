@@ -41,3 +41,7 @@ Qulle trahison! Félix m'as simplement dit "Poésson d'avril Coucoune t'auras ri
 #7 avril 2015
 
 Depuis le début de la semaine, mon maître Félix n'arrête pas de me voler la vedette, il attire toute l'attention parce MONSIEUR est malade. J'ai donc décidé de faire comme lui et de laisser un petit cadeau sur le plancher du salon. PERSONNE n'aura plus d'attention que moi dans cette maison !!
+
+#14 avril 2015
+
+Aujourd'hui j'ai tenté de transcender mon âme à travers le corps de Julien. Malheureusement il est très résistant à ce type de magie noire. Après tout, ils est un nain-perturbable. Il faut aussi noter qu'il portait une armure +10 anti-brainwash et une amulette qui a appartenu au tout premier Seigneur Sexuel.
