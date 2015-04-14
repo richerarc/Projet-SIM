@@ -19,7 +19,7 @@ namespace gfx{
 		~Objet3D(){
 		}
 
-		Vecteur3d obtPosition(){
+		Vecteur3d& obtPosition(){
 			return position;
 		}
 
