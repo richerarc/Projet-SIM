@@ -35,7 +35,7 @@ public:
 	
 	int obtVolume(){return volume;}
 	
-	void defVolume(int nouveauVol){
+	virtual void defVolume(int nouveauVol){
 		Mix_VolumeChunk(audio, nouveauVol);
 		volume = nouveauVol;
 	}
@@ -72,7 +72,15 @@ public:
 		return BPM;
 	}
 	
+	void defVolume(int nouveauVol){
+		Mix_VolumeChunk(audio, nouveauVol);
+		Mix_VolumeChunk(audio2, nouveauVol);
+		volume = nouveauVol;
+	}
+	
 	void jouer(Joueur* joueur){
+		if (BPM <= 1.0)
+			BPM = 1.0;
 		if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 100)){
 			Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
 			delais.repartir();
@@ -102,19 +110,29 @@ private:
 	Mix_Chunk* audio2;
 	Chrono delais;
 	double vitesse;
+	bool premier;
 public:
 	Pas(const char* chemin1, const char* chemin2, int ID, int volumeDepart) : Sons(chemin1, ID, volumeDepart){
-		vitesse = 100;
+		vitesse = 750;
 		delais = Chrono();
 		audio2 = Mix_LoadWAV(chemin2);
+		premier = true;
+	}
+	
+	void defVolume(int nouveauVol){
+		Mix_VolumeChunk(audio, nouveauVol);
+		Mix_VolumeChunk(audio2, nouveauVol);
+		volume = nouveauVol;
 	}
 	
 	void jouer(Joueur* joueur){
-		if (Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)){
-			if (vitesse != joueur->obtVitesse().norme())
-				vitesse = joueur->obtVitesse().norme();
-			if ((delais.obtTempsEcoule().enSecondes() >= 75/vitesse) && (!Mix_Playing(idChaine))){
-				Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && !joueur->enSaut()){
+			if (!((delais.obtTempsEcoule().enMillisecondes() <= vitesse) || (Mix_Playing(idChaine)))){
+				if (premier)
+					Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+				else
+					Mix_FadeInChannelTimed(idChaine, audio2, 0, 0, -1);
+				premier = !premier;
 				delais.repartir();
 			}
 		}

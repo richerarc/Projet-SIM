@@ -95,7 +95,11 @@ public:
 		return this->vitesse;
 	}
 
-	bool Ensaut() {
+	float obtVitesseDeplacement(){
+		return vitesseDeplacement;
+	}
+	
+	bool enSaut() {
 		return saut;
 	}
 };

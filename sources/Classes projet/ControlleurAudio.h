@@ -9,6 +9,7 @@ private:
 	Coeur *coeur;
 	Pas *pas;
 	int ittChaine;
+	bool initial;
 public:
 	
 	ControlleurAudio(){}
@@ -24,15 +25,16 @@ public:
 			while (!fichierNom.eof()) {
 				fichierNom >> chemin;
 				if (chemin == "fond.ogg"){
-					sons[ittChaine] = new Fond(chemin.c_str(), ++ittChaine, 30);
+					sons[ittChaine] = new Fond(chemin.c_str(), ++ittChaine, 20);
 				}
-				sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine, 80);
+				sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine, 70);
 			}
 			fichierNom.close();
 		}
-		coeur = new Coeur("battementLent.ogg", "battementRapide.ogg", ++ittChaine, 80);
+		coeur = new Coeur("battementLent.ogg", "battementRapide.ogg", ++ittChaine, 20);
 		pas = new Pas("pas1.ogg", "pas2.ogg", ++ittChaine, 80);
 		defVolumePrinc(80);
+		initial = false;
 	}
 	
 	void fermer(){
@@ -48,6 +50,13 @@ public:
 		}
 		coeur->jouer(joueur);
 		pas->jouer(joueur);
+		if (!initial){
+			defVolumeFond(20);
+			defVolumeEffet(60);
+			coeur->defVolume(10);
+			pas->defVolume(8);
+			initial = true;
+		}
 	}
 	
 	void defVolumeFond(int vol){
