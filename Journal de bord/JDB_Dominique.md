@@ -29,3 +29,5 @@
 07/04/2015 (2h40 à 5h25) : J'ai mis ensemble les Objets Physiques et Objets Inventaire et ajusté les héritages en conséquences, car les Objets Inventaires n'étaient pas vraiment pertinents. J'ai aussi modélisé une clé, qui n'est pas encore dans le projet parce sa texture n'est pas faite.
 
 09/04/2015 (9h45 à 11h50) : J'ai finis de modéliser la clé et je l'ai texturé, et j'ai commencé à modelisé de la nourriture.
+
+14/04/2015 (8h30 à 9h15) : J'ai déplacé l'UML des objets dans son propre fichier, puis j'ai ajouté les switch des actions dans Objet.h, ObjetFixe.h et ObjetPhysique.h. Ils sont vides mais présents pour indiquer ce qu'ils peuvent faire.
