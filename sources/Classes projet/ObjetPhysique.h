@@ -30,7 +30,7 @@ public:
 			if (utilisable){}
 			break;
 		case Ranger:
-			if (stockable){}
+			if (stockable){} 
 			break;
 		case Pousser:
 			break;

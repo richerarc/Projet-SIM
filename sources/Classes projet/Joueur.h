@@ -16,7 +16,7 @@ public:
 
 	Joueur() {}
 
-	Joueur(gfx::Modele3D* modele3D, unsigned int ID, double masse, Vecteur3d position) {
+	Joueur(gfx::Modele3D* modele3D, Vecteur3d position) {
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
@@ -52,12 +52,12 @@ public:
 			}
 			if (Clavier::toucheAppuyee(SDLK_d))
 				vitesse = cote * vitesseDeplacement;
-			if (Clavier::toucheAppuyee(SDLK_LSHIFT)) {
+			if (Clavier::toucheAppuyee(SDLK_LCTRL)) {
 				camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y - 0.80, camera->obtPosition().z));
 				accroupie = true;
 			}
 		}
-		if (Clavier::toucheRelachee(SDLK_LSHIFT)) {
+		if (Clavier::toucheRelachee(SDLK_LCTRL)) {
 			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
 			accroupie = false;
 		}
