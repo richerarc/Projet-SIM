@@ -18,7 +18,7 @@
 #include <SDL2/SDL_opengl.h>
 #endif
 
-#include "Jeu.h"
+#include "Classes projet/Jeu.h"
 int main(int argc, char* argv[]){
 	Jeu::demarrer();
 	return 0;
