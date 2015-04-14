@@ -255,3 +255,14 @@ Pas vrai, j'ai été fouillé un peu sur github jusqu'au commit qui contenait la
 Pour ce qui est du rebond, celui que j'ai présentemment est décent, il respecte plutôt bien la physique. Il y a bien sur des tonnes d'amélioration que je pourrais faire pour le rendre meilleur. Je veux continué à travailler dessus, mais je comprend qu'il y a d'autres choses de plus importantes à faire dans le projet comme l'application de la physique sur les objets d'une salle dont j'ai été mandaté. Je vais donc continué à travailler sur le rebond mais de manière plus personnelle, dans mes temps libre puisque c'est quand même quelque chose que j'aime faire.
 
 **0h30**: Travail sur l'application de la physique des objets d'une salle, je crois que c'est presque fini, pour le reste je devrai la mettre à jour losrque les collisions objet-objet seront faites, et qu'il y aura d'autres objets avec une physique spécifique. La prochaine étape sera de me créer une salle qui contient des objet de différents types et les faire intéragir.
+
+###09 avril 2015
+
+**1h00**: Travail sur le pendule, quelques modifications dans la classe pendule, dans la procédure obtAnglePendule et application de la physique du pendule dans la procédure appliquerPhysiqueSurObjets
+Il foncitonne bien!
+
+**0h30**: Travail sur l'avion en blender, l'arrière est fini, il me reste l'avant de joindre les ailes.
+
+###11 avril 2015
+
+**0h30**: Corrections dans le rebond pour les rares fois qu'un objet tombe et qu'il ne gagne pas de rotation du genre une sphère sur un plancher droit, j'avais des divisions par zéro. Ça ma aussi permis d'optimiser un peu le code.

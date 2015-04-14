@@ -37,3 +37,7 @@ Meow miaou meowdafaka.
 Mon maître Félix m'as dit, ce matin en partant pour l'école, que ce soir il m'apporterait une surprise poissonée! J'attends avec chatitude le moment ou je planterai mes cros dans le poisson qu'il m'apportera.
 
 Qulle trahison! Félix m'as simplement dit "Poésson d'avril Coucoune t'auras rien pentoute!" Finalement, j'attends avec haine le moment où mon humain de malheur s'endormira pour que je puisse lui lacérer le visage avec mes griffes et lui planter mes cros dans le cou.
+
+#7 avril 2015
+
+Depuis le début de la semaine, mon maître Félix n'arrête pas de me voler la vedette, il attire toute l'attention parce MONSIEUR est malade. J'ai donc décidé de faire comme lui et de laisser un petit cadeau sur le plancher du salon. PERSONNE n'aura plus d'attention que moi dans cette maison !!

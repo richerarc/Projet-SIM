@@ -14,6 +14,8 @@ public:
 		nbrPortes = nbrPorte;
 		this->ID = ID;
 		this->modele = modele;
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
+		this->modele->defEchelle(3, 3, 3);
 	}
 
 	unsigned int obtNbrPortes(){
@@ -49,6 +51,7 @@ public:
 			if (it->obtID() == ID)
 				return it;
 		}
+		return nullptr;
 	}
 	
 	std::list<Objet*>& obtListeObjet() {

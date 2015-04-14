@@ -15,7 +15,7 @@ public:
 		}
 	}
 
-	const T obtBoite(){
+	const Vecteur3<T>* obtBoite(){
 		return boiteCollision;
 	}
 };

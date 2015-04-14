@@ -10,7 +10,14 @@ public:
 	}
 
 	void appliqueAction(typeAction action){
-		//actions ici
+		if (interactif){
+			switch (action){
+			case Interagir:
+				break;
+			case Osciller:
+				break;
+			}
+		}
 	}
 
 	void defInteraction(bool interactif){

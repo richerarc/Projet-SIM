@@ -6,6 +6,7 @@ class ObjetPhysique : public Objet{
 private :
 	bool ramassable;
 	unsigned int quantite;
+	bool stockable;
 	bool equipable;
 	bool utilisable;
 	bool dansInventaire;
@@ -19,7 +20,26 @@ public:
 		this->dansInventaire = dansInventaire;
 	}
 	void appliquerAction(typeAction action){
-		//appliquer une action sur l'objet ici
+		switch (action){
+		case Prendre:
+			if (ramassable){}
+			break;
+		case Lancer:
+			break;
+		case Utiliser:
+			if (utilisable){}
+			break;
+		case Ranger:
+			if (stockable){}
+			break;
+		case Pousser:
+			break;
+		case Equiper:
+			if (equipable){}
+			break;
+		case Abandonner:
+			break;
+		}
 	}
 	void defRamassable(bool ramassable){
 		this->ramassable = ramassable;
@@ -35,6 +55,12 @@ public:
 	}
 	void defDansInventaire(bool dansInventaire){
 		this->dansInventaire = dansInventaire;
+	}
+	void defStockable(bool stockable){
+		this->stockable = stockable;
+	}
+	bool obtStockable(){
+		return stockable;
 	}
 	bool obtdansInventaire(){
 		return dansInventaire;

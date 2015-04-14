@@ -2,7 +2,7 @@
 #include <list>
 #include "Modele3D.h"
 
-enum typeAction {Rotation, Pousser, Osciller, Prendre, Ranger, Tirer, Recharger, Lancer, Utiliser};
+enum typeAction {Pousser, Osciller, Prendre, Ranger, Tirer, Lancer, Utiliser, Equiper, Abandonner,Interagir};
 
 class Objet {
 protected:
@@ -26,12 +26,10 @@ public:
 		this->collisionInterne = collisionInterne;
 		this->position = position;
 		this->vitesseAngulaire = vitesseAngulaire;
-
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
-	//virtual void appliquerAction(typeAction action) = 0;
+	virtual void appliquerAction(typeAction action) = 0;
 	virtual void ajouterScene() = 0;
-
-	virtual Vecteur3d obtDimensions() {};
 
 	void defPosition(Vecteur3d position){
 		if (modele->obtModele() != NULL){
@@ -84,7 +82,7 @@ public:
 		return vitesse;
 	}
 	
-	Vecteur3d obtPosition(){
+	Vecteur3d& obtPosition(){
 		if (modele->obtModele() != NULL)
 			return this->modele->obtPosition();
 		else
