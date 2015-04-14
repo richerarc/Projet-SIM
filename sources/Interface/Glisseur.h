@@ -3,9 +3,9 @@
 class Glisseur : public ControleVisuel {
 private:
 	bool enMouvement;
-	float pourcentage;
 	float sourisx, sourisy;
 	bool boutonSouris;
+	float pourcentage;
 	gfx::Sprite2D * spriteGlisseur;
 	Vecteur2f posGlisseur;
 public:
@@ -42,7 +42,7 @@ public:
 			boutonSouris = true;
 		}
 		if (evenement.button.type = SDL_MOUSEBUTTONDOWN) {
-			if (((sourisx > position.x) && (sourisx < position.x + 20.0)) && ((sourisy > position.y) && (sourisy < position.y + 20.0)))
+			if (((sourisx > posGlisseur.x) && (sourisx < posGlisseur.x + 20.0)) && ((sourisy > position.y) && (sourisy < position.y + 20.0)))
 				enMouvement = true;
 		}
 		else {
