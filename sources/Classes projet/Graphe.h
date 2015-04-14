@@ -388,7 +388,7 @@ namespace graphe{
 							} while ((sommetLien1 == sommet[0]) || (sommetLien1 == sommet[1]));
 							do
 							{
-								sommetLien1 = obtIndiceAleatoire();
+								sommetLien2 = obtIndiceAleatoire();
 							} while ((sommetLien2 == sommetLien1) || (sommetLien2 == sommet[0]) || (sommetLien2 == sommet[1]));
 						}
 						if (assigner){
