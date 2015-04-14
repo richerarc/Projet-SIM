@@ -8,6 +8,7 @@ private:
 	gfx::Camera* camera;
 	Vecteur3d position;
 	Vecteur3d vitesse;
+	double masse;
 	float vitesseDeplacement;
 	bool accroupie;
 	bool saut;
@@ -21,6 +22,7 @@ public:
 		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
 		this->position = position;
+		masse = 87.f;
 		camera = new gfx::Camera();
 		vitesse = { 0, 0.01, 0 };
 		saut = true;
@@ -94,7 +96,9 @@ public:
 	Vecteur3d& obtVitesse(){
 		return this->vitesse;
 	}
-
+	double obtMasse(){
+		return masse;
+	}
 	float obtVitesseDeplacement(){
 		return vitesseDeplacement;
 	}
