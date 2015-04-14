@@ -18,7 +18,7 @@ public:
 
 	Joueur(gfx::Modele3D* modele3D, unsigned int ID, double masse, Vecteur3d position) {
 		this->modele3D = modele3D;
-		this->vitesseDeplacement = 10.f;
+		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
 		this->position = position;
 		camera = new gfx::Camera();
@@ -28,7 +28,7 @@ public:
 
 	void deplacement(float frametime){
 
-		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && vitesse.x != 0 && vitesse.z != 0) {
+		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && vitesse.x != 0 && vitesse.z != 0 && !saut) {
 			vitesse.x = 0;
 			vitesse.z = 0;
 			if (vitesse.y == 0)
@@ -39,28 +39,30 @@ public:
 		devant.y = 0;
 		Vecteur3d cote = camera->obtCote();
 		cote.y = 0;
-		if (Clavier::toucheAppuyee(SDLK_w))
-			vitesse = devant * vitesseDeplacement;
-		if (Clavier::toucheAppuyee(SDLK_s)) {
-			vitesse = devant * vitesseDeplacement;
-			vitesse.inverser();
-		}
-		if (Clavier::toucheAppuyee(SDLK_a)) {
-			vitesse = cote * vitesseDeplacement;
-			vitesse.inverser();
-		}
-		if (Clavier::toucheAppuyee(SDLK_d))
-			vitesse = cote * vitesseDeplacement;
-		if (Clavier::toucheAppuyee(SDLK_LSHIFT)) {
-			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y - 0.80, camera->obtPosition().z));
-			accroupie = true;
+		if (!saut) {
+			if (Clavier::toucheAppuyee(SDLK_w))
+				vitesse = devant * vitesseDeplacement;
+			if (Clavier::toucheAppuyee(SDLK_s)) {
+				vitesse = devant * vitesseDeplacement;
+				vitesse.inverser();
+			}
+			if (Clavier::toucheAppuyee(SDLK_a)) {
+				vitesse = cote * vitesseDeplacement;
+				vitesse.inverser();
+			}
+			if (Clavier::toucheAppuyee(SDLK_d))
+				vitesse = cote * vitesseDeplacement;
+			if (Clavier::toucheAppuyee(SDLK_LSHIFT)) {
+				camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y - 0.80, camera->obtPosition().z));
+				accroupie = true;
+			}
 		}
 		if (Clavier::toucheRelachee(SDLK_LSHIFT)) {
 			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
 			accroupie = false;
 		}
 		if (Clavier::toucheAppuyee(SDLK_SPACE) && !saut) {
-			vitesse.y = 5;
+			vitesse.y = 6;
 			saut = true;
 		}
 
