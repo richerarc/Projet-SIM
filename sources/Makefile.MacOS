@@ -1,1 +1,2 @@
-gcc --std=c++11 -framework OpenGL -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework SDL2_mixer -lstdc++ -o ProjetSIM main.cpp
+all:
+	gcc --std=c++11 -framework OpenGL -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework SDL2_mixer -lstdc++ -o ProjetSIM main.cpp
