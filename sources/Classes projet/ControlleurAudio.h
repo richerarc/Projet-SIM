@@ -25,15 +25,14 @@ public:
 			while (!fichierNom.eof()) {
 				fichierNom >> chemin;
 				if (chemin == "fond.ogg"){
-					sons[ittChaine] = new Fond(chemin.c_str(), ++ittChaine, 20);
+					sons[ittChaine] = new Fond(chemin.c_str(), ++ittChaine);
 				}
-				sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine, 70);
+				sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine);
 			}
 			fichierNom.close();
 		}
-		coeur = new Coeur("battementLent.ogg", "battementRapide.ogg", ++ittChaine, 20);
-		pas = new Pas("pas1.ogg", "pas2.ogg", ++ittChaine, 80);
-		defVolumePrinc(80);
+		coeur = new Coeur("battementLent.ogg", "battementRapide.ogg", ++ittChaine);
+		pas = new Pas("pas1.ogg", "pas2.ogg", ++ittChaine);
 		initial = false;
 	}
 	

@@ -19,11 +19,9 @@ public:
 	
 	bool actif;
 	
-	Sons(const char* chemin, int ID, int volumeDepart){
+	Sons(const char* chemin, int ID){
 		audio = Mix_LoadWAV(chemin);
 		idChaine = ID;
-		volume = volumeDepart;
-		defVolume(volume);
 		actif = false;
 	}
 	
@@ -57,7 +55,7 @@ private:
 	Chrono delais;
 	double BPM;
 public:
-	Coeur(const char* chemin1, const char* chemin2, int ID, int volumeDepart) : Sons(chemin1, ID, volumeDepart){
+	Coeur(const char* chemin1, const char* chemin2, int ID) : Sons(chemin1, ID){
 		BPM = 55;
 		delais = Chrono();
 		actif = true;
@@ -94,7 +92,7 @@ public:
 
 class Fond : public Sons {
 public:
-	Fond(const char* chemin, int ID, int volumeDepart) : Sons(chemin, ID, volumeDepart){
+	Fond(const char* chemin, int ID) : Sons(chemin, ID){
 		actif = true;
 	}
 	
@@ -112,7 +110,7 @@ private:
 	double vitesse;
 	bool premier;
 public:
-	Pas(const char* chemin1, const char* chemin2, int ID, int volumeDepart) : Sons(chemin1, ID, volumeDepart){
+	Pas(const char* chemin1, const char* chemin2, int ID) : Sons(chemin1, ID){
 		vitesse = 750;
 		delais = Chrono();
 		audio2 = Mix_LoadWAV(chemin2);
