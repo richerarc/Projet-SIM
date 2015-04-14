@@ -44,7 +44,7 @@ public:
 	
 	virtual void jouer(Joueur* joueur){
 		if (!Mix_Playing(idChaine)){
-			Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 		}
 	}
 };
@@ -80,11 +80,11 @@ public:
 		if (BPM <= 1.0)
 			BPM = 1.0;
 		if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 100)){
-			Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 			delais.repartir();
 		}
 		else if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine))){
-			Mix_FadeInChannelTimed(idChaine, audio2, 0, 0, -1);
+			Mix_FadeInChannelTimed(idChaine, audio2, 0, 1, -1);
 			delais.repartir();
 		}
 	}
@@ -127,9 +127,9 @@ public:
 		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && !joueur->enSaut()){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= vitesse) || (Mix_Playing(idChaine)))){
 				if (premier)
-					Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 				else
-					Mix_FadeInChannelTimed(idChaine, audio2, 0, 0, -1);
+					Mix_FadeInChannelTimed(idChaine, audio2, 0, 1, -1);
 				premier = !premier;
 				delais.repartir();
 			}
