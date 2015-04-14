@@ -2,6 +2,7 @@
 #include "Objet2D.h"
 #include "Texture.h"
 #include "Fenetre.h"
+#include "Rect.h"
 namespace gfx{
 	class Texte2D : public Objet2D{
 	public:
@@ -90,6 +91,9 @@ namespace gfx{
 		unsigned int obtTaille(){ return taille; }
 		SDL_Color obtCouleur(){ return couleur; }
 
+		Rectf obtRectangle(){
+			return Rectf(position.x, position.y, surface->w, surface->h);
+		}
 
 
 	};

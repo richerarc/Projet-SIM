@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <initializer_list>
 #include "Fenetre.h"
 #include "Sprite2D.h"
 #include "Texte2D.h"
@@ -22,8 +23,12 @@ namespace gfx{
 			objets.remove(objet);
 		}
 
-		void ajouterObjet(gfx::Objet2D* Objet){
-			objets.push_back(Objet);
+		void ajouterObjet(gfx::Objet2D* obj){
+			objets.push_back(obj);
+		}
+
+		void ajouterObjet(std::initializer_list<gfx::Objet2D*> list){
+			objets.insert(objets.end(), list.begin(), list.end());
 		}
 
 		void vider(){

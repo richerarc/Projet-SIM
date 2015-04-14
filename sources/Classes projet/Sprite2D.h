@@ -2,6 +2,7 @@
 #include "Objet2D.h"
 #include "Texture.h"
 #include "Fenetre.h"
+#include "Rect.h"
 namespace gfx{
 	class Sprite2D : public Objet2D{
 	public:
@@ -62,6 +63,10 @@ namespace gfx{
 		void defTexture(Texture* texture){
 			this->texture = texture;
 			this->surface = texture->obtSurface();
+		}
+
+		Rectf obtRectangle(){
+			return Rectf(position.x, position.y, surface->w, surface->h);
 		}
 	};
 }
