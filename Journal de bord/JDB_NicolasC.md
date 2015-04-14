@@ -101,3 +101,7 @@
   1"L'analyse" de ces points a étét faite et ne il ne reste qu'a le traduire en code.  
 **11 avr** durée : 1 h  
   -Finalisation de l'algorithme pour positionner les portes (algos pour : trouver les murs adjacents, positionner la porte selon les murs adjacents et implémentation d'un algorithme pour générer aléatoirement un bit parmis 4).
+**14 avr** durée : 3h + 1 h de rencontre de groupe  
+  -Rencontre de groupe pour définir les prochaines étapes du développement du jeu.  
+  -Correctifs pour la générations des cartes (trop d'affaires pour détailler).  
+  -Création de la salleActive dans le creer de Carte pour pouvoir apparaitre dans une salle.
