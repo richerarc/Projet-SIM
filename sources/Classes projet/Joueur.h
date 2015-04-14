@@ -6,6 +6,7 @@ class Joueur {
 private:
 	gfx::Modele3D* modele3D;
 	gfx::Camera* camera;
+	Vecteur3d position;
 	Vecteur3d vitesse;
 	float vitesseDeplacement;
 	bool accroupie;
@@ -19,6 +20,7 @@ public:
 		this->modele3D = modele3D;
 		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
+		this->position = position;
 		camera = new gfx::Camera();
 		vitesse = { 0, 0.01, 0 };
 		saut = true;
@@ -75,7 +77,8 @@ public:
 		return modele3D;
 	}
 
-	void defPosition(Vecteur3d position){
+	void defPosition(Vecteur3d pos){
+		this->position = pos;
 		this->modele3D->defPosition(position);
 		camera->defPosition(Vecteur3d(position.x ,position.y + 3.5, position.z));
 	}
@@ -85,7 +88,7 @@ public:
 	}
 
 	Vecteur3d& obtPosition(){
-		return this->camera->obtPosition();
+		return this->position;
 	}
 
 	Vecteur3d& obtVitesse(){
