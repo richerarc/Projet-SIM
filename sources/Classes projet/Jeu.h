@@ -6,6 +6,7 @@
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
 #include "Objet.h"
+#include "Sons.h"
 #include "ControlleurAudio.h"
 /*
 #include les classes plus bases plus tard
@@ -55,7 +56,8 @@ public:
 	static void demarrer(){
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
-
+		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		ControlleurAudio::obtInstance().initialiser(100);
 		
 
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
@@ -89,12 +91,15 @@ public:
 
 			// Affichege ici
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
+			ControlleurAudio::obtInstance().jouerTout(joueur);
 
 			fenetre->rafraichir();
 		}
 		
 		delete joueur;
 		delete fenetre;
+		ControlleurAudio::obtInstance().fermer();
+		Mix_CloseAudio();
 		TTF_Quit();
 		SDL_Quit();
 	}

@@ -2,6 +2,7 @@
 
 #include "Vecteur3.h"
 #include "Chrono.h"
+#include "Joueur.h"
 
 class Sons {
 protected:
@@ -9,13 +10,21 @@ protected:
 	int idChaine;
 	Vecteur3d position;
 	int volume;
+	
+	void defVolume(Vecteur3d positionJoueur, Vecteur3d cameraDevant){
+			//TODO : aller voir Olivier Séguin
+	}
+	
 public:
 	
-	Sons(const char* chemin, int ID, Vecteur3d& pos, int volumeDepart){
+	bool actif;
+	
+	Sons(const char* chemin, int ID, int volumeDepart){
 		audio = Mix_LoadWAV(chemin);
 		idChaine = ID;
-		position = pos;
 		volume = volumeDepart;
+		defVolume(volume);
+		actif = false;
 	}
 	
 	~Sons(){Mix_FreeChunk(audio);}
@@ -27,16 +36,15 @@ public:
 	int obtVolume(){return volume;}
 	
 	void defVolume(int nouveauVol){
-		Mix_Volume(idChaine, nouveauVol);
 		Mix_VolumeChunk(audio, nouveauVol);
 		volume = nouveauVol;
 	}
 	
-	void defVolume(Vecteur3d positionJoueur, Vecteur3d cameraDevant){
-			//TODO : aller voir Olivier Séguin
+	int obtChaine(){
+		return idChaine;
 	}
 	
-	virtual void jouer(){
+	virtual void jouer(Joueur* joueur){
 		if (!Mix_Playing(idChaine)){
 			Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
 		}
@@ -45,19 +53,70 @@ public:
 
 class Coeur : public Sons {
 private:
+	Mix_Chunk* audio2;
 	Chrono delais;
-	int BPM;
+	double BPM;
 public:
-	Coeur(const char* chemin, int ID, Vecteur3d& pos, int volumeDepart) : Sons(chemin, ID, pos, volumeDepart){
-		BPM = 70;
+	Coeur(const char* chemin1, const char* chemin2, int ID, int volumeDepart) : Sons(chemin1, ID, volumeDepart){
+		BPM = 55;
 		delais = Chrono();
+		actif = true;
+		audio2 = Mix_LoadWAV(chemin2);
 	}
 	
 	void defVitesseBattement(int nouveauBPM){
 		this->BPM = nouveauBPM;
 	}
 	
-	void jouer(){
-			//TODO
+	double obtBattement(){
+		return BPM;
+	}
+	
+	void jouer(Joueur* joueur){
+		if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 100)){
+			Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+			delais.repartir();
+		}
+		else if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine))){
+			Mix_FadeInChannelTimed(idChaine, audio2, 0, 0, -1);
+			delais.repartir();
+		}
+	}
+};
+
+class Fond : public Sons {
+public:
+	Fond(const char* chemin, int ID, int volumeDepart) : Sons(chemin, ID, volumeDepart){
+		actif = true;
+	}
+	
+	void jouer(Joueur* joueur){
+		if (!Mix_Playing(idChaine)){
+			Mix_FadeInChannelTimed(idChaine, audio, -1, 200, -1);
+		}
+	}
+};
+
+class Pas : public Sons {
+private:
+	Mix_Chunk* audio2;
+	Chrono delais;
+	double vitesse;
+public:
+	Pas(const char* chemin1, const char* chemin2, int ID, int volumeDepart) : Sons(chemin1, ID, volumeDepart){
+		vitesse = 100;
+		delais = Chrono();
+		audio2 = Mix_LoadWAV(chemin2);
+	}
+	
+	void jouer(Joueur* joueur){
+		if (Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)){
+			if (vitesse != joueur->obtVitesse().norme())
+				vitesse = joueur->obtVitesse().norme();
+			if ((delais.obtTempsEcoule().enSecondes() >= 75/vitesse) && (!Mix_Playing(idChaine))){
+				Mix_FadeInChannelTimed(idChaine, audio, 0, 0, -1);
+				delais.repartir();
+			}
+		}
 	}
 };
