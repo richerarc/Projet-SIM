@@ -13,7 +13,6 @@ private:
 	double masse;
 	float vitesseDeplacement;
 	int etat;
-	bool saut;
 
 public:
 
@@ -27,15 +26,16 @@ public:
 		etat = CHUTE;
 		masse = 87.f;
 		camera = new gfx::Camera();
-		vitesse = { 0, 0.01, 0 };
-		saut = true;
+		vitesse = { 0, -0.01, 0 };
 	}
 
 	void deplacement(float frametime){
 
-		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && vitesse.x != 0 && vitesse.z != 0 && !saut) {
+		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && vitesse.x != 0 && vitesse.z != 0 && (etat != SAUT) && (etat != CHUTE)){
 			vitesse.x = 0;
 			vitesse.z = 0;
+			if (etat = MARCHE)
+				etat = CHUTE;
 			if (vitesse.y == 0){
 				etat = STABLE;
 				vitesse.y = 0.01;
@@ -46,7 +46,7 @@ public:
 		devant.y = 0;
 		Vecteur3d cote = camera->obtCote();
 		cote.y = 0;
-		if (!saut) {
+		if (etat != SAUT) {
 			if (Clavier::toucheAppuyee(SDLK_w)){
 				etat = MARCHE;
 				vitesse = devant * vitesseDeplacement;
@@ -74,9 +74,9 @@ public:
 			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
 			etat = STABLE;
 		}
-		if (Clavier::toucheAppuyee(SDLK_SPACE) && !saut) {
+		if (Clavier::toucheAppuyee(SDLK_SPACE) && (etat != SAUT)) {
 			vitesse.y = 6;
-			saut = true;
+			etat = SAUT;
 		}
 
 	}
@@ -96,9 +96,6 @@ public:
 		camera->defPosition(Vecteur3d(position.x ,position.y + 3.5, position.z));
 	}
 
-	void defSaut(bool saut) {
-		this->saut = saut;
-	}
 
 	Vecteur3d& obtPosition(){
 		return this->position;
@@ -114,10 +111,6 @@ public:
 		return vitesseDeplacement;
 	}
 	
-	bool enSaut() {
-		return saut;
-	}
-
 	int obtEtat(){
 		return etat;
 	}
