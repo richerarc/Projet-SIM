@@ -4,4 +4,4 @@ SalleCarree4x4.obj SalleCarree4x4.png SalleCarree4x4.txt
 
 ConnecteurTunnel.obj ConnecteurTunnel.png ConnecteurTunnel.txt
 
-PieceRonde5X5X2977.obj PieceRonde5X5X2977.png PieceRonde5X5X2977.txt
+PieceRonde.obj PieceRonde.png PieceRonde.txt
