@@ -9,8 +9,8 @@ class Menu {
 
 protected:
 
-	gfx::Sprite2D* SpriteFond;
-	Texte2D* Retour;
+	gfx::Sprite2D* spriteFond;
+	gfx::Texte2D* retour;
 
 public:
 	virtual void actualiser() = 0;

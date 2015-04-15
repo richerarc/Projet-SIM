@@ -23,11 +23,17 @@ namespace gfx{
 			objets.remove(objet);
 		}
 
+		void retObjets(std::initializer_list<gfx::Objet2D*> list){
+			for (auto i : list){
+				objets.remove(i);
+			}
+		}
+
 		void ajouterObjet(gfx::Objet2D* obj){
 			objets.push_back(obj);
 		}
 
-		void ajouterObjet(std::initializer_list<gfx::Objet2D*> list){
+		void ajouterObjets(std::initializer_list<gfx::Objet2D*> list){
 			objets.insert(objets.end(), list.begin(), list.end());
 		}
 
