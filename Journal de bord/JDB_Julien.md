@@ -179,3 +179,19 @@ Temps : 3h
 ###**`10 avril 2015`**
 
 - 19h à 21h : J'ai finalement terminé les collisions entre deux objets, il manque les collisions interne, ce qui ne devrait pas prender trop de temps. J'ai ajouté un tableau de normales et d'indices dans la classe Modele pour faire mes collisions.
+
+###**`13 avril 2015`**
+
+- J'ai travaillé sur le joueur et la classe Jeu.h pour avoir une salle qui s'affichait en plus d'avoir un joueur qui bouge dans la salle.
+
+Temps : 1h30
+
+###**`14 avril 2015`**
+
+- 12h à 12h30 : J'ai été en réunion avec Richer, Kevin et Gabriel pour discuter de l'avenir du projet et sur quoi il fallait se consenter. Nous avons déterminer trois aspects, soit les Interfaces, le joueur, et les salles. Je suis responsable de la partie des interfaces.
+
+- 12h30 à 1h30 : Grosse rencontre d'équipe, nous avons d'abord expliquer la situation de notre projet, tout en essayant de motiver les personnes qui n'ont pas travaillées beaucoup. Nous avons divisés le groupe en trois partie, tout en laissant Richer seul dans le son. 
+
+- 13h30 à 14h40 : Première rencontre avec Xavier et Jessy pour parler de ce qui a déjà fait dans les Interaces.
+
+- 14h40 à 5h : Nous avons travaillé sur l'analyse et les diagrammes en équipe. Brandon nous avons montré les phases qu'il avait déjà coder, nous les avons donc intégré les phases et le gestionnaire de phase dans le projet. J'ai commencé à afficher le menu principal, mais j'ai des problèmes avec le Texte2D et le Sprite2D.
