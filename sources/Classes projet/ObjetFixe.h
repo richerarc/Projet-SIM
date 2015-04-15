@@ -9,7 +9,7 @@ public:
 		this->interactif = interactif;
 	}
 
-	void appliqueAction(typeAction action){
+	void appliquerAction(typeAction action){
 		if (interactif){
 			switch (action){
 			case Interagir:

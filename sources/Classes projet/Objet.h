@@ -29,7 +29,7 @@ public:
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 	virtual void appliquerAction(typeAction action) = 0;
-	virtual void ajouterScene() = 0;
+	//virtual void ajouterScene() = 0;
 
 	void defPosition(Vecteur3d position){
 		if (modele->obtModele() != NULL){
