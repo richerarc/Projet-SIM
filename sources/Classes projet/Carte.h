@@ -183,13 +183,16 @@ public:
 				salle.Objet.push_back(objet);
 			}
 			infosSalles.push_back(salle);
-
-			auto debut = infosSalles.begin();
-			pos = rand() % infosSalles.size();
-			std::advance(debut, pos);
-
-			salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
 		}
+		auto debut = infosSalles.begin();
+		pos = rand() % infosSalles.size();
+		std::advance(debut, pos);
 
+		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
+		for (auto it : (*debut).Objet) {
+			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+			modeleporte->defEchelle(3, 3, 3);
+			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));
+		}
 	}
 };
