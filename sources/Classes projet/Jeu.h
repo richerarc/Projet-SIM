@@ -5,6 +5,7 @@
 #include "Gestionnaire3D.h"
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
+#include "GestionnairePhases.h"
 #include "Objet.h"
 #include "Sons.h"
 #include "ControlleurAudio.h"
@@ -22,96 +23,69 @@
 #include "Joueur.h"
 #include "Salle.h"
 #include "Physique.h"
-
-#include "ControleVisuel.h"
-#include "Menu.h"
-#include "GestionnaireMenu.h"
 #include "GestionnaireControle.h"
+#include "PhaseJeu.h"
+#include "MenuPrincipal.h"
+#include "PhaseMenuPrincipal.h"
+#include "PhaseMenuNouvellePartie.h"
+#include "PhaseMenuPause.h"
+
 
 
 class Jeu{
 
-private:
+public:
+
 	static gfx::Fenetre *fenetre;
 	static SDL_Event evenement;
-	static Chrono chrono;
-	static float frameTime;
-	static Joueur* joueur;
-
-	static void appliquerPhysique() {
-		if (joueur->obtVitesse().norme() != 0) {
-			if (!Physique::obtInstance().collisionJoueurSalle(joueur)) {
-				Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-				if (joueur->obtEtat() != 0)
-					joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
-			}
-			else
-				joueur->defSaut(false);
-		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
-	}
-
-public:
 
 	Jeu(){}
 
 	static void demarrer(){
-		srand(time(NULL));
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
-		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		ControlleurAudio::obtInstance().initialiser(100);
-
-
+		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		//ControlleurAudio::obtInstance().initialiser(100);
+		
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-
-		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
-		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1, 50, 0));
-		frameTime = chrono.obtTempsEcoule().enSecondes();
-		joueur->ajouterScene();
-
-		Carte::obtInstance().creer(20);
-		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
 		
+		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
+
+		Rect<float>::defDimention(600);
+
 		while (fenetre->estOuverte())
 		{
-			frameTime = chrono.repartir().enSecondes();
 
 			while (fenetre->sonderEvenements(evenement))
 			{
 				GestionnaireEvenements::obtInstance().lancerEvenement(evenement);
-
-				// Pour l'instant ce sera de cette facon qu'on quittera le jeu. plus tard se sera grace au menu pause j'imagine
-				if (evenement.type == SDL_QUIT || evenement.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-					fenetre->fermer();
 			}
 
 			fenetre->vider();
 			glLoadIdentity();
 			// Mouvement ici
-			joueur->deplacement(frameTime);
-			appliquerPhysique();
-
+			GestionnairePhases::obtInstance().rafraichir();
+		
 			// Affichege ici
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
-			ControlleurAudio::obtInstance().jouerTout(joueur);
+			gfx::Gestionnaire2D::obtInstance().afficherTout(*fenetre);
+			
 
 			fenetre->rafraichir();
+			if (GestionnairePhases::obtInstance().obtPhase(0) == nullptr)
+				fenetre->fermer();
 		}
-
-		delete joueur;
+		
 		delete fenetre;
-		ControlleurAudio::obtInstance().fermer();
-		Mix_CloseAudio();
+		//ControlleurAudio::obtInstance().fermer();
+		//Mix_CloseAudio();
 		TTF_Quit();
 		SDL_Quit();
 	}
 
 };
 
-float Jeu::frameTime = 0;
 gfx::Fenetre* Jeu::fenetre = nullptr;
-Chrono Jeu::chrono;
-Joueur* Jeu::joueur = nullptr;
 SDL_Event Jeu::evenement;
