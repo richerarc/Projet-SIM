@@ -9,7 +9,7 @@ public:
 		pause = false;
 	}
 
-	virtual void afficher(gfx::Fenetre& fenetre) = 0;
+
 
 	virtual void rafraichir() = 0;
 
