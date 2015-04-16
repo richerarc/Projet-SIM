@@ -25,7 +25,9 @@ public:
 			while (!fichierNom.eof()) {
 				fichierNom >> chemin;
 				if (chemin == "fond.ogg"){
-					sons[ittChaine] = new Fond(chemin.c_str(), ++ittChaine);
+					Sons* temp = new Fond(chemin.c_str(), ++ittChaine);
+					temp->defVolume(20);
+					sons[ittChaine] = temp;
 				}
 				sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine);
 			}
@@ -53,7 +55,7 @@ public:
 			defVolumeFond(20);
 			defVolumeEffet(60);
 			coeur->defVolume(10);
-			pas->defVolume(8);
+			pas->defVolume(12);
 			initial = true;
 		}
 	}

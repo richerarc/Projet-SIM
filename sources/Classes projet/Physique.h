@@ -16,6 +16,18 @@ private:
 	std::map<char*, double> mapRestitution;
 	bool collision;
 
+	Vecteur3d obtPositionSourceSonore(Vecteur3d positionSon, Vecteur3d positionJoueur){
+		double deltaX, deltaZ;
+		
+		deltaX = positionJoueur.x - positionSon.x;
+		deltaZ = positionJoueur.z - positionSon.z;
+		Vecteur3d vec(deltaX, positionJoueur.y, deltaZ);
+		
+		
+		
+		return NULL;
+	}
+	
 	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
 		Vecteur3d point1;
