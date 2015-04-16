@@ -42,11 +42,17 @@ private:
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			}
 			else{
-				if (joueur->obtEtat() == SAUT)
+				if (joueur->obtEtat() != CHUTE)
 					joueur->defEtat(CHUTE);
 				else if (joueur->obtEtat() == CHUTE){
-					joueur->defEtat(STABLE);
-					joueur->obtVitesse().y = 0.f;
+					if (Physique::obtInstance().collisionAuSol(joueur)){
+						joueur->defEtat(STABLE);
+						joueur->obtVitesse().y = 0.f;
+					}
+					else {
+						joueur->obtVitesse().x = 0.f;
+						joueur->obtVitesse().z = 0.f;
+					}
 				}
 
 			}
