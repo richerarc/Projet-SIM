@@ -134,14 +134,26 @@ Nous avons fait une réunion pour voir où chaque équipe était rendue et ce qu
 
 J'ai travaillé avec Xavier pour tout mettre en pointeur dans les interfaces. On a ensuite changé la tructure de nos classes menus pour que les controles visuels
 soient créés dans le constructeur des menus. Liste des prochaines choses à faire:  
-  
--  Créer les controles visuels dans les constructeurs des menus (menuPrincipal déjà fait)  
--  Retravailler la conception.
--  Faire une fonction aficher et retirer dans les classes d'interface.
--  Gérer les évenements.
 
 
 ###Durée 3h
 
+##Mardi 14 avril 2015
 
-##Durée Totale: 43h
+###2:30 à 17:30
+
+Nous avons reçu Julien et Brandon dans l'équipe d'interface, alors nous leur avons montré ce qui a été fait à date. Ensuite, nous avons passé trop de temps à discuter de ce que nous allons faire pour les menus, Brandon a décidé qu'on allait mettre des phases pour gérer lequel s'affiche. Pas nécessaire. En tk...
+Là on c'est mis sur le codage, j'ai codé les phases du MenuNouvellePartie et MenuPause.
+
+###Durée 3h
+
+##Jeudi 16 avril 2015
+
+###10:30 à 11:30
+
+J'ai codé les phases MenuOptions, MenuGraphique, MenuSon et MenuControle.
+
+###Durée: 1h
+
+
+##Durée Totale: 47h
