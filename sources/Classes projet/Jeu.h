@@ -38,6 +38,10 @@ public:
 
 	static gfx::Fenetre *fenetre;
 	static SDL_Event evenement;
+	static Chrono chrono;
+	static float frameTime;
+
+public:
 
 	Jeu(){}
 
@@ -54,7 +58,7 @@ public:
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 
 		Rect<float>::defDimention(600);
-
+		
 		while (fenetre->estOuverte())
 		{
 

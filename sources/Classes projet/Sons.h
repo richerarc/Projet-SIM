@@ -11,8 +11,13 @@ protected:
 	Vecteur3d position;
 	int volume;
 	
-	void defVolume(Vecteur3d positionJoueur, Vecteur3d cameraDevant){
-			//TODO : aller voir Olivier Séguin
+	void defIntensite(Vecteur3d positionS_O){
+		double theta(atan((positionS_O.x)/(positionS_O.z)));
+		Mix_SetPosition(idChaine, (Uint16)theta, (Uint8)positionS_O.norme());
+	}
+	
+	void defIntensite(Uint16 theta, Uint8 distance){
+		Mix_SetPosition(idChaine, theta, distance);
 	}
 	
 public:
@@ -124,12 +129,16 @@ public:
 	}
 	
 	void jouer(Joueur* joueur){
-		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && !joueur->enSaut()){
+		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() != etat::SAUT){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= vitesse) || (Mix_Playing(idChaine)))){
-				if (premier)
+				if (premier){
+					defIntensite(0, 1);
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
-				else
+				}
+				else{
+					defIntensite(180, 1);
 					Mix_FadeInChannelTimed(idChaine, audio2, 0, 1, -1);
+				}
 				premier = !premier;
 				delais.repartir();
 			}

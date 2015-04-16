@@ -85,3 +85,16 @@ de 19h à 20h(1h)
 2 avril de 9h40 à 12h(2h20)
 -J'ai travaillé avec Xavier sur l'utilisation du 2D pour qu'il puisse faire ses menus
 -J'ai recommencé le menage d'includes avec Kevin puisque je l'avais mal fait au départ
+
+7 avril de 14h à 17h15 (3h15)
+-Nous avons eu une réunions sur le fonctionnement des différentes classes du projet
+
+10 avril de 10h à 12h(2h)
+-J'ai participé a l'affichage d'une pièce dans la classe Jeu avec Kevin
+
+14 avril de 12h à 18h(6h)
+-Nous avons tout d'abords fait une réunions d'équipe afin d'assurer l'avenir de notre projet(J'ai été assigné à l'interface)
+-Ensuite, nous avons recommencé le cycle de vie du projet, nous avons donc revue l'analyse, les diagrames d'états et les diagrammes d'utilisations mais la plupart étaient déjà à jour.
+-Cependant, il y a plusieurs modifications a faire par rapport au diagramme de classe, nous en avons discuté en équipe.
+-Finalement, j'ai ajouter 2 accesseurs dans ma classe Sprite et Texte afin d'obtenir un rectangle pour ainsi pouvoir vérifier des clicks de souris
+-J'ai fais la classe MenuPause même s'il manque quelques trucs dont probablement d'autres "boutons" et les différentes phases.

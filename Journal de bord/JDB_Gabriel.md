@@ -266,3 +266,30 @@ Il foncitonne bien!
 ###11 avril 2015
 
 **0h30**: Corrections dans le rebond pour les rares fois qu'un objet tombe et qu'il ne gagne pas de rotation du genre une sphère sur un plancher droit, j'avais des divisions par zéro. Ça ma aussi permis d'optimiser un peu le code.
+
+###14 avril 2015
+
+J'ai eu un petit moment sans travail, et avant de m'avancé sur autre chose je préférais attendre notre super rencontre de groupe!
+
+**0h30**: Petite rencontre entre Kevin, Richer, Julien et moi pour parler de la prochaine étape du projet et de problème à résoudre en ce qui concerne la méthode de travail de tout le monde. Nous nous sommes ressortis avec trois prochaines étapes pour l'avancement du projet:
+
+- Interface: Ce qui concerne l'affichage 2D des menus et l'interface de jeu. (Julien)
+- Joueur: Intéraction/Mouvement/Collision du joueur dans le jeu (Kevin)
+- Carte/Salle: Génération des salles avec les trucs de Richer et Nicolas C., création des portes(Génération à la bonne place, interaction avec le joueur et passage du joueur dans la pièce suivante), gestion des objets dans le jeu. (Moi)
+- Son : (Richer) <--- *Temporaire, devrait prendre 1 sem.*
+
+Je crois être confortable dans ma nouvelle position, je vais me familiariser avec ce qu'ils auront de fait.
+
+**1h00**: Discutions avec presque tout le monde de présent, nous avons parler de l'avancement du projet, de la méthode de travail à suivre pour la prochaine étape, de l'importance de respecter le cycle itératif et nous avons répartis les nouvelles équipes, je travaillerai avec Nicolas C. et Damien.
+
+**3h00**: Première étape de notre groupe, nous avons choisi et compléter ce qui a trait aux portes/génération de la map. Tou d'abord nous nous sommes fait une petite analyse qui divise notre tâche en trois partie distincte(ITÉRATIF!!!). Premièrement, il nous faudra pouvoir générer des porte aux bon endroit, nous avons aussi spécifié plusieurs conditions à respecter(À voir dans notre analyse). Ensuite, nous allons gérer la demande que le joueur nous enverra pour ouvrir une porte, à voir pour plus tard l'ajout d'un verrou. Finalement nous allons travailler sur la transition d'une salle à une autre.
+
+Nous avons aussi travaillé sur le diagramme de classe d'algo pour ajouter ce dont nous aurons besion. Nous sommes donc près à coder notre premier cycle!
+
+Nicolas avait déjà commencé à coder le positionnement des portes, nous avons travaillé dessus en groupe pour régler plusieurs bug et problèmes, nous avons aussi modifié quelque chose dans la classe jeu afin que la salle active se décide selon la génération de graphe de Richer et Nicolas. Au début nous avions de nombreux problème de violation d'accès et de débordement de tableau, mais après un acharnement intensif, nous sommes parvenus à les corriger. Je suis assez satisfait de mon équipe et je crois qu'on va bien performer et bien sur respecter le plus possible le cycle itératif.
+
+### 15 avril 2015
+
+**0h30**: Travail dans la classe carte pour que les portes affichent, les portes ne sont pas bien placées!
+
+**1h00**: Réglage d'erreur dans la procédure creer de carte, par exemple, il ne réinitialisait pas la salle lorsqu'il travaillait sur une nouvelle et rendu à la vingtième salle elle avait beaucoup de boîtes de collision. J'ai aussi regardé l'algo de Nico quant-au positionnement des portes, il y a quelques trucs à régler que j'ai pris en note pour lui en parler demain, mais la position finale que ça donne semble être correct même si la porte n'est apparament pas à la bonne place lors de l'affichage. Je me suis aussi assuré que l'origine de l'obj de la porte était à la bonne position.

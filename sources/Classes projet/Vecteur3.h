@@ -27,6 +27,12 @@ public:
 		z = -z;
 	}
 	
+	bool operator==(Vecteur3<T> autre) {
+		if (x == autre.x && y == autre.y && z == autre.z)
+			return true;
+		return false;
+	}
+
 	void operator+=(Vecteur3<T> autre) {
 		x += autre.x;
 		y += autre.y;
