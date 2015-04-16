@@ -1,20 +1,26 @@
+#pragma once
+#include "ControleVisuel.h"
+
 class Etiquette : public ControleVisuel{
+
 protected:
-	gfx::Texte2D Texte;
+	gfx::Texte2D* Texte;
+
 public:
-	Etiquette(gfx::Texte2D Texte, gfx::Sprite2D Sprite, Vecteur2f VecteurPosition, Vecteur2f VecteurTaille) : ControleVisuel(){
+
+
+	Etiquette(gfx::Texte2D* Texte, gfx::Sprite2D* SpriteFond, Vecteur2f VecteurPosition, Vecteur2f VecteurTaille) : ControleVisuel(){
 		this->position = VecteurPosition;
 		this->Texte = Texte;
-		this->SpriteFond = Sprite;
+		this->SpriteFond = SpriteFond;
 		this->taille = VecteurTaille;
-		this->SpriteFond.defEchelle(VecteurTaille);
-		this->SpriteFond.defPosition(VecteurPosition);
-		this->Texte.defPosition(VecteurPosition);
+		this->SpriteFond->defEchelle(VecteurTaille);
+		this->SpriteFond->defPosition(VecteurPosition);
+		this->Texte->defPosition(VecteurPosition);
 	}
 
-	void afficher(gfx::Fenetre& fenetre){ //affichage de l'etiquette
-		this->SpriteFond.afficher(fenetre);
-		this->Texte.afficher(fenetre);
+	void afficher(){ //affichage de l'etiquette
+		
 	}
 
 	Vecteur2f ObtenirPosition(){

@@ -9,12 +9,10 @@ public:
 		pause = false;
 	}
 
+	virtual void rafraichir(float frameTime) = 0;
 
-
-	virtual void rafraichir() = 0;
-
-	void pause(bool pause){
-		pause = pause;
+	void defPause(bool pause){
+		this->pause = pause;
 	}
 
 };

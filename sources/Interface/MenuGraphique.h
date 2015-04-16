@@ -1,23 +1,27 @@
+#pragma once
+#include "Menu.h"
+#include "Texte2D.h"
+
 class MenuGraphique : public Menu {
+
+private:
+
+	gfx::Texte2D* Resolution;
+	gfx::Texte2D* FlecheGauche;
+	gfx::Texte2D* FlecheDroite;
+	gfx::Texte2D* Appliquer;
 
 public:
 
-	Etiquette Resolution;
-	Bouton FlecheGauche;
-	Bouton FlecheDroite;
-	Bouton Appliquer;
+	MenuGraphique(void) : Menu() {
+
+		
+
+	}
+
+	void actualiser() {
 
 
-	MenuGraphique(Etiquette Resolution, Bouton FlecheGauche, Bouton FlecheDroite, Bouton Appliquer) : Menu(Actif, SpriteFond, Titre, Retour) {
-
-		this->SpriteFond = SpriteFond;
-		this->Titre = Titre;
-		this->Retour = Retour;
-
-		this->Resolution = Resolution;
-		this->FlecheGauche = FlecheGauche;
-		this->FlecheDroite = FlecheDroite;
-		this->Appliquer = Appliquer;
 
 	}
 

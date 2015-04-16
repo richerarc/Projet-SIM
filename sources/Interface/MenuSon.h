@@ -1,17 +1,25 @@
+#pragma once
+#include "Menu.h"
+#include "Texte2D.h"
+
 class MenuSon : public Menu {
+
+private:
+
+	gfx::Texte2D* Volume;
+
 
 public:
 
-	Glisseur Volume;
+	MenuSon(void) : Menu() {
+
+		
+
+	}
+
+	void actualiser() {
 
 
-	MenuSon(Glisseur Volume) : Menu(Actif, SpriteFond, Titre, Retour) {
-
-		this->SpriteFond = SpriteFond;
-		this->Titre = Titre;
-		this->Retour = Retour;
-
-		this->Volume = Volume;
 
 	}
 

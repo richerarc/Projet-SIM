@@ -93,6 +93,10 @@ namespace gfx{
 			objets.push_back(Objet);
 		}
 
+		void ajouterObjet(std::initializer_list<gfx::Objet3D*> list){
+			objets.insert(objets.end(), list.begin(), list.end());
+		}
+
 		void vider(){
 			if (!objets.empty()){
 				objets.clear();
@@ -101,6 +105,10 @@ namespace gfx{
 
 		void defCamera(gfx::Camera* camera){
 			this->camera = camera;
+		}
+
+		Camera* obtCamera() {
+			return camera;
 		}
 
 		~Gestionnaire3D(){

@@ -1,3 +1,5 @@
+#pragma once
+#include "Menu.h"
 
 class GestionnaireMenu : public Singleton<GestionnaireMenu>{
 private:

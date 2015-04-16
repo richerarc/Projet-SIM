@@ -18,6 +18,8 @@ namespace gfx{
 		double vAngle;
 		double matriceVue[4][4];
 
+		bool pause;
+
 		void construireMatrice(){
 			matriceVue[0][0] = cote.x;
 			matriceVue[1][0] = cote.y;
@@ -87,6 +89,8 @@ namespace gfx{
 			this->hAngle = 0;
 			this->vAngle = 0;
 
+			this->pause = false;
+
 			calculerVecteurs();
 
 			GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Camera::surMouvementSouris, this, std::placeholders::_1));
@@ -103,14 +107,21 @@ namespace gfx{
 		}
 
 		void surMouvementSouris(SDL_Event &event){
-			hAngle -= event.motion.xrel * sensibilite;
-			vAngle -= event.motion.yrel * sensibilite;
-			calculerVecteurs();
+			
+			if (!pause) {
+				hAngle -= event.motion.xrel * sensibilite;
+				vAngle -= event.motion.yrel * sensibilite;
+				calculerVecteurs();
+			}
 		}
 
 		void appliquer(){
 			glMultMatrixd(&matriceVue[0][0]);
 			glTranslated(-position.x, -position.y, -position.z);
+		}
+
+		void defPause(bool pause) {
+			this->pause = pause;
 		}
 
 		Vecteur3d obtHaut(){ return this->haut; }
