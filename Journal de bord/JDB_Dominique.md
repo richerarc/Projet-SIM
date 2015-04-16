@@ -32,3 +32,5 @@
 
 14/04/2015 (8h30 à 9h15) : J'ai déplacé l'UML des objets dans son propre fichier, puis j'ai ajouté les switch des actions dans Objet.h, ObjetFixe.h et ObjetPhysique.h. Ils sont vides mais présents pour indiquer ce qu'ils peuvent faire.
 (12h35 à 5h15) : Nous avons (en groupe) discuté d'une nouvelle répartition des tâches dans le projet. Moi, Nathan, Samuel et Kevin sommes chargés de faire fonctionner le joueur et en avons fait l'analyse et les diagrammes. Nous avons ensuite modifié son code pour correspondre à cette analyse et avons ensuite reglé un bug où le joueur tremblait continuellement.
+
+16/04/2015 (10h00 à 12h00) : J'ai commencé à débugger le bug qui fait coller le personnage au mur, je vais le terminer et le commit plus tard dans la journée.

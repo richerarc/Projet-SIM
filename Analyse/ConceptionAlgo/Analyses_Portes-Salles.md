@@ -1,4 +1,4 @@
-,##Analyse des portes (description des prochains cycles ittératif)
+##Analyse des portes (description des prochains cycles ittératif)
 **1. Génération des portes.  
 2. Interactions porte-joueur.  
 3. Changement de salle.**
