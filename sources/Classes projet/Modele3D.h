@@ -284,6 +284,7 @@ Modele3D() : Objet3D(){
 		}
 
 		void afficher(){
+			glEnable(GL_DEPTH_TEST);
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
 				//glLoadIdentity();
@@ -298,6 +299,7 @@ Modele3D() : Objet3D(){
 				glNormalPointer(GL_DOUBLE, 0, modele->obtNormales());
 				glDrawArrays(GL_TRIANGLES, 0, modele->obtNbrSommets());
 			glPopMatrix();
+			glDisable(GL_DEPTH_TEST);
 		}
 
 	};
