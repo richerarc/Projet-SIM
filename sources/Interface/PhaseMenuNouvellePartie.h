@@ -28,6 +28,4 @@ public:
 		menuNouvellePartie->actualiser();
 
 	}
-
-
 };

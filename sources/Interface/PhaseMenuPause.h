@@ -1,7 +1,7 @@
 #pragma once
 #include "MenuPause.h"
 
-class PhaseMenuPause {
+class PhaseMenuPause : public Phase{
 
 private:
 
@@ -10,7 +10,7 @@ private:
 
 public:
 
-	PhaseMenuPause() {
+	PhaseMenuPause() : Phase(){
 
 		menuPause = new MenuPause();
 

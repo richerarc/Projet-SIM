@@ -1,5 +1,4 @@
 #pragma once
-#include "Singleton.h"
 #include "ControleVisuel.h"
 #include "Texte2D.h"
 #include "GestionnaireRessources.h"
@@ -9,8 +8,8 @@ class Menu {
 
 protected:
 
-	gfx::Sprite2D* spriteFond;
-	gfx::Texte2D* retour;
+	gfx::Sprite2D* SpriteFond;
+	gfx::Texte2D* Retour;
 
 public:
 	virtual void actualiser() = 0;
