@@ -7,20 +7,6 @@
 namespace LecteurFichier{
 	bool lireBoite(char* cheminAcces, InfoSalle& salle){
 		std::ifstream fichier(cheminAcces);
-		/*Exemple fichier
-		...
-		Boite{
-		x y z
-		x y z
-		x y z
-		x y z
-		x y z
-		x y z
-		x y z
-		x y z
-		}
-		...
-		*/
 		if (fichier.is_open()){
 
 			char* ligne = new char();
@@ -30,7 +16,7 @@ namespace LecteurFichier{
 				fichier.getline(ligne, 256);
 				for (int i = 0; i < 8; ++i){
 					fichier >> x >> y >> z;
-					tabBoite[i] = Vecteur3<double>(x, y, z);
+					tabBoite[i] = Vecteur3<double>(x * 3, y * 3, z * 3);
 				}
 				BoiteCollision<double> boite(tabBoite);
 				salle.boitesCollision.push_back(boite);
@@ -53,7 +39,7 @@ namespace LecteurFichier{
 
 		for (int i = 0; i < 8; ++i){
 			fichier >> x >> y >> z;
-			tabBoite[i] = Vecteur3<double>(x, y, z);
+			tabBoite[i] = Vecteur3<double>(x * 3, y * 3, z * 3);
 		}
 		BoiteCollision<double> boite(tabBoite);
 		fichier.close();

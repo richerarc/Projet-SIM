@@ -95,90 +95,106 @@ public:
 		std::list<BoiteCollision<double>> boiteObjet;
 		Vecteur3d pos3D(0, 0, 0);
 		InfoObjet objet;
+		bool boPorte;
 		for (unsigned int i = 0; i < limite; ++i){
 			InfoSalle salle;
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 2; // en attendant que toutes eles salles sont conformes
+			aleatoire = /*rand() % 2*/1; // en attendant que toutes eles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire])).c_str();
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])).c_str(), salle);
 			boiteObjet =  std::list<BoiteCollision<double>>();
-			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte){
+			for (unsigned short IDPorte = 0; IDPorte < 4/*salle.nbrPorte*/; ++IDPorte){
 				objet.ID = IDPorte;
-				objet.cheminModele = "porte.obj";// "HARDCODÉ"
-				objet.cheminTexture = "porte.png";// "HARDCODÉ"
-				do{
-					auto it = salle.boitesCollision.begin();
-					pos = rand() % salle.boitesCollision.size();
-					std::advance(it, pos);
+				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
+				objet.cheminTexture = "portePlate1.png";// "HARDCODÉ"
+				boPorte = false;
+				while (!boPorte) {
+					boPorte = true;
 					do{
-						xMin = (*it).obtBoite()[rand() % 8].x;
-						xMax = (*it).obtBoite()[rand() % 8].x;
-					} while (xMin == xMax);
-					if (xMax < xMin){
-						x = xMin;
-						xMin = xMax;
-						xMax = x;
-					}
-					x = abs(xMax - xMin);
-					do{
-						yMin = (*it).obtBoite()[rand() % 8].y;
-						yMax = (*it).obtBoite()[rand() % 8].y;
-					} while (yMin == yMax);
-					if (yMax < yMin){
-						y = yMin;
-						yMin = yMax;
-						yMax = y;
-					}
-					y = abs(yMax - yMin);
-					do{
-						zMin = (*it).obtBoite()[rand() % 8].z;
-						zMax = (*it).obtBoite()[rand() % 8].z;
-					} while (zMin == zMax);
-					if (zMax < zMin){
-						z = zMin;
-						zMin = zMax;
-						zMax = z;
-					}
-					z = abs(zMax - zMin);
-					
-					directions = 0;
-					for (auto boite : salle.boitesCollision) {
-						for (short j = 0; j < 8; ++j){
-							if(j == pos){
-								if ((((boite).obtBoite()[j].x >= xMax) && ((directions & 1) != 1)))
-									directions += 1;
-								if ((((boite).obtBoite()[j].x <= xMin) && ((directions & 2) != 2)))
-									directions += 2;
-								if ((((boite).obtBoite()[j].z >= zMax) && ((directions & 4) != 4)))
-									directions += 4;
-								if ((((boite).obtBoite()[j].z <= zMin) && ((directions & 8) != 8)))
-									directions += 8;
+						auto it = salle.boitesCollision.begin();
+						pos = rand() % salle.boitesCollision.size();
+						std::advance(it, pos);
+						do{
+							xMin = (*it).obtBoite()[rand() % 8].x;
+							xMax = (*it).obtBoite()[rand() % 8].x;
+						} while (xMin == xMax);
+						if (xMax < xMin){
+							x = xMin;
+							xMin = xMax;
+							xMax = x;
+						}
+						x = abs(xMax - xMin);
+						do{
+							yMin = (*it).obtBoite()[rand() % 8].y;
+							yMax = (*it).obtBoite()[rand() % 8].y;
+						} while (yMin == yMax);
+						if (yMax < yMin){
+							y = yMin;
+							yMin = yMax;
+							yMax = y;
+						}
+						y = abs(yMax - yMin);
+						do{
+							zMin = (*it).obtBoite()[rand() % 8].z;
+							zMax = (*it).obtBoite()[rand() % 8].z;
+						} while (zMin == zMax);
+						if (zMax < zMin){
+							z = zMin;
+							zMin = zMax;
+							zMax = z;
+						}
+						z = abs(zMax - zMin);
+
+						directions = 0;
+						for (auto boite : salle.boitesCollision) {
+							for (short j = 0; j < 8; ++j){
+								if (j != pos){
+									if ((((boite).obtBoite()[j].x >= xMax) && ((directions & 1) != 1)))
+										directions += 1;
+									if ((((boite).obtBoite()[j].x <= xMin) && ((directions & 2) != 2)))
+										directions += 2;
+									if ((((boite).obtBoite()[j].z >= zMax) && ((directions & 4) != 4)))
+										directions += 4;
+									if ((((boite).obtBoite()[j].z <= zMin) && ((directions & 8) != 8)))
+										directions += 8;
+								}
 							}
 						}
-					}
-				} while (directions == 0);
+					} while (directions == 0);
 
-				pos3D.y = yMin;
-				switch (aleatoire4Bit(65535 - (~directions))){
-				case(1) :
-					pos3D.x = xMax; pos3D.z = (zMax - zMin) + zMin;
-					break;
-				case(2) :
-					pos3D.x = xMin; pos3D.z = (zMax - zMin) + zMin;
-					break;
-				case(4) :
-					pos3D.x = (xMax - xMin) + xMin; pos3D.z = zMax;
-					break;
-				case(8) :
-					pos3D.x = (xMax - xMin) + xMin; pos3D.z = zMin;
-					break;
+					pos3D.y = yMin;
+					switch (aleatoire4Bit(65535 - (~directions))){
+					case(1) :
+						pos3D.x = xMax; pos3D.z = (z) / 2 + zMin;
+						objet.rotation = 180;
+						break;
+					case(2) :
+						pos3D.x = xMin; pos3D.z = (z) / 2 + zMin;
+						objet.rotation = 0;
+						break;
+					case(4) :
+						pos3D.x = (x) / 2 - xMax; pos3D.z = zMax;
+						objet.rotation = 90;
+						break;
+					case(8) :
+						pos3D.x = (x) / 2 + xMin; pos3D.z = zMin;
+						objet.rotation = -90;
+						break;
+					}
+
+					for (auto it : salle.Objet) {
+						if (pos3D == it.position)
+							boPorte = false;
+					}
 				}
 
 
 				boiteObjet.push_back(LecteurFichier::lireBoiteObjet("Porte.txt"));// "HARDCODÉ"
+
+
 				objet.position = pos3D;
 				salle.Objet.push_back(objet);
 			}
@@ -186,13 +202,15 @@ public:
 		}
 		
 		auto debut = infosSalles.begin();
-		/*pos = rand() % infosSalles.size();
-		std::advance(debut, pos);*/
+		pos = rand() % infosSalles.size();
+		std::advance(debut, pos);
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
 		for (auto it : (*debut).Objet) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 			modeleporte->defEchelle(3, 3, 3);
+			modeleporte->defPosition(it.position);
+			modeleporte->defOrientation(0, it.rotation, 0);
 			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));
 		}
 	}
