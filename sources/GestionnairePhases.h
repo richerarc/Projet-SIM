@@ -32,6 +32,9 @@ public:
 		}
 		return nullptr;
 	}
+	Phase* obtDerniere(){
+		return phases.back();
+	}
 
 	void afficher(gfx::Fenetre &fenetre){
 		for (auto it : phases)

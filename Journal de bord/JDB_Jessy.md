@@ -98,3 +98,8 @@ de 19h à 20h(1h)
 -Cependant, il y a plusieurs modifications a faire par rapport au diagramme de classe, nous en avons discuté en équipe.
 -Finalement, j'ai ajouter 2 accesseurs dans ma classe Sprite et Texte afin d'obtenir un rectangle pour ainsi pouvoir vérifier des clicks de souris
 -J'ai fais la classe MenuPause même s'il manque quelques trucs dont probablement d'autres "boutons" et les différentes phases.
+
+16 avril de 10h à 12h(2h)
+-Nous avons continué d'avancé l'interface. Pour ma part, j'ai travailler sur le menus options et participé au réglage de différents bug
+de 15h à 16h(1h)
+-J'ai travaillé sur le "back" dans les menus mais ce n'est toujours pas concluant 

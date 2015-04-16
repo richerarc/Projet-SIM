@@ -9,7 +9,7 @@ class Menu {
 protected:
 
 	gfx::Sprite2D* SpriteFond;
-	gfx::Texte2D* Retour;
+	gfx::Texte2D* Quitter;
 
 public:
 	virtual void actualiser() = 0;
