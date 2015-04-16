@@ -34,3 +34,4 @@
 (12h35 à 5h15) : Nous avons (en groupe) discuté d'une nouvelle répartition des tâches dans le projet. Moi, Nathan, Samuel et Kevin sommes chargés de faire fonctionner le joueur et en avons fait l'analyse et les diagrammes. Nous avons ensuite modifié son code pour correspondre à cette analyse et avons ensuite reglé un bug où le joueur tremblait continuellement.
 
 16/04/2015 (10h00 à 12h00) : J'ai commencé à débugger le bug qui fait coller le personnage au mur, je vais le terminer et le commit plus tard dans la journée.
+(1h15 à 4h00) : J'ai debuggé le joueur qui collait au mur et qui avais aussi plusieurs autre problèmes mineurs. Il peut maintenant se déplacer,sauter et toucher la salle sans problèmes.
