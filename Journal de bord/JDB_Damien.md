@@ -66,3 +66,6 @@
 	Fin du modelage du couteau et début de la texture.
 #Mardi 14 avril 2015 (13:25 à 13:35)
 	Finalisation du modèle et texture du couteau pour que la texture et l'Obj marche bien dans le code.
+	Réorganisation des équipes et travail sur la génération des portes.
+#Jeudi 16 avril 2015 (9:30 à 11:50)
+	Modification des porte pour qu'elles apparaissent sur les murs.
