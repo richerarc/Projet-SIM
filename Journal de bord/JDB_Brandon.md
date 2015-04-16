@@ -40,4 +40,7 @@ de 3h à 5h20
 14 avril 2015 pendant 2h30 (de 14h30 à 17h)
 	Nous avons réparti les tâches afin de déterminer où était rendu le développement afin de lancer la phase "Sauver les meubles." Ceci étant fait, j'ai été affecté à la team des Interfaces afin de faire avancer un peu cette section. J'ai expliqué au reste de l'équipe ma vision des choses concernant la conception des menus et les liens entre ceux-ci (Système de phases implémenté cette fin de semaine.) Après débat, nous en avons convenu que nous ferions nos menus au plus simple, soit avec des Texte2D directement, sans Étiquette ni Bouton. J'Ai donc implémenté la classe Rect qui permet de composé un rectangle avec les méthodes contient() et intersecte(). J'ai ensuite contribué en concevant la classe MenuNouvellePartie et en guidant le reste de la sous-team vers un développement stable des interfaces graphiques ainsi que la bonne utilisation des évènements.
 14 avril 2015 pendant 30 min (23h à 23h30).
-	J'ai finalisé la classe MenuNouvellePartie et j'ai révisé la classe Menu.
+	J'ai finalisé la classe MenuNouvellePartie et j'ai révisé la classe Menu.¸
+16 avril 2015 pendant 1h30 (10h à 11h30)
+	J'ai fixé une grande quantité de bugs avec Julien ce matin. Nous avons tout d'abord commencé par trouver pourquoi il fallait reloader la surface du texte à chaque fois qu'on l'affichait. Ensuite, nous avons trouvé pourquoi la scène 3D ne s'affichait pas correctement dans dans la phase, nous nous sommes rendu compte que c'était la caméra orthographique qui cancellait notre 3D. Enfin, nous avons trouvé pourquoi notre 3D "flickait", c'est parce que notre framtime se trouvait à être cummulatif plutôt que de calculer entre 2 frames.
+
