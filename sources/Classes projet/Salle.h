@@ -15,7 +15,7 @@ public:
 		this->ID = ID;
 		this->modele = modele;
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
-		this->modele->defEchelle(3, 3, 3);
+		this->modele->defEchelle(2, 2, 2);
 	}
 
 	unsigned int obtNbrPortes(){

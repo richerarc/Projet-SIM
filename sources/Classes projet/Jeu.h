@@ -69,7 +69,6 @@ public:
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(30, 800.0 / 600.0, 1, 1000);
 
-		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1, 50, 0));
 		frameTime = chrono.obtTempsEcoule().enSecondes();
 		joueur->ajouterScene();

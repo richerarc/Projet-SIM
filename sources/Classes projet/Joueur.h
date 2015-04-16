@@ -75,14 +75,13 @@ public:
 			etat = STABLE;
 		}
 		if (Clavier::toucheAppuyee(SDLK_SPACE) && (etat != SAUT)) {
-			vitesse.y = 6;
+			vitesse.y = 5;
 			etat = SAUT;
 		}
 
 	}
 
 	void ajouterScene(){
-		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele3D);
 		gfx::Gestionnaire3D::obtInstance().defCamera(camera);
 	}
 
@@ -93,7 +92,7 @@ public:
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
 		this->modele3D->defPosition(position);
-		camera->defPosition(Vecteur3d(position.x ,position.y + 3.5, position.z));
+		camera->defPosition(Vecteur3d(position.x ,position.y + 1.80, position.z));
 	}
 
 
