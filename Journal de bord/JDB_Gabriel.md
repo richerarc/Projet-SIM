@@ -287,3 +287,9 @@ Je crois être confortable dans ma nouvelle position, je vais me familiariser av
 Nous avons aussi travaillé sur le diagramme de classe d'algo pour ajouter ce dont nous aurons besion. Nous sommes donc près à coder notre premier cycle!
 
 Nicolas avait déjà commencé à coder le positionnement des portes, nous avons travaillé dessus en groupe pour régler plusieurs bug et problèmes, nous avons aussi modifié quelque chose dans la classe jeu afin que la salle active se décide selon la génération de graphe de Richer et Nicolas. Au début nous avions de nombreux problème de violation d'accès et de débordement de tableau, mais après un acharnement intensif, nous sommes parvenus à les corriger. Je suis assez satisfait de mon équipe et je crois qu'on va bien performer et bien sur respecter le plus possible le cycle itératif.
+
+### 15 avril 2015
+
+**0h30**: Travail dans la classe carte pour que les portes affichent, les portes ne sont pas bien placées!
+
+**1h00**: Réglage d'erreur dans la procédure creer de carte, par exemple, il ne réinitialisait pas la salle lorsqu'il travaillait sur une nouvelle et rendu à la vingtième salle elle avait beaucoup de boîtes de collision. J'ai aussi regardé l'algo de Nico quant-au positionnement des portes, il y a quelques trucs à régler que j'ai pris en note pour lui en parler demain, mais la position finale que ça donne semble être correct même si la porte n'est apparament pas à la bonne place lors de l'affichage. Je me suis aussi assuré que l'origine de l'obj de la porte était à la bonne position.
