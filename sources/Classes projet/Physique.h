@@ -549,12 +549,24 @@ public:
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur->defPosition(joueur->obtPosition() + pointDiference);
-
+				joueur->defPointCollision(pointCollision);
 				return true;
 			}
 		}
 
 		return false;
+	}
+	bool collisionAuSol(Joueur* joueur){
+		Vecteur3d* boite = Carte::obtInstance().salleActive->obtModele()->obtModele()->obtBoiteDeCollision();
+		Vecteur3d face[8];
+		int nbrVerticesAlignees = 0;
+		for (int i = 0; i < 8; ++i){
+			if (boite[i].y == joueur->obtPointCollision().y){
+				face[nbrVerticesAlignees] = boite[i];
+				++nbrVerticesAlignees;
+			}
+		}
+		return (nbrVerticesAlignees >= 3);
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {

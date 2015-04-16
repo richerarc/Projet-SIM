@@ -26,23 +26,20 @@ namespace gfx{
 		void afficher(gfx::Fenetre& fenetre){
 	
 			glDisable(GL_DEPTH_TEST);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1); 
 			glMatrixMode(GL_MODELVIEW);
 
+			glPushMatrix();
 			glLoadIdentity();
 
-		
 			glTranslatef(position.x - origine.x, position.y - origine.y, 0.0f);
 			glRotatef(orientation, 0.0f, 0.0f, 1.0f);
 			glTranslatef(origine.x, origine.y, 0.0f);
-			glPushMatrix();
 
-			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, texture->obtID());
+
 			glBegin(GL_QUADS);
-	
+
 			glTexCoord2i(0, 1);
 			glVertex2f(position.x, position.y);  //1
 
@@ -55,9 +52,8 @@ namespace gfx{
 			glTexCoord2i(0, 0);
 			glVertex2f(position.x, surface->h + position.y); //4
 			glEnd();
-
-			glDisable(GL_TEXTURE_2D);
 			glPopMatrix();
+			glDisable(GL_TEXTURE_2D);
 
 		}
 		void defTexture(Texture* texture){

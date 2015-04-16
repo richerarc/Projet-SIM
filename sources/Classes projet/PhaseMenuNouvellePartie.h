@@ -23,7 +23,7 @@ public:
 
 	}
 
-	void rafraichir(){
+	void rafraichir(float frameTime){
 
 		menuNouvellePartie->actualiser();
 

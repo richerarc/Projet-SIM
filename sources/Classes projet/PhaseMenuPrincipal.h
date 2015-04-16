@@ -20,7 +20,7 @@ public:
 		delete menuPrincipal;
 	}
 
-	void rafraichir() {
+	void rafraichir(float frameTime) {
 
 		menuPrincipal->actualiser();
 	}

@@ -13,6 +13,7 @@ private:
 	double masse;
 	float vitesseDeplacement;
 	int etat;
+	Vecteur3d pointCollision;
 
 public:
 
@@ -31,22 +32,25 @@ public:
 
 	void deplacement(float frametime){
 
-		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && vitesse.x != 0 && vitesse.z != 0 && (etat != SAUT) && (etat != CHUTE)){
-			vitesse.x = 0;
+		//if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && vitesse.x != 0 && vitesse.z != 0 && (etat != SAUT) && (etat != CHUTE)){
+		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE)){
+ 			vitesse.x = 0;
 			vitesse.z = 0;
-			if (etat = MARCHE)
-				etat = CHUTE;
+			//if (etat = CHUTE)
+				//etat = STABLE;
 			if (vitesse.y == 0){
 				etat = STABLE;
 				vitesse.y = 0.01;
 			}
 		}
-
+		if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0){
+			etat = STABLE;
+		}
 		Vecteur3d devant = camera->obtDevant();
 		devant.y = 0;
 		Vecteur3d cote = camera->obtCote();
 		cote.y = 0;
-		if (etat != SAUT) {
+		if (etat != SAUT && etat != CHUTE) {
 			if (Clavier::toucheAppuyee(SDLK_w)){
 				etat = MARCHE;
 				vitesse = devant * vitesseDeplacement;
@@ -74,7 +78,7 @@ public:
 			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
 			etat = STABLE;
 		}
-		if (Clavier::toucheAppuyee(SDLK_SPACE) && (etat != SAUT)) {
+		if (Clavier::toucheAppuyee(SDLK_SPACE) && (etat != SAUT) && etat != CHUTE) {
 			vitesse.y = 5;
 			etat = SAUT;
 		}
@@ -94,7 +98,14 @@ public:
 		this->modele3D->defPosition(position);
 		camera->defPosition(Vecteur3d(position.x ,position.y + 1.80, position.z));
 	}
+	void defPointCollision(Vecteur3d pointCollision){
+		this->pointCollision = pointCollision;
+	}
 
+
+	Vecteur3d& obtPointCollision(){
+		return this->pointCollision;
+	}
 
 	Vecteur3d& obtPosition(){
 		return this->position;

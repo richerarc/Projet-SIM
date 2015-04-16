@@ -107,6 +107,10 @@ namespace gfx{
 			this->camera = camera;
 		}
 
+		Camera* obtCamera() {
+			return camera;
+		}
+
 		~Gestionnaire3D(){
 			vider();
 			delete camera;

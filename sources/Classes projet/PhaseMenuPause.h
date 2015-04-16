@@ -22,7 +22,7 @@ public:
 
 	}
 
-	void rafraichir(){
+	void rafraichir(float frameTime){
 
 		menuPause->actualiser();
 

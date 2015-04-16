@@ -72,6 +72,7 @@ public:
 			GestionnairePhases::obtInstance().rafraichir(frameTime);
 		
 			// Affichege ici
+			gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
 			gfx::Gestionnaire2D::obtInstance().afficherTout(*fenetre);
 			

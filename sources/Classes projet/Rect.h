@@ -25,7 +25,7 @@ public:
 		return false;
 	}
 
-	static void defDimention(int h) {
+	static void defDimension(int h) {
 
 		hauteur = h;
 	}

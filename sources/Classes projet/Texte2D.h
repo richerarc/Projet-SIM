@@ -73,6 +73,9 @@ namespace gfx{
 
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_BLEND);
+			glMatrixMode(GL_PROJECTION);
+			glPopMatrix();
+			glMatrixMode(GL_MODELVIEW);
 			glPopMatrix();
 		}
 		void defPolice(const char* pathPolice){
