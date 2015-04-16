@@ -38,10 +38,8 @@ public:
 
 	static gfx::Fenetre *fenetre;
 	static SDL_Event evenement;
-	static Chrono chrono;
 	static float frameTime;
-
-public:
+	static Chrono chrono;
 
 	Jeu(){}
 
@@ -51,17 +49,18 @@ public:
 		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		//ControlleurAudio::obtInstance().initialiser(100);
 		
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
+		
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-		
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 
-		Rect<float>::defDimention(600);
-		
+		Rect<float>::defDimension(600);
+
+		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
 		{
-
+			frameTime = chrono.repartir().enSecondes();
 			while (fenetre->sonderEvenements(evenement))
 			{
 				GestionnaireEvenements::obtInstance().lancerEvenement(evenement);
@@ -70,7 +69,7 @@ public:
 			fenetre->vider();
 			glLoadIdentity();
 			// Mouvement ici
-			GestionnairePhases::obtInstance().rafraichir();
+			GestionnairePhases::obtInstance().rafraichir(frameTime);
 		
 			// Affichege ici
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
@@ -93,3 +92,5 @@ public:
 
 gfx::Fenetre* Jeu::fenetre = nullptr;
 SDL_Event Jeu::evenement;
+float Jeu::frameTime = 0;
+Chrono Jeu::chrono;
