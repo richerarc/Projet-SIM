@@ -15,9 +15,9 @@ public:
 	MenuPause(void) : Menu() {
 		retourJeu = new gfx::Texte2D("Back", "arial.ttf", 45, Vecteur2f(180, 400));
 		options = new gfx::Texte2D("Options", "arial.ttf", 45, Vecteur2f(430, 400));
-		this->Quitter = new gfx::Texte2D("Quit", "arial.ttf", 45, Vecteur2f(350, 200));
+		this->Retour = new gfx::Texte2D("Quit", "arial.ttf", 45, Vecteur2f(350, 200));
 		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ options, Quitter, retourJeu, SpriteFond });
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ options, this->Retour, retourJeu, SpriteFond });
 
 	}
 	~MenuPause(){
@@ -50,8 +50,8 @@ public:
 			options->defCouleur({ 255, 255, 255, 255 });
 		}
 
-		if (Quitter->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			Quitter->defCouleur({ 255, 0, 0, 255 });
+		if (this->Retour->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
+			this->Retour->defCouleur({ 255, 0, 0, 255 });
 			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
 				GestionnairePhases::obtInstance().retirerPhase();
 				gfx::Gestionnaire2D::obtInstance().vider();
@@ -60,7 +60,7 @@ public:
 			}
 		}
 		else{
-			Quitter->defCouleur({ 255, 255, 255, 255 });
+			this->Retour->defCouleur({ 255, 255, 255, 255 });
 		}
 	}
 };
