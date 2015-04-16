@@ -88,7 +88,6 @@ public:
 			++itterateur;
 		}
 
-		InfoSalle salle;
 		int aleatoire;
 		int ID(0), pos;
 		unsigned short directions; // x>0 = 1 , x<0 = 2 , z>0 = 4 , z<0 = 8
@@ -97,6 +96,7 @@ public:
 		Vecteur3d pos3D(0, 0, 0);
 		InfoObjet objet;
 		for (unsigned int i = 0; i < limite; ++i){
+			InfoSalle salle;
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			//aleatoire = rand() % itterateur;
@@ -143,7 +143,7 @@ public:
 						zMax = z;
 					}
 					z = abs(zMax - zMin);
-
+					
 					directions = 0;
 					for (auto boite : salle.boitesCollision) {
 						for (short j = 0; j < 8; ++j){
@@ -179,14 +179,15 @@ public:
 
 
 				boiteObjet.push_back(LecteurFichier::lireBoiteObjet("Porte.txt"));// "HARDCODÉ"
-
+				objet.position = pos3D;
 				salle.Objet.push_back(objet);
 			}
 			infosSalles.push_back(salle);
 		}
+		
 		auto debut = infosSalles.begin();
-		pos = rand() % infosSalles.size();
-		std::advance(debut, pos);
+		/*pos = rand() % infosSalles.size();
+		std::advance(debut, pos);*/
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
 		for (auto it : (*debut).Objet) {
