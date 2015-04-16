@@ -1,30 +1,26 @@
 #pragma once
 #include "Menu.h"
+#include "Texte2D.h"
 
 class MenuSon : public Menu {
 
+private:
+
+	gfx::Texte2D* Volume;
+
+
 public:
-
-	Glisseur* Volume;
-
 
 	MenuSon(void) : Menu() {
 
-		this->Actif = false;
-		this->SpriteFond = new gfx::Sprite2D();
-		this->Titre = new Etiquette();
-		this->Retour = new Bouton();
-
-		this->Volume = new Glisseur();
+		
 
 	}
 
-	bool obtActif(void) {
-		return Actif;
-	}
+	void actualiser() {
 
-	void defActif(bool Actif) {
-		this->Actif = Actif;
+
+
 	}
 
 

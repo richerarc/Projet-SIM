@@ -19,7 +19,7 @@ public:
 
 	~PhaseMenuOptions() {
 
-		delete menuPause;
+		delete menuOptions;
 
 	}
 
