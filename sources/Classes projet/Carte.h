@@ -47,6 +47,42 @@ private:
 			return renvoi;
 		}
 	}
+
+	bool comparerBoiteCollision(BoiteCollision<double> Boite1, BoiteCollision<double> Boite2, char& axe, Vecteur3d& position) {
+		Vecteur3d tab[5];
+		unsigned int pos = 0;
+		for (int i = 0; i < 8; ++i) {
+			for (int j = 0; j < 8; j++) {
+				if (Boite1.obtBoite()[i] == Boite2.obtBoite()[j]) {
+					tab[++pos] = Boite1.obtBoite()[i];
+				}
+			}
+		}
+		
+		if (pos == 4) {
+			axe = (tab[0].x == tab[1].x && tab[0].x == tab[2].x && tab[0].x == tab[3].x) ? 'x' : 'z';
+			switch (axe) {
+			case 'x':
+				position.x = tab[1].x;
+				do{
+					position.y = tab[rand() % 4].z;
+					position.z = tab[rand() % 4].z;
+				} while (position.z <= position.y);
+				break;
+			case 'z':
+				position.x = tab[1].z;
+				do{
+					position.y = tab[rand() % 4].x;
+					position.z = tab[rand() % 4].x;
+				} while (position.z <= position.y);
+				break;
+			}
+			return true;
+		}
+		else
+			return false;
+	}
+
 public:
 
 	Salle *salleActive;
@@ -101,15 +137,15 @@ public:
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			//aleatoire = rand() % itterateur;
-			aleatoire = /*rand() % 2*/1; // en attendant que toutes eles salles sont conformes
+			aleatoire = rand() % 2; // en attendant que toutes eles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire])).c_str();
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])).c_str(), salle);
 			boiteObjet =  std::list<BoiteCollision<double>>();
-			for (unsigned short IDPorte = 0; IDPorte < 4/*salle.nbrPorte*/; ++IDPorte){
+			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte){
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
-				objet.cheminTexture = "portePlate1.png";// "HARDCODÉ"
+				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
 				boPorte = false;
 				while (!boPorte) {
 					boPorte = true;
@@ -163,9 +199,11 @@ public:
 								}
 							}
 						}
+
 					} while (directions == 0);
 
 					pos3D.y = yMin;
+					int i = 65535 - (~directions);
 					switch (aleatoire4Bit(65535 - (~directions))){
 					case(1) :
 						pos3D.x = xMax; pos3D.z = (z) / 2 + zMin;
@@ -185,9 +223,28 @@ public:
 						break;
 					}
 
+					// S'assure que la porte n'est pas sur une autre porte...
 					for (auto it : salle.Objet) {
 						if (pos3D == it.position)
 							boPorte = false;
+					}
+
+					// S'assure que la porte n'est pas dans le vide...
+					auto itPremier = salle.boitesCollision.begin();
+					for (unsigned int i = 0; i < salle.boitesCollision.size() - 1; ++i) {
+						std::advance(itPremier, i);
+						auto itDeuxieme = salle.boitesCollision.begin();
+						std::advance(itDeuxieme, i + 1);
+						for (unsigned int j = i+1; j < salle.boitesCollision.size(); ++j) {
+							Vecteur3d jonction;
+							char axe;
+							if (comparerBoiteCollision((*itPremier).obtBoite(), (*itDeuxieme).obtBoite(), axe, jonction)) {
+								if ((axe == 'x' && pos3D.x == jonction.x && (pos3D.z >= jonction.y && pos3D.z <= jonction.z)) || (axe == 'z' && pos3D.z == jonction.x && (pos3D.x >= jonction.y && pos3D.x <= jonction.z))) {
+									boPorte = false;
+								}
+							}
+							++itDeuxieme;
+						}
 					}
 				}
 
@@ -208,7 +265,7 @@ public:
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
 		for (auto it : (*debut).Objet) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-			modeleporte->defEchelle(3, 3, 3);
+			modeleporte->defEchelle(2, 2, 2);
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
 			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));
