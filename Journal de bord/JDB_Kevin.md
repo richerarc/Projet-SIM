@@ -204,3 +204,11 @@ P.S:Comme il y avait un examen de physique cette apres midi, j'ai beaucoup fait 
 Cet après-midi nous avons fait une réunion de groupe pour réétablir nos prioritées. Ensuite, moi Nathan Dominique et Sam avons poursuivis l'analyse du joueur et avont regler quelques bugs.
 
 **Temps 5h**
+
+##**`16-17 Avril 2015`**
+
+Le 16 j'ai régler un probleme de vision rayon-X tandis que le reste de mon équipe réglais le probleme du joueur spiderman.
+
+Le 17 j'ai réadapter le probleme et j'ai ajuster la grandeur et la grosseur du personnage.
+
+**Temps 3h**
