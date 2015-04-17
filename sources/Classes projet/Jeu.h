@@ -23,7 +23,6 @@
 #include "Joueur.h"
 #include "Salle.h"
 #include "Physique.h"
-#include "GestionnaireControle.h"
 #include "PhaseJeu.h"
 #include "MenuPrincipal.h"
 #include "PhaseMenuPrincipal.h"

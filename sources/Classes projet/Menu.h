@@ -1,5 +1,4 @@
 #pragma once
-#include "ControleVisuel.h"
 #include "Texte2D.h"
 #include "GestionnaireRessources.h"
 #include "Gestionnaire2D.h"
