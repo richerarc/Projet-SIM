@@ -136,6 +136,7 @@ public:
 			InfoSalle salle;
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
+			salle.echelle = { rand() % 3 + 2.0, 2, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
 			aleatoire = rand() % 2; // en attendant que toutes eles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
@@ -263,9 +264,9 @@ public:
 		std::advance(debut, pos);
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
+		salleActive->defEchelle((*debut).echelle);
 		for (auto it : (*debut).Objet) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-			modeleporte->defEchelle(2, 2, 2);
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
 			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));

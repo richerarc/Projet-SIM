@@ -16,7 +16,7 @@ namespace LecteurFichier{
 				fichier.getline(ligne, 256);
 				for (int i = 0; i < 8; ++i){
 					fichier >> x >> y >> z;
-					tabBoite[i] = Vecteur3<double>(x * 2, y * 2, z * 2);
+					tabBoite[i] = Vecteur3<double>(x * salle.echelle.x, y * salle.echelle.y, z* salle.echelle.z);
 				}
 				BoiteCollision<double> boite(tabBoite);
 				salle.boitesCollision.push_back(boite);

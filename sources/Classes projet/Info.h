@@ -12,6 +12,7 @@ struct InfoObjet {
 struct InfoSalle {
 	unsigned int ID;
 	unsigned int nbrPorte;
+	Vecteur3d echelle;
 	char* cheminModele;
 	char* cheminTexture;
 	std::list<InfoObjet> Objet;

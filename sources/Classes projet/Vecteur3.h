@@ -100,6 +100,11 @@ Vecteur3<T> operator*(Vecteur3<T> vect, double scalaire) {
 }
 
 template<typename T>
+Vecteur3<T> operator*(Vecteur3<T> vect1, Vecteur3<T> vect2) {
+	return Vecteur3<T>(vect1.x * vect2.x, vect1.y * vect2.y, vect1.z * vect2.z);
+}
+
+template<typename T>
 Vecteur3<T> operator/(Vecteur3<T> vect, double scalaire) {
 	return Vecteur3<T>(vect.x / scalaire, vect.y / scalaire, vect.z / scalaire);
 }
