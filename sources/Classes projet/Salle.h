@@ -34,6 +34,10 @@ public:
 		return modele->obtPosition();
 	}
 
+	void defEchelle(Vecteur3d& echelle){
+		this->modele->defEchelle(echelle.x,echelle.y,echelle.z);
+	}
+
 	void defPosition(int axeX, int axeY, int axeZ){
 		modele->defPosition(axeX, axeY, axeZ);
 	}
