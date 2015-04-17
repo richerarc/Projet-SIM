@@ -11,8 +11,8 @@ namespace gfx{
 		Sprite2D(Vecteur2f position, Texture* texture) : Objet2D(position){
 			this->texture = texture;
 			this->surface = texture->obtSurface();
-			this->position.x = this->position.x + (surface->w / 2);
-			this->position.y = this->position.y + (surface->h / 2);
+			this->position.x = this->position.x/* + (surface->w / 2)*/;
+			this->position.y = this->position.y /*+ (surface->h / 2)*/;
 		}
 		Sprite2D(){
 			texture = nullptr;
@@ -26,16 +26,16 @@ namespace gfx{
 		void afficher(gfx::Fenetre& fenetre){
 	
 			glDisable(GL_DEPTH_TEST);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
 			glMatrixMode(GL_MODELVIEW);
 
 			glPushMatrix();
 			glLoadIdentity();
 
-			glTranslatef(position.x - origine.x, position.y - origine.y, 0.0f);
-			glRotatef(orientation, 0.0f, 0.0f, 1.0f);
-			glTranslatef(origine.x, origine.y, 0.0f);
-
 			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_BLEND);
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 
 			glBegin(GL_QUADS);
@@ -52,8 +52,17 @@ namespace gfx{
 			glTexCoord2i(0, 0);
 			glVertex2f(position.x, surface->h + position.y); //4
 			glEnd();
-			glPopMatrix();
+			
+			glTranslatef(position.x - origine.x, position.y - origine.y, 0.0f);
+			glRotatef(orientation, 0.0f, 0.0f, 1.0f);
+			glTranslatef(origine.x, origine.y, 0.0f);
+
+			glDisable(GL_BLEND);
 			glDisable(GL_TEXTURE_2D);
+			glMatrixMode(GL_PROJECTION);
+			glPopMatrix();
+			glMatrixMode(GL_MODELVIEW);
+			glPopMatrix();
 
 		}
 		void defTexture(Texture* texture){
