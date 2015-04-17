@@ -15,7 +15,6 @@ public:
 		this->ID = ID;
 		this->modele = modele;
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
-		this->modele->defEchelle(2, 2, 2);
 	}
 
 	unsigned int obtNbrPortes(){
@@ -32,6 +31,10 @@ public:
 
 	Vecteur3d obtPos(){
 		return modele->obtPosition();
+	}
+
+	void defEchelle(Vecteur3d& echelle){
+		this->modele->defEchelle(echelle.x,echelle.y,echelle.z);
 	}
 
 	void defPosition(int axeX, int axeY, int axeZ){

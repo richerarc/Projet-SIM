@@ -29,6 +29,8 @@ namespace gfx{
 			TTF_CloseFont(police);
 		}
 		void chargerSurface(){
+			if (surface)
+				SDL_FreeSurface(surface);
 			surface = TTF_RenderText_Blended(police, texte, couleur);
 			glGenTextures(1, &ID);
 			glBindTexture(GL_TEXTURE_2D, ID);
