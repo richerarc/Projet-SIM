@@ -195,3 +195,19 @@ Temps : 1h30
 - 13h30 à 14h40 : Première rencontre avec Xavier et Jessy pour parler de ce qui a déjà fait dans les Interaces.
 
 - 14h40 à 5h : Nous avons travaillé sur l'analyse et les diagrammes en équipe. Brandon nous avons montré les phases qu'il avait déjà coder, nous les avons donc intégré les phases et le gestionnaire de phase dans le projet. J'ai commencé à afficher le menu principal, mais j'ai des problèmes avec le Texte2D et le Sprite2D.
+
+Temps : 5h
+
+###**`15 avril 2015`**
+
+- 11h à 15h : Travail sur les menus, j'ai partiellement réglé les problèmes avec le Texte2D, avec l'aide de Richer, mais notre solution est vraiment temporaire. J'ai donc pu maintenant crééer des menus et les gérer complètement, il y a un menu principal, un menu nouvelle partie et un menu pause quand le joueur est dans le jeu. Par contre le monde 3D n'affiche plus.
+
+Temps : 4h
+
+###**`16 avril 2015`**
+
+- 10h à 12h : J'ai continué les menus avec Brandon, nous avons réglé le poblème de l'affichage du monde 3D et régler des problème par rapport à l'affichage 3D et 2D en même temps. Nous avons donc des menus fonctionnels et le jeu démarre comme avant.
+
+- 16h à 17h40 : J'ai mis les menus sur la master en m'assurant que la branche interface était à jour avec le master. J'ai du régler plusieurs conflits avec le travail des autres équipes, mais tout est maintenant correcte, le joueur est a jour dans la classe PhaseJeu.
+
+- 20h à 21h : J'ai régler le problème avec la classe Sprite2D avec l'aide de Jessy, nous pouvons maintenant afficher un logo et un fond. J'en ai donc profité pour mettre les menus un peu plus beau.
