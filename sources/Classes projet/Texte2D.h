@@ -19,6 +19,7 @@ namespace gfx{
 			police = TTF_OpenFont(pathPolice, taille);
 			couleur = { 255, 255, 255, 255 };
 			surface = nullptr;
+			glGenTextures(1, &ID);
 			chargerSurface();
 		}
 		Texte2D(){
@@ -33,7 +34,7 @@ namespace gfx{
 			if (surface)
 				SDL_FreeSurface(surface);
 			surface = TTF_RenderText_Blended(police, texte, couleur);
-			glGenTextures(1, &ID);
+
 			glBindTexture(GL_TEXTURE_2D, ID);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, surface->pixels);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

@@ -17,10 +17,10 @@ public:
 	MenuNouvellePartie(void){
 
 		
-		facile = new gfx::Texte2D("Easy", "arial.ttf", 20, Vecteur2f(130, 120));
-		normal = new gfx::Texte2D("Normal", "arial.ttf", 20, Vecteur2f(330, 120));
-		difficile = new gfx::Texte2D("Hardcore", "arial.ttf", 20, Vecteur2f(530, 120));
-		choisirDiff = new gfx::Texte2D("Please choose a difficulty", "arial.ttf", 50, Vecteur2f(100, 180));
+		facile = new gfx::Texte2D("Easy", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(130, 120));
+		normal = new gfx::Texte2D("Normal", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(330, 120));
+		difficile = new gfx::Texte2D("Hardcore", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(530, 120));
+		choisirDiff = new gfx::Texte2D("Please choose a difficulty", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
 		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		choisirDiff->defCouleur({ 0, 0, 0, 255 });
 

@@ -103,3 +103,9 @@ de 19h à 20h(1h)
 -Nous avons continué d'avancé l'interface. Pour ma part, j'ai travailler sur le menus options et participé au réglage de différents bug
 de 15h à 16h(1h)
 -J'ai travaillé sur le "back" dans les menus mais ce n'est toujours pas concluant 
+
+21 avril de 2h20 à 17h30 (3h)
+-Nous avons fait un recapitulatif de ce que nous avons fait cette semaine
+-J'ai fais le menu Son avec l'affichage du slider
+-J'ai commencé le menu graphique
+-Non terminé car nous avons changer le fonctionnement des menus.

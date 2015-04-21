@@ -69,3 +69,5 @@
 	Réorganisation des équipes et travail sur la génération des portes.
 #Jeudi 16 avril 2015 (9:30 à 11:50)
 	Modification des porte pour qu'elles apparaissent sur les murs.
+#Mardi 21 avril 2015(14:40 à 17:20)
+	Travail avec Gabriel et Nicolas pour créer le changement de salle avec la bonne porte.

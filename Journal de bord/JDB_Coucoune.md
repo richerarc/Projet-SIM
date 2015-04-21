@@ -45,3 +45,7 @@ Depuis le début de la semaine, mon maître Félix n'arrête pas de me voler la 
 #14 avril 2015
 
 Aujourd'hui j'ai tenté de transcender mon âme à travers le corps de Julien. Malheureusement il est très résistant à ce type de magie noire. Après tout, ils est un nain-perturbable. Il faut aussi noter qu'il portait une armure +10 anti-brainwash et une amulette qui a appartenu au tout premier Seigneur Sexuel.
+
+#21 avril 2015
+
+J'ai pris possesion l'ordinateur de Nicolas Coutu. Je suis allée sur catporntubehub.cat pendant que Nicolas n'était pas là. Chrome à crashé car l'historique de recherche de l'ordinateur de Nicolas était calissement loadé de site comme «Frozen original soundtrack» et «disney princess». Je crois qu'il aime un peu trop les princesses.  Effectivement je confirme, en fouillant un peu j'ai découvert une photo de son dernier cosplay de Elsa. Je continue a rechercher d'autres preuves... EWWW c'est quoi ça...! Holy shit Nicolas reviens, je doit me dépecher de partir.

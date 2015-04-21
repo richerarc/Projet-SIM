@@ -17,6 +17,7 @@ namespace gfx{
 
 		Texture() {
 			surface = nullptr;
+			glGenTextures(1, &ID);
 		}
 
 		~Texture() {
@@ -29,7 +30,7 @@ namespace gfx{
 
 		bool charger(const char* path){
 			surface = IMG_Load(path);
-			glGenTextures(1, &ID);
+
 			glBindTexture(GL_TEXTURE_2D, ID);
 #if defined(__APPLE__) && defined(__MACH__) || defined(__linux__)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, surface->pixels);
