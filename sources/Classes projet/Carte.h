@@ -90,7 +90,11 @@ public:
 
 	void destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur& joueur){
 
-		salleActive->RetirerSalle();
+		for (auto it : salleActive->obtListeObjet()) {
+			gfx::Gestionnaire3D::obtInstance().retObjet(it->obtModele3D());
+		}
+
+		gfx::Gestionnaire3D::obtInstance().retObjet(salleActive->obtModele());
 
 		Sortie pieceSuivante = liens[sortie];
 		
