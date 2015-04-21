@@ -10,24 +10,38 @@ protected:
 	int idChaine;
 	Vecteur3d position;
 	int volume;
+	bool eloigne;
 	
-	void defIntensite(Vecteur3d positionS_O){
-		double theta(atan((positionS_O.x)/(positionS_O.z)));
-		Mix_SetPosition(idChaine, (Uint16)theta, (Uint8)positionS_O.norme());
+public:
+	
+	bool actif;
+	
+	void defIntensite(Vecteur3d positionJoueur){
+		double theta = position.angleEntreVecteurs(positionJoueur);
+		theta = Maths::radianADegre(theta);
+		int norme = (position - positionJoueur).norme() * 2;
+		if (norme > 255){
+			Mix_VolumeChunk(audio, 0);
+			norme = 255;
+			eloigne = true;
+		}
+		else if (eloigne){
+			Mix_VolumeChunk(audio, volume);
+			eloigne = false;
+		}
+		Mix_SetPosition(idChaine, (Uint16)theta, (Uint8)norme);
 	}
 	
 	void defIntensite(Uint16 theta, Uint8 distance){
 		Mix_SetPosition(idChaine, theta, distance);
 	}
 	
-public:
-	
-	bool actif;
-	
-	Sons(const char* chemin, int ID){
+	Sons(const char* chemin, int ID, int volume){
 		audio = Mix_LoadWAV(chemin);
 		idChaine = ID;
+		this->volume = volume;
 		actif = false;
+		eloigne = false;
 	}
 	
 	~Sons(){Mix_FreeChunk(audio);}
@@ -60,7 +74,7 @@ private:
 	Chrono delais;
 	double BPM;
 public:
-	Coeur(const char* chemin1, const char* chemin2, int ID) : Sons(chemin1, ID){
+	Coeur(const char* chemin1, const char* chemin2, int ID, int volume) : Sons(chemin1, ID, volume){
 		BPM = 55;
 		delais = Chrono();
 		actif = true;
@@ -97,7 +111,7 @@ public:
 
 class Fond : public Sons {
 public:
-	Fond(const char* chemin, int ID) : Sons(chemin, ID){
+	Fond(const char* chemin, int ID, int volume) : Sons(chemin, ID, volume){
 		actif = true;
 	}
 	
@@ -112,11 +126,9 @@ class Pas : public Sons {
 private:
 	Mix_Chunk* audio2;
 	Chrono delais;
-	double vitesse;
 	bool premier;
 public:
-	Pas(const char* chemin1, const char* chemin2, int ID) : Sons(chemin1, ID){
-		vitesse = 750;
+	Pas(const char* chemin1, const char* chemin2, int ID, int volume) : Sons(chemin1, ID, volume){
 		delais = Chrono();
 		audio2 = Mix_LoadWAV(chemin2);
 		premier = true;
@@ -129,14 +141,24 @@ public:
 	}
 	
 	void jouer(Joueur* joueur){
-		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() != etat::SAUT){
-			if (!((delais.obtTempsEcoule().enMillisecondes() <= vitesse) || (Mix_Playing(idChaine)))){
+		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() == etat::MARCHE){
+			if (!((delais.obtTempsEcoule().enMillisecondes() <= 650) || (Mix_Playing(idChaine)))){
 				if (premier){
-					defIntensite(0, 1);
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 				}
 				else{
-					defIntensite(180, 1);
+					Mix_FadeInChannelTimed(idChaine, audio2, 0, 1, -1);
+				}
+				premier = !premier;
+				delais.repartir();
+			}
+		}
+		else if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() == etat::COURSE){
+			if (!((delais.obtTempsEcoule().enMillisecondes() <= 250) || (Mix_Playing(idChaine)))){
+				if (premier){
+					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
+				}
+				else{
 					Mix_FadeInChannelTimed(idChaine, audio2, 0, 1, -1);
 				}
 				premier = !premier;
