@@ -34,7 +34,7 @@ public:
 
 	void gererClic(SDL_Event &event){
 		if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
-			clicRappel(event);
+			clicRappel(this);
 			etat = EN_CLIC;
 		}
 		else{
@@ -45,7 +45,7 @@ public:
 	void gererSurvol(SDL_Event &event){
 		if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
 			if(etat != SURVOL)
-				survolRappel(event);
+				survolRappel(this);
 			etat = SURVOL;
 		}
 		else{
