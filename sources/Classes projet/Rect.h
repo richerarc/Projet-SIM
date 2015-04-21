@@ -38,4 +38,4 @@ typedef Rect<int> Recti;
 typedef Rect<float> Rectf;
 typedef Rect<double> Rectd;
 
-int Rect<float>::hauteur = 0;
+template<> int Rectf::hauteur = 0;
