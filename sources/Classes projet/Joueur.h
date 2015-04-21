@@ -12,7 +12,7 @@ private:
 	Vecteur3d vitesse;
 	double masse;
 	float vitesseDeplacement;
-	float santePhysique,
+	short santePhysique,
 		  santeMentale;
 	int etat;
 	Vecteur3d pointCollision;
@@ -26,6 +26,8 @@ public:
 		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
 		this->position = position;
+		santePhysique = 100;
+		santeMentale = 75;
 		etat = CHUTE;
 		masse = 87.f;
 		camera = new gfx::Camera();
@@ -134,11 +136,11 @@ public:
 		return etat;
 	}
 
-	float obtSantePhysique(){
+	short obtSantePhysique(){
 		return santePhysique;
 	}
 
-	float obtSanteMentale(){
+	short obtSanteMentale(){
 		return santeMentale;
 	}
 
