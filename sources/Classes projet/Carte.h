@@ -11,6 +11,7 @@
 #include "Info.h"
 #include "Graphe.h"
 #include "GestionnaireChemin.h"
+#include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
@@ -70,7 +71,7 @@ private:
 				} while (position.z <= position.y);
 				break;
 			case 'z':
-				position.x = tab[1].z;
+				position.z = tab[1].z;
 				do{
 					position.y = tab[rand() % 4].x;
 					position.z = tab[rand() % 4].x;
@@ -87,8 +88,47 @@ public:
 
 	Salle *salleActive;
 
-	std::tuple<unsigned int, unsigned int> destination(std::tuple<unsigned int, unsigned int, bool> sortie){
-		return liens[sortie];
+	void destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur& joueur){
+
+		salleActive->RetirerSalle();
+
+		Sortie pieceSuivante = liens[sortie];
+		
+		auto debut = infosSalles.begin();
+		std::advance(debut, std::get<0>(pieceSuivante));
+
+		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
+		salleActive->defEchelle((*debut).echelle);
+		auto it = (*debut).Objet.begin();
+		for (unsigned int i = 0; i < (*debut).Objet.size(); ++i) {
+			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it).cheminTexture));
+			modeleporte->defPosition((*it).position);
+			modeleporte->defOrientation(0, (*it).rotation, 0);
+			salleActive->ajoutObjet(new Porte(modeleporte, (*it).ID, "Metal", (*it).position, { 0, 0, 0 }, false, true, false, false));
+			if (std::get<1>(sortie) == i) {
+				Vecteur3d vecteur; 
+				switch ((*it).rotation) {
+				case 0:
+					vecteur = { modeleporte->obtPosition().x + 1.6, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 0.5};
+					joueur.defPosition(modeleporte->obtPosition());
+					break;
+				case 90:
+					vecteur = { modeleporte->obtPosition().x - 0.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 1.6 };
+					joueur.defPosition(modeleporte->obtPosition());
+					break;
+				case -90:
+					vecteur = { modeleporte->obtPosition().x + 0.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 1.6 };
+					joueur.defPosition(modeleporte->obtPosition());
+					break;
+				case 180:
+					vecteur = { modeleporte->obtPosition().x - 1.6, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 0.5 };
+					joueur.defPosition(modeleporte->obtPosition());
+					break;
+				}
+				joueur.defPosition(vecteur);
+			}
+			++it;
+		}
 	}
 
 	void creer(const unsigned int limite){
@@ -102,9 +142,10 @@ public:
 			porte[i] = 0;
 
 		for (unsigned int i = 0; i < limite; ++i){
+			itterateurPorte = 0;
 			for (unsigned int j = 0; j < limite; ++j){
 				if (carte.matrice[i * limite + j]){
-					entree = std::make_tuple(i, ++itterateurPorte, false);
+					entree = std::make_tuple(i, itterateurPorte++, false);
 					sortie = std::make_tuple(j, porte[j]);
 					++porte[j];
 					ajouterLien(entree, sortie);
@@ -138,12 +179,12 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 2; // en attendant que toutes eles salles sont conformes
+			aleatoire = /*rand() % 2*/0; // en attendant que toutes eles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire])).c_str();
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])).c_str(), salle);
 			boiteObjet =  std::list<BoiteCollision<double>>();
-			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte){
+			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/8; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
@@ -189,13 +230,13 @@ public:
 						for (auto boite : salle.boitesCollision) {
 							for (short j = 0; j < 8; ++j){
 								if (j != pos){
-									if ((((boite).obtBoite()[j].x >= xMax) && ((directions & 1) != 1)))
+									if ((((boite).obtBoite()[j].x >= xMax) && ((directions & 1) == 0)))
 										directions += 1;
-									if ((((boite).obtBoite()[j].x <= xMin) && ((directions & 2) != 2)))
+									if ((((boite).obtBoite()[j].x <= xMin) && ((directions & 2) == 0)))
 										directions += 2;
-									if ((((boite).obtBoite()[j].z >= zMax) && ((directions & 4) != 4)))
+									if ((((boite).obtBoite()[j].z >= zMax) && ((directions & 4) == 0)))
 										directions += 4;
-									if ((((boite).obtBoite()[j].z <= zMin) && ((directions & 8) != 8)))
+									if ((((boite).obtBoite()[j].z <= zMin) && ((directions & 8) == 0)))
 										directions += 8;
 								}
 							}
@@ -223,13 +264,17 @@ public:
 						objet.rotation = -90;
 						break;
 					}
+					
+					if (pos3D.z == 0 && pos3D.x >= 0 && objet.rotation == 90) {
+						objet.rotation = -90;
+					}
 
 					// S'assure que la porte n'est pas sur une autre porte...
 					for (auto it : salle.Objet) {
 						if (pos3D == it.position)
 							boPorte = false;
 					}
-
+					
 					// S'assure que la porte n'est pas dans le vide...
 					auto itPremier = salle.boitesCollision.begin();
 					for (unsigned int i = 0; i < salle.boitesCollision.size() - 1; ++i) {
@@ -247,6 +292,7 @@ public:
 							++itDeuxieme;
 						}
 					}
+					
 				}
 
 
