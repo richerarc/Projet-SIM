@@ -8,6 +8,7 @@ class Joueur {
 private:
 	gfx::Modele3D* modele3D;
 	gfx::Camera* camera;
+	std::list<Objet*> inventaire;
 	Vecteur3d position;
 	Vecteur3d vitesse;
 	double masse;
@@ -142,6 +143,10 @@ public:
 
 	short obtSanteMentale(){
 		return santeMentale;
+	}
+
+	std::list<Objet*> obtInventaire(){
+		return inventaire;
 	}
 
 	void defEtat(unsigned int etat){
