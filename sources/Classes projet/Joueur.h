@@ -8,10 +8,13 @@ class Joueur {
 private:
 	gfx::Modele3D* modele3D;
 	gfx::Camera* camera;
+	std::list<Objet*> inventaire;
 	Vecteur3d position;
 	Vecteur3d vitesse;
 	double masse;
 	float vitesseDeplacement;
+	short santePhysique,
+		  santeMentale;
 	int etat;
 	Vecteur3d pointCollision;
 
@@ -24,6 +27,8 @@ public:
 		this->vitesseDeplacement = 4.f;
 		this->modele3D->defPosition(position);
 		this->position = position;
+		santePhysique = 100;
+		santeMentale = 75;
 		etat = CHUTE;
 		masse = 87.f;
 		camera = new gfx::Camera();
@@ -102,6 +107,13 @@ public:
 		this->pointCollision = pointCollision;
 	}
 
+	void defSanteMentale(float santeMentale){
+		this->santeMentale = santeMentale;
+	}
+
+	void defSantePhysique(float santePhysique){
+		this->santeMentale = santePhysique;
+	}
 
 	Vecteur3d& obtPointCollision(){
 		return this->pointCollision;
@@ -123,6 +135,18 @@ public:
 	
 	int obtEtat(){
 		return etat;
+	}
+
+	short obtSantePhysique(){
+		return santePhysique;
+	}
+
+	short obtSanteMentale(){
+		return santeMentale;
+	}
+
+	std::list<Objet*> obtInventaire(){
+		return inventaire;
 	}
 
 	void defEtat(unsigned int etat){

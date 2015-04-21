@@ -4,7 +4,7 @@
 class PhaseJeu : public Phase{
 
 private:
-
+	gfx::Texte2D* texte;
 	Joueur* joueur;
 
 	void appliquerPhysique(float frameTime) {
@@ -31,6 +31,24 @@ private:
 			}
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
+	}
+
+	void detectionObjet() {
+
+		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
+		bool objetDetecte = false;
+
+		for (auto it : liste) {
+
+			if (Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) {
+				texte->defTexte("Press E to open the door");
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+				objetDetecte = true;
+			}
+		}
+
+		if (!objetDetecte)
+			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
 	}
 
 public:
