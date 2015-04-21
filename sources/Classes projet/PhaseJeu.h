@@ -4,7 +4,7 @@
 class PhaseJeu : public Phase{
 
 private:
-
+	gfx::Texte2D* texte;
 	Joueur* joueur;
 
 	void appliquerPhysique(float frameTime) {
@@ -47,7 +47,7 @@ private:
 			}
 		}
 
-		if (!objetDetecte)
+		if (!objetDetecte){}
 			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
 	}
 
