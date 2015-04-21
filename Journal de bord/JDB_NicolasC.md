@@ -106,4 +106,8 @@
   -Correctifs pour la générations des cartes (trop d'affaires pour détailler).  
   -Création de la salleActive dans le creer de Carte pour pouvoir apparaitre dans une salle.  
 **16 avr** durée 2h  
-  -Finalisation du cycle 1 avec Damien et Gabriel (correctif de l'ago de positionnement des portes pour qu'elles soient au milieu du mur, seule et de bonne orientation)
+  -Finalisation du cycle 1 avec Damien et Gabriel (correctif de l'ago de positionnement des portes pour qu'elles soient au milieu du mur, seule et de bonne orientation)  
+**21 avr** durée 3h  
+  -Retour sur le travail fait et à faire en grand groupeé.  
+  -Travail avec Gabriel et Damien sur le changement de salle.  
+  -Découverte d'une porte de la salleL qui est de temps en temps du mauvais bord.
