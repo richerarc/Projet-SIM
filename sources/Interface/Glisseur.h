@@ -32,10 +32,6 @@ public:
 
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({SpriteFond, spriteGlisseur});
 	}
-	
-	void rafraichirPourcentage(){
-		pourcentage = ((spriteGlisseur->obtPosition().x - position.x + spriteGlisseur->obtRectangle().l / 2) / SpriteFond->obtRectangle().l) * 100.0;
-	}
 
 	void gestEvenement(SDL_Event evenement){
 
@@ -57,7 +53,7 @@ public:
 
 		if (evenement.button.type == SDL_MOUSEBUTTONUP) 
 			boutonSouris = false;
-		rafraichirPourcentage();
+		pourcentage = ((spriteGlisseur->obtPosition().x - position.x + spriteGlisseur->obtRectangle().l / 2) / SpriteFond->obtRectangle().l) * 100.0;
 	}
 
 	Vecteur2f ObtenirPosition(){
