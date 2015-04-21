@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.h"
 #include "Sprite2D.h"
+#include "PhaseMenuOptions.h"
 
 
 
@@ -13,9 +14,9 @@ private:
 
 public:
 	MenuPause(void) : Menu() {
-		retourJeu = new gfx::Texte2D("Back", "arial.ttf", 45, Vecteur2f(180, 400));
-		options = new gfx::Texte2D("Options", "arial.ttf", 45, Vecteur2f(430, 400));
-		this->Retour = new gfx::Texte2D("Quit", "arial.ttf", 45, Vecteur2f(350, 200));
+		retourJeu = new gfx::Texte2D("Back", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(180, 400));
+		options = new gfx::Texte2D("Options", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(430, 400));
+		this->Retour = new gfx::Texte2D("Quit", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(350, 200));
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({options, Retour, retourJeu });
 
@@ -43,9 +44,9 @@ public:
 		if (options->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
 			options->defCouleur({ 215, 110, 75, 255 });
 			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				//GestionnairePhases::obtInstance().retirerPhase();
-				//gfx::Gestionnaire2D::obtInstance().vider();
-				//GestionnairePhases::obtInstance().ajouterPhase(Phase)
+				GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
+				gfx::Gestionnaire2D::obtInstance().vider();
+				GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());
 			}
 		}
 		else{
@@ -64,5 +65,10 @@ public:
 		else{
 			Retour->defCouleur({ 0, 0, 0, 255 });
 		}
+	}
+
+	void remplir() {
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ options, Retour, retourJeu });
 	}
 };
