@@ -18,6 +18,7 @@ namespace gfx{
 			this->taille = taille;
 			police = TTF_OpenFont(pathPolice, taille);
 			couleur = { 255, 255, 255, 255 };
+			surface = nullptr;
 			chargerSurface();
 		}
 		Texte2D(){
