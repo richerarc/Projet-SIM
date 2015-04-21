@@ -12,6 +12,8 @@ private:
 	Vecteur3d vitesse;
 	double masse;
 	float vitesseDeplacement;
+	float santePhysique,
+		  santeMentale;
 	int etat;
 	Vecteur3d pointCollision;
 
@@ -102,6 +104,13 @@ public:
 		this->pointCollision = pointCollision;
 	}
 
+	void defSanteMentale(float santeMentale){
+		this->santeMentale = santeMentale;
+	}
+
+	void defSantePhysique(float santePhysique){
+		this->santeMentale = santePhysique;
+	}
 
 	Vecteur3d& obtPointCollision(){
 		return this->pointCollision;
@@ -123,6 +132,14 @@ public:
 	
 	int obtEtat(){
 		return etat;
+	}
+
+	float obtSantePhysique(){
+		return santePhysique;
+	}
+
+	float obtSanteMentale(){
+		return santeMentale;
 	}
 
 	void defEtat(unsigned int etat){
