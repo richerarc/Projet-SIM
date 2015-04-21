@@ -306,6 +306,17 @@ Nicolas avait déjà commencé à coder le positionnement des portes, nous avons
 
 Le prochain cycle à entammer est la réception d'un message par le joueur qui nous dit qu'une porte a été ouverte, comme j'ai dit plus tôt:
 
-­­
+> Ensuite, nous allons gérer la demande que le joueur nous enverra pour ouvrir une porte, à voir pour plus tard l'ajout d'un verrou.
 
-> Ensuite, nous allons gérer la demande que le joueur nous enverra pour ouvrir une porte, à voir pour plus tard l'ajout d'un verrou.­­­
+###21 avril 2015
+
+**3h00**: Aujourd'hui Damien Nicolas et moi avons travaillé sur le changement de salle. Pour l'instant, je "bind" le changement de salle à la touche space puisqu'on n'a pas de réponse du joueur encore. Le joueur se téléporte à la bonne place, soit au milieu et en face de la porte. J'ai parlé à l'équipe qui travaille sur le joueur pour qu'il ajoutent une intéraction joueur-porte pour s'assurer que lorsque nous sommes rendu à la partie de l'animation de changement de salle, on pourra bien travailler. Pour ce qui est du cycle de réception du message, il est plutôt inexistant pour nous, c'est surtout du côté à l'équipe Joueur.
+
+Bugs:
+
+-Un porte qui s'affiche dans le mauvais 1 fois sur 10 pour une raison inconnue!
+
+Prochain cycle (déjà entammé):
+
+>Travailler sur la transition d'une salle à une autre.
+ ­­­

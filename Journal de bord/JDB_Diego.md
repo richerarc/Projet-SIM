@@ -58,3 +58,12 @@ pas de travail  faitencore aujourdhui a 12h
 Nouvelles equipes, notre équipe et moi avons discuté bien precisément ce qu'on doit faire et mis en place un vrai plaan qu'on va bien respecter. J'ai travaillé sur mon glisseur encore, je suis pas certain a 100% mais je pense quil est fini. Je passe a autre chose pour l'instant (priorités). Jessy et moi commençons  à concevoir la classe de menu pause.
 
 Durée: environ 4h 
+
+--21 avril 2015 (17h54)--
+
+Encore oublié de mettre a jour mon journal la semaine passée..
+en gros, j'ai corrigé une grosse partie de la classe Glisseur.h et, avec l'aide de Julien, elle est maintenant finie et fonctionnelle.
+
+Aujourdhui: Jai travaillé sur la detection d'objet, plus preciement des portes afin d'afficher du texte lorsque le joueur est proche dune porte ou objet en general. J'ai ajouté une fonction dans GestionnaireControle.h, qui retourne, en char la touche desirée.
+
+Durée: environ 3h
