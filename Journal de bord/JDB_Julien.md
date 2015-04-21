@@ -211,3 +211,9 @@ Temps : 4h
 - 16h à 17h40 : J'ai mis les menus sur la master en m'assurant que la branche interface était à jour avec le master. J'ai du régler plusieurs conflits avec le travail des autres équipes, mais tout est maintenant correcte, le joueur est a jour dans la classe PhaseJeu.
 
 - 20h à 21h : J'ai régler le problème avec la classe Sprite2D avec l'aide de Jessy, nous pouvons maintenant afficher un logo et un fond. J'en ai donc profité pour mettre les menus un peu plus beau.
+
+Temps : 4h40
+
+###**`20 avril 2015`**
+
+- 18h30 à 20h : J'ai terminé le glisseur, pour qu'il soit fonctionnel pour les autres menus pour demain. Il fonctionne parfaitement.
