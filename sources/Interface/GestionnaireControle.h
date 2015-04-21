@@ -117,6 +117,94 @@ public:
 		return Controles;
 	}
 
+	char* obtToucheControleEnChar(int toucheEnInt){
+		switch (toucheEnInt){
+		case (SDLK_q) :
+			return "Q";
+			break;
+		case (SDLK_w) :
+			return "W";
+			break;
+		case (SDLK_e) :
+			return "E";
+			break;
+		case (SDLK_r) :
+			return "R";
+			break;
+		case (SDLK_t) :
+			return "T";
+			break;
+		case (SDLK_y) :
+			return "Y";
+			break;
+		case (SDLK_u) :
+			return "U";
+			break;
+		case (SDLK_i) :
+			return "I";
+			break;
+		case (SDLK_o) :
+			return "O";
+			break;
+		case (SDLK_p) :
+			return "P";
+			break;
+		case (SDLK_a) :
+			return "A";
+			break;
+		case (SDLK_s) :
+			return "S";
+			break;
+		case (SDLK_d) :
+			return "D";
+			break;
+		case (SDLK_f) :
+			return "F";
+			break;
+		case (SDLK_g) :
+			return "G";
+			break;
+		case (SDLK_h) :
+			return "H";
+			break;
+		case (SDLK_j) :
+			return "J";
+			break;
+		case (SDLK_k) :
+			return "K";
+			break;
+		case (SDLK_l) :
+			return "L";
+			break;
+		case (SDLK_z) :
+			return "Z";
+			break;
+		case (SDLK_x) :
+			return "X";
+			break;
+		case (SDLK_c) :
+			return "C";
+			break;
+		case (SDLK_v) :
+			return "V";
+			break;
+		case (SDLK_b) :
+			return "B";
+			break;
+		case (SDLK_n) :
+			return "N";
+			break;
+		case (SDLK_m) :
+			return "M";
+			break;
 
+		case (SDLK_BACKSPACE) :
+			return "Backspace";
+			break;
+		case (SDLK_SPACE) :
+			return "Space";
+			break;
+		}
+	}
 
 };
