@@ -4,7 +4,7 @@
 class PhaseJeu : public Phase{
 
 private:
-
+	gfx::Texte2D* texte;
 	Joueur* joueur;
 
 	void appliquerPhysique(float frameTime) {
