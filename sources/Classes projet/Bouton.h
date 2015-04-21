@@ -1,54 +1,78 @@
-#pragma once
-#include "Etiquette.h"
-#include "Sprite2D.h"
+#pragma once 
 #include "Texte2D.h"
+#include "GestionnaireEvenements.h"
 
+#include <SDL2/SDL.h>
+#include <functional>
 
-enum Etat {
-	REPOS, SURVOL, CLIQUE
-};
-
-
-class Bouton : public Etiquette {
+class Bouton{ 
 private:
-	Etat EtatBouton;
-	gfx::Sprite2D* SpriteSurvol;
-	gfx::Sprite2D* SpriteClique;
+	enum Etat{ EN_CLIC, SURVOL, DEFAUT };
+
+	Etat etat;
+	gfx::Texte2D* texte;
+	std::function<void(SDL_Event&)> clicRappel;
+	std::function<void(SDL_Event&)> survolRappel;
 
 public:
-	Bouton(Vecteur2f VecteurPosition, Vecteur2f VecteurTaille, gfx::Texte2D* Texte, gfx::Sprite2D* SpriteFond, gfx::Sprite2D* SpriteClique, gfx::Sprite2D* SpriteSurvol) : Etiquette(Texte, SpriteFond, VecteurPosition, VecteurTaille) {
-		EtatBouton = REPOS;
-		this->ObtenirPosition() = VecteurPosition;
-		this->ObtenirTaille() = VecteurTaille;
-		this->Texte = Texte;
-		this->SpriteSurvol = SpriteSurvol;
-		this->SpriteClique = SpriteClique;
-		this->SpriteFond = SpriteFond;
+	Bouton() : Bouton(nullptr, nullptr, Vecteur2f()){}
 
-		this->SpriteFond->obtTexture()->obtSurface()->h = VecteurTaille.y;
-		this->SpriteFond->obtTexture()->obtSurface()->w = VecteurTaille.x;
-		this->SpriteSurvol->obtTexture()->obtSurface()->h = VecteurTaille.y;
-		this->SpriteSurvol->obtTexture()->obtSurface()->w = VecteurTaille.x;
-		this->SpriteClique->obtTexture()->obtSurface()->h = VecteurTaille.y;
-		this->SpriteClique->obtTexture()->obtSurface()->w = VecteurTaille.x;
-
+	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, Vecteur2f &position, const char* texte, int t){
+		etat = DEFAUT;
+		clicRappel = fonctionClic;
+		survolRappel = fonctionSurvol;
+		texte = new gfx::Texte2D("", GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), 20, Vecteur2f(0, 0));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 	}
 
-	void enSurvol(void) {
-		if (((Souris::obtPosition().x >= (double)this->position.x) && (Souris::obtPosition().x <= this->position.x + this->taille.x)) &&
-			(Souris::obtPosition().y >= (double)this->position.y) && (Souris::obtPosition().y <= this->position.y + this->taille.y)) {
-			EtatBouton = SURVOL;
+	~Bouton(){
+		gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+		delete texte;
+	}
+
+	void gererClic(SDL_Event &event){
+		if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
+			clicRappel(event);
+			etat = EN_CLIC;
 		}
-
+		else{
+			etat = DEFAUT;
+		}
+	}
+	
+	void gererSurvol(SDL_Event &event){
+		if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
+			if(etat != SURVOL)
+				survolRappel(event);
+			etat = SURVOL;
+		}
+		else{
+			etat = DEFAUT;
+		}
 	}
 
-	bool enClique(void) {
-		return enSurvol() && Souris::boutonAppuye(SDL)
+	void defTexte(const char* texte){
+		this->texte->defTexte(texte);
 	}
 
-	void afficher(void) {
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(SpriteSurvol);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(SpriteClique);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(this->SpriteFond);
+	void defPosition(Vecteur2f &position){
+		texte->defPosition(position);
 	}
+
+
+
+	void defCouleur(SDL_Color &couleur){
+		texte->defCouleur(couleur);
+	}
+
+	void defRappelClic(std::function<void(SDL_Event&)> fonction){
+		this->clicRappel = fonction;
+	}
+
+	void defRappelSurvol(std::function<void(SDL_Event&)> fonction){
+		this->survolRappel = fonction;
+	}
+
 };
