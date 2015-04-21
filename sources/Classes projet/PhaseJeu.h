@@ -47,7 +47,7 @@ private:
 			}
 		}
 
-		if (!objetDetecte){}
+		if (!objetDetecte)
 			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
 	}
 
