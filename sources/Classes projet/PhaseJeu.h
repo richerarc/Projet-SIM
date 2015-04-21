@@ -60,4 +60,8 @@ public:
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(true);
 		}
 	}
+
+	void remplir() {
+
+	}
 };

@@ -28,4 +28,8 @@ public:
 		menuNouvellePartie->actualiser();
 
 	}
+
+	void remplir() {
+
+	}
 };

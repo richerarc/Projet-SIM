@@ -13,10 +13,10 @@ namespace gfx{
 		GLuint ID;
 
 
-		Texte2D(const char* texte, const char* pathPolice, int taille, Vecteur2f  position) : Objet2D(position){
+		Texte2D(const char* texte, TTF_Font* police, Vecteur2f  position) : Objet2D(position){
 			this->texte = texte;
 			this->taille = taille;
-			police = TTF_OpenFont(pathPolice, taille);
+			this->police = police;
 			couleur = { 255, 255, 255, 255 };
 			surface = nullptr;
 			glGenTextures(1, &ID);

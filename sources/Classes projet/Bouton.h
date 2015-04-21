@@ -1,6 +1,8 @@
 #pragma once 
 #include "Texte2D.h"
 #include "GestionnaireEvenements.h"
+#include "GestionnaireRessources.h"
+#include "Gestionnaire2D.h"
 
 #include <SDL2/SDL.h>
 #include <functional>
@@ -11,20 +13,20 @@ private:
 
 	Etat etat;
 	gfx::Texte2D* texte;
-	std::function<void(SDL_Event&)> clicRappel;
-	std::function<void(SDL_Event&)> survolRappel;
+	std::function<void(Bouton*)> clicRappel;
+	std::function<void(Bouton*)> survolRappel;
 
 public:
-	Bouton() : Bouton(nullptr, nullptr, Vecteur2f()){}
+	Bouton() : Bouton(nullptr, nullptr, Vecteur2f(), "123", NULL){}
 
 	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, Vecteur2f &position, const char* texte, int t){
 		etat = DEFAUT;
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;
-		texte = new gfx::Texte2D("", GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), 20, Vecteur2f(0, 0));
+		this->texte = new gfx::Texte2D(texte, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(0, 0));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(this->texte);
 	}
 
 	~Bouton(){
@@ -67,11 +69,11 @@ public:
 		texte->defCouleur(couleur);
 	}
 
-	void defRappelClic(std::function<void(SDL_Event&)> fonction){
+	void defRappelClic(std::function<void(Bouton*)> fonction){
 		this->clicRappel = fonction;
 	}
 
-	void defRappelSurvol(std::function<void(SDL_Event&)> fonction){
+	void defRappelSurvol(std::function<void(Bouton*)> fonction){
 		this->survolRappel = fonction;
 	}
 

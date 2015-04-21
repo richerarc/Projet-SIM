@@ -33,6 +33,10 @@ public:
 		return nullptr;
 	}
 
+	Phase* obtDerniere() {
+		return phases.back();
+	}
+
 	void rafraichir(float frameTime){
 			phases.back()->rafraichir(frameTime);
 	}

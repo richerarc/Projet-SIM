@@ -11,6 +11,8 @@ public:
 
 	virtual void rafraichir(float frameTime) = 0;
 
+	virtual void remplir() = 0;
+
 	void defPause(bool pause){
 		this->pause = pause;
 	}
