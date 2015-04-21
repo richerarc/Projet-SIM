@@ -3,11 +3,14 @@
 #include "Vecteur3.h"
 
 enum etat {STABLE, ACCROUPI, COURSE, MARCHE, SAUT, CHUTE};
+enum modele {MODELEDEBOUT, MODELEACCROUPI};
 
 class Joueur {
 private:
 	gfx::Modele3D* modele3D;
 	gfx::Camera* camera;
+	gfx::Modele3D* listeModele3D[2];
+	gfx::Camera* listeCamera[2];
 	Vecteur3d position;
 	Vecteur3d vitesse;
 	double masse;
@@ -16,18 +19,29 @@ private:
 	Vecteur3d pointCollision;
 
 public:
-
 	Joueur() {}
 
-	Joueur(gfx::Modele3D* modele3D, Vecteur3d position) {
-		this->modele3D = modele3D;
+	Joueur(Vecteur3d position) {
+		//this->modele3D = modele3D;
 		this->vitesseDeplacement = 4.f;
-		this->modele3D->defPosition(position);
+		//this->modele3D->defPosition(position);
 		this->position = position;
 		etat = CHUTE;
 		masse = 87.f;
-		camera = new gfx::Camera();
+		listeCamera[MODELEDEBOUT] = new gfx::Camera;
+		listeCamera[MODELEACCROUPI] = new gfx::Camera;
+		camera = listeCamera[MODELEDEBOUT];
 		vitesse = { 0, -0.01, 0 };
+		listeModele3D[MODELEDEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		listeModele3D[MODELEACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		modele3D = listeModele3D[MODELEDEBOUT];
+		listeModele3D[MODELEDEBOUT]->defPosition(position);
+		listeModele3D[MODELEACCROUPI]->defPosition(position);
+	}
+
+	~Joueur() {
+		delete listeCamera;
+		delete listeModele3D;
 	}
 
 	void deplacement(float frametime){
@@ -70,12 +84,14 @@ public:
 				vitesse = cote * vitesseDeplacement;
 			}
 			if (Clavier::toucheAppuyee(SDLK_LCTRL) && (etat != ACCROUPI)) {
-				camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y - 3.80, camera->obtPosition().z));
+				gfx::Gestionnaire3D::obtInstance().defCamera(listeCamera[MODELEACCROUPI]);
+				modele3D = listeModele3D[MODELEACCROUPI];
 				etat = ACCROUPI;
 			}
 		}
 		if (Clavier::toucheRelachee(SDLK_LCTRL) && (etat == ACCROUPI)) {
-			camera->defPosition(Vecteur3d(camera->obtPosition().x, camera->obtPosition().y + 0.80, camera->obtPosition().z));
+			gfx::Gestionnaire3D::obtInstance().defCamera(listeCamera[MODELEDEBOUT]);
+			modele3D = listeModele3D[MODELEDEBOUT];
 			etat = STABLE;
 		}
 		if (Clavier::toucheAppuyee(SDLK_SPACE) && (etat != SAUT) && etat != CHUTE) {
@@ -96,7 +112,8 @@ public:
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
 		this->modele3D->defPosition(position);
-		camera->defPosition(Vecteur3d(position.x ,position.y + 1.80, position.z));
+		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x ,position.y + 1.80, position.z));
+		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.20, position.z));
 	}
 	void defPointCollision(Vecteur3d pointCollision){
 		this->pointCollision = pointCollision;
@@ -124,6 +141,7 @@ public:
 	int obtEtat(){
 		return etat;
 	}
+
 
 	void defEtat(unsigned int etat){
 		if (etat <= 5){

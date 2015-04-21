@@ -35,3 +35,5 @@
 
 16/04/2015 (10h00 à 12h00) : J'ai commencé à débugger le bug qui fait coller le personnage au mur, je vais le terminer et le commit plus tard dans la journée.
 (1h15 à 4h00) : J'ai debuggé le joueur qui collait au mur et qui avais aussi plusieurs autre problèmes mineurs. Il peut maintenant se déplacer,sauter et toucher la salle sans problèmes.
+
+21/04/2015 (2h45 à 5h30) : Notre épique s'est consulté pour se répartir les tâches. J'ai ensuite fait une partie des interactions avec Sam puis j'ai tenté d'enlever le bug qui fait voir à travers les murs. Je n'ai rien commit parce qu'il bug encore.

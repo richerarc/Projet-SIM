@@ -155,5 +155,13 @@ J'ai codé les phases MenuOptions, MenuGraphique, MenuSon et MenuControle.
 
 ###Durée: 1h
 
+##Mardi 21 avril 2015
 
-##Durée Totale: 47h
+###14:30 à 17:00
+
+Nous avons déterminés nos objectifs et assignés des tâches à tout le monde. J'étais sensé travailler sur un des menus, mais moi et Jessy avons décidé d'arranger les fichiers d'interface dans le projet sur Github car il y avait des classes doubles qui ne contenaient pas exactement la même affaire. Finalement, après certains conflits ça a fini par fonctionner. Patrick nous a ensuite demandé certains changements dans la structure du projet comme remettre des boutons et ajouter des menus statiques. Nous avons déterminé ce qu'il faut faire pour restructurer l'interface de la bonne façon et reséparé des tâches.
+
+###Durée: 2h30
+
+
+##Durée Totale: 49h30

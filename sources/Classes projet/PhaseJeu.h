@@ -36,7 +36,7 @@ private:
 public:
 
 	PhaseJeu() : Phase(){
-		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1, 0, 0));
+		joueur = new Joueur(Vecteur3d(-1, 0, 0));
 		joueur->ajouterScene();
 
 		Carte::obtInstance().creer(20);
