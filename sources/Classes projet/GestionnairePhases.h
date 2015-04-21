@@ -14,7 +14,7 @@ public:
 		}
 	}
 
-	void ajouterPhase(Phase* phase){
+	void ajouterPhase(Phase* phase) {
 		phases.push_back(phase);
 	}
 
@@ -32,18 +32,9 @@ public:
 		}
 		return nullptr;
 	}
-	Phase* obtDerniere(){
-		return phases.back();
-	}
 
-	void afficher(gfx::Fenetre &fenetre){
-		for (auto it : phases)
-			it->afficher(fenetre);
-	}
-
-	void rafraichir(){
-		for (auto it : phases)
-			it->rafraichir();
+	void rafraichir(float frameTime){
+			phases.back()->rafraichir(frameTime);
 	}
 private:
 	std::list<Phase*> phases;
