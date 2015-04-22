@@ -15,15 +15,19 @@ private:
 	gfx::Texte2D* texte;
 	std::function<void(Bouton*)> clicRappel;
 	std::function<void(Bouton*)> survolRappel;
+	std::function<void(Bouton*)> defautRappel;
 
 public:
-	Bouton() : Bouton(nullptr, nullptr, Vecteur2f(), "123", NULL){}
+	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), ""){}
 
-	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, Vecteur2f &position, const char* texte, int t){
+	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, const char* texte){
 		etat = DEFAUT;
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;
+		defautRappel = fonctionDefaut;
 		this->texte = new gfx::Texte2D(texte, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(0, 0));
+		this->texte->defCouleur({ 0, 0, 0, 255 });
+		defPosition(position);
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(this->texte);
@@ -35,7 +39,7 @@ public:
 	}
 
 	void gererClic(SDL_Event &event){
-		if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
+		if (texte->obtRectangle().contient(event.motion.x, event.motion.y) && event.button.button == SDL_BUTTON_LEFT){
 			clicRappel(this);
 			etat = EN_CLIC;
 		}
@@ -51,7 +55,10 @@ public:
 			etat = SURVOL;
 		}
 		else{
+			if (etat != DEFAUT)
+				defautRappel(this);
 			etat = DEFAUT;
+
 		}
 	}
 
@@ -63,9 +70,7 @@ public:
 		texte->defPosition(position);
 	}
 
-
-
-	void defCouleur(SDL_Color &couleur){
+	void defCouleur(SDL_Color couleur){
 		texte->defCouleur(couleur);
 	}
 
