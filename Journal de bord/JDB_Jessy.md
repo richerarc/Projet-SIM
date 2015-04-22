@@ -109,3 +109,6 @@ de 15h à 16h(1h)
 -J'ai fais le menu Son avec l'affichage du slider
 -J'ai commencé le menu graphique
 -Non terminé car nous avons changer le fonctionnement des menus.
+
+22 avril de 11h à 13h (2h)
+-J'ai modifié les menus Pause et Options afin qu'il concorde avec notre nouvelle structure
