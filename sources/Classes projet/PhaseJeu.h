@@ -6,6 +6,7 @@ class PhaseJeu : public Phase{
 private:
 
 	Joueur* joueur;
+	gfx::Texte2D* texte;
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
@@ -33,11 +34,29 @@ private:
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
 	}
 
+	void detectionObjet() {
+
+		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
+		bool objetDetecte = false;
+
+		for (auto it : liste) {
+			if (Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) {
+				texte->defTexte("Press E to open the door");
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+				objetDetecte = true;
+			}
+		}
+
+		if (!objetDetecte)
+			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+	}
+
 public:
 
 	PhaseJeu() : Phase(){
 		joueur = new Joueur(Vecteur3d(-1, 0, 0));
 		joueur->ajouterScene();
+		texte = new gfx::Texte2D("123", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
 
 		Carte::obtInstance().creer(20);
 		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
@@ -49,6 +68,7 @@ public:
 		
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
+			detectionObjet();
 			//ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
