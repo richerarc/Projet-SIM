@@ -134,6 +134,10 @@ public:
 		this->pointCollision = pointCollision;
 	}
 
+	short obtSantePhysique(){ return santePhysique; }
+
+	short obtSanteMentale(){ return santeMentale; }
+
 	Vecteur3d& obtPointCollision(){
 		return this->pointCollision;
 	}
