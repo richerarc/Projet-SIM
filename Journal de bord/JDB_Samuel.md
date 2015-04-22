@@ -34,6 +34,6 @@
 
 14 avril: meeting de groupe pour la division des tache, je suis affecté au Joueur, nous avons travaillé sur l'analyse du joueur, le diagramme de classe, et correctio0n du bug parkinson (4h45)
 
-16 avril: tentative de correction du bug "spider-man" (perso qui colle au mur)
+16 avril: tentative de correction du bug "spider-man" (perso qui colle au mur) (2h)
 
-21 avril: ajout d'un liste d'objet dans joueur, de la santé physique et mentale, ainsi que les accesseurs, et ensuite debut du codage de l'interaction joeur-objet fixe
+21 avril: ajout d'un liste d'objet dans joueur, de la santé physique et mentale, ainsi que les accesseurs, et ensuite debut du codage de l'interaction joeur-objet fixe. (3h30)
