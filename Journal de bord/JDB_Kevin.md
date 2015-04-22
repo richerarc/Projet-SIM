@@ -212,3 +212,18 @@ Le 16 j'ai régler un probleme de vision rayon-X tandis que le reste de mon équ
 Le 17 j'ai réadapter le probleme et j'ai ajuster la grandeur et la grosseur du personnage.
 
 **Temps 3h**
+
+##**`21 Avril 2015`**
+
+Aujourd'hui Richer Julien et moi avons fais un récapitulatif de ou on était rendu. Mon équie et moi avons séparés les tâches pour avencer plus rapidement. Dominique et Samuel ensemble et Nathan et moi.
+
+J'ai aussi commencer a enregistrer les bugs pour avoir une video de bugs pour montrer la progression.
+
+Pour ce que qui est de Nathan et moi nous avons travailler sur l'etat accroupi, la course et quelques autres bugs.
+Pour ce qui est des états tout fonctionne très bien. Il reste le problème du sol a reparer, demain je vais faire les mouvement en diagonales.
+
+Plus tard dans la soirée jai du regler des erreurs de compilation provenant des menus. Finalement jai revert les commits qui on été faits et demander au membres de l'équipe des interfaces de travaller sur une branche. 
+
+Le joueur prend plus de temps que prévu le débuggage est complexe et de bug apparaissent quand on en règle.
+
+**Temps 4h**
