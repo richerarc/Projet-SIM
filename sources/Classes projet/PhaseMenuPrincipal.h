@@ -22,10 +22,11 @@ public:
 
 	void rafraichir(float frameTime) {
 
-		menuPrincipal->actualiser();
 	}
 
 	void remplir() {
+
+		menuPrincipal->remplir();
 
 	}
 };

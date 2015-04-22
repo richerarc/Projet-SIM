@@ -23,9 +23,13 @@ public:
 
 	}
 
-	void rafraichir(){
+	void rafraichir(float frameTime){
 
-		menuControle->actualiser();
+	}
+
+	void remplir(void) {
+
+		menuControle->remplir();
 
 	}
 

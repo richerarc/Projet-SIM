@@ -23,11 +23,14 @@ public:
 
 	}
 
-	void rafraichir(){
-
-		menuSon->actualiser();
+	void rafraichir(float frameTime) {
 
 	}
 
+	void remplir() {
+
+		menuSon->remplir();
+
+	}
 
 };

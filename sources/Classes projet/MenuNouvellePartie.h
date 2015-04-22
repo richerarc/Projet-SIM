@@ -1,7 +1,9 @@
 #pragma once
 #include "Menu.h"
-#include "Gestionnaire2D.h"
 #include "Bouton.h"
+#include "Sprite2D.h"
+#include "GestionnairePhases.h"
+#include "PhaseJeu.h"
 
 class MenuNouvellePartie : public Menu {
 
@@ -73,8 +75,13 @@ public:
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
 	}
 
-	void actualiser(){
-		
+	void remplir(void) {
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(choisirDiff);
+		facile->remplir();
+		normal->remplir();
+		difficile->remplir();
+
 	}
 
 };

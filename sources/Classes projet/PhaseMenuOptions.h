@@ -23,13 +23,13 @@ public:
 
 	}
 
-	void rafraichir(float frameTime){
-
-		menuOptions->actualiser();
+	void rafraichir(float frameTime) {
 
 	}
 
 	void remplir() {
+
+		menuOptions->remplir();
 
 	}
 

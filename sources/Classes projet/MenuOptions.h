@@ -4,78 +4,97 @@
 #include "MenuSon.h"
 #include "PhaseMenuSon.h"
 #include "PhaseMenuGraphique.h"
+#include "PhaseMenuControle.h"
 #include "Bouton.h"
 class MenuOptions : public Menu {
 private:
+
 	Bouton* son;
 	Bouton* graphique;
 	Bouton* controle;
-	Bouton* retour;
+	
 public:
 
 	MenuOptions(void) {
-		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(SpriteFond);
+
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
 
 		son = new Bouton(std::bind(&MenuOptions::enClicSon, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
-			Vecteur2f(100, 235),
+			Vecteur2f(300, 600),
 			"Sound",
-			20);
+			50);
+
 		graphique = new Bouton(std::bind(&MenuOptions::enClicGraphique, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
-			Vecteur2f(150, 235),
+			Vecteur2f(300, 450),
 			"Graphic",
-			20);
+			50);
+
 		controle = new Bouton(std::bind(&MenuOptions::enClicControle, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
-			Vecteur2f(200, 235),
+			Vecteur2f(300, 300),
 			"Controles",
-			20);
+			50);
+
 		retour = new Bouton(std::bind(&MenuOptions::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
-			Vecteur2f(150,135),
+			Vecteur2f(300,150),
 			"Back",
-			20);
+			50);
+
 	}
 
 	~MenuOptions(void) {
-		gfx::Gestionnaire2D::obtInstance().retObjets({ this->SpriteFond });
-		delete this->SpriteFond;
+		gfx::Gestionnaire2D::obtInstance().retObjets({ this->spriteFond });
+		delete this->spriteFond;
 	}
-	void actualiser(void) {
-	}
+	
 	void survol(Bouton* sender){
 		sender->defCouleur({ 255, 0, 0, 255 });
 	}
+
 	void defaut(Bouton* sender){
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
-	void enClicSon(Bouton* sender){
-	//	GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
-	//	gfx::Gestionnaire2D::obtInstance().vider();
-	//	GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());
+
+	void enClicRetour(Bouton* envoi){
+		GestionnairePhases::obtInstance().retirerPhase();
+		GestionnairePhases::obtInstance().obtDerniere()->defPause(false);
 	}
 
-	void enClicGraphique(Bouton* sender){
-		//	GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
-		//	gfx::Gestionnaire2D::obtInstance().vider();
-		//	GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());
+	void enClicSon(Bouton* envoi){
+		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());
 	}
 
-	void enClicControle(Bouton* sender){
-		//	GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
-		//	gfx::Gestionnaire2D::obtInstance().vider();
-		//	GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());
+	void enClicGraphique(Bouton* envoi){
+		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());
 	}
-	void enClicRetour(Bouton* sender){
-		//GestionnairePhases::obtInstance().retirerPhase();
-		//gfx::Gestionnaire2D::obtInstance().vider();
-		//GestionnairePhases::obtInstance().obtDerniere()->defPause(false);
+
+	void enClicControle(Bouton* envoi){
+		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());
 	}
+
+	void remplir(void) {
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
+		son->remplir();
+		graphique->remplir();
+		controle->remplir();
+		retour->remplir();
+
+	}
+
 	
 };

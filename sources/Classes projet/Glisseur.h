@@ -71,4 +71,11 @@ public:
 		return pourcentage;
 	}
 
+	void remplir(void) {
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(SpriteFond);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteGlisseur);
+
+	}
+
 };

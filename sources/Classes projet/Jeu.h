@@ -52,12 +52,12 @@ public:
 		//ControlleurAudio::obtInstance().initialiser(100);
 		
 		
-		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(1366, 768), "CoffeeTrip", false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 
-		Rect<float>::defDimension(600);
+		Rect<float>::defDimension(768);
 
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())

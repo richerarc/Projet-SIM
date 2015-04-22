@@ -12,6 +12,6 @@ protected:
 	Bouton* retour;
 
 public:
-	virtual void actualiser() = 0;
+	virtual void remplir() = 0;
 
 };

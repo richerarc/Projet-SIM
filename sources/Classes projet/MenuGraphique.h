@@ -7,9 +7,9 @@ class MenuGraphique : public Menu {
 private:
 
 	gfx::Texte2D* Resolution;
-	gfx::Texte2D* FlecheGauche;
-	gfx::Texte2D* FlecheDroite;
-	gfx::Texte2D* Appliquer;
+	Bouton* FlecheGauche;
+	Bouton* FlecheDroite;
+	Bouton* Appliquer;
 
 public:
 
@@ -19,7 +19,7 @@ public:
 
 	}
 
-	void actualiser() {
+	void remplir(void) {
 
 
 

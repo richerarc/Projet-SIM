@@ -85,4 +85,10 @@ public:
 		this->survolRappel = fonction;
 	}
 
+	void remplir(void) {
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+
+	}
+
 };
