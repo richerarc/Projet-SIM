@@ -71,14 +71,18 @@ public:
 class Coeur : public Sons {
 private:
 	Mix_Chunk* audio2;
+	Mix_Chunk* audio3;
+	Mix_Chunk* audio4;
 	Chrono delais;
 	double BPM;
 public:
-	Coeur(const char* chemin1, const char* chemin2, int ID, int volume) : Sons(chemin1, ID, volume){
+	Coeur(const char* chemin1, const char* chemin2, const char* chemin3, const char* chemin4, int ID, int volume) : Sons(chemin1, ID, volume){
 		BPM = 55;
 		delais = Chrono();
 		actif = true;
 		audio2 = Mix_LoadWAV(chemin2);
+		audio3 = Mix_LoadWAV(chemin3);
+		audio4 = Mix_LoadWAV(chemin4);
 	}
 	
 	void defVitesseBattement(int nouveauBPM){
@@ -92,18 +96,26 @@ public:
 	void defVolume(int nouveauVol){
 		Mix_VolumeChunk(audio, nouveauVol);
 		Mix_VolumeChunk(audio2, nouveauVol);
+		Mix_VolumeChunk(audio3, nouveauVol);
+		Mix_VolumeChunk(audio4, nouveauVol);
 		volume = nouveauVol;
 	}
 	
 	void jouer(Joueur* joueur){
-		if (BPM <= 1.0)
-			BPM = 1.0;
-		if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 100)){
+		if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 80)){
 			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 			delais.repartir();
 		}
-		else if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine))){
+		else if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 120)){
 			Mix_FadeInChannelTimed(idChaine, audio2, 0, 1, -1);
+			delais.repartir();
+		}
+		else if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 160)){
+			Mix_FadeInChannelTimed(idChaine, audio3, 0, 1, -1);
+			delais.repartir();
+		}
+		else if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 210)){
+			Mix_FadeInChannelTimed(idChaine, audio4, 0, 1, -1);
 			delais.repartir();
 		}
 	}

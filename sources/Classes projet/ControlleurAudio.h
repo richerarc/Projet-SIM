@@ -33,7 +33,7 @@ public:
 			}
 			fichierNom.close();
 		}
-		coeur = new Coeur("battementLent.ogg", "battementRapide.ogg", ++ittChaine, 10);
+		coeur = new Coeur("battementLent.ogg", "battementMoyen.ogg", "battementRapide.ogg", "battementAccel.ogg", ++ittChaine, 10);
 		pas = new Pas("pas1.ogg", "pas2.ogg", ++ittChaine, 12);
 		initial = false;
 	}
