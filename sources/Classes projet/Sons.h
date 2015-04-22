@@ -75,6 +75,28 @@ private:
 	Mix_Chunk* audio4;
 	Chrono delais;
 	double BPM;
+	short santePhysique, santeMentale;
+	bool effort;
+	
+	void defBattement(Joueur* joueur){
+		if (joueur->obtSanteMentale() != santeMentale){
+			BPM = 210 - ((float)joueur->obtSanteMentale() * 1.55);
+			santeMentale = joueur->obtSanteMentale();
+		}
+		if (joueur->obtEtat() == COURSE && !effort){
+			BPM += 55;
+			effort = true;
+		}
+		else if (joueur->obtEtat() == MARCHE && effort){
+			BPM -= 55;
+			effort = false;
+		}
+		if (joueur->obtSantePhysique() != santePhysique){
+			defVolume(127-joueur->obtSantePhysique());
+			santePhysique = joueur->obtSantePhysique();
+		}
+	}
+	
 public:
 	Coeur(const char* chemin1, const char* chemin2, const char* chemin3, const char* chemin4, int ID, int volume) : Sons(chemin1, ID, volume){
 		BPM = 55;
@@ -83,10 +105,9 @@ public:
 		audio2 = Mix_LoadWAV(chemin2);
 		audio3 = Mix_LoadWAV(chemin3);
 		audio4 = Mix_LoadWAV(chemin4);
-	}
-	
-	void defVitesseBattement(int nouveauBPM){
-		this->BPM = nouveauBPM;
+		santeMentale = 100;
+		santePhysique = 100;
+		defVolume(27);
 	}
 	
 	double obtBattement(){
@@ -102,6 +123,7 @@ public:
 	}
 	
 	void jouer(Joueur* joueur){
+		defBattement(joueur);
 		if ((delais.obtTempsEcoule().enSecondes() >= 60.0f / BPM) && (!Mix_Playing(idChaine)) && (BPM <= 80)){
 			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 			delais.repartir();
@@ -166,7 +188,7 @@ public:
 			}
 		}
 		else if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() == etat::COURSE){
-			if (!((delais.obtTempsEcoule().enMillisecondes() <= 250) || (Mix_Playing(idChaine)))){
+			if (!((delais.obtTempsEcoule().enMillisecondes() <= 325) || (Mix_Playing(idChaine)))){
 				if (premier){
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 				}
