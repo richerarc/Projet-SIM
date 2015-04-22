@@ -2,6 +2,7 @@
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
 
+
 enum etat {STABLE, ACCROUPI, COURSE, MARCHE, SAUT, CHUTE};
 enum modele {MODELEDEBOUT, MODELEACCROUPI};
 
@@ -128,10 +129,10 @@ public:
 		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x ,position.y + 1.80, position.z));
 		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.20, position.z));
 	}
+
 	void defPointCollision(Vecteur3d pointCollision){
 		this->pointCollision = pointCollision;
 	}
-
 
 	Vecteur3d& obtPointCollision(){
 		return this->pointCollision;
