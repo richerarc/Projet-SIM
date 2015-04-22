@@ -22,7 +22,7 @@ install:
     - (cd SDL2_ttf-2.0.12 && ./configure && make && sudo make install)
     - cd ..
     - pwd
-before_script: cd /home/travis/build/richerarc/Projet-SIM/sources/
+before_script: cd /home/travis/build/richerarc/Projet-SIM/sources/Classes\ projet/
 script: make
 branches:
   only:
