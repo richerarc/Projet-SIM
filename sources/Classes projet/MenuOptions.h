@@ -13,9 +13,9 @@ public:
 		son = new gfx::Texte2D("Sound", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 450));
 		graphique = new gfx::Texte2D("Graphic", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 300));
 		controle = new gfx::Texte2D("Controle", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 150));
-		this->Retour = new gfx::Texte2D("Back", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 30));
-		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ this->SpriteFond, son, controle, this->Retour, graphique });
+		this->retour = new gfx::Texte2D("Back", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 30));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ this->spriteFond, son, controle, graphique });
 	}
 
 	~MenuOptions(void) {

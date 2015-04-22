@@ -16,9 +16,9 @@ public:
 	MenuPause(void) : Menu() {
 		retourJeu = new gfx::Texte2D("Back", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(180, 400));
 		options = new gfx::Texte2D("Options", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(430, 400));
-		this->Retour = new gfx::Texte2D("Quit", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(350, 200));
+		this->retour = new gfx::Texte2D("Quit", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(350, 200));
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({options, Retour, retourJeu });
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({options, retourJeu });
 
 	}
 	~MenuPause(){
@@ -69,6 +69,6 @@ public:
 
 	void remplir() {
 
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ options, Retour, retourJeu });
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ options, retourJeu });
 	}
 };

@@ -1,73 +1,80 @@
 #pragma once
 #include "Menu.h"
 #include "Gestionnaire2D.h"
+#include "Bouton.h"
 
 class MenuNouvellePartie : public Menu {
 
 private:
 
 	gfx::Texte2D* choisirDiff;
-	gfx::Texte2D* facile;
-	gfx::Texte2D* normal;
-	gfx::Texte2D* difficile;
+	Bouton* facile;
+	Bouton* normal;
+	Bouton* difficile;
 
 
 public:
 
 	MenuNouvellePartie(void){
-
 		
-		facile = new gfx::Texte2D("Easy", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(130, 120));
-		normal = new gfx::Texte2D("Normal", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(330, 120));
-		difficile = new gfx::Texte2D("Hardcore", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(530, 120));
+		facile = new Bouton(std::bind(&MenuNouvellePartie::enClicFacile, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
+			Vecteur2f(130, 120),
+			"Easy", 20);
+
+		normal = new Bouton(std::bind(&MenuNouvellePartie::enClicNormal, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
+			Vecteur2f(330, 120),
+			"Normal", 20);
+
+		difficile = new Bouton(std::bind(&MenuNouvellePartie::enClicDifficile, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
+			Vecteur2f(530, 120),
+			"Hardcore", 20);
+
 		choisirDiff = new gfx::Texte2D("Please choose a difficulty", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
-		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		choisirDiff->defCouleur({ 0, 0, 0, 255 });
 
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ SpriteFond, facile, normal, difficile, choisirDiff});
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, choisirDiff});
 
 	}
 
 	~MenuNouvellePartie(){
-		gfx::Gestionnaire2D::obtInstance().retObjets({ choisirDiff, facile, normal, difficile });
+		gfx::Gestionnaire2D::obtInstance().retObjets({ choisirDiff});
+	}
+
+	void survol(Bouton* sender){
+		sender->defCouleur({ 215, 110, 75, 255 });
+	}
+
+	void defaut(Bouton* sender){
+		sender->defCouleur({ 0, 0, 0, 255 });
+	}
+
+	void enClicFacile(Bouton* sender) {
+		GestionnairePhases::obtInstance().retirerPhase();
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+	}
+
+	void enClicNormal(Bouton* sender) {
+		GestionnairePhases::obtInstance().retirerPhase();
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+	}
+
+	void enClicDifficile(Bouton* sender) {
+		GestionnairePhases::obtInstance().retirerPhase();
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
 	}
 
 	void actualiser(){
-		if (facile->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)){
-			facile->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
-			}
-		}
-		else{
-			facile->defCouleur({ 0, 0, 0, 255 });
-		}
-
-		if (normal->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)){
-			normal->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
-			}
-		}
-		else{
-			normal->defCouleur({ 0, 0, 0, 255 });
-		}
-
-		if (difficile->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)){
-			difficile->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
-			}
-		}
-		else{
-			difficile->defCouleur({ 0, 0, 0, 255 });
-		}
+		
 	}
 
 };
