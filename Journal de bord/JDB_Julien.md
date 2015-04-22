@@ -217,3 +217,11 @@ Temps : 4h40
 ###**`20 avril 2015`**
 
 - 18h30 à 20h : J'ai terminé le glisseur, pour qu'il soit fonctionnel pour les autres menus pour demain. Il fonctionne parfaitement.
+
+Temps : 1h30
+
+###**`21 avril 2015`**
+
+- 14h40 à 18h40 : J'ai traivaillé dans le gestionnaire de ressources pour mettre les polices de caractères, comme cela nous ne chargeons plus des polices pareilles plusieurs fois. J'ai aider toute mon équipe dans leur partie et j'ai rendu le projet fonctionnel, car il avait beaucoup d'erreur avec les commits fait dans mon équipe.
+
+Temps : 4h
