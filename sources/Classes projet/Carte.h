@@ -60,7 +60,15 @@ public:
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it).cheminTexture));
 			modeleporte->defPosition((*it).position);
 			modeleporte->defOrientation(0, (*it).rotation, 0);
-			salleActive->ajoutObjet(new Porte(modeleporte, (*it).ID, "Metal", (*it).position, { 0, 0, 0 }, false, true, false, false));
+			Objet* porte = new Porte(modeleporte, (*it).ID, "Metal", (*it).position, { 0, 0, 0 }, false, true, false, false);
+			porte->defVitesse((*it).direction);
+			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.2, porte->obtPosition().z));
+			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false)) {
+				porte->defPosition(porte->obtPosition() + ((*it).direction / 10));
+			}
+			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.2, porte->obtPosition().z));
+
+			salleActive->ajoutObjet(porte);
 			if (std::get<1>(sortie) == i) {
 				Vecteur3d vecteur;
 				Vecteur3d vecteurMur;
