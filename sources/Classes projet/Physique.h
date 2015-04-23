@@ -200,7 +200,7 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(salle, *it)) {
+				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(salle, *it, true)) {
 					appliquerGravite(it->obtVitesse(), frameTime);
 					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 				}
@@ -484,7 +484,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(Salle* salle, Objet& objet) {
+	bool collisionObjetSalle(Salle* salle, Objet& objet, bool tienCompteDesObjets) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -500,30 +500,33 @@ public:
 			rayonCollision = Droite(point, objet.obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
-				
-				//difference = pointCollision - point;
-				//objet.defPosition(objet.obtPosition() + difference);
+
+				difference = pointCollision - point;
+				objet.defPosition(objet.obtPosition() + difference);
 
 				normale.normaliser();
 				rebondObjetCarte(objet, normale, pointCollision);
 				return true;
 			}
 
-			for (auto it : list) {
+			if (tienCompteDesObjets) {
 
-				if (it->obtID() != objet.obtID()) {
+				for (auto it : list) {
 
-					if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
+					if (it->obtID() != objet.obtID()) {
 
-						it_physique = dynamic_cast<ObjetPhysique*>(it);
+						if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
 
-						if (it_physique)
-							rebondObjetObjet(objet, *it, normale);
-						else
-							rebondObjetCarte(objet, normale, pointCollision);
+							it_physique = dynamic_cast<ObjetPhysique*>(it);
 
-						collision = true;
-						return true;
+							if (it_physique)
+								rebondObjetObjet(objet, *it, normale);
+							else
+								rebondObjetCarte(objet, normale, pointCollision);
+
+							collision = true;
+							return true;
+						}
 					}
 				}
 			}

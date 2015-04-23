@@ -209,6 +209,11 @@ public:
 					}
 					z = abs(zMax - zMin);
 
+					xMin += 0.25;
+					xMax -= 0.25;
+					zMin += 0.25;
+					zMax -= 0.25;
+
 					switch (rand() % 4) {
 					case 0:
 						objet.direction = { 1, 0, 0 };
@@ -292,13 +297,16 @@ public:
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
-			/*
+
 			Objet* porte = new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false);
-			while (Physique::obtInstance().collisionObjetSalle(salleActive, *porte)) {
+			porte->defVitesse(it.direction);
+			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.2, porte->obtPosition().z));
+			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false)) {
 				porte->defPosition(porte->obtPosition() + (it.direction / 10));
 			}
-			*/
-			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));
+			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.2, porte->obtPosition().z));
+
+			salleActive->ajoutObjet(porte);
 		}
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
