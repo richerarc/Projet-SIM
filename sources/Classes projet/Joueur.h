@@ -30,7 +30,7 @@ public:
 		etat = CHUTE;
 		masse = 87.f;
 		santePhysique = 100;
-		santeMentale = 75;
+		santeMentale = 100;
 		listeCamera[MODELEDEBOUT] = new gfx::Camera;
 		listeCamera[MODELEACCROUPI] = new gfx::Camera;
 		camera = listeCamera[MODELEDEBOUT];
@@ -52,7 +52,7 @@ public:
 	}
 
 	void deplacement(float frametime){
-		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE)){
+		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
  			vitesse.x = 0;
 			vitesse.z = 0;
 			if (vitesse.y == 0){
@@ -97,13 +97,15 @@ public:
 
 			if (Clavier::toucheAppuyee(SDLK_w)){
 				vitesse = devant * vitesseDeplacement;
-				if (Clavier::toucheAppuyee(SDLK_d))
-					vitesse = vitesse + (cote * vitesseDeplacement);
+				if (vitesseDeplacement < 5) {
+					if (Clavier::toucheAppuyee(SDLK_d))
+						vitesse = vitesse + (cote * vitesseDeplacement);
 
-				else if (Clavier::toucheAppuyee(SDLK_a)) {
-					vitesseTemp = cote * vitesseDeplacement;
-					vitesseTemp.inverser();
-					vitesse = vitesse + vitesseTemp;
+					else if (Clavier::toucheAppuyee(SDLK_a)) {
+						vitesseTemp = cote * vitesseDeplacement;
+						vitesseTemp.inverser();
+						vitesse = vitesse + vitesseTemp;
+					}
 				}
 
 			}
@@ -111,13 +113,15 @@ public:
 			else if (Clavier::toucheAppuyee(SDLK_s)) {
 				vitesse = devant * vitesseDeplacement;
 				vitesse.inverser();
-				if (Clavier::toucheAppuyee(SDLK_d))
-					vitesse = vitesse + (cote * vitesseDeplacement);
+				if (vitesseDeplacement < 5) {
+					if (Clavier::toucheAppuyee(SDLK_d))
+						vitesse = vitesse + (cote * vitesseDeplacement);
 
-				else if (Clavier::toucheAppuyee(SDLK_a)) {
-					vitesseTemp = cote * vitesseDeplacement;
-					vitesseTemp.inverser();
-					vitesse = vitesse + vitesseTemp;
+					else if (Clavier::toucheAppuyee(SDLK_a)) {
+						vitesseTemp = cote * vitesseDeplacement;
+						vitesseTemp.inverser();
+						vitesse = vitesse + vitesseTemp;
+					}
 				}
 			}
 
@@ -136,7 +140,12 @@ public:
 			}
 		}
 	}
- 
+
+	/* by Sam
+	void changementSalle(Objet* objet, Joueur& joueur){
+		Carte::obtInstance().destination(Entree(Carte::obtInstance().salleActive->obtID(), objet->obtID(), false) joueur);
+	}
+	*/ 
 	void longer(){
 		Vecteur3d direction;
 		//x

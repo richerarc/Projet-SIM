@@ -83,11 +83,11 @@ private:
 			BPM = 210 - ((float)joueur->obtSanteMentale() * 1.55);
 			santeMentale = joueur->obtSanteMentale();
 		}
-		if (joueur->obtEtat() == COURSE && !effort){
+		if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 5.f){
 			BPM += 55;
 			effort = true;
 		}
-		else if (joueur->obtEtat() == MARCHE && effort){
+		else if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 4.f){
 			BPM -= 55;
 			effort = false;
 		}
@@ -175,7 +175,7 @@ public:
 	}
 	
 	void jouer(Joueur* joueur){
-		if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() == etat::MARCHE){
+		if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 4.f && joueur->obtEtat() != SAUT){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= 650) || (Mix_Playing(idChaine)))){
 				if (premier){
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
@@ -187,7 +187,7 @@ public:
 				delais.repartir();
 			}
 		}
-		else if ((Clavier::toucheAppuyee(SDLK_w) || Clavier::toucheAppuyee(SDLK_a) || Clavier::toucheAppuyee(SDLK_s) || Clavier::toucheAppuyee(SDLK_d)) && joueur->obtEtat() == etat::COURSE){
+		else if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() >= 5.f && joueur->obtEtat() != SAUT){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= 325) || (Mix_Playing(idChaine)))){
 				if (premier){
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
