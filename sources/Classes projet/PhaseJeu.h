@@ -46,7 +46,7 @@ private:
 		for (auto it : liste) {
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
 			ObjetFixe* it_ObjFixe = dynamic_cast<ObjetFixe*>(it);
-			if ((Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (true)) {
+			if ((Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Physique::obtInstance().vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= 90.0)) {
 				std::string str1 = "Press ";
 				str1.append(GestionnaireControle::obtInstance().obtToucheControleEnChar((GestionnaireControle::obtInstance().obtenirControles()[UTILISER])));
 				
