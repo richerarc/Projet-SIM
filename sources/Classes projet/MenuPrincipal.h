@@ -57,15 +57,15 @@ public:
 	}
 
 	void enClicDemarrer(Bouton* envoi){
-		GestionnairePhases::obtInstance().retirerPhase();
+		
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuNouvellePartie());
+		GestionnairePhases::obtInstance().defPhaseActive(4);
 	}
 
 	void enClicOptions(Bouton* envoi){
-		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
+		
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());
+		GestionnairePhases::obtInstance().defPhaseActive(5);
 	}
 
 	void enClicQuitter(Bouton* envoi){
@@ -78,6 +78,24 @@ public:
 		demarrer->remplir();
 		options->remplir();
 		retour->remplir();
+
+	}
+
+	void defPause(bool pause) {
+
+		if (pause) {
+			this->pause = pause;
+			demarrer->defEtat(PAUSE);
+			options->defEtat(PAUSE);
+			retour->defEtat(PAUSE);
+		}
+
+		else {
+			this->pause = pause;
+			demarrer->defEtat(DEFAUT);
+			options->defEtat(DEFAUT);
+			retour->defEtat(DEFAUT);
+		}
 
 	}
 
