@@ -580,6 +580,7 @@ public:
 			joueur->defNormale(normale);
 			return true;
 		}
+		return false;
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {

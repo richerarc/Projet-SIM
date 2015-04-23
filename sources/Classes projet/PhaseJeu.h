@@ -56,6 +56,7 @@ private:
 
 		if (!objetDetecte)
 			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+		return objetDetecte;
 	}
 
 public:
@@ -76,7 +77,7 @@ public:
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			detectionObjet();
-			ControlleurAudio::obtInstance().jouerTout(joueur);
+			//ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
 
