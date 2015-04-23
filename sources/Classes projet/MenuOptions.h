@@ -70,6 +70,7 @@ public:
 	void enClicSon(Bouton* envoi){
 		gfx::Gestionnaire2D::obtInstance().vider();
 		GestionnairePhases::obtInstance().defPhaseActive(6);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 	}
 
 	void enClicGraphique(Bouton* envoi){
