@@ -7,9 +7,10 @@
 #include <SDL2/SDL.h>
 #include <functional>
 
+enum Etat{ EN_CLIC, SURVOL, DEFAUT, PAUSE };
+
 class Bouton{ 
 private:
-	enum Etat{ EN_CLIC, SURVOL, DEFAUT };
 
 	Etat etat;
 	gfx::Texte2D* texte;
@@ -63,6 +64,10 @@ public:
 			etat = DEFAUT;
 
 		}
+	}
+
+	void defEtat(Etat etat) {
+		this->etat = etat;
 	}
 
 	void defTexte(const char* texte){
