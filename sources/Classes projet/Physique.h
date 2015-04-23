@@ -548,8 +548,9 @@ public:
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPosition(joueur->obtPosition() + pointDiference);
+				//joueur->defPosition(joueur->obtPosition() + pointDiference);
 				joueur->defPointCollision(pointCollision);
+				joueur->defNormale(normale);
 				return true;
 			}
 		}
@@ -557,6 +558,7 @@ public:
 		return false;
 	}
 	bool collisionAuSol(Joueur* joueur){
+		/*
 		Vecteur3d* boite = Carte::obtInstance().salleActive->obtModele()->obtModele()->obtBoiteDeCollision();
 		Vecteur3d face[8];
 		int nbrVerticesAlignees = 0;
@@ -567,6 +569,18 @@ public:
 			}
 		}
 		return (nbrVerticesAlignees >= 3);
+		*/
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point;
+		Vecteur3d normale;
+		rayonCollision = Droite(joueur->obtPosition(), joueur->obtVitesse());
+		if (collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayonCollision, pointCollision, normale)) {
+			joueur->defPointCollision(pointCollision);
+			joueur->defNormale(normale);
+			return true;
+		}
+		return false;
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
