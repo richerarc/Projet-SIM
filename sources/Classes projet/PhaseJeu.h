@@ -81,12 +81,14 @@ public:
 		}
 
 
-		// by sam
 		if (detectionObjet()){
 			if (Clavier::toucheAppuyee(SDLK_e)){// Touche relachée bientôt...
-				//objetVise->appliquerAction(Interagir);
-				//joueur->changementSalle(objetVise);
-				Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+				if (objetVise->obtSiPorte()){
+					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+				}
+				else{
+					objetVise->appliquerAction(Interagir);
+				}
 			}
 		}
 

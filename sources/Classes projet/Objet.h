@@ -29,6 +29,7 @@ public:
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 	virtual void appliquerAction(typeAction action) = 0;
+	virtual bool obtSiPorte() = 0;
 	//virtual void ajouterScene() = 0;
 
 	void defPosition(Vecteur3d position){
@@ -96,7 +97,6 @@ public:
 	Vecteur3d& obtVitesseAngulaire(){
 		return vitesseAngulaire;
 	}
-
 	
 
 };
