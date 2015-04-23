@@ -37,3 +37,5 @@
 16 avril: tentative de correction du bug "spider-man" (perso qui colle au mur) (2h)
 
 21 avril: ajout d'un liste d'objet dans joueur, de la santé physique et mentale, ainsi que les accesseurs, et ensuite debut du codage de l'interaction joeur-objet fixe. (3h30)
+
+22 avril: codage interaction joeur-porte, probleme recontré avec la fonction destination, (1H)
