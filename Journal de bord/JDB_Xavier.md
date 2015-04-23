@@ -42,3 +42,5 @@ Conceptualisation des menus. Retour et critique sur tout les choses essentiels a
 J'ai fini le menu de controle. J'ai eu quelque difficulté pour la conception mais j'ai reglé ca avec Julien. Je n'ai maheureusement pas eu le temps de tester le Menu sauf.
 ###Mardi 21 avril ~3h
 Travail plus ou moins productif puisque tout ce qu'on a fait on doit le modifier. Je sais que je dois m'impliquer un peu plus mais j'ai eu beaucoup de francais, physique et philo. Je vais avoir beaucoup plus de temps puisque mon oral est cette semaine, donc plus de francais et plus de prog :D .
+###Mercredi 22 Aril ~ 1h
+Travail sur la classe MenuControle. Je l'ai pas push parce que il y juste trop d'erreur dedans. Il me reste a faire les évènements pour quand on click sur les boutons pour changer les keys. Je dois juste clarifier comment le sender marche pour que je puisse continuer.
