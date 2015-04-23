@@ -10,8 +10,10 @@ protected:
 
 	gfx::Sprite2D* spriteFond;
 	Bouton* retour;
+	bool pause;
 
 public:
 	virtual void remplir() = 0;
+	virtual void defPause() = 0;
 
 };

@@ -54,7 +54,15 @@ public:
 		
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(1366, 768), "CoffeeTrip", false);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());		//0
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());					//1
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//2
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());		//3
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuNouvellePartie());	//4
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//5
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//6
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//7
+		GestionnairePhases::obtInstance().defPhaseActive(0);
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 
 		Rect<float>::defDimension(768);

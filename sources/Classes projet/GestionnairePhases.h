@@ -23,6 +23,10 @@ public:
 		phases.pop_back();
 	}
 
+	void defPhaseActive(int index) {
+		phaseActive = obtPhase(index);
+	}
+
 	Phase* obtPhase(int index){
 		int ind = 0;
 		for (auto i : phases){
@@ -38,8 +42,9 @@ public:
 	}
 
 	void rafraichir(float frameTime){
-			phases.back()->rafraichir(frameTime);
+			phaseActive->rafraichir(frameTime);
 	}
 private:
 	std::list<Phase*> phases;
+	Phase* phaseActive;
 };
