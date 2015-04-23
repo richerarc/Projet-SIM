@@ -72,7 +72,7 @@ public:
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			detectionObjet();
-			//ControlleurAudio::obtInstance().jouerTout(joueur);
+			ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
 

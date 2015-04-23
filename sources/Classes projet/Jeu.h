@@ -48,8 +48,8 @@ public:
 	static void demarrer(){
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
-		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		//ControlleurAudio::obtInstance().initialiser(100);
+		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		ControlleurAudio::obtInstance().initialiser(100);
 		
 		
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
@@ -85,8 +85,8 @@ public:
 		}
 		
 		delete fenetre;
-		//ControlleurAudio::obtInstance().fermer();
-		//Mix_CloseAudio();
+		ControlleurAudio::obtInstance().fermer();
+		Mix_CloseAudio();
 		TTF_Quit();
 		SDL_Quit();
 	}
