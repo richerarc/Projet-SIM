@@ -44,6 +44,9 @@ public:
 	void rafraichir(float frameTime){
 			phaseActive->rafraichir(frameTime);
 	}
+	Phase* obtPhaseActive(){
+		return phaseActive;
+	}
 private:
 	std::list<Phase*> phases;
 	Phase* phaseActive;
