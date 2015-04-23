@@ -10,10 +10,12 @@ private:
 	Objet* objetVise;
 
 	void appliquerPhysique(float frameTime) {
-		if (joueur->obtVitesse().norme() != 0) {
+ 		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(joueur)) {
 				if (joueur->obtEtat() != STABLE)
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+				if (joueur->obtEtat() != SAUT)
+					joueur->longer();
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			}
 			else{
@@ -23,6 +25,8 @@ private:
 					if (Physique::obtInstance().collisionAuSol(joueur)){
 						joueur->defEtat(STABLE);
 						joueur->obtVitesse().y = 0.f;
+						joueur->obtVitesse().x = 0.f;
+						joueur->obtVitesse().z = 0.f;
 					}
 					else {
 						joueur->obtVitesse().x = 0.f;

@@ -18,6 +18,7 @@ private:
 	float vitesseDeplacement;
 	int etat;
 	short santePhysique, santeMentale;
+	Vecteur3d normale;
 	Vecteur3d pointCollision;
 
 public:
@@ -58,11 +59,13 @@ public:
 				etat = STABLE;
 				vitesse.y = 0.00f;
 			}
-		}
-
-		if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0){
 			etat = STABLE;
 		}
+
+ 		if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
+			etat = STABLE;
+		}
+
 
 		Vecteur3d devant = camera->obtDevant();
 		devant.y = 0;
@@ -139,7 +142,98 @@ public:
 		Carte::obtInstance().destination(Entree(Carte::obtInstance().salleActive->obtID(), objet->obtID(), false) joueur);
 	}
 	*/ 
+	void longer(){
+		Vecteur3d direction;
+		//x
+		if (vitesse.x != 0 && vitesse.y != 0 && vitesse.z != 0){
+			if (normale.x != 0.){
+				if (normale.x > 0.){
+					direction.x = normale.x - 1;
+				}
+				else {
+					direction.x = normale.x + 1;
+				}
+				if ((vitesse.x < 0. && normale.x > 0.) || (vitesse.x > 0. && normale.x < 0.)){
+					if (vitesse.x != direction.x && vitesse.x != direction.x*-1){
+						if (vitesse.x < 0.){
+							if (!(direction.x < 0.))
+								direction.x = direction.x * -1;
+						}
+						else {
+							if (direction.x < 0.)
+								direction.x = direction.x * -1;
+						}
+					}
+				}
+				vitesse.x = direction.x;
+			}
 
+			//y
+			if (normale.y != 0.){
+				if (normale.y > 0.){
+					direction.y = normale.y - 1;
+				}
+				else {
+					direction.y = normale.y + 1;
+				}
+				if ((vitesse.y < 0. && normale.y > 0.) || (vitesse.y > 0. && normale.y < 0.)){
+					if (vitesse.y != direction.y && vitesse.y != direction.y*-1){
+						if (vitesse.y < 0.){
+							if (!(direction.y < 0.))
+								direction.y = direction.y * -1;
+						}
+						else {
+							if (direction.y < 0.)
+								direction.y = direction.y * -1;
+						}
+					}
+				}
+				vitesse.y = direction.y;
+			}
+
+			//z
+			if (normale.z != 0.){
+				if (normale.z > 0.){
+					direction.z = normale.z - 1;
+				}
+				else {
+					direction.z = normale.z + 1;
+				}
+				if ((vitesse.z < 0. && normale.z > 0.) || (vitesse.z > 0. && normale.z < 0.)){
+					if (vitesse.z != direction.z && vitesse.z != direction.z*-1){
+						if (vitesse.z < 0.){
+							if (!(direction.z < 0.))
+								direction.z = direction.z * -1;
+						}
+						else {
+							if (direction.z < 0.)
+								direction.z = direction.z * -1;
+						}
+					}
+				}
+				vitesse.z = direction.z;
+			}
+
+			/////
+			/*
+			if (normale.x != 0.){
+			if ((normale.x > 0. && vitesse.x < 0.) || (normale.x < 0. && vitesse.x > 0.)){
+			vitesse.x = 0.;
+			}
+			}
+			//if (normale.y != 0.){
+			//if ((normale.y > 0. && vitesse.y < 0.) || (normale.y < 0. && vitesse.y > 0.)){
+			//vitesse.y = 0.;
+			//}
+			//}
+			if (normale.z != 0.){
+			if ((normale.z > 0. && vitesse.z < 0.) || (normale.z < 0. && vitesse.z > 0.)){
+			vitesse.z = 0.;
+			}
+			}
+			*/
+		}
+	}
 
 	void ajouterScene(){
 		gfx::Gestionnaire3D::obtInstance().defCamera(camera);
@@ -159,7 +253,12 @@ public:
 	void defPointCollision(Vecteur3d pointCollision){
 		this->pointCollision = pointCollision;
 	}
-
+	void defNormale(Vecteur3d normale){
+		this->normale = normale;
+	}
+	Vecteur3d& obtNormale(){
+		return this->normale;
+	}
 	Vecteur3d obtPositionCamera(){
 		Vecteur3d temp = camera->obtPosition();
 		temp.y = temp.y - 1.8f;
