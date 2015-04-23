@@ -39,3 +39,5 @@
 21/04/2015 (2h45 à 5h30) : Notre épique s'est consulté pour se répartir les tâches. J'ai ensuite fait une partie des interactions avec Sam puis j'ai tenté d'enlever le bug qui fait voir à travers les murs. Je n'ai rien commit parce qu'il bug encore.
 
 22/04/2015 (3H00 À 3H30) : J'ai continué la fonction qui fait longé, pas encore commit parce qu'elle marche pas encore à 100%.
+
+23/04/2015 (9h10 à 11h50) : J'ai commit mon code pour longer, j'ai ensuite debuggé le reste du cours.
