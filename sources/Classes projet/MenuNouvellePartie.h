@@ -41,8 +41,6 @@ public:
 		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		choisirDiff->defCouleur({ 0, 0, 0, 255 });
 
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, choisirDiff});
-
 	}
 
 	~MenuNouvellePartie(){
@@ -82,6 +80,23 @@ public:
 		normal->remplir();
 		difficile->remplir();
 
+	}
+
+	void defPause(bool pause) {
+
+		if (pause) {
+			this->pause = pause;
+			facile->defEtat(PAUSE);
+			normal->defEtat(PAUSE);
+			difficile->defEtat(PAUSE);
+		}
+
+		else {
+			this->pause = pause;
+			facile->defEtat(DEFAUT);
+			normal->defEtat(DEFAUT);
+			difficile->defEtat(DEFAUT);
+		}
 	}
 
 };

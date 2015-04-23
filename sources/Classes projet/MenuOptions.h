@@ -18,7 +18,6 @@ public:
 	MenuOptions(void) {
 
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
 
 		son = new Bouton(std::bind(&MenuOptions::enClicSon, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
@@ -41,13 +40,13 @@ public:
 			"Controles",
 			50);
 
-		retour = new Bouton(std::bind(&MenuOptions::enClicRetour, this, std::placeholders::_1),
+		this->retour = new Bouton(std::bind(&MenuOptions::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
 			Vecteur2f(300,150),
 			"Back",
 			50);
-
+		defPause(true);
 	}
 
 	~MenuOptions(void) {
@@ -64,30 +63,26 @@ public:
 	}
 
 	void enClicRetour(Bouton* envoi){
-		GestionnairePhases::obtInstance().retirerPhase();
-		GestionnairePhases::obtInstance().obtDerniere()->defPause(false);
+//		gfx::Gestionnaire2D::obtInstance().vider();
+//		GestionnairePhases::obtInstance().defPhaseActive();
 	}
 
 	void enClicSon(Bouton* envoi){
-		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());
+		GestionnairePhases::obtInstance().defPhaseActive(7);
 	}
 
 	void enClicGraphique(Bouton* envoi){
-		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());
+		GestionnairePhases::obtInstance().defPhaseActive(3);
 	}
 
 	void enClicControle(Bouton* envoi){
-		GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());
+		GestionnairePhases::obtInstance().defPhaseActive(2);
 	}
 
 	void remplir(void) {
-
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
 		son->remplir();
 		graphique->remplir();
@@ -95,6 +90,24 @@ public:
 		retour->remplir();
 
 	}
+	void defPause(bool pause) {
 
+		if (pause) {
+			this->pause = pause;
+			graphique->defEtat(PAUSE);
+			son->defEtat(PAUSE);
+			controle->defEtat(PAUSE);
+			retour->defEtat(PAUSE);
+		}
+
+		else {
+			this->pause = pause;
+			graphique->defEtat(DEFAUT);
+			son->defEtat(DEFAUT);
+			controle->defEtat(DEFAUT);
+			retour->defEtat(DEFAUT);
+		}
+
+	}
 	
 };

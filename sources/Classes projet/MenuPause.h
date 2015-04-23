@@ -3,42 +3,36 @@
 #include "Sprite2D.h"
 #include "PhaseMenuOptions.h"
 #include "Bouton.h"
-
-
 class MenuPause : public Menu {
-
 private:
-	
 	Bouton* options;
 	Bouton* quitter;
 
 public:
 	MenuPause(void) : Menu() {
-
-		//this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		//gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		
 		options = new Bouton(std::bind(&MenuPause::enClicOptions, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
 			Vecteur2f(600, 500),
 			"Options",
-			20);
+			50);
 
 		quitter = new Bouton(std::bind(&MenuPause::enClicQuitter, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
 			Vecteur2f(450, 200),
 			"Quit",
-			20);
+			50);
 
-		retour = new Bouton(std::bind(&MenuPause::enClicRetour, this, std::placeholders::_1),
+		this->retour = new Bouton(std::bind(&MenuPause::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
 			Vecteur2f(300, 500),
 			"Back",
 			50);
-	
+		defPause(true);
 	}
 
 	~MenuPause(){
@@ -55,33 +49,41 @@ public:
 	}
 
 	void enClicRetour(Bouton* sender){
-	//	GestionnairePhases::obtInstance().retirerPhase();
-	//	gfx::Gestionnaire2D::obtInstance().vider();
-	//	GestionnairePhases::obtInstance().obtPhase(0)->defPause(false);
-	//	SDL_SetRelativeMouseMode(SDL_TRUE);
-	//	SDL_ShowCursor(SDL_DISABLE);
-	//	gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-	//	gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);;
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().defPhaseActive(1);
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+		SDL_ShowCursor(SDL_DISABLE);
+		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);;
 	}
 
 	void enClicOptions(Bouton* sender){
-	//	GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
-	//	gfx::Gestionnaire2D::obtInstance().vider();
-	//	GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().defPhaseActive(5);
 	}
 
 	void enClicQuitter(Bouton* sender){
-	//	GestionnairePhases::obtInstance().retirerPhase();
-	//	gfx::Gestionnaire2D::obtInstance().vider();
-	//	GestionnairePhases::obtInstance().retirerPhase();
-	//	gfx::Gestionnaire3D::obtInstance().vider();
+		GestionnairePhases::obtInstance().retirerPhase();
 	}
 
 	void remplir() {
-		//gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
 		options->remplir();
 		retour->remplir();
 		quitter->remplir();
 	}
-
+	void defPause(bool pause) {
+		if (pause) {
+			this->pause = pause;
+			quitter->defEtat(PAUSE);
+			options->defEtat(PAUSE);
+			retour->defEtat(PAUSE);
+		}
+		else {
+			this->pause = pause;
+			quitter->defEtat(DEFAUT);
+			options->defEtat(DEFAUT);
+			retour->defEtat(DEFAUT);
+		}
+	}
 };
