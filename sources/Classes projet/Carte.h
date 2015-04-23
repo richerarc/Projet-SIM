@@ -14,6 +14,7 @@
 #include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
 #include "Joueur.h"
+#include "Physique.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -29,60 +30,6 @@ private:
 
 	void ajouterLien(Entree entree, Sortie sortie){
 		liens[entree] = sortie;
-	}
-
-	unsigned short aleatoire4Bit(unsigned short banqueDeBit){
-		switch (banqueDeBit){
-		case(1) :
-			return banqueDeBit;
-		case(2) :
-			return banqueDeBit;
-		case(4) :
-			return banqueDeBit;
-		case(8) :
-			return banqueDeBit;
-		default:
-			unsigned short renvoi;
-			do{
-				renvoi = 1 << (rand() % 4);
-			} while (banqueDeBit & renvoi != renvoi);
-			return renvoi;
-		}
-	}
-
-	bool comparerBoiteCollision(BoiteCollision<double> Boite1, BoiteCollision<double> Boite2, char& axe, Vecteur3d& position) {
-		Vecteur3d tab[5];
-		unsigned int pos = 0;
-		for (int i = 0; i < 8; ++i) {
-			for (int j = 0; j < 8; j++) {
-				if (Boite1.obtBoite()[i] == Boite2.obtBoite()[j]) {
-					tab[++pos] = Boite1.obtBoite()[i];
-				}
-			}
-		}
-		
-		if (pos == 4) {
-			axe = (tab[0].x == tab[1].x && tab[0].x == tab[2].x && tab[0].x == tab[3].x) ? 'x' : 'z';
-			switch (axe) {
-			case 'x':
-				position.x = tab[1].x;
-				do{
-					position.y = tab[rand() % 4].z;
-					position.z = tab[rand() % 4].z;
-				} while (position.z <= position.y);
-				break;
-			case 'z':
-				position.z = tab[1].z;
-				do{
-					position.y = tab[rand() % 4].x;
-					position.z = tab[rand() % 4].x;
-				} while (position.z <= position.y);
-				break;
-			}
-			return true;
-		}
-		else
-			return false;
 	}
 
 public:
@@ -172,7 +119,6 @@ public:
 
 		int aleatoire;
 		int ID(0), pos;
-		unsigned short directions; // x>0 = 1 , x<0 = 2 , z>0 = 4 , z<0 = 8
 		double x(0), y(0), z(0), xMin, xMax, yMin, yMax, zMin, zMax;
 		std::list<BoiteCollision<double>> boiteObjet;
 		Vecteur3d pos3D(0, 0, 0);
@@ -188,7 +134,7 @@ public:
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire])).c_str();
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])).c_str(), salle);
-			boiteObjet =  std::list<BoiteCollision<double>>();
+			boiteObjet = std::list<BoiteCollision<double>>();
 			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/8; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
@@ -196,120 +142,113 @@ public:
 				boPorte = false;
 				while (!boPorte) {
 					boPorte = true;
+					auto it = salle.boitesCollision.begin();
+					pos = rand() % salle.boitesCollision.size();
+					std::advance(it, pos);
 					do{
-						auto it = salle.boitesCollision.begin();
-						pos = rand() % salle.boitesCollision.size();
-						std::advance(it, pos);
-						do{
-							xMin = (*it).obtBoite()[rand() % 8].x;
-							xMax = (*it).obtBoite()[rand() % 8].x;
-						} while (xMin == xMax);
-						if (xMax < xMin){
-							x = xMin;
-							xMin = xMax;
-							xMax = x;
-						}
-						x = abs(xMax - xMin);
-						do{
-							yMin = (*it).obtBoite()[rand() % 8].y;
-							yMax = (*it).obtBoite()[rand() % 8].y;
-						} while (yMin == yMax);
-						if (yMax < yMin){
-							y = yMin;
-							yMin = yMax;
-							yMax = y;
-						}
-						y = abs(yMax - yMin);
-						do{
-							zMin = (*it).obtBoite()[rand() % 8].z;
-							zMax = (*it).obtBoite()[rand() % 8].z;
-						} while (zMin == zMax);
-						if (zMax < zMin){
-							z = zMin;
-							zMin = zMax;
-							zMax = z;
-						}
-						z = abs(zMax - zMin);
+						xMin = (*it).obtBoite()[rand() % 8].x;
+						xMax = (*it).obtBoite()[rand() % 8].x;
+					} while (xMin == xMax);
+					if (xMax < xMin){
+						x = xMin;
+						xMin = xMax;
+						xMax = x;
+					}
+					x = abs(xMax - xMin);
+					do{
+						yMin = (*it).obtBoite()[rand() % 8].y;
+						yMax = (*it).obtBoite()[rand() % 8].y;
+					} while (yMin == yMax);
+					if (yMax < yMin){
+						y = yMin;
+						yMin = yMax;
+						yMax = y;
+					}
+					y = abs(yMax - yMin);
+					do{
+						zMin = (*it).obtBoite()[rand() % 8].z;
+						zMax = (*it).obtBoite()[rand() % 8].z;
+					} while (zMin == zMax);
+					if (zMax < zMin){
+						z = zMin;
+						zMin = zMax;
+						zMax = z;
+					}
+					z = abs(zMax - zMin);
 
-						directions = 0;
-						for (auto boite : salle.boitesCollision) {
-							for (short j = 0; j < 8; ++j){
-								if (j != pos){
-									if ((((boite).obtBoite()[j].x >= xMax) && ((directions & 1) == 0)))
-										directions += 1;
-									if ((((boite).obtBoite()[j].x <= xMin) && ((directions & 2) == 0)))
-										directions += 2;
-									if ((((boite).obtBoite()[j].z >= zMax) && ((directions & 4) == 0)))
-										directions += 4;
-									if ((((boite).obtBoite()[j].z <= zMin) && ((directions & 8) == 0)))
-										directions += 8;
-								}
-							}
-						}
-
-					} while (directions == 0);
+					switch (rand() % 4) {
+					case 0:
+						objet.direction = { 1, 0, 0 };
+						objet.rotation = 180;
+						--zMax;
+						break;
+					case 1:
+						objet.direction = { -1, 0, 0 };
+						objet.rotation = 0;
+						++zMin;
+						break;
+					case 2:
+						objet.direction = { 0, 0, 1 };
+						objet.rotation = 90;
+						++xMin;
+						break;
+					case 3:
+						objet.direction = { 0, 0, -1 };
+						objet.rotation = -90;
+						--xMax;
+						break;
+					}
 
 					pos3D.y = yMin;
-					int i = 65535 - (~directions);
-					switch (aleatoire4Bit(65535 - (~directions))){
-					case(1) :
-						pos3D.x = xMax; pos3D.z = (z) / 2 + zMin;
-						objet.rotation = 180;
-						break;
-					case(2) :
-						pos3D.x = xMin; pos3D.z = (z) / 2 + zMin;
-						objet.rotation = 0;
-						break;
-					case(4) :
-						pos3D.x = (x) / 2 - xMax; pos3D.z = zMax;
-						objet.rotation = 90;
-						break;
-					case(8) :
-						pos3D.x = (x) / 2 + xMin; pos3D.z = zMin;
-						objet.rotation = -90;
-						break;
-					}
-					
-					if (pos3D.z == 0 && pos3D.x >= 0 && objet.rotation == 90) {
-						objet.rotation = -90;
-					}
 
-					// S'assure que la porte n'est pas sur une autre porte...
+					do {
+						pos3D.x = xMin + rand() % (int)(xMax - xMin);
+					} while (pos3D.x < xMin);
+
+					do {
+						pos3D.z = zMin + rand() % (int)(zMax - zMin);
+					} while (pos3D.z < zMin);
+
 					for (auto it : salle.Objet) {
-						if (pos3D == it.position)
-							boPorte = false;
-					}
-					
-					// S'assure que la porte n'est pas dans le vide...
-					auto itPremier = salle.boitesCollision.begin();
-					for (unsigned int i = 0; i < salle.boitesCollision.size() - 1; ++i) {
-						std::advance(itPremier, i);
-						auto itDeuxieme = salle.boitesCollision.begin();
-						std::advance(itDeuxieme, i + 1);
-						for (unsigned int j = i+1; j < salle.boitesCollision.size(); ++j) {
-							Vecteur3d jonction;
-							char axe;
-							if (comparerBoiteCollision((*itPremier).obtBoite(), (*itDeuxieme).obtBoite(), axe, jonction)) {
-								if ((axe == 'x' && pos3D.x == jonction.x && (pos3D.z >= jonction.y && pos3D.z <= jonction.z)) || (axe == 'z' && pos3D.z == jonction.x && (pos3D.x >= jonction.y && pos3D.x <= jonction.z))) {
+						if (objet.direction == it.direction) {
+							switch ((int)objet.direction.x) {
+							case 1:
+								if ((pos3D.z >= it.position.z && pos3D.z <= it.position.z + 1) || (pos3D.z + 1 >= it.position.z && pos3D.z + 1 <= it.position.z + 1)) {
 									boPorte = false;
 								}
+								break;
+							case -1:
+								if ((pos3D.z <= it.position.z && pos3D.z >= it.position.z - 1) || (pos3D.z - 1 <= it.position.z && pos3D.z - 1 >= it.position.z - 1)) {
+									boPorte = false;
+								}
+								break;
 							}
-							++itDeuxieme;
+							switch ((int)objet.direction.z) {
+							case 1:
+								if ((pos3D.x <= it.position.x && pos3D.x >= it.position.x - 1) || (pos3D.x - 1 <= it.position.x && pos3D.x - 1 >= it.position.x - 1)) {
+									boPorte = false;
+								}
+								break;
+							case -1:
+								if ((pos3D.x >= it.position.x && pos3D.x <= it.position.x + 1) || (pos3D.x + 1 >= it.position.x && pos3D.x + 1 <= it.position.x + 1)) {
+									boPorte = false;
+								}
+								break;
+							}
 						}
 					}
-					
+
 				}
 
 
 				boiteObjet.push_back(LecteurFichier::lireBoiteObjet("Porte.txt"));// "HARDCODÉ"
-
 
 				objet.position = pos3D;
 				salle.Objet.push_back(objet);
 			}
 			infosSalles.push_back(salle);
 		}
-		
+
 		auto debut = infosSalles.begin();
 		pos = rand() % infosSalles.size();
 		std::advance(debut, pos);
@@ -320,6 +259,12 @@ public:
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
+			/*
+			Objet* porte = new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false);
+			while (Physique::obtInstance().collisionObjetSalle(salleActive, *porte)) {
+				porte->defPosition(porte->obtPosition() + (it.direction / 10));
+			}
+			*/
 			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));
 		}
 	}

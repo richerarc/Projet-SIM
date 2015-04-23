@@ -158,9 +158,9 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
-	void appliquerPhysiqueSurListeObjet(float frameTime) {
+	void appliquerPhysiqueSurListeObjet(Salle* salle, float frameTime) {
 
-		std::list<Objet*> objets = Carte::obtInstance().salleActive->obtListeObjet();
+		std::list<Objet*> objets = salle->obtListeObjet();
 
 		for (auto it : objets) {
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
@@ -200,7 +200,7 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(*it)) {
+				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(salle, *it)) {
 					appliquerGravite(it->obtVitesse(), frameTime);
 					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 				}
@@ -484,14 +484,13 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(Objet& objet) {
+	bool collisionObjetSalle(Salle* salle, Objet& objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d difference;
 		Vecteur3d* tabObjet = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
-		Salle* salle = Carte::obtInstance().salleActive;
 		std::list<Objet*> list = salle->obtListeObjet();
 		ObjetPhysique* it_physique;
 
@@ -532,13 +531,12 @@ public:
 		return false;
 	}
 
-	bool collisionJoueurSalle(Joueur* joueur) {
+	bool collisionJoueurSalle(Salle* salle, Joueur* joueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
-		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -557,7 +555,7 @@ public:
 
 		return false;
 	}
-	bool collisionAuSol(Joueur* joueur){
+	bool collisionAuSol(Salle* salle, Joueur* joueur){
 		/*
 		Vecteur3d* boite = Carte::obtInstance().salleActive->obtModele()->obtModele()->obtBoiteDeCollision();
 		Vecteur3d face[8];
@@ -575,7 +573,7 @@ public:
 		Vecteur3d point;
 		Vecteur3d normale;
 		rayonCollision = Droite(joueur->obtPosition(), joueur->obtVitesse());
-		if (collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayonCollision, pointCollision, normale)) {
+		if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 			joueur->defPointCollision(pointCollision);
 			joueur->defNormale(normale);
 			return true;
