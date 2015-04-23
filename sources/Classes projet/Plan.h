@@ -13,6 +13,11 @@ public:
 
 	Plan() {}
 
+	Plan(Vecteur3d& point1, Vecteur3d& normale){
+		this->normale = normale;
+		d = -(normale.x * point1.x + normale.y * point1.y + normale.z * point1.z);
+	}
+
 	Plan(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3) {
 		calculerPlan(point1, point2, point3);
 	}
