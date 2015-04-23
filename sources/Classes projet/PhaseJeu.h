@@ -49,13 +49,14 @@ private:
 				texte->defTexte("Press E to open the door");
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
-				return objetDetecte;
 				objetVise = it;
+				return objetDetecte;
 			}
 		}
 
 		if (!objetDetecte)
 			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+		return objetDetecte;
 	}
 
 public:
@@ -76,18 +77,18 @@ public:
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			detectionObjet();
-			ControlleurAudio::obtInstance().jouerTout(joueur);
+			//ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
 
-		/* by sam
+		// by sam
 		if (detectionObjet()){
-			if (Clavier::toucheAppuyee(SDLK_e)){
+			if (Clavier::toucheAppuyee(SDLK_e)){// Touche relachée bientôt...
 				//objetVise->appliquerAction(Interagir);
-				joueur->changementSalle(objetVise, joueur);
+				//joueur->changementSalle(objetVise);
+				Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
 			}
 		}
-		*/
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
 			pause = true;
