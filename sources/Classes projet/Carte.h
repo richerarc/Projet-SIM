@@ -25,6 +25,8 @@ private:
 	graphe::Graphe carte;
 	std::map<Entree, Sortie> liens;
 	std::list<InfoSalle> infosSalles;
+	gfx::Modele3D *modeleMur;
+	gfx::Modele3D *modelePorte;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
@@ -45,11 +47,13 @@ public:
 		gfx::Gestionnaire3D::obtInstance().retObjet(salleActive->obtModele());
 
 		Sortie pieceSuivante = liens[sortie];
-		
+
 		auto debut = infosSalles.begin();
 		std::advance(debut, std::get<0>(pieceSuivante));
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modeleMur);
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
 		salleActive->defEchelle((*debut).echelle);
 		auto it = (*debut).Objet.begin();
 		for (unsigned int i = 0; i < (*debut).Objet.size(); ++i) {
@@ -58,23 +62,52 @@ public:
 			modeleporte->defOrientation(0, (*it).rotation, 0);
 			salleActive->ajoutObjet(new Porte(modeleporte, (*it).ID, "Metal", (*it).position, { 0, 0, 0 }, false, true, false, false));
 			if (std::get<1>(sortie) == i) {
-				Vecteur3d vecteur; 
+				Vecteur3d vecteur;
+				Vecteur3d vecteurMur;
 				switch ((*it).rotation) {
 				case 0:
-					vecteur = { modeleporte->obtPosition().x + 1.6, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 0.5};
+					vecteur = { modeleporte->obtPosition().x + 1.2, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 0.5 };
 					joueur.defPosition(modeleporte->obtPosition());
+					vecteurMur = { modeleporte->obtPosition().x + 2.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z };
+					modeleMur->defOrientation(0, 0, 0);
+					modelePorte->defOrientation(0, 0, 0);
+					modeleMur->defOrientation(0, (*it).rotation, 0);
+					modelePorte->defOrientation(0, (*it).rotation + 180, 0);
+					modeleMur->defPosition(vecteurMur);
+					modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z - 1.0);
 					break;
 				case 90:
-					vecteur = { modeleporte->obtPosition().x - 0.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 1.6 };
+					vecteur = { modeleporte->obtPosition().x - 0.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 1.2 };
 					joueur.defPosition(modeleporte->obtPosition());
+					vecteurMur = { modeleporte->obtPosition().x, modeleporte->obtPosition().y, modeleporte->obtPosition().z - 2.5 };
+					modeleMur->defOrientation(0, 0, 0);
+					modelePorte->defOrientation(0, 0, 0);
+					modeleMur->defOrientation(0, (*it).rotation, 0);
+					modelePorte->defOrientation(0, -(*it).rotation, 0);
+					modeleMur->defPosition(vecteurMur);
+					modelePorte->defPosition(vecteurMur.x - 1.0, vecteurMur.y, vecteurMur.z);
 					break;
 				case -90:
-					vecteur = { modeleporte->obtPosition().x + 0.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 1.6 };
+					vecteur = { modeleporte->obtPosition().x + 0.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 1.2 };
 					joueur.defPosition(modeleporte->obtPosition());
+					vecteurMur = { modeleporte->obtPosition().x, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 2.5 };
+					modeleMur->defOrientation(0, 0, 0);
+					modelePorte->defOrientation(0, 0, 0);
+					modeleMur->defOrientation(0, (*it).rotation, 0);
+					modelePorte->defOrientation(0, -(*it).rotation, 0);
+					modeleMur->defPosition(vecteurMur);
+					modelePorte->defPosition(vecteurMur.x + 1.0, vecteurMur.y, vecteurMur.z);
 					break;
 				case 180:
-					vecteur = { modeleporte->obtPosition().x - 1.6, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 0.5 };
+					vecteur = { modeleporte->obtPosition().x - 1.2, modeleporte->obtPosition().y, modeleporte->obtPosition().z + 0.5 };
 					joueur.defPosition(modeleporte->obtPosition());
+					vecteurMur = { modeleporte->obtPosition().x - 2.5, modeleporte->obtPosition().y, modeleporte->obtPosition().z };
+					modeleMur->defOrientation(0, 0, 0);
+					modelePorte->defOrientation(0, 0, 0);
+					modeleMur->defOrientation(0, (*it).rotation, 0);
+					modelePorte->defOrientation(0, (*it).rotation - 180, 0);
+					modeleMur->defPosition(vecteurMur);
+					modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z + 1.0);
 					break;
 				}
 				joueur.defPosition(vecteur);
@@ -267,5 +300,9 @@ public:
 			*/
 			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false));
 		}
+		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
+		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
+		modeleMur->defOrientation(0, 0, 0);
+		modelePorte->defOrientation(0, 0, 0);
 	}
 };
