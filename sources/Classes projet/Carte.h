@@ -13,6 +13,7 @@
 #include "GestionnaireChemin.h"
 #include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
+#include "Joueur.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
