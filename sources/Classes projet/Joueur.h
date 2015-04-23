@@ -134,6 +134,13 @@ public:
 		}
 	}
 
+	/* by Sam
+	void changementSalle(Objet* objet, Joueur& joueur){
+		Carte::obtInstance().destination(Entree(Carte::obtInstance().salleActive->obtID(), objet->obtID(), false) joueur);
+	}
+	*/ 
+
+
 	void ajouterScene(){
 		gfx::Gestionnaire3D::obtInstance().defCamera(camera);
 	}

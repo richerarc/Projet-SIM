@@ -7,6 +7,7 @@ private:
 
 	Joueur* joueur;
 	gfx::Texte2D* texte;
+	Objet* objetVise;
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
@@ -34,7 +35,7 @@ private:
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
 	}
 
-	void detectionObjet() {
+	bool detectionObjet() {
 
 		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
 		bool objetDetecte = false;
@@ -44,6 +45,8 @@ private:
 				texte->defTexte("Press E to open the door");
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
+				return objetDetecte;
+				objetVise = it;
 			}
 		}
 
@@ -71,6 +74,16 @@ public:
 			detectionObjet();
 			//ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
+
+
+		/* by sam
+		if (detectionObjet()){
+			if (Clavier::toucheAppuyee(SDLK_e)){
+				//objetVise->appliquerAction(Interagir);
+				joueur->changementSalle(objetVise, joueur);
+			}
+		}
+		*/
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
 			pause = true;
