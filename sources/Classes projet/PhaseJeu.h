@@ -1,5 +1,7 @@
 #pragma once
 #include "PhaseMenuPause.h"
+#include "Carte.h"
+#include "GestionnaireControle.h"
 
 class PhaseJeu : public Phase{
 
@@ -34,14 +36,27 @@ private:
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
 	}
 
+	
+
 	void detectionObjet() {
 
 		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
 		bool objetDetecte = false;
 
 		for (auto it : liste) {
-			if (Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) {
-				texte->defTexte("Press E to open the door");
+			Porte* it_Porte = dynamic_cast<Porte*>(it);
+			ObjetFixe* it_ObjFixe = dynamic_cast<ObjetFixe*>(it);
+			if ((Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (true)) {
+				std::string str1 = "Press ";
+				str1.append(GestionnaireControle::obtInstance().obtToucheControleEnChar((GestionnaireControle::obtInstance().obtenirControles()[UTILISER])));
+				
+				if (it_Porte != nullptr){
+					str1.append(" to open door.");
+				}
+				else if (it_ObjFixe != nullptr)
+					str1.append(" to pick up.");
+				const char* chr1 = str1.c_str();
+				texte->defTexte(chr1);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
 			}
@@ -54,9 +69,9 @@ private:
 public:
 
 	PhaseJeu() : Phase(){
-		joueur = new Joueur(Vecteur3d(-1, 0, 0));
+		joueur = new Joueur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png")), Vecteur3d(-1, 0, 0));
 		joueur->ajouterScene();
-		texte = new gfx::Texte2D("123", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
+		texte = new gfx::Texte2D("123", "arial.ttf", 20, Vecteur2f(300, 200));
 
 		Carte::obtInstance().creer(20);
 		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
@@ -65,7 +80,7 @@ public:
 	void rafraichir(float frameTime) {
 
 		if (!this->pause) {
-		
+
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			detectionObjet();
