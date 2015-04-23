@@ -19,10 +19,9 @@ public:
 
 	MenuPrincipal(void) {
 
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 		logo = new gfx::Sprite2D(Vecteur2f(600, 700), &gfx::GestionnaireRessources::obtInstance().obtTexture("logo.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({spriteFond, logo});
-
+		
 		demarrer = new Bouton(std::bind(&MenuPrincipal::enClicDemarrer, this, std::placeholders::_1), 
 							  std::bind(&MenuPrincipal::survol, this, std::placeholders::_1), 
 							  std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1), 
@@ -40,7 +39,7 @@ public:
 							 std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
 							 Vecteur2f(50, 30),
 							 "Quit", 50);
-
+		defPause(true);
 	}
 
 	~MenuPrincipal(void) {
@@ -57,15 +56,14 @@ public:
 	}
 
 	void enClicDemarrer(Bouton* envoi){
-		
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(4);
+		GestionnairePhases::obtInstance().defPhaseActive(3);
 	}
 
 	void enClicOptions(Bouton* envoi){
-		
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(5);
+		GestionnairePhases::obtInstance().defPhaseActive(4);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 	}
 
 	void enClicQuitter(Bouton* envoi){

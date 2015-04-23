@@ -17,12 +17,12 @@ public:
 
 	MenuOptions(void) {
 
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
 		son = new Bouton(std::bind(&MenuOptions::enClicSon, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
-			Vecteur2f(300, 600),
+			Vecteur2f(500, 450),
 			"Sound",
 			50);
 
@@ -69,17 +69,17 @@ public:
 
 	void enClicSon(Bouton* envoi){
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(7);
+		GestionnairePhases::obtInstance().defPhaseActive(6);
 	}
 
 	void enClicGraphique(Bouton* envoi){
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(3);
+		GestionnairePhases::obtInstance().defPhaseActive(2);
 	}
 
 	void enClicControle(Bouton* envoi){
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(2);
+		GestionnairePhases::obtInstance().defPhaseActive(1);
 	}
 
 	void remplir(void) {

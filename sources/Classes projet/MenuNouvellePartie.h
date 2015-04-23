@@ -18,7 +18,10 @@ private:
 public:
 
 	MenuNouvellePartie(void){
-		
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		choisirDiff = new gfx::Texte2D("Please choose a difficulty", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
+		choisirDiff->defCouleur({ 0, 0, 0, 255 });
+
 		facile = new Bouton(std::bind(&MenuNouvellePartie::enClicFacile, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
@@ -37,14 +40,13 @@ public:
 			Vecteur2f(530, 120),
 			"Hardcore", 20);
 
-		choisirDiff = new gfx::Texte2D("Please choose a difficulty", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		choisirDiff->defCouleur({ 0, 0, 0, 255 });
+		defPause(true);
 
 	}
 
 	~MenuNouvellePartie(){
-		gfx::Gestionnaire2D::obtInstance().retObjets({ choisirDiff});
+		gfx::Gestionnaire2D::obtInstance().retObjets({ this-> spriteFond, choisirDiff});
+		delete this->spriteFond , choisirDiff;
 	}
 
 	void survol(Bouton* sender){
@@ -56,26 +58,23 @@ public:
 	}
 
 	void enClicFacile(Bouton* sender) {
-		GestionnairePhases::obtInstance().retirerPhase();
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+		GestionnairePhases::obtInstance().defPhaseActive(0);
 	}
 
 	void enClicNormal(Bouton* sender) {
-		GestionnairePhases::obtInstance().retirerPhase();
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+		GestionnairePhases::obtInstance().defPhaseActive(0);
 	}
 
 	void enClicDifficile(Bouton* sender) {
-		GestionnairePhases::obtInstance().retirerPhase();
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+		GestionnairePhases::obtInstance().defPhaseActive(0);
 	}
 
 	void remplir(void) {
 
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(choisirDiff);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, choisirDiff });
 		facile->remplir();
 		normal->remplir();
 		difficile->remplir();
