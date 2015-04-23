@@ -554,56 +554,49 @@ public:
 		}
 		return false;
 	}
-<<<<<<< HEAD
+
 	bool collisionAuSol(Salle* salle, Joueur* joueur){
 		/*
 		Vecteur3d* boite = Carte::obtInstance().salleActive->obtModele()->obtModele()->obtBoiteDeCollision();
 		Vecteur3d face[8];
 		int nbrVerticesAlignees = 0;
 		for (int i = 0; i < 8; ++i){
-			if (boite[i].y == joueur->obtPointCollision().y){
-				face[nbrVerticesAlignees] = boite[i];
-				++nbrVerticesAlignees;
-			}
+		if (boite[i].y == joueur->obtPointCollision().y){
+		face[nbrVerticesAlignees] = boite[i];
+		++nbrVerticesAlignees;
+		}
 		}
 		return (nbrVerticesAlignees >= 3);
 		*/
-=======
-
-	Vecteur3d ajusterVitesse(Vecteur3d& vitesse ){
-		
-	}
-
-	bool collisionAuSol(Joueur* joueur){
->>>>>>> fc9baa3acb44f41131a2e455938037597dd868a6
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-<<<<<<< HEAD
 		rayonCollision = Droite(joueur->obtPosition(), joueur->obtVitesse());
 		if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 			joueur->defPointCollision(pointCollision);
 			joueur->defNormale(normale);
 			return true;
-=======
-		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
-		Salle* salle = Carte::obtInstance().salleActive;
+			Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 
-		for (int i = 0; i < 8; i++) {
-			point = tabJoueur[i];
-			rayonCollision = Droite(point, joueur->obtVitesse());
+			for (int i = 0; i < 8; i++) {
+				point = tabJoueur[i];
+				rayonCollision = Droite(point, joueur->obtVitesse());
 
-			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
-				if (normale.y > normale.x && normale.y > normale.z) {
-					joueur->defNormale(normale);
-					joueur->defPointCollision(pointCollision);
-					return true;
+				if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
+					if (normale.y > normale.x && normale.y > normale.z) {
+						joueur->defNormale(normale);
+						joueur->defPointCollision(pointCollision);
+						return true;
+					}
 				}
 			}
->>>>>>> fc9baa3acb44f41131a2e455938037597dd868a6
+			return false;
 		}
-		return false;
+	}
+
+	Vecteur3d ajusterVitesse(Vecteur3d& vitesse ){
+		
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
