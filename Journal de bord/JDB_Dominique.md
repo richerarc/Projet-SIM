@@ -41,3 +41,5 @@
 22/04/2015 (3H00 À 3H30) : J'ai continué la fonction qui fait longé, pas encore commit parce qu'elle marche pas encore à 100%.
 
 23/04/2015 (9h10 à 11h50) : J'ai commit mon code pour longer, j'ai ensuite debuggé le reste du cours.
+
+24/04/2015 (10h45 à 11h40) : J'ai ajouté des données membres dont Kevin avait besoin, puis j'ai continuer à debugger mon code pour longer suite au nouveau déplacement de Kevin/Nathan.
