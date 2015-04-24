@@ -75,21 +75,26 @@ private:
 	Mix_Chunk* audio4;
 	Chrono delais;
 	double BPM;
-	short santePhysique, santeMentale;
-	bool effort;
+	short santePhysique, santeMentale, effort;
 	
 	void defBattement(Joueur* joueur){
 		if (joueur->obtSanteMentale() != santeMentale){
 			BPM = 210 - ((float)joueur->obtSanteMentale() * 1.55);
 			santeMentale = joueur->obtSanteMentale();
 		}
-		if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 5.f){
-			BPM += 55;
-			effort = true;
+		if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() >= 5.f && effort < 100){
+			if (effort % 2)
+				BPM += 1;
+			if (!effort)
+				defVolume(volume + 10);
+			effort += 1;
 		}
-		else if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 4.f){
-			BPM -= 55;
-			effort = false;
+		else if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 4.f && effort > 0){
+			if (effort % 2)
+				BPM -= 1;
+			if (effort == 1)
+				defVolume(volume - 10);
+			effort -= 1;
 		}
 		if (joueur->obtSantePhysique() != santePhysique){
 			defVolume(127-joueur->obtSantePhysique());

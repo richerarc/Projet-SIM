@@ -3,6 +3,8 @@
 #include "Sons.h"
 #include "Joueur.h"
 
+enum Sons_t {AH = 1, AVION = 2, BOIRE = 3, BOIS_1 = 4, BOIS_2 = 5, BRUIT = 6, VENT = 6, ELEC_FAIBLE = 7, ELEC_FORT = 8, CRACK_1 = 9, CRACK_2 = 10, DEBARRER = 11, DOUCHE = 12, FERMETURE_PORTE = 13, FOND = 14, GRILLE = 15, HORLOGE = 16, INVENTAIRE = 17, MUNCH_1 = 18, MUNCH_2 = 19, MUNCH_3 = 20, OUVERTURE_PORTE_1 =21, OUVERTURE_PORTE_2 =22, PAPIER_1 =23, PAPIER_2 =24, PAPIER_3 =25, PORTE_BARRE = 26, RECHARGE = 27, RESPIRATION = 28, RONFLEMENT_1 = 29, RONFLEMENT_2 = 30, RONFLEMENT_3 = 31, RONFLEMENT_4 = 32, RONFLEMENT_5 = 33, SNIF = 34, TIR = 35, TIRROIR_1 = 36, TIRROIR_2 = 37, TONNERE = 38, TOUX_1 = 39, TOUX_2 = 40};
+
 class ControlleurAudio : public Singleton<ControlleurAudio>{
 private:
 	std::map<int, Sons*> sons;
@@ -55,19 +57,19 @@ public:
 		if (!initial){
 			defVolumeFond(20);
 			defVolumeEffet(60);
-			coeur->defVolume(10);
-			pas->defVolume(12);
+			coeur->defVolume(25);
+			pas->defVolume(10);
 			initial = true;
 		}
 	}
 	
 	void defVolumeFond(int vol){
-		Mix_Volume(17, vol);
+		Mix_Volume(FOND, vol);
 	}
 	
 	void defVolumeEffet(int vol){
 		for (auto it : sons){
-			if (it.second->obtChaine() != 17){
+			if (it.second->obtChaine() != FOND){
 				Mix_Volume(it.second->obtChaine(), vol);
 			}
 		}
