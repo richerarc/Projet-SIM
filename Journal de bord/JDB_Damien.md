@@ -71,3 +71,5 @@
 	Modification des porte pour qu'elles apparaissent sur les murs.
 #Mardi 21 avril 2015(14:40 à 17:20)
 	Travail avec Gabriel et Nicolas pour créer le changement de salle avec la bonne porte.
+#Jeudi 23 avril 2015 (10:00 à 14:23)
+	Ajout du faux mur et de la fausse porte lors des téléportation pur le début des animations.

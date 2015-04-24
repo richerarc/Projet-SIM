@@ -11,7 +11,7 @@ private:
 
 	void appliquerPhysique(float frameTime) {
  		if (joueur->obtVitesse().norme() != 0) {
-			if (!Physique::obtInstance().collisionJoueurSalle(joueur)) {
+			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
 				if (joueur->obtEtat() != STABLE)
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 				if (joueur->obtEtat() != SAUT)
@@ -22,7 +22,7 @@ private:
 				if (joueur->obtEtat() != CHUTE)
 					joueur->defEtat(CHUTE);
 				else if (joueur->obtEtat() == CHUTE){
-					if (Physique::obtInstance().collisionAuSol(joueur)){
+					if (Physique::obtInstance().collisionAuSol(Carte::obtInstance().salleActive, joueur)){
 						joueur->defEtat(STABLE);
 						joueur->obtVitesse().y = 0.f;
 						joueur->obtVitesse().x = 0.f;
@@ -36,7 +36,7 @@ private:
 
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
 	}
 
 	bool detectionObjet() {
@@ -81,12 +81,14 @@ public:
 		}
 
 
-		// by sam
 		if (detectionObjet()){
 			if (Clavier::toucheAppuyee(SDLK_e)){// Touche relachée bientôt...
-				//objetVise->appliquerAction(Interagir);
-				//joueur->changementSalle(objetVise);
-				Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+				if (objetVise->obtSiPorte()){
+					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+				}
+				else{
+					objetVise->appliquerAction(Interagir);
+				}
 			}
 		}
 

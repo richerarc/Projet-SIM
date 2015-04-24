@@ -110,4 +110,7 @@
 **21 avr** durée 3h  
   -Retour sur le travail fait et à faire en grand groupeé.  
   -Travail avec Gabriel et Damien sur le changement de salle.  
-  -Découverte d'une porte de la salleL qui est de temps en temps du mauvais bord.
+  -Découverte d'une porte de la salleL qui est de temps en temps du mauvais bord.  
+**23 avr** durée 2h 45min  
+  -Travail avec Gabriel pour fixer les portes (algo de positionnement).
+  -Petites suggestions à Nathan et Kevin pour le changement de vitesse dans les plans.
