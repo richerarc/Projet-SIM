@@ -139,6 +139,8 @@ public:
 				etat = SAUT;
 			}
 		}
+		ControlleurAudio::obtInstance().jouer(COEUR, this);
+		ControlleurAudio::obtInstance().jouer(PAS, this);
 	}
 
 	/* by Sam
