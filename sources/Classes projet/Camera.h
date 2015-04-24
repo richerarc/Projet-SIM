@@ -123,7 +123,12 @@ namespace gfx{
 		void defPause(bool pause) {
 			this->pause = pause;
 		}
-
+		double obtHAngle(){
+			return hAngle;
+		}
+		void defHAngle(double hAngle){
+			this->hAngle = hAngle;
+		}
 		Vecteur3d obtHaut(){ return this->haut; }
 
 		Vecteur3d obtDevant(){ return this->devant; }
