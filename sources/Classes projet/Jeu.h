@@ -62,6 +62,11 @@ public:
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
 		{
+			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
+			if (phase != nullptr) {
+				char chr[100];
+				fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().salleActive->obtID(), chr, 10)));
+			}
 			frameTime = chrono.repartir().enSecondes();
 			while (fenetre->sonderEvenements(evenement))
 			{

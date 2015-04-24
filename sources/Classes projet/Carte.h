@@ -63,7 +63,7 @@ public:
 			Objet* porte = new Porte(modeleporte, (*it).ID, "Metal", (*it).position, { 0, 0, 0 }, false, true, false, false);
 			porte->defVitesse((*it).direction);
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.2, porte->obtPosition().z));
-			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false)) {
+			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false, true)) {
 				porte->defPosition(porte->obtPosition() + ((*it).direction / 10));
 			}
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.2, porte->obtPosition().z));
@@ -171,12 +171,12 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = /*rand() % 2*/0; // en attendant que toutes eles salles sont conformes
+			aleatoire = rand() % 2; // en attendant que toutes eles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire])).c_str();
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])).c_str(), salle);
 			boiteObjet = std::list<BoiteCollision<double>>();
-			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/8; ++IDPorte) {
+			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
@@ -195,7 +195,7 @@ public:
 						xMin = xMax;
 						xMax = x;
 					}
-					x = abs(xMax - xMin);
+					x = xMax - xMin;
 					do{
 						yMin = (*it).obtBoite()[rand() % 8].y;
 						yMax = (*it).obtBoite()[rand() % 8].y;
@@ -205,7 +205,7 @@ public:
 						yMin = yMax;
 						yMax = y;
 					}
-					y = abs(yMax - yMin);
+					y = yMax - yMin;
 					do{
 						zMin = (*it).obtBoite()[rand() % 8].z;
 						zMax = (*it).obtBoite()[rand() % 8].z;
@@ -215,45 +215,89 @@ public:
 						zMin = zMax;
 						zMax = z;
 					}
-					z = abs(zMax - zMin);
-
-					xMin += 0.25;
-					xMax -= 0.25;
-					zMin += 0.25;
-					zMax -= 0.25;
-
-					switch (rand() % 4) {
-					case 0:
-						objet.direction = { 1, 0, 0 };
-						objet.rotation = 180;
-						--zMax;
-						break;
-					case 1:
-						objet.direction = { -1, 0, 0 };
-						objet.rotation = 0;
-						++zMin;
-						break;
-					case 2:
-						objet.direction = { 0, 0, 1 };
-						objet.rotation = 90;
-						++xMin;
-						break;
-					case 3:
-						objet.direction = { 0, 0, -1 };
-						objet.rotation = -90;
-						--xMax;
-						break;
-					}
+					z = zMax - zMin;
 
 					pos3D.y = yMin;
 
-					do {
-						pos3D.x = xMin + rand() % (int)(xMax - xMin);
-					} while (pos3D.x < xMin);
+					double randomRatio;
+					bool directionPossible = false;
+					while (!directionPossible)
+					{
+						switch (rand() % 4) {
+						case 0:
 
-					do {
-						pos3D.z = zMin + rand() % (int)(zMax - zMin);
-					} while (pos3D.z < zMin);
+							if (z >= 1) {
+
+								randomRatio = (double)rand() / RAND_MAX;
+								pos3D.x = xMin + randomRatio * (x);
+
+								do {
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.z = zMin + randomRatio * (z);
+								} while ((pos3D.z < zMin) || (pos3D.z > zMax - 1));
+
+								directionPossible = true;
+								objet.direction = { 1, 0, 0 };
+								objet.rotation = 180;
+							}
+
+							break;
+						case 1:
+
+							if (z >= 1) {
+
+								randomRatio = (double)rand() / RAND_MAX;
+								pos3D.x = xMin + randomRatio * (x);
+
+								do {
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.z = zMin + randomRatio * (z);
+								} while ((pos3D.z < zMin + 1) || (pos3D.z > zMax));
+
+								directionPossible = true;
+								objet.direction = { -1, 0, 0 };
+								objet.rotation = 0;
+							}
+
+							break;
+						case 2:
+
+							if (x >= 1) {
+
+								do {
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.x = xMin + randomRatio * (x);
+								} while ((pos3D.x < xMin + 1) || (pos3D.x > xMax));
+
+								randomRatio = (double)rand() / RAND_MAX;
+								pos3D.z = zMin + randomRatio * (z);
+
+								directionPossible = true;
+								objet.direction = { 0, 0, 1 };
+								objet.rotation = 90;
+							}
+
+							break;
+						case 3:
+
+							if (x >= 1) {
+
+								do {
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.x = xMin + randomRatio * (x);
+								} while ((pos3D.x < xMin) || (pos3D.x > xMax - 1));
+
+								randomRatio = (double)rand() / RAND_MAX;
+								pos3D.z = zMin + randomRatio * (z);
+
+								directionPossible = true;
+								objet.direction = { 0, 0, -1 };
+								objet.rotation = -90;
+							}
+
+							break;
+						}
+					}
 
 					for (auto it : salle.Objet) {
 						if (objet.direction == it.direction) {
@@ -309,7 +353,7 @@ public:
 			Objet* porte = new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false);
 			porte->defVitesse(it.direction);
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.2, porte->obtPosition().z));
-			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false)) {
+			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false, true)) {
 				porte->defPosition(porte->obtPosition() + (it.direction / 10));
 			}
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.2, porte->obtPosition().z));
