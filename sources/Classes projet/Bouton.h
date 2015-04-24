@@ -19,9 +19,9 @@ private:
 	std::function<void(Bouton*)> defautRappel;
 
 public:
-	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), "", 0){}
+	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), new std::string(""), 0){}
 
-	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, const char* texte, int taille){
+	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, std::string* texte, int taille){
 		char tmp[5];
 		std::string* str = new std::string("arial");
 		str->append(SDL_itoa(taille, tmp, 10));
@@ -29,12 +29,10 @@ public:
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;
 		defautRappel = fonctionDefaut;
-		this->texte = new gfx::Texte2D(texte, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", str->c_str(), taille), Vecteur2f(0, 0));
+		this->texte = new gfx::Texte2D(texte, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", str->c_str(), taille), position);
 		this->texte->defCouleur({ 0, 0, 0, 255 });
-		defPosition(position);
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(this->texte);
 	}
 
 	~Bouton(){
@@ -43,26 +41,33 @@ public:
 	}
 
 	void gererClic(SDL_Event &event){
-		if (texte->obtRectangle().contient(event.motion.x, event.motion.y) && event.button.button == SDL_BUTTON_LEFT){
-			clicRappel(this);
-			etat = EN_CLIC;
-		}
-		else{
-			etat = DEFAUT;
+		if (etat != PAUSE) {
+			if (texte->obtRectangle().contient(event.motion.x, event.motion.y) && event.button.button == SDL_BUTTON_LEFT){
+				clicRappel(this);
+				if (etat != PAUSE)
+					etat = EN_CLIC;
+				else
+					defautRappel(this);
+			}
+			else{
+				etat = DEFAUT;
+			}
 		}
 	}
 	
 	void gererSurvol(SDL_Event &event){
-		if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
-			if(etat != SURVOL)
-				survolRappel(this);
-			etat = SURVOL;
-		}
-		else{
-			if (etat != DEFAUT)
-				defautRappel(this);
-			etat = DEFAUT;
+		if (etat != PAUSE) {
+			if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
+				if (etat != SURVOL)
+					survolRappel(this);
+				etat = SURVOL;
+			}
+			else{
+				if (etat != DEFAUT)
+					defautRappel(this);
+				etat = DEFAUT;
 
+			}
 		}
 	}
 

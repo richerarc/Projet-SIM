@@ -32,4 +32,9 @@ public:
 		menuNouvellePartie->remplir();
 
 	}
+
+	void defPause(bool pause) {
+		menuNouvellePartie->defPause(pause);
+		this->pause = pause;
+	}
 };

@@ -32,5 +32,9 @@ public:
 		menuSon->remplir();
 
 	}
+	void defPause(bool pause) {
+		menuSon->defPause(pause);
+		this->pause = pause;
+	}
 
 };

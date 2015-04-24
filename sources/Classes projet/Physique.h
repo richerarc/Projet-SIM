@@ -429,9 +429,6 @@ public:
 	double distanceEntreDeuxPoints(Vecteur3d point1, Vecteur3d point2) {
 		return SDL_sqrt(SDL_pow((point2.x - point1.x), 2) + SDL_pow((point2.y - point1.y), 2) + SDL_pow((point2.z - point1.z), 2));
 	}
-	Vecteur3d vecteurEntreDeuxPoints(Vecteur3d point1, Vecteur3d point2){
-		return Vecteur3d((point2.x - point1.x), (point2.y - point1.y), (point2.z - point1.z));
-	}
 
 	bool pointDansFace(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3, Vecteur3d& point, Vecteur3d normale) {
 

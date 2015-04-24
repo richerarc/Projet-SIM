@@ -33,5 +33,11 @@ public:
 
 	}
 
+	void defPause(bool pause) {
+
+		menuControle->defPause(pause);
+		this->pause = pause;
+
+	}
 
 };

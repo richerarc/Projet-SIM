@@ -18,58 +18,60 @@ private:
 public:
 
 	MenuNouvellePartie(void){
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
-		choisirDiff = new gfx::Texte2D("Please choose a difficulty", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
-		choisirDiff->defCouleur({ 0, 0, 0, 255 });
-
+		
 		facile = new Bouton(std::bind(&MenuNouvellePartie::enClicFacile, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
 			Vecteur2f(130, 120),
-			"Easy", 20);
+			new std::string("Easy"), 20);
 
 		normal = new Bouton(std::bind(&MenuNouvellePartie::enClicNormal, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
 			Vecteur2f(330, 120),
-			"Normal", 20);
+			new std::string("Normal"), 20);
 
 		difficile = new Bouton(std::bind(&MenuNouvellePartie::enClicDifficile, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
 			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
 			Vecteur2f(530, 120),
-			"Hardcore", 20);
+			new std::string("Hardcore"), 20);
+
+		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		choisirDiff->defCouleur({ 0, 0, 0, 255 });
 
 		defPause(true);
-
 	}
 
 	~MenuNouvellePartie(){
-		gfx::Gestionnaire2D::obtInstance().retObjets({ this-> spriteFond, choisirDiff});
-		delete this->spriteFond , choisirDiff;
+		gfx::Gestionnaire2D::obtInstance().retObjets({ choisirDiff});
 	}
 
-	void survol(Bouton* sender){
-		sender->defCouleur({ 215, 110, 75, 255 });
+	void survol(Bouton* envoi){
+		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
-	void defaut(Bouton* sender){
-		sender->defCouleur({ 0, 0, 0, 255 });
+	void defaut(Bouton* envoi){
+		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 
-	void enClicFacile(Bouton* sender) {
+	void enClicFacile(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(0);
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 	}
 
-	void enClicNormal(Bouton* sender) {
+	void enClicNormal(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(0);
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 	}
 
-	void enClicDifficile(Bouton* sender) {
+	void enClicDifficile(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(0);
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 	}
 
 	void remplir(void) {

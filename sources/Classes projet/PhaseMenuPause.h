@@ -31,4 +31,9 @@ public:
 		menuPause->remplir();
 
 	}
+
+	void defPause(bool pause) {
+		menuPause->defPause(pause);
+		this->pause = pause;
+	}
 };

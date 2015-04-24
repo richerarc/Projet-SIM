@@ -17,34 +17,34 @@ public:
 
 	MenuOptions(void) {
 
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
 		son = new Bouton(std::bind(&MenuOptions::enClicSon, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
-			Vecteur2f(500, 450),
-			"Sound",
+			Vecteur2f(300, 600),
+			new std::string("Sound"),
 			50);
 
 		graphique = new Bouton(std::bind(&MenuOptions::enClicGraphique, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
 			Vecteur2f(300, 450),
-			"Graphic",
+			new std::string("Graphic"),
 			50);
 
 		controle = new Bouton(std::bind(&MenuOptions::enClicControle, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
 			Vecteur2f(300, 300),
-			"Controles",
+			new std::string("Controles"),
 			50);
 
 		this->retour = new Bouton(std::bind(&MenuOptions::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
 			Vecteur2f(300,150),
-			"Back",
+			new std::string("Back"),
 			50);
 		defPause(true);
 	}
@@ -63,24 +63,19 @@ public:
 	}
 
 	void enClicRetour(Bouton* envoi){
-//		gfx::Gestionnaire2D::obtInstance().vider();
-//		GestionnairePhases::obtInstance().defPhaseActive();
+		clicRetour();
 	}
 
 	void enClicSon(Bouton* envoi){
-		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(6);
-		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		clic(MENUSON);
 	}
 
 	void enClicGraphique(Bouton* envoi){
-		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(2);
+		clic(MENUGRAPHIQUE);
 	}
 
 	void enClicControle(Bouton* envoi){
-		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(1);
+		clic(MENUCONTROL);
 	}
 
 	void remplir(void) {

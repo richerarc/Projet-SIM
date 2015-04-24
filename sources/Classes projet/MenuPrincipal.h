@@ -20,25 +20,25 @@ public:
 	MenuPrincipal(void) {
 
 		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
-		logo = new gfx::Sprite2D(Vecteur2f(600, 700), &gfx::GestionnaireRessources::obtInstance().obtTexture("logo.png"));
-		
-		demarrer = new Bouton(std::bind(&MenuPrincipal::enClicDemarrer, this, std::placeholders::_1), 
-							  std::bind(&MenuPrincipal::survol, this, std::placeholders::_1), 
-							  std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1), 
-							  Vecteur2f(50, 330),
-							  "New Game", 50);
+		logo = new gfx::Sprite2D(Vecteur2f(450, 650), &gfx::GestionnaireRessources::obtInstance().obtTexture("logo.png"));
+
+		demarrer = new Bouton(std::bind(&MenuPrincipal::enClicDemarrer, this, std::placeholders::_1),
+			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
+			std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
+			Vecteur2f(50, 330),
+			new std::string("New Game"), 50);
 
 		options = new Bouton(std::bind(&MenuPrincipal::enClicOptions, this, std::placeholders::_1),
-							 std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
-			                 std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
-							 Vecteur2f(50, 180),
-			                 "Options", 50);
+			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
+			std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
+			Vecteur2f(50, 180),
+			new std::string("Options"), 50);
 
 		retour = new Bouton(std::bind(&MenuPrincipal::enClicQuitter, this, std::placeholders::_1),
-							 std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
-							 std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
-							 Vecteur2f(50, 30),
-							 "Quit", 50);
+			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
+			std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
+			Vecteur2f(50, 30),
+			new std::string("Quit"), 50);
 		defPause(true);
 	}
 
@@ -56,18 +56,15 @@ public:
 	}
 
 	void enClicDemarrer(Bouton* envoi){
-		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(3);
+		clic(MENUNOUVELLEPARTIE);
 	}
 
 	void enClicOptions(Bouton* envoi){
-		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(4);
-		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		clic(MENUOPTIONS);
 	}
 
 	void enClicQuitter(Bouton* envoi){
-		GestionnairePhases::obtInstance().retirerPhase();
+		GestionnairePhases::obtInstance().enleverPhaseActive();
 	}
 
 	void remplir(void) {

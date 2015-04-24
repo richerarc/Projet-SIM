@@ -16,21 +16,21 @@ public:
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
 			Vecteur2f(600, 500),
-			"Options",
+			new std::string("Options"),
 			50);
 
 		quitter = new Bouton(std::bind(&MenuPause::enClicQuitter, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
 			Vecteur2f(450, 200),
-			"Quit",
+			new std::string("Quit"),
 			50);
 
 		this->retour = new Bouton(std::bind(&MenuPause::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
 			Vecteur2f(300, 500),
-			"Back",
+			new std::string("Back"),
 			50);
 		defPause(true);
 	}
@@ -50,20 +50,25 @@ public:
 
 	void enClicRetour(Bouton* sender){
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(1);
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+		GestionnairePhases::obtInstance().enleverPhaseActive();
 		SDL_SetRelativeMouseMode(SDL_TRUE);
 		SDL_ShowCursor(SDL_DISABLE);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-		gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);;
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);
 	}
 
 	void enClicOptions(Bouton* sender){
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().defPhaseActive(5);
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+		GestionnairePhases::obtInstance().defPhaseActive(MENUOPTIONS);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 	}
 
 	void enClicQuitter(Bouton* sender){
-		GestionnairePhases::obtInstance().retirerPhase();
+		GestionnairePhases::obtInstance().viderPhaseActive();
 	}
 
 	void remplir() {

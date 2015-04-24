@@ -14,6 +14,22 @@ protected:
 
 public:
 	virtual void remplir() = 0;
-	virtual void defPause() = 0;
+	virtual void defPause(bool pause) = 0;
+
+	void clic(TypeMenu type) {
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+		GestionnairePhases::obtInstance().defPhaseActive(type);
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+	}
+
+	void clicRetour(void){
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+		GestionnairePhases::obtInstance().enleverPhaseActive();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+	}
 
 };

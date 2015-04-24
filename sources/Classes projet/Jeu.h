@@ -1,3 +1,5 @@
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, PHASEJEU };
+
 #pragma once
 #include "Singleton.h"
 #include "Fenetre.h"
@@ -29,8 +31,6 @@
 #include "PhaseMenuNouvellePartie.h"
 #include "PhaseMenuPause.h"
 
-
-
 class Jeu{
 
 public:
@@ -52,20 +52,19 @@ public:
 		//ControlleurAudio::obtInstance().initialiser(100);
 		
 		
-		fenetre = new gfx::Fenetre(gfx::ModeVideo(1366, 768), "CoffeeTrip", false);
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
+		Rect<float>::defDimension(1280, 720);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());		//0
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());					//1
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//2
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());		//3
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuNouvellePartie());	//4
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//5
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//6
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//7
-		GestionnairePhases::obtInstance().defPhaseActive(0);
-		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
-
-		Rect<float>::defDimension(768);
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//1
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());		//2
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuNouvellePartie());	//3
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//4
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//5
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//6
+		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
@@ -79,7 +78,10 @@ public:
 			fenetre->vider();
 			glLoadIdentity();
 			// Mouvement ici
-			GestionnairePhases::obtInstance().rafraichir(frameTime);
+			if (GestionnairePhases::obtInstance().obtPhaseActive() == nullptr)
+				fenetre->fermer();
+			else
+				GestionnairePhases::obtInstance().rafraichir(frameTime);
 		
 			// Affichage ici
 			gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
@@ -88,8 +90,6 @@ public:
 			
 
 			fenetre->rafraichir();
-			if (GestionnairePhases::obtInstance().obtPhase(0) == nullptr)
-				fenetre->fermer();
 		}
 		
 		delete fenetre;
