@@ -75,8 +75,8 @@ public:
 		if (!this->pause) {
 		
 			joueur->deplacement(frameTime);
-			ControlleurAudio::obtInstance().jouer(COEUR, this);
-			ControlleurAudio::obtInstance().jouer(PAS, this);
+			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
+			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			appliquerPhysique(frameTime);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);

@@ -62,8 +62,8 @@ public:
 		if (!initial){
 			defVolumeFond(20);
 			defVolumeEffet(60);
-			coeur->defVolume(25);
-			pas->defVolume(10);
+			sons[COEUR]->defVolume(25);
+			sons[PAS]->defVolume(10);
 			initial = true;
 		}
 	}
