@@ -148,9 +148,7 @@ public:
 	}
 
 	void enClickRetour(Bouton* sender) {
-		//GestionnairePhases::obtInstance().retirerPhase();
-		//gfx::Gestionnaire2D::obtInstance().vider();
-		//GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());
+		clicRetour();
 	}
 	void enClickEnregistrer(Bouton* sender) {
 		GestionnaireControle::obtInstance().sauvegarderControle("Francais2.txt");
