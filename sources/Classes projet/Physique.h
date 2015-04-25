@@ -1,4 +1,5 @@
 #pragma once
+#include "Maths.h"
 #include "Singleton.h"
 #include "Vecteur3.h"
 #include "Chrono.h"
@@ -18,16 +19,16 @@ private:
 
 	Vecteur3d obtPositionSourceSonore(Vecteur3d positionSon, Vecteur3d positionJoueur){
 		double deltaX, deltaZ;
-		
+
 		deltaX = positionJoueur.x - positionSon.x;
 		deltaZ = positionJoueur.z - positionSon.z;
 		Vecteur3d vec(deltaX, positionJoueur.y, deltaZ);
-		
-		
-		
+
+
+
 		return NULL;
 	}
-	
+
 	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, bool enGenerationPorte) {
 
 		Vecteur3d point1;
@@ -112,7 +113,7 @@ private:
 		Vecteur3i* indices = objet.obtModele3D()->obtModele()->obtIndidesBoiteDeCollision();
 		Vecteur3i* normales = objet.obtModele3D()->obtModele()->obtNormalesBoiteDeCollision();
 
-		for (unsigned int nbrFace = 0; nbrFace < 12; nbrFace ++) {
+		for (unsigned int nbrFace = 0; nbrFace < 12; nbrFace++) {
 
 			for (int j = 0; j < 3; j++) {
 				switch (j) {
@@ -153,7 +154,7 @@ private:
 			}
 		}
 		return false;
-	}	
+	}
 
 	bool memeCote(Vecteur3d point1, Vecteur3d point2, Vecteur3d droite1, Vecteur3d droite2) {
 
@@ -221,7 +222,7 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(salle, *it, true, false)) {
+				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(salle, *it)) {
 					appliquerGravite(it->obtVitesse(), frameTime);
 					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 				}
@@ -341,7 +342,7 @@ public:
 		vecteurNormal2 *= j / objet2.obtMasse();
 		objet2.obtVitesse() -= vecteurNormal2;
 	}
-	
+
 	double obtenirForceNormale(double masse, Vecteur3d& vitesse, Vecteur3d normale) {
 
 		return masse * gravite * SDL_cos(vitesse.angleEntreVecteurs(normale) - 90);
@@ -420,11 +421,11 @@ public:
 
 		objet.obtVitesse() += vecteurVitesseAppliquer * frametime;
 	}
-	
+
 	void appliquerFrottement(Objet& objet, Vecteur3d& normale) {
 		objet.obtVitesse().soustraire(constanteDeFriction * obtenirForceNormale(objet.obtMasse(), objet.obtPosition(), normale));
 	}
-	
+
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
 	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant, double force, double frametime) {
@@ -505,7 +506,35 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(Salle* salle, Objet& objet, bool tienCompteDesObjets, bool enGenerationDePorte) {
+	bool collisionPorte(gfx::Modele3D* modeleSalle, Objet& objet, double& orientation) {
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point;
+		Vecteur3d normale;
+		Vecteur3d difference;
+		Vecteur3d* tabObjet = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
+
+		for (int i = 0; i < 8; i++) {
+
+			point = tabObjet[i];
+			rayonCollision = Droite(point, objet.obtVitesse());
+
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
+
+				normale.y = 0;
+				Vecteur3d pivot = { 0, 1, 0 };
+				pivot = normale.produitVectoriel(pivot);
+				orientation = -(90 - Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse())));
+
+				difference = pointCollision - point;
+				objet.defPosition(objet.obtPosition() + difference);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool collisionObjetSalle(Salle* salle, Objet& objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -520,37 +549,33 @@ public:
 			point = tabObjet[i];
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, enGenerationDePorte)) {
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
 
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
 
-				if (!enGenerationDePorte) {
-					normale.normaliser();
-					rebondObjetCarte(objet, normale, pointCollision);
-				}
+				normale.normaliser();
+				rebondObjetCarte(objet, normale, pointCollision);
+
 
 				return true;
 			}
 
-			if (tienCompteDesObjets) {
+			for (auto it : list) {
 
-				for (auto it : list) {
+				if (it->obtID() != objet.obtID()) {
 
-					if (it->obtID() != objet.obtID()) {
+					if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
 
-						if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
+						it_physique = dynamic_cast<ObjetPhysique*>(it);
 
-							it_physique = dynamic_cast<ObjetPhysique*>(it);
+						if (it_physique)
+							rebondObjetObjet(objet, *it, normale);
+						else
+							rebondObjetCarte(objet, normale, pointCollision);
 
-							if (it_physique)
-								rebondObjetObjet(objet, *it, normale);
-							else
-								rebondObjetCarte(objet, normale, pointCollision);
-
-							collision = true;
-							return true;
-						}
+						collision = true;
+						return true;
 					}
 				}
 			}
@@ -622,8 +647,8 @@ public:
 		}
 	}
 
-	Vecteur3d ajusterVitesse(Vecteur3d& vitesse ){
-		
+	Vecteur3d ajusterVitesse(Vecteur3d& vitesse){
+
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {

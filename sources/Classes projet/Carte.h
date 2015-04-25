@@ -18,7 +18,7 @@
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
-typedef std::tuple<std::string, std::string, std::string> Modele_Text;
+typedef std::tuple<char*, char*, char*> Modele_Text;
 
 class Carte : public Singleton < Carte > {
 private:
@@ -56,6 +56,7 @@ public:
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
 		salleActive->defEchelle((*debut).echelle);
 		auto it = (*debut).Objet.begin();
+		double orientation;
 		for (unsigned int i = 0; i < (*debut).Objet.size(); ++i) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it).cheminTexture));
 			modeleporte->defPosition((*it).position);
@@ -63,7 +64,7 @@ public:
 			Objet* porte = new Porte(modeleporte, (*it).ID, "Metal", (*it).position, { 0, 0, 0 }, false, true, false, false);
 			porte->defVitesse((*it).direction);
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.2, porte->obtPosition().z));
-			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false, true)) {
+			while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, orientation)) {
 				porte->defPosition(porte->obtPosition() + ((*it).direction / 10));
 			}
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.2, porte->obtPosition().z));
@@ -181,7 +182,7 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { rand() % 3 + 2.0, 2, rand() % 3 + 2.0 };
+			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
 			aleatoire = rand() % 2; // en attendant que toutes elles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
@@ -366,9 +367,16 @@ public:
 		pos = rand() % infosSalles.size();
 		std::advance(debut, pos);
 
-		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*debut).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*debut).cheminTexture)), (*debut).nbrPorte, (*debut).ID);
-		salleActive->defEchelle((*debut).echelle);
-		for (auto it : (*debut).Objet) {
+		creerSalle(*debut);
+	}
+
+	void creerSalle(InfoSalle infoSalleActive) {
+
+		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
+		salleActive->defEchelle(infoSalleActive.echelle);
+
+		double orientation;
+		for (auto it : infoSalleActive.Objet) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
@@ -376,11 +384,11 @@ public:
 			Objet* porte = new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false);
 			porte->defVitesse(it.direction);
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.2, porte->obtPosition().z));
-			while (!Physique::obtInstance().collisionObjetSalle(salleActive, *porte, false, true)) {
+			while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, orientation)) {
 				porte->defPosition(porte->obtPosition() + (it.direction / 10));
 			}
 			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.2, porte->obtPosition().z));
-
+			porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
 			salleActive->ajoutObjet(porte);
 		}
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
