@@ -44,3 +44,5 @@ J'ai fini le menu de controle. J'ai eu quelque difficulté pour la conception ma
 Travail plus ou moins productif puisque tout ce qu'on a fait on doit le modifier. Je sais que je dois m'impliquer un peu plus mais j'ai eu beaucoup de francais, physique et philo. Je vais avoir beaucoup plus de temps puisque mon oral est cette semaine, donc plus de francais et plus de prog :D .
 ###Mercredi 22 Aril ~ 1h
 Travail sur la classe MenuControle. Je l'ai pas push parce que il y juste trop d'erreur dedans. Il me reste a faire les évènements pour quand on click sur les boutons pour changer les keys. Je dois juste clarifier comment le sender marche pour que je puisse continuer.
+### Jeudi 23 Avril ~2h
+Finission de la classe MenuControle. On chercher un moyen comment mettre afficher le charactere et non la valeur dans la table ascii (avec Julien).
