@@ -225,3 +225,25 @@ Temps : 1h30
 - 14h40 à 18h40 : J'ai traivaillé dans le gestionnaire de ressources pour mettre les polices de caractères, comme cela nous ne chargeons plus des polices pareilles plusieurs fois. J'ai aider toute mon équipe dans leur partie et j'ai rendu le projet fonctionnel, car il avait beaucoup d'erreur avec les commits fait dans mon équipe.
 
 Temps : 4h
+
+###**`22 avril 2015`**
+
+- 11h à 17h : J'ai découvert que le gestionnaire d'événement de détruisait pas les pointeurs de fonctions. J'ai donc essayé de mettre une fonction qui enlevait un pointeur de fonction de la std::map de pointeurs de fonction. Étant donné que les pointeurs de fonctions sont de std::function, cela a causé beaucoup de problèmes. J'ai cherché d'abord à parcourir la std::map de std::vector d'une façon simple et de supprimer un élément du vector, mais comme un std::vector n'est pas la meilleur chose pour supprimer un élément, j'ai eu quelques problèmes. J'ai donc découvert qu'il fallait un itérateur de std::vector pour supprimer un élément. Par contre, il est impossible de comparer deux std::function. J'ai cherché avec Richer un moyen de règler cela et nous n'avons rien trouvé a ce sujet et nos essais ce sont avérés infructueux. Nous avons donc créé une classe Fonction, qui contient la std::function et un ID, nous comparons le Fonction, avec l'opérateur ==, et maintenant ça fonctionne. La std::map du gestionnaire d'événement contient maintenant un std::vector de Fonction. Après avoir fait tous les modifications dans toutes les classes par rapport au gestionnaire d'événement, le programme compilait, mais il plantait dans l'appel d'événement, parce qu'une des fonctions modifiait la std::map de fonction pendant que celle-ci était parcourue. J'ai donc fait un patch pour régler cela (il n'est pas très beau soit dit en passant, mais il faut faire avec la conception de départ des gestionnaires). Maintenant le programme fonctionne, ne plante plus dans dans le gestionnaire d'événement, mais il plante une fois sur deux dans la librairie sdl, à cause des std::function.
+
+Temps : 6h (Avec la grande collaboration de Richer)
+
+###**`22 avril 2015`**
+
+- 8h à 10h : Richer et moi avons regardé ce que les patchs que nous  avons fait hier ont donné et comme ceux-ci ont créé beaucoup trop de problèmes, nous avons décidé de laisser tout ce que l'on a fait hier de côté. Nous allons garder tous les menus en mémoire et ne pas enlever les std::function du gestionnaire d'événement.
+
+- 10h à 14h : J'ai travaillé à modifier tous les menus et le gestionnaire de phases pour que nous menus fonctionnent bien (je n'ai pas tous fait les menus). J'ai fait des modifications dans tous les phases et j'ai commencé le menu son.
+
+Temps : 6h
+
+###**`21 avril 2015`**
+
+- 11h à 12h et de 15h à 17h : J'ai fini le menu son et je fini le menu graphique, j'ai réglé tous les problèmes dans les menus, des boutons qui s'appelaient à des places pas rapport et des plantages à quelques places. J'ai mis le tout sur la branche Menus.
+
+Temps : 3h
+
+Temps total : 106h35
