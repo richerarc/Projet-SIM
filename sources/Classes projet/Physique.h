@@ -509,27 +509,25 @@ public:
 	bool collisionPorte(gfx::Modele3D* modeleSalle, Objet& objet, double& orientation) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
-		Vecteur3d point;
+		Vecteur3d point = objet.obtPosition();
 		Vecteur3d normale;
 		Vecteur3d difference;
-		Vecteur3d* tabObjet = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
 
-		for (int i = 0; i < 8; i++) {
+		rayonCollision = Droite(point, objet.obtVitesse());
 
-			point = tabObjet[i];
-			rayonCollision = Droite(point, objet.obtVitesse());
+		if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
-
-				normale.y = 0;
-				Vecteur3d pivot = { 0, 1, 0 };
-				pivot = normale.produitVectoriel(pivot);
-				orientation = -(90 - Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse())));
-
-				difference = pointCollision - point;
-				objet.defPosition(objet.obtPosition() + difference);
-				return true;
+			normale.y = 0;
+			if (normale.x < 1 && normale.z < 1 && normale.x > -1 && normale.z > -1) {
+				int i = 0;
 			}
+			Vecteur3d pivot = { 0, 1, 0 };
+			pivot = normale.produitVectoriel(pivot);
+			orientation = -(90 - Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse())));
+
+			difference = pointCollision - point;
+			objet.defPosition(objet.obtPosition() + difference);
+			return true;
 		}
 		return false;
 	}
