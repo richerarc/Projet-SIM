@@ -124,20 +124,25 @@ public:
 		}
 	}
 
-	void creer(const unsigned int limite){
-		carte.creer(limite);
+	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
+	// En entrée:
+	// Param1: Le nombre de salle easy = 12, normal = 20, difficile = 32.
+	void creer(const unsigned int nombreDeSalle){
+
+		// Création du graphe
+		carte.creer(nombreDeSalle);
 		int itterateurPorte(0);
 
-		int* porte = new int[limite];
+		int* porte = new int[nombreDeSalle];
 		Entree entree;
 		Sortie sortie;
-		for (unsigned int i = 0; i < limite; ++i)
+		for (unsigned int i = 0; i < nombreDeSalle; ++i)
 			porte[i] = 0;
 
-		for (unsigned int i = 0; i < limite; ++i){
+		for (unsigned int i = 0; i < nombreDeSalle; ++i){
 			itterateurPorte = 0;
-			for (unsigned int j = 0; j < limite; ++j){
-				if (carte.matrice[i * limite + j]){
+			for (unsigned int j = 0; j < nombreDeSalle; ++j){
+				if (carte.matrice[i * nombreDeSalle + j]){
 					entree = std::make_tuple(i, itterateurPorte++, false);
 					sortie = std::make_tuple(j, porte[j]);
 					++porte[j];
@@ -147,41 +152,51 @@ public:
 			}
 		}
 
+		// Load des salles possibles
 		std::ifstream fichierSalle("salle_text.txt");
 		std::ifstream fichierObjet("objet_text.txt");
 
-		std::string curseur1, curseur2, curseur3;
 		int itterateur(0);
 		while (!fichierSalle.eof()) {
+			char* curseur1 = new char[20];
+			char* curseur2 = new char[20];
+			char* curseur3 = new char[20];
 			fichierSalle >> curseur1; fichierSalle >> curseur2; fichierSalle >> curseur3;
-			cheminsModeleText.push_back(std::make_tuple(curseur1, curseur2, curseur3));
+			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2, curseur3));
 			++itterateur;
 		}
 
-		int aleatoire;
-		int ID(0), pos;
+		unsigned int aleatoire;
+		unsigned int pos;
+		double randomRatio;
+		bool directionPossible;
+		bool boPorte;
 		double x(0), y(0), z(0), xMin, xMax, yMin, yMax, zMin, zMax;
-		std::list<BoiteCollision<double>> boiteObjet;
 		Vecteur3d pos3D(0, 0, 0);
 		InfoObjet objet;
-		bool boPorte;
-		for (unsigned int i = 0; i < limite; ++i){
-			InfoSalle salle;
+		InfoSalle salle;
+
+		// Boucle sur toutes les salles...
+		for (unsigned int i = 0; i < nombreDeSalle; ++i){
+
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 2; // en attendant que toutes eles salles sont conformes
-			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire])).c_str();
-			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire])).c_str();
-			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])).c_str(), salle);
-			boiteObjet = std::list<BoiteCollision<double>>();
+			aleatoire = rand() % 2; // en attendant que toutes elles salles sont conformes
+			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
+			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
+			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
+
+			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
 				boPorte = false;
 				while (!boPorte) {
+
+					// Obtenir des coordonnés de la d'une boîte de collision de la salle.
 					boPorte = true;
 					auto it = salle.boitesCollision.begin();
 					pos = rand() % salle.boitesCollision.size();
@@ -217,10 +232,9 @@ public:
 					}
 					z = zMax - zMin;
 
+					// Positionnement de la porte...
 					pos3D.y = yMin;
-
-					double randomRatio;
-					bool directionPossible = false;
+					directionPossible = false;
 					while (!directionPossible)
 					{
 						switch (rand() % 4) {
@@ -299,8 +313,13 @@ public:
 						}
 					}
 
+					// Boucle qui vérifie si une porte sera en collision avec une autre...
 					for (auto it : salle.Objet) {
+
+						// Si les portes ont la même direction...
 						if (objet.direction == it.direction) {
+
+							// Axe x
 							switch ((int)objet.direction.x) {
 							case 1:
 								if ((pos3D.z >= it.position.z && pos3D.z <= it.position.z + 1) || (pos3D.z + 1 >= it.position.z && pos3D.z + 1 <= it.position.z + 1)) {
@@ -313,6 +332,8 @@ public:
 								}
 								break;
 							}
+
+							// Axe z
 							switch ((int)objet.direction.z) {
 							case 1:
 								if ((pos3D.x <= it.position.x && pos3D.x >= it.position.x - 1) || (pos3D.x - 1 <= it.position.x && pos3D.x - 1 >= it.position.x - 1)) {
@@ -330,13 +351,15 @@ public:
 
 				}
 
-
-				boiteObjet.push_back(LecteurFichier::lireBoiteObjet("Porte.txt"));// "HARDCODÉ"
-
+				// Ajout de l'objet.
 				objet.position = pos3D;
 				salle.Objet.push_back(objet);
 			}
+
+			// Ajout et réinitialisation de la salle.
 			infosSalles.push_back(salle);
+			salle.boitesCollision.clear();
+			salle.Objet.clear();
 		}
 
 		auto debut = infosSalles.begin();
