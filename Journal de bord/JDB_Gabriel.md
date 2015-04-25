@@ -319,4 +319,28 @@ Bugs:
 Prochain cycle (déjà entammé):
 
 >Travailler sur la transition d'une salle à une autre.
- ­­­
+ 
+###23 avril 2015
+
+**0h30**: Modification sur le travail de Samuel pour l'appel de changement de salle lorsqu'une porte est ouverte.
+
+**0h20**: Création d'un faux mur en blender pour Damien.
+
+**0h15**: Petite répartition des tâche entre Nicolas, Damien et moi, j'ai donné à Damien le mandat de la transition de salle, soit l'animation de changement de salle. Nicolas et moi allons retravailler sur la génération des portes pour qu'elles soitent  meilleur.
+
+**2h00**: Finalement, nous allons utiliser une autre technique pour placer nos portes! Nous allons d'abord placer des portes au hasard dans nos boîtes de collision tout en tenant compte que deux portes qui ont la même direction ne doivent pas être vis-à-vis. En ce qui concerne la direction, c'est ce qui nous permettra de placer les portes sur les murs. Nous allons leur donner un vecteur vitesse à leur création et tant qu'il n'y a pas de collision, nous allons incrémenter la position de la porte selon sa direction.
+
+###24 avril 2015
+
+**1h30**: En testant le jeux, j'ai remarqué que certaines piece boucle sur elles-même. J'en ai parlé avec Richer puis nous avons travaillé à régler le problème. Nous avons eu à dessiner le graphe et faire quelques test pour trouver le problème.
+
+**0h30**: Nous avons abordé le sujet des choses qui reste à faire et en parlant, nous avons comme eu un élan sur une discution sur la façon de calculer la perte de point de mentalité. Nous en sommes dabord venu avec l'idée que pour perdre des points de vie, il fallait que le trajet effectué par le joueur soit physiquement impossible. Pour ça, nous avons dabord établi que si le joueur doit faire passe par une sortie/entrée et que les deux portes n'ont pas la direction opposée, c'est physiquement anormal. En étudiant d'autres cas, nous avons aussi établi que : 
+
+![](http://i.imgur.com/kT5ExIf.png)
+
+Donc si le joueur entre dans une porte en sens opposé, ce qui est physiquement possible selon nos restrictions d'avant, maintenant, la prochaine condition à ajouter serait que si le joueur va par exemple vers la gauche, donc vers le négatif, et que sa position est incrémentée positivement lors du transfert de salle, c'est physiquement impossible!
+
+**3h00**: Travail en alternance sur la génération des portes j'ai fait une nouvelle pièce, il y a des problèmes à régler. J'ai synthétisé du code, réglé plusieurs problèmes, j'ai aussi ajouté un bool dans PhaseJeu d'où on appel changementDeSalle() afin que de un on n'utilise plus la toucheAppuyée parce qu'il faut appuyer anormalement vite! et que toucheRelachée ne dit pas si une touche a été relachée, mais plutôt si elle est relaché, ce qui est quand même inutile... J'ai modifié un peu les collision pour qu'elles fonctionnent différamment avec le porte à la génération. Étant donné que j'ai fait plusieurs modifications j'ai pris le temps de vérifier avec certitude que je ne créerais pas d'erreurs de compilation. Je suis assez content de l'avancement dans la génération des portes, je crois pouvoir compléter le tout en fin de semaine. Déjà on peut circuler sans problème dans la "labirynthe"! Je constate que le cycle itératif n'a pas vraiment été respecté, mais étant donné que nous ne pouvions pas vraiment être trois à travailler sur le même cycle, je crois qu'il est plus profitable d'en faire plusieurs en même temps. Voici ce qui me resterait à faire côté génération des portes:
+
+- Donner une rotation à la porte selon la normale de collision(peut-être faire des collisions spécifiquement pour la génération des portes parce qu'elles commencent à différer énormément des collisions objet-salle).
+- Faire un clean-up du code de génération!­­­
