@@ -343,4 +343,24 @@ Donc si le joueur entre dans une porte en sens opposé, ce qui est physiquement 
 **3h00**: Travail en alternance sur la génération des portes j'ai fait une nouvelle pièce, il y a des problèmes à régler. J'ai synthétisé du code, réglé plusieurs problèmes, j'ai aussi ajouté un bool dans PhaseJeu d'où on appel changementDeSalle() afin que de un on n'utilise plus la toucheAppuyée parce qu'il faut appuyer anormalement vite! et que toucheRelachée ne dit pas si une touche a été relachée, mais plutôt si elle est relaché, ce qui est quand même inutile... J'ai modifié un peu les collision pour qu'elles fonctionnent différamment avec le porte à la génération. Étant donné que j'ai fait plusieurs modifications j'ai pris le temps de vérifier avec certitude que je ne créerais pas d'erreurs de compilation. Je suis assez content de l'avancement dans la génération des portes, je crois pouvoir compléter le tout en fin de semaine. Déjà on peut circuler sans problème dans la "labirynthe"! Je constate que le cycle itératif n'a pas vraiment été respecté, mais étant donné que nous ne pouvions pas vraiment être trois à travailler sur le même cycle, je crois qu'il est plus profitable d'en faire plusieurs en même temps. Voici ce qui me resterait à faire côté génération des portes:
 
 - Donner une rotation à la porte selon la normale de collision(peut-être faire des collisions spécifiquement pour la génération des portes parce qu'elles commencent à différer énormément des collisions objet-salle).
-- Faire un clean-up du code de génération!­­­
+- Faire un clean-up du code de génération!­­
+
+###25 avril 2015
+
+**0h30**: Commentaire et clean up du code de génération de porte.
+
+**1h00**: Création d'une nouvelle salle pour faire des tests sur les portes en angle, la salle est correct, mais je suis complètement incapable de me déplacer avec le joueur...
+
+**1h00**: J'ai créée une procédure spécifique pour les collisions des portes puisqu'elles commençaient à diverger beaucoup de collisionObjetSalle. J'ai aussi ajouté une orientation pour les portes donc elles devraient pouvoir maintenant se positionner sur un mur dont l'orientation n'est pas parallèle à l'axe X et Z. Par contre, étant donné que le joueur ne peu pas bouger dans ma salle convergente, je vais devoir attendre avant de tester.
+
+**0h20**: J'ai retirer la physique du joueur pour pouvoir me mouvoir comme je le veux! les orientation sont bonnes sur le mur désaxés, par contre, dans ma nouvelle salle, toutes les portes sont dans le mauvais sens(180°), pourtant dans la pièceL et Salle4x4 elles sont correctes. J'essaie de comprendre pourquoi!
+
+**0h30**: Après de longue minutes de "Mais pourquoi ça marche pas!?!?!?" j'ai finalement découvert que les normales de ma pièce n'étaient pas dans la bon sens...
+
+**0h15**: J'ai testé un peu les portes sur des murs désaxés(avec un salle qui fonctionne), ça fonctionne à moitié, des fois elles sont parfaitement sur le mur, d'autres fois elles ne semblent pas avoir eu de rotation.
+
+Voici ma façon de trouve l'angle:
+
+![](http://i.imgur.com/Xh6EyCq.png)
+
+**1h00**: J'ai modifié la collisionPorte pour qu'elle ne se fasse qu'avec l'origine de la porte(nécessaire pour les rotations), j'ai restructuré un peu le code dans carte pour qu'il y ait moins de répétage de code inutile, j'ai réglé le bug que Dean avait signalé sans vraiment aucune précision sur gitter.­
