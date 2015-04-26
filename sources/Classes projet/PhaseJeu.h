@@ -41,7 +41,7 @@ private:
 
 		for (auto it : liste) {
 			if (Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) {
-				texte->defTexte("Press E to open the door");
+				texte->defTexte(new std::string("Press E to open the door"));
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
 			}

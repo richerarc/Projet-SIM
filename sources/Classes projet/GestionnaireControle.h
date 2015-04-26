@@ -11,7 +11,7 @@ enum Action {
 class GestionnaireControle: public Singleton<GestionnaireControle> {
 private:
 	std::map<int, int> Controles;
-
+	
 public:
 	void lireControle(char* Emplacement) {
 		char Evenement[3];
@@ -117,6 +117,39 @@ public:
 		return Controles;
 	}
 
+	std::string* obtTouche(Action action) {
+		std::string* str;
+		char touche = Controles[action];
 
+		switch (Controles[action]) {
+
+		case 1073742049:
+			str = new std::string("LSHIFT");
+			break;
+
+		default:
+			switch (touche) {
+			case 32:
+				str = new std::string("SPACE");
+				break;
+
+			case 9:
+				str = new std::string("TAB");
+				break;
+
+			default:
+				char * chr = new char(touche);
+				str = new std::string(chr);
+
+				int i = 0;
+				while (chr[i] > 0)
+					++i;
+				str->erase(i, str->length());
+				break;
+			}
+			break;
+		}
+		return str;
+	}
 
 };

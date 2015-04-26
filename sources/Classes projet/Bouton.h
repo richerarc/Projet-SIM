@@ -19,7 +19,7 @@ private:
 	std::function<void(Bouton*)> defautRappel;
 
 public:
-	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), new std::string(""), 0){}
+	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), new std::string("1"), 0){}
 
 	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, std::string* texte, int taille){
 		char tmp[5];
@@ -75,7 +75,7 @@ public:
 		this->etat = etat;
 	}
 
-	void defTexte(const char* texte){
+	void defTexte(std::string* texte){
 		this->texte->defTexte(texte);
 	}
 

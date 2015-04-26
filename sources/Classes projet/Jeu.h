@@ -51,7 +51,8 @@ public:
 		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		//ControlleurAudio::obtInstance().initialiser(100);
 		
-		
+		GestionnaireControle::obtInstance().lireControle("Controle.txt");
+
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
 		Rect<float>::defDimension(1280, 720);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);

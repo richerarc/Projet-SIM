@@ -38,8 +38,8 @@ namespace gfx{
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		}
-		void defTexte(const char* texte){
-			this->texte = texte;
+		void defTexte(std::string* texte){
+			this->texte = texte->c_str();
 			chargerSurface();
 		}
 		void afficher(gfx::Fenetre& fenetre){
