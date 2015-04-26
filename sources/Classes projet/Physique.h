@@ -594,7 +594,7 @@ public:
 
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
-			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
 				joueur->defPointCollision(pointCollision);
@@ -617,7 +617,7 @@ public:
 			point = tabJoueur[i];
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
-			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
 				if (normale.y > normale.x && normale.y > normale.z) {
 					joueur->defNormale(normale);
 					joueur->defPointCollision(pointCollision);
