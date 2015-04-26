@@ -98,15 +98,22 @@ public:
 				}
 
 				if (Clavier::toucheAppuyee(SDLK_w)){
-					vitesse = devant * vitesseDeplacement;
+					etat = MARCHE;
+ 					vitesse.x = devant.x * vitesseDeplacement;
+					vitesse.z = devant.z * vitesseDeplacement;
 					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(SDLK_d))
-							vitesse = vitesse + (cote * vitesseDeplacement);
+						if (Clavier::toucheAppuyee(SDLK_d)) {
+							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
+						}
 
 						else if (Clavier::toucheAppuyee(SDLK_a)) {
-							vitesseTemp = cote * vitesseDeplacement;
-							vitesseTemp.inverser();
-							vitesse = vitesse + vitesseTemp;
+							vitesseTemp.x = cote.x * vitesseDeplacement;
+							vitesseTemp.z = cote.z * vitesseDeplacement;
+							vitesseTemp.x = -vitesseTemp.x;
+							vitesseTemp.z = -vitesseTemp.z;
+							vitesse.x = vitesse.x + vitesseTemp.x;
+							vitesse.z = vitesse.z + vitesseTemp.z;
 						}
 					}
 
@@ -254,6 +261,12 @@ public:
 		this->position = pos;
 		this->modele3D->defPosition(position);
 		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x ,position.y + 1.8f, position.z));
+		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.2f, position.z));
+	}
+	void defPositionY(double y) {
+		this->position.y = y;
+		this->modele3D->defPosition(position);
+		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.8f, position.z));
 		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.2f, position.z));
 	}
 
