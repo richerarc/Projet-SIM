@@ -34,26 +34,42 @@ private:
 		liens[entree] = sortie;
 	}
 
-	void creerSalle(InfoSalle infoSalleActive) {
+	void creerSalle(InfoSalle& infoSalleActive, bool enPositionnement) {
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
 
 		double orientation;
-		for (auto it : infoSalleActive.Objet) {
-			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-			modeleporte->defPosition(it.position);
-			modeleporte->defOrientation(0, it.rotation, 0);
-
-			Objet* porte = new Porte(modeleporte, it.ID, "Metal", it.position, { 0, 0, 0 }, false, true, false, false);
-			porte->defVitesse(it.direction);
-			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 1.74, porte->obtPosition().z));
-			while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, orientation)) {
-				porte->defPosition(porte->obtPosition() + (it.direction / 10));
+		for (auto& it : infoSalleActive.Objet) {
+			if (!enPositionnement) {
+				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				modeleporte->defPosition(it.position);
+				modeleporte->defOrientation(0, it.rotation, 0);
+				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
 			}
-			porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 1.74, porte->obtPosition().z));
-			porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
-			salleActive->ajoutObjet(porte);
+			else {
+				// Tests de positionnement de la porte avec collision
+				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				modeleporte->defPosition(it.position);
+				modeleporte->defOrientation(0, it.rotation, 0);
+
+				Objet* porte = new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false);
+				porte->defVitesse(it.direction);
+				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 1.74, porte->obtPosition().z));
+				while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, orientation)) {
+					porte->defPosition(porte->obtPosition() + (it.direction / 10));
+				}
+				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 1.74, porte->obtPosition().z));
+				porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
+
+				it.position = porte->obtPosition();
+				it.rotation = porte->obtModele3D()->obtOrientation().y;
+				delete porte;
+				int iii = 0;
+			}
+		}
+		if (enPositionnement) {
+			delete salleActive;
 		}
 	}
 
@@ -63,18 +79,14 @@ public:
 
 	void destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur& joueur) {
 
-		for (auto it : salleActive->obtListeObjet()) {
-			gfx::Gestionnaire3D::obtInstance().retObjet(it->obtModele3D());
-		}
-
-		gfx::Gestionnaire3D::obtInstance().retObjet(salleActive->obtModele());
+		delete salleActive;
 
 		Sortie pieceSuivante = liens[sortie];
 
 		auto debut = infosSalles.begin();
 		std::advance(debut, std::get<0>(pieceSuivante));
 
-		creerSalle(*debut);
+		creerSalle(*debut, false);
 
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modeleMur);
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
@@ -84,7 +96,7 @@ public:
 		std::advance(it, std::get<1>(pieceSuivante));
 		Vecteur3d vecteur;
 		Vecteur3d vecteurMur;
-		switch ((*it).rotation) {
+		switch ((int)(*it).rotation) {
 		case 0:
 			vecteur = { (*it).position.x + 1.2, (*it).position.y, (*it).position.z - 0.5 };
 			joueur.defPosition((*it).position);
@@ -371,11 +383,16 @@ public:
 			salle.Objet.clear();
 		}
 
-		auto debut = infosSalles.begin();
-		//pos = rand() % infosSalles.size();
-		//std::advance(debut, pos);
 
-		creerSalle(*debut);
+		for (auto& it : infosSalles) {
+			creerSalle(it, true);
+		}
+
+		auto debut = infosSalles.begin();
+		pos = rand() % infosSalles.size();
+		std::advance(debut, pos);
+
+		creerSalle(*debut, false);
 
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
