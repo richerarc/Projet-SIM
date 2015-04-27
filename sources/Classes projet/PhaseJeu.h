@@ -9,6 +9,8 @@ private:
 	gfx::Texte2D* texte;
 	Objet* objetVise;
 
+	bool toucheRelachee;
+
 	void appliquerPhysique(float frameTime) {
  		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
@@ -56,12 +58,12 @@ private:
 public:
 
 	PhaseJeu() : Phase(){
+		toucheRelachee = false;
 		joueur = new Joueur(Vecteur3d(-1, 0, 0));
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D("123", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
 
 		Carte::obtInstance().creer(20);
-		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
 	}
 
 	void rafraichir(float frameTime) {
@@ -77,14 +79,17 @@ public:
 
 
 		if (detectionObjet()){
-			if (Clavier::toucheAppuyee(SDLK_e)){// Touche relachée bientôt...
+			if (Clavier::toucheAppuyee(SDLK_e) && toucheRelachee){// Touche relachée bientôt...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
 				}
 				else{
 					objetVise->appliquerAction(Interagir);
 				}
+				toucheRelachee = false;
 			}
+			if (Clavier::toucheAppuyee(SDLK_e))
+				toucheRelachee = true;
 		}
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
