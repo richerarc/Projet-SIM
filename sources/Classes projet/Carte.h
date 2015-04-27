@@ -96,52 +96,62 @@ public:
 		std::advance(it, std::get<1>(pieceSuivante));
 		Vecteur3d vecteur;
 		Vecteur3d vecteurMur;
-		switch ((int)(*it).rotation) {
-		case 0:
-			vecteur = { (*it).position.x + 1.2, (*it).position.y, (*it).position.z - 0.5 };
-			joueur.defPosition((*it).position);
-			vecteurMur = { (*it).position.x + 2.5, (*it).position.y, (*it).position.z };
-			modeleMur->defOrientation(0, 0, 0);
-			modelePorte->defOrientation(0, 0, 0);
-			modeleMur->defOrientation(0, (*it).rotation, 0);
-			modelePorte->defOrientation(0, (*it).rotation + 180, 0);
-			modeleMur->defPosition(vecteurMur);
-			modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z - 1.0);
-			break;
-		case 90:
-			vecteur = { (*it).position.x - 0.5, (*it).position.y, (*it).position.z - 1.2 };
-			joueur.defPosition((*it).position);
-			vecteurMur = { (*it).position.x, (*it).position.y, (*it).position.z - 2.5 };
-			modeleMur->defOrientation(0, 0, 0);
-			modelePorte->defOrientation(0, 0, 0);
-			modeleMur->defOrientation(0, (*it).rotation, 0);
-			modelePorte->defOrientation(0, -(*it).rotation, 0);
-			modeleMur->defPosition(vecteurMur);
-			modelePorte->defPosition(vecteurMur.x - 1.0, vecteurMur.y, vecteurMur.z);
-			break;
-		case -90:
-			vecteur = { (*it).position.x + 0.5, (*it).position.y, (*it).position.z + 1.2 };
-			joueur.defPosition((*it).position);
-			vecteurMur = { (*it).position.x, (*it).position.y, (*it).position.z + 2.5 };
-			modeleMur->defOrientation(0, 0, 0);
-			modelePorte->defOrientation(0, 0, 0);
-			modeleMur->defOrientation(0, (*it).rotation, 0);
-			modelePorte->defOrientation(0, -(*it).rotation, 0);
-			modeleMur->defPosition(vecteurMur);
-			modelePorte->defPosition(vecteurMur.x + 1.0, vecteurMur.y, vecteurMur.z);
-			break;
-		case 180:
-			vecteur = { (*it).position.x - 1.2, (*it).position.y, (*it).position.z + 0.5 };
-			joueur.defPosition((*it).position);
-			vecteurMur = { (*it).position.x - 2.5, (*it).position.y, (*it).position.z };
-			modeleMur->defOrientation(0, 0, 0);
-			modelePorte->defOrientation(0, 0, 0);
-			modeleMur->defOrientation(0, (*it).rotation, 0);
-			modelePorte->defOrientation(0, (*it).rotation - 180, 0);
-			modeleMur->defPosition(vecteurMur);
-			modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z + 1.0);
-			break;
-		}
+		//switch ((int)(*it).rotation) { // Enlever les switch et calculer en fonction des angles et it = porte.
+		//case 0:
+		//	vecteur = { (*it).position.x + 1.2, (*it).position.y, (*it).position.z - 0.5 };
+		//	joueur.defPosition((*it).position);
+		//	vecteurMur = { (*it).position.x + 2.5, (*it).position.y, (*it).position.z };
+		//	modeleMur->defOrientation(0, 0, 0);
+		//	modelePorte->defOrientation(0, 0, 0);
+		//	modeleMur->defOrientation(0, (*it).rotation, 0);
+		//	modelePorte->defOrientation(0, (*it).rotation + 180, 0);
+		//	modeleMur->defPosition(vecteurMur);
+		//	modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z - 1.0);
+		//	break;
+		//case 90:
+		//	vecteur = { (*it).position.x - 0.5, (*it).position.y, (*it).position.z - 1.2 };
+		//	joueur.defPosition((*it).position);
+		//	vecteurMur = { (*it).position.x, (*it).position.y, (*it).position.z - 2.5 };
+		//	modeleMur->defOrientation(0, 0, 0);
+		//	modelePorte->defOrientation(0, 0, 0);
+		//	modeleMur->defOrientation(0, (*it).rotation, 0);
+		//	modelePorte->defOrientation(0, -(*it).rotation, 0);
+		//	modeleMur->defPosition(vecteurMur);
+		//	modelePorte->defPosition(vecteurMur.x - 1.0, vecteurMur.y, vecteurMur.z);
+		//	break;
+		//case -90:
+		//	vecteur = { (*it).position.x + 0.5, (*it).position.y, (*it).position.z + 1.2 };
+		//	joueur.defPosition((*it).position);
+		//	vecteurMur = { (*it).position.x, (*it).position.y, (*it).position.z + 2.5 };
+		//	modeleMur->defOrientation(0, 0, 0);
+		//	modelePorte->defOrientation(0, 0, 0);
+		//	modeleMur->defOrientation(0, (*it).rotation, 0);
+		//	modelePorte->defOrientation(0, -(*it).rotation, 0);
+		//	modeleMur->defPosition(vecteurMur);
+		//	modelePorte->defPosition(vecteurMur.x + 1.0, vecteurMur.y, vecteurMur.z);
+		//	break;
+		//case 180:
+		//	vecteur = { (*it).position.x - 1.2, (*it).position.y, (*it).position.z + 0.5 };
+		//	joueur.defPosition((*it).position);
+		//	vecteurMur = { (*it).position.x - 2.5, (*it).position.y, (*it).position.z };
+		//	modeleMur->defOrientation(0, 0, 0);
+		//	modelePorte->defOrientation(0, 0, 0);
+		//	modeleMur->defOrientation(0, (*it).rotation, 0);
+		//	modelePorte->defOrientation(0, (*it).rotation - 180, 0);
+		//	modeleMur->defPosition(vecteurMur);
+		//	modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z + 1.0);
+		//	break;
+		//}
+
+
+		//joueur.defAngleHorizontal(-joueur.obtHAngle());
+		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
+		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
+		modeleMur->defPosition(vecteurMur);
+		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x)); // Probs ici
+		modeleMur->defOrientation(0, (*it).rotation, 0);
+		modelePorte->defOrientation(0, (*it).rotation + 180, 0); // Angles pas legit gotta fix it.
+		//joueur.defAngleHorizontal();
 		joueur.defPosition(vecteur);
 	}
 
