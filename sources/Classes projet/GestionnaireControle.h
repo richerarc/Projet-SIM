@@ -78,12 +78,13 @@ public:
 		}
 	}
 	bool definirControle(Action evenement, Controleur_t controleur, int controle) {
-		
-		for (std::map<ClefControle, int>::iterator it = controles.begin(); it != controles.end(); ++it) {
-			if (it->second == controle)
-				return false;
+		ClefControle clee = std::make_tuple(evenement, controleur);
+		for (auto it : controles){
+			if (std::get<0>(it.first) == evenement){
+				controles.erase(cle(evenement, std::get<1>(it.first)));
+			}
 		}
-		controles[cle(evenement, controleur)] = controle;
+		controles[clee] = controle;
 		return true;
 	}
 
@@ -146,13 +147,13 @@ public:
 		}
 		else if (controleur == SOURIS){
 			switch (controles[cle]) {
-				case 0:
+				case 1:
 					str = new std::string("LEFT MB");
 					break;
-				case 1:
+				case 2:
 					str = new std::string("MIDDLE MB");
 					break;
-				case 2:
+				case 3:
 					str = new std::string("RIGHT MB");
 					break;
 			}

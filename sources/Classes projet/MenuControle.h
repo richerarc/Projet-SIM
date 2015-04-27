@@ -38,7 +38,7 @@ private:
 	Action action;
 	Bouton* toucheEnChoix;
 	bool enChoixDeTouche;
-	bool pause;
+	bool pause, premierClic;
 
 	void reinitialiserControle() {
 
@@ -133,10 +133,12 @@ public:
 
 		
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
 
 		changementTouche = new std::string("Press any key ...");
 
 		defPause(true);
+		premierClic = true;
 	}
 	~MenuControle(void) {
 		gfx::Gestionnaire2D::obtInstance().vider();
@@ -153,10 +155,22 @@ public:
 
 	void gererEvenement(SDL_Event Event){
 		if (enChoixDeTouche) {
-			GestionnaireControle::obtInstance().definirControle(action, CLAVIER, Event.key.keysym.sym);
-			toucheEnChoix->defTexte(GestionnaireControle::obtInstance().obtTouche(action));
-			enChoixDeTouche = false;
-			toucheEnChoix = nullptr;
+			if (Event.type == SDL_MOUSEBUTTONDOWN && premierClic){
+				premierClic = false;
+			}
+			else if (Event.type == SDL_MOUSEBUTTONDOWN && !premierClic){
+				GestionnaireControle::obtInstance().definirControle(action, SOURIS, Event.button.button);
+				premierClic = true;
+				enChoixDeTouche = false;
+				toucheEnChoix->defTexte(GestionnaireControle::obtInstance().obtTouche(action));
+				toucheEnChoix = nullptr;
+			}
+			else{
+				GestionnaireControle::obtInstance().definirControle(action, CLAVIER, Event.key.keysym.sym);
+				enChoixDeTouche = false;
+				toucheEnChoix->defTexte(GestionnaireControle::obtInstance().obtTouche(action));
+				toucheEnChoix = nullptr;
+			}
 		}
 	}
 
