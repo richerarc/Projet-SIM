@@ -107,7 +107,6 @@ namespace gfx{
 		}
 
 		void surMouvementSouris(SDL_Event &event){
-			
 			if (!pause) {
 				hAngle -= event.motion.xrel * sensibilite;
 				vAngle -= event.motion.yrel * sensibilite;
@@ -120,15 +119,14 @@ namespace gfx{
 			glTranslated(-position.x, -position.y, -position.z);
 		}
 
-		void defPause(bool pause) {
-			this->pause = pause;
-		}
-		double obtHAngle(){
-			return hAngle;
-		}
-		void defHAngle(double hAngle){
-			this->hAngle = hAngle;
-		}
+		void bloquer() { pause = true; }
+
+		void deBloquer(){ pause = false; }
+
+		double obtHAngle(){	return hAngle; }
+
+		void defHAngle(double hAngle){ this->hAngle -= hAngle; calculerVecteurs(); }
+
 		Vecteur3d obtHaut(){ return this->haut; }
 
 		Vecteur3d obtDevant(){ return this->devant; }

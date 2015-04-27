@@ -12,9 +12,9 @@ private:
 	void appliquerPhysique(float frameTime) {
  		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
-				if (joueur->obtEtat() != STABLE)
+				if (joueur->obtEtat() != STABLE && joueur->obtEtat() != MARCHE)
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-					//joueur->longer();
+				joueur->longer();
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			}
 			else{
@@ -97,7 +97,7 @@ public:
 			GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());
 			SDL_SetRelativeMouseMode(SDL_FALSE);
 			SDL_ShowCursor(SDL_ENABLE);
-			gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(true);
+			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 		}
 	}
 

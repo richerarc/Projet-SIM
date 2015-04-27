@@ -35,7 +35,7 @@ public:
 				SDL_SetRelativeMouseMode(SDL_TRUE);
 				SDL_ShowCursor(SDL_DISABLE);
 				gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-				gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);
+				gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
 			}
 		}
 		else{
