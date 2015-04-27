@@ -628,6 +628,7 @@ public:
 		}
 	}
 
+	/*Peut etre faire directement dans^collision au sol et utiliser directement normale et point de collision au lieu de joueur et salle...*/
 	Vecteur3d ajusterVitesse(Joueur* joueur, Salle* salle){
 
 	}
@@ -647,7 +648,8 @@ public:
 			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur->defPosition(joueur->obtPosition() + pointDiference);
-
+				joueur->defNormale(normale);
+				joueur->defPointCollision(pointCollision);
 				return true;
 			}
 		}
