@@ -3,7 +3,7 @@
 #include "Sons.h"
 #include "Joueur.h"
 
-enum Sons_t {AH = 1, AVION = 2, BOIRE = 3, BOIS_1 = 4, BOIS_2 = 5, BRUIT = 6, VENT = 6, ELEC_FAIBLE = 7, ELEC_FORT = 8, CRACK_1 = 9, CRACK_2 = 10, DEBARRER = 11, DOUCHE = 12, FERMETURE_PORTE = 13, FOND = 14, GRILLE = 15, HORLOGE = 16, INVENTAIRE = 17, MUNCH_1 = 18, MUNCH_2 = 19, MUNCH_3 = 20, OUVERTURE_PORTE_1 =21, OUVERTURE_PORTE_2 =22, PAPIER_1 =23, PAPIER_2 =24, PAPIER_3 =25, PORTE_BARRE = 26, RECHARGE = 27, RESPIRATION = 28, RONFLEMENT_1 = 29, RONFLEMENT_2 = 30, RONFLEMENT_3 = 31, RONFLEMENT_4 = 32, RONFLEMENT_5 = 33, SNIF = 34, TIR = 35, TIRROIR_1 = 36, TIRROIR_2 = 37, TONNERE = 38, TOUX_1 = 39, TOUX_2 = 40, COEUR = 41, PAS = 42};
+enum Sons_t {AH = 1, AVION = 2, BOIRE = 3, BOIS_1 = 4, BOIS_2 = 5, BRUIT = 6, VENT = 7, ELEC_FAIBLE = 8, ELEC_FORT = 9, CRACK_1 = 10, CRACK_2 = 11, DEBARRER = 12, DOUCHE = 13, FERMETURE_PORTE = 14, FOND = 15, GRILLE = 16, HORLOGE = 17, INVENTAIRE = 18, MUNCH_1 = 19, MUNCH_2 = 20, MUNCH_3 = 21, OUVERTURE_PORTE_1 =22, OUVERTURE_PORTE_2 =23, PAPIER_1 =24, PAPIER_2 =25, PAPIER_3 =26, PORTE_BARRE = 27, RECHARGE = 28, RESPIRATION = 29, RONFLEMENT_1 = 30, RONFLEMENT_2 = 31, RONFLEMENT_3 = 32, RONFLEMENT_4 = 33, RONFLEMENT_5 = 34, SNIF = 35, TIR = 36, TIRROIR_1 = 37, TIRROIR_2 = 38, TONNERE = 39, TOUX_1 = 40, TOUX_2 = 41, COEUR = 42, PAS = 43};
 
 class ControlleurAudio : public Singleton<ControlleurAudio>{
 private:
@@ -40,7 +40,9 @@ public:
 					temp->defVolume(20);
 					sons[ittChaine] = temp;
 				}
-				sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine, 80);
+				else{
+					sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine, 80);
+				}
 			}
 			fichierNom.close();
 		}
