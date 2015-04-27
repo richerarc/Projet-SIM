@@ -153,7 +153,7 @@ public:
 
 	void gererEvenement(SDL_Event Event){
 		if (enChoixDeTouche) {
-			GestionnaireControle::obtInstance().definirControle(action, Event.key.keysym.sym);
+			GestionnaireControle::obtInstance().definirControle(action, CLAVIER, Event.key.keysym.sym);
 			toucheEnChoix->defTexte(GestionnaireControle::obtInstance().obtTouche(action));
 			enChoixDeTouche = false;
 			toucheEnChoix = nullptr;

@@ -8,52 +8,66 @@ enum Action {
 	AVANCER,RECULER,DROITE,GAUCHE,SAUTER,ACCROUPIR,COURIR,TIRER,UTILISER,INVENTAIRE
 };
 
+enum Controleur_t {CLAVIER = 0, SOURIS = 1, MANETTE = 2};
+
+typedef std::tuple<Action, Controleur_t> ClefControle;
+
+ClefControle cle(Action action, int ctrl){
+	return std::make_tuple(action, (Controleur_t)ctrl);
+}
+
 class GestionnaireControle: public Singleton<GestionnaireControle> {
 private:
-	std::map<int, int> Controles;
+	
+	std::map<ClefControle, int> controles;
 	
 public:
 	void lireControle(char* Emplacement) {
-		char Evenement[3];
-		char Touche[13];
+		char evenement[3];
+		char touche[13];
+		char controleur[13];
 		std::ifstream FichierDeLecture(Emplacement);
 		if (FichierDeLecture.is_open()) {
 			while (!FichierDeLecture.eof()) {
-				FichierDeLecture >> Evenement;
-				FichierDeLecture >> Touche;
-				int EvenementEnInt = std::atoi(Evenement);
-				int ToucheEnInt = std::atoi(Touche);
+				FichierDeLecture >> evenement;
+				FichierDeLecture >> controleur;
+				FichierDeLecture >> touche;
+				int evenementEnInt = std::atoi(evenement);
+				int controleurEnInt = SDL_atoi(controleur);
+				int toucheEnInt = std::atoi(touche);
+				
+				
 
-				switch (EvenementEnInt) {
+				switch (evenementEnInt) {
 				case 0:
-					Controles[AVANCER] = ToucheEnInt;
+						controles[cle(AVANCER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 1:
-					Controles[RECULER] = ToucheEnInt;
+					controles[cle(RECULER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 2:
-					Controles[DROITE] = ToucheEnInt;
+					controles[cle(DROITE, controleurEnInt)] = toucheEnInt;
 					break;
 				case 3:
-					Controles[GAUCHE] = ToucheEnInt;
+					controles[cle(GAUCHE, controleurEnInt)] = toucheEnInt;
 					break;
 				case 4:
-					Controles[SAUTER] = ToucheEnInt;
+					controles[cle(SAUTER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 5:
-					Controles[ACCROUPIR] = ToucheEnInt;
+					controles[cle(ACCROUPIR, controleurEnInt)] = toucheEnInt;
 					break;
 				case 6:
-					Controles[COURIR] = ToucheEnInt;
+					controles[cle(COURIR, controleurEnInt)] = toucheEnInt;
 					break;
 				case 7:
-					Controles[TIRER] = ToucheEnInt;
+					controles[cle(TIRER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 8:
-					Controles[UTILISER] = ToucheEnInt;
+					controles[cle(UTILISER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 9:
-					Controles[INVENTAIRE] = ToucheEnInt;
+					controles[cle(INVENTAIRE, controleurEnInt)] = toucheEnInt;
 					break;
 				}
 				
@@ -63,92 +77,93 @@ public:
 
 		}
 	}
-	bool definirControle(Action Evenement, int Controle) {
+	bool definirControle(Action evenement, Controleur_t controleur, int controle) {
 		
-		for (std::map<int, int>::iterator it = Controles.begin(); it != Controles.end(); ++it) {
-			if (it->second == Controle)
+		for (std::map<ClefControle, int>::iterator it = controles.begin(); it != controles.end(); ++it) {
+			if (it->second == controle)
 				return false;
-			
 		}
-		
-		Controles[Evenement] = Controle;
+		controles[cle(evenement, controleur)] = controle;
 		return true;
-		
-		
 	}
 
-	void sauvegarderControle(char* Emplacement) {
-		std::ofstream EcritureFichier(Emplacement);
-
-		EcritureFichier << "0" << std::endl;
-		EcritureFichier << Controles[AVANCER] << std::endl;
-
-		EcritureFichier << "1" << std::endl;
-		EcritureFichier << Controles[RECULER] << std::endl;
-
-		EcritureFichier << "2" << std::endl;
-		EcritureFichier << Controles[DROITE] << std::endl;
-
-		EcritureFichier << "3" << std::endl;
-		EcritureFichier << Controles[GAUCHE] << std::endl;
-
-		EcritureFichier << "4" << std::endl;
-		EcritureFichier << Controles[SAUTER] << std::endl;
-
-		EcritureFichier << "5" << std::endl;
-		EcritureFichier << Controles[ACCROUPIR] << std::endl;
-
-		EcritureFichier << "6" << std::endl;
-		EcritureFichier << Controles[COURIR] << std::endl;
-
-		EcritureFichier << "7" << std::endl;
-		EcritureFichier << Controles[TIRER] << std::endl;
-
-		EcritureFichier << "8" << std::endl;
-		EcritureFichier << Controles[UTILISER] << std::endl;
-
-		EcritureFichier << "9" << std::endl;
-		EcritureFichier << Controles[INVENTAIRE];
-
+	void sauvegarderControle(char* emplacement) {
+		std::ofstream ecritureFichier(emplacement);
+		
+		char num = '0';
+		for (auto it : controles){
+			ecritureFichier << num << std::endl;
+			ecritureFichier << std::get<1>(it.first) << std::endl;
+			ecritureFichier << it.second << std::endl;
+			++num;
+		}
 
 	}
 
-	std::map<int,int> obtenirControles(void) {
-		return Controles;
+	std::map<ClefControle, int> obtenirControles(void) {
+		return controles;
 	}
 
 	std::string* obtTouche(Action action) {
-		std::string* str;
-		char touche = Controles[action];
-
-		switch (Controles[action]) {
-
-		case 1073742049:
-			str = new std::string("LSHIFT");
-			break;
-
-		default:
-			switch (touche) {
-			case 32:
-				str = new std::string("SPACE");
-				break;
-
-			case 9:
-				str = new std::string("TAB");
-				break;
-
-			default:
-				char * chr = new char(touche);
-				str = new std::string(chr);
-
-				int i = 0;
-				while (chr[i] > 0)
-					++i;
-				str->erase(i, str->length());
+		Controleur_t controleur;
+		for (auto it : controles ){
+			if (std::get<0>(it.first) == action){
+				controleur = std::get<1>(it.first);
 				break;
 			}
-			break;
 		}
+		
+		std::string* str;
+		
+		ClefControle cle = std::make_tuple(action,controleur);
+		
+		if (controleur == CLAVIER){
+			char touche = controles[cle];
+			
+			switch (controles[cle]) {
+					
+				case 1073742049:
+					str = new std::string("LSHIFT");
+					break;
+				case 32:
+					str = new std::string("SPACE");
+					break;
+					
+				case 9:
+					str = new std::string("TAB");
+					break;
+					
+				default:
+					char * chr = new char(touche);
+					str = new std::string(chr);
+					
+					int i = 0;
+					while (chr[i] > 0)
+						++i;
+					str->erase(i, str->length());
+					break;
+			}
+		}
+		else if (controleur == SOURIS){
+			switch (controles[cle]) {
+				case 0:
+					str = new std::string("LEFT MB");
+					break;
+				case 1:
+					str = new std::string("MIDDLE MB");
+					break;
+				case 2:
+					str = new std::string("RIGHT MB");
+					break;
+			}
+		}
+		else if (controleur == MANETTE){
+			switch (controles[cle]) {
+				default:
+					break;
+			}
+		}
+			
 		return str;
 	}
 
