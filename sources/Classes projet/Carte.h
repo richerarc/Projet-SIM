@@ -232,150 +232,160 @@ public:
 					auto it = salle.boitesCollision.begin();
 					pos = rand() % salle.boitesCollision.size();
 					std::advance(it, pos);
-					do{
-						xMin = (*it).obtBoite()[rand() % 8].x;
-						xMax = (*it).obtBoite()[rand() % 8].x;
-					} while (xMin == xMax);
-					if (xMax < xMin){
-						x = xMin;
-						xMin = xMax;
-						xMax = x;
-					}
-					x = xMax - xMin;
+
+					//Données y
 					do{
 						yMin = (*it).obtBoite()[rand() % 8].y;
 						yMax = (*it).obtBoite()[rand() % 8].y;
 					} while (yMin == yMax);
-					if (yMax < yMin){
+					if (yMax < yMin) {
 						y = yMin;
 						yMin = yMax;
 						yMax = y;
 					}
 					y = yMax - yMin;
-					do{
-						zMin = (*it).obtBoite()[rand() % 8].z;
-						zMax = (*it).obtBoite()[rand() % 8].z;
-					} while (zMin == zMax);
-					if (zMax < zMin){
-						z = zMin;
-						zMin = zMax;
-						zMax = z;
-					}
-					z = zMax - zMin;
 
-					// Positionnement de la porte...
-					pos3D.y = yMin;
-					directionPossible = false;
-					while (!directionPossible)
-					{
-						switch (rand() % 4) {
-						case 0:
+					if (y >= 2) {
 
-							if (z >= 1) {
-
-								randomRatio = (double)rand() / RAND_MAX;
-								pos3D.x = xMin + randomRatio * (x);
-
-								do {
-									randomRatio = (double)rand() / RAND_MAX;
-									pos3D.z = zMin + randomRatio * (z);
-								} while ((pos3D.z < zMin) || (pos3D.z > zMax - 1));
-
-								directionPossible = true;
-								objet.direction = { 1, 0, 0 };
-								objet.rotation = 180;
-							}
-
-							break;
-						case 1:
-
-							if (z >= 1) {
-
-								randomRatio = (double)rand() / RAND_MAX;
-								pos3D.x = xMin + randomRatio * (x);
-
-								do {
-									randomRatio = (double)rand() / RAND_MAX;
-									pos3D.z = zMin + randomRatio * (z);
-								} while ((pos3D.z < zMin + 1) || (pos3D.z > zMax));
-
-								directionPossible = true;
-								objet.direction = { -1, 0, 0 };
-								objet.rotation = 0;
-							}
-
-							break;
-						case 2:
-
-							if (x >= 1) {
-
-								do {
-									randomRatio = (double)rand() / RAND_MAX;
-									pos3D.x = xMin + randomRatio * (x);
-								} while ((pos3D.x < xMin + 1) || (pos3D.x > xMax));
-
-								randomRatio = (double)rand() / RAND_MAX;
-								pos3D.z = zMin + randomRatio * (z);
-
-								directionPossible = true;
-								objet.direction = { 0, 0, 1 };
-								objet.rotation = 90;
-							}
-
-							break;
-						case 3:
-
-							if (x >= 1) {
-
-								do {
-									randomRatio = (double)rand() / RAND_MAX;
-									pos3D.x = xMin + randomRatio * (x);
-								} while ((pos3D.x < xMin) || (pos3D.x > xMax - 1));
-
-								randomRatio = (double)rand() / RAND_MAX;
-								pos3D.z = zMin + randomRatio * (z);
-
-								directionPossible = true;
-								objet.direction = { 0, 0, -1 };
-								objet.rotation = -90;
-							}
-
-							break;
+						//Données x
+						do{
+							xMin = (*it).obtBoite()[rand() % 8].x;
+							xMax = (*it).obtBoite()[rand() % 8].x;
+						} while (xMin == xMax);
+						if (xMax < xMin) {
+							x = xMin;
+							xMin = xMax;
+							xMax = x;
 						}
-					}
+						x = xMax - xMin;
 
-					// Boucle qui vérifie si une porte sera en collision avec une autre...
-					for (auto it : salle.Objet) {
+						// Données z
+						do{
+							zMin = (*it).obtBoite()[rand() % 8].z;
+							zMax = (*it).obtBoite()[rand() % 8].z;
+						} while (zMin == zMax);
+						if (zMax < zMin){
+							z = zMin;
+							zMin = zMax;
+							zMax = z;
+						}
+						z = zMax - zMin;
 
-						// Si les portes ont la même direction...
-						if (objet.direction == it.direction) {
 
-							// Axe x
-							switch ((int)objet.direction.x) {
-							case 1:
-								if ((pos3D.z >= it.position.z && pos3D.z <= it.position.z + 1) || (pos3D.z + 1 >= it.position.z && pos3D.z + 1 <= it.position.z + 1)) {
-									boPorte = false;
+						// Positionnement de la porte...
+						pos3D.y = yMin;
+						directionPossible = false;
+						while (!directionPossible)
+						{
+							switch (rand() % 4) {
+							case 0:
+
+								if (z >= 1) {
+
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.x = xMin + randomRatio * (x);
+
+									do {
+										randomRatio = (double)rand() / RAND_MAX;
+										pos3D.z = zMin + randomRatio * (z);
+									} while ((pos3D.z < zMin) || (pos3D.z > zMax - 1));
+
+									directionPossible = true;
+									objet.direction = { 1, 0, 0 };
+									objet.rotation = 180;
 								}
+
 								break;
-							case -1:
-								if ((pos3D.z <= it.position.z && pos3D.z >= it.position.z - 1) || (pos3D.z - 1 <= it.position.z && pos3D.z - 1 >= it.position.z - 1)) {
-									boPorte = false;
+							case 1:
+
+								if (z >= 1) {
+
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.x = xMin + randomRatio * (x);
+
+									do {
+										randomRatio = (double)rand() / RAND_MAX;
+										pos3D.z = zMin + randomRatio * (z);
+									} while ((pos3D.z < zMin + 1) || (pos3D.z > zMax));
+
+									directionPossible = true;
+									objet.direction = { -1, 0, 0 };
+									objet.rotation = 0;
 								}
+
+								break;
+							case 2:
+
+								if (x >= 1) {
+
+									do {
+										randomRatio = (double)rand() / RAND_MAX;
+										pos3D.x = xMin + randomRatio * (x);
+									} while ((pos3D.x < xMin + 1) || (pos3D.x > xMax));
+
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.z = zMin + randomRatio * (z);
+
+									directionPossible = true;
+									objet.direction = { 0, 0, 1 };
+									objet.rotation = 90;
+								}
+
+								break;
+							case 3:
+
+								if (x >= 1) {
+
+									do {
+										randomRatio = (double)rand() / RAND_MAX;
+										pos3D.x = xMin + randomRatio * (x);
+									} while ((pos3D.x < xMin) || (pos3D.x > xMax - 1));
+
+									randomRatio = (double)rand() / RAND_MAX;
+									pos3D.z = zMin + randomRatio * (z);
+
+									directionPossible = true;
+									objet.direction = { 0, 0, -1 };
+									objet.rotation = -90;
+								}
+
 								break;
 							}
+						}
 
-							// Axe z
-							switch ((int)objet.direction.z) {
-							case 1:
-								if ((pos3D.x <= it.position.x && pos3D.x >= it.position.x - 1) || (pos3D.x - 1 <= it.position.x && pos3D.x - 1 >= it.position.x - 1)) {
-									boPorte = false;
+						// Boucle qui vérifie si une porte sera en collision avec une autre...
+						for (auto it : salle.Objet) {
+
+							// Si les portes ont la même direction...
+							if (objet.direction == it.direction) {
+
+								// Axe x
+								switch ((int)objet.direction.x) {
+								case 1:
+									if ((pos3D.z >= it.position.z && pos3D.z <= it.position.z + 1) || (pos3D.z + 1 >= it.position.z && pos3D.z + 1 <= it.position.z + 1)) {
+										boPorte = false;
+									}
+									break;
+								case -1:
+									if ((pos3D.z <= it.position.z && pos3D.z >= it.position.z - 1) || (pos3D.z - 1 <= it.position.z && pos3D.z - 1 >= it.position.z - 1)) {
+										boPorte = false;
+									}
+									break;
 								}
-								break;
-							case -1:
-								if ((pos3D.x >= it.position.x && pos3D.x <= it.position.x + 1) || (pos3D.x + 1 >= it.position.x && pos3D.x + 1 <= it.position.x + 1)) {
-									boPorte = false;
+
+								// Axe z
+								switch ((int)objet.direction.z) {
+								case 1:
+									if ((pos3D.x <= it.position.x && pos3D.x >= it.position.x - 1) || (pos3D.x - 1 <= it.position.x && pos3D.x - 1 >= it.position.x - 1)) {
+										boPorte = false;
+									}
+									break;
+								case -1:
+									if ((pos3D.x >= it.position.x && pos3D.x <= it.position.x + 1) || (pos3D.x + 1 >= it.position.x && pos3D.x + 1 <= it.position.x + 1)) {
+										boPorte = false;
+									}
+									break;
 								}
-								break;
 							}
 						}
 					}
