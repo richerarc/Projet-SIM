@@ -75,3 +75,5 @@
 	Ajout du faux mur et de la fausse porte lors des téléportation pur le début des animations.
 #Samedi-Dimance 25-26 avril (Je sais pas mais un paquet d'heures disons 19:00 à 2:28 am)
 	Travail pour faire bouger les murs qui bouges des fois et des fois non, paquet de bug que je ne sais pas d'où ils viennent par rapport aux mouvements du player, les murs apparaisent n'importe comment depuis l'implentation de la nouvelle salle avec un placher foutument glitché. Trop fatigué pour tomber à l'infini ou voir un autre message d'erreur et un point d'arrêt...
+#Lundi 27 avril (10:00 à 13:00)
+	Travail sur le faux mur et porte pour les ajuster pour les faire marcher avec les portes en angles. Il manque les angles qui marche et la position des portes sur le faux mur. Beaucoup d'essaie erreur et de lignes commentées.
