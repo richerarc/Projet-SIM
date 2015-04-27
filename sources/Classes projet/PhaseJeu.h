@@ -9,14 +9,11 @@ private:
 	gfx::Texte2D* texte;
 	Objet* objetVise;
 
-	bool toucheRelache;
-
 	void appliquerPhysique(float frameTime) {
-		if (joueur->obtVitesse().norme() != 0) {
+ 		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
-				if (joueur->obtEtat() != STABLE && joueur->obtEtat() != MARCHE)
+				if (joueur->obtEtat() != STABLE)
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-				joueur->longer();
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			}
 			else{
@@ -26,13 +23,9 @@ private:
 					if (Physique::obtInstance().collisionAuSol(Carte::obtInstance().salleActive, joueur)){
 						joueur->defEtat(STABLE);
 						joueur->obtVitesse().y = 0.f;
-						joueur->obtVitesse().x = 0.f;
-						joueur->obtVitesse().z = 0.f;
 					}
-					else {
-						joueur->obtVitesse().x = 0.f;
-						joueur->obtVitesse().z = 0.f;
-					}
+					joueur->obtVitesse().x = 0.f;
+					joueur->obtVitesse().z = 0.f;
 				}
 
 			}
@@ -63,7 +56,6 @@ private:
 public:
 
 	PhaseJeu() : Phase(){
-		toucheRelache = false;
 		joueur = new Joueur(Vecteur3d(-1, 0, 0));
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D("123", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
@@ -85,19 +77,13 @@ public:
 
 
 		if (detectionObjet()){
-			if (Clavier::toucheAppuyee(SDLK_e))
-				toucheRelache = true;
-			if (Clavier::toucheRelachee(SDLK_e) && toucheRelache == true){// Touche relachée bientôt...
+			if (Clavier::toucheAppuyee(SDLK_e)){// Touche relachée bientôt...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
-
 				}
 				else{
 					objetVise->appliquerAction(Interagir);
-
 				}
-				toucheRelache = false;
-
 			}
 		}
 

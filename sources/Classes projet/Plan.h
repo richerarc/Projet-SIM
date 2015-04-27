@@ -51,7 +51,7 @@ public:
 		return normale;
 	}
 
-	Vecteur3d obtenirD() {
+	double obtenirD() {
 		return d;
 	}
 };

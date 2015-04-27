@@ -2,8 +2,7 @@
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
 
-
-enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
+enum etat { STABLE, ACCROUPI, COURSE, MARCHE, SAUT, CHUTE };
 enum modele { MODELEDEBOUT, MODELEACCROUPI };
 
 class Joueur {
@@ -33,7 +32,7 @@ public:
 		masse = 87.f;
 		santePhysique = 100;
 		santeMentale = 100;
-		vitesse = { 0, -1.f, 0 };
+		vitesse = { 0, 0, 0 };
 		bloque = false;
 		listeCamera[MODELEDEBOUT] = new gfx::Camera;
 		listeCamera[MODELEACCROUPI] = new gfx::Camera;
@@ -43,7 +42,6 @@ public:
 		modele3D = listeModele3D[MODELEDEBOUT];
 		listeModele3D[MODELEDEBOUT]->defPosition(position);
 		listeModele3D[MODELEACCROUPI]->defPosition(position);
-		ajouterScene();
 	}
 
 	~Joueur() {
@@ -55,14 +53,13 @@ public:
 
 	void deplacement(float frametime){
 		if (!bloque){
-			if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && etat != SAUT/*&& (etat == STABLE || etat == MARCHE || etat == ACCROUPI)*/){
-				vitesse.x = 0.f;
-				vitesse.z = 0.f;
-				vitesse.y = 0.f;
-				/*if (vitesse.y == 0){
+			if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
+				vitesse.x = 0;
+				vitesse.z = 0;
+				if (vitesse.y == 0){
 					etat = STABLE;
 					vitesse.y = 0.f;
-					}*/
+					}
 				etat = STABLE;
 			}
 
@@ -149,7 +146,7 @@ public:
 
 				if (Clavier::toucheAppuyee(SDLK_SPACE) && etat != ACCROUPI) {
 					vitesse.y = 5;
-					etat = SAUT;
+					etat = CHUTE;
 				}
 			}
 		}
@@ -254,6 +251,8 @@ public:
 	}
 
 	void ajouterScene(){ gfx::Gestionnaire3D::obtInstance().defCamera(camera); }
+
+	void defVitesseY(double y){ this->vitesse.y = y; }
 
 	void defPosition(Vecteur3d pos){
 		this->position = pos;

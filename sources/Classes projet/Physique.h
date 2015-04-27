@@ -597,8 +597,9 @@ public:
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
-				joueur->defPointCollision(pointCollision);
 				joueur->defNormale(normale);
+				joueur->defPointCollision(pointCollision);
+				ajusterVitesse(joueur);
 				return true;
 			}
 		}
@@ -621,6 +622,7 @@ public:
 				if (normale.y > normale.x && normale.y > normale.z) {
 					joueur->defNormale(normale);
 					joueur->defPointCollision(pointCollision);
+					ajusterVitesse(joueur);
 					return true;
 				}
 			}
@@ -629,8 +631,19 @@ public:
 	}
 
 	/*Peut etre faire directement dans^collision au sol et utiliser directement normale et point de collision au lieu de joueur et salle...*/
-	Vecteur3d ajusterVitesse(Joueur* joueur, Salle* salle){
-
+	void ajusterVitesse(Joueur* joueur){
+		Plan plan(joueur->obtPointCollision(), joueur->obtNormale());
+		Vecteur3d normale = plan.obtenirNormale();
+		Vecteur3d point = (joueur->obtVitesse() + joueur->obtPosition());
+		normale.normaliser();
+		Vecteur3d vecteurV = point - joueur->obtPointCollision();
+		double d = vecteurV.produitScalaire(normale);
+		Vecteur3d vitesseProjetee = ((point - (normale * d)) - joueur->obtPosition());
+		//Vecteur3d normale = plan.obtenirNormale();
+		//Vecteur3d vitesseTemp = joueur->obtVitesse() -normale;
+		vitesseProjetee.normaliser();
+		Vecteur3d bacon = vitesseProjetee * joueur->obtVitesse().norme();
+		joueur->defVitesseY(bacon.y);
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
@@ -648,8 +661,6 @@ public:
 			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
 				joueur->defPosition(joueur->obtPosition() + pointDiference);
-				joueur->defNormale(normale);
-				joueur->defPointCollision(pointCollision);
 				return true;
 			}
 		}
