@@ -23,10 +23,19 @@ public:
 
 	}
 
-	void rafraichir(){
+	void rafraichir(float frameTime){
 
-		menuGraphique->actualiser();
+	}
 
+	void remplir(void) {
+
+		menuGraphique->remplir();
+
+	}
+
+	void defPause(bool pause) {
+		menuGraphique->defPause(pause);
+		this->pause = pause;
 	}
 
 

@@ -23,11 +23,18 @@ public:
 
 	}
 
-	void rafraichir(){
-
-		menuSon->actualiser();
+	void rafraichir(float frameTime) {
 
 	}
 
+	void remplir() {
+
+		menuSon->remplir();
+
+	}
+	void defPause(bool pause) {
+		menuSon->defPause(pause);
+		this->pause = pause;
+	}
 
 };

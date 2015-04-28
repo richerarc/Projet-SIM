@@ -62,6 +62,7 @@ private:
 			}
 
 			plan.calculerPlan(point1, point2, point3);
+
 			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
 
 			if (!enGenerationPorte) {
@@ -81,7 +82,7 @@ private:
 				}
 			}
 			else
-			{
+			
 				if (abs(normale.y) <= 0.05) {
 					if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
@@ -546,7 +547,7 @@ public:
 			normale.normaliser();
 			double angle;
 			int signe;
-			
+
 			if ((abs(normale.x) + abs(normale.z)) != 1) {
 				if (abs(objet.obtVitesse().x) > 0) {
 					switch ((int)objet.obtVitesse().x) {
@@ -657,7 +658,7 @@ public:
 				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
-				ajusterVitesse(joueur);
+				//ajusterVitesse(joueur);
 				return true;
 			}
 		}
@@ -677,15 +678,16 @@ public:
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
-				if (normale.y > normale.x && normale.y > normale.z) {
+				if(collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false))
+				if (normale.y > normale.x && normale.y > normale.z && normale.y != 0) {
 					joueur->defNormale(normale);
 					joueur->defPointCollision(pointCollision);
-					ajusterVitesse(joueur);
+					//ajusterVitesse(joueur);
 					return true;
 				}
 			}
-			return false;
 		}
+		return false;
 	}
 
 	/*Peut etre faire directement dans^collision au sol et utiliser directement normale et point de collision au lieu de joueur et salle...*/

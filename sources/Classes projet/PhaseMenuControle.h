@@ -23,11 +23,21 @@ public:
 
 	}
 
-	void rafraichir(){
-
-		menuControle->actualiser();
+	void rafraichir(float frameTime){
 
 	}
 
+	void remplir(void) {
+
+		menuControle->remplir();
+
+	}
+
+	void defPause(bool pause) {
+
+		menuControle->defPause(pause);
+		this->pause = pause;
+
+	}
 
 };

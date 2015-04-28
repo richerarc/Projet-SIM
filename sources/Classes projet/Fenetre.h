@@ -40,6 +40,8 @@ namespace gfx{
 
 		Vecteur2ui obtTaille(){ return taille; }
 
+		double obtRatio(){ return (double)taille.x / (double)taille.y; }
+
 		void defModeVideo(ModeVideo mv){
 			this->taille = Vecteur2ui(mv.l, mv.h);
 			bool tmpFs = fenetrePleinEcran;

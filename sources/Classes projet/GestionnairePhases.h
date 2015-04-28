@@ -1,5 +1,6 @@
 #pragma once 
 #include "Phase.h"
+#include  <stack>
 
 class GestionnairePhases : public Singleton<GestionnairePhases>{
 public:
@@ -8,7 +9,7 @@ public:
 	}
 
 	~GestionnairePhases(){
-		while (phases.size() != 0){
+		while (phases.size() != 0) {
 			delete phases.back();
 			phases.pop_back();
 		}
@@ -18,9 +19,24 @@ public:
 		phases.push_back(phase);
 	}
 
+	void enleverPhaseActive() {
+		phaseActive.pop();
+	}
+
 	void retirerPhase(){
 		delete phases.back();
 		phases.pop_back();
+	}
+
+	void viderPhaseActive() {
+		
+		for (int i = phaseActive.size(); i > 0; --i)
+			phaseActive.pop();
+
+	}
+
+	void defPhaseActive(int index) {
+		phaseActive.push(obtPhase(index));
 	}
 
 	Phase* obtPhase(int index){
@@ -38,8 +54,14 @@ public:
 	}
 
 	void rafraichir(float frameTime){
-			phases.back()->rafraichir(frameTime);
+			phaseActive.top()->rafraichir(frameTime);
+	}
+	Phase* obtPhaseActive(){
+		if (phaseActive.size() > 0)
+			return phaseActive.top();
+		return nullptr;
 	}
 private:
 	std::list<Phase*> phases;
+	std::stack<Phase*> phaseActive;
 };

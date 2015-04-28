@@ -24,11 +24,16 @@ public:
 
 	void rafraichir(float frameTime){
 
-		menuPause->actualiser();
-
 	}
 
 	void remplir() {
 
+		menuPause->remplir();
+
+	}
+
+	void defPause(bool pause) {
+		menuPause->defPause(pause);
+		this->pause = pause;
 	}
 };

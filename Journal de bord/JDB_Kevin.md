@@ -239,3 +239,10 @@ J'ai fais quelques modifications avec Nathan pour le déplacement du joueur, nou
 Aujourd'hui j'ai tenter en vain de replacer la physique pour faire tomber le joueur selon la gravité. Nathan a finalement trouvé la réponse. De plus j'ai trouvé un moyen de le faire monter la pente. Je voulais éviter d'imjplémenter la projection mais je dois me rendre a l'évidence, on n'a pas le choix, c'est le seul moyen.
 
 **Temps 1h30**
+
+##**`28 Avril 2015`**
+
+Aujourd'hui j'ai tenté avec Nathan de regler le déplacement du joueur dans une pente sans succes. J'ai aussi fait du menage et du réglage de bugs. J'ai revert quelques de nos commits sur le joueur quand j'ai remarqué que nous avions causé plus de marde que de bien. Le déplacement sur les surfaces planes sont quasi parfaits. Encore quelques réglages comme comprendre pourquoi le joueur passe a travers les murs quand l'angle est petit...
+Nous allons devoir trouver un moyen de faire marcher l'Ajustement de la vitesse selon le plan de la face de collision pour permettre un déplacement en pente. Il va falloir aussi trouver un moyen de monter dans des escaliers...  
+
+**Temps: Beaucoup trop...** (4h)
