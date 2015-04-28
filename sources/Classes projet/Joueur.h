@@ -340,5 +340,5 @@ public:
 
 	int obtEtat(){ return etat; }
 
-
+	Vecteur3d& obtVectOrientationVue() { return camera->obtDevant(); }
 };
