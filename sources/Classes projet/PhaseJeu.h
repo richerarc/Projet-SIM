@@ -1,4 +1,7 @@
 #pragma once
+#include <stack>
+#include <list>
+#include <math.h>
 #include "PhaseMenuPause.h"
 
 class PhaseJeu : public Phase{
@@ -9,13 +12,47 @@ private:
 	gfx::Texte2D* texte;
 	Objet* objetVise;
 	bool toucheRelachee;
-
+	std::stack<unsigned int> cheminRecursif;
+	std::list<unsigned int> cheminLogique;
+	double iterateur_x, iterateur_z;
+	int sensPrecedent, sensActuel;
+	
+	double exponentielle(double a, double b, double h, double k, double x, int limite){
+		double temp = a * pow(M_E, b * (x - h)) + k;
+		if (temp < limite){
+			return temp;
+		}
+		return limite;
+	}
+	
+	void santeMentale(){
+		double pourcentagePerdu(0);
+		if (cheminRecursif.size() > 1){
+			pourcentagePerdu += exponentielle(1, 0.2f, 0, -1, cheminRecursif.size(), 5);
+		}
+		int idActif = cheminLogique.front();
+		std::list<unsigned int>::iterator it = cheminLogique.begin();
+		for (++it; it != cheminLogique.end(); ++it){
+			if (((*it) == idActif) && ((iterateur_x > 2.5f) || (iterateur_z > 2.5))){
+				pourcentagePerdu += exponentielle(1, -0.5f, -3.8f, -1, cheminLogique.size(), 5);
+				cheminLogique.erase(cheminLogique.begin(), --it);
+				iterateur_x = 0;
+				iterateur_z = 0;
+				break;
+			}
+		}
+		joueur->defSanteMentale((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f));
+	}
+	
+	
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
 				if (joueur->obtEtat() != STABLE)
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
+				iterateur_x += joueur->obtVitesse().x * frameTime;
+				iterateur_z += joueur->obtVitesse().z * frameTime;
 			}
 			else{
 				if (joueur->obtEtat() != CHUTE)
@@ -64,6 +101,10 @@ public:
 		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
 		
 		Carte::obtInstance().creer(20);
+		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
+		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
+		iterateur_x = 0;
+		iterateur_z = 0;
 	}
 
 	void rafraichir(float frameTime) {
@@ -74,10 +115,7 @@ public:
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			detectionObjet();
-			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
-			ControlleurAudio::obtInstance().jouer(PAS, joueur);
-			detectionObjet();
-			ControlleurAudio::obtInstance().jouerTout(joueur);
+			//ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
@@ -88,13 +126,26 @@ public:
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			joueur->deplacement(frameTime);
+			appliquerPhysique(frameTime);
+			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
+			ControlleurAudio::obtInstance().jouer(PAS, joueur);
+			detectionObjet();
+			ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
 
 		if (detectionObjet()){
-			if (Clavier::toucheAppuyee(SDLK_e) && toucheRelachee){// Touche relachée bientôt...
+			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relachée bientôt...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
+						for (int i = 0; i < cheminRecursif.size(); ++i)
+							cheminRecursif.pop();
+					}
+					cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
+					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
+					santeMentale();
 				}
 				else{
 					objetVise->appliquerAction(Interagir);
