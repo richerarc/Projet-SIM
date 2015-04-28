@@ -468,20 +468,20 @@ public:
 		double y = fabs(normale.y);
 		double z = fabs(normale.z);
 
-		if (x > y && x > z) {
+		if (x >= y && x >= z) {
 
 			vect0 = Vecteur2d(v0.y, v0.z);
 			vect1 = Vecteur2d(v1.y, v1.z);
 			vect2 = Vecteur2d(v2.y, v2.z);
 		}
 
-		if (y > x && y > z) {
+		if (y >= x && y >= z) {
 
 			vect0 = Vecteur2d(v0.x, v0.z);
 			vect1 = Vecteur2d(v1.x, v1.z);
 			vect2 = Vecteur2d(v2.x, v2.z);
 		}
-		if (z > x && z > y) {
+		if (z >= x && z >= y) {
 
 			vect0 = Vecteur2d(v0.x, v0.y);
 			vect1 = Vecteur2d(v1.x, v1.y);
