@@ -77,7 +77,7 @@ public:
 
 	Salle *salleActive;
 
-	void destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur& joueur) {
+	int destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur& joueur) {
 
 		delete salleActive;
 
@@ -94,65 +94,23 @@ public:
 		// Positionnement du joueur...
 		auto it = (*debut).Objet.begin();
 		std::advance(it, std::get<1>(pieceSuivante));
-		Vecteur3d vecteur;
 		Vecteur3d vecteurMur;
-		//switch ((int)(*it).rotation) { // Enlever les switch et calculer en fonction des angles et it = porte.
-		//case 0:
-		//	vecteur = { (*it).position.x + 1.2, (*it).position.y, (*it).position.z - 0.5 };
-		//	joueur.defPosition((*it).position);
-		//	vecteurMur = { (*it).position.x + 2.5, (*it).position.y, (*it).position.z };
-		//	modeleMur->defOrientation(0, 0, 0);
-		//	modelePorte->defOrientation(0, 0, 0);
-		//	modeleMur->defOrientation(0, (*it).rotation, 0);
-		//	modelePorte->defOrientation(0, (*it).rotation + 180, 0);
-		//	modeleMur->defPosition(vecteurMur);
-		//	modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z - 1.0);
-		//	break;
-		//case 90:
-		//	vecteur = { (*it).position.x - 0.5, (*it).position.y, (*it).position.z - 1.2 };
-		//	joueur.defPosition((*it).position);
-		//	vecteurMur = { (*it).position.x, (*it).position.y, (*it).position.z - 2.5 };
-		//	modeleMur->defOrientation(0, 0, 0);
-		//	modelePorte->defOrientation(0, 0, 0);
-		//	modeleMur->defOrientation(0, (*it).rotation, 0);
-		//	modelePorte->defOrientation(0, -(*it).rotation, 0);
-		//	modeleMur->defPosition(vecteurMur);
-		//	modelePorte->defPosition(vecteurMur.x - 1.0, vecteurMur.y, vecteurMur.z);
-		//	break;
-		//case -90:
-		//	vecteur = { (*it).position.x + 0.5, (*it).position.y, (*it).position.z + 1.2 };
-		//	joueur.defPosition((*it).position);
-		//	vecteurMur = { (*it).position.x, (*it).position.y, (*it).position.z + 2.5 };
-		//	modeleMur->defOrientation(0, 0, 0);
-		//	modelePorte->defOrientation(0, 0, 0);
-		//	modeleMur->defOrientation(0, (*it).rotation, 0);
-		//	modelePorte->defOrientation(0, -(*it).rotation, 0);
-		//	modeleMur->defPosition(vecteurMur);
-		//	modelePorte->defPosition(vecteurMur.x + 1.0, vecteurMur.y, vecteurMur.z);
-		//	break;
-		//case 180:
-		//	vecteur = { (*it).position.x - 1.2, (*it).position.y, (*it).position.z + 0.5 };
-		//	joueur.defPosition((*it).position);
-		//	vecteurMur = { (*it).position.x - 2.5, (*it).position.y, (*it).position.z };
-		//	modeleMur->defOrientation(0, 0, 0);
-		//	modelePorte->defOrientation(0, 0, 0);
-		//	modeleMur->defOrientation(0, (*it).rotation, 0);
-		//	modelePorte->defOrientation(0, (*it).rotation - 180, 0);
-		//	modeleMur->defPosition(vecteurMur);
-		//	modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z + 1.0);
-		//	break;
-		//}
 
-
-		//joueur.defAngleHorizontal(-joueur.obtHAngle());
 		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
 		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
 		modeleMur->defPosition(vecteurMur);
-		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x)); // Probs ici
+		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x));
 		modeleMur->defOrientation(0, (*it).rotation, 0);
-		modelePorte->defOrientation(0, (*it).rotation + 180, 0); // Angles pas legit gotta fix it.
-		//joueur.defAngleHorizontal();
+		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
+		//Les deleter.
+		//objetMur = new ObjetFixe(modeleMur, 1000000, "metal", modeleMur->obtPosition(), {0,0,0},false,false);
+		//objetPorte = new ObjetFixe(modelePorte, 1000001, "metal", modelePorte->obtPosition(),{0,0,0},false,false);
+		//Modifier vitesse moi même.
+		//salleActive->ajoutObjet(objetMur);
+		//salleActive->ajoutObjet(objetPorte);
+		//Angle du
 		joueur.defPosition(vecteur);
+		return std::get<1>(pieceSuivante);
 	}
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
