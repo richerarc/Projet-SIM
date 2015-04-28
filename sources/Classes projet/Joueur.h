@@ -2,7 +2,7 @@
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
 
-enum etat { STABLE, ACCROUPI, COURSE, MARCHE, SAUT, CHUTE };
+enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
 enum modele { MODELEDEBOUT, MODELEACCROUPI };
 
 class Joueur {
@@ -20,6 +20,7 @@ private:
 	Vecteur3d normale;
 	Vecteur3d pointCollision;
 	bool bloque;
+	Chrono chronoSaut;
 
 public:
 
@@ -42,6 +43,7 @@ public:
 		modele3D = listeModele3D[MODELEDEBOUT];
 		listeModele3D[MODELEDEBOUT]->defPosition(position);
 		listeModele3D[MODELEACCROUPI]->defPosition(position);
+		chronoSaut = Chrono();
 	}
 
 	~Joueur() {
@@ -54,40 +56,40 @@ public:
 	void deplacement(float frametime){
 		if (!bloque){
 			if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
-				vitesse.x = 0;
-				vitesse.z = 0;
+				vitesse.x = 0.f;
+				vitesse.z = 0.f;
 				if (vitesse.y == 0){
 					etat = STABLE;
 					vitesse.y = 0.f;
-					}
+				}
 				etat = STABLE;
 			}
 
-			if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0)
+			if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
 				etat = STABLE;
+			}
 
-			Vecteur3d cote = camera->obtCote();
+
 			Vecteur3d devant = camera->obtDevant();
-			Vecteur3d vitesseTemp;
 			devant.y = 0;
+			Vecteur3d cote = camera->obtCote();
 			cote.y = 0;
-
-			if (Clavier::toucheRelachee(SDLK_LSHIFT) && vitesseDeplacement != 4.f && etat != ACCROUPI)
+			Vecteur3d vitesseTemp;
+			if (Clavier::toucheRelachee(SDLK_LSHIFT) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
 				vitesseDeplacement = 4.f;
 
 			if (etat != SAUT && etat != CHUTE) {
-				if (Clavier::toucheAppuyee(SDLK_LSHIFT) && etat != ACCROUPI && vitesseDeplacement != 8.f)
-					vitesseDeplacement = 9.f;
+				if (Clavier::toucheAppuyee(SDLK_LSHIFT) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
+					vitesseDeplacement = 8.f;
 
-				else if (Clavier::toucheAppuyee(SDLK_LCTRL) && (etat != ACCROUPI)) {
+				else if (Clavier::toucheAppuyee(SDLK_LCTRL) && (camera != listeCamera[MODELEACCROUPI])) {
 					camera = listeCamera[MODELEACCROUPI];
 					modele3D = listeModele3D[MODELEACCROUPI];
 					ajouterScene();
-					etat = ACCROUPI;
 					vitesseDeplacement = 2.f;
 				}
 
-				else if (Clavier::toucheRelachee(SDLK_LCTRL) && (etat == ACCROUPI || etat == STABLE || etat == MARCHE)) {
+				else if (Clavier::toucheRelachee(SDLK_LCTRL) && camera != listeCamera[MODELEDEBOUT]) {
 					camera = listeCamera[MODELEDEBOUT];
 					modele3D = listeModele3D[MODELEDEBOUT];
 					ajouterScene();
@@ -96,29 +98,20 @@ public:
 				}
 
 				if (Clavier::toucheAppuyee(SDLK_w)){
-					etat = MARCHE;
-					vitesse.x = devant.x * vitesseDeplacement;
-					vitesse.z = devant.z * vitesseDeplacement;
+					vitesse = devant * vitesseDeplacement;
 					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(SDLK_d)) {
-							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-						}
+						if (Clavier::toucheAppuyee(SDLK_d))
+							vitesse = vitesse + (cote * vitesseDeplacement);
 
 						else if (Clavier::toucheAppuyee(SDLK_a)) {
-							vitesseTemp.x = cote.x * vitesseDeplacement;
-							vitesseTemp.z = cote.z * vitesseDeplacement;
-							vitesseTemp.x = -vitesseTemp.x;
-							vitesseTemp.z = -vitesseTemp.z;
-							vitesse.x = vitesse.x + vitesseTemp.x;
-							vitesse.z = vitesse.z + vitesseTemp.z;
+							vitesseTemp = cote * vitesseDeplacement;
+							vitesseTemp.inverser();
+							vitesse = vitesse + vitesseTemp;
 						}
 					}
-
 				}
 
 				else if (Clavier::toucheAppuyee(SDLK_s)) {
-					etat = MARCHE;
 					vitesse = devant * vitesseDeplacement;
 					vitesse.inverser();
 					if (vitesseDeplacement < 5) {
@@ -134,19 +127,21 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(SDLK_a)) {
-					etat = MARCHE;
 					vitesse = cote * vitesseDeplacement;
 					vitesse.inverser();
 				}
 
 				else if (Clavier::toucheAppuyee(SDLK_d)){
-					etat = MARCHE;
 					vitesse = cote * vitesseDeplacement;
 				}
 
-				if (Clavier::toucheAppuyee(SDLK_SPACE) && etat != ACCROUPI) {
-					vitesse.y = 5;
-					etat = CHUTE;
+				if (Clavier::toucheAppuyee(SDLK_SPACE) && (camera != listeCamera[MODELEACCROUPI])) {
+					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.5))
+					{
+						chronoSaut.repartir();
+						vitesse.y = 5;
+						etat = SAUT;
+					}
 				}
 			}
 		}
@@ -292,7 +287,7 @@ public:
 
 	bool obtBloque(){ return bloque; }
 
-	double obtHAngle(){ return camera->obtHAngle(); }
+	double obtAngleHorizontal(){ return camera->obtHAngle(); }
 
 	Vecteur3d& obtNormale(){ return this->normale; }
 

@@ -48,14 +48,14 @@ public:
 	static void demarrer(){
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
-		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		//ControlleurAudio::obtInstance().initialiser(100);
+		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		ControlleurAudio::obtInstance().initialiser(100);
 		
 		GestionnaireControle::obtInstance().lireControle("Controle.txt");
 
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
 		Rect<float>::defDimension(1280, 720);
-		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
+		gfx::Gestionnaire3D::obtInstance().defFrustum(45, fenetre->obtRatio(), 1, 1000);
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());		//0
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//1
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());		//2

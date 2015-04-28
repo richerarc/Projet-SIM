@@ -599,7 +599,7 @@ public:
 				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
-				ajusterVitesse(joueur);
+				//ajusterVitesse(joueur);
 				return true;
 			}
 		}
@@ -619,15 +619,16 @@ public:
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
-				if (normale.y > normale.x && normale.y > normale.z) {
+				if(collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false))
+				if (normale.y > normale.x && normale.y > normale.z && normale.y != 0) {
 					joueur->defNormale(normale);
 					joueur->defPointCollision(pointCollision);
-					ajusterVitesse(joueur);
+					//ajusterVitesse(joueur);
 					return true;
 				}
 			}
-			return false;
 		}
+		return false;
 	}
 
 	/*Peut etre faire directement dans^collision au sol et utiliser directement normale et point de collision au lieu de joueur et salle...*/
