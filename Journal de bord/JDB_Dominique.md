@@ -45,3 +45,5 @@
 24/04/2015 (10h45 à 11h40) : J'ai ajouté des données membres dont Kevin avait besoin, puis j'ai continuer à debugger mon code pour longer suite au nouveau déplacement de Kevin/Nathan.
 
 27/04/2015 (11h30 à 12h55) : J'ai continué à faire le longement, qui n'a maintenant plus que 2 bugs. Ceux-ci dépendent en partie des futures fonctions de Kevin/Nathan, donc je ne commit rien pour l'instant.
+
+28/04/2015 (13h00 à 15h00) : J'ai ajouté du code pour mieux vérifier si le personnage peut interagir avec une porte, car pour l'instant ce n'est basé que sur la proximité. Je ne l'ai pas commit parce que ce n'est pas tout à fait complet, je le finierai demain matin.
