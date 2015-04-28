@@ -75,12 +75,25 @@ private:
 		bool objetDetecte = false;
 
 		for (auto it : liste) {
-			if (Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) {
-				texte->defTexte(new std::string("Press E to open the door"));
+			Porte* it_Porte = dynamic_cast<Porte*>(it);
+			ObjetFixe* it_ObjFixe = dynamic_cast<ObjetFixe*>(it);
+			Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtVectOrientationVue());
+			if ((Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Physique::obtInstance().vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
+				//if (Physique::obtInstance().collisionDroiteObjet(*it, VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0))) {
+				//if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0), true)){
+				std::string str1 = "Press ";
+				str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
+
+				if (it_Porte != nullptr){
+					str1.append(" to open door.");
+				}
+				else if (it_ObjFixe != nullptr)
+					str1.append(" to pick up.");
+				//	const char* chr1 = str1.c_str();
+				texte->defTexte(&str1);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
-				objetVise = it;
-				return objetDetecte;
+				//}
 			}
 		}
 
