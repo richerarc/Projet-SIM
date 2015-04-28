@@ -166,8 +166,8 @@ public:
 					}
 				}
 			}
+			modele3D->defOrientation(0, (camera->obtHAngle()), 0);
 		}
-		modele3D->defOrientation(0, (camera->obtHAngle()), 0);
 	}
 
 	/* by Sam
