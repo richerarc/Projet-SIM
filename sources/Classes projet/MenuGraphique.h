@@ -152,4 +152,13 @@ public:
 		}
 	}
 
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		this->spriteFond->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
+		resolution->defEchelle(vecteurEchelle);
+		flecheGauche->defEchelle(vecteurEchelle);
+		flecheDroite->defEchelle(vecteurEchelle);
+		appliquer->defEchelle(vecteurEchelle);
+	}
+
 };

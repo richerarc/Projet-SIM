@@ -79,4 +79,12 @@ public:
 
 	}
 
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		this->spriteFond->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
+		volumeJeu->defEchelle(vecteurEchelle);
+		volumeFond->defEchelle(vecteurEchelle);
+
+	}
+
 };

@@ -177,5 +177,9 @@ public:
 	void defPause(bool pause) {
 		this->pause = pause;
 	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		//gfx::Gestionnaire3D::obtInstance().defFrustum(45, vecteurEchelle.x, 1, 1000);
+	}
 };
 

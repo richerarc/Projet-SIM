@@ -37,6 +37,12 @@ public:
 			Vecteur2f(530, 120),
 			new std::string("Hardcore"), 20);
 
+		this->retour = new Bouton(std::bind(&MenuNouvellePartie::enClicRetour, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::survol, this, std::placeholders::_1),
+			std::bind(&MenuNouvellePartie::defaut, this, std::placeholders::_1),
+			Vecteur2f(730, 120),
+			new std::string("Back"), 20);
+
 		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 50), Vecteur2f(100, 180));
 		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
@@ -73,6 +79,10 @@ public:
 		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 	}
 
+	void enClicRetour(Bouton* envoi) {
+		clicRetour();
+	}
+
 	void remplir(void) {
 
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, choisirDiff });
@@ -97,6 +107,15 @@ public:
 			normal->defEtat(DEFAUT);
 			difficile->defEtat(DEFAUT);
 		}
+	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		this->spriteFond->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
+		choisirDiff->defEchelle(vecteurEchelle);
+		facile->defEchelle(vecteurEchelle);
+		normal->defEchelle(vecteurEchelle);
+		difficile->defEchelle(vecteurEchelle);
 	}
 
 };

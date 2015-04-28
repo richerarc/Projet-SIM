@@ -37,4 +37,8 @@ public:
 		menuNouvellePartie->defPause(pause);
 		this->pause = pause;
 	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		menuNouvellePartie->actualiserEchelle(vecteurEchelle);
+	}
 };

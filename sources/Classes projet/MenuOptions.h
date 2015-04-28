@@ -105,5 +105,13 @@ public:
 		}
 
 	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		this->retour->defEchelle(vecteurEchelle);
+		this->spriteFond->defEchelle(vecteurEchelle);
+		son->defEchelle(vecteurEchelle);
+		graphique->defEchelle(vecteurEchelle);
+		controle->defEchelle(vecteurEchelle);
+	}
 	
 };

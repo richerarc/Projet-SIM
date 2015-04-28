@@ -51,6 +51,8 @@ namespace gfx{
 
 			glEnd();
 
+			glScaled(this->echelle.x, this->echelle.y, 1);
+
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_BLEND);
 			glMatrixMode(GL_PROJECTION);

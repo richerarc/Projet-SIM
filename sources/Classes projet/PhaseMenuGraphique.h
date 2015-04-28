@@ -38,5 +38,8 @@ public:
 		this->pause = pause;
 	}
 
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		menuGraphique->actualiserEchelle(vecteurEchelle);
+	}
 
 };

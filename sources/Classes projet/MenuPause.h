@@ -92,4 +92,12 @@ public:
 			retour->defEtat(DEFAUT);
 		}
 	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		options->defEchelle(vecteurEchelle);
+		quitter->defEchelle(vecteurEchelle);
+		this->spriteFond->defEchelle(vecteurEchelle);
+		quitter->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
+	}
 };

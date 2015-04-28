@@ -94,4 +94,12 @@ public:
 
 	}
 
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		this->spriteFond->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
+		demarrer->defEchelle(vecteurEchelle);
+		options->defEchelle(vecteurEchelle);
+		logo->defEchelle(vecteurEchelle);
+	}
+
 };

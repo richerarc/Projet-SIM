@@ -15,6 +15,7 @@ protected:
 public:
 	virtual void remplir() = 0;
 	virtual void defPause(bool pause) = 0;
+	virtual void actualiserEchelle(Vecteur2f vecteurEchelle) = 0;
 
 	void clic(TypeMenu type) {
 		gfx::Gestionnaire2D::obtInstance().vider();

@@ -267,4 +267,32 @@ public:
 	void defPause(bool pause) {
 		this->pause = pause;
 	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		Enregistrer->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
+		this->spriteFond->defEchelle(vecteurEchelle);
+
+		avancer->defEchelle(vecteurEchelle);
+		reculer->defEchelle(vecteurEchelle);
+		droite->defEchelle(vecteurEchelle);
+		gauche->defEchelle(vecteurEchelle);
+		sauter->defEchelle(vecteurEchelle);
+		accroupir->defEchelle(vecteurEchelle);
+		courir->defEchelle(vecteurEchelle);
+		tirer->defEchelle(vecteurEchelle);
+		utiliser->defEchelle(vecteurEchelle);
+		inventaire->defEchelle(vecteurEchelle);
+
+		ctrlAvancer->defEchelle(vecteurEchelle);
+		ctrlReculer->defEchelle(vecteurEchelle);
+		ctrlDroite->defEchelle(vecteurEchelle);
+		ctrlGauche->defEchelle(vecteurEchelle);
+		ctrlSauter->defEchelle(vecteurEchelle);
+		ctrlAccroupir->defEchelle(vecteurEchelle);
+		ctrlCourir->defEchelle(vecteurEchelle);
+		ctrlTirer->defEchelle(vecteurEchelle);
+		ctrlUtiliser->defEchelle(vecteurEchelle);
+		ctrlInventaire->defEchelle(vecteurEchelle);
+	}
 };

@@ -40,4 +40,8 @@ public:
 
 	}
 
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		menuControle->actualiserEchelle(vecteurEchelle);
+	}
+
 };

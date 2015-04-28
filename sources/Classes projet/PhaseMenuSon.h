@@ -37,4 +37,8 @@ public:
 		this->pause = pause;
 	}
 
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		menuSon->actualiserEchelle(vecteurEchelle);
+	}
+
 };

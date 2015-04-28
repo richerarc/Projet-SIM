@@ -53,6 +53,8 @@ namespace gfx{
 			glVertex2f(position.x, surface->h + position.y); //4
 			glEnd();
 			
+			glScaled(this->echelle.x, this->echelle.y, 1);
+
 			glTranslatef(position.x - origine.x, position.y - origine.y, 0.0f);
 			glRotatef(orientation, 0.0f, 0.0f, 1.0f);
 			glTranslatef(origine.x, origine.y, 0.0f);
