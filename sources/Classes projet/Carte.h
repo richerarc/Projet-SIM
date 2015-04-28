@@ -28,6 +28,7 @@ private:
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
 	Vecteur3d vecteur;
+	Vecteur3d vecteurAide;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
@@ -96,21 +97,39 @@ public:
 		std::advance(it, std::get<1>(pieceSuivante));
 		Vecteur3d vecteurMur;
 
+		vecteurAide = { (*it).direction.x, (*it).direction.y, (*it).direction.z };
 		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
 		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
 		modeleMur->defPosition(vecteurMur);
 		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x));
 		modeleMur->defOrientation(0, (*it).rotation, 0);
 		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
-		//Les deleter.
-		//objetMur = new ObjetFixe(modeleMur, 1000000, "metal", modeleMur->obtPosition(), {0,0,0},false,false);
-		//objetPorte = new ObjetFixe(modelePorte, 1000001, "metal", modelePorte->obtPosition(),{0,0,0},false,false);
-		//Modifier vitesse moi même.
-		//salleActive->ajoutObjet(objetMur);
-		//salleActive->ajoutObjet(objetPorte);
-		//Angle du
 		joueur.defPosition(vecteur);
 		return std::get<1>(pieceSuivante);
+	}
+
+	void bougerMur(Joueur& joueur, float frameTime){
+		if ((vecteurAide.x != 0) && (vecteurAide.z != 0)){
+			if ((modeleMur->obtPosition().x == vecteur.x) && (modeleMur->obtPosition().z == vecteur.z)){
+				joueur.deBloquer();
+			}
+		}
+		if (vecteurAide.x != 0){
+			if (modeleMur->obtPosition().x == vecteur.x){
+				joueur.deBloquer();
+			}
+		}
+		if (vecteurAide.y != 0){
+			if (modeleMur->obtPosition().z == vecteur.z){
+				joueur.deBloquer();
+			}
+		}
+		if ((modeleMur->obtPosition().x != vecteur.x) && (modeleMur->obtPosition().z != vecteur.z)){
+			//joueur.bloquer();
+			modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
+			modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
+			modelePorte->rotationner(0, 0.5, 0);
+		}
 	}
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...

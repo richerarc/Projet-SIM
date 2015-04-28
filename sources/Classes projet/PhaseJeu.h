@@ -116,6 +116,7 @@ public:
 			appliquerPhysique(frameTime);
 			detectionObjet();
 			//ControlleurAudio::obtInstance().jouerTout(joueur);
+			Carte::obtInstance().bougerMur(*joueur, frameTime);
 		}
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
