@@ -97,4 +97,8 @@ public:
 
 	}
 
+	void defEchelle(Vecteur2f vecteurEchelle) {
+		texte->defEchelle(vecteurEchelle);
+	}
+
 };
