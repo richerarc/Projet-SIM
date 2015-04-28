@@ -133,3 +133,27 @@ Travail sur l'analyse des états de la classe Joueuroueur avec Kevin, Dominique,
 Travail sur le diagramme de classe pour la classe Joueur avec les même personnes. 
 Travail sur la classe Joueur (réglage des états du joueur, réglage des problème du joueur qui fait un mouvement de haut/bas quand il n'est pas en mouvement (collision avec le sol)) avec les mêmes personnes encore une fois.
 
+16 avril
+
+-environ 2 heures
+Travail avec Dominique et Samuel pour règler le problème du joueur qui collait au mur quand on sautait.
+
+21 avril
+
+-environ 3 heures
+Travail avec Kevin pour faire en sorte que le personnage puisse se mette accroupi, qu'il puisse courir. On a règlé quelques autres bug aussi.
+
+23 avril
+
+-environ 2 heures
+Kevin et moi avons continuer à travailler un peu sur les déplacement du joueur, ensuit on est partir voir Annie Bacon pour nous aider sur le problème du joueur qui se déplace sur une pente. Nous n'avons pas été capable de trouver une solution sur les projection orthogonale d'un vecteur sur un plan.
+
+24 avril
+
+-environ 1h30
+Kevin et moi avons travaillé sur le déplacement d'un joueur sur une pente, j'ai fini par trouver comment faire en sorte que le joueur puisse marcher et tomber en même temps, mais nos déplacement en on résulté à être extrêmement pas fluide.
+
+27 avril
+
+-environ 3 heures
+Kevin et moi avons continuer à travailer sur le déplacement du joueur dans une pente, c'est beaucoup plus complexe que ce que l'on pensait vu que l'on a fini par créer plein de problème dans les déplacement sur un plancher droit.
