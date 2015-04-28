@@ -48,8 +48,8 @@ public:
 	static void demarrer(){
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		TTF_Init();
-		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		//ControlleurAudio::obtInstance().initialiser(100);
+		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		ControlleurAudio::obtInstance().initialiser(100);
 		
 		GestionnaireControle::obtInstance().lireControle("Controle.txt");
 
@@ -66,10 +66,22 @@ public:
 		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+		
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
+		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
+		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
+
+		Rect<float>::defDimension(720);
 
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
 		{
+			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
+			if (phase != nullptr) {
+				char chr[100];
+				fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().salleActive->obtID(), chr, 10)));
+			}
 			frameTime = chrono.repartir().enSecondes();
 			while (fenetre->sonderEvenements(evenement))
 			{
@@ -94,12 +106,11 @@ public:
 		}
 		
 		delete fenetre;
-		//ControlleurAudio::obtInstance().fermer();
-		//Mix_CloseAudio();
+		ControlleurAudio::obtInstance().fermer();
+		Mix_CloseAudio();
 		TTF_Quit();
 		SDL_Quit();
 	}
-
 };
 
 gfx::Fenetre* Jeu::fenetre = nullptr;

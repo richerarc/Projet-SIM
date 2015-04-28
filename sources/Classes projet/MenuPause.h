@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Menu.h"
 #include "Sprite2D.h"
@@ -11,7 +12,7 @@ private:
 public:
 	MenuPause(void) : Menu() {
 		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
-		
+
 		options = new Bouton(std::bind(&MenuPause::enClicOptions, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),
 			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
@@ -56,7 +57,7 @@ public:
 		SDL_ShowCursor(SDL_DISABLE);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
-		gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->debloquer();
 	}
 
 	void enClicOptions(Bouton* sender){

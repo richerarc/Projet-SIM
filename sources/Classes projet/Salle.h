@@ -17,6 +17,15 @@ public:
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 
+	~Salle() {
+		gfx::Gestionnaire3D::obtInstance().retObjet(modele);
+		delete modele;
+		for (auto it : objets) {
+			gfx::Gestionnaire3D::obtInstance().retObjet(it->obtModele3D());
+			delete it;
+		}
+	}
+
 	unsigned int obtNbrPortes(){
 		return nbrPortes;
 	}

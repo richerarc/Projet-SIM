@@ -97,7 +97,7 @@ namespace graphe{
 				// pont 1
 			bool assigner(true);
 			int* sommet = nullptr;
-			int aleatoire = rand() % 15;
+			int aleatoire = rand() % sommetsRestant;
 			switch (aleatoire) {
 				case 14: case 13: case 12:
 					if (!sommet){
@@ -316,10 +316,10 @@ namespace graphe{
 						matrice[sommet[2] * nombreSommet + sommet[4]] += (arbresPonts[aleatoire])[14];
 						matrice[sommet[3] * nombreSommet + sommet[4]] += (arbresPonts[aleatoire])[19];
 						matrice[sommet[4] * nombreSommet + sommet[4]] += (arbresPonts[aleatoire])[24];
-						matrice[sommet[4] * nombreSommet + sommet[0]] += (arbresPonts[aleatoire])[20];
-						matrice[sommet[4] * nombreSommet + sommet[1]] += (arbresPonts[aleatoire])[21];
-						matrice[sommet[4] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[22];
-						matrice[sommet[4] * nombreSommet + sommet[3]] += (arbresPonts[aleatoire])[23];
+						matrice[sommet[4] * nombreSommet + sommet[3]] += (arbresPonts[aleatoire])[20];
+						matrice[sommet[4] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[21];
+						matrice[sommet[4] * nombreSommet + sommet[1]] += (arbresPonts[aleatoire])[22];
+						matrice[sommet[4] * nombreSommet + sommet[0]] += (arbresPonts[aleatoire])[23];
 						
 					case 11: case 10: case 9:
 						if (!sommet){
@@ -345,9 +345,9 @@ namespace graphe{
 						matrice[sommet[1] * nombreSommet + sommet[3]] += (arbresPonts[aleatoire])[8];
 						matrice[sommet[2] * nombreSommet + sommet[3]] += (arbresPonts[aleatoire])[13];
 						matrice[sommet[3] * nombreSommet + sommet[3]] += (arbresPonts[aleatoire])[18];
-						matrice[sommet[3] * nombreSommet + sommet[0]] += (arbresPonts[aleatoire])[15];
+						matrice[sommet[3] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[15];
 						matrice[sommet[3] * nombreSommet + sommet[1]] += (arbresPonts[aleatoire])[16];
-						matrice[sommet[3] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[17];
+						matrice[sommet[3] * nombreSommet + sommet[0]] += (arbresPonts[aleatoire])[17];
 						
 					case 8: case 7: case 6:
 						if (!sommet){
@@ -372,8 +372,8 @@ namespace graphe{
 						matrice[sommet[0] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[2];
 						matrice[sommet[1] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[7];
 						matrice[sommet[2] * nombreSommet + sommet[2]] += (arbresPonts[aleatoire])[12];
-						matrice[sommet[2] * nombreSommet + sommet[0]] += (arbresPonts[aleatoire])[10];
-						matrice[sommet[2] * nombreSommet + sommet[1]] += (arbresPonts[aleatoire])[11];
+						matrice[sommet[2] * nombreSommet + sommet[1]] += (arbresPonts[aleatoire])[10];
+						matrice[sommet[2] * nombreSommet + sommet[0]] += (arbresPonts[aleatoire])[11];
 						
 					case 5: case 4: case 3:
 						if (!sommet){
@@ -445,15 +445,11 @@ namespace graphe{
 			for (int i = 0; i < nombreSommet; ++i){
 				if (!degreEntrant(i)){
 					indice = obtIndiceAleatoire();
-					matrice[(indice * nombreSommet) + i]++;
+					matrice[(indice * nombreSommet) + i] = 1;
 				}
 				if (!degreSortant(i)){
 					indice = obtIndiceAleatoire();
-					matrice[(i * nombreSommet) + indice]++;
-				}
-				for (int j = 0; j < nombreSommet; ++j){
-					if ((i != j) && (matrice[(i * nombreSommet) + j]))
-						matrice[(i * nombreSommet) + j] = 1;
+					matrice[(i * nombreSommet) + indice] = 1;
 				}
 			}
 		}

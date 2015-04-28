@@ -163,5 +163,20 @@ Nous avons déterminés nos objectifs et assignés des tâches à tout le monde.
 
 ###Durée: 2h30
 
+##Mercredi 22 avril 2015
 
-##Durée Totale: 49h30
+###12:00 à 16:00
+
+Premièrement j'ai ajouté une méthode remplir dans toutes les phases, menus et controles visuels. J'ai ensuite changé la grosseur de la fenêtre et ajusté lees controles visuels pour que ça ait de l'allure. Ensuite, j'ai codé le MenuOptions mais Jessy l'a fait un peu avant moi donc j'ai pris la version qu'il avait commit et je l'ai ajusté un peu pour que ça fonctionne avec les changements déjà faits dans les menus. J'ai changé les textes qui étaient clickables avant dans les menus en boutons.
+
+###Durée: 4h
+
+##Jeudi 23 avril 2015
+
+###10:30 à 11:30
+
+J'ai refait le diagramme de classes pour qu'il ressemble à ce que nous avions au début.
+
+###Durée: 1h
+
+##Durée Totale: 54h30

@@ -9,8 +9,8 @@ private:
 	gfx::Texte2D* texte;
 
 	void appliquerPhysique(float frameTime) {
-		if (joueur->obtVitesse().norme() != 0) {
-			if (!Physique::obtInstance().collisionJoueurSalle(joueur)) {
+ 		if (joueur->obtVitesse().norme() != 0) {
+			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
 				if (joueur->obtEtat() != STABLE)
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
@@ -19,6 +19,7 @@ private:
 				if (joueur->obtEtat() != CHUTE)
 					joueur->defEtat(CHUTE);
 				else if (joueur->obtEtat() == CHUTE){
+
 					if (Physique::obtInstance().collisionAuSol(joueur)){
 						joueur->defEtat(STABLE);
 						joueur->obtVitesse().y = 0.f;
@@ -27,6 +28,13 @@ private:
 						joueur->obtVitesse().x = 0.f;
 						joueur->obtVitesse().z = 0.f;
 					}
+
+					if (Physique::obtInstance().collisionAuSol(Carte::obtInstance().salleActive, joueur)){
+						joueur->defEtat(STABLE);
+						joueur->obtVitesse().y = 0.f;
+					}
+					joueur->obtVitesse().x = 0.f;
+					joueur->obtVitesse().z = 0.f;
 				}
 
 			}
@@ -35,6 +43,10 @@ private:
 	}
 
 	void detectionObjet() {
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
+	}
+
+	bool detectionObjet() {
 
 		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
 		bool objetDetecte = false;
@@ -44,11 +56,17 @@ private:
 				texte->defTexte(new std::string("Press E to open the door"));
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
+				texte->defTexte("Press E to open the door");
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+				objetDetecte = true;
+				objetVise = it;
+				return objetDetecte;
 			}
 		}
 
 		if (!objetDetecte)
 			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+		return objetDetecte;
 	}
 
 public:
@@ -58,13 +76,19 @@ public:
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D(new std::string("123"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
 
-		Carte::obtInstance().creer(20);
 		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
+		toucheRelachee = false;
+		joueur = new Joueur(Vecteur3d(-1, 0, 0));
+		joueur->ajouterScene();
+		texte = new gfx::Texte2D("123", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
+
+		Carte::obtInstance().creer(20);
 	}
 
 	void rafraichir(float frameTime) {
 
 		if (!this->pause) {
+
 		
 			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
@@ -76,10 +100,31 @@ public:
 			defPause(true);
 			SDL_SetRelativeMouseMode(SDL_FALSE);
 			SDL_ShowCursor(SDL_ENABLE);
-			gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(true);
+			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			joueur->deplacement(frameTime);
+			appliquerPhysique(frameTime);
+			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
+			ControlleurAudio::obtInstance().jouer(PAS, joueur);
+			detectionObjet();
+			ControlleurAudio::obtInstance().jouerTout(joueur);
+		}
+
+
+		if (detectionObjet()){
+			if (Clavier::toucheAppuyee(SDLK_e) && toucheRelachee){// Touche relachée bientôt...
+				if (objetVise->obtSiPorte()){
+					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+				}
+				else{
+					objetVise->appliquerAction(Interagir);
+				}
+				toucheRelachee = false;
+			}
+			if (Clavier::toucheAppuyee(SDLK_e))
+				toucheRelachee = true;
 		}
 	}
 
@@ -91,3 +136,4 @@ public:
 		this->pause = pause;
 	}
 };
+

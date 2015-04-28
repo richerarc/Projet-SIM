@@ -37,3 +37,11 @@
 (1h15 à 4h00) : J'ai debuggé le joueur qui collait au mur et qui avais aussi plusieurs autre problèmes mineurs. Il peut maintenant se déplacer,sauter et toucher la salle sans problèmes.
 
 21/04/2015 (2h45 à 5h30) : Notre épique s'est consulté pour se répartir les tâches. J'ai ensuite fait une partie des interactions avec Sam puis j'ai tenté d'enlever le bug qui fait voir à travers les murs. Je n'ai rien commit parce qu'il bug encore.
+
+22/04/2015 (3H00 À 3H30) : J'ai continué la fonction qui fait longé, pas encore commit parce qu'elle marche pas encore à 100%.
+
+23/04/2015 (9h10 à 11h50) : J'ai commit mon code pour longer, j'ai ensuite debuggé le reste du cours.
+
+24/04/2015 (10h45 à 11h40) : J'ai ajouté des données membres dont Kevin avait besoin, puis j'ai continuer à debugger mon code pour longer suite au nouveau déplacement de Kevin/Nathan.
+
+27/04/2015 (11h30 à 12h55) : J'ai continué à faire le longement, qui n'a maintenant plus que 2 bugs. Ceux-ci dépendent en partie des futures fonctions de Kevin/Nathan, donc je ne commit rien pour l'instant.

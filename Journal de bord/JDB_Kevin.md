@@ -227,3 +227,15 @@ Plus tard dans la soirée jai du regler des erreurs de compilation provenant des
 Le joueur prend plus de temps que prévu le débuggage est complexe et de bug apparaissent quand on en règle.
 
 **Temps 4h**
+
+##**`23 Avril 2015`**
+
+J'ai fais quelques modifications avec Nathan pour le déplacement du joueur, nous sommes allés voir Annie Bacon pour un question sur les vecteurs et les plans. Nous allons devoir implémenter la projection de points sur un plan pour en faire un vecteur, nous avons passés le cours au complet pour trouver la solution.
+
+**Temps 3h**
+
+##**`24 Avril 2015`**
+
+Aujourd'hui j'ai tenter en vain de replacer la physique pour faire tomber le joueur selon la gravité. Nathan a finalement trouvé la réponse. De plus j'ai trouvé un moyen de le faire monter la pente. Je voulais éviter d'imjplémenter la projection mais je dois me rendre a l'évidence, on n'a pas le choix, c'est le seul moyen.
+
+**Temps 1h30**
