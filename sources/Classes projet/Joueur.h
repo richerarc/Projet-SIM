@@ -297,6 +297,10 @@ public:
 		return temp;
 	}
 
+	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
+
+	void defSanteMentale(short santeMentale) { this->santeMentale = santeMentale; }
+
 	short obtSantePhysique(){ return santePhysique; }
 
 	short obtSanteMentale(){ return santeMentale; }
