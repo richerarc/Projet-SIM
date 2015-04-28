@@ -6,6 +6,7 @@
 #include "ModeVideo.h"
 #include "Clavier.h"
 #include "Souris.h"
+#include "Manette.h"
 
 namespace gfx{
 	class Fenetre{
@@ -30,6 +31,7 @@ namespace gfx{
 			defPleinEcran(pe);
 			fenetrePleinEcran = pe;
 			fenetreOuverte = true;
+			Manette::ouvrirManette();
 		}
 
 		~Fenetre(){
@@ -98,6 +100,9 @@ namespace gfx{
 					Souris::mettreAJourEtatMolette(event.wheel.x, event.wheel.y);
 				if (event.type != SDL_MOUSEWHEEL)
 					Souris::mettreAJourEtatMolette(0, 0);
+
+				Manette::mettreAJourEtat();
+
 				return true;
 			}
 			return false;

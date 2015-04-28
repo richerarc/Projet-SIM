@@ -112,3 +112,10 @@ de 15h à 16h(1h)
 
 22 avril de 11h à 13h (2h)
 -J'ai modifié les menus Pause et Options afin qu'il concorde avec notre nouvelle structure
+
+23 avril de 10h à 12h30(2h30)
+-J'ai continué mes menus 
+
+28 avril de 13h à 17h40(4h40)
+-J'ai été assigné a l'implementation d'un gameplay avec une manette. J'ai donc fait plusieurs recherches afin de mieux comprendre les fonctions SDL_GameControlle
+-J'ai ensuite fais la classe Manette.h
