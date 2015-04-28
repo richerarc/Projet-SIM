@@ -75,7 +75,7 @@ private:
 						if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
 
 							double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
-							if (angle > 120 && angle < 260)
+						if (angle > 91 && angle < 269)
 								return true;
 						}
 					}
@@ -92,7 +92,7 @@ private:
 						if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
 
 							double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
-							if (angle > 91 && angle < 269)
+							if (angle > 120 && angle < 260)
 								return true;
 						}
 					}
