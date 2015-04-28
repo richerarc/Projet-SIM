@@ -55,17 +55,16 @@ private:
 
 				Objet* porte = new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false);
 				porte->defVitesse(it.direction);
-				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 1.74, porte->obtPosition().z));
+				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 1, porte->obtPosition().z));
 				while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, orientation)) {
 					porte->defPosition(porte->obtPosition() + (it.direction / 10));
 				}
-				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 1.74, porte->obtPosition().z));
+				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 1, porte->obtPosition().z));
 				porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
 
 				it.position = porte->obtPosition();
 				it.rotation = porte->obtModele3D()->obtOrientation().y;
 				delete porte;
-				int iii = 0;
 			}
 		}
 		if (enPositionnement) {
@@ -214,13 +213,13 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 3; // en attendant que toutes elles salles sont conformes
+			aleatoire = /*rand() % 3*/3; // en attendant que toutes elles salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
 
 			// Boucle sur toutes les portes d'un salle pour les positionner...
-			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
+			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/10; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
@@ -403,7 +402,7 @@ public:
 			salle.Objet.clear();
 		}
 
-
+		infosSalles.resize(1);
 		for (auto& it : infosSalles) {
 			creerSalle(it, true);
 		}

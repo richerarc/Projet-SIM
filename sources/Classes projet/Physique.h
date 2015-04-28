@@ -62,7 +62,7 @@ private:
 			}
 
 			plan.calculerPlan(point1, point2, point3);
-			normale = { modele->obtNormales()[Nbrface * 3], modele->obtNormales()[Nbrface * 3 + 1], modele->obtNormales()[Nbrface * 3 + 2] };
+			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
 
 			if (!enGenerationPorte) {
 
@@ -82,7 +82,7 @@ private:
 			}
 			else
 			{
-				if (normale.y <= 0.05) {
+				if (abs(normale.y) <= 0.05) {
 					if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
 						point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
@@ -91,7 +91,7 @@ private:
 							if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
 
 								double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
-								if (angle > 120 && angle < 260)
+								if (angle > 91 && angle < 269)
 									return true;
 							}
 						}
@@ -468,20 +468,20 @@ public:
 		double y = fabs(normale.y);
 		double z = fabs(normale.z);
 
-		if (x > y && x > z) {
+		if (x >= y && x >= z) {
 
 			vect0 = Vecteur2d(v0.y, v0.z);
 			vect1 = Vecteur2d(v1.y, v1.z);
 			vect2 = Vecteur2d(v2.y, v2.z);
 		}
 
-		if (y > x && y > z) {
+		if (y >= x && y >= z) {
 
 			vect0 = Vecteur2d(v0.x, v0.z);
 			vect1 = Vecteur2d(v1.x, v1.z);
 			vect2 = Vecteur2d(v2.x, v2.z);
 		}
-		if (z > x && z > y) {
+		if (z >= x && z >= y) {
 
 			vect0 = Vecteur2d(v0.x, v0.y);
 			vect1 = Vecteur2d(v1.x, v1.y);
@@ -506,6 +506,31 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
+	bool collisionPorteQuatrePoints(gfx::Modele3D* modeleSalle, Objet& objet, double& orientation) {
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point = objet.obtPosition();
+		Vecteur3d normale;
+		Vecteur3d difference;
+
+		rayonCollision = Droite(point, objet.obtVitesse());
+
+		if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
+
+			normale.y = 0;
+			normale.normaliser();
+			double angle;
+			int signe;
+
+			difference = pointCollision - point;
+			objet.defPosition(objet.obtPosition() + difference);
+			objet.defVitesse(normale * -1);
+
+			return true;
+		}
+		return false;
+	}
+
 	bool collisionPorte(gfx::Modele3D* modeleSalle, Objet& objet, double& orientation) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
@@ -518,15 +543,48 @@ public:
 		if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 
 			normale.y = 0;
-			if (normale.x < 1 && normale.z < 1 && normale.x > -1 && normale.z > -1) {
-				int i = 0;
+			normale.normaliser();
+			double angle;
+			int signe;
+			
+			if ((abs(normale.x) + abs(normale.z)) != 1) {
+				if (abs(objet.obtVitesse().x) > 0) {
+					switch ((int)objet.obtVitesse().x) {
+					case 1:
+						signe = (normale.z > 0) ? 1 : -1;
+						angle = (normale.z > 0) ? (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse()) : normale.angleEntreVecteurs(objet.obtVitesse());
+						break;
+					case -1:
+						signe = (normale.z > 0) ? -1 : 1;
+						angle = (normale.z > 0) ? normale.angleEntreVecteurs(objet.obtVitesse()) : (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse());
+						break;
+					}
+				}
+				else
+				{
+					switch ((int)objet.obtVitesse().z) {
+					case 1:
+						signe = (normale.x > 0) ? -1 : 1;
+						angle = (normale.x > 0) ? normale.angleEntreVecteurs(objet.obtVitesse()) : (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse());
+						break;
+					case -1:
+						signe = (normale.x > 0) ? 1 : -1;
+						angle = (normale.x > 0) ? (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse()) : normale.angleEntreVecteurs(objet.obtVitesse());
+						break;
+					}
+				}
+
+				Vecteur3d pivot = (angle <= M_PI) ? Vecteur3d({ 0, 1, 0 }) : Vecteur3d({ 0, -1, 0 });
+				pivot = normale.produitVectoriel(pivot);
+				orientation = signe * (Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse())));
 			}
-			Vecteur3d pivot = { 0, 1, 0 };
-			pivot = normale.produitVectoriel(pivot);
-			orientation = -(90 - Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse())));
+			else
+				orientation = 0;
 
 			difference = pointCollision - point;
 			objet.defPosition(objet.obtPosition() + difference);
+			objet.defVitesse(normale * -1);
+
 			return true;
 		}
 		return false;
