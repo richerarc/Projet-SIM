@@ -50,7 +50,7 @@ private:
 		ctrlAccroupir->defTexte(GestionnaireControle::obtInstance().obtTouche(ACCROUPIR));
 		ctrlCourir->defTexte(GestionnaireControle::obtInstance().obtTouche(COURIR));
 		ctrlUtiliser->defTexte(GestionnaireControle::obtInstance().obtTouche(UTILISER));
-		ctrlInventaire->defTexte(GestionnaireControle::obtInstance().obtTouche(INVENTAIRE));
+		ctrlInventaire->defTexte(GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE));
 
 	}
 
@@ -71,65 +71,65 @@ public:
 			Vecteur2f(730, 0),
 			new std::string("Save"), 55);
 
-		avancer = new gfx::Texte2D(new std::string("Foward"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 665));
+		avancer = new gfx::Texte2D(new std::string("Foward"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 665));
 		ctrlAvancer = new Bouton(std::bind(&MenuControle::enClickAvancer, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 665),
 			GestionnaireControle::obtInstance().obtTouche(AVANCER), 45);
 
-		reculer = new gfx::Texte2D(new std::string("Backward"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 597));
+		reculer = new gfx::Texte2D(new std::string("Backward"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 597));
 		ctrlReculer = new Bouton(std::bind(&MenuControle::enClickReculer, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 597),
 			GestionnaireControle::obtInstance().obtTouche(RECULER), 45);
 
-		gauche = new gfx::Texte2D(new std::string("Left"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 529));
+		gauche = new gfx::Texte2D(new std::string("Left"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 529));
 		ctrlGauche = new Bouton(std::bind(&MenuControle::enClickGauche, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 529),
 			GestionnaireControle::obtInstance().obtTouche(GAUCHE), 45);
 
-		droite = new gfx::Texte2D(new std::string("Right"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 461));
+		droite = new gfx::Texte2D(new std::string("Right"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 461));
 		ctrlDroite = new Bouton(std::bind(&MenuControle::enClickDroite, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 461),
 			GestionnaireControle::obtInstance().obtTouche(DROITE), 45);
 
-		sauter = new gfx::Texte2D(new std::string("Jump"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 393));
+		sauter = new gfx::Texte2D(new std::string("Jump"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 393));
 		ctrlSauter = new Bouton(std::bind(&MenuControle::enClickSauter, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 393),
 			GestionnaireControle::obtInstance().obtTouche(SAUTER), 45);
 
-		accroupir = new gfx::Texte2D(new std::string("Crouch"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 325));
+		accroupir = new gfx::Texte2D(new std::string("Crouch"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 325));
 		ctrlAccroupir = new Bouton(std::bind(&MenuControle::enClickAccroupir, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 325),
 			GestionnaireControle::obtInstance().obtTouche(ACCROUPIR), 45);
 
-		courir = new gfx::Texte2D(new std::string("Run"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 257));
+		courir = new gfx::Texte2D(new std::string("Run"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 257));
 		ctrlCourir = new Bouton(std::bind(&MenuControle::enClickCourir, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 257),
 			GestionnaireControle::obtInstance().obtTouche(COURIR), 45);
 
-		tirer = new gfx::Texte2D(new std::string("Shoot"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 189));
+		tirer = new gfx::Texte2D(new std::string("Shoot"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 189));
 		ctrlTirer = new Bouton(std::bind(&MenuControle::enClickTirer, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 189),
 			GestionnaireControle::obtInstance().obtTouche(TIRER), 45);
 
-		utiliser = new gfx::Texte2D(new std::string("Use/Equip"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 121));
+		utiliser = new gfx::Texte2D(new std::string("Use/Equip"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 121));
 		ctrlUtiliser = new Bouton(std::bind(&MenuControle::enClickUtiliser, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 121),
 			GestionnaireControle::obtInstance().obtTouche(UTILISER), 45);
 
-		inventaire = new gfx::Texte2D(new std::string("Inventory"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial55", 55), Vecteur2f(100, 53));
+		inventaire = new gfx::Texte2D(new std::string("Inventory"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(100, 53));
 		ctrlInventaire = new Bouton(std::bind(&MenuControle::enClickInventaire, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 53),
-			GestionnaireControle::obtInstance().obtTouche(INVENTAIRE), 45);
+			GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE), 45);
 
 		
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
@@ -241,7 +241,7 @@ public:
 	}
 	void enClickInventaire(Bouton* sender) {
 		sender->defTexte(changementTouche);
-		action = INVENTAIRE;
+		action = ACCESINVENTAIRE;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlInventaire;
 	}

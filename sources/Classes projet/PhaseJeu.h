@@ -7,6 +7,8 @@ private:
 
 	Joueur* joueur;
 	gfx::Texte2D* texte;
+	Objet* objetVise;
+	bool toucheRelachee;
 
 	void appliquerPhysique(float frameTime) {
  		if (joueur->obtVitesse().norme() != 0) {
@@ -20,7 +22,7 @@ private:
 					joueur->defEtat(CHUTE);
 				else if (joueur->obtEtat() == CHUTE){
 
-					if (Physique::obtInstance().collisionAuSol(joueur)){
+					if (Physique::obtInstance().collisionAuSol(Carte::obtInstance().salleActive, joueur)){
 						joueur->defEtat(STABLE);
 						joueur->obtVitesse().y = 0.f;
 					}
@@ -29,20 +31,12 @@ private:
 						joueur->obtVitesse().z = 0.f;
 					}
 
-					if (Physique::obtInstance().collisionAuSol(Carte::obtInstance().salleActive, joueur)){
-						joueur->defEtat(STABLE);
-						joueur->obtVitesse().y = 0.f;
-					}
 					joueur->obtVitesse().x = 0.f;
 					joueur->obtVitesse().z = 0.f;
 				}
 
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(frameTime);
-	}
-
-	void detectionObjet() {
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
 	}
 
@@ -54,9 +48,6 @@ private:
 		for (auto it : liste) {
 			if (Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) {
 				texte->defTexte(new std::string("Press E to open the door"));
-				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
-				objetDetecte = true;
-				texte->defTexte("Press E to open the door");
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
 				objetVise = it;
@@ -74,14 +65,11 @@ public:
 	PhaseJeu() : Phase(){
 		joueur = new Joueur(Vecteur3d(-1, 0, 0));
 		joueur->ajouterScene();
-		texte = new gfx::Texte2D(new std::string("123"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
-
-		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
+		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;
-		joueur = new Joueur(Vecteur3d(-1, 0, 0));
-		joueur->ajouterScene();
-		texte = new gfx::Texte2D("123", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial20", 20), Vecteur2f(300, 200));
-
+		
+		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
+		
 		Carte::obtInstance().creer(20);
 	}
 

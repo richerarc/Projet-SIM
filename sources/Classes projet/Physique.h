@@ -582,13 +582,11 @@ public:
 	}
 
 	bool collisionJoueurSalle(Salle* salle, Joueur* joueur) {
-
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
-		Salle* salle = Carte::obtInstance().salleActive;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -596,39 +594,14 @@ public:
 
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
-			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPosition(joueur->obtPosition() + pointDiference);
+				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
+				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
+				ajusterVitesse(joueur);
 				return true;
 			}
-		}
-
-		return false;
-	}
-	
-	bool collisionAuSol(Joueur* joueur){
-		Vecteur3d* boite = Carte::obtInstance().salleActive->obtModele()->obtModele()->obtBoiteDeCollision();
-		Vecteur3d face[8];
-		int nbrVerticesAlignees = 0;
-		for (int i = 0; i < 8; ++i){
-			if (boite[i].y == joueur->obtPointCollision().y){
-				face[nbrVerticesAlignees] = boite[i];
-				++nbrVerticesAlignees;
-			}
-		}
-		return (nbrVerticesAlignees >= 3);
-	}
-
-	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
-
-		if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
-			Vecteur3d pointDiference = pointCollision - point;
-			joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
-			joueur->defNormale(normale);
-			joueur->defPointCollision(pointCollision);
-			ajusterVitesse(joueur);
-			return true;
 		}
 		return false;
 	}
@@ -638,24 +611,23 @@ public:
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-
 		rayonCollision = Droite(joueur->obtPosition(), joueur->obtVitesse());
-
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 
 		for (int i = 0; i < 8; i++) {
 			point = tabJoueur[i];
-
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
-			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
-				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPosition(joueur->obtPosition() + pointDiference);
-
-				return true;
+			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
+				if (normale.y > normale.x && normale.y > normale.z) {
+					joueur->defNormale(normale);
+					joueur->defPointCollision(pointCollision);
+					ajusterVitesse(joueur);
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	/*Peut etre faire directement dans^collision au sol et utiliser directement normale et point de collision au lieu de joueur et salle...*/

@@ -57,7 +57,7 @@ public:
 		SDL_ShowCursor(SDL_DISABLE);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
-		gfx::Gestionnaire3D::obtInstance().obtCamera()->debloquer();
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
 	}
 
 	void enClicOptions(Bouton* sender){

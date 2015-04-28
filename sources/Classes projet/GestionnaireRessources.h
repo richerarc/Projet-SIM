@@ -2,6 +2,8 @@
 #include "Singleton.h"
 #include "Modele.h"
 #include "Texture.h"
+#include "Police.h"
+#include "Texte.h"
 
 #include <map>
 #include <vector>
@@ -11,8 +13,8 @@ namespace gfx{
 	private:
 		std::map<const char*, gfx::Modele*>  modeles;
 		std::map<const char*, gfx::Texture> textures;
-		std::map<const char*, TTF_Font*> fonts;
-
+		std::map<std::string, gfx::Police*> polices;
+		std::map<std::string, gfx::Texte*> textes;
 
 	public:
 		~GestionnaireRessources(){
@@ -28,8 +30,12 @@ namespace gfx{
 			return modeles[chemin] = new Modele(chemin);
 		}
 
-		bool chargerFont(const char* chemin, const char* nom, int taille) {
-			return fonts[nom] = TTF_OpenFont(chemin, taille);
+		bool chargerPolice(const char* chemin, std::string nom, int taille) {
+			return polices[nom] = new gfx::Police(chemin, taille);
+		}
+
+		bool chargerTexte(const char* texte, std::string nom, SDL_Color couleur, gfx::Police* police) {
+			return textes[nom] = new gfx::Texte(texte, couleur, police);
 		}
 
 		gfx::Texture& obtTexture(const char* chemin){
@@ -44,10 +50,18 @@ namespace gfx{
 			return modeles[chemin];
 		}
 
-		TTF_Font* obtPolice(const char* chemin, const char* nom, int taille) {
-			if (fonts.find(nom) == fonts.end())
-				chargerFont(chemin, nom, taille);
-			return fonts[nom];
+		gfx::Police* obtPolice(const char* chemin, int taille) {
+			std::string nom = gfx::Police::creerNom(chemin, taille);
+			if (polices.find(nom.c_str()) == polices.end())
+				chargerPolice(chemin, nom.c_str(), taille);
+			return polices[nom];
+		}
+
+		gfx::Texte* obtTexte(const char* texte, SDL_Color couleur, gfx::Police* police) {
+			std::string nom = gfx::Texte::creerNom(texte, couleur);
+			if (textes.find(nom.c_str()) == textes.end())
+				chargerTexte(texte, nom, couleur, police);
+			return textes[nom];
 		}
 	};
 }

@@ -5,7 +5,7 @@
 #include <fstream>
 
 enum Action {
-	AVANCER,RECULER,DROITE,GAUCHE,SAUTER,ACCROUPIR,COURIR,TIRER,UTILISER,INVENTAIRE
+	AVANCER,RECULER,DROITE,GAUCHE,SAUTER,ACCROUPIR,COURIR,TIRER,UTILISER,ACCESINVENTAIRE
 };
 
 enum Controleur_t {CLAVIER = 0, SOURIS = 1, MANETTE = 2};
@@ -20,7 +20,7 @@ class GestionnaireControle: public Singleton<GestionnaireControle> {
 private:
 	
 	std::map<ClefControle, int> controles;
-	
+
 public:
 	void lireControle(char* Emplacement) {
 		char evenement[3];
@@ -67,7 +67,7 @@ public:
 					controles[cle(UTILISER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 9:
-					controles[cle(INVENTAIRE, controleurEnInt)] = toucheEnInt;
+					controles[cle(ACCESINVENTAIRE, controleurEnInt)] = toucheEnInt;
 					break;
 				}
 				
@@ -82,20 +82,26 @@ public:
 		for (auto it : controles){
 			if (std::get<0>(it.first) == evenement){
 				controles.erase(cle(evenement, std::get<1>(it.first)));
+				controles[clee] = controle;
+				return true;
 			}
 		}
-		controles[clee] = controle;
-		return true;
 	}
 
 	void sauvegarderControle(char* emplacement) {
 		std::ofstream ecritureFichier(emplacement);
 		
+		std::map<ClefControle, int>::iterator iterateur = controles.begin();
+
 		char num = '0';
 		for (auto it : controles){
+			++iterateur;
 			ecritureFichier << num << std::endl;
 			ecritureFichier << std::get<1>(it.first) << std::endl;
-			ecritureFichier << it.second << std::endl;
+			if (iterateur != controles.end())
+				ecritureFichier << it.second << std::endl;
+			else
+				ecritureFichier << it.second;
 			++num;
 		}
 
@@ -114,7 +120,7 @@ public:
 			}
 		}
 		
-		std::string* str;
+		std::string* str = new std::string();
 		
 		ClefControle cle = std::make_tuple(action,controleur);
 		
@@ -124,19 +130,19 @@ public:
 			switch (controles[cle]) {
 					
 				case 1073742049:
-					str = new std::string("LSHIFT");
+					str->append("LSHIFT");
 					break;
 				case 32:
-					str = new std::string("SPACE");
+					str->append("SPACE");
 					break;
 					
 				case 9:
-					str = new std::string("TAB");
+					str->append("TAB");
 					break;
 					
 				default:
 					char * chr = new char(touche);
-					str = new std::string(chr);
+					str->append(chr);
 					
 					int i = 0;
 					while (chr[i] > 0)
@@ -148,13 +154,13 @@ public:
 		else if (controleur == SOURIS){
 			switch (controles[cle]) {
 				case 1:
-					str = new std::string("LEFT MB");
+					str->append("LEFT MB");
 					break;
 				case 2:
-					str = new std::string("MIDDLE MB");
+					str->append("MIDDLE MB");
 					break;
 				case 3:
-					str = new std::string("RIGHT MB");
+					str->append("RIGHT MB");
 					break;
 			}
 		}

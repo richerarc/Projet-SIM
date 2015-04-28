@@ -22,16 +22,12 @@ public:
 	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), new std::string("1"), 0){}
 
 	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, std::string* texte, int taille){
-		char tmp[5];
-		std::string* str = new std::string("arial");
-		str->append(SDL_itoa(taille, tmp, 10));
 		etat = DEFAUT;
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;
 		defautRappel = fonctionDefaut;
-		this->texte = new gfx::Texte2D(texte, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", str->c_str(), taille), position);
-		this->texte->defCouleur({ 0, 0, 0, 255 });
-		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
+		this->texte = new gfx::Texte2D(texte, { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", taille), position);
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
 	}
 

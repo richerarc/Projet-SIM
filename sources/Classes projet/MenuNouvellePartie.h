@@ -37,9 +37,8 @@ public:
 			Vecteur2f(530, 120),
 			new std::string("Hardcore"), 20);
 
-		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(100, 180));
+		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 50), Vecteur2f(100, 180));
 		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
-		choisirDiff->defCouleur({ 0, 0, 0, 255 });
 
 		defPause(true);
 	}
