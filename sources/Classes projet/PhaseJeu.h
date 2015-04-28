@@ -48,11 +48,10 @@ private:
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
-				if (joueur->obtEtat() != STABLE)
+				if (Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur) != 2) {
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+				}
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
-				iterateur_x += joueur->obtVitesse().x * frameTime;
-				iterateur_z += joueur->obtVitesse().z * frameTime;
 			}
 			else{
 				if (joueur->obtEtat() != CHUTE)

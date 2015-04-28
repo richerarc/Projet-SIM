@@ -658,10 +658,12 @@ public:
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
 				//ajusterVitesse(joueur);
-				return true;
+				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z) && normale.y != 0)
+					return 2;
+				return 1;
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	bool collisionAuSol(Salle* salle, Joueur* joueur){

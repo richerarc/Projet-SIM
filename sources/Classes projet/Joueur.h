@@ -98,15 +98,37 @@ public:
 				}
 
 				if (Clavier::toucheAppuyee(SDLK_w)){
-					vitesse = devant * vitesseDeplacement;
+					etat = MARCHE;
+					if (normale.x != 0 || normale.z != 0) {
+						vitesse.x = devant.x * vitesseDeplacement;
+						vitesse.z = devant.z * vitesseDeplacement;
+					}
+					else
+						vitesse = devant * vitesseDeplacement;
 					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(SDLK_d))
-							vitesse = vitesse + (cote * vitesseDeplacement);
+						if (Clavier::toucheAppuyee(SDLK_d)) {
+							if (normale.x != 0 || normale.z != 0) {
+								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+							}
+							else
+								vitesse = vitesse + (cote * vitesseDeplacement);
+						}
 
 						else if (Clavier::toucheAppuyee(SDLK_a)) {
-							vitesseTemp = cote * vitesseDeplacement;
+							if (normale.x != 0 || normale.z != 0) {
+								vitesseTemp.x = cote.x * vitesseDeplacement;
+								vitesseTemp.z = cote.z * vitesseDeplacement;
+							}
+							else
+								vitesseTemp = cote * vitesseDeplacement;
 							vitesseTemp.inverser();
-							vitesse = vitesse + vitesseTemp;
+							if (normale.x != 0 || normale.z != 0) {
+								vitesse.x = vitesse.x + vitesseTemp.x;
+								vitesse.z = vitesse.z + vitesseTemp.z;
+							}
+							else
+								vitesse = vitesse + vitesseTemp;
 						}
 					}
 				}
@@ -136,10 +158,10 @@ public:
 				}
 
 				if (Clavier::toucheAppuyee(SDLK_SPACE) && (camera != listeCamera[MODELEACCROUPI])) {
-					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.5))
+					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
 					{
 						chronoSaut.repartir();
-						vitesse.y = 5;
+						vitesse.y = 7;
 						etat = SAUT;
 					}
 				}
