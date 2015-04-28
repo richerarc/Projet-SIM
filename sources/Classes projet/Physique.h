@@ -82,19 +82,18 @@ private:
 				}
 			}
 			else
-			
-				if (abs(normale.y) <= 0.05) {
-					if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-						point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
+			if (abs(normale.y) <= 0.05) {
+				if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-						if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
-							if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
+					point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
 
-								double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
-								if (angle > 91 && angle < 269)
-									return true;
-							}
+					if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
+						if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
+
+							double angle = normale.angleEntreVecteurs(rayonCollision.obtenirVecteurDirecteur()) * (180 / M_PI);
+							if (angle > 91 && angle < 269)
+								return true;
 						}
 					}
 				}
@@ -678,7 +677,7 @@ public:
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
-				if(collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false))
+				if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false))
 				if (normale.y > normale.x && normale.y > normale.z && normale.y != 0) {
 					joueur->defNormale(normale);
 					joueur->defPointCollision(pointCollision);

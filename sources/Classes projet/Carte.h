@@ -27,6 +27,7 @@ private:
 	std::list<InfoSalle> infosSalles;
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
+	Vecteur3d vecteur;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
