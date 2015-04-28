@@ -8,9 +8,11 @@ private:
 	bool pause;
 	float pourcentage;
 	gfx::Sprite2D * spriteGlisseur;
+	std::function<void(Glisseur*)> fonctionGlisseur;
+
 public:
 
-	Glisseur(Vecteur2f position, Vecteur2f taille, float pourcentage) : ControleVisuel() {
+	Glisseur(Vecteur2f position, Vecteur2f taille, float pourcentage, std::function<void(Glisseur*)> fonctionGlisseur) : ControleVisuel() {
 		if (pourcentage <= 100.0f && pourcentage >= 0.0f) 
 			this->pourcentage = pourcentage;
 		else 
@@ -26,6 +28,8 @@ public:
 		spriteGlisseur->defPosition(Vecteur2f(position.x + SpriteFond->obtRectangle().l * (pourcentage / 100), position.y - SpriteFond->obtRectangle().h));
 		SpriteFond->defEchelle(taille);
 		spriteGlisseur->defEchelle(taille);
+
+		this->fonctionGlisseur = fonctionGlisseur;
 
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Glisseur::gestEvenement, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&Glisseur::gestEvenement, this, std::placeholders::_1));
@@ -52,6 +56,9 @@ public:
 
 				else
 					boutonSouris = false;
+
+				rafraichirPourcentage();
+				fonctionGlisseur(this);
 			}
 
 			if (evenement.button.type == SDL_MOUSEBUTTONDOWN) {
@@ -61,7 +68,6 @@ public:
 
 			if (evenement.button.type == SDL_MOUSEBUTTONUP)
 				boutonSouris = false;
-			rafraichirPourcentage();
 		}
 	}
 
