@@ -27,7 +27,12 @@ public:
 
 		for (int i = 0; i < gfx::ModeVideo::obtModes().size() && i < 60; ++i) {
 			
-			if (gfx::ModeVideo::obtModes()[i].l % 16 == 0 && gfx::ModeVideo::obtModes()[i].h % 9 == 0) {
+			double l = gfx::ModeVideo::obtModes()[i].l;
+			double h = gfx::ModeVideo::obtModes()[i].h;
+
+			double fract = l / h;
+
+			if (fract > 1.6 && fract < 1.8) {
 				modesVideo.push_back(gfx::ModeVideo::obtModes()[i]);
 
 				str->clear();
