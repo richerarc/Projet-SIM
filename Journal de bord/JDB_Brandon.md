@@ -45,3 +45,6 @@ J'ai fixé une grande quantité de bugs avec Julien ce matin. Nous avons tout d'
 J'ai commencé à concevoir mon inventaire et à penser à son intégration sur le joueur et à travers les interfaces, j'en suis venu à la conclusion que le joueur possèdera un inventaire en donnée membre qui contiendra son sac à dos ainsi que le menu d'accès rapide. En plein milieu de début d'implémentation, on vint m'annoncer qu'il fallait revoir la conception des menus, on a donc mis le focus là-dessus moi et l'équipe d'interfaces. J'ai donc conçu la classe Bouton qui utilise des callback pour les clicks et les survols. J'ai ensuite reconçu la classe MenuPrincipal.
 ## Pendant 30 min ##
 J'ai fini la conception de la classe MenuPrincipal selon les nouvelles normes.
+
+# 28 avril pendant 1h30 #
+J'ai commencé la conception de l'inventaire. J'ai ajouté la classe Case qui contiendra un InfoObjet. Il ne me reste qu'à figurer comment intégrer l'affichage de l'inventaire et gérer les inputs.
