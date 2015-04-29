@@ -122,12 +122,12 @@ public:
 	void rafraichir(float frameTime) {
 
 		if (!this->pause) {
-
-		
-			joueur->deplacement(frameTime);
+			joueur->deplacement();
 			appliquerPhysique(frameTime);
+			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
+			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
-			//ControlleurAudio::obtInstance().jouerTout(joueur);
+			ControlleurAudio::obtInstance().jouerTout(joueur);
 			Carte::obtInstance().bougerMur(*joueur, frameTime);
 		}
 
@@ -139,12 +139,6 @@ public:
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
-			joueur->deplacement(frameTime);
-			appliquerPhysique(frameTime);
-			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
-			ControlleurAudio::obtInstance().jouer(PAS, joueur);
-			detectionObjet();
-			ControlleurAudio::obtInstance().jouerTout(joueur);
 		}
 
 

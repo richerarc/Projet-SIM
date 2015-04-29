@@ -658,7 +658,7 @@ public:
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale, false)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
+			//	joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
 				//ajusterVitesse(joueur);

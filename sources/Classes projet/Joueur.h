@@ -53,7 +53,7 @@ public:
 		delete listeModele3D[1];
 	}
 
-	void deplacement(float frametime){
+	void deplacement(){
 		if (!bloque){
 			if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
 				vitesse.x = 0.f;
