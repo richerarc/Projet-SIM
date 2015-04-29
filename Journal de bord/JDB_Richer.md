@@ -59,3 +59,5 @@
 `Mar. 21 avr.` J'ai enfin terminer ce qui consiste a donne une position (audible) au sons. Si ce n'est pas encore implémenté, c'est à cause des menu qui changent constament. Les bruit de pas sont plus "ligit", et les battement plus complet sont en travail. `3h00`
 
 `Jeu. 23 avr.` J'ai modifié la façons d'utiliser le contrôler audio dans le projet, j'ai aussi aider Julien avec le gestionnaire d'évenement et de phase `5h00 => 2h00 jeu. + 3h00 mer.`	
+
+`Mar. 28 avr.` Moi et Julien avons travaillé sur le système qui permet au joueur de perdre de la santé mantale. nous avons aussi travailler sur les menus de sons, et j'ai terminé lundi le menu de controle pour permetre d'utiliser les boutons de la souris dans le jeux. `9H00 => 3h00 lun. + 6H00 mar.`
