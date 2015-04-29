@@ -28,7 +28,6 @@ private:
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
 	Vecteur3d vecteur;
-	Vecteur3d vecteurAide;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
@@ -42,6 +41,9 @@ private:
 		salleActive->defEchelle(infoSalleActive.echelle);
 
 		double orientation;
+		bool PorteAuMur;
+		bool PorteAuSol;
+		bool PorteQuatrePointsAuMur;
 		for (auto& it : infoSalleActive.Objet) {
 			if (!enPositionnement) {
 				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
@@ -50,6 +52,7 @@ private:
 				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
 			}
 			else {
+				orientation = 0;
 				// Tests de positionnement de la porte avec collision
 				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 				modeleporte->defPosition(it.position);
@@ -57,15 +60,47 @@ private:
 
 				Objet* porte = new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false);
 				porte->defVitesse(it.direction);
-				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 1, porte->obtPosition().z));
-				while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, orientation)) {
-					porte->defPosition(porte->obtPosition() + (it.direction / 10));
+				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.01, porte->obtPosition().z));
+				PorteAuMur = false;
+				PorteAuSol = false;
+				PorteQuatrePointsAuMur = false;
+				
+				while (!PorteAuMur || !PorteAuSol || !PorteQuatrePointsAuMur) {
+					if (!PorteAuMur) {
+						while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, false)) {
+							porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 100));
+						}
+						PorteAuMur = true;
+						if (porte->obtPosition().y >= 1.2) {
+							int i = 0;
+						}
+						if (!Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte)) {
+							porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 4));
+							while (Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, false))
+								porte->defPosition(porte->obtPosition() + Vecteur3d({ 0.0, 0.01, 0.0 }));
+							PorteAuMur = false;
+							PorteAuSol = false;
+							PorteQuatrePointsAuMur = false;
+						}
+						else
+						{
+							PorteQuatrePointsAuMur = true;
+						}
+					}
+					else
+					if (!PorteAuSol) {
+						while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, true))
+							porte->defPosition(porte->obtPosition() + Vecteur3d({ 0.0, -0.01, 0.0 }));
+						PorteAuSol = true;
+					}
 				}
-				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 1, porte->obtPosition().z));
+				
+				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.01, porte->obtPosition().z));
 				porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
 
 				it.position = porte->obtPosition();
 				it.rotation = porte->obtModele3D()->obtOrientation().y;
+				it.direction = porte->obtVitesse();
 				delete porte;
 			}
 		}
@@ -97,39 +132,21 @@ public:
 		std::advance(it, std::get<1>(pieceSuivante));
 		Vecteur3d vecteurMur;
 
-		vecteurAide = { (*it).direction.x, (*it).direction.y, (*it).direction.z };
 		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
 		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
 		modeleMur->defPosition(vecteurMur);
 		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x));
 		modeleMur->defOrientation(0, (*it).rotation, 0);
 		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
+		//Les deleter.
+		//objetMur = new ObjetFixe(modeleMur, 1000000, "metal", modeleMur->obtPosition(), {0,0,0},false,false);
+		//objetPorte = new ObjetFixe(modelePorte, 1000001, "metal", modelePorte->obtPosition(),{0,0,0},false,false);
+		//Modifier vitesse moi même.
+		//salleActive->ajoutObjet(objetMur);
+		//salleActive->ajoutObjet(objetPorte);
+		//Angle du
 		joueur.defPosition(vecteur);
 		return std::get<1>(pieceSuivante);
-	}
-
-	void bougerMur(Joueur& joueur, float frameTime){
-		if ((vecteurAide.x != 0) && (vecteurAide.z != 0)){
-			if ((modeleMur->obtPosition().x == vecteur.x) && (modeleMur->obtPosition().z == vecteur.z)){
-				joueur.deBloquer();
-			}
-		}
-		if (vecteurAide.x != 0){
-			if (modeleMur->obtPosition().x == vecteur.x){
-				joueur.deBloquer();
-			}
-		}
-		if (vecteurAide.y != 0){
-			if (modeleMur->obtPosition().z == vecteur.z){
-				joueur.deBloquer();
-			}
-		}
-		if ((modeleMur->obtPosition().x != vecteur.x) && (modeleMur->obtPosition().z != vecteur.z)){
-			//joueur.bloquer();
-			modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
-			modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
-			modelePorte->rotationner(0, 0.5, 0);
-		}
 	}
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
@@ -189,15 +206,15 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
+			salle.echelle = { /*rand() % 3 + 2.0*/1.0, 2.0, /*rand() % 3 + 2.0*/1.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = /*rand() % 3*/3; // en attendant que toutes elles salles sont conformes
+			aleatoire = rand() % 5; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
 
 			// Boucle sur toutes les portes d'un salle pour les positionner...
-			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/10; ++IDPorte) {
+			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
@@ -380,7 +397,6 @@ public:
 			salle.Objet.clear();
 		}
 
-		infosSalles.resize(1);
 		for (auto& it : infosSalles) {
 			creerSalle(it, true);
 		}
