@@ -131,24 +131,23 @@ public:
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
-			Carte::obtInstance().bougerMur(*joueur, frameTime);
+			Carte::obtInstance().bougerMur(joueur, frameTime);
 		}
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
 			defPause(true);
-			SDL_SetRelativeMouseMode(SDL_FALSE);
-			SDL_ShowCursor(SDL_ENABLE);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			curseur->remplir();
 		}
 
 
 		if (detectionObjet()){
 			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relachée bientôt...
 				if (objetVise->obtSiPorte()){
-					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), *joueur);
+					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
 							cheminRecursif.pop();

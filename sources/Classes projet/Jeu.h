@@ -11,6 +11,9 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include "Objet.h"
 #include "Sons.h"
 #include "ControlleurAudio.h"
+#include "Curseur.h"
+gfx::Fenetre *fenetre;
+Curseur* curseur;
 /*
 #include les classes plus bases plus tard
 */
@@ -35,18 +38,16 @@ class Jeu{
 
 public:
 
-	static gfx::Fenetre *fenetre;
 	static SDL_Event evenement;
 	static float frameTime;
 	static Chrono chrono;
-
 
 public:
 
 	Jeu(){}
 
 	static void demarrer(){
-		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
 		TTF_Init();
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		ControlleurAudio::obtInstance().initialiser(100);
@@ -68,6 +69,8 @@ public:
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
+		curseur = new Curseur(Vecteur2f(500, 500));
+		curseur->remplir();
 
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
@@ -78,6 +81,7 @@ public:
 				fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().salleActive->obtID(), chr, 10)));
 			}
 			frameTime = chrono.repartir().enSecondes();
+			curseur->rafraichir();
 			while (fenetre->sonderEvenements(evenement))
 			{
 				GestionnaireEvenements::obtInstance().lancerEvenement(evenement);
@@ -108,7 +112,6 @@ public:
 	}
 };
 
-gfx::Fenetre* Jeu::fenetre = nullptr;
 SDL_Event Jeu::evenement;
 float Jeu::frameTime = 0;
 Chrono Jeu::chrono;

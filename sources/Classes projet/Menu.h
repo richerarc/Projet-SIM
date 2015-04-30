@@ -23,6 +23,7 @@ public:
 		GestionnairePhases::obtInstance().defPhaseActive(type);
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		curseur->remplir();
 	}
 
 	void clicRetour(void){
@@ -31,6 +32,7 @@ public:
 		GestionnairePhases::obtInstance().enleverPhaseActive();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		curseur->remplir();
 	}
 
 };

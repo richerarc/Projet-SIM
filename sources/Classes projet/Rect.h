@@ -7,7 +7,7 @@ public:
 	Rect(T x = 0, T y = 0, T l = 0, T h = 0){
 		this->h = h;
 		this->l = l;
-		this->y = hauteur - y - h;
+		this->y = y;
 		this->x = x;
 	}
 
@@ -28,7 +28,7 @@ public:
 	static void defDimension(int l, int h) {
 
 		hauteur = h;
-		Jeu::fenetre->defModeVideo(gfx::ModeVideo(l, h));
+		fenetre->defModeVideo(gfx::ModeVideo(l, h));
 
 	}
 

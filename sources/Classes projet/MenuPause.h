@@ -53,19 +53,13 @@ public:
 		gfx::Gestionnaire2D::obtInstance().vider();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 		GestionnairePhases::obtInstance().enleverPhaseActive();
-		SDL_SetRelativeMouseMode(SDL_TRUE);
-		SDL_ShowCursor(SDL_DISABLE);
 		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 		gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
 	}
 
 	void enClicOptions(Bouton* sender){
-		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
-		GestionnairePhases::obtInstance().defPhaseActive(MENUOPTIONS);
-		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
-		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+		clic(MENUOPTIONS);
 	}
 
 	void enClicQuitter(Bouton* sender){

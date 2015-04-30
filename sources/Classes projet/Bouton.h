@@ -3,6 +3,7 @@
 #include "GestionnaireEvenements.h"
 #include "GestionnaireRessources.h"
 #include "Gestionnaire2D.h"
+#include "Curseur.h"
 
 #include <SDL2/SDL.h>
 #include <functional>
@@ -29,6 +30,8 @@ public:
 		this->texte = new gfx::Texte2D(texte, { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", taille), position);
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
 	}
 
 	~Bouton(){
@@ -38,7 +41,7 @@ public:
 
 	void gererClic(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectangle().contient(event.motion.x, event.motion.y) && event.button.button == SDL_BUTTON_LEFT){
+			if (texte->obtRectangle().contient(Curseur::obtPosition()) && event.button.button == SDL_BUTTON_LEFT){
 				clicRappel(this);
 				if (etat != PAUSE)
 					etat = EN_CLIC;
@@ -53,7 +56,7 @@ public:
 	
 	void gererSurvol(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
+			if (texte->obtRectangle().contient(Curseur::obtPosition())){
 				if (etat != SURVOL)
 					survolRappel(this);
 				etat = SURVOL;
