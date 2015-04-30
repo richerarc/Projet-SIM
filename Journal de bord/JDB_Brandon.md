@@ -48,3 +48,5 @@ J'ai fini la conception de la classe MenuPrincipal selon les nouvelles normes.
 
 # 28 avril pendant 1h30 #
 J'ai commencé la conception de l'inventaire. J'ai ajouté la classe Case qui contiendra un InfoObjet. Il ne me reste qu'à figurer comment intégrer l'affichage de l'inventaire et gérer les inputs.
+# 29 avril pendant 3h #
+J'ai commencé et terminé la conception du menu Inventaire et du menu Acces Rapide (HotBar). J'ai aussi conçu leurs textures, cependant elles ne sont que provisoires (j'imagine). Pour ce qui est des items que j'ai ajoutés, ils ne sont utilisés qu'à des fins de test.
