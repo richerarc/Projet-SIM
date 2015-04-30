@@ -7,6 +7,7 @@ class Inventaire{
 private:
 	std::vector<Case*> sacADos;
 	std::vector<Case*> menuAccesRapide;
+	int itemSelectionne;
 public:
 	Inventaire(Vecteur2f taille){
 		for (int i = 0; i < taille.x * taille.y; ++i){
@@ -14,6 +15,7 @@ public:
 				menuAccesRapide.push_back(new Case());
 			sacADos.push_back(new Case());
 		}
+		itemSelectionne = 0;
 	}
 	~Inventaire(){
 		while (sacADos.size() > 0){
@@ -24,6 +26,15 @@ public:
 			delete menuAccesRapide.back();
 			menuAccesRapide.pop_back();
 		}
+	}
+
+	int obtTailleSacADos(){
+		return sacADos.size();
+	}
+
+
+	int obtTailleAccesRapide(){
+		return menuAccesRapide.size();
 	}
 
 	bool ajouterObjet(InfoObjet *objet){
@@ -45,7 +56,7 @@ public:
 	}
 
 	InfoObjet* ajouterObjetCaseSacADos(InfoObjet *objet, int position){
-		if (! position < sacADos.size())
+		if (position >= sacADos.size())
 			return nullptr;
 		InfoObjet* tmp = sacADos[position]->retirerObjet();
 		sacADos[position]->defObjet(objet);
@@ -53,7 +64,7 @@ public:
 	}
 
 	InfoObjet* ajouterObjetCaseAccesRapide(InfoObjet *objet, int position){
-		if (!position < menuAccesRapide.size())
+		if (position >= menuAccesRapide.size())
 			return nullptr;
 		InfoObjet* tmp = menuAccesRapide[position]->retirerObjet();
 		menuAccesRapide[position]->defObjet(objet);
@@ -73,6 +84,14 @@ public:
 	}
 
 	InfoObjet* obtObjetAccesRapide(int position){
-		return sacADos[position]->obtObjet();
+		return menuAccesRapide[position]->obtObjet();
+	}
+
+	void defItemSelectionne(int index){
+		itemSelectionne = index;
+	}
+
+	int obtItemSelectionne(){
+		return itemSelectionne;
 	}
 };
