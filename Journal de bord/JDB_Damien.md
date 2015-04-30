@@ -79,3 +79,5 @@
 	Travail sur le faux mur et porte pour les ajuster pour les faire marcher avec les portes en angles. Il manque les angles qui marche et la position des portes sur le faux mur. Beaucoup d'essaie erreur et de lignes commentées.
 #Marci 28 avril (10:00 à 15:00)
 	Travail sur le mouvement du faux mur et de la fausse porte qui bougent enfin! Aussi début de l'immobilisation du joueur.
+#Jeudi 30 avril (10:00 à 13:18)
+	Début des modifications afin de repositionner la caméra afin de faire face au faux mur et à la fausse porte après avoir changé de salle. Aussi un petit fix dans la détection des portes.
