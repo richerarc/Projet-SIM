@@ -248,13 +248,13 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = /*rand() % 5*/5; // en attendant que toutes les salles sont conformes
+			aleatoire = rand() % 6; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
 
 			// Boucle sur toutes les portes d'un salle pour les positionner...
-			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/6; ++IDPorte) {
+			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
@@ -437,7 +437,7 @@ public:
 			salle.Objet.clear();
 		}
 
-		infosSalles.resize(1);
+		//infosSalles.resize(1);
 		for (auto& it : infosSalles) {
 			creerSalle(it, true);
 		}
