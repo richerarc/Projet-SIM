@@ -475,7 +475,27 @@ namespace graphe{
 			return ittCompte;
 		}
 		
+		std::list<int> obtListeAdjacence(int indice){
+			std::list<int> adjacent;
+			for (int i = 0; i < nombreSommet; ++i){
+				if (matrice[(indice * nombreSommet) + i]){
+					adjacent.push_back(i);
+				}
+					
+			}
+			return adjacent;
+		}
 		
+		std::list<int> obtListeAdjacenceInverse(int indice){
+			std::list<int> adjacent;
+			for (int i = 0; i < nombreSommet; ++i){
+				if (matrice[(i * nombreSommet) + indice]){
+					adjacent.push_back(i);
+				}
+				
+			}
+			return adjacent;
+		}
 		
 		void afficherMatrice(){
 			for (int i = 0; i < nombreSommet; i++) {
