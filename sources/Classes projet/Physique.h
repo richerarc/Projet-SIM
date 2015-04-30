@@ -37,6 +37,7 @@ private:
 		Vecteur3d point3;
 		Vecteur3d point;
 		double* tabVertices;
+		double scalaire;
 		Plan plan;
 
 		gfx::Modele* modele = modele3D->obtModele();
@@ -72,10 +73,77 @@ private:
 
 				if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
 					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
-
-						double scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
+						normale.normaliser();
+						rayonCollision.obtenirVecteurDirecteur().normaliser();
+						scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
 						if (scalaire < 0)
 							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	bool collisionDroiteModeleSpecialPorte(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, bool AuSol) {
+
+		Vecteur3d point1;
+		Vecteur3d point2;
+		Vecteur3d point3;
+		Vecteur3d point;
+		double* tabVertices;
+		double scalaire;
+		Plan plan;
+
+		gfx::Modele* modele = modele3D->obtModele();
+
+		tabVertices = modele3D->obtSommetsModifies();
+
+		for (unsigned int Nbrface = 0; Nbrface < modele->obtNbrSommets(); Nbrface += 3) {
+
+			for (int j = 0; j < 3; j++) {
+				switch (j) {
+
+				case 0:
+					point1 = { tabVertices[(Nbrface)* 3], tabVertices[(Nbrface)* 3 + 1], tabVertices[(Nbrface)* 3 + 2] };
+					break;
+
+				case 1:
+					point2 = { tabVertices[(Nbrface)* 3 + 3], tabVertices[(Nbrface)* 3 + 4], tabVertices[(Nbrface)* 3 + 5] };
+					break;
+
+				case 2:
+					point3 = { tabVertices[(Nbrface)* 3 + 6], tabVertices[(Nbrface)* 3 + 7], tabVertices[(Nbrface)* 3 + 8] };
+					break;
+				}
+			}
+
+			plan.calculerPlan(point1, point2, point3);
+
+			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
+			if ((normale.y / normale.norme()) >= 0.9) {
+				int i = 0;
+			}
+			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
+
+				point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
+				if ((normale.y / normale.norme()) >= 0.9) {
+					int i = 0;
+				}
+				if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
+					if ((normale.y / normale.norme()) >= 0.9) {
+						int i = 0;
+					}
+					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
+						normale.normaliser();
+						rayonCollision.obtenirVecteurDirecteur().normaliser();
+						scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
+						if (scalaire < 0) {
+							if (!AuSol || (AuSol && normale.y == 1)) {
+								return true;
+							}
+							
+						}
 					}
 				}
 			}
@@ -481,9 +549,10 @@ public:
 
 		double invDenom = 1 / (produit00 * produit11 - produit01 * produit01);
 		double u = (produit11 * produit02 - produit01 * produit12) * invDenom;
+		double vv = (produit00 * produit12 - produit01 * produit02) * invDenom;
 		double v = (produit00 * produit12 - produit12 * produit02) * invDenom;
 
-		return (u >= 0) && (v >= 0) && (u + v < 1);
+		return ((u >= 0) && (vv >= 0) && (u + vv < 1)) || ((u >= 0) && (v >= 0) && (u + v < 1));
 
 	}
 
@@ -515,6 +584,9 @@ public:
 				return false;
 			}
 		}
+		difference = pointCollision - point[0];
+		objet.defPosition(objet.obtPosition() + difference);
+		objet.defPosition(objet.obtPosition() + (objet.obtVitesse() / 4));
 		return true;
 	}
 
@@ -527,7 +599,7 @@ public:
 
 		rayonCollision = Droite(point, objet.obtVitesse());
 
-		if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale)) {
+		if (collisionDroiteModeleSpecialPorte(modeleSalle, rayonCollision, pointCollision, normale, AuSol)) {
 
 			normale.normaliser();
 			double angle;
@@ -578,12 +650,14 @@ public:
 			}
 			else
 			{
-				if (normale.y == 1)
+				if (normale.y == 1) {
+					difference = pointCollision - point;
+					objet.defPosition(objet.obtPosition() + difference);
 					return true;
+				}
 
 			}
 			return true;
-
 		}
 		return false;
 	}

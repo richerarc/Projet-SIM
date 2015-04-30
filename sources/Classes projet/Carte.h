@@ -45,6 +45,7 @@ private:
 		bool PorteAuMur;
 		bool PorteAuSol;
 		bool PorteQuatrePointsAuMur;
+		Vecteur3d v3dtmp;
 		for (auto& it : infoSalleActive.Objet) {
 			if (!enPositionnement) {
 				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
@@ -77,8 +78,11 @@ private:
 						}
 						if (!Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte)) {
 							porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 4));
+							v3dtmp = porte->obtVitesse();
+							porte->defVitesse({ 0, 1, 0 });
 							while (Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, false))
-								porte->defPosition(porte->obtPosition() + Vecteur3d({ 0.0, 0.01, 0.0 }));
+								porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 100));
+							porte->defVitesse(v3dtmp);
 							PorteAuMur = false;
 							PorteAuSol = false;
 							PorteQuatrePointsAuMur = false;
@@ -90,13 +94,16 @@ private:
 					}
 					else
 					if (!PorteAuSol) {
+						porte->defPosition(porte->obtPosition() - (porte->obtVitesse()));
+						v3dtmp = porte->obtVitesse();
+						porte->defVitesse({ 0, -1, 0 });
 						while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, true))
-							porte->defPosition(porte->obtPosition() + Vecteur3d({ 0.0, -0.01, 0.0 }));
+							porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 10));
+						porte->defVitesse(v3dtmp);
+						porte->defPosition(porte->obtPosition() + (porte->obtVitesse()));
 						PorteAuSol = true;
 					}
 				}
-
-				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y - 0.01, porte->obtPosition().z));
 				porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
 
 				it.position = porte->obtPosition();
@@ -239,15 +246,15 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { /*rand() % 3 + 2.0*/1.0, 2.0, /*rand() % 3 + 2.0*/1.0 };
+			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 5; // en attendant que toutes les salles sont conformes
+			aleatoire = /*rand() % 5*/5; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
 
 			// Boucle sur toutes les portes d'un salle pour les positionner...
-			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
+			for (unsigned short IDPorte = 0; IDPorte < /*salle.nbrPorte*/6; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
@@ -430,6 +437,7 @@ public:
 			salle.Objet.clear();
 		}
 
+		infosSalles.resize(1);
 		for (auto& it : infosSalles) {
 			creerSalle(it, true);
 		}
