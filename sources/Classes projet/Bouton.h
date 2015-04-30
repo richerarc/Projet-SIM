@@ -41,7 +41,7 @@ public:
 
 	void gererClic(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectangle().contient(Curseur::obtPosition()) && event.button.button == SDL_BUTTON_LEFT){
+			if (texte->obtRectangle().contient(Curseur::obtPosition()) && (event.button.button == SDL_BUTTON_LEFT || event.cbutton.button == SDL_CONTROLLER_BUTTON_A)){
 				clicRappel(this);
 				if (etat != PAUSE)
 					etat = EN_CLIC;

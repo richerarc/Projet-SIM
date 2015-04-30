@@ -4,15 +4,20 @@ class Curseur {
 
 private:
 	static Vecteur2f position;
+	static int hauteur;
 	gfx::Sprite2D* texture;
 	int positionx;
 	int positiony;
+	
 
 public:
 
 	Curseur(Vecteur2f position) {
+		positionx = 0;
+		positiony = 0;
 		this->position = position;
 		texture = new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("Curseur.png"));
+		hauteur = texture->obtTexture()->obtSurface()->h;
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Curseur::gererEvenementSouris, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Curseur::obtenirAxis, this, std::placeholders::_1));
 	
@@ -44,9 +49,10 @@ public:
 	}
 
 	static Vecteur2f obtPosition() {
-		return position;
+		return Vecteur2f(position.x, position.y + hauteur);
 	}
 
 };
 
 Vecteur2f Curseur::position;
+int Curseur::hauteur(0);
