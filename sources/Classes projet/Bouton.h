@@ -22,7 +22,7 @@ private:
 public:
 	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), new std::string("1"), 0){}
 
-	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, std::string* texte, int taille){
+	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f position, std::string* texte, int taille){
 		etat = DEFAUT;
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;

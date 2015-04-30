@@ -86,6 +86,7 @@ public:
 				return true;
 			}
 		}
+		return false;
 	}
 
 	void sauvegarderControle(char* emplacement) {

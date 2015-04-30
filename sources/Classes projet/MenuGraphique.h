@@ -122,7 +122,7 @@ public:
 	void enClicAppliquer(Bouton* envoi) {
 		resolutionDefaut = iterateur;
 		modeVideoDefaut = modeVideo;
-		Rect<float>::defDimension((*modeVideo).l, (*modeVideo).h);
+		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));
 	}
 
 	void survol(Bouton* envoi){

@@ -3,7 +3,7 @@
 class Curseur {
 
 private:
-	Vecteur2f position;
+	static Vecteur2f position;
 	gfx::Sprite2D* texture;
 	int positionx;
 	int positiony;
@@ -31,9 +31,9 @@ public:
 			positionx = (event.caxis.value) / 2000.0f;
 		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY || event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)
 			positiony = (event.caxis.value) / 2000.0f;
-		rafraichir(event);
 	}
-	void rafraichir(SDL_Event& event) {
+	
+	void rafraichir() {
 		position.x += positionx;
 		position.y -= positiony;
 		texture->defPosition(position);
@@ -43,8 +43,10 @@ public:
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(texture);
 	}
 
-	Vecteur2f obtPosition() {
+	static Vecteur2f obtPosition() {
 		return position;
 	}
 
 };
+
+Vecteur2f Curseur::position;

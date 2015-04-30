@@ -8,15 +8,16 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnairePhases.h"
+#include "Curseur.h"
 #include "Objet.h"
 #include "Sons.h"
 #include "ControlleurAudio.h"
-#include "Curseur.h"
 gfx::Fenetre *fenetre;
 Curseur* curseur;
 /*
 #include les classes plus bases plus tard
 */
+#include "Rect.h"
 #include "ObjetFixe.h"
 #include "Porte.h"
 #include "Pendule.h"
