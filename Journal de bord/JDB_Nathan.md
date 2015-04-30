@@ -157,3 +157,14 @@ Kevin et moi avons travaillé sur le déplacement d'un joueur sur une pente, j'a
 
 -environ 3 heures
 Kevin et moi avons continuer à travailer sur le déplacement du joueur dans une pente, c'est beaucoup plus complexe que ce que l'on pensait vu que l'on a fini par créer plein de problème dans les déplacement sur un plancher droit.
+
+28 avril
+
+-environ 5 heures
+Kevin et moi avons continuer à travailler sur les collisions du joueur dans un pente, sans succes, tous ce qu'on a essayé n'a pas marché.
+Nous avons aussi travailler sur le bug que le joueur ne marchait pas comme il le faut dans un plancher plat.
+
+29 avril
+
+-environ 10 minutes
+Kevin et moi avons été voir Martin (professeur de mathématique) pour nous aider à trouver une formule pour faire bouger notre joueur dans une pente. Il nous a bien aidé.
