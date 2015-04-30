@@ -119,3 +119,6 @@ de 15h à 16h(1h)
 28 avril de 13h à 17h40(4h40)
 -J'ai été assigné a l'implementation d'un gameplay avec une manette. J'ai donc fait plusieurs recherches afin de mieux comprendre les fonctions SDL_GameControlle
 -J'ai ensuite fais la classe Manette.h
+
+30 avril de 9h à 12h (3h)
+-Aujourd'hui je me suis attaqué au "joystick" de la manette. Pour ce faire, Julien m'a fournis la base de la classe Curseur qui remplacera le role de la souris géré avec SDL. J'y ai ajouté des méthodes afins que le curseur puisse réagir avec le "joystick" de la manette.

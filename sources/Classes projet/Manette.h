@@ -19,6 +19,7 @@ public:
 		for (int i = 0; i < SDL_NumJoysticks(); ++i) {
 			if (SDL_IsGameController(i)) {
 				manette = SDL_GameControllerOpen(i);
+				patron = SDL_GameControllerGetJoystick(manette);
 				break;
 			}
 		}

@@ -32,6 +32,8 @@ namespace gfx{
 			fenetrePleinEcran = pe;
 			fenetreOuverte = true;
 			Manette::ouvrirManette();
+		//	SDL_SetRelativeMouseMode(SDL_TRUE);
+		//	SDL_ShowCursor(SDL_DISABLE);
 		}
 
 		~Fenetre(){
