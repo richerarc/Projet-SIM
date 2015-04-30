@@ -95,6 +95,7 @@ private:
 				texte->defTexte(&str1);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
+				objetVise = it_Porte;
 				//}
 			}
 		}
