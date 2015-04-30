@@ -2,9 +2,8 @@
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
 
-
-enum etat {STABLE, ACCROUPI, COURSE, MARCHE, SAUT, CHUTE};
-enum modele {MODELEDEBOUT, MODELEACCROUPI};
+enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
+enum modele { MODELEDEBOUT, MODELEACCROUPI };
 
 class Joueur {
 private:
@@ -20,8 +19,11 @@ private:
 	short santePhysique, santeMentale;
 	Vecteur3d normale;
 	Vecteur3d pointCollision;
+	bool bloque;
+	Chrono chronoSaut;
 
 public:
+
 	Joueur() {}
 
 	Joueur(Vecteur3d position) {
@@ -31,17 +33,17 @@ public:
 		masse = 87.f;
 		santePhysique = 100;
 		santeMentale = 100;
+		vitesse = { 0, 0, 0 };
+		bloque = false;
 		listeCamera[MODELEDEBOUT] = new gfx::Camera;
 		listeCamera[MODELEACCROUPI] = new gfx::Camera;
-		camera = listeCamera[MODELEDEBOUT];
-		vitesse = { 0, 0, 0 };
 		listeModele3D[MODELEDEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		listeModele3D[MODELEACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
+		camera = listeCamera[MODELEDEBOUT];
 		modele3D = listeModele3D[MODELEDEBOUT];
 		listeModele3D[MODELEDEBOUT]->defPosition(position);
 		listeModele3D[MODELEACCROUPI]->defPosition(position);
-		//gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele3D);
-		// listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 3.f, position.z +2));
+		chronoSaut = Chrono();
 	}
 
 	~Joueur() {
@@ -51,101 +53,128 @@ public:
 		delete listeModele3D[1];
 	}
 
-	void deplacement(float frametime){
-		if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
- 			vitesse.x = 0;
-			vitesse.z = 0;
-			if (vitesse.y == 0){
+	void deplacement(){
+		if (!bloque){
+			if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
+				vitesse.x = 0.f;
+				vitesse.z = 0.f;
+				if (vitesse.y == 0){
+					etat = STABLE;
+					vitesse.y = 0.f;
+				}
 				etat = STABLE;
-				vitesse.y = 0.00f;
-			}
-			etat = STABLE;
-		}
-
- 		if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
-			etat = STABLE;
-		}
-
-
-		Vecteur3d devant = camera->obtDevant();
-		devant.y = 0;
-		Vecteur3d cote = camera->obtCote();
-		cote.y = 0;
-		Vecteur3d vitesseTemp;
-		if (Clavier::toucheRelachee(SDLK_LSHIFT) && vitesseDeplacement != 4.f && etat != ACCROUPI)
-			vitesseDeplacement = 4.f;
-
-		if (etat != SAUT && etat != CHUTE) {
-			if (Clavier::toucheAppuyee(SDLK_LSHIFT) && etat != ACCROUPI && vitesseDeplacement != 8.f)
-				vitesseDeplacement = 9.f;
-
-			else if (Clavier::toucheAppuyee(SDLK_LCTRL) && (etat != ACCROUPI)) {
-				camera = listeCamera[MODELEACCROUPI];
-				modele3D = listeModele3D[MODELEACCROUPI];
-				ajouterScene();
-				etat = ACCROUPI;
-				vitesseDeplacement = 2.f;
 			}
 
-			else if (Clavier::toucheRelachee(SDLK_LCTRL) && (etat == ACCROUPI || etat == STABLE || etat == MARCHE)) {
-				camera = listeCamera[MODELEDEBOUT];
-				modele3D = listeModele3D[MODELEDEBOUT];
-				ajouterScene();
+			if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
 				etat = STABLE;
+			}
+
+
+			Vecteur3d devant = camera->obtDevant();
+			devant.y = 0;
+			Vecteur3d cote = camera->obtCote();
+			cote.y = 0;
+			Vecteur3d vitesseTemp;
+			if (Clavier::toucheRelachee(SDLK_LSHIFT) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
 				vitesseDeplacement = 4.f;
-			}
 
-			if (Clavier::toucheAppuyee(SDLK_w)){
-				vitesse = devant * vitesseDeplacement;
-				if (vitesseDeplacement < 5) {
-					if (Clavier::toucheAppuyee(SDLK_d))
-						vitesse = vitesse + (cote * vitesseDeplacement);
+			if (etat != SAUT && etat != CHUTE) {
+				if (Clavier::toucheAppuyee(SDLK_LSHIFT) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
+					vitesseDeplacement = 8.f;
 
-					else if (Clavier::toucheAppuyee(SDLK_a)) {
-						vitesseTemp = cote * vitesseDeplacement;
-						vitesseTemp.inverser();
-						vitesse = vitesse + vitesseTemp;
+				else if (Clavier::toucheAppuyee(SDLK_LCTRL) && (camera != listeCamera[MODELEACCROUPI])) {
+					camera = listeCamera[MODELEACCROUPI];
+					modele3D = listeModele3D[MODELEACCROUPI];
+					ajouterScene();
+					vitesseDeplacement = 2.f;
+				}
+
+				else if (Clavier::toucheRelachee(SDLK_LCTRL) && camera != listeCamera[MODELEDEBOUT]) {
+					camera = listeCamera[MODELEDEBOUT];
+					modele3D = listeModele3D[MODELEDEBOUT];
+					ajouterScene();
+					etat = STABLE;
+					vitesseDeplacement = 4.f;
+				}
+
+				if (Clavier::toucheAppuyee(SDLK_w)){
+					etat = MARCHE;
+					if (normale.x != 0 || normale.z != 0) {
+						vitesse.x = devant.x * vitesseDeplacement;
+						vitesse.z = devant.z * vitesseDeplacement;
+					}
+					else
+						vitesse = devant * vitesseDeplacement;
+					if (vitesseDeplacement < 5) {
+						if (Clavier::toucheAppuyee(SDLK_d)) {
+							if (normale.x != 0 || normale.z != 0) {
+								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+							}
+							else
+								vitesse = vitesse + (cote * vitesseDeplacement);
+						}
+
+						else if (Clavier::toucheAppuyee(SDLK_a)) {
+							if (normale.x != 0 || normale.z != 0) {
+								vitesseTemp.x = cote.x * vitesseDeplacement;
+								vitesseTemp.z = cote.z * vitesseDeplacement;
+							}
+							else
+								vitesseTemp = cote * vitesseDeplacement;
+							vitesseTemp.inverser();
+							if (normale.x != 0 || normale.z != 0) {
+								vitesse.x = vitesse.x + vitesseTemp.x;
+								vitesse.z = vitesse.z + vitesseTemp.z;
+							}
+							else
+								vitesse = vitesse + vitesseTemp;
+						}
 					}
 				}
 
-			}
+				else if (Clavier::toucheAppuyee(SDLK_s)) {
+					vitesse = devant * vitesseDeplacement;
+					vitesse.inverser();
+					if (vitesseDeplacement < 5) {
+						if (Clavier::toucheAppuyee(SDLK_d))
+							vitesse = vitesse + (cote * vitesseDeplacement);
 
-			else if (Clavier::toucheAppuyee(SDLK_s)) {
-				vitesse = devant * vitesseDeplacement;
-				vitesse.inverser();
-				if (vitesseDeplacement < 5) {
-					if (Clavier::toucheAppuyee(SDLK_d))
-						vitesse = vitesse + (cote * vitesseDeplacement);
+						else if (Clavier::toucheAppuyee(SDLK_a)) {
+							vitesseTemp = cote * vitesseDeplacement;
+							vitesseTemp.inverser();
+							vitesse = vitesse + vitesseTemp;
+						}
+					}
+				}
 
-					else if (Clavier::toucheAppuyee(SDLK_a)) {
-						vitesseTemp = cote * vitesseDeplacement;
-						vitesseTemp.inverser();
-						vitesse = vitesse + vitesseTemp;
+				else if (Clavier::toucheAppuyee(SDLK_a)) {
+					vitesse = cote * vitesseDeplacement;
+					vitesse.inverser();
+				}
+
+				else if (Clavier::toucheAppuyee(SDLK_d)){
+					vitesse = cote * vitesseDeplacement;
+				}
+
+				if (Clavier::toucheAppuyee(SDLK_SPACE) && (camera != listeCamera[MODELEACCROUPI])) {
+					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
+					{
+						chronoSaut.repartir();
+						vitesse.y = 7;
+						etat = SAUT;
 					}
 				}
 			}
-
-			else if (Clavier::toucheAppuyee(SDLK_a)) {
-				vitesse = cote * vitesseDeplacement;
-				vitesse.inverser();
-			}
-
-			else if (Clavier::toucheAppuyee(SDLK_d)){
-				vitesse = cote * vitesseDeplacement;
-			}
-
-			if (Clavier::toucheAppuyee(SDLK_SPACE) && etat != ACCROUPI ) {
-				vitesse.y = 5;
-				etat = SAUT;
-			}
+			modele3D->defOrientation(0, (camera->obtHAngle()), 0);
 		}
 	}
 
 	/* by Sam
 	void changementSalle(Objet* objet, Joueur& joueur){
-		Carte::obtInstance().destination(Entree(Carte::obtInstance().salleActive->obtID(), objet->obtID(), false) joueur);
+	Carte::obtInstance().destination(Entree(Carte::obtInstance().salleActive->obtID(), objet->obtID(), false) joueur);
 	}
-	*/ 
+	*/
 	void longer(){
 		Vecteur3d direction;
 		//x
@@ -239,67 +268,77 @@ public:
 		}
 	}
 
-	void ajouterScene(){
-		gfx::Gestionnaire3D::obtInstance().defCamera(camera);
-	}
+	void ajouterScene(){ gfx::Gestionnaire3D::obtInstance().defCamera(camera); }
 
-	gfx::Modele3D* obtModele3D() {
-		return modele3D;
-	}
+	void defVitesseY(double y){ this->vitesse.y = y; }
 
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
 		this->modele3D->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x ,position.y + 1.8f, position.z));
+		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.8f, position.z));
+		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.2f, position.z));
+	}
+
+	void defPositionY(double y) {
+		this->position.y = y;
+		this->modele3D->defPosition(position);
+		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.8f, position.z));
 		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.2f, position.z));
 	}
 
 	void defPointCollision(Vecteur3d pointCollision){
 		this->pointCollision = pointCollision;
 	}
-	void defNormale(Vecteur3d normale){
-		this->normale = normale;
+
+	void defNormale(Vecteur3d normale){ this->normale = normale; }
+
+	void defAngleHorizontal(double hAngle){ camera->defHAngle(Maths::degreARadian(hAngle)); }
+
+	void defEtat(unsigned int etat){ if (etat <= 5) this->etat = etat; }
+
+	void bloquer(){
+		this->bloque = true;
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 	}
-	Vecteur3d& obtNormale(){
-		return this->normale;
+
+	void deBloquer(){
+		this->bloque = false;
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
 	}
+
+	gfx::Modele3D* obtModele3D() { return modele3D; }
+
+	bool obtBloque(){ return bloque; }
+
+	double obtAngleHorizontal(){ return camera->obtHAngle(); }
+
+	Vecteur3d& obtNormale(){ return this->normale; }
+
 	Vecteur3d obtPositionCamera(){
 		Vecteur3d temp = camera->obtPosition();
 		temp.y = temp.y - 1.8f;
 		return temp;
 	}
 
+	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
+
+	void defSanteMentale(short santeMentale) { this->santeMentale = santeMentale; }
+
 	short obtSantePhysique(){ return santePhysique; }
 
 	short obtSanteMentale(){ return santeMentale; }
 
-	Vecteur3d& obtPointCollision(){
-		return this->pointCollision;
-	}
+	Vecteur3d& obtPointCollision(){ return this->pointCollision; }
 
-	Vecteur3d& obtPosition(){
-		return this->position;
-	}
+	Vecteur3d& obtPosition(){ return this->position; }
 
-	Vecteur3d& obtVitesse(){
-		return this->vitesse;
-	}
+	Vecteur3d& obtVitesse(){ return this->vitesse; }
 
-	double obtMasse(){
-		return masse;
-	}
+	double obtMasse(){ return masse; }
 
-	float obtVitesseDeplacement(){
-		return vitesseDeplacement;
-	}
+	float obtVitesseDeplacement(){ return vitesseDeplacement; }
 
-	int obtEtat(){
-		return etat;
-	}
+	int obtEtat(){ return etat; }
 
-	void defEtat(unsigned int etat){
-		if (etat <= 5){
-			this->etat = etat;
-		}
-	}
+	Vecteur3d& obtVectOrientationVue() { return camera->obtDevant(); }
 };

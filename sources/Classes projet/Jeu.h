@@ -1,3 +1,5 @@
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, PHASEJEU };
+
 #pragma once
 #include "Singleton.h"
 #include "Fenetre.h"
@@ -29,8 +31,6 @@
 #include "PhaseMenuNouvellePartie.h"
 #include "PhaseMenuPause.h"
 
-
-
 class Jeu{
 
 public:
@@ -51,17 +51,32 @@ public:
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		ControlleurAudio::obtInstance().initialiser(100);
 		
-		
-		fenetre = new gfx::Fenetre(gfx::ModeVideo(800, 600), "CoffeeTrip", false);
-		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());
-		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
+		GestionnaireControle::obtInstance().lireControle("Controle.txt");
 
-		Rect<float>::defDimension(600);
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
+		Rect<float>::defDimension(1280, 720);
+		gfx::Gestionnaire3D::obtInstance().defFrustum(45, fenetre->obtRatio(), 1, 1000);
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());		//0
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//1
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());		//2
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuNouvellePartie());	//3
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//4
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//5
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//6
+		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+
+		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
 		{
+			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
+			if (phase != nullptr) {
+				char chr[100];
+				fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().salleActive->obtID(), chr, 10)));
+			}
 			frameTime = chrono.repartir().enSecondes();
 			while (fenetre->sonderEvenements(evenement))
 			{
@@ -71,7 +86,10 @@ public:
 			fenetre->vider();
 			glLoadIdentity();
 			// Mouvement ici
-			GestionnairePhases::obtInstance().rafraichir(frameTime);
+			if (GestionnairePhases::obtInstance().obtPhaseActive() == nullptr)
+				fenetre->fermer();
+			else
+				GestionnairePhases::obtInstance().rafraichir(frameTime);
 		
 			// Affichage ici
 			gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
@@ -80,17 +98,14 @@ public:
 			
 
 			fenetre->rafraichir();
-			if (GestionnairePhases::obtInstance().obtPhase(0) == nullptr)
-				fenetre->fermer();
 		}
 		
 		delete fenetre;
-		ControlleurAudio::obtInstance().fermer();
-		Mix_CloseAudio();
+		//ControlleurAudio::obtInstance().fermer();
+		//Mix_CloseAudio();
 		TTF_Quit();
 		SDL_Quit();
 	}
-
 };
 
 gfx::Fenetre* Jeu::fenetre = nullptr;

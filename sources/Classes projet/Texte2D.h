@@ -6,43 +6,19 @@
 namespace gfx{
 	class Texte2D : public Objet2D{
 	public:
-		const char* texte;
-		unsigned int taille;
-		SDL_Color couleur;
-		TTF_Font* police;
-		GLuint ID;
+		gfx::Texte* texte;
 
-
-		Texte2D(const char* texte, TTF_Font* police, Vecteur2f  position) : Objet2D(position){
-			this->texte = texte;
-			this->taille = taille;
-			this->police = police;
-			couleur = { 255, 255, 255, 255 };
+		Texte2D(std::string* texte, SDL_Color couleur, gfx::Police* police, Vecteur2f position) : Objet2D(position){
+			this->texte = gfx::GestionnaireRessources::obtInstance().obtTexte(texte->c_str(), couleur, police);
 			surface = nullptr;
-			glGenTextures(1, &ID);
-			chargerSurface();
 		}
 		Texte2D(){
 			this->texte = nullptr;
-			this->taille = 0;
-			police = nullptr;
-		}
-		~Texte2D(){
-			TTF_CloseFont(police);
-		}
-		void chargerSurface(){
-			if (surface)
-				SDL_FreeSurface(surface);
-			surface = TTF_RenderText_Blended(police, texte, couleur);
 
-			glBindTexture(GL_TEXTURE_2D, ID);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, surface->pixels);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		}
-		void defTexte(const char* texte){
-			this->texte = texte;
-			chargerSurface();
+
+		void defTexte(std::string* texte){
+			this->texte = gfx::GestionnaireRessources::obtInstance().obtTexte(texte->c_str(), this->texte->obtCouleur(), this->texte->obtPolice());
 		}
 		void afficher(gfx::Fenetre& fenetre){
 			glDisable(GL_DEPTH_TEST);
@@ -51,7 +27,7 @@ namespace gfx{
 			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
-			glBindTexture(GL_TEXTURE_2D, ID);
+			glBindTexture(GL_TEXTURE_2D, texte->obtID());
 			glLoadIdentity();
 			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_BLEND);
@@ -64,16 +40,18 @@ namespace gfx{
 			glVertex2d(position.x, position.y);  //1
 
 			glTexCoord2i(1, 1);
-			glVertex2d(surface->w + position.x, position.y); //2
+			glVertex2d(texte->obtSurface()->w + position.x, position.y); //2
 
 			glTexCoord2i(1, 0);
-			glVertex2d(surface->w + position.x, surface->h + position.y); //3
+			glVertex2d(texte->obtSurface()->w + position.x, texte->obtSurface()->h + position.y); //3
 
 			glTexCoord2i(0, 0);
-			glVertex2d(position.x, surface->h + position.y); //4
+			glVertex2d(position.x, texte->obtSurface()->h + position.y); //4
 
 
 			glEnd();
+
+			glScaled(this->echelle.x, this->echelle.y, 1);
 
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_BLEND);
@@ -82,24 +60,16 @@ namespace gfx{
 			glMatrixMode(GL_MODELVIEW);
 			glPopMatrix();
 		}
-		void defPolice(const char* pathPolice){
-			police = TTF_OpenFont(pathPolice, taille);
-			chargerSurface();
+		void defPolice(Police* police){
+			this->texte = gfx::GestionnaireRessources::obtInstance().obtTexte(texte->obtTexte(), texte->obtCouleur(), police);
 		}
-		void defTaille(unsigned int taille){
-			this->taille = taille;
-			chargerSurface();
-		}
+
 		void defCouleur(SDL_Color couleur){
-			this->couleur = couleur;
-			chargerSurface();
+			this->texte = gfx::GestionnaireRessources::obtInstance().obtTexte(texte->obtTexte(), couleur, texte->obtPolice());
 		}
-		const char* obtTexte(){ return texte; }
-		unsigned int obtTaille(){ return taille; }
-		SDL_Color obtCouleur(){ return couleur; }
 
 		Rectf obtRectangle(){
-			return Rectf(position.x, position.y, surface->w, surface->h);
+			return Rectf(position.x, position.y, texte->obtSurface()->w, texte->obtSurface()->h);
 		}
 
 

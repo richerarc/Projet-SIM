@@ -1,74 +1,103 @@
+
 #pragma once
 #include "Menu.h"
 #include "Sprite2D.h"
 #include "PhaseMenuOptions.h"
-
-
-
+#include "Bouton.h"
 class MenuPause : public Menu {
-
 private:
-	gfx::Texte2D* retourJeu;
-	gfx::Texte2D* options;
-	gfx::Sprite2D* spriteFond;
+	Bouton* options;
+	Bouton* quitter;
 
 public:
 	MenuPause(void) : Menu() {
-		retourJeu = new gfx::Texte2D("Back", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(180, 400));
-		options = new gfx::Texte2D("Options", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(430, 400));
-		this->Retour = new gfx::Texte2D("Quit", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial45", 45), Vecteur2f(350, 200));
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({options, Retour, retourJeu });
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
+		options = new Bouton(std::bind(&MenuPause::enClicOptions, this, std::placeholders::_1),
+			std::bind(&MenuPause::survol, this, std::placeholders::_1),
+			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
+			Vecteur2f(600, 500),
+			new std::string("Options"),
+			50);
+
+		quitter = new Bouton(std::bind(&MenuPause::enClicQuitter, this, std::placeholders::_1),
+			std::bind(&MenuPause::survol, this, std::placeholders::_1),
+			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
+			Vecteur2f(450, 200),
+			new std::string("Quit"),
+			50);
+
+		this->retour = new Bouton(std::bind(&MenuPause::enClicRetour, this, std::placeholders::_1),
+			std::bind(&MenuPause::survol, this, std::placeholders::_1),
+			std::bind(&MenuPause::defaut, this, std::placeholders::_1),
+			Vecteur2f(300, 500),
+			new std::string("Back"),
+			50);
+		defPause(true);
 	}
+
 	~MenuPause(){
-		gfx::Gestionnaire2D::obtInstance().vider();
+		gfx::Gestionnaire2D::obtInstance().retObjets({ this->spriteFond });
+		delete this->spriteFond;
 	}
 
-	void actualiser(){
-		if (retourJeu->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			retourJeu->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().obtPhase(0)->defPause(false);
-				SDL_SetRelativeMouseMode(SDL_TRUE);
-				SDL_ShowCursor(SDL_DISABLE);
-				gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
-				gfx::Gestionnaire3D::obtInstance().obtCamera()->defPause(false);
-			}
-		}
-		else{
-			retourJeu->defCouleur({ 0, 0, 0, 255 });
-		}
-		if (options->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			options->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().obtDerniere()->defPause(true);
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());
-			}
-		}
-		else{
-			options->defCouleur({ 0, 0, 0, 255 });
-		}
+	void survol(Bouton* sender){
+		sender->defCouleur({ 255, 0, 0, 255 });
+	}
 
-		if (Retour->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			Retour->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire3D::obtInstance().vider();
-			}
-		}
-		else{
-			Retour->defCouleur({ 0, 0, 0, 255 });
-		}
+	void defaut(Bouton* sender){
+		sender->defCouleur({ 0, 0, 0, 255 });
+	}
+
+	void enClicRetour(Bouton* sender){
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+		GestionnairePhases::obtInstance().enleverPhaseActive();
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+		SDL_ShowCursor(SDL_DISABLE);
+		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+		gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
+	}
+
+	void enClicOptions(Bouton* sender){
+		gfx::Gestionnaire2D::obtInstance().vider();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+		GestionnairePhases::obtInstance().defPhaseActive(MENUOPTIONS);
+		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+	}
+
+	void enClicQuitter(Bouton* sender){
+		GestionnairePhases::obtInstance().viderPhaseActive();
 	}
 
 	void remplir() {
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
+		options->remplir();
+		retour->remplir();
+		quitter->remplir();
+	}
+	void defPause(bool pause) {
+		if (pause) {
+			this->pause = pause;
+			quitter->defEtat(PAUSE);
+			options->defEtat(PAUSE);
+			retour->defEtat(PAUSE);
+		}
+		else {
+			this->pause = pause;
+			quitter->defEtat(DEFAUT);
+			options->defEtat(DEFAUT);
+			retour->defEtat(DEFAUT);
+		}
+	}
 
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ options, Retour, retourJeu });
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		options->defEchelle(vecteurEchelle);
+		quitter->defEchelle(vecteurEchelle);
+		this->spriteFond->defEchelle(vecteurEchelle);
+		quitter->defEchelle(vecteurEchelle);
+		this->retour->defEchelle(vecteurEchelle);
 	}
 };

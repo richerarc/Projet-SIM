@@ -200,6 +200,7 @@ Modele3D() : Objet3D(){
 		void defEchelle(double echX, double echY, double echZ){
 			echelle = Vecteur3d(echX, echY, echZ);
 			sommet_Est_Transforme = true;
+			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
@@ -284,6 +285,7 @@ Modele3D() : Objet3D(){
 		}
 
 		void afficher(){
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glEnable(GL_DEPTH_TEST);
 			glBindTexture(GL_TEXTURE_2D, texture.obtID());
 			glPushMatrix();
@@ -300,6 +302,7 @@ Modele3D() : Objet3D(){
 				glDrawArrays(GL_TRIANGLES, 0, modele->obtNbrSommets());
 			glPopMatrix();
 			glDisable(GL_DEPTH_TEST);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
 	};

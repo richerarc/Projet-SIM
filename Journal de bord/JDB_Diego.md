@@ -66,4 +66,10 @@ en gros, j'ai corrigé une grosse partie de la classe Glisseur.h et, avec l'aide 
 
 Aujourdhui: Jai travaillé sur la detection d'objet, plus preciement des portes afin d'afficher du texte lorsque le joueur est proche dune porte ou objet en general. J'ai ajouté une fonction dans GestionnaireControle.h, qui retourne, en char la touche desirée.
 
-Durée: environ 3h
+Durée: environ 3h  
+
+--28 Avril 2015 (16h15)--
+
+J'ai travaillé dans la clase PhaseJeu.h, dans la fonction DetectionObjet() afin d'afficher le texte seulement quand le joueur regarde dans la direction où la porte est placée. Jai du changer plusieurs choses car la classe GestionnaireControle.h a été changée depuis mon dernier commit.
+
+Durée: environ 3h20

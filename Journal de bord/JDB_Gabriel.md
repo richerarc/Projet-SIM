@@ -319,4 +319,70 @@ Bugs:
 Prochain cycle (déjà entammé):
 
 >Travailler sur la transition d'une salle à une autre.
- ­­­
+ 
+###23 avril 2015
+
+**0h30**: Modification sur le travail de Samuel pour l'appel de changement de salle lorsqu'une porte est ouverte.
+
+**0h20**: Création d'un faux mur en blender pour Damien.
+
+**0h15**: Petite répartition des tâche entre Nicolas, Damien et moi, j'ai donné à Damien le mandat de la transition de salle, soit l'animation de changement de salle. Nicolas et moi allons retravailler sur la génération des portes pour qu'elles soitent  meilleur.
+
+**2h00**: Finalement, nous allons utiliser une autre technique pour placer nos portes! Nous allons d'abord placer des portes au hasard dans nos boîtes de collision tout en tenant compte que deux portes qui ont la même direction ne doivent pas être vis-à-vis. En ce qui concerne la direction, c'est ce qui nous permettra de placer les portes sur les murs. Nous allons leur donner un vecteur vitesse à leur création et tant qu'il n'y a pas de collision, nous allons incrémenter la position de la porte selon sa direction.
+
+###24 avril 2015
+
+**1h30**: En testant le jeux, j'ai remarqué que certaines piece boucle sur elles-même. J'en ai parlé avec Richer puis nous avons travaillé à régler le problème. Nous avons eu à dessiner le graphe et faire quelques test pour trouver le problème.
+
+**0h30**: Nous avons abordé le sujet des choses qui reste à faire et en parlant, nous avons comme eu un élan sur une discution sur la façon de calculer la perte de point de mentalité. Nous en sommes dabord venu avec l'idée que pour perdre des points de vie, il fallait que le trajet effectué par le joueur soit physiquement impossible. Pour ça, nous avons dabord établi que si le joueur doit faire passe par une sortie/entrée et que les deux portes n'ont pas la direction opposée, c'est physiquement anormal. En étudiant d'autres cas, nous avons aussi établi que : 
+
+![](http://i.imgur.com/kT5ExIf.png)
+
+Donc si le joueur entre dans une porte en sens opposé, ce qui est physiquement possible selon nos restrictions d'avant, maintenant, la prochaine condition à ajouter serait que si le joueur va par exemple vers la gauche, donc vers le négatif, et que sa position est incrémentée positivement lors du transfert de salle, c'est physiquement impossible!
+
+**3h00**: Travail en alternance sur la génération des portes j'ai fait une nouvelle pièce, il y a des problèmes à régler. J'ai synthétisé du code, réglé plusieurs problèmes, j'ai aussi ajouté un bool dans PhaseJeu d'où on appel changementDeSalle() afin que de un on n'utilise plus la toucheAppuyée parce qu'il faut appuyer anormalement vite! et que toucheRelachée ne dit pas si une touche a été relachée, mais plutôt si elle est relaché, ce qui est quand même inutile... J'ai modifié un peu les collision pour qu'elles fonctionnent différamment avec le porte à la génération. Étant donné que j'ai fait plusieurs modifications j'ai pris le temps de vérifier avec certitude que je ne créerais pas d'erreurs de compilation. Je suis assez content de l'avancement dans la génération des portes, je crois pouvoir compléter le tout en fin de semaine. Déjà on peut circuler sans problème dans la "labirynthe"! Je constate que le cycle itératif n'a pas vraiment été respecté, mais étant donné que nous ne pouvions pas vraiment être trois à travailler sur le même cycle, je crois qu'il est plus profitable d'en faire plusieurs en même temps. Voici ce qui me resterait à faire côté génération des portes:
+
+- Donner une rotation à la porte selon la normale de collision(peut-être faire des collisions spécifiquement pour la génération des portes parce qu'elles commencent à différer énormément des collisions objet-salle).
+- Faire un clean-up du code de génération!­­
+
+###25 avril 2015
+
+**0h30**: Commentaire et clean up du code de génération de porte.
+
+**1h00**: Création d'une nouvelle salle pour faire des tests sur les portes en angle, la salle est correct, mais je suis complètement incapable de me déplacer avec le joueur...
+
+**1h00**: J'ai créée une procédure spécifique pour les collisions des portes puisqu'elles commençaient à diverger beaucoup de collisionObjetSalle. J'ai aussi ajouté une orientation pour les portes donc elles devraient pouvoir maintenant se positionner sur un mur dont l'orientation n'est pas parallèle à l'axe X et Z. Par contre, étant donné que le joueur ne peu pas bouger dans ma salle convergente, je vais devoir attendre avant de tester.
+
+**0h20**: J'ai retirer la physique du joueur pour pouvoir me mouvoir comme je le veux! les orientation sont bonnes sur le mur désaxés, par contre, dans ma nouvelle salle, toutes les portes sont dans le mauvais sens(180°), pourtant dans la pièceL et Salle4x4 elles sont correctes. J'essaie de comprendre pourquoi!
+
+**0h30**: Après de longue minutes de "Mais pourquoi ça marche pas!?!?!?" j'ai finalement découvert que les normales de ma pièce n'étaient pas dans la bon sens...
+
+**0h15**: J'ai testé un peu les portes sur des murs désaxés(avec un salle qui fonctionne), ça fonctionne à moitié, des fois elles sont parfaitement sur le mur, d'autres fois elles ne semblent pas avoir eu de rotation.
+
+Voici ma façon de trouve l'angle:
+
+![](http://i.imgur.com/Xh6EyCq.png)
+
+**1h00**: J'ai modifié la collisionPorte pour qu'elle ne se fasse qu'avec l'origine de la porte(nécessaire pour les rotations), j'ai restructuré un peu le code dans carte pour qu'il y ait moins de répétage de code inutile, j'ai réglé le bug que Dean avait signalé sans vraiment aucune précision sur gitter.
+
+###26 avril 2015
+
+**0h05**: Correction d'une erreur de compilation mentionnée par Damien.
+
+###28 avril 2015
+
+>Personnellement, je suis quelqu'un qui aime beaucoup programmer, et surtout­, qui aime faire les chose bien, par exemple les rebonds(que je finierai en temps j'espère). Pour certaines personne le positionnement des portes pourrait être satisfaisant si elles pouvaient aller sur de mur plat en ligne droite, pour moi non. Recemment j'ai travaillé à donner un angle aux portes ce qui semble être de mieux en mieux. Pour la suite, j'essaierai de faire en sorte que mes portes puissent passer par des marches et se positionner correctement. J'ai déjà un idée de comment faire!(pas sur si ça va fonctionner par contre)
+
+**3h00**: Travail sur l'angulation des portes sur des murs désaxés. La technique que j'emploie est bonne, mais je me suis rendu compte qu'il y avait deux cas différents. J'ai déterminé que le calcul variera si l'angle entre ma normale et le vecteur directeur de ma porte est moins ou plus de 180°. Par contre, dans le calcul de l'angle entre deux vecteurs, l'agnle retourné est toujours plus petit que 180°. Après réflexion et une petite visite chez nos sympathiques proffesseurs de mathématique, j'ai pu déterminer plusieurs conditions qui me disent si, pour trouver l'angle, je doit faire l'angle entre mes deux vecteurs ou 360 - l'angle entre mes deux vecteurs. Grâce à ça, mes porte se désaxent correctement!
+
+**6h00(école) + 3h00(maison)**: Travail sur les portes qui montent des escaliers. Le trois quarts des heures de travail ont été destinés à des heures de débogage ardu. L'idée que j'utilise pour positionner mes portes au-delà des escaliers est la suivante: Je fais translater ma porte dans la direction de son vecteur déterminé au début jusqu'à ce que j'ai une collision(exactement comme des mur normaux). Ensuite, je vérifie aux quatres coins de la porte si ils sont tous en collision. Si ce n'est pas le cas, ça signifie que j'ai une marche. Donc je monte ma porte jusqu'à ce que je n'ai plus de collision. Quand je n'ai plus de collision, c'est que la porte est au niveau de la première marche. Je répète le procédé jusqu'à ce que je translate ma porte et que la collision des quatres coins de ma porte retourne vrai. Ensuite, je redessant la porte au niveau du sol au cas où elle serait un peu surélevée à cause des nombreuses modification que je fais dessus.
+
+![](http://i.imgur.com/OLxJcpx.png)
+
+Même si cela peut parraîttre simple à première vue, j'ai eu beaucoup de problèmes avec les collisions qui ne donnaient pas toujours le même résultat et il a fallu que je "tweek" plusieurs choses. Par exemple, parfois le repositionnement créait une boucle avec lui même c'est à dire que comme sur l'image, l'opération 1-2 se refaisaient sans arrête. Je translatais la porte au mur, le repositionnement se faisait, et je retraslatais, et le repositionnement, etc... Il y a eu de nombreux problème du genre, c'est pour ça que ça fait beaucoup d'heures(de débogage), d'ailleurs Julien m'a donné un coup de pouce pour trouver les chose louche que les collisions créaient involontairement et faire les modifications appropriées. Il y a encore différents problèmes à repérer, je ne suis pas encore sorti du bois...
+
+Durant l'après midi(6h00 école) j'ai aussi aidé Damien pour l'animation, j'ai aidé Richer et Julien pour trouver une façon de calculer la perte de santé mentale du joueur, etc...
+
+###29 avril 2015
+
+**3h00**: Un beau dernier trois heures de travail pour complèter les portes/escaliers. Elles se positionnement maintenant bien et il ne devrait plus y avoir de boucles infinis, assez fier du résultat je suis.

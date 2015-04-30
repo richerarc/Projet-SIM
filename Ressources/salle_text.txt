@@ -1,7 +1,6 @@
-pieceL.obj pieceL.png pieceL.txt
-
+SalleL.obj SalleL.png SalleL.txt
 SalleCarree4x4.obj SalleCarree4x4.png SalleCarree4x4.txt
-
-ConnecteurTunnel.obj ConnecteurTunnel.png ConnecteurTunnel.txt
-
-PieceRonde.obj PieceRonde.png PieceRonde.txt
+SalleConvergente.obj SalleConvergente.png SalleConvergente.txt
+SalleLosange.obj SalleLosange.png SalleLosange.txt
+SalleEscalier.obj SalleEscalier.png SalleEscalier.txt
+SalleEscalierDesaxee.obj SalleEscalierDesaxee.png SalleEscalierDesaxee.txt

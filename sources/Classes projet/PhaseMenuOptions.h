@@ -23,14 +23,23 @@ public:
 
 	}
 
-	void rafraichir(float frameTime){
-
-		menuOptions->actualiser();
+	void rafraichir(float frameTime) {
 
 	}
 
 	void remplir() {
 
+		menuOptions->remplir();
+
+	}
+
+	void defPause(bool pause) {
+		menuOptions->defPause(pause);
+		this->pause = pause;
+	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		menuOptions->actualiserEchelle(vecteurEchelle);
 	}
 
 };

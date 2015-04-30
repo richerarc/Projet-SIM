@@ -20,7 +20,7 @@ public:
 		return point;
 	}
 
-	Vecteur3d obtenirVecteurDirecteur() {
+	Vecteur3d& obtenirVecteurDirecteur() {
 		return vecteurDirecteur;
 	}
 };

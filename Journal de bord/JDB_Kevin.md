@@ -227,3 +227,28 @@ Plus tard dans la soirée jai du regler des erreurs de compilation provenant des
 Le joueur prend plus de temps que prévu le débuggage est complexe et de bug apparaissent quand on en règle.
 
 **Temps 4h**
+
+##**`23 Avril 2015`**
+
+J'ai fais quelques modifications avec Nathan pour le déplacement du joueur, nous sommes allés voir Annie Bacon pour un question sur les vecteurs et les plans. Nous allons devoir implémenter la projection de points sur un plan pour en faire un vecteur, nous avons passés le cours au complet pour trouver la solution.
+
+**Temps 3h**
+
+##**`24 Avril 2015`**
+
+Aujourd'hui j'ai tenter en vain de replacer la physique pour faire tomber le joueur selon la gravité. Nathan a finalement trouvé la réponse. De plus j'ai trouvé un moyen de le faire monter la pente. Je voulais éviter d'imjplémenter la projection mais je dois me rendre a l'évidence, on n'a pas le choix, c'est le seul moyen.
+
+**Temps 1h30**
+
+##**`27 Avril 2015`**
+
+Aujourd'hui j'ai tenté avec Nathan de regler le déplacement du joueur dans une pente sans succes. J'ai aussi fait du menage et du réglage de bugs. J'ai revert quelques de nos commits sur le joueur quand j'ai remarqué que nous avions causé plus de marde que de bien. Le déplacement sur les surfaces planes sont quasi parfaits. Encore quelques réglages comme comprendre pourquoi le joueur passe a travers les murs quand l'angle est petit...
+Nous allons devoir trouver un moyen de faire marcher l'Ajustement de la vitesse selon le plan de la face de collision pour permettre un déplacement en pente. Il va falloir aussi trouver un moyen de monter dans des escaliers...  
+
+**Temps: Beaucoup trop...** (4h)
+
+##**`28 Avril 2015`**
+
+Nathan et moi avons faits quelques modifications pour le joueur maintenenat il descends les pentes. Nous avons gosser longtemps pour arriver à ce résultat. Ça commence a être long la.
+
+**Temps 4h...**

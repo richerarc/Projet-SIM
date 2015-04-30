@@ -17,6 +17,13 @@ public:
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 
+	~Salle() {
+		for (auto it : objets) {
+			delete it;
+		}
+		gfx::Gestionnaire3D::obtInstance().retObjet(modele);
+	}
+
 	unsigned int obtNbrPortes(){
 		return nbrPortes;
 	}
@@ -34,7 +41,7 @@ public:
 	}
 
 	void defEchelle(Vecteur3d& echelle){
-		this->modele->defEchelle(echelle.x,echelle.y,echelle.z);
+		this->modele->defEchelle(echelle.x, echelle.y, echelle.z);
 	}
 
 	void defPosition(int axeX, int axeY, int axeZ){
@@ -44,21 +51,21 @@ public:
 	gfx::Modele3D* obtModele(){
 		return modele;
 	}
-	
+
 	void ajoutObjet(Objet *objet){
 		objets.push_back(objet);
 	}
-	
+
 	Objet* obtObjet(unsigned int ID){
-		for(auto it: objets){
+		for (auto it : objets){
 			if (it->obtID() == ID)
 				return it;
 		}
 		return nullptr;
 	}
-	
+
 	std::list<Objet*>& obtListeObjet() {
-		
+
 		return objets;
 	}
 };

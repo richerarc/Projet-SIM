@@ -1,71 +1,117 @@
 #pragma once
 #include "Menu.h"
 #include "Texte2D.h"
-
+#include "MenuSon.h"
+#include "PhaseMenuSon.h"
+#include "PhaseMenuGraphique.h"
+#include "PhaseMenuControle.h"
+#include "Bouton.h"
 class MenuOptions : public Menu {
-
 private:
-	gfx::Texte2D* son;
-	gfx::Texte2D* controle;
-	gfx::Texte2D* graphique;
+
+	Bouton* son;
+	Bouton* graphique;
+	Bouton* controle;
+	
 public:
+
 	MenuOptions(void) {
-		son = new gfx::Texte2D("Sound", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 450));
-		graphique = new gfx::Texte2D("Graphic", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 300));
-		controle = new gfx::Texte2D("Controle", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 150));
-		this->Retour = new gfx::Texte2D("Back", gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", "arial50", 50), Vecteur2f(50, 30));
-		this->SpriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ this->SpriteFond, son, controle, this->Retour, graphique });
+
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+
+		son = new Bouton(std::bind(&MenuOptions::enClicSon, this, std::placeholders::_1),
+			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
+			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
+			Vecteur2f(300, 600),
+			new std::string("Sound"),
+			50);
+
+		graphique = new Bouton(std::bind(&MenuOptions::enClicGraphique, this, std::placeholders::_1),
+			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
+			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
+			Vecteur2f(300, 450),
+			new std::string("Graphic"),
+			50);
+
+		controle = new Bouton(std::bind(&MenuOptions::enClicControle, this, std::placeholders::_1),
+			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
+			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
+			Vecteur2f(300, 300),
+			new std::string("Controles"),
+			50);
+
+		this->retour = new Bouton(std::bind(&MenuOptions::enClicRetour, this, std::placeholders::_1),
+			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
+			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
+			Vecteur2f(300,150),
+			new std::string("Back"),
+			50);
+		defPause(true);
 	}
 
 	~MenuOptions(void) {
-		gfx::Gestionnaire2D::obtInstance().vider();
+		gfx::Gestionnaire2D::obtInstance().retObjets({ this->spriteFond });
+		delete this->spriteFond;
+	}
+	
+	void survol(Bouton* sender){
+		sender->defCouleur({ 255, 0, 0, 255 });
 	}
 
-	void actualiser(void) {
-
-		if (this->son->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			this->son->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-
-			}
-		}
-		else{
-			this->son->defCouleur({ 0, 0, 0, 255 });
-		}
-
-		if (this->controle->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			this->controle->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-			
-			}
-		}
-		else{
-			this->controle->defCouleur({ 0, 0, 0, 255 });
-		}
-
-		if (this->graphique->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			this->graphique->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-
-			}
-		}
-		else{
-			this->graphique->defCouleur({ 0, 0, 0, 255 });
-		}
-
-		if (this->Retour->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y)) {
-			this->Retour->defCouleur({ 215, 110, 75, 255 });
-			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				GestionnairePhases::obtInstance().retirerPhase();
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().obtDerniere()->defPause(false);
-				GestionnairePhases::obtInstance().obtDerniere()->remplir();
-			}
-		}
-		else{
-			this->Retour->defCouleur({ 0, 0, 0, 255 });
-		}
+	void defaut(Bouton* sender){
+		sender->defCouleur({ 0, 0, 0, 255 });
 	}
 
+	void enClicRetour(Bouton* envoi){
+		clicRetour();
+	}
+
+	void enClicSon(Bouton* envoi){
+		clic(MENUSON);
+	}
+
+	void enClicGraphique(Bouton* envoi){
+		clic(MENUGRAPHIQUE);
+	}
+
+	void enClicControle(Bouton* envoi){
+		clic(MENUCONTROL);
+	}
+
+	void remplir(void) {
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
+		son->remplir();
+		graphique->remplir();
+		controle->remplir();
+		retour->remplir();
+
+	}
+	void defPause(bool pause) {
+
+		if (pause) {
+			this->pause = pause;
+			graphique->defEtat(PAUSE);
+			son->defEtat(PAUSE);
+			controle->defEtat(PAUSE);
+			retour->defEtat(PAUSE);
+		}
+
+		else {
+			this->pause = pause;
+			graphique->defEtat(DEFAUT);
+			son->defEtat(DEFAUT);
+			controle->defEtat(DEFAUT);
+			retour->defEtat(DEFAUT);
+		}
+
+	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		this->retour->defEchelle(vecteurEchelle);
+		this->spriteFond->defEchelle(vecteurEchelle);
+		son->defEchelle(vecteurEchelle);
+		graphique->defEchelle(vecteurEchelle);
+		controle->defEchelle(vecteurEchelle);
+	}
+	
 };

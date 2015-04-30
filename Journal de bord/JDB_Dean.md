@@ -171,4 +171,12 @@ Premièrement j'ai ajouté une méthode remplir dans toutes les phases, menus et
 
 ###Durée: 4h
 
-##Durée Totale: 53h30
+##Jeudi 23 avril 2015
+
+###10:30 à 11:30
+
+J'ai refait le diagramme de classes pour qu'il ressemble à ce que nous avions au début.
+
+###Durée: 1h
+
+##Durée Totale: 54h30

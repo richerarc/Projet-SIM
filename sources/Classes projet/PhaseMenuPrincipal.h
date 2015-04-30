@@ -22,10 +22,19 @@ public:
 
 	void rafraichir(float frameTime) {
 
-		menuPrincipal->actualiser();
 	}
 
 	void remplir() {
 
+		menuPrincipal->remplir();
+
+	}
+	void defPause(bool pause) {
+		menuPrincipal->defPause(pause);
+		this->pause = pause;
+	}
+
+	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+		menuPrincipal->actualiserEchelle(vecteurEchelle);
 	}
 };

@@ -13,8 +13,8 @@ public:
 
 	virtual void remplir() = 0;
 
-	void defPause(bool pause){
-		this->pause = pause;
-	}
+	virtual void defPause(bool pause) = 0;
+
+	virtual void actualiserEchelle(Vecteur2f vecteurEchelle) = 0;
 
 };

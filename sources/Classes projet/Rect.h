@@ -25,9 +25,11 @@ public:
 		return false;
 	}
 
-	static void defDimension(int h) {
+	static void defDimension(int l, int h) {
 
 		hauteur = h;
+		Jeu::fenetre->defModeVideo(gfx::ModeVideo(l, h));
+
 	}
 
 	T x, y, l, h;
@@ -39,3 +41,5 @@ typedef Rect<float> Rectf;
 typedef Rect<double> Rectd;
 
 template<> int Rectf::hauteur = 0;
+template<> int Recti::hauteur = 0;
+template<> int Rectd::hauteur = 0;

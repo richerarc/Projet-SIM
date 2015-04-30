@@ -3,7 +3,8 @@
 struct InfoObjet {
 	unsigned int ID;
 	Vecteur3d position;
-	int rotation;
+	Vecteur3d direction;
+	double rotation;
 	char* cheminModele;
 	char* cheminTexture;
 
