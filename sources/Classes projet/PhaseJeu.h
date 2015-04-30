@@ -52,6 +52,8 @@ private:
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 				}
 				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
+				iterateur_x += joueur->obtVitesse().x * frameTime;
+				iterateur_z += joueur->obtVitesse().z * frameTime;
 			}
 			else{
 				if (joueur->obtEtat() != CHUTE)
