@@ -726,14 +726,18 @@ public:
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
+				//joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
 				//ajusterVitesse(joueur);
-				return true;
+				if (normale.y == 0)
+					return 3;
+				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))
+					return 2;
+				return 1;
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	bool collisionAuSol(Salle* salle, Joueur* joueur){
