@@ -363,4 +363,26 @@ Voici ma façon de trouve l'angle:
 
 ![](http://i.imgur.com/Xh6EyCq.png)
 
-**1h00**: J'ai modifié la collisionPorte pour qu'elle ne se fasse qu'avec l'origine de la porte(nécessaire pour les rotations), j'ai restructuré un peu le code dans carte pour qu'il y ait moins de répétage de code inutile, j'ai réglé le bug que Dean avait signalé sans vraiment aucune précision sur gitter.­
+**1h00**: J'ai modifié la collisionPorte pour qu'elle ne se fasse qu'avec l'origine de la porte(nécessaire pour les rotations), j'ai restructuré un peu le code dans carte pour qu'il y ait moins de répétage de code inutile, j'ai réglé le bug que Dean avait signalé sans vraiment aucune précision sur gitter.
+
+###26 avril 2015
+
+**0h05**: Correction d'une erreur de compilation mentionnée par Damien.
+
+###28 avril 2015
+
+>Personnellement, je suis quelqu'un qui aime beaucoup programmer, et surtout­, qui aime faire les chose bien, par exemple les rebonds(que je finierai en temps j'espère). Pour certaines personne le positionnement des portes pourrait être satisfaisant si elles pouvaient aller sur de mur plat en ligne droite, pour moi non. Recemment j'ai travaillé à donner un angle aux portes ce qui semble être de mieux en mieux. Pour la suite, j'essaierai de faire en sorte que mes portes puissent passer par des marches et se positionner correctement. J'ai déjà un idée de comment faire!(pas sur si ça va fonctionner par contre)
+
+**3h00**: Travail sur l'angulation des portes sur des murs désaxés. La technique que j'emploie est bonne, mais je me suis rendu compte qu'il y avait deux cas différents. J'ai déterminé que le calcul variera si l'angle entre ma normale et le vecteur directeur de ma porte est moins ou plus de 180°. Par contre, dans le calcul de l'angle entre deux vecteurs, l'agnle retourné est toujours plus petit que 180°. Après réflexion et une petite visite chez nos sympathiques proffesseurs de mathématique, j'ai pu déterminer plusieurs conditions qui me disent si, pour trouver l'angle, je doit faire l'angle entre mes deux vecteurs ou 360 - l'angle entre mes deux vecteurs. Grâce à ça, mes porte se désaxent correctement!
+
+**6h00(école) + 3h00(maison)**: Travail sur les portes qui montent des escaliers. Le trois quarts des heures de travail ont été destinés à des heures de débogage ardu. L'idée que j'utilise pour positionner mes portes au-delà des escaliers est la suivante: Je fais translater ma porte dans la direction de son vecteur déterminé au début jusqu'à ce que j'ai une collision(exactement comme des mur normaux). Ensuite, je vérifie aux quatres coins de la porte si ils sont tous en collision. Si ce n'est pas le cas, ça signifie que j'ai une marche. Donc je monte ma porte jusqu'à ce que je n'ai plus de collision. Quand je n'ai plus de collision, c'est que la porte est au niveau de la première marche. Je répète le procédé jusqu'à ce que je translate ma porte et que la collision des quatres coins de ma porte retourne vrai. Ensuite, je redessant la porte au niveau du sol au cas où elle serait un peu surélevée à cause des nombreuses modification que je fais dessus.
+
+![](http://i.imgur.com/OLxJcpx.png)
+
+Même si cela peut parraîttre simple à première vue, j'ai eu beaucoup de problèmes avec les collisions qui ne donnaient pas toujours le même résultat et il a fallu que je "tweek" plusieurs choses. Par exemple, parfois le repositionnement créait une boucle avec lui même c'est à dire que comme sur l'image, l'opération 1-2 se refaisaient sans arrête. Je translatais la porte au mur, le repositionnement se faisait, et je retraslatais, et le repositionnement, etc... Il y a eu de nombreux problème du genre, c'est pour ça que ça fait beaucoup d'heures(de débogage), d'ailleurs Julien m'a donné un coup de pouce pour trouver les chose louche que les collisions créaient involontairement et faire les modifications appropriées. Il y a encore différents problèmes à repérer, je ne suis pas encore sorti du bois...
+
+Durant l'après midi(6h00 école) j'ai aussi aidé Damien pour l'animation, j'ai aidé Richer et Julien pour trouver une façon de calculer la perte de santé mentale du joueur, etc...
+
+###29 avril 2015
+
+**3h00**: Un beau dernier trois heures de travail pour complèter les portes/escaliers. Elles se positionnement maintenant bien et il ne devrait plus y avoir de boucles infinis, assez fier du résultat je suis.
