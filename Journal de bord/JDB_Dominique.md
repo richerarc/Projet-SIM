@@ -47,3 +47,5 @@
 27/04/2015 (11h30 à 12h55) : J'ai continué à faire le longement, qui n'a maintenant plus que 2 bugs. Ceux-ci dépendent en partie des futures fonctions de Kevin/Nathan, donc je ne commit rien pour l'instant.
 
 28/04/2015 (13h00 à 15h00) : J'ai ajouté du code pour mieux vérifier si le personnage peut interagir avec une porte, car pour l'instant ce n'est basé que sur la proximité. Je ne l'ai pas commit parce que ce n'est pas tout à fait complet, je le finierai demain matin.
+
+30/04/2015 (10h00 à 12h00) : J'ai discuté avec Kevin,Nathan et Samuel du progrès de notre tâche, puis j'ai continué mon longer.
