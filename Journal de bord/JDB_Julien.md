@@ -232,7 +232,7 @@ Temps : 4h
 
 Temps : 6h (Avec la grande collaboration de Richer)
 
-###**`22 avril 2015`**
+###**`23 avril 2015`**
 
 - 8h à 10h : Richer et moi avons regardé ce que les patchs que nous  avons fait hier ont donné et comme ceux-ci ont créé beaucoup trop de problèmes, nous avons décidé de laisser tout ce que l'on a fait hier de côté. Nous allons garder tous les menus en mémoire et ne pas enlever les std::function du gestionnaire d'événement.
 
@@ -240,10 +240,39 @@ Temps : 6h (Avec la grande collaboration de Richer)
 
 Temps : 6h
 
-###**`21 avril 2015`**
+###**`24 avril 2015`**
 
 - 11h à 12h et de 15h à 17h : J'ai fini le menu son et je fini le menu graphique, j'ai réglé tous les problèmes dans les menus, des boutons qui s'appelaient à des places pas rapport et des plantages à quelques places. J'ai mis le tout sur la branche Menus.
 
 Temps : 3h
 
-Temps total : 106h35
+###**`27 avril 2015`**
+
+- 11h à 11h15 : J'ai mis plusieurs textures à jour pour que le glisseur fonctionne bien et un fichier texte pour les controles afin d'afficher le menu controle parfaitement.
+
+- En soirée : J'ai mis les menus sur le master, pour que tout le monde ait la vrai version des menus. J'ai aussi fait un petit ajustement dans le menu graphique pour qu'il affiche toutes les résolutions de 16/9 possible selon l'ordinateur. J'ai aussi fait une modification dans pointDansFace pour que la fonction fonctionne dans tous les cas possibles.
+
+Temps : 3h15
+
+###**`28 avril 2015`**
+
+- Durant la journée : Richer et moi avons fini le menu son, il gère complètement l'intensité des sons du jeux. Nous avons ensuite travaillé sur le système qui fait en sorte que le joueur perd de la santé mentale. Je commençai a aider Jessy avec l'intégration de la manette pour le jeu.
+
+Temps : 6h
+
+###**`29 avril 2015`**
+
+- 11h à 13h : Richer et moi avons analysé les besoins des puzzles que notre jeu va comporter. Nous avons déterminé les grands points essentiels pour le bon fonctionnement du projet et nous avons fait un diagramme de classe pour les puzzles. 
+
+Temps : 2h
+
+###**`30 avril 2015`**
+
+- 10h40 à 12h : J'ai aider un peu de monde dans le groupe pour qu'il avance dans le projet, cela n' a pas été concluant dans certain cas. Richer et moi avons fait un petit meeting pour savoir l'avancement de tout le monde et nous avons parler avec Gabriel pour s'assurer que notre conception de puzzle ne détruira pas la génération de porte.
+
+16h à 18h : J'ai fini le curseur et l'application de la manette dans les menus. Richer a fait quelques modifications avec moi, mais le curseur bouge super bien dans les menus. 
+
+Temps : 3h40
+
+
+Temps total : 121h30
