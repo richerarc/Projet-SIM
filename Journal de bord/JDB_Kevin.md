@@ -252,3 +252,9 @@ Nous allons devoir trouver un moyen de faire marcher l'Ajustement de la vitesse 
 Nathan et moi avons faits quelques modifications pour le joueur maintenenat il descends les pentes. Nous avons gosser longtemps pour arriver à ce résultat. Ça commence a être long la.
 
 **Temps 4h...**
+
+##**`30 Avril et 1 Mai 2015`**
+
+J'ai esseyer quelques trucs pour faire fonctionner le personnage comme il le faut avec Nathan hier et aujourd'hui. Jai modéliser une nouvelle piece en pente. Cet apres midi j'ai esseyer quqleques autres pistes. J'ai regler le probleme du personnage qui n'avancait aps quand il regardait trop haut ou trop bas.
+
+**Temps pour les 2 jour: 5h**

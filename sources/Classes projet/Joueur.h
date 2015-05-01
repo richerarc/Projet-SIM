@@ -72,6 +72,7 @@ public:
 
 			Vecteur3d devant = camera->obtDevant();
 			devant.y = 0;
+			devant.normaliser();
 			Vecteur3d cote = camera->obtCote();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
