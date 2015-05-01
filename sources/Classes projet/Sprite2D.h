@@ -34,7 +34,7 @@ namespace gfx{
 
 				glPushMatrix();
 				glLoadIdentity();
-
+				glScaled(this->echelle.x, this->echelle.y, 1);
 				glEnable(GL_TEXTURE_2D);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glEnable(GL_BLEND);
@@ -55,7 +55,7 @@ namespace gfx{
 				glVertex2f(position.x, surface->h + position.y); //4
 				glEnd();
 
-				glScaled(this->echelle.x, this->echelle.y, 1);
+				
 
 				glTranslatef(position.x - origine.x, position.y - origine.y, 0.0f);
 				glRotatef(orientation, 0.0f, 0.0f, 1.0f);
