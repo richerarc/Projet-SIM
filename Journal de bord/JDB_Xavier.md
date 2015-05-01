@@ -48,3 +48,5 @@ Travail sur la classe MenuControle. Je l'ai pas push parce que il y juste trop d
 Finission de la classe MenuControle. On chercher un moyen comment mettre afficher le charactere et non la valeur dans la table ascii (avec Julien).
 ### Mardi 28 Avril ~2h
 J'ai environ coder pendant 2h mais beaucoup de conception. On n'a pas fait de visio tel quel mais on a fait un dessin de comment ca sera fait le changement de résolution. J'ai encore des erreurs mais le programme plante pas. Les dimension des boutons, texte et sprite ne changent pas pour X raison...
+### Jeudi 30 Avril ~2h
+J'ai fait beaucoup de débuggage à essayer de trouver pourquoi les rects de mes boutons marchais pas et pourquoi les sprites s'ajustaient pas. J'ai trouver sur internet comment le glScale marchait et j'ai (je crois) avoir trouver la solution. Mais pour le rect de mes boutons, puisque qu'on change le scale on change la position du bouton mais le rect ne suit pas. On va devoir trouver un moyen pour que les rect retourne à la nouvelle position. 
