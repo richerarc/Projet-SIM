@@ -46,60 +46,72 @@ namespace LecteurFichier{
 		return boite;
 	}
 
-
-	bool lirePuzzle(char* cheminAcces){
+	bool lireObjet(const char* cheminAcces, InfoObjet &info) {
 		std::ifstream fichier(cheminAcces);
-		/*Exemple fichier
-		...
-		Puzzle{
-		x y z//dimension max
-		Objet{
-		c \FichierObjet
-		s x y z//position, objet au sol
-		o x y z//orientation
+
+		if (fichier.is_open()) {
+
+			double x, y, z;
+			char *cheminOBJ = new char();
+			char *cheminTEXTURE = new char();
+
+			fichier >> cheminOBJ >> cheminTEXTURE;
+			info.cheminModele = cheminOBJ;
+			info.cheminTexture = cheminTEXTURE;
+			return true;
 		}
-		Objet{
-		c \FichierObjet
-		m x y z//position, objet au mur
-		o x y z//orientation
-		}
-		};
-		...
-		*/
+		return false;
+	}
+
+	bool lirePuzzle(const char* cheminAcces, InfoPuzzle &info){
+		std::ifstream fichier(cheminAcces);
+
 		if (fichier.is_open()){
 
+			double x, y, z;
 			char* ligne = new char();
+			char* cheminObjet = new char();
+			Vecteur3d tabBoite[8];
+			Vecteur3d tabEntrees[2];
 
 			while (!fichier.eof()){
 				fichier.getline(ligne, 256);
-				if (ligne == "Puzzle{"){
-					double x, y, z;
-					fichier >> x >> y >> z;
-					Vecteur3<double> dimension(x, y, z);
-					Vecteur3<double> *position, *orientation;
-					char* cheminObjet = new char();
+				if (ligne == "puzzle{"){
 					fichier.getline(ligne, 256);
 					while (ligne != "};"){
-						if (ligne == "Objet{"){
+						if (ligne == "boite{") {
+							for (int i = 0; i < 8; ++i){
+								fichier >> x >> y >> z;
+								tabBoite[i] = Vecteur3d(x, y, z);
+							}
+							info.boiteCollision = BoiteCollision<double>(tabBoite);
+							fichier.getline(ligne, 256);
+						}
+						if (ligne == "entrees{") {
+							for (int i = 0; i < 2; ++i) {
+								fichier >> x >> y >> z;
+								tabEntrees[i] = Vecteur3d(x, y, z);
+							}
+							info.entrees = tabEntrees;
+							fichier.getline(ligne, 256);
+						}
+						if (ligne == "objet{"){
+							InfoObjet objet;
 							fichier >> ligne >> cheminObjet;
+							if (ligne == "c"){
+								lireObjet(cheminObjet, objet);
+							}
 							fichier >> ligne >> x >> y >> z;
-							position = new Vecteur3<double>(x, y, z);
-							if (ligne == "m"){
-								//à coder
-								fichier >> ligne >> x >> y >> z;
-								orientation = new Vecteur3<double>(x, y, z);
+							if (ligne == "p") {
+								objet.position = Vecteur3d(x, y, z);
 							}
-							else if (ligne == "s"){
-								//à coder
-								fichier >> ligne >> x >> y >> z;
-								orientation = new Vecteur3<double>(x, y, z);
-							}
+							info.objet.push_back(objet);
+							fichier.getline(ligne, 256);
 						}
 						fichier.getline(ligne, 256);
 					}
 				}
 			}
-
 			fichier.close();
 		}
 

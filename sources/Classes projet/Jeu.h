@@ -50,8 +50,8 @@ public:
 	static void demarrer(){
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
 		TTF_Init();
-		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		ControlleurAudio::obtInstance().initialiser(100);
+		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		//ControlleurAudio::obtInstance().initialiser(100);
 		
 		GestionnaireControle::obtInstance().lireControle("Controle.txt");
 

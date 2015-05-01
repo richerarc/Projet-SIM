@@ -127,10 +127,10 @@ public:
 		if (!this->pause) {
 			joueur->deplacement();
 			appliquerPhysique(frameTime);
-			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
-			ControlleurAudio::obtInstance().jouer(PAS, joueur);
+			//ControlleurAudio::obtInstance().jouer(COEUR, joueur);
+			//ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
-			ControlleurAudio::obtInstance().jouerTout(joueur);
+			//ControlleurAudio::obtInstance().jouerTout(joueur);
 			Carte::obtInstance().bougerMur(joueur, frameTime);
 		}
 
@@ -145,7 +145,7 @@ public:
 
 
 		if (detectionObjet()){
-			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relachée bientôt...
+			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relachï¿½e bientï¿½t...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){

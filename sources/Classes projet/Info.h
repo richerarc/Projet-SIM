@@ -19,3 +19,9 @@ struct InfoSalle {
 	std::list<InfoObjet> Objet;
 	std::list<BoiteCollision<double>> boitesCollision;
 };
+
+struct InfoPuzzle{
+    std::list<InfoObjet> objet;
+    BoiteCollision<double> boiteCollision;
+    Vecteur3d* entrees;
+};
