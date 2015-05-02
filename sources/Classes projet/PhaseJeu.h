@@ -46,7 +46,8 @@ private:
 	
 	
 	void appliquerPhysique(float frameTime) {
-		if (joueur->obtVitesse().norme() != 0) {
+		joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
+		/*if (joueur->obtVitesse().norme() != 0) {
 			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
 				if (Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur) != 2) {
 					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
@@ -66,7 +67,7 @@ private:
 				}
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);*/
 	}
 
 	bool detectionObjet() {
@@ -93,6 +94,7 @@ private:
 				texte->defTexte(&str1);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
+				objetVise = it_Porte;
 				//}
 			}
 		}

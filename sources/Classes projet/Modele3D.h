@@ -23,7 +23,7 @@ namespace gfx{
 		bool normale_Est_Transforme;
 		bool bDC_Est_Transformee;
 
-		void calculerMatriceTransformation(){
+		void calculerMatriceTransformation(bool sommet){
 			double mat[16];
 			glPushMatrix();
 			glLoadIdentity();
@@ -32,7 +32,10 @@ namespace gfx{
 			glRotated(orientation.y, 0, 1, 0);
 			glRotated(orientation.z, 0, 0, 1);
 			glTranslated(origine.x, origine.y, origine.z);
-			glScaled(echelle.x, echelle.y, echelle.z);
+			if (sommet)
+				glScaled(echelle.x, echelle.y, echelle.z);
+			else 
+				glScaled(echelle.z, echelle.y, echelle.x);
 			glGetDoublev(GL_MODELVIEW_MATRIX, mat);
 			glPopMatrix();
 			matriceTransformation.defMatrice(mat);
@@ -71,7 +74,7 @@ Modele3D() : Objet3D(){
 		double* obtNormalesModifies(){
 			if (normale_Est_Transforme)
 			{
-				calculerMatriceTransformation();
+				calculerMatriceTransformation(false);
 				matriceTransformation.inverser();
 				matriceTransformation.transposer();
 				double vecteurNormal[4];
@@ -102,7 +105,7 @@ Modele3D() : Objet3D(){
 		double* obtSommetsModifies(){
 			if (sommet_Est_Transforme)
 			{
-				calculerMatriceTransformation();
+				calculerMatriceTransformation(true);
 				double vecteurNormal[4];
 				double normalTemp[4];
 				normalTemp[3] = 1;
@@ -132,7 +135,7 @@ Modele3D() : Objet3D(){
 		Vecteur3d* obtBoiteDeCollisionModifiee(){
 			if (bDC_Est_Transformee)
 			{
-				calculerMatriceTransformation();
+				calculerMatriceTransformation(true);
 				double bteCol[4];
 				double bteColTemp[4];
 				bteColTemp[3] = 1;

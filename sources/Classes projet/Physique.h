@@ -121,19 +121,15 @@ private:
 			plan.calculerPlan(point1, point2, point3);
 
 			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
-			if ((normale.y / normale.norme()) >= 0.9) {
+			if (normale.y > 0) {
 				int i = 0;
 			}
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-				point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
-				if ((normale.y / normale.norme()) >= 0.9) {
-					int i = 0;
-				}
+				point = pointCollision + rayonCollision.obtenirVecteurDirecteur()*3;
 				if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
-					if ((normale.y / normale.norme()) >= 0.9) {
+					if (normale.y > 0)
 						int i = 0;
-					}
 					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
 						normale.normaliser();
 						rayonCollision.obtenirVecteurDirecteur().normaliser();
@@ -560,34 +556,48 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionPorteQuatrePoints(gfx::Modele3D* modeleSalle, Objet& objet) {
+	unsigned int collisionPorteQuatrePoints(gfx::Modele3D* modeleSalle, Objet& objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point[4];
 		Vecteur3d normale;
 		Vecteur3d difference;
+		unsigned int compteur = 0;
 
 		point[0] = objet.obtPosition();
 		point[1] = { objet.obtPosition().x - objet.obtVitesse().z, objet.obtPosition().y, objet.obtPosition().z + objet.obtVitesse().x };
 		point[2] = point[0]; point[2].y += 2;
 		point[3] = point[1]; point[3].y += 2;
 
-		for (unsigned int i = 0; i < 4; ++i) {
-			point[i] += objet.obtVitesse() / 4;
-		}
-
-		for (unsigned int i = 0; i < 4; ++i) {
+		for (int i = 3; i >= 0; --i) {
 
 			rayonCollision = Droite(point[i], objet.obtVitesse());
 
-			if (!collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale)) {
-				return false;
+			if (collisionDroiteModeleSpecialPorte(modeleSalle, rayonCollision, pointCollision, normale, false)) {
+				compteur += (i * 10 + 1);
 			}
 		}
-		difference = pointCollision - point[0];
+
+		if (compteur == 64) {
+			/*difference = pointCollision - point[0];
+			objet.defPosition(objet.obtPosition() + difference);
+			objet.defPosition(objet.obtPosition() + (objet.obtVitesse() / 4));*/
+		}
+		return compteur;
+	}
+
+	void repositionner(gfx::Modele3D* modeleSalle, Objet& objet) {
+		Droite rayonCollision;
+		Vecteur3d pointCollision;
+		Vecteur3d point = objet.obtPosition();
+		Vecteur3d normale;
+		Vecteur3d difference;
+
+		rayonCollision = Droite(point, objet.obtVitesse());
+		collisionDroiteModeleSpecialPorte(modeleSalle, rayonCollision, pointCollision, normale, false);
+		difference = pointCollision - point;
 		objet.defPosition(objet.obtPosition() + difference);
 		objet.defPosition(objet.obtPosition() + (objet.obtVitesse() / 4));
-		return true;
 	}
 
 	bool collisionPorte(gfx::Modele3D* modeleSalle, Objet& objet, bool AuSol) {
@@ -607,52 +617,20 @@ public:
 
 			if (!AuSol && abs(normale.y) == 0) {
 				if (!(abs(objet.obtVitesse().produitScalaire(normale)) >= 0.995)) {
-					if (abs(objet.obtVitesse().x) > 0) {
-						switch ((int)objet.obtVitesse().x) {
-						case 1:
-							signe = (normale.z > 0) ? 1 : -1;
-							angle = (normale.z > 0) ? (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse()) : normale.angleEntreVecteurs(objet.obtVitesse());
-							break;
-						case -1:
-							signe = (normale.z > 0) ? -1 : 1;
-							angle = (normale.z > 0) ? normale.angleEntreVecteurs(objet.obtVitesse()) : (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse());
-							break;
-						}
-					}
-					else
-					{
-						switch ((int)objet.obtVitesse().z) {
-						case 1:
-							signe = (normale.x > 0) ? -1 : 1;
-							angle = (normale.x > 0) ? normale.angleEntreVecteurs(objet.obtVitesse()) : (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse());
-							break;
-						case -1:
-							signe = (normale.x > 0) ? 1 : -1;
-							angle = (normale.x > 0) ? (2 * M_PI) - normale.angleEntreVecteurs(objet.obtVitesse()) : normale.angleEntreVecteurs(objet.obtVitesse());
-							break;
-						}
-					}
-					Vecteur3d pivot;
-					if (angle <= M_PI) {
-						pivot = { 0, 1, 0 };
-						pivot = normale.produitVectoriel(pivot);
-						objet.obtModele3D()->defOrientation(0, objet.obtModele3D()->obtOrientation().y + signe * ((Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse())))), 0);
-					}
-					else
-					{
-						pivot = { 0, -1, 0 };
-						pivot = normale.produitVectoriel(pivot);
-						objet.obtModele3D()->defOrientation(0, objet.obtModele3D()->obtOrientation().y + signe * (Maths::radianADegre(pivot.angleEntreVecteurs(objet.obtVitesse()))), 0);
-					}
+					
+					Vecteur3d pivot = { 0, 1, 0 };
+					Vecteur3d pointDeRotPoingnee = objet.obtVitesse().produitVectoriel(pivot);
+					angle = pointDeRotPoingnee.angleEntreVecteurs(normale);
+					objet.obtModele3D()->defOrientation(0, objet.obtModele3D()->obtOrientation().y + (90 - Maths::radianADegre(angle)), 0);
 					objet.defVitesse(normale * -1);
+					
 				}
 				return true;
+				
 			}
 			else
 			{
 				if (normale.y == 1) {
-					difference = pointCollision - point;
-					objet.defPosition(objet.obtPosition() + difference);
 					return true;
 				}
 
