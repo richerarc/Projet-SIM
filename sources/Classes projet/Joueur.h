@@ -72,6 +72,7 @@ public:
 
 			Vecteur3d devant = camera->obtDevant();
 			devant.y = 0;
+			devant.normaliser();
 			Vecteur3d cote = camera->obtCote();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
@@ -292,7 +293,12 @@ public:
 
 	void defNormale(Vecteur3d normale){ this->normale = normale; }
 
-	void defAngleHorizontal(double hAngle){ camera->defHAngle(Maths::degreARadian(hAngle)); }
+	void defAngleHorizontal(double hAngle){
+		listeCamera[MODELEDEBOUT]->defHAngle(Maths::degreARadian(hAngle));
+		listeCamera[MODELEACCROUPI]->defHAngle(Maths::degreARadian(hAngle));
+	}
+
+	gfx::Camera* obtCamera(){ return listeCamera[0]; }
 
 	void defEtat(unsigned int etat){ if (etat <= 5) this->etat = etat; }
 
@@ -340,5 +346,5 @@ public:
 
 	int obtEtat(){ return etat; }
 
-	Vecteur3d& obtVectOrientationVue() { return camera->obtDevant(); }
+	Vecteur3d obtVectOrientationVue() { return camera->obtDevant(); }
 };

@@ -89,6 +89,7 @@ public:
 		facile->remplir();
 		normal->remplir();
 		difficile->remplir();
+		this->retour->remplir();
 
 	}
 

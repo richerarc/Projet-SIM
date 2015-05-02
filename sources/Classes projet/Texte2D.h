@@ -29,6 +29,7 @@ namespace gfx{
 			glPushMatrix();
 			glBindTexture(GL_TEXTURE_2D, texte->obtID());
 			glLoadIdentity();
+			glScaled(this->echelle.x, this->echelle.y, 1);
 			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -51,7 +52,7 @@ namespace gfx{
 
 			glEnd();
 
-			glScaled(this->echelle.x, this->echelle.y, 1);
+			
 
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_BLEND);

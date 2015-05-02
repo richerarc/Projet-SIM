@@ -8,12 +8,16 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnairePhases.h"
+#include "Curseur.h"
 #include "Objet.h"
 #include "Sons.h"
 #include "ControlleurAudio.h"
+gfx::Fenetre *fenetre;
+Curseur* curseur;
 /*
 #include les classes plus bases plus tard
 */
+#include "Rect.h"
 #include "ObjetFixe.h"
 #include "Porte.h"
 #include "Pendule.h"
@@ -35,21 +39,19 @@ class Jeu{
 
 public:
 
-	static gfx::Fenetre *fenetre;
 	static SDL_Event evenement;
 	static float frameTime;
 	static Chrono chrono;
-
 
 public:
 
 	Jeu(){}
 
 	static void demarrer(){
-		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
 		TTF_Init();
-		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-		ControlleurAudio::obtInstance().initialiser(100);
+		//Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+		//ControlleurAudio::obtInstance().initialiser(100);
 		
 		GestionnaireControle::obtInstance().lireControle("Controle.txt");
 
@@ -68,6 +70,8 @@ public:
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
+		curseur = new Curseur(Vecteur2f(500, 500));
+		curseur->remplir();
 
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
@@ -78,6 +82,7 @@ public:
 				fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().salleActive->obtID(), chr, 10)));
 			}
 			frameTime = chrono.repartir().enSecondes();
+			curseur->rafraichir();
 			while (fenetre->sonderEvenements(evenement))
 			{
 				GestionnaireEvenements::obtInstance().lancerEvenement(evenement);
@@ -108,7 +113,6 @@ public:
 	}
 };
 
-gfx::Fenetre* Jeu::fenetre = nullptr;
 SDL_Event Jeu::evenement;
 float Jeu::frameTime = 0;
 Chrono Jeu::chrono;

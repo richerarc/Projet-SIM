@@ -1,9 +1,4 @@
 #pragma once
-#include <SDL2\SDL.h>
-#include <SDL2\SDL_image.h>
-#include <SDL2\SDL_ttf.h>
-#include <SDL2\SDL_mixer.h>
-#include <SDL2\SDL_opengl.h>
 #include <set>
 class Manette{
 private:
@@ -19,6 +14,7 @@ public:
 		for (int i = 0; i < SDL_NumJoysticks(); ++i) {
 			if (SDL_IsGameController(i)) {
 				manette = SDL_GameControllerOpen(i);
+				patron = SDL_GameControllerGetJoystick(manette);
 				break;
 			}
 		}

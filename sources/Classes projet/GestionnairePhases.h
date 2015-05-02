@@ -61,6 +61,10 @@ public:
 			return phaseActive.top();
 		return nullptr;
 	}
+
+	std::list<Phase*> obtListePhases(void) {
+		return phases;
+	}
 private:
 	std::list<Phase*> phases;
 	std::stack<Phase*> phaseActive;

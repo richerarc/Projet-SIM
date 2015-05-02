@@ -3,6 +3,7 @@
 #include "GestionnaireEvenements.h"
 #include "GestionnaireRessources.h"
 #include "Gestionnaire2D.h"
+#include "Curseur.h"
 
 #include <SDL2/SDL.h>
 #include <functional>
@@ -21,7 +22,7 @@ private:
 public:
 	Bouton() : Bouton(nullptr, nullptr, nullptr, Vecteur2f(), new std::string("1"), 0){}
 
-	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f &position, std::string* texte, int taille){
+	Bouton(std::function<void(Bouton*)> fonctionClic, std::function<void(Bouton*)> fonctionSurvol, std::function<void(Bouton*)> fonctionDefaut, Vecteur2f position, std::string* texte, int taille){
 		etat = DEFAUT;
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;
@@ -29,6 +30,8 @@ public:
 		this->texte = new gfx::Texte2D(texte, { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", taille), position);
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
 	}
 
 	~Bouton(){
@@ -38,7 +41,7 @@ public:
 
 	void gererClic(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectangle().contient(event.motion.x, event.motion.y) && event.button.button == SDL_BUTTON_LEFT){
+			if (texte->obtRectangle().contient(Curseur::obtPosition()) && (event.button.button == SDL_BUTTON_LEFT || event.cbutton.button == SDL_CONTROLLER_BUTTON_A)){
 				clicRappel(this);
 				if (etat != PAUSE)
 					etat = EN_CLIC;
@@ -53,7 +56,7 @@ public:
 	
 	void gererSurvol(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectangle().contient(event.motion.x, event.motion.y)){
+			if (texte->obtRectangle().contient(Curseur::obtPosition())){
 				if (etat != SURVOL)
 					survolRappel(this);
 				etat = SURVOL;

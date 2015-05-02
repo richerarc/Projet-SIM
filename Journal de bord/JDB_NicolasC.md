@@ -113,4 +113,7 @@
   -Découverte d'une porte de la salleL qui est de temps en temps du mauvais bord.  
 **23 avr** durée 2h 45min  
   -Travail avec Gabriel pour fixer les portes (algo de positionnement).
-  -Petites suggestions à Nathan et Kevin pour le changement de vitesse dans les plans.
+  -Petites suggestions à Nathan et Kevin pour le changement de vitesse dans les plans.  
+**30 avr** durée 2h
+  -Ajout des textures de murs pour l'animation de l'ouverture de porte.  
+  -Début de travail avec Brandon pour afficher des objet "dans la main" du joueur (brainstorming).

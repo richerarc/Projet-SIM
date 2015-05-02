@@ -18,10 +18,12 @@ private:
 	Bouton* flecheDroite;
 	Bouton* appliquer;
 
+	gfx::ModeVideo modeDefaut;
+
 public:
 
 	MenuGraphique(void) : Menu() {
-
+		modeDefaut = gfx::ModeVideo(1366, 768);
 		std::string* str = new std::string();
 		char chr[20];
 
@@ -120,9 +122,15 @@ public:
 	}
 
 	void enClicAppliquer(Bouton* envoi) {
+		float l = (*modeVideo).l;
+		float ratio = modeDefaut.l / l;
 		resolutionDefaut = iterateur;
 		modeVideoDefaut = modeVideo;
 		Rect<float>::defDimension((*modeVideo).l, (*modeVideo).h);
+		for (auto it : GestionnairePhases::obtInstance().obtListePhases())
+			it->actualiserEchelle(Vecteur2f(ratio, ratio));
+
+		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));
 	}
 
 	void survol(Bouton* envoi){

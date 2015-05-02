@@ -73,3 +73,9 @@ Durée: environ 3h
 J'ai travaillé dans la clase PhaseJeu.h, dans la fonction DetectionObjet() afin d'afficher le texte seulement quand le joueur regarde dans la direction où la porte est placée. Jai du changer plusieurs choses car la classe GestionnaireControle.h a été changée depuis mon dernier commit.
 
 Durée: environ 3h20
+
+--30 Avril 2015 (12h04)--
+
+J'ai essayé d'optimiser mon travail de mardi,sans resultat satisfaisant. Pas de commit aujourdhui :( je vais essayer d'y travailler plus tard ou pendant la fin de semaine chez moi.
+
+Durée: environ 1h30

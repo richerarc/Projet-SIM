@@ -49,10 +49,10 @@ public:
 
 			if (boutonSouris){
 				if ((spriteGlisseur->obtPosition().x >= position.x && evenement.motion.xrel <= 0))
-					spriteGlisseur->defPosition(Vecteur2f(Souris::obtPosition().x, spriteGlisseur->obtPosition().y));
+					spriteGlisseur->defPosition(Vecteur2f(Curseur::obtPosition().x, spriteGlisseur->obtPosition().y));
 
 				else if ((spriteGlisseur->obtPosition().x <= SpriteFond->obtRectangle().x + SpriteFond->obtRectangle().l - spriteGlisseur->obtRectangle().l  && evenement.motion.xrel >= 0))
-					spriteGlisseur->defPosition(Vecteur2f(Souris::obtPosition().x, spriteGlisseur->obtPosition().y));
+					spriteGlisseur->defPosition(Vecteur2f(Curseur::obtPosition().x, spriteGlisseur->obtPosition().y));
 
 				else
 					boutonSouris = false;
@@ -62,7 +62,7 @@ public:
 			}
 
 			if (evenement.button.type == SDL_MOUSEBUTTONDOWN) {
-				if (spriteGlisseur->obtRectangle().contient(Souris::obtPosition().x, Souris::obtPosition().y))
+				if (spriteGlisseur->obtRectangle().contient(Curseur::obtPosition()))
 					boutonSouris = true;
 			}
 
