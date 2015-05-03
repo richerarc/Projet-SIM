@@ -21,45 +21,47 @@ namespace gfx{
 			this->texte = gfx::GestionnaireRessources::obtInstance().obtTexte(texte->c_str(), this->texte->obtCouleur(), this->texte->obtPolice());
 		}
 		void afficher(gfx::Fenetre& fenetre){
-			glDisable(GL_DEPTH_TEST);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
-			glMatrixMode(GL_MODELVIEW);
-			glPushMatrix();
-			glBindTexture(GL_TEXTURE_2D, texte->obtID());
-			glLoadIdentity();
-			glScaled(this->echelle.x, this->echelle.y, 1);
-			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glMatrixMode(GL_MODELVIEW);
+			if (texte->obtSurface() != nullptr){
+				glDisable(GL_DEPTH_TEST);
+				glMatrixMode(GL_PROJECTION);
+				glLoadIdentity();
+				glOrtho(0, fenetre.obtTaille().x, 0, fenetre.obtTaille().y, -1, 1);
+				glMatrixMode(GL_MODELVIEW);
+				glPushMatrix();
+				glBindTexture(GL_TEXTURE_2D, texte->obtID());
+				glLoadIdentity();
+				glScaled(this->echelle.x, this->echelle.y, 1);
+				glEnable(GL_TEXTURE_2D);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glMatrixMode(GL_MODELVIEW);
 
-			glBegin(GL_QUADS);
+				glBegin(GL_QUADS);
 
-			glTexCoord2i(0, 1);
-			glVertex2d(position.x, position.y);  //1
+				glTexCoord2i(0, 1);
+				glVertex2d(position.x, position.y);  //1
 
-			glTexCoord2i(1, 1);
-			glVertex2d(texte->obtSurface()->w + position.x, position.y); //2
+				glTexCoord2i(1, 1);
+				glVertex2d(texte->obtSurface()->w + position.x, position.y); //2
 
-			glTexCoord2i(1, 0);
-			glVertex2d(texte->obtSurface()->w + position.x, texte->obtSurface()->h + position.y); //3
+				glTexCoord2i(1, 0);
+				glVertex2d(texte->obtSurface()->w + position.x, texte->obtSurface()->h + position.y); //3
 
-			glTexCoord2i(0, 0);
-			glVertex2d(position.x, texte->obtSurface()->h + position.y); //4
+				glTexCoord2i(0, 0);
+				glVertex2d(position.x, texte->obtSurface()->h + position.y); //4
 
 
-			glEnd();
+				glEnd();
 
-			
 
-			glDisable(GL_TEXTURE_2D);
-			glDisable(GL_BLEND);
-			glMatrixMode(GL_PROJECTION);
-			glPopMatrix();
-			glMatrixMode(GL_MODELVIEW);
-			glPopMatrix();
+
+				glDisable(GL_TEXTURE_2D);
+				glDisable(GL_BLEND);
+				glMatrixMode(GL_PROJECTION);
+				glPopMatrix();
+				glMatrixMode(GL_MODELVIEW);
+				glPopMatrix();
+			}
 		}
 		void defPolice(Police* police){
 			this->texte = gfx::GestionnaireRessources::obtInstance().obtTexte(texte->obtTexte(), texte->obtCouleur(), police);
