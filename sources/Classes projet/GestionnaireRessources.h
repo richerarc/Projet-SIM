@@ -58,7 +58,7 @@ namespace gfx{
 		}
 
 		gfx::Texte* obtTexte(const char* texte, SDL_Color couleur, gfx::Police* police) {
-			std::string nom = gfx::Texte::creerNom(texte, couleur);
+			std::string nom = gfx::Texte::creerNom(texte, couleur, police->obtTaille());
 			if (textes.find(nom.c_str()) == textes.end())
 				chargerTexte(texte, nom, couleur, police);
 			return textes[nom];

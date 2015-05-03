@@ -18,14 +18,14 @@ public:
 		for (int i = 0; i < inventaire->obtTailleAccesRapide(); ++i){
 			position.x = 1120;
 			position.y = 10 + i * 70;
-			cases.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("case2.png")));
-			InfoObjet* objet = inventaire->obtObjetAccesRapide(i);
+			cases.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("caseAccesRapide.png")));
+			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
-				objets.push_back(new gfx::Sprite2D(position + Vecteur2f(70, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture(objet->cheminIcone)));
+				objets.push_back(new gfx::Sprite2D(position + Vecteur2f(70, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone())));
 			else
 				objets.push_back(new gfx::Sprite2D(position + Vecteur2f(70, 0), nullptr));
 		}
-		spriteSurvol = new gfx::Sprite2D(cases[0]->obtPosition() + Vecteur2f(-51, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("case2Survol.png"));
+		spriteSurvol = new gfx::Sprite2D(cases[0]->obtPosition() + Vecteur2f(-51, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("caseAccesRapideSurvol.png"));
 
 		pause = false;
 		itemSelectionne = 0;
@@ -48,9 +48,9 @@ public:
 
 	void actualiserAffichage(){
 		for (int i = 0; i < inventaire->obtTailleAccesRapide(); ++i){
-			InfoObjet* objet = inventaire->obtObjetAccesRapide(i);
+			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
-				objets[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->cheminIcone));
+				objets[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
 			else
 				objets[i]->defTexture(nullptr);
 		}

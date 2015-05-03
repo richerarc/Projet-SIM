@@ -50,3 +50,5 @@ J'ai fini la conception de la classe MenuPrincipal selon les nouvelles normes.
 J'ai commencé la conception de l'inventaire. J'ai ajouté la classe Case qui contiendra un InfoObjet. Il ne me reste qu'à figurer comment intégrer l'affichage de l'inventaire et gérer les inputs.
 # 29 avril pendant 3h #
 J'ai commencé et terminé la conception du menu Inventaire et du menu Acces Rapide (HotBar). J'ai aussi conçu leurs textures, cependant elles ne sont que provisoires (j'imagine). Pour ce qui est des items que j'ai ajoutés, ils ne sont utilisés qu'à des fins de test.
+# 3 mai pendant 2h #
+J'ai commencé à intégrer les items dans le jeu. La classe crée actuellement sera abstraite dans le futur, mais elle ne l'est pas pour l'instant afin d'effectuer des tests. J'ai aussi ajouté les textes de nom et de description dans le menu d'inventaire. En jouant avec les textes dans l'inventaire, je me suis rendu compte que ceux-ci avait un problème dû au fait que le loading ne se basait pas sur la taille, donc 2 textes avec le même string étaient pareils même si ils avaient des tailles différentes, j'ai donc fixé cela.

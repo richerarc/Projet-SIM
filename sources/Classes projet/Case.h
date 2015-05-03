@@ -1,24 +1,24 @@
 #pragma once 
-#include "Info.h"
+#include "Item.h"
 
 class Case{
 private:
-	InfoObjet* item;
+	Item* item;
 public:
 	Case(){
 		item = nullptr;
 	}
-	void defObjet(InfoObjet* objet){
+	void defObjet(Item* objet){
 		this->item = objet;
 	}
 
-	InfoObjet* retirerObjet(){
-		InfoObjet *tmp = item;
+	Item* retirerObjet(){
+		Item *tmp = item;
 		item = nullptr;
 		return tmp;
 	}
 
-	InfoObjet* obtObjet(){
+	Item* obtObjet(){
 		return this->item;
 	}
 
