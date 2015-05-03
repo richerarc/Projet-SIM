@@ -3,6 +3,7 @@
 #include <list>
 #include <math.h>
 #include "PhaseMenuPause.h"
+#include "Maths.h"
 
 class PhaseJeu : public Phase{
 

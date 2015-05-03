@@ -126,20 +126,17 @@ private:
 			}
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
-				point = pointCollision + rayonCollision.obtenirVecteurDirecteur()*3;
 				if (pointDansFace(point1, point2, point3, pointCollision, normale)) {
-					if (normale.y > 0)
-						int i = 0;
+
+					point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
+
 					if (memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
+
 						normale.normaliser();
 						rayonCollision.obtenirVecteurDirecteur().normaliser();
 						scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
-						if (scalaire < 0) {
-							if (!AuSol || (AuSol && normale.y == 1)) {
+						if (scalaire < 0) 
 								return true;
-							}
-							
-						}
 					}
 				}
 			}
@@ -594,10 +591,12 @@ public:
 		Vecteur3d difference;
 
 		rayonCollision = Droite(point, objet.obtVitesse());
-		collisionDroiteModeleSpecialPorte(modeleSalle, rayonCollision, pointCollision, normale, false);
-		difference = pointCollision - point;
-		objet.defPosition(objet.obtPosition() + difference);
-		objet.defPosition(objet.obtPosition() + (objet.obtVitesse() / 4));
+		if (collisionDroiteModeleSpecialPorte(modeleSalle, rayonCollision, pointCollision, normale, false)) {
+			difference = pointCollision - point;
+			if (difference.norme() < 0.3) {
+				objet.defPosition(objet.obtPosition() + difference);
+			}
+		}
 	}
 
 	bool collisionPorte(gfx::Modele3D* modeleSalle, Objet& objet, bool AuSol) {
@@ -613,7 +612,6 @@ public:
 
 			normale.normaliser();
 			double angle;
-			int signe;
 
 			if (!AuSol && abs(normale.y) == 0) {
 				if (!(abs(objet.obtVitesse().produitScalaire(normale)) >= 0.995)) {
@@ -630,10 +628,7 @@ public:
 			}
 			else
 			{
-				if (normale.y == 1) {
-					return true;
-				}
-
+				return true;
 			}
 			return true;
 		}
