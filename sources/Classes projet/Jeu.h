@@ -15,7 +15,6 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include "ControlleurAudio.h"
 gfx::Fenetre *fenetre;
 Curseur* curseur;
-std::thread thread_Jeu;
 std::thread thread_Creation;
 /*
 #include les classes plus bases plus tard
@@ -51,11 +50,6 @@ public:
 
 	Jeu(){
 
-	}
-
-	static void initialisation() {
-		thread_Jeu = std::thread(Jeu::demarrer);
-		thread_Jeu.join();
 	}
 
 	static void demarrer(){
