@@ -11,6 +11,7 @@
 #include "Info.h"
 #include "Graphe.h"
 #include "GestionnaireChemin.h"
+#include "GestionnaireRessources.h"
 #include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
 #include "Joueur.h"
@@ -285,7 +286,10 @@ private:
 
 	void creerSalle(InfoSalle& infoSalleActive, bool enPositionnement) {
 
-		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
+		if (enPositionnement)
+			salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::Texture()), infoSalleActive.nbrPorte, infoSalleActive.ID);
+		else
+			salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
 
 		double orientation;
@@ -301,7 +305,7 @@ private:
 			}
 			else {
 				orientation = 0;
-				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::Texture());
 				modeleporte->defPosition(it.position);
 				modeleporte->defOrientation(0, it.rotation, 0);
 
@@ -400,6 +404,13 @@ private:
 public:
 
 	Salle *salleActive;
+	unsigned int nombreDeSalle;
+	float chargement;
+	bool finChargement;
+
+	void initialiser() {
+		thread_Creation = std::thread(&Carte::creer, this);
+	}
 
 	int destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur *joueur) {
 
@@ -471,12 +482,17 @@ public:
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
 	// En entrée:
-	// Param1: Le nombre de salle easy = 12, normal = 20, difficile = 32.
-	void creer(const unsigned int nombreDeSalle) {
+	// Param1: Le nombre de salle easy = 15, normal = 20, difficile = 32.
+	void creer() {
+
+		SDL_GLContext c = fenetre->obtNouveauContext();
 
 		// Création du graphe
 		carte.creer(nombreDeSalle);
 		int itterateurPorte(0);
+
+		chargement = 0;
+		finChargement = false;
 
 		int* porte = new int[nombreDeSalle];
 		Entree entree;
@@ -528,7 +544,7 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 7; // en attendant que toutes les salles sont conformes
+			aleatoire = rand() % 6; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
@@ -550,17 +566,25 @@ public:
 		//infosSalles.resize(1);
 		for (auto& it : infosSalles) {
 			creerSalle(it, true);
+			chargement += (100 / nombreDeSalle);
 		}
 
 		auto debut = infosSalles.begin();
 		pos = rand() % infosSalles.size();
 		std::advance(debut, pos);
 
-		creerSalle(*debut, false);
-
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
-		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
+		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate2.png"));
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
+		finChargement = true;
+		SDL_GL_DeleteContext(c);
+	}
+
+	void debut() {
+		auto debut = infosSalles.begin();
+		int pos = rand() % infosSalles.size();
+		std::advance(debut, pos);
+		creerSalle(*debut, false);
 	}
 };

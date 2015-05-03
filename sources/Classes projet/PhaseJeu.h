@@ -116,8 +116,7 @@ public:
 		toucheRelachee = false;
 		
 		//Carte::obtInstance().salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("SalleCarree4x4.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("SalleCarree4x4.png")), 2, 0);
-		
-		Carte::obtInstance().creer(20);
+
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
 		iterateur_x = 0;
@@ -142,6 +141,7 @@ public:
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
 			curseur->remplir();
 		}
 
@@ -150,6 +150,7 @@ public:
 			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relach�e bient�t...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
+					Carte::obtInstance().salleActive->remplir();
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
 							cheminRecursif.pop();

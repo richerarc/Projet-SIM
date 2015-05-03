@@ -27,18 +27,18 @@ public:
 
 		position.x += event.motion.xrel;
 		position.y += -event.motion.yrel;
-		
 		texture->defPosition(position);
 
 	}
 	void obtenirAxis(SDL_Event& event){
 		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX || event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX)
-			positionx = (event.caxis.value) / 2000.0f;
+			positionx = (event.caxis.value) / 12000.0f;
 		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY || event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)
-			positiony = (event.caxis.value) / 2000.0f;
+			positiony = (event.caxis.value) / 12000.0f;
 	}
 	
 	void rafraichir() {
+		
 		position.x += positionx;
 		position.y -= positiony;
 		texture->defPosition(position);
@@ -46,6 +46,10 @@ public:
 
 	void remplir() {
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(texture);
+	}
+
+	static void defPosition(Vecteur2f pos) {
+		position = pos;
 	}
 
 	static Vecteur2f obtPosition() {
