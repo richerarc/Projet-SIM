@@ -54,7 +54,7 @@ namespace gfx {
 			return ID;
 		}
 
-		static std::string creerNom(const char* texte, SDL_Color couleur) {
+		static std::string creerNom(const char* texte, SDL_Color couleur, int taille) {
 
 			char chr[6];
 
@@ -64,6 +64,7 @@ namespace gfx {
 			nomTmp.append(SDL_itoa(couleur.g, chr, 10));
 			nomTmp.append(SDL_itoa(couleur.b, chr, 10));
 			nomTmp.append(SDL_itoa(couleur.a, chr, 10));
+			nomTmp.append(SDL_itoa(taille, chr, 10));
 
 			return nomTmp;
 		}

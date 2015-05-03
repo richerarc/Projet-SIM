@@ -26,7 +26,11 @@ namespace gfx {
 
 		TTF_Font* obtPolice() {
 			return police;
-		} 
+		}
+
+		int obtTaille(){
+			return this->taille;
+		}
 
 		static std::string creerNom(const char* emplacement, int taille) {
 
