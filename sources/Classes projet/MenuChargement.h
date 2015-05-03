@@ -1,5 +1,6 @@
 #pragma once
 #include "Menu.h"
+#include "BarreProgressive.h"
 
 class MenuChargement : public Menu {
 
