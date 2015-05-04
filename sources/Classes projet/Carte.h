@@ -382,8 +382,8 @@ public:
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
-			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 8; // en attendant que toutes les salles sont conformes
+			aleatoire = rand() % itterateur;
+			//aleatoire = rand() % 8; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 
