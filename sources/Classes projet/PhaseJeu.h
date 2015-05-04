@@ -47,30 +47,27 @@ private:
 	
 	
 	void appliquerPhysique(float frameTime) {
-		joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
-		/*if (joueur->obtVitesse().norme() != 0) {
-			if (!Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)) {
-				if (Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur) != 2) {
-					Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-				}
-				joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
-				iterateur_x += joueur->obtVitesse().x * frameTime;
-				iterateur_z += joueur->obtVitesse().z * frameTime;
+		if (joueur->obtVitesse().norme() != 0) {
+			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
+			iterateur_x += joueur->obtVitesse().x * frameTime;
+			iterateur_z += joueur->obtVitesse().z * frameTime;
+			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur);
+			if (typeCollision == MUR) {
+				//joueur->longer();
+				joueur->obtVitesse().x = 0.;
+				joueur->obtVitesse().z = 0.;
+				//if (joueur->obtEtat() != CHUTE)
+				//	joueur->defEtat(CHUTE);
 			}
-			else{
-				if (joueur->obtEtat() != CHUTE)
-					joueur->defEtat(CHUTE);
-				else if (joueur->obtEtat() == CHUTE){
-					if (Physique::obtInstance().collisionAuSol(Carte::obtInstance().salleActive, joueur)){
-						joueur->defEtat(STABLE);
-						joueur->obtVitesse().y = 0.f;
-					}
-					joueur->obtVitesse().x = 0.f;
-					joueur->obtVitesse().z = 0.f;
-				}
+			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)&& joueur->obtEtat()!= MARCHE){
+				joueur->defEtat(STABLE);
+				joueur->obtVitesse().y = 0.f;
+				joueur->obtVitesse().x = 0.f;
+				joueur->obtVitesse().z = 0.f;
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);*/
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
 	}
 
 	bool detectionObjet() {
@@ -110,7 +107,8 @@ private:
 public:
 
 	PhaseJeu() : Phase(){
-		joueur = new Joueur(Vecteur3d(-1, 0, 0));
+		joueur = new Joueur(Vecteur3d(-1, 2, -5));
+		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;

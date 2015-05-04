@@ -9,6 +9,8 @@
 #include "Pendule.h"
 #include <string>
 
+enum collision{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
+
 class Physique : public Singleton<Physique>{
 private:
 
@@ -551,12 +553,13 @@ public:
 		return false;
 	}
 
-	bool collisionJoueurSalle(Salle* salle, Joueur* joueur) {
+	short collisionJoueurSalle(Salle* salle, Joueur* joueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
+		short collision = AUCUNE;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -565,60 +568,24 @@ public:
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
-				Vecteur3d pointDiference = pointCollision - point;
-				//joueur->defPositionY(joueur->obtPosition().y + pointDiference.y);
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
-				//ajusterVitesse(joueur);
-				if (normale.y == 0)
-					return 3;
-				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))
-					return 2;
-				return 1;
-			}
-		}
-		return 0;
-	}
-
-	bool collisionAuSol(Salle* salle, Joueur* joueur){
-		Droite rayonCollision;
-		Vecteur3d pointCollision;
-		Vecteur3d point;
-		Vecteur3d normale;
-		rayonCollision = Droite(joueur->obtPosition(), joueur->obtVitesse());
-		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
-
-		for (int i = 0; i < 8; i++) {
-			point = tabJoueur[i];
-			rayonCollision = Droite(point, joueur->obtVitesse());
-
-			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
-				if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale))
-				if (normale.y > normale.x && normale.y > normale.z && normale.y != 0) {
-					joueur->defNormale(normale);
-					joueur->defPointCollision(pointCollision);
-					//ajusterVitesse(joueur);
-					return true;
+				if (normale.y == 1)	collision = SOLDROIT;
+				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))	collision = SOLCROCHE;
+				if (normale.y == 0){
+					//joueur->defNormale(normale);
+					collision = MUR;
+				}
+				if (collision != MUR) {
+					Vecteur3d pointDifference = pointCollision - point;
+					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
 			}
+			if (collision == AUCUNE) {
+				joueur->defNormale({ 0, 0, 0 });
+			}
 		}
-		return false;
-	}
-
-	/*Peut etre faire directement dans^collision au sol et utiliser directement normale et point de collision au lieu de joueur et salle...*/
-	void ajusterVitesse(Joueur* joueur){
-		Plan plan(joueur->obtPointCollision(), joueur->obtNormale());
-		Vecteur3d normale = plan.obtenirNormale();
-		Vecteur3d point = (joueur->obtVitesse() + joueur->obtPosition());
-		normale.normaliser();
-		Vecteur3d vecteurV = point - joueur->obtPointCollision();
-		double d = vecteurV.produitScalaire(normale);
-		Vecteur3d vitesseProjetee = ((point - (normale * d)) - joueur->obtPosition());
-		//Vecteur3d normale = plan.obtenirNormale();
-		//Vecteur3d vitesseTemp = joueur->obtVitesse() -normale;
-		vitesseProjetee.normaliser();
-		Vecteur3d bacon = vitesseProjetee * joueur->obtVitesse().norme();
-		joueur->defVitesseY(bacon.y);
+		return collision;
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {

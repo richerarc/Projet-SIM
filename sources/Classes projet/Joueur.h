@@ -1,6 +1,7 @@
 #pragma once
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
+#include "Plan.h"
 
 enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
 enum modele { MODELEDEBOUT, MODELEACCROUPI };
@@ -21,6 +22,21 @@ private:
 	Vecteur3d pointCollision;
 	bool bloque;
 	Chrono chronoSaut;
+
+	/*y=-(Ax+Cz+d)/B */
+	void ajusterVitesse(){
+		Plan plan(pointCollision, normale);
+		double B = plan.obtenirNormale().y;
+		if (B){
+			double A = plan.obtenirNormale().x;
+			double x = vitesse.x;
+			double C = plan.obtenirNormale().z;
+			double z = vitesse.z;
+			double d = plan.obtenirD();
+			double y = -(((A * x) + (C * z) + d) / B);
+			vitesse.y = y;
+		}
+	}
 
 public:
 
@@ -72,8 +88,8 @@ public:
 
 			Vecteur3d devant = camera->obtDevant();
 			devant.y = 0;
-			devant.normaliser();
 			Vecteur3d cote = camera->obtCote();
+			devant.normaliser();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
 			if (Clavier::toucheRelachee(SDLK_LSHIFT) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
@@ -98,17 +114,21 @@ public:
 					vitesseDeplacement = 4.f;
 				}
 
+				/*if ((normale.x != 0 || normale.z != 0) && (normale.y != 0)) {
+				vitesseDeplacement = 4.f;
+				}*/
+
 				if (Clavier::toucheAppuyee(SDLK_w)){
 					etat = MARCHE;
-					if (normale.x != 0 || normale.z != 0) {
+					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
 					}
-					else
+					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
 						vitesse = devant * vitesseDeplacement;
 					if (vitesseDeplacement < 5) {
 						if (Clavier::toucheAppuyee(SDLK_d)) {
-							if (normale.x != 0 || normale.z != 0) {
+							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 							}
@@ -117,20 +137,26 @@ public:
 						}
 
 						else if (Clavier::toucheAppuyee(SDLK_a)) {
-							if (normale.x != 0 || normale.z != 0) {
+							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesseTemp.x = cote.x * vitesseDeplacement;
 								vitesseTemp.z = cote.z * vitesseDeplacement;
 							}
 							else
 								vitesseTemp = cote * vitesseDeplacement;
 							vitesseTemp.inverser();
-							if (normale.x != 0 || normale.z != 0) {
+							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesse.x = vitesse.x + vitesseTemp.x;
 								vitesse.z = vitesse.z + vitesseTemp.z;
 							}
 							else
 								vitesse = vitesse + vitesseTemp;
 						}
+					}
+					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
+						ajusterVitesse();
+						//vitesse *= 2;
+						if (devant.produitScalaire(normale) < 0.f)
+							vitesse.y *= -1;
 					}
 				}
 
@@ -167,7 +193,8 @@ public:
 					}
 				}
 			}
-			modele3D->defOrientation(0, (camera->obtHAngle()), 0);
+			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0)
+				modele3D->defOrientation(0, (camera->obtHAngle()), 0);
 		}
 	}
 
