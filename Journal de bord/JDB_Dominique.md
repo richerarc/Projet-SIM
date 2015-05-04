@@ -49,3 +49,5 @@
 28/04/2015 (13h00 à 15h00) : J'ai ajouté du code pour mieux vérifier si le personnage peut interagir avec une porte, car pour l'instant ce n'est basé que sur la proximité. Je ne l'ai pas commit parce que ce n'est pas tout à fait complet, je le finierai demain matin.
 
 30/04/2015 (10h00 à 12h00) : J'ai discuté avec Kevin,Nathan et Samuel du progrès de notre tâche, puis j'ai continué mon longer.
+
+04/05/2015 (12h00 à 2h15) : J'ai mis en commun mon longer avec les déplacements de Kevin et Nathan. J'ai ensuite commencé à débugger le tout, ça marche actuellement assez bien, le longement contre les murs ne marche pas que lorsque le joueur a un certain angle avec le mur. J'ai aussi commencé à modeler une pièce.
