@@ -405,7 +405,7 @@ public:
 
 	Salle *salleActive;
 	unsigned int nombreDeSalle;
-	float chargement;
+	double chargement;
 	bool finChargement;
 
 	void initialiser() {
@@ -566,17 +566,13 @@ public:
 		//infosSalles.resize(1);
 		for (auto& it : infosSalles) {
 			creerSalle(it, true);
-			chargement += (100 / nombreDeSalle);
+			chargement += (100.0f / nombreDeSalle);
 		}
 
 		auto debut = infosSalles.begin();
 		pos = rand() % infosSalles.size();
 		std::advance(debut, pos);
 
-		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
-		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate2.png"));
-		modeleMur->defOrientation(0, 0, 0);
-		modelePorte->defOrientation(0, 0, 0);
 		finChargement = true;
 		SDL_GL_DeleteContext(c);
 	}
@@ -586,5 +582,9 @@ public:
 		int pos = rand() % infosSalles.size();
 		std::advance(debut, pos);
 		creerSalle(*debut, false);
+		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
+		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate2.png"));
+		modeleMur->defOrientation(0, 0, 0);
+		modelePorte->defOrientation(0, 0, 0);
 	}
 };
