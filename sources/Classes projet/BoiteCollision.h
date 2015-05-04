@@ -28,11 +28,11 @@ public:
 	}
 
 	bool pointDansBoiteY(double y) {
-		return (x >= obtXMin() && x <= obtXMax());
+		return (y >= obtYMin() && y <= obtYMax());
 	}
 
 	bool pointDansBoiteZ(double z) {
-		return (x >= obtXMin() && x <= obtXMax());
+		return (z >= obtZMin() && z <= obtZMax());
 	}
 
 	double obtXMin() {
