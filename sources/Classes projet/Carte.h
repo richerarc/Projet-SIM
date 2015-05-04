@@ -387,7 +387,7 @@ public:
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 
-			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), gfx::Texture());
+			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), new gfx::Texture());
 			modeleSalle->defEchelle(salle.echelle.x, salle.echelle.y, salle.echelle.z);
 			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
@@ -406,7 +406,7 @@ public:
 		}
 
 		finChargement = true;
-		SDL_GL_DeleteContext(c);
+		//SDL_GL_DeleteContext(c);
 	}
 
 	void debut() {

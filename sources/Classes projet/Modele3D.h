@@ -13,7 +13,7 @@ namespace gfx{
 	class Modele3D : public Objet3D {
 	private:
 		Modele* modele;
-		Texture texture;
+		Texture* texture;
 		Matrice4X4d matriceTransformation;
 		Vecteur3d echelle;
 		double* sommetsModif;
@@ -53,7 +53,7 @@ Modele3D() : Objet3D(){
 			matriceTransformation = Matrice4X4d();
 		}
 
-		Modele3D(Modele *modele, Texture &texture) : Objet3D(){
+		Modele3D(Modele *modele, Texture *texture) : Objet3D(){
 			this->modele = modele;
 			this->texture = texture;
 			echelle = Vecteur3d(1, 1, 1);
@@ -196,7 +196,7 @@ Modele3D() : Objet3D(){
 			bDC_Est_Transformee = false;
 		}
 
-		void defTexture(Texture &texture){
+		void defTexture(Texture *texture){
 			this->texture = texture;
 		}
 
@@ -211,7 +211,7 @@ Modele3D() : Objet3D(){
 			return modele;
 		}
 
-		Texture& obtTexture(){
+		Texture* obtTexture(){
 			return texture;
 		}
 
@@ -290,7 +290,7 @@ Modele3D() : Objet3D(){
 		void afficher(){
 			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glEnable(GL_DEPTH_TEST);
-			glBindTexture(GL_TEXTURE_2D, texture.obtID());
+			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glPushMatrix();
 				//glLoadIdentity();
 				glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);

@@ -17,7 +17,7 @@ public:
 
 	MenuOptions(void) {
 
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
 		son = new Bouton(std::bind(&MenuOptions::enClicSon, this, std::placeholders::_1),
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),

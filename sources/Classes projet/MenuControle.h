@@ -59,7 +59,7 @@ public:
 	MenuControle(void) : Menu() {
 		char tmp[15];
 
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
 		this->retour = new Bouton(std::bind(&MenuControle::enClickRetour, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),

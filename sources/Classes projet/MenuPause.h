@@ -11,7 +11,7 @@ private:
 
 public:
 	MenuPause(void) : Menu() {
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
 		options = new Bouton(std::bind(&MenuPause::enClicOptions, this, std::placeholders::_1),
 			std::bind(&MenuPause::survol, this, std::placeholders::_1),

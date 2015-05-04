@@ -55,7 +55,7 @@ public:
 		iterateur = resolutionDefaut;
 		modeVideo = modeVideoDefaut;
 
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 		resolution = new gfx::Texte2D(new std::string("Resolutions"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 40), Vecteur2f(50, 560));
 
 		appliquer = new Bouton(std::bind(&MenuGraphique::enClicAppliquer, this, std::placeholders::_1),

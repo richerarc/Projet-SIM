@@ -17,7 +17,7 @@ public:
 
 	MenuSon(void) : Menu() {
 
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 		volumeJeu = new gfx::Texte2D(new std::string("Game sound"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 35), Vecteur2f(100, 415));
 		volumeFond = new gfx::Texte2D(new std::string("Back noice"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 35), Vecteur2f(100, 215));
 

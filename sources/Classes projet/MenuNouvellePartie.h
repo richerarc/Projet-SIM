@@ -44,7 +44,7 @@ public:
 			new std::string("Back"), 20);
 
 		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 50), Vecteur2f(100, 180));
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), &gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
 
 		defPause(true);
 	}

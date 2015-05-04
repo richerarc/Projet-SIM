@@ -20,6 +20,11 @@ namespace gfx{
 			glGenTextures(1, &ID);
 		}
 
+		Texture(const char* path) {
+			glGenTextures(1, &ID);
+			charger(path);
+		}
+
 		~Texture() {
 			if (surface != nullptr){
 				if (surface->format != nullptr)

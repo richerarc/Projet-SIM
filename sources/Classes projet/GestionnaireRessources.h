@@ -12,7 +12,7 @@ namespace gfx{
 	class GestionnaireRessources : public Singleton<GestionnaireRessources>{
 	private:
 		std::map<const char*, gfx::Modele*>  modeles;
-		std::map<const char*, gfx::Texture> textures;
+		std::map<const char*, gfx::Texture*> textures;
 		std::map<std::string, gfx::Police*> polices;
 		std::map<std::string, gfx::Texte*> textes;
 
@@ -23,7 +23,7 @@ namespace gfx{
 		}
 
 		bool chargerTexture(const char* chemin){
-			return textures[chemin].charger(chemin);
+			return textures[chemin] = new Texture(chemin);
 		}
 
 		bool chargerModele(const char* chemin){
@@ -38,7 +38,7 @@ namespace gfx{
 			return textes[nom] = new gfx::Texte(texte, couleur, police);
 		}
 
-		gfx::Texture& obtTexture(const char* chemin){
+		gfx::Texture* obtTexture(const char* chemin){
 			if (textures.find(chemin) == textures.end())
 				chargerTexture(chemin);
 			return textures[chemin];

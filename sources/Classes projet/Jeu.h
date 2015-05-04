@@ -99,7 +99,6 @@ public:
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
 				thread_Creation.detach();
-				thread_Creation.~thread();
 				Carte::obtInstance().salleActive->remplir();
 			}
 
