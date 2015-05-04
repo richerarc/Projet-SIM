@@ -1,6 +1,7 @@
 #pragma once 
 #include "Menu.h"
 #include "Inventaire.h"
+#include "Chrono.h"
 
 class MenuInventaire : public Menu {
 private:
@@ -11,10 +12,11 @@ private:
 	std::vector<gfx::Sprite2D*> objetsAccesRapide;
 
 	Inventaire* inventaire;
-	InfoObjet* objetCurseur;
+	Item* objetCurseur;
 	gfx::Sprite2D* spriteObjetCurseur;
 
-	Chrono chrono;
+	gfx::Texte2D* texteNom;
+	gfx::Texte2D* texteDescription;
 
 public:
 	MenuInventaire(Inventaire *inventaire){
@@ -23,10 +25,10 @@ public:
 		for (int i = 0; i < inventaire->obtTailleSacADos(); ++i){
 			position.x = 300 + (i % inventaire->obtTailleAccesRapide()) * 70;
 			position.y = 200 + int(i / inventaire->obtTailleAccesRapide()) * 70;
-			casesSacADos.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("case.png")));
-			InfoObjet* objet = inventaire->obtObjetSacADos(i);
+			casesSacADos.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
+			Item* objet = inventaire->obtObjetSacADos(i);
 			if (objet != nullptr)
-				objetsSacADos.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture(inventaire->obtObjetSacADos(i)->cheminIcone)));
+				objetsSacADos.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture(inventaire->obtObjetSacADos(i)->obtCheminIcone())));
 			else
 				objetsSacADos.push_back(new gfx::Sprite2D(position, nullptr));
 		}
@@ -35,13 +37,15 @@ public:
 
 			position.x = 1200;
 			position.y = 10 + i * 70;
-			casesAccesRapide.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("case.png")));
-			InfoObjet* objet = inventaire->obtObjetAccesRapide(i);
+			casesAccesRapide.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
+			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
-				objetsAccesRapide.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture(objet->cheminIcone)));
+				objetsAccesRapide.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone())));
 			else
 				objetsAccesRapide.push_back(new gfx::Sprite2D(position, nullptr));
 		}
+		texteNom = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 40), Vecteur2f(300, 425));
+		texteDescription = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 15), Vecteur2f(300, 405));
 
 		pause = false;
 		objetCurseur = nullptr;
@@ -78,26 +82,28 @@ public:
 			objetsAccesRapide.pop_back();
 		}
 		delete spriteObjetCurseur;
+		delete texteDescription;
+		delete texteNom;
 	}
 
 	void actualiserAffichage(){
 		for (int i = 0; i < inventaire->obtTailleSacADos(); ++i){
-			InfoObjet* objet = inventaire->obtObjetSacADos(i);
+			Item* objet = inventaire->obtObjetSacADos(i);
 			if (objet != nullptr)
-				objetsSacADos[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->cheminIcone));
+				objetsSacADos[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
 			else
 				objetsSacADos[i]->defTexture(nullptr);
 		}
 
 		for (int i = 0; i < inventaire->obtTailleAccesRapide(); ++i){
-			InfoObjet* objet = inventaire->obtObjetAccesRapide(i);
+			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
-				objetsAccesRapide[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->cheminIcone));
+				objetsAccesRapide[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
 			else
 				objetsAccesRapide[i]->defTexture(nullptr);
 		}
 		if (objetCurseur != nullptr)
-			spriteObjetCurseur->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objetCurseur->cheminIcone));
+			spriteObjetCurseur->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objetCurseur->obtCheminIcone()));
 		else
 			spriteObjetCurseur->defTexture(nullptr);
 	}
@@ -109,64 +115,64 @@ public:
 		bool dedans = false;
 		int ID = 0;
 		for (gfx::Sprite2D* sprite : casesSacADos){
-			if (sprite->obtRectangle().contient(Vecteur2f(Souris::obtPosition().x, Souris::obtPosition().y))){
-					dedans = true;
-					//Si un objet se trouve déjà où on clique.
-					if (inventaire->obtObjetSacADos(ID) != nullptr){
-						//Si j'ai déjà un objet sur mon curseur.
-						if (objetCurseur != nullptr){
-							InfoObjet* tmp = objetCurseur;
+			if (sprite->obtRectangle().contient(Vecteur2f(Curseur::obtPosition().x, Curseur::obtPosition().y))){
+				dedans = true;
+				//Si un objet se trouve déjà où on clique.
+				if (inventaire->obtObjetSacADos(ID) != nullptr){
+					//Si j'ai déjà un objet sur mon curseur.
+					if (objetCurseur != nullptr){
+						Item* tmp = objetCurseur;
 
-							objetCurseur = inventaire->retirerObjetSacADos(ID);
+						objetCurseur = inventaire->retirerObjetSacADos(ID);
 
-							inventaire->ajouterObjetCaseSacADos(tmp, ID);
-							actualiserAffichage();
-						}
-						else{
-							objetCurseur = inventaire->retirerObjetSacADos(ID);
-							actualiserAffichage();
-						}
+						inventaire->ajouterObjetCaseSacADos(tmp, ID);
+						actualiserAffichage();
 					}
 					else{
-						if (objetCurseur != nullptr){
-							inventaire->ajouterObjetCaseSacADos(objetCurseur, ID);
-							objetCurseur = nullptr;
-							actualiserAffichage();
-						}
+						objetCurseur = inventaire->retirerObjetSacADos(ID);
+						actualiserAffichage();
 					}
-
 				}
+				else{
+					if (objetCurseur != nullptr){
+						inventaire->ajouterObjetCaseSacADos(objetCurseur, ID);
+						objetCurseur = nullptr;
+						actualiserAffichage();
+					}
+				}
+
+			}
 			ID++;
 		}
 		ID = 0;
 		for (gfx::Sprite2D* sprite : casesAccesRapide){
-			if (sprite->obtRectangle().contient(Vecteur2f(Souris::obtPosition().x, Souris::obtPosition().y))){
-					dedans = true;
-					//Si un objet se trouve déjà où on clique.
-					if (inventaire->obtObjetAccesRapide(ID) != nullptr){
-						//Si j'ai déjà un objet sur mon curseur.
-						if (objetCurseur != nullptr){
-							InfoObjet* tmp = objetCurseur;
+			if (sprite->obtRectangle().contient(Vecteur2f(Curseur::obtPosition().x, Curseur::obtPosition().y))){
+				dedans = true;
+				//Si un objet se trouve déjà où on clique.
+				if (inventaire->obtObjetAccesRapide(ID) != nullptr){
+					//Si j'ai déjà un objet sur mon curseur.
+					if (objetCurseur != nullptr){
+						Item* tmp = objetCurseur;
 
-							objetCurseur = inventaire->retirerObjetAccesRapide(ID);
+						objetCurseur = inventaire->retirerObjetAccesRapide(ID);
 
-							inventaire->ajouterObjetCaseAccesRapide(tmp, ID);
-							actualiserAffichage();
-						}
-						else{
-							objetCurseur = inventaire->retirerObjetAccesRapide(ID);
-							actualiserAffichage();
-						}
+						inventaire->ajouterObjetCaseAccesRapide(tmp, ID);
+						actualiserAffichage();
 					}
 					else{
-						if (objetCurseur != nullptr){
-							inventaire->ajouterObjetCaseAccesRapide(objetCurseur, ID);
-							objetCurseur = nullptr;
-							actualiserAffichage();
-						}
-
+						objetCurseur = inventaire->retirerObjetAccesRapide(ID);
+						actualiserAffichage();
 					}
 				}
+				else{
+					if (objetCurseur != nullptr){
+						inventaire->ajouterObjetCaseAccesRapide(objetCurseur, ID);
+						objetCurseur = nullptr;
+						actualiserAffichage();
+					}
+
+				}
+			}
 			ID++;
 		}
 		if (!dedans){
@@ -184,19 +190,46 @@ public:
 		if (pause)
 			return;
 
-		spriteObjetCurseur->defPosition(Vecteur2f(Souris::obtPosition().x - 32, 720 - Souris::obtPosition().y - 32));
-
-		for (gfx::Sprite2D* sprite : casesAccesRapide){
-			if (sprite->obtRectangle().contient(Vecteur2f(Souris::obtPosition().x, Souris::obtPosition().y)))
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseSurvol.png"));
-			else
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("case.png"));
+		spriteObjetCurseur->defPosition(Vecteur2f(Curseur::obtPosition().x - 32, Curseur::obtPosition().y - 32));
+		if (objetCurseur != nullptr){
+			texteNom->defTexte(new std::string(objetCurseur->obtNom()));
+			texteDescription->defTexte(new std::string(objetCurseur->obtDescription()));
 		}
+
+		int ID = 0;
+		bool dedans = false;
+		for (gfx::Sprite2D* sprite : casesAccesRapide){
+			if (sprite->obtRectangle().contient(Vecteur2f(Curseur::obtPosition().x, Curseur::obtPosition().y))){
+				dedans = true;
+				if (inventaire->obtObjetAccesRapide(ID) != nullptr){
+					texteNom->defTexte(new std::string(inventaire->obtObjetAccesRapide(ID)->obtNom()));
+					texteDescription->defTexte(new std::string(inventaire->obtObjetAccesRapide(ID)->obtDescription()));
+				}
+				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
+			}
+			else{
+				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
+			}
+			ID++;
+		}
+		ID = 0;
 		for (gfx::Sprite2D* sprite : casesSacADos){
-			if (sprite->obtRectangle().contient(Vecteur2f(Souris::obtPosition().x, Souris::obtPosition().y)))
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseSurvol.png"));
-			else
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("case.png"));
+			if (sprite->obtRectangle().contient(Vecteur2f(Curseur::obtPosition().x, Curseur::obtPosition().y))){
+				dedans = true;
+				if (inventaire->obtObjetSacADos(ID) != nullptr){
+					texteNom->defTexte(new std::string(inventaire->obtObjetSacADos(ID)->obtNom()));
+					texteDescription->defTexte(new std::string(inventaire->obtObjetSacADos(ID)->obtDescription()));
+				}
+				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
+			}
+			else{
+				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
+			}
+			ID++;
+		}
+		if (!dedans && objetCurseur == nullptr){
+			texteDescription->defTexte(new std::string(""));
+			texteNom->defTexte(new std::string(""));
 		}
 	}
 
@@ -211,7 +244,7 @@ public:
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(sprite);
 		for (gfx::Sprite2D* sprite : objetsAccesRapide)
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(sprite);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteObjetCurseur);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ texteNom, texteDescription, spriteObjetCurseur });
 	}
 
 	void defPause(bool pause){

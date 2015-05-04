@@ -37,7 +37,7 @@ public:
 		return menuAccesRapide.size();
 	}
 
-	bool ajouterObjet(InfoObjet *objet){
+	bool ajouterObjet(Item *objet){
 		//Vérifions si il reste de la place dans le menu d'accès rapide
 		for (Case* i : menuAccesRapide){
 			if (i->obtObjet() == nullptr){
@@ -55,35 +55,35 @@ public:
 		return false;
 	}
 
-	InfoObjet* ajouterObjetCaseSacADos(InfoObjet *objet, int position){
+	Item* ajouterObjetCaseSacADos(Item *objet, int position){
 		if (position >= sacADos.size())
 			return nullptr;
-		InfoObjet* tmp = sacADos[position]->retirerObjet();
+		Item* tmp = sacADos[position]->retirerObjet();
 		sacADos[position]->defObjet(objet);
 		return tmp;
 	}
 
-	InfoObjet* ajouterObjetCaseAccesRapide(InfoObjet *objet, int position){
+	Item* ajouterObjetCaseAccesRapide(Item *objet, int position){
 		if (position >= menuAccesRapide.size())
 			return nullptr;
-		InfoObjet* tmp = menuAccesRapide[position]->retirerObjet();
+		Item* tmp = menuAccesRapide[position]->retirerObjet();
 		menuAccesRapide[position]->defObjet(objet);
 		return tmp;
 	}
 
-	InfoObjet* retirerObjetSacADos(int position){
+	Item* retirerObjetSacADos(int position){
 		return sacADos[position]->retirerObjet();
 	}
 
-	InfoObjet* retirerObjetAccesRapide(int position){
+	Item* retirerObjetAccesRapide(int position){
 		return menuAccesRapide[position]->retirerObjet();
 	}
 
-	InfoObjet* obtObjetSacADos(int position){
+	Item* obtObjetSacADos(int position){
 		return sacADos[position]->obtObjet();
 	}
 
-	InfoObjet* obtObjetAccesRapide(int position){
+	Item* obtObjetAccesRapide(int position){
 		return menuAccesRapide[position]->obtObjet();
 	}
 

@@ -119,5 +119,14 @@ namespace gfx{
 		void fermer(){
 			fenetreOuverte = false;
 		}
+
+		SDL_GLContext obrontext() {
+			return SDLGLContext;
+		}
+
+		SDL_GLContext obtNouveauContext() {
+			return SDL_GL_CreateContext(sdlWindow);
+		}
+
 	};
 }

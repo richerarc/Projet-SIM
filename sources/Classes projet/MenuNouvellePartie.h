@@ -63,20 +63,23 @@ public:
 
 	void enClicFacile(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
-		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
+		Carte::obtInstance().nombreDeSalle = 15;
+		clic(MENUCHARGEMENT);
+		Carte::obtInstance().initialiser();
 	}
 
 	void enClicNormal(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
-		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
+		Carte::obtInstance().nombreDeSalle = 20;
+		clic(MENUCHARGEMENT);
+		Carte::obtInstance().initialiser();
 	}
 
 	void enClicDifficile(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
-		GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
+		Carte::obtInstance().nombreDeSalle = 32;
+		clic(MENUCHARGEMENT);
+		Carte::obtInstance().initialiser();
 	}
 
 	void enClicRetour(Bouton* envoi) {

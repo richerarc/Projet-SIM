@@ -14,7 +14,6 @@ public:
 		nbrPortes = nbrPorte;
 		this->ID = ID;
 		this->modele = modele;
-		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 
 	~Salle() {
@@ -22,6 +21,13 @@ public:
 			delete it;
 		}
 		gfx::Gestionnaire3D::obtInstance().retObjet(modele);
+		//delete modele;
+	}
+
+	void remplir() {
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
+		for (auto it : objets)
+			it->remplir();
 	}
 
 	unsigned int obtNbrPortes(){

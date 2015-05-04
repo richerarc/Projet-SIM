@@ -26,16 +26,20 @@ public:
 		this->collisionInterne = collisionInterne;
 		this->position = position;
 		this->vitesseAngulaire = vitesseAngulaire;
-		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
 	}
 
 	~Objet() {
 		gfx::Gestionnaire3D::obtInstance().retObjet(modele);
+		//delete modele;
 	}
 
 	virtual void appliquerAction(typeAction action) = 0;
 	virtual bool obtSiPorte() = 0;
 	//virtual void ajouterScene() = 0;
+
+	void remplir() {
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(this->modele);
+	}
 
 	void defPosition(Vecteur3d position){
 		if (modele->obtModele() != NULL){

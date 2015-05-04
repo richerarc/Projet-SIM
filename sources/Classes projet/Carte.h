@@ -11,6 +11,7 @@
 #include "Info.h"
 #include "Graphe.h"
 #include "GestionnaireChemin.h"
+#include "GestionnaireRessources.h"
 #include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
 #include "Joueur.h"
@@ -229,8 +230,9 @@ private:
 		}
 		return true;
 	}
-	void creerSalle(InfoSalle& infoSalleActive) {
 
+	void creerSalle(InfoSalle& infoSalleActive) {
+		
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
 
@@ -247,6 +249,13 @@ private:
 public:
 
 	Salle *salleActive;
+	unsigned int nombreDeSalle;
+	double chargement;
+	bool finChargement;
+
+	void initialiser() {
+		thread_Creation = std::thread(&Carte::creer, this);
+	}
 
 	int destination(std::tuple<unsigned int, unsigned int, bool> sortie, Joueur *joueur) {
 
@@ -318,12 +327,17 @@ public:
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
 	// En entrée:
-	// Param1: Le nombre de salle easy = 12, normal = 20, difficile = 32.
-	void creer(const unsigned int nombreDeSalle) {
+	// Param1: Le nombre de salle easy = 15, normal = 20, difficile = 32.
+	void creer() {
+
+		SDL_GLContext c = fenetre->obtNouveauContext();
 
 		// Création du graphe
 		carte.creer(nombreDeSalle);
 		int itterateurPorte(0);
+
+		chargement = 0;
+		finChargement = false;
 
 		int* porte = new int[nombreDeSalle];
 		Entree entree;
@@ -363,7 +377,7 @@ public:
 		gfx::Modele3D* modeleSalle;
 
 		// Boucle sur toutes les salles...
-		for (unsigned int i = 0; i < nombreDeSalle; ++i){
+		for (unsigned int i = 0; i < nombreDeSalle; ++i) {
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
@@ -373,7 +387,7 @@ public:
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 
-			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(salle.cheminTexture));
+			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), gfx::Texture());
 			modeleSalle->defEchelle(salle.echelle.x, salle.echelle.y, salle.echelle.z);
 			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
@@ -388,13 +402,17 @@ public:
 			infosSalles.push_back(salle);
 			salle.boitesCollision.clear();
 			salle.Objet.clear();
+			chargement += (100.0f / nombreDeSalle);
 		}
 
+		finChargement = true;
+		SDL_GL_DeleteContext(c);
+	}
+
+	void debut() {
 		auto debut = infosSalles.begin();
 		std::advance(debut, rand() % infosSalles.size());
-
 		creerSalle(*debut);
-
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
 		modeleMur->defOrientation(0, 0, 0);
