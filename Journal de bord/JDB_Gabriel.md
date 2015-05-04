@@ -386,3 +386,39 @@ Durant l'après midi(6h00 école) j'ai aussi aidé Damien pour l'animation, j'ai
 ###29 avril 2015
 
 **3h00**: Un beau dernier trois heures de travail pour complèter les portes/escaliers. Elles se positionnement maintenant bien et il ne devrait plus y avoir de boucles infinis, assez fier du résultat je suis.
+
+###30 avril 2015
+
+**1h00**: Présentation de l'oral et petite réunions de groupe, je me suis fixé comme but de terminer la génération de porte d'ici dimanche 24h00.
+
+**0h15**: Petite discution avec Julien et Richer de l'impact des puzzles sur la génération des portes.
+
+**2h00**: Travail sur la génération de porte.
+
+###01 mai 2015
+
+***4h00**: Plus de débogage aka travail sur la génération des portes...
+
+###02 mai 2015
+
+**3h00**: Travail sur la génération des portes, il n'y a plus de boucles infinis, mais certaines portes n'arrivent pas à monter les marches. Par contre elles montent/descendent des pentes...
+
+###03 mai 2015
+
+>Bon, bon, bon... Je suis comment dire tanné de travailler sur les portes. Cela était dit, je vais persévérer à les faire se positionner correctement. J'ai alors décidé de faire ce que j'aurais dû faire au tout début, comme bon analyste et penser à comment m'y prendre. Je me rends bien compte que les collisions ne sont pas une option étant donné qu'elles sont très, disons, suseptibles. Après mûr réflexion, j'en suis venu à la conclusion qu'il existait un autre moyen de positionner les portes, beaucoup plus rapide et probablement infaillible. Je vais d'abord accéder au modele de la salle où je suis en train de positionner mes portes. Dans ce modele, je vais me trouver un triangle qui répond aux critères suivants:
+
+1.  La composante y de sa normale doit être nulle
+2.  Sa hauteur en Y dans être de minimum 2 mètres
+3.  Sa largeur en X et Z doit être de minimum 1 mètre
+
+À partir de là, je n'ai qu'à posiitonner la porte sur cette face et le tour est joué, il faudra aussi que je valide si deux portes s'entremêlent.
+
+**6h00**: Travail sur la nouvelle génération, ça marche.
+
+Je crois que je peux retirer une belle leçons de mon périple:
+
+> Réfléchir avant de travailler, parce que si j'avais pensé un peu plus à comment positionner mes portes, j'aurais eu fini il y a bien longtemps...
+
+Si j'étais en deuil du temps que j'ai "perdu"(J'ai quand même appris des choses et réglé des bugs ailleurs), je dirais que je suis à la phase d'acceptation en ce moment...
+
+AU MOINS J'AI ATTEIND MON BUT!!!
