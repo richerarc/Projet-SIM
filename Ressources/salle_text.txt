@@ -1,7 +1,8 @@
-SallePente.obj SallePente.png SallePente.txt
-SalleL.obj SalleL.png SalleL.txt
-SalleCarree4x4.obj SalleCarree4x4.png SalleCarree4x4.txt
-SalleConvergente.obj SalleConvergente.png SalleConvergente.txt
-SalleLosange.obj SalleLosange.png SalleLosange.txt
-SalleEscalier.obj SalleEscalier.png SalleEscalier.txt
-SalleEscalierDesaxee.obj SalleEscalierDesaxee.png SalleEscalierDesaxee.txt
+SalleEnQuatre.obj SalleEnQuatre.png
+SallePente.obj SallePente.png
+SalleL.obj SalleL.png
+SalleCarree4x4.obj SalleCarree4x4.png
+SalleConference.obj SalleConference.png
+SalleLosange.obj SalleLosange.png
+SalleEscalier.obj SalleEscalier.png
+SalleEscalierDesaxee.obj SalleEscalierDesaxee.png

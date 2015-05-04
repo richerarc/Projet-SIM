@@ -18,7 +18,7 @@
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
-typedef std::tuple<char*, char*, char*> Modele_Text;
+typedef std::tuple<char*, char*> Modele_Text;
 
 class Carte : public Singleton < Carte > {
 private:
@@ -36,364 +36,211 @@ private:
 		liens[entree] = sortie;
 	}
 
-	void positionnerPorte(InfoSalle& salle, InfoObjet& objet, bool recalcul) {
-		if (recalcul)
-			int i = 0;
-		bool boPorte = false;
-		bool directionPossible;
-		unsigned int pos;
-		double x(0), y(0), z(0), xMin, xMax, yMin, yMax, zMin, zMax;
-		double randomRatio;
-		while (!boPorte) {
+	void positionnerPorte(gfx::Modele3D& modeleSalle, InfoSalle& salle, InfoObjet& objet) {
+		unsigned int depart;
+		Vecteur3d normale;
+		Vecteur3d point[3];
 
-			// Obtenir des coordonnés de la d'une boîte de collision de la salle.
-			boPorte = true;
-			auto it = salle.boitesCollision.begin();
-			pos = rand() % salle.boitesCollision.size();
-			std::advance(it, pos);
+		bool PorteAuMur = false;
+		double* vertices = modeleSalle.obtSommetsModifies();
+		double* normales = modeleSalle.obtNormalesModifies();
+		while (!PorteAuMur)
+		{
+			PorteAuMur = true;
+			do{
+				double y;
+				do{
+					depart = (rand() % modeleSalle.obtModele()->obtNbrFaces()) * 9;
+					normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
+				} while (normale.y != 0);
+				for (int i = 0; i < 3; ++i) {
 
-			//Données y
-			yMin = (*it).obtYMin();
-			yMax = (*it).obtYMax();
-			y = (*it).obtGrandeurY();
+					point[i] = { vertices[depart + i * 3], vertices[depart + i * 3 + 1], vertices[depart + i * 3 + 2] };
 
-			if (y >= 2) {
+				}
+			} while (!espacePorte(point[0], point[1], point[2]));
 
-				//Données x
-				xMin = (*it).obtXMin();
-				xMax = (*it).obtXMax();
-				x = (*it).obtGrandeurX();
+			// Angle de la porte...
+			if (Vecteur3d({ 1, 0, 0 }).produitScalaire(normale) > 0) {
 
-				// Données z
-				zMin = (*it).obtZMin();
-				zMax = (*it).obtZMax();
-				z = (*it).obtGrandeurZ();
+				Vecteur3d pivot = { 0, 1, 0 };
+				Vecteur3d pointDeRotPoingnee = Vecteur3d({ -1, 0, 0 }).produitVectoriel(pivot);
+				double angle = pointDeRotPoingnee.angleEntreVecteurs(normale);
+				objet.rotation = (90 - Maths::radianADegre(angle));
+				objet.direction = normale * -1;
+			}
+			else
+			{
+				Vecteur3d pivot = { 0, -1, 0 };
+				Vecteur3d pointDeRotPoingnee = Vecteur3d({ -1, 0, 0 }).produitVectoriel(pivot);
+				double angle = pointDeRotPoingnee.angleEntreVecteurs(normale);
+				objet.rotation = (270 - Maths::radianADegre(angle));
+				objet.direction = normale * -1;
+			}
 
+			double y1 = point[0].y;
+			double y2;
+			do {
+				y2 = point[rand() % 2 + 1].y;
+			} while (y1 == y2);
 
-				// Positionnement de la porte...
-				objet.position.y = yMin;
-				directionPossible = false;
-				while (!directionPossible)
-				{
-					switch (rand() % 4) {
-					case 0:
+			objet.position.y = (y1 < y2) ? y1 : y2;
 
-						if (z >= 1) {
+			unsigned int i;
+			unsigned int j;
+			do {
+				do{
+					i = rand() % 3;
+					j = rand() % 3;
+				} while (i == j);
+			} while (point[i].y != point[j].y);
 
-							randomRatio = (double)rand() / RAND_MAX;
-							objet.position.x = xMin + randomRatio * (x);
+			Vecteur3d swap;
 
-							do {
-								randomRatio = (double)rand() / RAND_MAX;
-								objet.position.z = zMin + randomRatio * (z);
-							} while ((objet.position.z < zMin) || (objet.position.z > zMax - 1));
-
-							directionPossible = true;
-							objet.direction = { 1, 0, 0 };
-							objet.rotation = 180;
-						}
-
-						break;
-					case 1:
-
-						if (z >= 1) {
-
-							randomRatio = (double)rand() / RAND_MAX;
-							objet.position.x = xMin + randomRatio * (x);
-
-							do {
-								randomRatio = (double)rand() / RAND_MAX;
-								objet.position.z = zMin + randomRatio * (z);
-							} while ((objet.position.z < zMin + 1) || (objet.position.z > zMax));
-
-							directionPossible = true;
-							objet.direction = { -1, 0, 0 };
-							objet.rotation = 0;
-						}
-
-						break;
-					case 2:
-
-						if (x >= 1) {
-
-							do {
-								randomRatio = (double)rand() / RAND_MAX;
-								objet.position.x = xMin + randomRatio * (x);
-							} while ((objet.position.x < xMin + 1) || (objet.position.x > xMax));
-
-							randomRatio = (double)rand() / RAND_MAX;
-							objet.position.z = zMin + randomRatio * (z);
-
-							directionPossible = true;
-							objet.direction = { 0, 0, 1 };
-							objet.rotation = 90;
-						}
-
-						break;
-					case 3:
-
-						if (x >= 1) {
-
-							do {
-								randomRatio = (double)rand() / RAND_MAX;
-								objet.position.x = xMin + randomRatio * (x);
-							} while ((objet.position.x < xMin) || (objet.position.x > xMax - 1));
-
-							randomRatio = (double)rand() / RAND_MAX;
-							objet.position.z = zMin + randomRatio * (z);
-
-							directionPossible = true;
-							objet.direction = { 0, 0, -1 };
-							objet.rotation = -90;
-						}
-
-						break;
+			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
+				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
+					if (point[i].x > point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
 					}
-
-
-
 				}
-
-				/*
-				// Boucle qui vérifie si la porte est dans une boîte de remplissage...
-				for (auto it : salle.puzzle.boitesRemplissage) {
-				if (it.pointDansBoite(objet.position)) {
-				boPorte = false;
-				}
-				switch ((int)objet.rotation) {
-				case 0:
-				if (it.pointDansBoite({ objet.position.x, objet.position.y, objet.position.z - 1 })) {
-				boPorte = false;
-				}
-				break;
-				case 90:
-				if (it.pointDansBoite({ objet.position.x - 1, objet.position.y, objet.position.z })) {
-				boPorte = false;
-				}
-				break;
-				case 180:
-				if (it.pointDansBoite({ objet.position.x, objet.position.y, objet.position.z + 1 })) {
-				boPorte = false;
-				}
-				break;
-				case -90:
-				if (it.pointDansBoite({ objet.position.x + 1, objet.position.y, objet.position.z })) {
-				boPorte = false;
-				}
-				break;
-				}
-				}
-
-				// Boucle qui vérifie si la porte est dans une boîte de remplissage...
-				for (auto it : salle.puzzle.boitesPuzzle) {
-				if (it.pointDansBoite(objet.position)) {
-				boPorte = false;
-				}
-				switch ((int)objet.rotation) {
-				case 0:
-				if (objet.position.z - 1 >= it.obtZMin() && objet.position.z - 1 <= it.obtZMax()) {
-				boPorte = false;
-				}
-				break;
-				case 90:
-				if (objet.position.x - 1 >= it.obtXMin() && objet.position.x - 1 <= it.obtXMax()) {
-				boPorte = false;
-				}
-				break;
-				case 180:
-				if (objet.position.z + 1 >= it.obtZMin() && objet.position.z + 1 <= it.obtZMax()) {
-				boPorte = false;
-				}
-				break;
-				case -90:
-				if (objet.position.x + 1 >= it.obtXMin() && objet.position.x + 1 <= it.obtXMax()) {
-				boPorte = false;
-				}
-				break;
-				}
-				}
-
-				for (auto it : salle.puzzle.boitesRemplissage) {
-				switch ((int)objet.rotation) {
-				case 0:
-				if (it.pointDansBoiteZ(objet.position.z) ^ it.pointDansBoiteZ(objet.position.z - 1)) {
-				boPorte = false;
-				}
-				break;
-				case 90:
-				if (it.pointDansBoiteX(objet.position.x) ^ it.pointDansBoiteX(objet.position.x - 1)) {
-				boPorte = false;
-				}
-				break;
-				case 180:
-				if (it.pointDansBoiteZ(objet.position.z) ^ it.pointDansBoiteZ(objet.position.z + 1)) {
-				boPorte = false;
-				}
-				break;
-				case -90:
-				if (it.pointDansBoiteX(objet.position.x) ^ it.pointDansBoiteX(objet.position.x + 1)) {
-				boPorte = false;
-				}
-				break;
-				}
-				}
-				*/
-
-				// Boucle qui vérifie si une porte sera en collision avec une autre...
-				for (auto it : salle.Objet) {
-
-					// Si les portes ont la même direction...
-					if ((objet.direction == it.direction) && !(objet.position == it.position)) {
-
-						// Axe x
-						switch ((int)objet.direction.x) {
-						case 1:
-							if ((objet.position.z >= it.position.z && objet.position.z <= it.position.z + 1) || (objet.position.z + 1 >= it.position.z && objet.position.z + 1 <= it.position.z + 1)) {
-								boPorte = false;
-							}
-							break;
-						case -1:
-							if ((objet.position.z <= it.position.z && objet.position.z >= it.position.z - 1) || (objet.position.z - 1 <= it.position.z && objet.position.z - 1 >= it.position.z - 1)) {
-								boPorte = false;
-							}
-							break;
-						}
-
-						// Axe z
-						switch ((int)objet.direction.z) {
-						case 1:
-							if ((objet.position.x <= it.position.x && objet.position.x >= it.position.x - 1) || (objet.position.x - 1 <= it.position.x && objet.position.x - 1 >= it.position.x - 1)) {
-								boPorte = false;
-							}
-							break;
-						case -1:
-							if ((objet.position.x >= it.position.x && objet.position.x <= it.position.x + 1) || (objet.position.x + 1 >= it.position.x && objet.position.x + 1 <= it.position.x + 1)) {
-								boPorte = false;
-							}
-							break;
-						}
+				else if ((normale.x < 0 && normale.z < 0) || (normale.x >= 0 && normale.z < 0)) {
+					if (point[i].x < point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
 					}
 				}
 			}
+			else
+			{
+				switch ((int)normale.x) {
+				case 1:
+					if (point[i].z < point[j].z) {//ok
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
+				case -1:
+					if (point[i].z > point[j].z) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
+				}
+				switch ((int)normale.z) {
+				case 1:
+					if (point[i].x > point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
+				case -1:
+					if (point[i].x < point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
+				}
+			}
 
+			Vecteur3d vecteurRatio = Physique::obtInstance().vecteurEntreDeuxPoints(point[i], point[j]);
+			vecteurRatio *= ((vecteurRatio.norme() - 1) / vecteurRatio.norme());
+			vecteurRatio *= ((double)rand() / RAND_MAX);
+			Vecteur3d position = point[i] + vecteurRatio;
+			objet.position.x = position.x;
+			objet.position.z = position.z;
+
+			// Boucle qui vérifie si une porte sera en collision avec une autre...
+			Vecteur3d pivot = { 0, 1, 0 };
+			for (auto it_Porte : salle.Objet) {
+
+				// Si les portes ont la même direction...
+				if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
+
+					Vecteur3d it_PortePosPoignee = it_Porte.position + it_Porte.direction.produitVectoriel(pivot);
+					Vecteur3d it_PosPoignee = objet.position + objet.direction.produitVectoriel(pivot);
+
+					if ((objet.position.x >= it_Porte.position.x && objet.position.x <= it_PortePosPoignee.x) && (objet.position.z >= it_Porte.position.z && objet.position.z <= it_PortePosPoignee.z)) {
+						PorteAuMur = false;
+					}
+
+					if ((it_PosPoignee.x >= it_Porte.position.x && it_PosPoignee.x <= it_PortePosPoignee.x) && (it_PosPoignee.z >= it_Porte.position.z && it_PosPoignee.z <= it_PortePosPoignee.z)) {
+						PorteAuMur = false;
+					}
+				}
+			}
 		}
-
-		// Ajout de l'objet.
-		if (!recalcul)
-			salle.Objet.push_back(objet);
 	}
 
-	void creerSalle(InfoSalle& infoSalleActive, bool enPositionnement) {
+	bool espacePorte(Vecteur3d point1, Vecteur3d point2, Vecteur3d point3) {
+
+		if (point1.y != point2.y && point1.y != point3.y && point2.y != point3.y) {
+			return false;
+		}
+
+		Vecteur3d pointDeCalcul1;
+		Vecteur3d pointDeCalcul2;
+
+		if (point1.y != point2.y && point1.y != point3.y) {
+			pointDeCalcul1 = point1;
+			if (point1.x == point2.x && point1.z == point2.z) {
+				pointDeCalcul2 = point3;
+			}
+			else
+			{
+				pointDeCalcul2 = point2;
+			}
+		}
+		else if (point2.y != point1.y && point2.y != point3.y) {
+			pointDeCalcul1 = point2;
+			if (point2.x == point3.x && point2.z == point3.z) {
+				pointDeCalcul2 = point1;
+			}
+			else
+			{
+				pointDeCalcul2 = point3;
+			}
+		}
+		else {
+			pointDeCalcul1 = point3;
+			if (point3.x == point1.x && point3.z == point1.z) {
+				pointDeCalcul2 = point2;
+			}
+			else
+			{
+				pointDeCalcul2 = point1;
+			}
+		}
+
+		Vecteur3d hypothenuse = Physique::obtInstance().vecteurEntreDeuxPoints(pointDeCalcul1, pointDeCalcul2);
+
+		if (abs(hypothenuse.y) <= 2) {
+			return false;
+		}
+
+		if (SDL_sqrt(SDL_pow(hypothenuse.x, 2) + SDL_pow(hypothenuse.z, 2)) <= 1) {
+			return false;
+		}
+		return true;
+	}
+	void creerSalle(InfoSalle& infoSalleActive) {
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
 
-		double orientation;
-		bool PorteAuMur;
-		Vecteur3d v3dtmp;
-		Vecteur3d pivot;
+		Objet* porte;
+
 		for (auto& it : infoSalleActive.Objet) {
-			if (!enPositionnement) {
 				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 				modeleporte->defPosition(it.position);
 				modeleporte->defOrientation(0, it.rotation, 0);
 				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
-			}
-			else {
-				orientation = 0;
-				gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-				modeleporte->defPosition(it.position);
-				modeleporte->defOrientation(0, it.rotation, 0);
-
-				Objet* porte = new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false);
-				porte->defVitesse(it.direction);
-				porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.01, porte->obtPosition().z));
-				PorteAuMur = false;
-
-				while (!PorteAuMur) {
-
-					// Tant que ma porte ne frappe pas un mur...
-					while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, false)) {
-						porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 100));
-					}
-
-					// 
-					unsigned int compteur = Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte);
-					switch (compteur) {
-					case 0:
-						break;
-					case 1:
-					case 12: // Collision au bas de la porte
-						porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 4));
-						v3dtmp = porte->obtVitesse();
-						porte->defVitesse({ 0, -1, 0 });
-						while (Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte) == 12 || Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte) == 1)
-							porte->defPosition(porte->obtPosition() + Vecteur3d({ 0.0, 0.01, 0.0 }));
-						porte->defVitesse(v3dtmp);
-						break;
-					case 22: // Collision au côté rotatif de la porte (vue de face en sortant = côté gauche de la porte)
-						porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 4));
-						pivot = { 0, -1, 0 };
-						v3dtmp = pivot.produitVectoriel(porte->obtVitesse());
-						while (Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte) == 22)
-							porte->defPosition(porte->obtPosition() + (v3dtmp / 100));
-						break;
-					case 42: // Collision au côté poignée de la porte (vue de face en sortant = côté droit de la porte)
-						porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 4));
-						pivot = { 0, 1, 0 };
-						v3dtmp = pivot.produitVectoriel(porte->obtVitesse());
-						while (Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte) == 42)
-							porte->defPosition(porte->obtPosition() + (v3dtmp / 100));
-						break;
-					case 52: // Collision au haut de la porte
-						porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 4));
-						v3dtmp = porte->obtVitesse();
-						porte->defVitesse({ 0, 1, 0 });
-						while (Physique::obtInstance().collisionPorteQuatrePoints(salleActive->obtModele(), *porte) == 52)
-							porte->defPosition(porte->obtPosition() + Vecteur3d({ 0.0, -0.01, 0.0 }));
-						porte->defVitesse(v3dtmp);
-						break;
-					case 32:
-					case 33:
-					case 43:
-					case 53:
-					case 63:
-					case 64: // Collision aux quatres points de la porte de la porte
-						porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.05, porte->obtPosition().z));
-						Physique::obtInstance().repositionner(salleActive->obtModele(), *porte);
-						porte->defPosition(porte->obtPosition() - (porte->obtVitesse()));
-						v3dtmp = porte->obtVitesse();
-						porte->defVitesse({ 0, -1, 0 });
-						while (!Physique::obtInstance().collisionPorte(salleActive->obtModele(), *porte, true) && porte->obtPosition().y >= -1000)
-							porte->defPosition(porte->obtPosition() + (porte->obtVitesse() / 10));
-						porte->defVitesse(v3dtmp);
-						porte->defPosition(porte->obtPosition() + (porte->obtVitesse()));
-						if (porte->obtPosition().y >= -1000)
-							PorteAuMur = true;
-						else {
-							positionnerPorte(infoSalleActive, it, true);
-							orientation = 0;
-							modeleporte->defPosition(it.position);
-							modeleporte->defOrientation(0, it.rotation, 0);
-							porte->defVitesse(it.direction);
-							porte->defPosition(Vecteur3d(porte->obtPosition().x, porte->obtPosition().y + 0.01, porte->obtPosition().z));
-						}
-						break;
-					default:
-						break;
-					}
-
-				}
-				porte->obtModele3D()->defOrientation(porte->obtModele3D()->obtOrientation() + Vecteur3d(0, orientation, 0));
-
-				it.position = porte->obtPosition();
-				it.rotation = porte->obtModele3D()->obtOrientation().y;
-				it.direction = porte->obtVitesse();
-				delete porte;
-			}
-		}
-		if (enPositionnement) {
-			delete salleActive;
 		}
 	}
 
@@ -410,7 +257,7 @@ public:
 		auto debut = infosSalles.begin();
 		std::advance(debut, std::get<0>(pieceSuivante));
 
-		creerSalle(*debut, false);
+		creerSalle(*debut);
 
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modeleMur);
 		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
@@ -505,21 +352,15 @@ public:
 		while (!fichierSalle.eof()) {
 			char* curseur1 = new char[20];
 			char* curseur2 = new char[20];
-			char* curseur3 = new char[20];
-			fichierSalle >> curseur1; fichierSalle >> curseur2; fichierSalle >> curseur3;
-			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2, curseur3));
+			fichierSalle >> curseur1; fichierSalle >> curseur2;
+			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2));
 			++itterateur;
 		}
 
 		unsigned int aleatoire;
-		unsigned int pos;
-		double randomRatio;
-		bool directionPossible;
-		bool boPorte;
-		double x(0), y(0), z(0), xMin, xMax, yMin, yMax, zMin, zMax;
-		Vecteur3d pos3D(0, 0, 0);
 		InfoObjet objet;
 		InfoSalle salle;
+		gfx::Modele3D* modeleSalle;
 
 		// Boucle sur toutes les salles...
 		for (unsigned int i = 0; i < nombreDeSalle; ++i){
@@ -528,35 +369,31 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			//aleatoire = rand() % itterateur;
-			aleatoire = rand() % 7; // en attendant que toutes les salles sont conformes
+			aleatoire = rand() % 8; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
-			LecteurFichier::lireBoite((char*)(std::get<2>(cheminsModeleText[aleatoire])), salle);
 
+			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(salle.cheminTexture));
+			modeleSalle->defEchelle(salle.echelle.x, salle.echelle.y, salle.echelle.z);
 			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
 				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
 				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
-				positionnerPorte(salle, objet, false);
+				positionnerPorte(*modeleSalle, salle, objet);
+				salle.Objet.push_back(objet);
 			}
-
 			// Ajout et réinitialisation de la salle.
+			delete modeleSalle;
 			infosSalles.push_back(salle);
 			salle.boitesCollision.clear();
 			salle.Objet.clear();
 		}
 
-		//infosSalles.resize(1);
-		for (auto& it : infosSalles) {
-			creerSalle(it, true);
-		}
-
 		auto debut = infosSalles.begin();
-		pos = rand() % infosSalles.size();
-		std::advance(debut, pos);
+		std::advance(debut, rand() % infosSalles.size());
 
-		creerSalle(*debut, false);
+		creerSalle(*debut);
 
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
