@@ -274,5 +274,24 @@ Temps : 2h
 
 Temps : 3h40
 
+###**`1er mai 2015`**
 
-Temps total : 121h30
+- Durant la journée : J'ai commené à penser la façon dont nous allons introduire les objets dans les puzzles, j'ai aussi ajouter un infoPuzzle ainsi qu'un charger Puzzle.
+
+Temps : 2h 
+
+###**`2 mai 2015`**
+
+- 13h à 1h30 : J'ai aidé Gabriel avec ses collisions et j'ai commencé à mettre la création de la map dans un thread. J'ai eu un gros problème avec opengl, car le contexte openGL se trouvait seulement dans le thread principal, je ne pouvais pas obtenir les vertices modifié. Cela m'a pris plusieurs heures à comprendre pourquoi et j'ai finalement trouvé un moyen de régler le problème. J'ai eu des problèmes avec les textures, car quelques unes se créaient dans la création, ce qui donnait des faux ID lorsque l'on optenait la texture dans le gestionnaire de texture. 
+
+Je n'ai pas travaillé durant tout ce temps, j'ai quand même pris des pauses...
+
+Temps : 8h
+
+###**`3 mai 2015`**
+
+- Durant la journée : J'ai fait quelque correctif mineur avec le thread, mais rien de très compliqué.
+
+Temps : 1h
+
+Temps total : 132h30
