@@ -14,10 +14,6 @@ public:
 		this->dimensions = dimensions;
 	}
 
-	void appliquerAction(typeAction action){
-		//actions ici s'il y a lieu
-	}
-
 	void defDimensions(Vecteur3d dimensions){
 		this->dimensions.x = dimensions.x;
 		this->dimensions.y = dimensions.y;

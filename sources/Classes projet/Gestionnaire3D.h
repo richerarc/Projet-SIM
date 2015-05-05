@@ -60,9 +60,12 @@ namespace gfx{
 		}
 
 		void afficherTout(){
+
 			if (camera != nullptr)
 				camera->appliquer();
 			for (auto &i : objets){
+				//glEnable(GL_LIGHTING);
+				//glEnable(GL_LIGHT0);
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 				glEnableClientState(GL_NORMAL_ARRAY);
@@ -72,9 +75,9 @@ namespace gfx{
 				glDisableClientState(GL_VERTEX_ARRAY);
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_NORMAL_ARRAY);
+				//glDisable(GL_LIGHTING);
+				//glDisable(GL_LIGHT0);
 			}
-			
-
 		}
 
 		void defFrustum(double fov, double ratio, double min, double max){

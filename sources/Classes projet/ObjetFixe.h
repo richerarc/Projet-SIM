@@ -10,17 +10,6 @@ public:
 		this->interactif = interactif;
 	}
 
-	void appliquerAction(typeAction action){
-		if (interactif){
-			switch (action){
-			case Interagir:
-				break;
-			case Osciller:
-				break;
-			}
-		}
-	}
-
 	void defInteraction(bool interactif){
 		this->interactif = interactif;
 	}
