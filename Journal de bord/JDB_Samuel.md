@@ -44,4 +44,4 @@
 
 30 avril: petit meeting en groupe, puis travbail sur des models de salle
 
-5 avril: continuation du travail sur les salles octogonale et hexagonales, et finition du modele de banniere (3 heure)
+5 mai: continuation du travail sur les salles octogonale et hexagonales, et finition du modele de banniere (3 heure)
