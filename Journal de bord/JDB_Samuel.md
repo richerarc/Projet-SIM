@@ -41,3 +41,7 @@
 22 avril: codage interaction joeur-porte, probleme recontré avec la fonction destination, (1H)
 
 23 avril: finalisation de l'interaction joueur-objet fixe, 30 sec d'aide a damien pour le modele du mur qu'il veut spawner. 1h30
+
+30 avril: petit meeting en groupe, puis travbail sur des models de salle
+
+5 mai: continuation du travail sur les salles octogonale et hexagonales, et finition du modele de banniere (3 heure)
