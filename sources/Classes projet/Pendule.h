@@ -12,18 +12,6 @@ public:
 		this->porte = false;
 	}
 
-	void appliquerAction(typeAction action){
-		if (interactif){
-			switch (action){
-			case Interagir:
-				break;
-			case Osciller:
-				break;
-			}
-			
-		}
-	}
-
 	double obtConstantePhase(){
 		return constantePhase;
 	}

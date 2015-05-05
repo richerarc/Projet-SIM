@@ -7,7 +7,7 @@ struct InfoObjet {
 	double rotation;
 	char* cheminModele;
 	char* cheminTexture;
-
+	int type;
 };
 
 struct InfoSalle {
@@ -21,7 +21,7 @@ struct InfoSalle {
 };
 
 struct InfoPuzzle{
-    std::list<InfoObjet> objet;
-    BoiteCollision<double> boiteCollision;
-    Vecteur3d* entrees;
+	std::list<InfoObjet> objet;
+	BoiteCollision<double> boiteCollision;
+	Vecteur3d* entrees;
 };

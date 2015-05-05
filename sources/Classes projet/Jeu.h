@@ -119,7 +119,7 @@ public:
 				GestionnairePhases::obtInstance().rafraichir(frameTime);
 		
 			// Affichage ici
-			gfx::Gestionnaire3D::obtInstance().defFrustum(45, fenetre->obtRatio(), 1, 1000);
+			gfx::Gestionnaire3D::obtInstance().defFrustum(20, fenetre->obtRatio(), .5, 1000);
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
 			gfx::Gestionnaire2D::obtInstance().afficherTout(*fenetre);
 			
