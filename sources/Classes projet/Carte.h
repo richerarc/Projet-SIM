@@ -29,8 +29,12 @@ private:
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
 	Vecteur3d vecteur;
+	Vecteur3d vecteurMur;
 	Vecteur3d vecteurAide;
 	Vecteur3d vecteurDirection;
+	Vecteur3d distanceParcourue;
+	Vecteur3d distanceAParcourir;
+	bool teleporte;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
@@ -275,27 +279,7 @@ public:
 		// Positionnement du joueur...
 		auto it = (*debut).Objet.begin();
 		std::advance(it, std::get<1>(pieceSuivante));
-		Vecteur3d vecteurMur;
-
 		vecteurAide = { (*it).direction.x, (*it).direction.y, (*it).direction.z };
-		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
-		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
-		modeleMur->defPosition(vecteurMur);
-		modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z);
-		modeleMur->defOrientation(0, (*it).rotation, 0);
-		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
-
-		joueur->defPosition(vecteur);
-		Vecteur3d tempVecteur = Vecteur3d(joueur->obtCamera()->obtDevant().x, 0, joueur->obtCamera()->obtDevant().y);
-		joueur->defAngleHorizontal(tempVecteur.angleEntreVecteurs((*it).direction) + 180);
-		//joueur->defAngleHorizontal(0);
-		//joueur.defDevant((*it).direction);
-		//	joueur.defAngleHorizontal((*it).rotation + 180);
-		//joueur.defNormale((*it).direction);
-		return std::get<1>(pieceSuivante);
-	}
-
-	void bougerMur(Joueur *joueur, float frameTime){
 		if (vecteurAide.x > 0){
 			vecteurDirection.x = 1;
 		}
@@ -309,12 +293,73 @@ public:
 		if (vecteurAide.z < 0){
 			vecteurDirection.z = -1;
 		}
-		if (((unsigned)modelePorte->obtPosition().x != (unsigned)vecteur.x - (-1 * vecteurDirection.z)) && ((unsigned)modelePorte->obtPosition().z != (unsigned)vecteur.z - (1 * vecteurDirection.x))){
-			//joueur->bloquer();
-			modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
-			modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
-			modelePorte->rotationner(0, 0.5, 0);
+		vecteur = { (*it).position.x + (-1.2 * vecteurDirection.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * vecteurDirection.z) + (-0.5 * (*it).direction.x) };
+		distanceAParcourir = { (-2.5 * vecteurDirection.x) + (-0.5 * (*it).direction.z), 0, (-2.5 * vecteurDirection.z) + (-0.5 * (*it).direction.x) };
+		vecteurMur = { (*it).position.x + (-2.5 * vecteurDirection.x), (*it).position.y, (*it).position.z + (-2.5 * vecteurDirection.z) };
+		modeleMur->defPosition(vecteurMur);
+		modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z);
+		modeleMur->defOrientation(0, (*it).rotation, 0);
+		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
+		joueur->defPosition(vecteur);
+		teleporte = true;
+		//ajouterMur();
+		//Vecteur3d tempVecteur = Vecteur3d(joueur->obtCamera()->obtDevant().x, 0, joueur->obtCamera()->obtDevant().y);
+		//joueur->defAngleHorizontal(tempVecteur.angleEntreVecteurs((*it).direction) + 180);
+		//joueur->defAngleHorizontal(0);
+		//joueur.defDevant((*it).direction);
+		//	joueur.defAngleHorizontal((*it).rotation + 180);
+		//joueur.defNormale((*it).direction);
+		return std::get<1>(pieceSuivante);
+	}
+
+	void bougerMur(Joueur *joueur, float frameTime){
+		if (vecteurAide.x > 0){
+			vecteurDirection.x = vecteurAide.x;
 		}
+		if (vecteurAide.x < 0){
+			vecteurDirection.x = -vecteurAide.x;
+		}
+
+		if (vecteurAide.z > 0){
+			vecteurDirection.z = vecteurAide.z;
+		}
+		if (vecteurAide.z < 0){
+			vecteurDirection.z = -vecteurAide.z;
+		}
+
+		if (teleporte){
+			ajouterMur();
+			joueur->bloquer();
+		}
+		else if ((distanceParcourue.x >= distanceAParcourir.x) && ((unsigned)distanceParcourue.x != 0)){
+			retirerMur();
+			joueur->deBloquer();
+		}
+		else if ((distanceParcourue.z >= distanceAParcourir.z) && ((unsigned)distanceParcourue.z != 0)){
+			retirerMur();
+			joueur->deBloquer();
+		}
+		else if ((distanceParcourue.x >= distanceAParcourir.x) && (distanceParcourue.z >= distanceAParcourir.z) && ((unsigned)distanceParcourue.x != 0) && ((unsigned)distanceParcourue.z != 0)){
+			retirerMur();
+			joueur->deBloquer();
+		}
+		modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
+		modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
+		modelePorte->rotationner(0, 0.5, 0);
+		distanceParcourue = distanceParcourue + ((vecteurDirection)* frameTime);
+	}
+
+	void ajouterMur(){
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modeleMur);
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
+		teleporte = false;
+		distanceParcourue = 0;
+	}
+
+	void retirerMur(){
+		gfx::Gestionnaire3D::obtInstance().retObjet(modeleMur);
+		gfx::Gestionnaire3D::obtInstance().retObjet(modelePorte);
+		teleporte = false;
 	}
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
