@@ -50,3 +50,7 @@ Finission de la classe MenuControle. On chercher un moyen comment mettre affiche
 J'ai environ coder pendant 2h mais beaucoup de conception. On n'a pas fait de visio tel quel mais on a fait un dessin de comment ca sera fait le changement de résolution. J'ai encore des erreurs mais le programme plante pas. Les dimension des boutons, texte et sprite ne changent pas pour X raison...
 ### Jeudi 30 Avril ~2h
 J'ai fait beaucoup de débuggage à essayer de trouver pourquoi les rects de mes boutons marchais pas et pourquoi les sprites s'ajustaient pas. J'ai trouver sur internet comment le glScale marchait et j'ai (je crois) avoir trouver la solution. Mais pour le rect de mes boutons, puisque qu'on change le scale on change la position du bouton mais le rect ne suit pas. On va devoir trouver un moyen pour que les rect retourne à la nouvelle position. 
+###Vendredi 31 Avril ~1h
+J'ai fait un modèle de sprinkler (comme pour les feux) mais j'avais oublier de faire mon journal. Je vais push ce que j'ai fait.
+###Lundi 4 Mai ~30 min
+J'ai essayer de trouver pourquoi ca plante. On m'a donner un autre projet et la ca fonctionne. Je dois changer la hitbox des boutons quand on change de résolutions mais je comprends pas trop comment Julien le veut donc il m'explique ca demain. Je vais donc poursuivre se que j'aurais fait demain. Donc, comme un jour de plus de travail vu que je vais le faire avant le cours de 10-12h. 
