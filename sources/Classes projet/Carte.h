@@ -337,7 +337,6 @@ public:
 			gfx::Gestionnaire3D::obtInstance().retObjet(modeleMur);
 			gfx::Gestionnaire3D::obtInstance().retObjet(modelePorte);
 			teleporte = false;
-			>> >> >> > 2cfcb311fcb2135cee547ff65c32b5f0be0a0eb9
 		}
 
 		// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
