@@ -30,7 +30,6 @@ private:
 	gfx::Modele3D *modelePorte;
 	Vecteur3d vecteur;
 	Vecteur3d vecteurAide;
-	Vecteur3d vecteurDirection;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
@@ -42,6 +41,7 @@ private:
 		unsigned int depart;
 		Vecteur3d normale;
 		Vecteur3d point[3];
+		Vecteur3d swap;
 
 		bool PorteAuMur = false;
 		double* vertices = modeleSalle.obtSommetsModifies();
@@ -61,24 +61,12 @@ private:
 
 				}
 			} while (!espacePorte(point[0], point[1], point[2]));
-
+			normale.normaliser();
 			// Angle de la porte...
-			if (Vecteur3d({ 1, 0, 0 }).produitScalaire(normale) > 0) {
+			objet.rotation = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
+				: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
 
-				Vecteur3d pivot = { 0, 1, 0 };
-				Vecteur3d pointDeRotPoingnee = Vecteur3d({ -1, 0, 0 }).produitVectoriel(pivot);
-				double angle = pointDeRotPoingnee.angleEntreVecteurs(normale);
-				objet.rotation = (90 - Maths::radianADegre(angle));
-				objet.direction = normale * -1;
-			}
-			else
-			{
-				Vecteur3d pivot = { 0, -1, 0 };
-				Vecteur3d pointDeRotPoingnee = Vecteur3d({ -1, 0, 0 }).produitVectoriel(pivot);
-				double angle = pointDeRotPoingnee.angleEntreVecteurs(normale);
-				objet.rotation = (270 - Maths::radianADegre(angle));
-				objet.direction = normale * -1;
-			}
+			objet.direction = normale * -1;
 
 			double y1 = point[0].y;
 			double y2;
@@ -97,8 +85,7 @@ private:
 				} while (i == j);
 			} while (point[i].y != point[j].y);
 
-			Vecteur3d swap;
-
+			// Positionnement des points de blender dans le même sens...
 			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
 				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 					if (point[i].x > point[j].x) {
@@ -119,7 +106,7 @@ private:
 			{
 				switch ((int)normale.x) {
 				case 1:
-					if (point[i].z < point[j].z) {//ok
+					if (point[i].z < point[j].z) {
 						swap = point[i];
 						point[i] = point[j];
 						point[j] = swap;
@@ -154,9 +141,9 @@ private:
 			Vecteur3d vecteurRatio = Physique::obtInstance().vecteurEntreDeuxPoints(point[i], point[j]);
 			vecteurRatio *= ((vecteurRatio.norme() - 1) / vecteurRatio.norme());
 			vecteurRatio *= ((double)rand() / RAND_MAX);
-			Vecteur3d position = point[i] + vecteurRatio;
-			objet.position.x = position.x;
-			objet.position.z = position.z;
+			vecteurRatio = point[i] + vecteurRatio;
+			objet.position.x = vecteurRatio.x;
+			objet.position.z = vecteurRatio.z;
 
 			// Boucle qui vérifie si une porte sera en collision avec une autre...
 			Vecteur3d pivot = { 0, 1, 0 };
@@ -165,14 +152,7 @@ private:
 				// Si les portes ont la même direction...
 				if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
 
-					Vecteur3d it_PortePosPoignee = it_Porte.position + it_Porte.direction.produitVectoriel(pivot);
-					Vecteur3d it_PosPoignee = objet.position + objet.direction.produitVectoriel(pivot);
-
-					if ((objet.position.x >= it_Porte.position.x && objet.position.x <= it_PortePosPoignee.x) && (objet.position.z >= it_Porte.position.z && objet.position.z <= it_PortePosPoignee.z)) {
-						PorteAuMur = false;
-					}
-
-					if ((it_PosPoignee.x >= it_Porte.position.x && it_PosPoignee.x <= it_PortePosPoignee.x) && (it_PosPoignee.z >= it_Porte.position.z && it_PosPoignee.z <= it_PortePosPoignee.z)) {
+					if (Physique::obtInstance().distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1) {
 						PorteAuMur = false;
 					}
 				}
@@ -281,9 +261,10 @@ public:
 		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
 		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
 		modeleMur->defPosition(vecteurMur);
-		modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z);
+		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x));
 		modeleMur->defOrientation(0, (*it).rotation, 0);
 		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
+
 
 		joueur->defPosition(vecteur);
 		Vecteur3d tempVecteur = Vecteur3d(joueur->obtCamera()->obtDevant().x, 0, joueur->obtCamera()->obtDevant().y);
@@ -296,30 +277,36 @@ public:
 	}
 
 	void bougerMur(Joueur *joueur, float frameTime){
-		if (vecteurAide.x > 0){
-			vecteurDirection.x = 1;
-		}
-		if (vecteurAide.x < 0){
-			vecteurDirection.x = -1;
-		}
+		if ((vecteurAide.x != 0) && (vecteurAide.z != 0)){
+			if ((modeleMur->obtPosition().x == vecteur.x) && (modeleMur->obtPosition().z == vecteur.z)){
+				joueur->deBloquer();
+			}
 
-		if (vecteurAide.z > 0){
-			vecteurDirection.z = 1;
 		}
-		if (vecteurAide.z < 0){
-			vecteurDirection.z = -1;
+		if (vecteurAide.x != 0){
+			if (modeleMur->obtPosition().x == vecteur.x){
+				joueur->deBloquer();
+
+			}
+
 		}
-		if (((unsigned)modelePorte->obtPosition().x != (unsigned)vecteur.x - (-1 * vecteurDirection.z)) && ((unsigned)modelePorte->obtPosition().z != (unsigned)vecteur.z - (1 * vecteurDirection.x))){
+		if (vecteurAide.y != 0){
+			if (modeleMur->obtPosition().z == vecteur.z){
+				joueur->deBloquer();
+
+			}
+
+		}
+		if ((modelePorte->obtPosition().x != vecteur.x) && (modelePorte->obtPosition().z != vecteur.z)){
 			//joueur->bloquer();
 			modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
 			modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
 			modelePorte->rotationner(0, 0.5, 0);
 		}
+
 	}
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
-	// En entrée:
-	// Param1: Le nombre de salle easy = 15, normal = 20, difficile = 32.
 	void creer() {
 
 		SDL_GLContext c = fenetre->obtNouveauContext();
@@ -334,10 +321,12 @@ public:
 		int* porte = new int[nombreDeSalle];
 		Entree entree;
 		Sortie sortie;
-		for (unsigned int i = 0; i < nombreDeSalle; ++i)
+		for (unsigned int i = 0; i < nombreDeSalle; ++i) 
 			porte[i] = 0;
 
 		for (unsigned int i = 0; i < nombreDeSalle; ++i){
+			if (i == 10)
+				int hue = 0;
 			itterateurPorte = 0;
 			for (unsigned int j = 0; j < nombreDeSalle; ++j){
 				if (carte.matrice[i * nombreDeSalle + j]){
@@ -345,7 +334,7 @@ public:
 					sortie = std::make_tuple(j, porte[j]);
 					++porte[j];
 					ajouterLien(entree, sortie);
-
+					Sortie pieceSuivante = liens[entree];
 				}
 			}
 		}
@@ -375,12 +364,12 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
 			aleatoire = rand() % itterateur;
-			//aleatoire = rand() % 8; // en attendant que toutes les salles sont conformes
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 
 			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), new gfx::Texture());
 			modeleSalle->defEchelle(salle.echelle.x, salle.echelle.y, salle.echelle.z);
+
 			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
@@ -389,6 +378,7 @@ public:
 				positionnerPorte(*modeleSalle, salle, objet);
 				salle.Objet.push_back(objet);
 			}
+
 			// Ajout et réinitialisation de la salle.
 			delete modeleSalle;
 			infosSalles.push_back(salle);
