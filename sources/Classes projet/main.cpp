@@ -26,6 +26,13 @@
 #include <SDL2/SDL_opengl.h>
 #endif
 
+
+
+#define VITESSE_PENIBLE 2.16e+06
+
+
+
+
 #include "Jeu.h"
 int main(int argc, char* argv[]){
 	srand(time(NULL));
