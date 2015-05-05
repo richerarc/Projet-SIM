@@ -179,4 +179,20 @@ J'ai refait le diagramme de classes pour qu'il ressemble à ce que nous avions a
 
 ###Durée: 1h
 
-##Durée Totale: 54h30
+##Jeudi 30 avril 2015
+
+###10:30 à 12:30
+
+J'ai écouté un tutoriel sur blender pour faire un fil barbelé et j'ai commencé à me familiariser et à tenter de reproduire mais je me suis vite rendu compte que j'étais fucking poche.
+
+###Durée: 2h
+
+##Mardi 5 mai 2015
+
+###14:30 à 17:30
+
+J'ai recommencé mon blender parce que ça ne marchait pas vraiment, et j'ai fait plusieurs essais différents. Enfin, j'ai réussi à faire une genre de corde qui ne prend pas trop de faces et qui courbe bien. Il ne me reste qu'à le dupliquer et coller les copies ensemble puis rajouter des pics et le tour devrait être joué :)
+
+###Durée: 3h
+
+##Durée Totale: 59h30
