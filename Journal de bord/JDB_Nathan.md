@@ -168,3 +168,13 @@ Nous avons aussi travailler sur le bug que le joueur ne marchait pas comme il le
 
 -environ 10 minutes
 Kevin et moi avons été voir Martin (professeur de mathématique) pour nous aider à trouver une formule pour faire bouger notre joueur dans une pente. Il nous a bien aidé.
+
+30 avril
+
+-environ 2h30
+Kevin et moi avons tenté des chose pour faire marcher le joueur dans un pente, en vain on à tojours pas réussi à le faire bougé correctement.
+
+4 mai
+
+-environ 3h30
+Kevin et moi envons enfin réussi à faire bouger le joueur correctement dans une pente, le plus gros problème était la rotation du joueur avec la camera. On a donc été en mesure de règlé le problème.
