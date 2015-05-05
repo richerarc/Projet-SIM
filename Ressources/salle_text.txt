@@ -3,6 +3,7 @@ SallePente.obj SallePente.png
 SalleL.obj SalleL.png
 SalleCarree4x4.obj SalleCarree4x4.png
 SalleConference.obj SalleConference.png
+SalleConvergente.obj SalleConvergente.png
 SalleLosange.obj SalleLosange.png
 SalleEscalier.obj SalleEscalier.png
 SalleEscalierDesaxee.obj SalleEscalierDesaxee.png
