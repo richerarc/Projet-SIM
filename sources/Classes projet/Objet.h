@@ -1,8 +1,6 @@
 #pragma once
 #include <list>
-#include "Modele3D.h"
-
-enum typeAction { Pousser, Osciller, Prendre, Ranger, Tirer, Lancer, Utiliser, Equiper, Abandonner, Interagir };
+#include "Gestionnaire3D.h"
 
 class Objet {
 protected:
@@ -33,7 +31,7 @@ public:
 		//delete modele;
 	}
 
-	virtual void appliquerAction(typeAction action) = 0;
+	
 	virtual bool obtSiPorte() = 0;
 	//virtual void ajouterScene() = 0;
 
