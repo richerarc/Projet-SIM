@@ -9,13 +9,14 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include "Gestionnaire2D.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnairePhases.h"
-#include "Curseur.h"
 #include "Objet.h"
 #include "Sons.h"
 #include "ControlleurAudio.h"
-gfx::Fenetre *fenetre;
+gfx::Fenetre* fenetre;
+#include "Curseur.h"
 Curseur* curseur;
 std::thread thread_Creation;
+
 /*
 #include les classes plus bases plus tard
 */

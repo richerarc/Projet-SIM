@@ -33,8 +33,6 @@ namespace gfx{
 		}
 		void defEchelle(Vecteur2f echelle){
 			this->echelle = echelle;
-			surface->h = surface->h*echelle.y;
-			surface->w = surface->w*echelle.x;
 		}
 		void defOrientation(double orientation){
 			this->orientation = orientation;
