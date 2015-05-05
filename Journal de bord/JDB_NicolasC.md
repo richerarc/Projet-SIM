@@ -116,4 +116,6 @@
   -Petites suggestions à Nathan et Kevin pour le changement de vitesse dans les plans.  
 **30 avr** durée 2h
   -Ajout des textures de murs pour l'animation de l'ouverture de porte.  
-  -Début de travail avec Brandon pour afficher des objet "dans la main" du joueur (brainstorming).
+  -Début de travail avec Brandon pour afficher des objet "dans la main" du joueur (brainstorming).  
+**5 mai** durée 3h 30min  
+  -Restructuration des objets, ajout des items et affichage d'un objet équipé avec Brandon.

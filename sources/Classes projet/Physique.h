@@ -568,6 +568,11 @@ public:
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
+				if (fabs(normale.x) < 0.05f)
+					normale.x = 0.f;
+				if (fabs(normale.z) < 0.05f)
+					normale.z = 0.f;
+				normale.normaliser();
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
 				if (normale.y == 1)	collision = SOLDROIT;

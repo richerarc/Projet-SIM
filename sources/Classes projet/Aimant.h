@@ -13,10 +13,6 @@ public:
 		this->force = force;
 	}
 
-	void appliquerAction(typeAction action){
-		//actions ici s'il y a lieu
-	}
-
 	void defForce(double force){
 		this->force = force;
 	}

@@ -1,47 +1,62 @@
 #pragma once
 #include "Info.h"
-#include "Objet.h"
+#include "ObjetPhysique.h"
 
-enum EtatItem { EQUIPE, RANGE, DEPOSE };
+enum class EtatItem { EQUIPE, RANGE, DEPOSE };
 
-class Item{
+class Item : public ObjetPhysique{
 private:
-	InfoObjet* infoObjet;
-	int ID;
+	int type;
 	char* nom;
 	char* description;
 	char* cheminIcone;
 	int maxPile;
-	Objet* objetActuel;
 	EtatItem etat;
 public:
-	Item(int ID, char* nom, char* description, char* cheminIcone, int maxPile, InfoObjet* info){
-		this->ID = ID;
+	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne) : ObjetPhysique(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire, collisionInterne){
+		this->type = type;
 		this->nom = nom;
 		this->description = description;
 		this->cheminIcone = cheminIcone;
 		this->maxPile = maxPile;
-		this->infoObjet = info;
-
-		objetActuel = nullptr;
-		etat = RANGE;
+		etat = EtatItem::RANGE;
 	}
 
 	void defEtat(EtatItem etat){
+		if (etat == this->etat)
+			return;
+
+		if (etat == EtatItem::EQUIPE){
+			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + (gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * .8);
+			modele->defPosition(position);
+			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
+		}
+
+		else if (etat == EtatItem::DEPOSE){
+			
+		}
+		else if (etat == EtatItem::RANGE){
+			gfx::Gestionnaire3D::obtInstance().retObjet(modele);
+		}
 		this->etat = etat;
-		// TODO Ajouter la création d'objets lors du changement d'état.
+	}
+
+	void actualiser(){
+		if (etat == EtatItem::EQUIPE){
+			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + (gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * .8) + (gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * .5);
+			position.y += -0.43;
+			modele->defPosition(position);
+			modele->defOrientation(0, 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle(), 0);
+		}
+
 	}
 
 	EtatItem obtEtat(){
 		return etat;
 	}
 
-	int obtID(){
-		return this->ID;
-	}
-
-	InfoObjet* obtInfoObjet(){
-		return this->infoObjet;
+	int obtType(){
+		return this->type;
 	}
 
 	char* obtNom(){
@@ -60,11 +75,12 @@ public:
 		return this->maxPile;
 	}
 
-	Objet* obtObjetActuel(){
-		return this->objetActuel;
-	}
-
 	virtual void utiliser(){
 
 	}
+
+	bool obtSiPorte(){
+		return false;
+	}
+
 };

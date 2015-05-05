@@ -21,6 +21,7 @@ private:
 	
 	std::map<ClefControle, int> controles;
 
+
 public:
 	void lireControle(char* Emplacement) {
 		char evenement[3];
@@ -35,12 +36,10 @@ public:
 				int evenementEnInt = std::atoi(evenement);
 				int controleurEnInt = SDL_atoi(controleur);
 				int toucheEnInt = std::atoi(touche);
-				
-				
 
 				switch (evenementEnInt) {
 				case 0:
-						controles[cle(AVANCER, controleurEnInt)] = toucheEnInt;
+					controles[cle(AVANCER, controleurEnInt)] = toucheEnInt;
 					break;
 				case 1:
 					controles[cle(RECULER, controleurEnInt)] = toucheEnInt;
@@ -70,11 +69,7 @@ public:
 					controles[cle(ACCESINVENTAIRE, controleurEnInt)] = toucheEnInt;
 					break;
 				}
-				
-
-					
 			}
-
 		}
 	}
 	bool definirControle(Action evenement, Controleur_t controleur, int controle) {
@@ -130,17 +125,46 @@ public:
 			
 			switch (controles[cle]) {
 					
-				case 1073742049:
+				case SDLK_LSHIFT:
 					str->append("LSHIFT");
 					break;
-				case 32:
+
+				case SDLK_RSHIFT:
+					str->append("RSHIFT");
+					break;
+
+				case SDLK_SPACE:
 					str->append("SPACE");
 					break;
-					
-				case 9:
+
+				case SDLK_TAB:
 					str->append("TAB");
 					break;
-					
+
+				case SDLK_UP:
+					str->append("UP");
+					break;
+
+				case SDLK_DOWN:
+					str->append("DOWN");
+					break;
+
+				case SDLK_LEFT:
+					str->append("LEFT");
+					break;
+
+				case SDLK_RIGHT:
+					str->append("RIGHT");
+					break;
+
+				case SDLK_LCTRL:
+					str->append("LCTRL");
+					break;
+
+				case SDLK_RCTRL:
+					str->append("RCTRL");
+					break;
+
 				default:
 					char * chr = new char(touche);
 					str->append(chr);
@@ -171,8 +195,20 @@ public:
 					break;
 			}
 		}
-			
 		return str;
+	}
+
+	short touche(Action act){
+		Controleur_t controleur;
+		for (auto it : controles){
+			if (std::get<0>(it.first) == act){
+				controleur = std::get<1>(it.first);
+				break;
+			}
+		}
+		if (controleur == CLAVIER){
+			return controles[std::make_tuple(act, controleur)];
+		}
 	}
 
 };

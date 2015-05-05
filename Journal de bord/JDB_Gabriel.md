@@ -422,3 +422,31 @@ Je crois que je peux retirer une belle leçons de mon périple:
 Si j'étais en deuil du temps que j'ai "perdu"(J'ai quand même appris des choses et réglé des bugs ailleurs), je dirais que je suis à la phase d'acceptation en ce moment...
 
 AU MOINS J'AI ATTEIND MON BUT!!!
+
+###05 mai 2015
+
+**1h00** Travail sur les portes afin qu'elles ne puissent plus apparaître une par-dessus l'autre, clean-up de mon code dans positionnerPorte(), Reste à commenter.
+
+**2h00**: Check-up de toutes les salles qui ont été créées jusqu'à maintenant, quelques réajustements que j'ai eu à faire pour que les portes puissent se générer sur tous les mur possibles, tout en étant au sol. (texturisation de la SalleConférence et de la SalleCarree4x4)
+
+Les ajustements étaient du genre, dire à blender que au lieu de me donner par exemple deux vertice comme suit:
+
+----------
+
+- 0.999999999 0.000000 2.599999998
+- 1.000000001 2.740000 2.600000001
+
+----------
+
+qu'il me donne:
+
+----------
+
+- 1.0 0.0 2.6
+- 1.0 2.74 2.6
+
+----------
+
+Sinon la génération de porte ne trouvait pas de mur valide.
+
+(Ajout d'un possible GL_LIGHT)
