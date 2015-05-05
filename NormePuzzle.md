@@ -17,8 +17,10 @@ x y z
 x y z  
 }  
 entrees{  
-x y z  
-x y z  
+0/1 //si entré valide ou non
+0/1 //si entré valide ou non
+0/1 //...
+0/1 //...
 }  
 objet{  
 c Pendule.txt    
