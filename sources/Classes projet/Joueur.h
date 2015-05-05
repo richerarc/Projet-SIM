@@ -2,6 +2,7 @@
 #include "Gestionnaire3D.h"
 #include "Vecteur3.h"
 #include "Plan.h"
+#include "GestionnaireControle.h"
 
 enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
 enum modele { MODELEDEBOUT, MODELEACCROUPI };
@@ -71,7 +72,7 @@ public:
 
 	void deplacement(){
 		if (!bloque){
-			if ((Clavier::toucheRelachee(SDLK_w) || Clavier::toucheRelachee(SDLK_s) || Clavier::toucheRelachee(SDLK_a) || Clavier::toucheRelachee(SDLK_d)) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
 				vitesse.x = 0.f;
 				vitesse.z = 0.f;
 				if (vitesse.y == 0){
@@ -92,21 +93,21 @@ public:
 			devant.normaliser();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
-			if (Clavier::toucheRelachee(SDLK_LSHIFT) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
+			if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
 				vitesseDeplacement = 4.f;
 
 			if (etat != SAUT && etat != CHUTE) {
-				if (Clavier::toucheAppuyee(SDLK_LSHIFT) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
 					vitesseDeplacement = 8.f;
 
-				else if (Clavier::toucheAppuyee(SDLK_LCTRL) && (camera != listeCamera[MODELEACCROUPI])) {
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && (camera != listeCamera[MODELEACCROUPI])) {
 					camera = listeCamera[MODELEACCROUPI];
 					modele3D = listeModele3D[MODELEACCROUPI];
 					ajouterScene();
 					vitesseDeplacement = 2.f;
 				}
 
-				else if (Clavier::toucheRelachee(SDLK_LCTRL) && camera != listeCamera[MODELEDEBOUT]) {
+				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && camera != listeCamera[MODELEDEBOUT]) {
 					camera = listeCamera[MODELEDEBOUT];
 					modele3D = listeModele3D[MODELEDEBOUT];
 					ajouterScene();
@@ -118,7 +119,7 @@ public:
 				vitesseDeplacement = 4.f;
 				}*/
 
-				if (Clavier::toucheAppuyee(SDLK_w)){
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))){
 					etat = MARCHE;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
@@ -127,7 +128,7 @@ public:
 					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
 						vitesse = devant * vitesseDeplacement;
 					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(SDLK_d)) {
+						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
 							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
@@ -136,7 +137,7 @@ public:
 								vitesse = vitesse + (cote * vitesseDeplacement);
 						}
 
-						else if (Clavier::toucheAppuyee(SDLK_a)) {
+						else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
 							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesseTemp.x = cote.x * vitesseDeplacement;
 								vitesseTemp.z = cote.z * vitesseDeplacement;
@@ -160,14 +161,14 @@ public:
 					}
 				}
 
-				else if (Clavier::toucheAppuyee(SDLK_s)) {
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
 					vitesse = devant * vitesseDeplacement;
 					vitesse.inverser();
 					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(SDLK_d))
+						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)))
 							vitesse = vitesse + (cote * vitesseDeplacement);
 
-						else if (Clavier::toucheAppuyee(SDLK_a)) {
+						else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
 							vitesseTemp = cote * vitesseDeplacement;
 							vitesseTemp.inverser();
 							vitesse = vitesse + vitesseTemp;
@@ -175,16 +176,16 @@ public:
 					}
 				}
 
-				else if (Clavier::toucheAppuyee(SDLK_a)) {
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
 					vitesse = cote * vitesseDeplacement;
 					vitesse.inverser();
 				}
 
-				else if (Clavier::toucheAppuyee(SDLK_d)){
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
 					vitesse = cote * vitesseDeplacement;
 				}
 
-				if (Clavier::toucheAppuyee(SDLK_SPACE) && (camera != listeCamera[MODELEACCROUPI])) {
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) && (camera != listeCamera[MODELEACCROUPI])) {
 					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
 					{
 						chronoSaut.repartir();
