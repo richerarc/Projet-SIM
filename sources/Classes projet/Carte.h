@@ -302,13 +302,10 @@ public:
 		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
 		joueur->defPosition(vecteur);
 		teleporte = true;
-		//ajouterMur();
-		//Vecteur3d tempVecteur = Vecteur3d(joueur->obtCamera()->obtDevant().x, 0, joueur->obtCamera()->obtDevant().y);
-		//joueur->defAngleHorizontal(tempVecteur.angleEntreVecteurs((*it).direction) + 180);
-		//joueur->defAngleHorizontal(0);
-		//joueur.defDevant((*it).direction);
-		//	joueur.defAngleHorizontal((*it).rotation + 180);
-		//joueur.defNormale((*it).direction);
+		double angle = (*it).direction.angleEntreVecteurs(joueur->obtNormale());
+		joueur->defAngleHorizontal(-angle);
+		//	joueur->defAngleHorizontal((*it).rotation);
+		joueur->defAngleHorizontal(180);
 		return std::get<1>(pieceSuivante);
 	}
 
