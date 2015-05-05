@@ -23,10 +23,22 @@ public:
 	
 	}
 
+	void verifierPosition() {
+		if (position.x < 0)
+			position.x = 0;
+		else if (position.y < 0)
+			position.y = 0;
+		else if (position.x > fenetre->obtTaille().x)
+			position.x = fenetre->obtTaille().x;
+		else if (position.y > fenetre->obtTaille().y)
+			position.y = fenetre->obtTaille().y;
+	}
+
 	void gererEvenementSouris(SDL_Event& event) {
 
 		position.x += event.motion.xrel;
 		position.y += -event.motion.yrel;
+		verifierPosition();
 		texture->defPosition(position);
 
 	}
@@ -41,6 +53,7 @@ public:
 		
 		position.x += positionx;
 		position.y -= positiony;
+		verifierPosition();
 		texture->defPosition(position);
 	}
 

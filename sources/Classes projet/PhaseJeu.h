@@ -124,10 +124,10 @@ public:
 		if (!this->pause) {
 			joueur->deplacement();
 			appliquerPhysique(frameTime);
-			//ControlleurAudio::obtInstance().jouer(COEUR, joueur);
-			//ControlleurAudio::obtInstance().jouer(PAS, joueur);
+			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
+			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
-			//ControlleurAudio::obtInstance().jouerTout(joueur);
+			ControlleurAudio::obtInstance().jouerTout(joueur);
 			Carte::obtInstance().bougerMur(joueur, frameTime);
 		}
 
