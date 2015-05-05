@@ -178,3 +178,8 @@ Kevin et moi avons tenté des chose pour faire marcher le joueur dans un pente, 
 
 -environ 3h30
 Kevin et moi envons enfin réussi à faire bouger le joueur correctement dans une pente, le plus gros problème était la rotation du joueur avec la camera. On a donc été en mesure de règlé le problème.
+
+4 mai
+
+-environ 3 heures
+Travail sur le déplacement du joueur en général, il peut se déplacé sur le sol d'une façons environ correctement sauf à quelques exceptions
