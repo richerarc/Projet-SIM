@@ -155,9 +155,6 @@ public:
 					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
 					santeMentale();
 				}
-				else{
-					objetVise->appliquerAction(Interagir);
-				}
 				toucheRelachee = false;
 			}
 			if (Clavier::toucheAppuyee(SDLK_e))
