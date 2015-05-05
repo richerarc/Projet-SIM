@@ -30,6 +30,7 @@ private:
 	gfx::Modele3D *modelePorte;
 	Vecteur3d vecteur;
 	Vecteur3d vecteurAide;
+	Vecteur3d vecteurDirection;
 
 	std::vector<Modele_Text> cheminsModeleText;
 
@@ -280,10 +281,9 @@ public:
 		vecteur = { (*it).position.x + (-1.2 * (*it).direction.x) + (-0.5 * (*it).direction.z), (*it).position.y, (*it).position.z + (-1.2 * (*it).direction.z) + (-0.5 * (*it).direction.x) };
 		vecteurMur = { (*it).position.x + (-2.5 * (*it).direction.x), (*it).position.y, (*it).position.z + (-2.5 * (*it).direction.z) };
 		modeleMur->defPosition(vecteurMur);
-		modelePorte->defPosition(vecteurMur.x + (-1 * (*it).direction.z), vecteurMur.y, vecteurMur.z + (1 * (*it).direction.x));
+		modelePorte->defPosition(vecteurMur.x, vecteurMur.y, vecteurMur.z);
 		modeleMur->defOrientation(0, (*it).rotation, 0);
 		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
-
 
 		joueur->defPosition(vecteur);
 		Vecteur3d tempVecteur = Vecteur3d(joueur->obtCamera()->obtDevant().x, 0, joueur->obtCamera()->obtDevant().y);
@@ -296,33 +296,25 @@ public:
 	}
 
 	void bougerMur(Joueur *joueur, float frameTime){
-		if ((vecteurAide.x != 0) && (vecteurAide.z != 0)){
-			if ((modeleMur->obtPosition().x == vecteur.x) && (modeleMur->obtPosition().z == vecteur.z)){
-				joueur->deBloquer();
-			}
-
+		if (vecteurAide.x > 0){
+			vecteurDirection.x = 1;
 		}
-		if (vecteurAide.x != 0){
-			if (modeleMur->obtPosition().x == vecteur.x){
-				joueur->deBloquer();
-
-			}
-
+		if (vecteurAide.x < 0){
+			vecteurDirection.x = -1;
 		}
-		if (vecteurAide.y != 0){
-			if (modeleMur->obtPosition().z == vecteur.z){
-				joueur->deBloquer();
 
-			}
-
+		if (vecteurAide.z > 0){
+			vecteurDirection.z = 1;
 		}
-		if ((modelePorte->obtPosition().x != vecteur.x) && (modelePorte->obtPosition().z != vecteur.z)){
+		if (vecteurAide.z < 0){
+			vecteurDirection.z = -1;
+		}
+		if (((unsigned)modelePorte->obtPosition().x != (unsigned)vecteur.x - (-1 * vecteurDirection.z)) && ((unsigned)modelePorte->obtPosition().z != (unsigned)vecteur.z - (1 * vecteurDirection.x))){
 			//joueur->bloquer();
 			modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
 			modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
 			modelePorte->rotationner(0, 0.5, 0);
 		}
-
 	}
 
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...

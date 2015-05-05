@@ -81,3 +81,5 @@
 	Travail sur le mouvement du faux mur et de la fausse porte qui bougent enfin! Aussi début de l'immobilisation du joueur.
 #Jeudi 30 avril (10:00 à 13:18)
 	Début des modifications afin de repositionner la caméra afin de faire face au faux mur et à la fausse porte après avoir changé de salle. Aussi un petit fix dans la détection des portes.
+#Lundi 4 mars (19:00 à 20:50)
+	Travail sur le faux mur et la fausse porte qui arrêtent enfin! Je ne prennait pas en compte le décalage de la porte suite à sa rotation pour donner une porte dans le bon sens sur le faux mur. Le problème est qu'ils arrêtent trop loin du mur. J'ai aussi modifié le positionnement de la fausse porte sur le faux mur pour que ça soit plus réaliste.
