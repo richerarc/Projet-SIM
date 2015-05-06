@@ -74,10 +74,10 @@ namespace LecteurFichier{
 
 			while (!fichier.eof()){
 				fichier.getline(ligne, 256);
-				if (ligne == "puzzle{"){
+				if (!strcmp(ligne, "puzzle{")){
 					fichier.getline(ligne, 256);
-					while (ligne != "};"){
-						if (ligne == "boite{") {
+					while (strcmp(ligne, "};")){
+						if (!strcmp(ligne, "boite{")){
 							for (int i = 0; i < 8; ++i){
 								fichier >> x >> y >> z;
 								tabBoite[i] = Vecteur3d(x, y, z);
@@ -85,7 +85,7 @@ namespace LecteurFichier{
 							info.boiteCollision = BoiteCollision<double>(tabBoite);
 							fichier.getline(ligne, 256);
 						}
-						if (ligne == "entrees{") {
+						if (!strcmp(ligne, "entrees{")) {
 							for (int i = 0; i < 4; ++i) {
 								fichier >> x;
 								tabEntrees[i] = x;
@@ -93,14 +93,14 @@ namespace LecteurFichier{
 							info.entrees = tabEntrees;
 							fichier.getline(ligne, 256);
 						}
-						if (ligne == "objet{"){
+						if (!strcmp(ligne, "objet{")){
 							InfoObjet objet;
 							fichier >> ligne >> cheminObjet;
-							if (ligne == "c"){
+							if (!strcmp(ligne, "c")){
 								lireObjet(cheminObjet, objet);
 							}
 							fichier >> ligne >> x >> y >> z;
-							if (ligne == "p") {
+							if (!strcmp(ligne, "p")){
 								objet.position = Vecteur3d(x, y, z);
 							}
 							info.objet.push_back(objet);
