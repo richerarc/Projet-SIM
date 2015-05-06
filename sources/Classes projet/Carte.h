@@ -341,7 +341,7 @@ public:
 
 		// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
 		void creer() {
-
+			srand(time(NULL));
 			SDL_GLContext c = fenetre->obtNouveauContext();
 
 			// Création du graphe

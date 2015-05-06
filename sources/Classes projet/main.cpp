@@ -35,7 +35,6 @@
 
 #include "Jeu.h"
 int main(int argc, char* argv[]){
-	srand(time(NULL));
 	Jeu::demarrer();
 	return 0;
 }
