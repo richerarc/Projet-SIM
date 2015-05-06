@@ -24,7 +24,6 @@ public:
 		for (int i = 0; i < 5; ++i)
 			if (pointDansBoite(boite.obtBoite()[i]))
 				++temp;
-		
 		return temp == 8;
 	}
 
