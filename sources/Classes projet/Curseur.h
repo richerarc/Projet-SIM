@@ -19,7 +19,7 @@ public:
 		texture = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Curseur.png"));
 		hauteur = texture->obtTexture()->obtSurface()->h;
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Curseur::gererEvenementSouris, this, std::placeholders::_1));
-		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Curseur::obtenirAxis, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Curseur::gererEvenementManette, this, std::placeholders::_1));
 	
 	}
 
@@ -42,11 +42,10 @@ public:
 		texture->defPosition(position);
 
 	}
-	void obtenirAxis(SDL_Event& event){
-		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX || event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX)
-			positionx = (event.caxis.value) / 12000.0f;
-		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY || event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)
-			positiony = (event.caxis.value) / 12000.0f;
+	void gererEvenementManette(SDL_Event& event){
+		Manette::mettreAJourControleGauche(event);
+		positionx = Manette::obtenirPositionGaucheX();
+		positiony = Manette::obtenirPositionGaucheY();
 	}
 	
 	void rafraichir() {
