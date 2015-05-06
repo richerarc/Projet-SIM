@@ -53,7 +53,6 @@ public:
 		gfx::Gestionnaire2D::obtInstance().vider();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 		GestionnairePhases::obtInstance().enleverPhaseActive();
-		gfx::Gestionnaire3D::obtInstance().defFrustum(45, 800.0 / 600.0, 0.99, 1000);
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
 		gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
 	}
