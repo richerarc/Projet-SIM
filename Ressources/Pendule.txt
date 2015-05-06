@@ -1,1 +1,1 @@
-Pendule.obj Pendule.png
+Pendule.obj Pendule.png 1
