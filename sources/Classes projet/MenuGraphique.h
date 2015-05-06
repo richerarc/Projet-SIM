@@ -130,6 +130,7 @@ public:
 		for (auto it : GestionnairePhases::obtInstance().obtListePhases())
 			it->actualiserEchelle(Vecteur2f(ratio, ratio));
 
+		this->spriteFond->defPosModifier();
 		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));
 	}
 

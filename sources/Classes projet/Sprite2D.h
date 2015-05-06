@@ -79,5 +79,34 @@ namespace gfx{
 		Rectf obtRectangle(){
 			return Rectf(position.x, position.y, surface->w, surface->h);
 		}
+
+		void defPosModifier(void) {
+			double mat[16];
+			glPushMatrix();
+			glLoadIdentity();
+			glScaled(this->echelle.x, this->echelle.y, 1);
+			glGetDoublev(GL_MODELVIEW_MATRIX, mat);
+			glPopMatrix();
+
+			Vecteur2f posOrigine = { this->position.x + 0.1f, this->position.y + 0.1f };
+			Vecteur2f posOrigineModifier;
+
+			double vecteurNormal[4];
+			double normalTemp[4];
+			normalTemp[3] = 1;
+			normalTemp[2] = 0;
+			normalTemp[0] = posOrigine.x;
+			normalTemp[1] = posOrigine.y;
+
+			vecteurNormal[0] = (mat[0] * normalTemp[0]) + (mat[4] * normalTemp[1]) + (mat[8] * normalTemp[2]) + (mat[12] * normalTemp[3]);
+			vecteurNormal[1] = (mat[1] * normalTemp[0]) + (mat[5] * normalTemp[1]) + (mat[9] * normalTemp[2]) + (mat[13] * normalTemp[3]);
+			vecteurNormal[2] = (mat[2] * normalTemp[0]) + (mat[6] * normalTemp[1]) + (mat[10] * normalTemp[2]) + (mat[14] * normalTemp[3]);
+			vecteurNormal[3] = (mat[3] * normalTemp[0]) + (mat[7] * normalTemp[1]) + (mat[11] * normalTemp[2]) + (mat[15] * normalTemp[3]);
+
+			this->position.x = this->position.x + (this->position.x + (vecteurNormal[0] / vecteurNormal[3]));
+			this->position.y = this->position.y + (this->position.y + (vecteurNormal[1] / vecteurNormal[3]));
+
+
+		}
 	};
 }

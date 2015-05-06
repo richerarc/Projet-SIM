@@ -75,6 +75,43 @@ namespace gfx{
 			return Rectf(position.x, position.y, texte->obtSurface()->w, texte->obtSurface()->h);
 		}
 
+		Rectf obtRectModifier(void) {
+			double mat[16];
+			glPushMatrix();
+			glLoadIdentity();
+			glScaled(this->echelle.x, this->echelle.y, 1);
+			glGetDoublev(GL_MODELVIEW_MATRIX, mat);
+			glPopMatrix();
+			Vecteur2f posRectModifier[4];
+			Vecteur2f posRect[4];
+			posRect[0] = { obtRectangle().x, obtRectangle().y };
+			posRect[1] = { obtRectangle().x + obtRectangle().l, obtRectangle().y };
+			posRect[2] = { obtRectangle().x, obtRectangle().y + obtRectangle().h };
+			posRect[3] = { obtRectangle().x + obtRectangle().l, obtRectangle().y + obtRectangle().h };
+			double vecteurNormal[4];
+			double normalTemp[4];
+			normalTemp[3] = 1;
+			normalTemp[2] = 0;
+
+			for (int i = 0; i < 3; i++) {
+				normalTemp[0] = posRect[i].x;
+				normalTemp[1] = posRect[i].y;
+
+				vecteurNormal[0] = (mat[0] * normalTemp[0]) + (mat[4] * normalTemp[1]) + (mat[8] * normalTemp[2]) + (mat[12] * normalTemp[3]);
+				vecteurNormal[1] = (mat[1] * normalTemp[0]) + (mat[5] * normalTemp[1]) + (mat[9] * normalTemp[2]) + (mat[13] * normalTemp[3]);
+				vecteurNormal[2] = (mat[2] * normalTemp[0]) + (mat[6] * normalTemp[1]) + (mat[10] * normalTemp[2]) + (mat[14] * normalTemp[3]);
+				vecteurNormal[3] = (mat[3] * normalTemp[0]) + (mat[7] * normalTemp[1]) + (mat[11] * normalTemp[2]) + (mat[15] * normalTemp[3]);
+
+				Vecteur2f tmp;
+				tmp.x = vecteurNormal[0] / vecteurNormal[3];
+				tmp.y = vecteurNormal[1] / vecteurNormal[3];
+
+				posRectModifier[i] = tmp;
+			}
+
+			return Rectf(posRectModifier[0].x, posRectModifier[0].y, posRectModifier[1].x - posRectModifier[0].x, posRectModifier[2].y - posRectModifier[0].y);
+
+		}
 
 	};
 }
