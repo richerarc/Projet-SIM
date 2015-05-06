@@ -19,9 +19,33 @@ public:
 		return boiteCollision;
 	}
 
+	Vecteur3<T> obtCentreBoite() {
+
+		Vecteur3<T> retour;
+		retour.x = (obtXMax() - obtXMin()) / 2;
+		retour.y = 0;/*(obtYMax() - obtYMin()) / 2;*/
+		retour.z = (obtZMax() - obtZMin()) / 2;
+
+		return retour;
+	}
+
+	Vecteur3<T> distanceEntreDeuxCentre(BoiteCollision<T> boite) {
+
+		Vecteur3<T> point1 = obtCentreBoite();
+		Vecteur3<T> point2 = boite.obtCentreBoite();
+		Vecteur3<T> retour;
+
+		retour.x = point1.x - point2.x;
+		retour.y = point1.y - point2.y;
+		retour.z = point1.z - point2.z;
+
+		return retour;
+
+	}
+
 	bool boiteDansBoite(BoiteCollision<T> boite) {
 		int temp(0);
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 8; ++i)
 			if (pointDansBoite(boite.obtBoite()[i]))
 				++temp;
 		return temp == 8;

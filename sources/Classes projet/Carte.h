@@ -232,7 +232,7 @@ private:
 					salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
 					break;
 				case PENDULE:
-					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false, false, false));
+					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 1 }, false, false, false, false));
 					break;
 				case FIXE:
 					salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
@@ -247,6 +247,7 @@ public:
 	unsigned int nombreDeSalle;
 	double chargement;
 	bool finChargement;
+	int salle;
 
 	void initialiser() {
 		thread_Creation = std::thread(&Carte::creer, this);
@@ -416,7 +417,7 @@ public:
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
-			aleatoire = rand() % itterateur;
+			aleatoire = 2; // rand() % itterateur;
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
@@ -426,20 +427,25 @@ public:
 		}
 
 		int premiereSalle = 1;//rand() % nombreDeSalle;
-		salle = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
+		InfoSalle &salle2 = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
+		
 		for (int i = 0; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
 			int aleatoire = rand() % nbrPuzzle;
 			--nbrPuzzle;
 			LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
 			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return chemin == cheminsPuzzle[aleatoire];}));
-			int lol = salle.boitesCollision.size();
-			BoiteCollision<double> boiteTemp = salle.obtBoiteCollisionModifie((rand() % salle.boitesCollision.size()));
+			int lol = salle2.boitesCollision.size();
+			BoiteCollision<double> boiteTemp = salle2.obtBoiteCollisionModifie((1/*rand() % salle.boitesCollision.size()*/));
 			if (boiteTemp.obtGrandeurZ() - boiteTemp.obtGrandeurX() < 0){
-					//
+				//
 			}
-			if (boiteTemp.boiteDansBoite(puzzle.boiteCollision)){
-				for (auto it : puzzle.objet){
-					salle.Objet.push_back(it);
+			puzzle.position = boiteTemp.distanceEntreDeuxCentre(puzzle.boiteCollision);
+			/*for (auto &it : puzzle.objet)
+				it.position += puzzle.position;*/
+
+			if (boiteTemp.boiteDansBoite(puzzle.obtBoiteCollisionModifie())){
+				for (auto &it : puzzle.objet){
+					salle2.Objet.push_back(it);
 				}
 				
 			}
