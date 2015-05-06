@@ -19,6 +19,14 @@ public:
 		return boiteCollision;
 	}
 
+	bool boiteDansBoite(BoiteCollision<T> boite) {
+		for (int i = 0; i < 5; ++i)
+			if (pointDansBoite(boit.obtBoite()[i]))
+				return true;
+		
+		return false;
+	}
+
 	bool pointDansBoite(Vecteur3d point) {
 		return (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
 	}
