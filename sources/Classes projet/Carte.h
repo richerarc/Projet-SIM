@@ -19,7 +19,7 @@
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
-typedef std::tuple<char*, char*> Modele_Text;
+typedef std::tuple<char*, char*/*, char**/> Modele_Text;
 
 class Carte : public Singleton < Carte > {
 private:
@@ -37,6 +37,7 @@ private:
 	bool teleporte;
 
 	std::vector<Modele_Text> cheminsModeleText;
+	std::vector<char*> cheminsPuzzle;
 
 	void ajouterLien(Entree entree, Sortie sortie){
 		liens[entree] = sortie;
@@ -144,7 +145,7 @@ private:
 			}
 
 			Vecteur3d vecteurRatio = Physique::obtInstance().vecteurEntreDeuxPoints(point[i], point[j]);
-			vecteurRatio *= ((vecteurRatio.norme() - 1.352941176) / vecteurRatio.norme());
+			vecteurRatio *= ((vecteurRatio.norme() - 1) / vecteurRatio.norme());
 			vecteurRatio *= ((double)rand() / RAND_MAX);
 			vecteurRatio = point[i] + vecteurRatio;
 			objet.position.x = vecteurRatio.x;
@@ -157,7 +158,7 @@ private:
 				// Si les portes ont la même direction...
 				if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
 
-					if (Physique::obtInstance().distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
+					if (Physique::obtInstance().distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1) {
 						PorteAuMur = false;
 					}
 				}
@@ -207,11 +208,11 @@ private:
 
 		Vecteur3d hypothenuse = Physique::obtInstance().vecteurEntreDeuxPoints(pointDeCalcul1, pointDeCalcul2);
 
-		if (abs(hypothenuse.y) <= 2.71) {
+		if (abs(hypothenuse.y) <= 2) {
 			return false;
 		}
 
-		if (SDL_sqrt(SDL_pow(hypothenuse.x, 2) + SDL_pow(hypothenuse.z, 2)) <= 1.471) {
+		if (SDL_sqrt(SDL_pow(hypothenuse.x, 2) + SDL_pow(hypothenuse.z, 2)) <= 1) {
 			return false;
 		}
 		return true;
@@ -221,8 +222,6 @@ private:
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
-
-		Objet* porte;
 
 		for (auto& it : infoSalleActive.Objet) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
@@ -291,143 +290,168 @@ public:
 	}
 
 	void bougerMur(Joueur *joueur, float frameTime){
-			if (vecteurAide.x > 0){
-				vecteurDirection.x = vecteurAide.x;
-			}
-			if (vecteurAide.x < 0){
-				vecteurDirection.x = -vecteurAide.x;
-			}
-			if (vecteurAide.z > 0){
-				vecteurDirection.z = vecteurAide.z;
-			}
-			if (vecteurAide.z < 0){
-				vecteurDirection.z = -vecteurAide.z;
-			}
-
-			if (teleporte){
-				ajouterMur();
-				joueur->bloquer();
-			}
-			else if ((distanceParcourue.x >= distanceAParcourir.x) && ((unsigned)distanceParcourue.x != 0)){
-				retirerMur();
-				joueur->deBloquer();
-			}
-			else if ((distanceParcourue.z >= distanceAParcourir.z) && ((unsigned)distanceParcourue.z != 0)){
-				retirerMur();
-				joueur->deBloquer();
-			}
-			else if ((distanceParcourue.x >= distanceAParcourir.x) && (distanceParcourue.z >= distanceAParcourir.z) && ((unsigned)distanceParcourue.x != 0) && ((unsigned)distanceParcourue.z != 0)){
-				retirerMur();
-				joueur->deBloquer();
-			}
-			modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
-			modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
-			modelePorte->rotationner(0, 0.5, 0);
-			distanceParcourue = distanceParcourue + ((vecteurDirection)* frameTime);
+		if (vecteurAide.x > 0){
+			vecteurDirection.x = vecteurAide.x;
+		}
+		if (vecteurAide.x < 0){
+			vecteurDirection.x = -vecteurAide.x;
+		}
+		if (vecteurAide.z > 0){
+			vecteurDirection.z = vecteurAide.z;
+		}
+		if (vecteurAide.z < 0){
+			vecteurDirection.z = -vecteurAide.z;
 		}
 
-		void ajouterMur(){
-			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modeleMur);
-			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
-			teleporte = false;
-			distanceParcourue = 0;
+		if (teleporte){
+			ajouterMur();
+			joueur->bloquer();
 		}
-
-		void retirerMur(){
-			gfx::Gestionnaire3D::obtInstance().retObjet(modeleMur);
-			gfx::Gestionnaire3D::obtInstance().retObjet(modelePorte);
-			teleporte = false;
+		else if ((distanceParcourue.x >= distanceAParcourir.x) && ((unsigned)distanceParcourue.x != 0)){
+			retirerMur();
+			joueur->deBloquer();
 		}
+		else if ((distanceParcourue.z >= distanceAParcourir.z) && ((unsigned)distanceParcourue.z != 0)){
+			retirerMur();
+			joueur->deBloquer();
+		}
+		else if ((distanceParcourue.x >= distanceAParcourir.x) && (distanceParcourue.z >= distanceAParcourir.z) && ((unsigned)distanceParcourue.x != 0) && ((unsigned)distanceParcourue.z != 0)){
+			retirerMur();
+			joueur->deBloquer();
+		}
+		modeleMur->defPosition(modeleMur->obtPosition() + (vecteurAide)* frameTime);
+		modelePorte->defPosition(modelePorte->obtPosition() + (vecteurAide)* frameTime);
+		modelePorte->rotationner(0, 0.5, 0);
+		distanceParcourue = distanceParcourue + ((vecteurDirection)* frameTime);
+	}
 
-		// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
-		void creer() {
-			srand(time(NULL));
-			SDL_GLContext c = fenetre->obtNouveauContext();
+	void ajouterMur(){
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modeleMur);
+		gfx::Gestionnaire3D::obtInstance().ajouterObjet(modelePorte);
+		teleporte = false;
+		distanceParcourue = 0;
+	}
 
-			// Création du graphe
-			carte.creer(nombreDeSalle);
-			int itterateurPorte(0);
+	void retirerMur(){
+		gfx::Gestionnaire3D::obtInstance().retObjet(modeleMur);
+		gfx::Gestionnaire3D::obtInstance().retObjet(modelePorte);
+		teleporte = false;
+	}
 
-			chargement = 0;
-			finChargement = false;
+	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
+	void creer() {
+		srand(time(NULL));
+		SDL_GLContext c = fenetre->obtNouveauContext();
 
-			int* porte = new int[nombreDeSalle];
-			Entree entree;
-			Sortie sortie;
-			for (unsigned int i = 0; i < nombreDeSalle; ++i)
-				porte[i] = 0;
+		// Création du graphe
+		carte.creer(nombreDeSalle);
+		int itterateurPorte(0);
 
-			for (unsigned int i = 0; i < nombreDeSalle; ++i){
-				itterateurPorte = 0;
-				for (unsigned int j = 0; j < nombreDeSalle; ++j){
-					if (carte.matrice[i * nombreDeSalle + j]){
-						entree = std::make_tuple(i, itterateurPorte++, false);
-						sortie = std::make_tuple(j, porte[j]);
-						++porte[j];
-						ajouterLien(entree, sortie);
-					}
+		chargement = 0;
+		finChargement = false;
+
+		int* porte = new int[nombreDeSalle];
+		Entree entree;
+		Sortie sortie;
+		for (unsigned int i = 0; i < nombreDeSalle; ++i)
+			porte[i] = 0;
+
+		for (unsigned int i = 0; i < nombreDeSalle; ++i){
+			if (i == 10)
+				int hue = 0;
+			itterateurPorte = 0;
+			for (unsigned int j = 0; j < nombreDeSalle; ++j){
+				if (carte.matrice[i * nombreDeSalle + j]){
+					entree = std::make_tuple(i, itterateurPorte++, false);
+					sortie = std::make_tuple(j, porte[j]);
+					++porte[j];
+					ajouterLien(entree, sortie);
+					Sortie pieceSuivante = liens[entree];
 				}
 			}
-
-			// Load des salles possibles
-			std::ifstream fichierSalle("salle_text.txt");
-			std::ifstream fichierObjet("objet_text.txt");
-
-			int itterateur(0);
-			while (!fichierSalle.eof()) {
-				char* curseur1 = new char[20];
-				char* curseur2 = new char[20];
-				fichierSalle >> curseur1; fichierSalle >> curseur2;
-				cheminsModeleText.push_back(Modele_Text(curseur1, curseur2));
-				++itterateur;
-			}
-
-			unsigned int aleatoire;
-			InfoObjet objet;
-			InfoSalle salle;
-			gfx::Modele3D* modeleSalle;
-
-			// Boucle sur toutes les salles...
-			for (unsigned int i = 0; i < nombreDeSalle; ++i) {
-
-				salle.ID = i;
-				salle.nbrPorte = carte.degreSortant(i);
-				salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
-				aleatoire = rand() % itterateur;
-				salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
-				salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
-
-				modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(salle.cheminModele), new gfx::Texture());
-				modeleSalle->defEchelle(salle.echelle.x, salle.echelle.y, salle.echelle.z);
-
-				// Boucle sur toutes les portes d'un salle pour les positionner...
-				for (unsigned short IDPorte = 0; IDPorte < salle.nbrPorte; ++IDPorte) {
-					objet.ID = IDPorte;
-					objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
-					objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
-					positionnerPorte(*modeleSalle, salle, objet);
-					salle.Objet.push_back(objet);
-				}
-
-				// Ajout et réinitialisation de la salle.
-				delete modeleSalle;
-				infosSalles.push_back(salle);
-				salle.boitesCollision.clear();
-				salle.Objet.clear();
-				chargement += (100.0f / nombreDeSalle);
-			}
-
-			finChargement = true;
-			//SDL_GL_DeleteContext(c);
 		}
 
-		void debut() {
-			auto debut = infosSalles.begin();
-			std::advance(debut, rand() % infosSalles.size());
-			creerSalle(*debut);
-			modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
-			modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
-			modeleMur->defOrientation(0, 0, 0);
-			modelePorte->defOrientation(0, 0, 0);
+		// Load des salles possibles
+		std::ifstream fichierSalle("salle_text.txt");
+		std::ifstream fichierObjet("objet_text.txt");
+		std::ifstream fichierPuzzle("puzzle_text.txt");
+
+		int itterateur(0);
+		while (!fichierSalle.eof()) {
+			char* curseur1 = new char[20];
+			char* curseur2 = new char[20];
+			char* curseur3 = new char[20];
+			fichierSalle >> curseur1; fichierSalle >> curseur2; /*fichierSalle >> curseur3;*/
+			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2/*, curseur3*/));
+			++itterateur;
 		}
-	};
+
+		int nbrPuzzle(0);
+		while (!fichierPuzzle.eof()) {
+			char* curseur1 = new char[20];
+			fichierPuzzle >> curseur1;
+			cheminsPuzzle.push_back(curseur1);
+			++nbrPuzzle;
+		}
+
+		unsigned int aleatoire;
+		InfoObjet objet;
+		InfoSalle salle;
+		InfoPuzzle puzzle;
+		gfx::Modele3D* modeleSalle;
+
+		// Boucle sur toutes les salles...
+		for (unsigned int i = 0; i < nombreDeSalle; ++i) {
+
+			salle.ID = i;
+			salle.nbrPorte = carte.degreSortant(i);
+			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
+			aleatoire = rand() % itterateur;
+			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
+			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
+			/*LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);*/
+			infosSalles.push_back(salle);
+			salle.boitesCollision.clear();
+			salle.Objet.clear();
+		}
+
+		int premiereSalle = rand() % nombreDeSalle;
+		salle = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
+
+		for (int i = 0; i < nombreDeSalle / 3; ++i) {
+
+		}
+
+		for (auto &it : infosSalles) {
+
+			modeleSalle = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), new gfx::Texture());
+			modeleSalle->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
+
+			// Boucle sur toutes les portes d'un salle pour les positionner...
+			for (unsigned short IDPorte = 0; IDPorte < it.nbrPorte; ++IDPorte) {
+				objet.ID = IDPorte;
+				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
+				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
+				positionnerPorte(*modeleSalle, it, objet);
+				it.Objet.push_back(objet);
+			}
+
+			// Ajout et réinitialisation de la salle.
+			delete modeleSalle;
+			chargement += (100.0f / nombreDeSalle);
+		}
+
+		finChargement = true;
+		//SDL_GL_DeleteContext(c);
+	}
+
+	void debut() {
+		auto debut = infosSalles.begin();
+		std::advance(debut, rand() % infosSalles.size());
+		creerSalle(*debut);
+		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
+		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
+		modeleMur->defOrientation(0, 0, 0);
+		modelePorte->defOrientation(0, 0, 0);
+	}
+};

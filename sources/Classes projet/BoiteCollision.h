@@ -20,7 +20,7 @@ public:
 	}
 
 	bool boiteDansBoite(BoiteCollision<T> boite) {
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 8; ++i)
 			if (pointDansBoite(boit.obtBoite()[i]))
 				return true;
 		
