@@ -53,3 +53,5 @@
 04/05/2015 (12h00 à 2h15) : J'ai mis en commun mon longer avec les déplacements de Kevin et Nathan. J'ai ensuite commencé à débugger le tout, ça marche actuellement assez bien, le longement contre les murs ne marche pas que lorsque le joueur a un certain angle avec le mur. J'ai aussi commencé à modeler une pièce.
 
 05/05/2015 (2h00 à 5h15) : J'ai finis mon modèle de pièce et je l'ai texturé. J'ai ensuite continuer débugger le longement, ça ne devrait plus prendre beaucoup de temps.
+
+06/05/2015 (12h00 à 12h35) : J'ai continué à débugger mon longer, j'ai eu le temps de bien identifier mais pas de rectifier un bug.

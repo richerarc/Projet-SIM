@@ -23,5 +23,5 @@ struct InfoSalle {
 struct InfoPuzzle{
 	std::list<InfoObjet> objet;
 	BoiteCollision<double> boiteCollision;
-	Vecteur3d* entrees;
+	bool* entrees;
 };

@@ -71,7 +71,7 @@ namespace LecteurFichier{
 			char* ligne = new char();
 			char* cheminObjet = new char();
 			Vecteur3d tabBoite[8];
-			Vecteur3d tabEntrees[2];
+			bool tabEntrees[4];
 
 			while (!fichier.eof()){
 				fichier.getline(ligne, 256);
@@ -87,9 +87,9 @@ namespace LecteurFichier{
 							fichier.getline(ligne, 256);
 						}
 						if (ligne == "entrees{") {
-							for (int i = 0; i < 2; ++i) {
-								fichier >> x >> y >> z;
-								tabEntrees[i] = Vecteur3d(x, y, z);
+							for (int i = 0; i < 4; ++i) {
+								fichier >> x;
+								tabEntrees[i] = x;
 							}
 							info.entrees = tabEntrees;
 							fichier.getline(ligne, 256);
