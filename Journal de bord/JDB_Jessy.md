@@ -122,3 +122,9 @@ de 15h à 16h(1h)
 
 30 avril de 9h à 12h (3h)
 -Aujourd'hui je me suis attaqué au "joystick" de la manette. Pour ce faire, Julien m'a fournis la base de la classe Curseur qui remplacera le role de la souris géré avec SDL. J'y ai ajouté des méthodes afins que le curseur puisse réagir avec le "joystick" de la manette.
+
+5 mai de 14h30 à 17h30 et 19h à 20h (4h)
+-Malgré mon travail je ne peux pas encore commit mes modifications étant donné que mes changements affectent plusieurs classes et que je veux attendre que tout soit fonctionnel pour ne pas créer des erreurs aux autres mais voici ce que j'ai fais aujourd'hui :
+-Amélioration de la robustesse de la classe Manette afin que toutes les vérifications soient fait dans cette classe et non un peu partout dans le code
+-Controle de la caméra en jeu à partir du joystick de droite de la manette (presque terminé mais encore un petit bug)
+-Gestion des boutons de la manette (ouvrir une porte, faire pause)
