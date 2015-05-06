@@ -144,7 +144,7 @@ private:
 			}
 
 			Vecteur3d vecteurRatio = Physique::obtInstance().vecteurEntreDeuxPoints(point[i], point[j]);
-			vecteurRatio *= ((vecteurRatio.norme() - 1) / vecteurRatio.norme());
+			vecteurRatio *= ((vecteurRatio.norme() - 1.352941176) / vecteurRatio.norme());
 			vecteurRatio *= ((double)rand() / RAND_MAX);
 			vecteurRatio = point[i] + vecteurRatio;
 			objet.position.x = vecteurRatio.x;
@@ -157,7 +157,7 @@ private:
 				// Si les portes ont la même direction...
 				if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
 
-					if (Physique::obtInstance().distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1) {
+					if (Physique::obtInstance().distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
 						PorteAuMur = false;
 					}
 				}
@@ -207,11 +207,11 @@ private:
 
 		Vecteur3d hypothenuse = Physique::obtInstance().vecteurEntreDeuxPoints(pointDeCalcul1, pointDeCalcul2);
 
-		if (abs(hypothenuse.y) <= 2) {
+		if (abs(hypothenuse.y) <= 2.71) {
 			return false;
 		}
 
-		if (SDL_sqrt(SDL_pow(hypothenuse.x, 2) + SDL_pow(hypothenuse.z, 2)) <= 1) {
+		if (SDL_sqrt(SDL_pow(hypothenuse.x, 2) + SDL_pow(hypothenuse.z, 2)) <= 1.471) {
 			return false;
 		}
 		return true;
@@ -358,8 +358,6 @@ public:
 				porte[i] = 0;
 
 			for (unsigned int i = 0; i < nombreDeSalle; ++i){
-				if (i == 10)
-					int hue = 0;
 				itterateurPorte = 0;
 				for (unsigned int j = 0; j < nombreDeSalle; ++j){
 					if (carte.matrice[i * nombreDeSalle + j]){
@@ -367,7 +365,6 @@ public:
 						sortie = std::make_tuple(j, porte[j]);
 						++porte[j];
 						ajouterLien(entree, sortie);
-						Sortie pieceSuivante = liens[entree];
 					}
 				}
 			}
