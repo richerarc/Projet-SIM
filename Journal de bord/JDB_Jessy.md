@@ -128,3 +128,5 @@ de 15h à 16h(1h)
 -Amélioration de la robustesse de la classe Manette afin que toutes les vérifications soient fait dans cette classe et non un peu partout dans le code
 -Controle de la caméra en jeu à partir du joystick de droite de la manette (presque terminé mais encore un petit bug)
 -Gestion des boutons de la manette (ouvrir une porte, faire pause)
+6 mai de 15h à 17h (2h)
+-Mise en ordre de mes changements afin que tout compile bien pour le curseur des menus avec la manette, le gameplay de la manette suivra probablement demain.
