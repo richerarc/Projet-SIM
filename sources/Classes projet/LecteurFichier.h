@@ -49,14 +49,13 @@ namespace LecteurFichier{
 		std::ifstream fichier(cheminAcces);
 
 		if (fichier.is_open()) {
-
-			double x, y, z;
 			char *cheminOBJ = new char();
 			char *cheminTEXTURE = new char();
-
-			fichier >> cheminOBJ >> cheminTEXTURE;
+			int type;
+			fichier >> cheminOBJ >> cheminTEXTURE >> type;
 			info.cheminModele = cheminOBJ;
 			info.cheminTexture = cheminTEXTURE;
+			info.type = type;
 			return true;
 		}
 		return false;

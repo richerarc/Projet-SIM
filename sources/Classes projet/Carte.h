@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <map>
 #include <tuple>
 #include <list>
@@ -19,7 +19,7 @@
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
-typedef std::tuple<char*, char*/*, char**/> Modele_Text;
+typedef std::tuple<char*, char*, char*> Modele_Text;
 
 class Carte : public Singleton < Carte > {
 private:
@@ -227,7 +227,17 @@ private:
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
-			salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
+			switch (it.type) {
+				case PORTE:
+					salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
+					break;
+				case PENDULE:
+					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false, false, false));
+					break;
+				case FIXE:
+					salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
+					break;
+			}
 		}
 	}
 
@@ -381,8 +391,8 @@ public:
 			char* curseur1 = new char[20];
 			char* curseur2 = new char[20];
 			char* curseur3 = new char[20];
-			fichierSalle >> curseur1; fichierSalle >> curseur2; /*fichierSalle >> curseur3;*/
-			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2/*, curseur3*/));
+			fichierSalle >> curseur1; fichierSalle >> curseur2; fichierSalle >> curseur3;
+			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2, curseur3));
 			++itterateur;
 		}
 
@@ -409,17 +419,30 @@ public:
 			aleatoire = rand() % itterateur;
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
-			/*LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);*/
+			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
 			infosSalles.push_back(salle);
 			salle.boitesCollision.clear();
 			salle.Objet.clear();
 		}
 
-		int premiereSalle = rand() % nombreDeSalle;
+		int premiereSalle = 1;//rand() % nombreDeSalle;
 		salle = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
-
-		for (int i = 0; i < nombreDeSalle / 3; ++i) {
-
+		for (int i = 0; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
+			int aleatoire = rand() % nbrPuzzle;
+			--nbrPuzzle;
+			LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
+			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return chemin == cheminsPuzzle[aleatoire];}));
+			int lol = salle.boitesCollision.size();
+			BoiteCollision<double> boiteTemp = salle.obtBoiteCollisionModifie((rand() % salle.boitesCollision.size()));
+			if (boiteTemp.obtGrandeurZ() - boiteTemp.obtGrandeurX() < 0){
+					//
+			}
+			if (boiteTemp.boiteDansBoite(puzzle.boiteCollision)){
+				for (auto it : puzzle.objet){
+					salle.Objet.push_back(it);
+				}
+				
+			}
 		}
 
 		for (auto &it : infosSalles) {
@@ -430,8 +453,7 @@ public:
 			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < it.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
-				objet.cheminModele = "portePlate.obj";// "HARDCODÉ"
-				objet.cheminTexture = "portePlate.png";// "HARDCODÉ"
+				LecteurFichier::lireObjet("portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
 				it.Objet.push_back(objet);
 			}
@@ -447,7 +469,7 @@ public:
 
 	void debut() {
 		auto debut = infosSalles.begin();
-		std::advance(debut, rand() % infosSalles.size());
+		std::advance(debut, /*rand() % infosSalles.size()*/1);
 		creerSalle(*debut);
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));

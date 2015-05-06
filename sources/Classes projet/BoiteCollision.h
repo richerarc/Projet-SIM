@@ -20,11 +20,12 @@ public:
 	}
 
 	bool boiteDansBoite(BoiteCollision<T> boite) {
-		for (int i = 0; i < 8; ++i)
-			if (pointDansBoite(boit.obtBoite()[i]))
-				return true;
+		int temp(0);
+		for (int i = 0; i < 5; ++i)
+			if (pointDansBoite(boite.obtBoite()[i]))
+				++temp;
 		
-		return false;
+		return temp == 8;
 	}
 
 	bool pointDansBoite(Vecteur3d point) {
