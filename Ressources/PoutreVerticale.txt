@@ -1,0 +1,1 @@
+PoutreVerticale.obj PoutreVerticale.png
