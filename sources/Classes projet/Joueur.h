@@ -158,7 +158,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						//ajusterVitesse();
+						ajusterVitesse();
 						//vitesse *= 2;
 						if (devant.produitScalaire(tmpNormale) < 0.f)
 							vitesse.y *= -1;
@@ -203,7 +203,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						//ajusterVitesse();
+						ajusterVitesse();
 						//vitesse *= 2;
 						//if (devant.produitScalaire(tmpNormale) < 0.f)
 						//vitesse.y *= -1;
@@ -354,15 +354,15 @@ public:
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
 		this->modele3D->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.8f, position.z));
-		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.2f, position.z));
+		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
 
 	void defPositionY(double y) {
 		this->position.y = y;
 		this->modele3D->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.8f, position.z));
-		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.2f, position.z));
+		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
 
 	void defPointCollision(Vecteur3d pointCollision){
@@ -376,18 +376,22 @@ public:
 		listeCamera[MODELEACCROUPI]->defHAngle(Maths::degreARadian(hAngle));
 	}
 
-	gfx::Camera* obtCamera(){ return listeCamera[0]; }
+	gfx::Camera* obtCamera(){ return camera; }
 
 	void defEtat(unsigned int etat){ if (etat <= 5) this->etat = etat; }
 
 	void bloquer(){
 		this->bloque = true;
-		gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
+		listeCamera[MODELEDEBOUT]->bloquer();
+		listeCamera[MODELEACCROUPI]->bloquer();
+		//gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 	}
 
 	void deBloquer(){
 		this->bloque = false;
-		gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
+		listeCamera[MODELEDEBOUT]->deBloquer();
+		listeCamera[MODELEACCROUPI]->deBloquer();
+		//gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
 	}
 
 	gfx::Modele3D* obtModele3D() { return modele3D; }
@@ -399,9 +403,9 @@ public:
 	Vecteur3d& obtNormale(){ return this->normale; }
 
 	Vecteur3d obtPositionCamera(){
-		Vecteur3d temp = camera->obtPosition();
-		temp.y = temp.y - 1.8f;
-		return temp;
+		//Vecteur3d temp = camera->obtPosition();
+		//temp.y = temp.y - 1.8f;
+		return camera->obtPosition();
 	}
 
 	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
