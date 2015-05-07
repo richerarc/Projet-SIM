@@ -85,3 +85,5 @@
 	Travail sur le faux mur et la fausse porte qui arrêtent enfin! Je ne prennait pas en compte le décalage de la porte suite à sa rotation pour donner une porte dans le bon sens sur le faux mur. Le problème est qu'ils arrêtent trop loin du mur. J'ai aussi modifié le positionnement de la fausse porte sur le faux mur pour que ça soit plus réaliste.
 #Mardi 5 mars (11:00 à 17:21)
 	Finalisation de l'animation des portes qui, enfin disparaissent en touchant le mur et réaparraisent en changant de salle. Le joueur ne peut pas bouger tant que le faux mur ne touche pas le vrai mur. Aussi début de la rotation du joueur en changeant de salle afin qu'il fasse face au faux mur.
+#Jeudi 7 mars (10:00 à 14:00)
+	Modification du changement de l'angle de vision du joueur lors de la fin d'une téléportation ainsi que l'ajout d'un défénir devant dans la caméra.
