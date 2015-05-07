@@ -120,7 +120,7 @@ public:
 				}*/
 
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))){
-					etat = MARCHE;
+					//etat = MARCHE;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
@@ -131,7 +131,7 @@ public:
 						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
 							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+								vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
 							}
 							else
 								vitesse = vitesse + (cote * vitesseDeplacement);
@@ -159,13 +159,17 @@ public:
 							tmpNormale = normale;
 						}
 						//vitesse *= 2;
-						if (devant.produitScalaire(tmpNormale) > 0.f)
+						if (devant.produitScalaire(tmpNormale) > 0.f) {
 							ajusterVitesse();
-						//vitesse.y *= -1;
+							if (vitesse.y > 0.f) {
+								vitesse.y *= -1;
+							}
+						}
 					}
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
+					//etat = MARCHE;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
@@ -177,7 +181,7 @@ public:
 						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
 							if (normale.x != 0.f || normale.z != 0.f) {
 								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+								vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
 							}
 							else
 								vitesse = vitesse + (cote * vitesseDeplacement);
@@ -206,15 +210,18 @@ public:
 						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
 							ajusterVitesse();
-							vitesse.y *= -1;
+							if (vitesse.y > 0.f) {
+								vitesse.y *= -1;
+							}
 						}
 					}
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
+					//etat = MARCHE;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesseTemp.x = cote.x * vitesseDeplacement;
-						vitesseTemp.z = cote.z * vitesseDeplacement;
+						//vitesseTemp.z = cote.z * vitesseDeplacement;
 					}
 					else
 						vitesseTemp = cote * vitesseDeplacement;
@@ -232,16 +239,20 @@ public:
 							tmpNormale = normale;
 						}
 						//vitesse *= 2;
-						if (vitesse.produitScalaire(tmpNormale) > 0.f)
+						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
 							ajusterVitesse();
-						//vitesse.y *= -1;
+							if (vitesse.y > 0.f) {
+								vitesse.y *= -1;
+							}
+						}
 					}
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
+					//etat = MARCHE;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
 					}
 					else
 						vitesse = vitesse + (cote * vitesseDeplacement);
@@ -252,9 +263,12 @@ public:
 							tmpNormale = normale;
 						}
 						//vitesse *= 2;
-						if (vitesse.produitScalaire(tmpNormale) > 0.f)
+						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
 							ajusterVitesse();
-						//vitesse.y *= -1;
+							if (vitesse.y > 0.f) {
+								vitesse.y *= -1;
+							}
+						}
 					}
 				}
 
