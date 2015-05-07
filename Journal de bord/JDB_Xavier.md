@@ -54,3 +54,7 @@ J'ai fait beaucoup de débuggage à essayer de trouver pourquoi les rects de mes
 J'ai fait un modèle de sprinkler (comme pour les feux) mais j'avais oublier de faire mon journal. Je vais push ce que j'ai fait.
 ###Lundi 4 Mai ~30 min
 J'ai essayer de trouver pourquoi ca plante. On m'a donner un autre projet et la ca fonctionne. Je dois changer la hitbox des boutons quand on change de résolutions mais je comprends pas trop comment Julien le veut donc il m'explique ca demain. Je vais donc poursuivre se que j'aurais fait demain. Donc, comme un jour de plus de travail vu que je vais le faire avant le cours de 10-12h. 
+###Mardi 5 mai ~3h
+J'ai travailler sur le changement du bouton et de les sprites. Les boutons marches mais j'ai pas trouver pourquoi la surface du sprite ne se remets pas correct.
+### Jeudi 7 mai ~2h30
+J'ai travailler sur mon modèle de piece. J'ai fait les texture et il ne me reste que les boites de collision. Je vais faire un modèle de coffre et d'une clef plus tard ce soir. Je vais mettre mon journal a jour ce soir quand tout sera completer.
