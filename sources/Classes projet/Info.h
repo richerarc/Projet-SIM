@@ -16,7 +16,42 @@ struct InfoObjet {
 struct InfoPuzzle{
 	std::list<InfoObjet> objet;
 	BoiteCollision<double> boiteCollision;
+	Vecteur3d position;
 	bool* entrees;
+
+	BoiteCollision<double> obtBoiteCollisionModifie(){
+		double mat[16];
+		BoiteCollision<double> boiteDeCollisionModifiee;
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslated(position.x, position.y, position.z);
+		glGetDoublev(GL_MODELVIEW_MATRIX, mat);
+		glPopMatrix();
+		double bteCol[4];
+		double bteColTemp[4];
+		bteColTemp[3] = 1;
+		for (int i = 0; i < 8; i++){
+			bteColTemp[0] = boiteCollision.obtBoite()[i].x;
+			bteColTemp[1] = boiteCollision.obtBoite()[i].y;
+			bteColTemp[2] = boiteCollision.obtBoite()[i].z;
+			bteCol[0] = (mat[0] * bteColTemp[0]) + (mat[4] * bteColTemp[1]) + (mat[8] * bteColTemp[2]) + (mat[12] * bteColTemp[3]);
+			bteCol[1] = (mat[1] * bteColTemp[0]) + (mat[5] * bteColTemp[1]) + (mat[9] * bteColTemp[2]) + (mat[13] * bteColTemp[3]);
+			bteCol[2] = (mat[2] * bteColTemp[0]) + (mat[6] * bteColTemp[1]) + (mat[10] * bteColTemp[2]) + (mat[14] * bteColTemp[3]);
+			bteCol[3] = (mat[3] * bteColTemp[0]) + (mat[7] * bteColTemp[1]) + (mat[11] * bteColTemp[2]) + (mat[15] * bteColTemp[3]);
+			if (bteCol[3] != 1){
+				boiteDeCollisionModifiee.obtBoite()[i].x = bteCol[0] / bteCol[3];
+				boiteDeCollisionModifiee.obtBoite()[i].y = bteCol[1] / bteCol[3];
+				boiteDeCollisionModifiee.obtBoite()[i].z = bteCol[2] / bteCol[3];
+			}
+			else{
+				boiteDeCollisionModifiee.obtBoite()[i].x = bteCol[0];
+				boiteDeCollisionModifiee.obtBoite()[i].y = bteCol[1];
+				boiteDeCollisionModifiee.obtBoite()[i].z = bteCol[2];
+			}
+
+		}
+		return boiteDeCollisionModifiee;
+	}
 };
 
 struct InfoSalle {

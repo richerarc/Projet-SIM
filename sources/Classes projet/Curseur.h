@@ -1,4 +1,5 @@
 #pragma once
+#include "Vecteur2.h"
 
 class Curseur {
 

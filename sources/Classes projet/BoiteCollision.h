@@ -23,7 +23,7 @@ public:
 
 		Vecteur3<T> retour;
 		retour.x = (obtXMax() - obtXMin()) / 2;
-		retour.y = 0;/*(obtYMax() - obtYMin()) / 2;*/
+		retour.y = 0;
 		retour.z = (obtZMax() - obtZMin()) / 2;
 
 		return retour;
@@ -56,7 +56,7 @@ public:
 	}
 
 	bool pointDansBoiteX(double x) {
-		return (x >= obtXMin() && x <= obtXMax());
+		return true /*(x >= obtXMin() && x <= obtXMax())*/;
 	}
 
 	bool pointDansBoiteY(double y) {
