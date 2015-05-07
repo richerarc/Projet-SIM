@@ -585,6 +585,13 @@ public:
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
+				else{
+					Vecteur3d pointDifference = pointCollision - point;
+					//if (HauteurVertice > 3)
+					joueur->defPosition({ joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z });
+					//else
+					//joueur->defPosition(Joueur->obtPosition + pointDifference);
+				}
 			}
 			if (collision == AUCUNE) {
 				joueur->defNormale({ 0, 0, 0 });

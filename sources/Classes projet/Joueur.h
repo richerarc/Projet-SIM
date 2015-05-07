@@ -158,7 +158,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						ajusterVitesse();
+						//ajusterVitesse();
 						//vitesse *= 2;
 						if (devant.produitScalaire(tmpNormale) < 0.f)
 							vitesse.y *= -1;
@@ -203,7 +203,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						ajusterVitesse();
+						//ajusterVitesse();
 						//vitesse *= 2;
 						//if (devant.produitScalaire(tmpNormale) < 0.f)
 						//vitesse.y *= -1;
