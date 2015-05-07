@@ -91,7 +91,7 @@ private:
 				} while (i == j);
 			} while (point[i].y != point[j].y);
 
-			// Positionnement des points de blender dans le même sens...
+			// Positionnement des points de blender dans le mÃªme sens...
 			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
 				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 					if (point[i].x > point[j].x) {
@@ -151,11 +151,11 @@ private:
 			objet.position.x = vecteurRatio.x;
 			objet.position.z = vecteurRatio.z;
 
-			// Boucle qui vérifie si une porte sera en collision avec une autre...
+			// Boucle qui vÃ©rifie si une porte sera en collision avec une autre...
 			Vecteur3d pivot = { 0, 1, 0 };
 			for (auto it_Porte : salle.Objet) {
 
-				// Si les portes ont la même direction...
+				// Si les portes ont la mÃªme direction...
 				if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
 
 					if (Physique::obtInstance().distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
@@ -349,12 +349,12 @@ public:
 		teleporte = false;
 	}
 
-	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
+	// ProcÃ©dure qui permet de crÃ©er le graphe et la premiÃ¨re salle dans laquelle le joueur commence...
 	void creer() {
 		srand(time(NULL));
 		SDL_GLContext c = fenetre->obtNouveauContext();
 
-		// Création du graphe
+		// CrÃ©ation du graphe
 		carte.creer(nombreDeSalle);
 		int itterateurPorte(0);
 
@@ -396,7 +396,7 @@ public:
 			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2/*, curseur3*/));
 			++itterateur;
 		}
-
+		fichierSalle.close();
 		int nbrPuzzle(0);
 		while (!fichierPuzzle.eof()) {
 			char* curseur1 = new char[20];
@@ -404,7 +404,7 @@ public:
 			cheminsPuzzle.push_back(curseur1);
 			++nbrPuzzle;
 		}
-
+		fichierPuzzle.close();
 		unsigned int aleatoire;
 		InfoObjet objet;
 		InfoSalle salle;
@@ -464,7 +464,7 @@ public:
 				it.Objet.push_back(objet);
 			}
 
-			// Ajout et réinitialisation de la salle.
+			// Ajout et rÃ©initialisation de la salle.
 			delete modeleSalle;
 			chargement += (100.0f / nombreDeSalle);
 		}
