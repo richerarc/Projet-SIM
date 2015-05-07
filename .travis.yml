@@ -37,19 +37,17 @@ notifications:
 os:
   - linux
   
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "U7I3/UuJnp1d5dmqBUs1ZLZl/n+IPIEUsnevu6BaANFAIEXBbrX59wn7P5An5eT3N/ORt+IDrRPH2hMZulLzMsv3hFhycClOLFH0qVB0WY1AgYdoFqUsSimIEPnGiHg1jVQPy35KDkdvieyhHZXnlTC4ybsW/ZVHolLljKQBFzI="
-
-addons:
-  coverity_scan:
-    project:
-      name: "richerarc/Projet-SIM"
-      description: "<Your project description here>"
-    notification_email: richer.arc@gmail.com
-    #build_command_prepend: "<Your build preprocessing command here>"
-    build_command:   "make"
-    branch_pattern: master
-
+#env:
+#   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+#   #   via the "travis encrypt" command using the project repo's public key
+#   - secure: "U7I3/UuJnp1d5dmqBUs1ZLZl/n+IPIEUsnevu6BaANFAIEXBbrX59wn7P5An5eT3N/ORt+IDrRPH2hMZulLzMsv3hFhycClOLFH0qVB0WY1AgYdoFqUsSimIEPnGiHg1jVQPy35KDkdvieyhHZXnlTC4ybsW/ZVHolLljKQBFzI="
+#
+#addons:
+#  coverity_scan:
+#    project:
+#      name: "richerarc/Projet-SIM"
+#      description: "<Your project description here>"
+#    notification_email: richer.arc@gmail.com
+#    #build_command_prepend: "<Your build preprocessing command here>"
+#    build_command:   "make"
+#    branch_pattern: master
