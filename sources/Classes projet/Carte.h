@@ -293,10 +293,25 @@ public:
 		modelePorte->defOrientation(0, (*it).rotation + 180, 0);
 		joueur->defPosition(vecteur);
 		teleporte = true;
-		double angle = (*it).direction.angleEntreVecteurs(joueur->obtNormale());
-		joueur->defAngleHorizontal(-angle);
-		//	joueur->defAngleHorizontal((*it).rotation);
-		joueur->defAngleHorizontal(180);
+
+		double anglePorte = Maths::radianADegre((*it).direction.angleEntreVecteurs({ 1, 0, 0 }));
+
+		double angleJoueur = Maths::radianADegre(joueur->obtCamera()->obtDevant().angleEntreVecteurs({ 1, 0, 0 }));
+
+		double angleFinal = angleJoueur + (anglePorte - angleJoueur);
+
+		joueur->obtCamera()->defDevant({ 1, 0, 0 });
+
+		joueur->obtCamera()->defHAngle(angleFinal);
+
+		double angleModif = Maths::radianADegre((*it).direction.angleEntreVecteurs(joueur->obtCamera()->obtDevant()));
+
+		joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() - angleModif);
+
+		if ((unsigned)joueur->obtCamera()->obtHAngle() == 89){
+			joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() + 90);
+		}
+
 		return std::get<1>(pieceSuivante);
 	}
 
