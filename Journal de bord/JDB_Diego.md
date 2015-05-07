@@ -79,3 +79,9 @@ Durée: environ 3h20
 J'ai essayé d'optimiser mon travail de mardi,sans resultat satisfaisant. Pas de commit aujourdhui :( je vais essayer d'y travailler plus tard ou pendant la fin de semaine chez moi.
 
 Durée: environ 1h30
+
+-- -7 Mai 2015 (12h27)--
+
+J'ai créé un nouvel objet pour le jeu: une grenade.
+
+Durée: environ 2h
