@@ -7,4 +7,3 @@ SalleConvergente.obj SalleConvergente.png
 SalleLosange.obj SalleLosange.png
 SalleEscalier.obj SalleEscalier.png
 SalleEscalierDesaxee.obj SalleEscalierDesaxee.png
-SalleTunnel.obj SalleTunnel.png
