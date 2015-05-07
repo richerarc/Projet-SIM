@@ -130,3 +130,6 @@ de 15h à 16h(1h)
 -Gestion des boutons de la manette (ouvrir une porte, faire pause)
 6 mai de 15h à 17h (2h)
 -Mise en ordre de mes changements afin que tout compile bien pour le curseur des menus avec la manette, le gameplay de la manette suivra probablement demain.
+
+7 mai de 9h40 à 12h40 (3h)
+-Étant donné que je rencontrais plusieurs problèmes avec la gestion des mouvements à partir du joystick, j'ai décidé, avec l'accord des membres, d'utiliser plutot le "hat" de la manette. 
