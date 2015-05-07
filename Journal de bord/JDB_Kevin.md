@@ -258,3 +258,14 @@ Nathan et moi avons faits quelques modifications pour le joueur maintenenat il d
 J'ai esseyer quelques trucs pour faire fonctionner le personnage comme il le faut avec Nathan hier et aujourd'hui. Jai modéliser une nouvelle piece en pente. Cet apres midi j'ai esseyer quqleques autres pistes. J'ai regler le probleme du personnage qui n'avancait aps quand il regardait trop haut ou trop bas.
 
 **Temps pour les 2 jour: 5h**
+
+##**`5 et 6 Mai 2015`**
+
+#####le 5 Mai 
+Nathan et moi (plus Nathan) avons travaillé sur le déplacement du joueur pour le rendre meuilleur.
+**temps 2h**
+
+#####le 6 Mai
+
+J'ai réglé le problement du joueur de 3 metres de large en jouant aven le frustum d'avantage. J'ai refait les modeles3D du joueur et j'ai arrenger le fait qu'il passait à travers les murs. Ce dernier point reste à arranger. J'ai commencer a coder comment je le ferais monter les escaliers, je m'insipire du positionnement des portes alors je vais demander plus de détail a Gabriel demain. 
+ **Temps 5h**

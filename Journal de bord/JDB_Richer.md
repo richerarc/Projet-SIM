@@ -61,3 +61,5 @@
 `Jeu. 23 avr.` J'ai modifié la façons d'utiliser le contrôler audio dans le projet, j'ai aussi aider Julien avec le gestionnaire d'évenement et de phase `5h00 => 2h00 jeu. + 3h00 mer.`	
 
 `Mar. 28 avr.` Moi et Julien avons travaillé sur le système qui permet au joueur de perdre de la santé mantale. nous avons aussi travailler sur les menus de sons, et j'ai terminé lundi le menu de controle pour permetre d'utiliser les boutons de la souris dans le jeux. `9H00 => 3h00 lun. + 6H00 mar.`
+
+`Mer. 06 mai.` ... bonnn... petit laisser aller dans le journal de bord, mais j'ai tout de même activement travaillé sur le puzzle avec julien, tout en aidant les autre, (au moins 10 h le semaine dernière). Voilà que les puzzle existe, et sont dans les salle, il reste à les rotater, et les filler. `2h00`

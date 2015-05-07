@@ -103,7 +103,7 @@ namespace gfx{
 				if (event.type != SDL_MOUSEWHEEL)
 					Souris::mettreAJourEtatMolette(0, 0);
 
-				Manette::mettreAJourEtat();
+				//Manette::mettreAJourEtat();
 
 				return true;
 			}

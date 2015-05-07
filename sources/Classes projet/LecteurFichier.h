@@ -49,14 +49,13 @@ namespace LecteurFichier{
 		std::ifstream fichier(cheminAcces);
 
 		if (fichier.is_open()) {
-
-			double x, y, z;
 			char *cheminOBJ = new char();
 			char *cheminTEXTURE = new char();
-
-			fichier >> cheminOBJ >> cheminTEXTURE;
+			int type;
+			fichier >> cheminOBJ >> cheminTEXTURE >> type;
 			info.cheminModele = cheminOBJ;
 			info.cheminTexture = cheminTEXTURE;
+			info.type = type;
 			return true;
 		}
 		return false;
@@ -71,14 +70,14 @@ namespace LecteurFichier{
 			char* ligne = new char();
 			char* cheminObjet = new char();
 			Vecteur3d tabBoite[8];
-			Vecteur3d tabEntrees[2];
+			bool tabEntrees[4];
 
 			while (!fichier.eof()){
 				fichier.getline(ligne, 256);
-				if (ligne == "puzzle{"){
+				if (!strcmp(ligne, "puzzle{")){
 					fichier.getline(ligne, 256);
-					while (ligne != "};"){
-						if (ligne == "boite{") {
+					while (strcmp(ligne, "};")){
+						if (!strcmp(ligne, "boite{")){
 							for (int i = 0; i < 8; ++i){
 								fichier >> x >> y >> z;
 								tabBoite[i] = Vecteur3d(x, y, z);
@@ -86,22 +85,22 @@ namespace LecteurFichier{
 							info.boiteCollision = BoiteCollision<double>(tabBoite);
 							fichier.getline(ligne, 256);
 						}
-						if (ligne == "entrees{") {
-							for (int i = 0; i < 2; ++i) {
-								fichier >> x >> y >> z;
-								tabEntrees[i] = Vecteur3d(x, y, z);
+						if (!strcmp(ligne, "entrees{")) {
+							for (int i = 0; i < 4; ++i) {
+								fichier >> x;
+								tabEntrees[i] = x;
 							}
 							info.entrees = tabEntrees;
 							fichier.getline(ligne, 256);
 						}
-						if (ligne == "objet{"){
+						if (!strcmp(ligne, "objet{")){
 							InfoObjet objet;
 							fichier >> ligne >> cheminObjet;
-							if (ligne == "c"){
+							if (!strcmp(ligne, "c")){
 								lireObjet(cheminObjet, objet);
 							}
 							fichier >> ligne >> x >> y >> z;
-							if (ligne == "p") {
+							if (!strcmp(ligne, "p")){
 								objet.position = Vecteur3d(x, y, z);
 							}
 							info.objet.push_back(objet);
