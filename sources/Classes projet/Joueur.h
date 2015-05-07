@@ -158,10 +158,10 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						ajusterVitesse();
 						//vitesse *= 2;
-						if (devant.produitScalaire(tmpNormale) < 0.f)
-							vitesse.y *= -1;
+						if (devant.produitScalaire(tmpNormale) > 0.f)
+							ajusterVitesse();
+						//vitesse.y *= -1;
 					}
 				}
 
@@ -203,10 +203,11 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						ajusterVitesse();
 						//vitesse *= 2;
-						//if (devant.produitScalaire(tmpNormale) < 0.f)
-						//vitesse.y *= -1;
+						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
+							ajusterVitesse();
+							vitesse.y *= -1;
+						}
 					}
 				}
 
@@ -224,6 +225,17 @@ public:
 					}
 					else
 						vitesse = vitesse + vitesseTemp;
+
+					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
+						Vecteur3d tmpNormale;
+						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
+							tmpNormale = normale;
+						}
+						//vitesse *= 2;
+						if (vitesse.produitScalaire(tmpNormale) > 0.f)
+							ajusterVitesse();
+						//vitesse.y *= -1;
+					}
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
@@ -233,6 +245,17 @@ public:
 					}
 					else
 						vitesse = vitesse + (cote * vitesseDeplacement);
+
+					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
+						Vecteur3d tmpNormale;
+						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
+							tmpNormale = normale;
+						}
+						//vitesse *= 2;
+						if (vitesse.produitScalaire(tmpNormale) > 0.f)
+							ajusterVitesse();
+						//vitesse.y *= -1;
+					}
 				}
 
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) && (camera != listeCamera[MODELEACCROUPI])) {
