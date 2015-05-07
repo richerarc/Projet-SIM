@@ -55,3 +55,5 @@
 05/05/2015 (2h00 à 5h15) : J'ai finis mon modèle de pièce et je l'ai texturé. J'ai ensuite continuer débugger le longement, ça ne devrait plus prendre beaucoup de temps.
 
 06/05/2015 (12h00 à 12h35) : J'ai continué à débugger mon longer, j'ai eu le temps de bien identifier mais pas de rectifier un bug.
+
+07/05/2015 (10h00 à 11h55) : J'ai terminé mon longement, puis j'ai commencé à le faire marcher avec le code de Kevin et Nathan. Il semblerait que quelque chose redéfinit la vitesse après le longement sans que ce soit voulu.
