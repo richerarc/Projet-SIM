@@ -45,3 +45,5 @@
 30 avril: petit meeting en groupe, puis travbail sur des models de salle
 
 5 mai: continuation du travail sur les salles octogonale et hexagonales, et finition du modele de banniere (3 heure)
+
+7 mai: les salles octo et hex sont terminées, debut de la piece de décor "map"
