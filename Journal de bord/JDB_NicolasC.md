@@ -118,4 +118,6 @@
   -Ajout des textures de murs pour l'animation de l'ouverture de porte.  
   -Début de travail avec Brandon pour afficher des objet "dans la main" du joueur (brainstorming).  
 **5 mai** durée 3h 30min  
-  -Restructuration des objets, ajout des items et affichage d'un objet équipé avec Brandon.
+  -Restructuration des objets, ajout des items et affichage d'un objet équipé avec Brandon.  
+**7 mai** durée 2h 20min  
+  -Amélioration de l'orientation des items équipés et d'ébut d'une animation quand le joueur marche (à améliorer) avec Brandon
