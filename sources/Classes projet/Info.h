@@ -1,7 +1,7 @@
 #pragma once
 #include "BoiteCollision.h"
 
-enum objet_type{PORTE, PENDULE, FIXE, PHYSIQUE, ITEM};
+enum objet_type{PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR};
 
 struct InfoObjet {
 	unsigned int ID;
@@ -11,13 +11,16 @@ struct InfoObjet {
 	char* cheminModele;
 	char* cheminTexture;
 	int type;
+	double largeur;
 };
+
 
 struct InfoPuzzle{
 	std::list<InfoObjet> objet;
 	BoiteCollision<double> boiteCollision;
 	Vecteur3d position;
 	bool* entrees;
+	double rotation;
 
 	BoiteCollision<double> obtBoiteCollisionModifie(){
 		double mat[16];
@@ -25,6 +28,7 @@ struct InfoPuzzle{
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslated(position.x, position.y, position.z);
+		glRotated(rotation, 0, 1, 0);
 		glGetDoublev(GL_MODELVIEW_MATRIX, mat);
 		glPopMatrix();
 		double bteCol[4];
@@ -65,17 +69,17 @@ struct InfoSalle {
 	std::list<BoiteCollision<double>> boitesCollision;
 	
 	BoiteCollision<double> obtBoiteCollisionModifie(int ID){
-		double mat[16];
+		/*double mat[16];
 		BoiteCollision<double> boiteDeCollisionModifiee;
 		glPushMatrix();
 		glLoadIdentity();
 		glScaled(echelle.x, echelle.y, echelle.z);
 		glGetDoublev(GL_MODELVIEW_MATRIX, mat);
-		glPopMatrix();
+		glPopMatrix();*/
 		auto it = boitesCollision.begin();
 		for (int i = 0; i < ID; ++i) ++it;
 		
-		double bteCol[4];
+		/*double bteCol[4];
 		double bteColTemp[4];
 		bteColTemp[3] = 1;
 		for (int i = 0; i < 8; i++){
@@ -97,7 +101,7 @@ struct InfoSalle {
 				boiteDeCollisionModifiee.obtBoite()[i].z = bteCol[2];
 			}
 			
-		}
-		return boiteDeCollisionModifiee;
+		}*/
+		return *it;
 	}
 };

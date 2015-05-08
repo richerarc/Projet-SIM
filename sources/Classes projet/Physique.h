@@ -167,7 +167,7 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
-	void appliquerPhysiqueSurListeObjet(Salle* salle, float frameTime) {
+	void appliquerPhysiqueSurListeObjet(Salle* salle, float frameTime, double temps) {
 
 		std::list<Objet*> objets = salle->obtListeObjet();
 
@@ -196,8 +196,10 @@ public:
 			}
 			Pendule* it_Pendule = dynamic_cast<Pendule*>(it);
 			if (it_Pendule != nullptr) {
-				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), frameTime);
-				it_Pendule->obtModele3D()->defOrientation(it_Pendule->obtVitesseAngulaire() * angle);
+				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), temps);
+				Vecteur3d vectemp = it_Pendule->obtVitesseAngulaire() * angle;
+				vectemp.y = it_Pendule->obtModele3D()->obtOrientation().y;
+				it_Pendule->obtModele3D()->defOrientation(vectemp);
 			}
 			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
 			if (it_ObjetFixe != nullptr) {
@@ -432,7 +434,7 @@ public:
 	}
 
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double phase, double frametime) {
-		return angleMaximal * SDL_cos(omega * frametime + phase);
+		return Maths::radianADegre(Maths::degreARadian(angleMaximal) * SDL_cos(omega * frametime + phase));
 	}
 
 	double distanceEntreDeuxPoints(Vecteur3d point1, Vecteur3d point2) {
@@ -600,7 +602,7 @@ public:
 		return collision;
 	}
 
-	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
+	bool collisionJoueurObjet(Salle* salle, Joueur* joueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -612,10 +614,13 @@ public:
 
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
-			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
-				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPosition(joueur->obtPosition() + pointDiference);
-				return true;
+			for (auto it : salle->obtListeObjet()) {
+
+				if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
+					Vecteur3d pointDiference = pointCollision - point;
+					joueur->defPosition(joueur->obtPosition() + pointDiference);
+					return true;
+				}
 			}
 		}
 		return false;

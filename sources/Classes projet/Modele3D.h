@@ -51,6 +51,7 @@ Modele3D() : Objet3D(){
 			sommetsModif = nullptr;
 			normalesModif = nullptr;
 			matriceTransformation = Matrice4X4d();
+			echelle = Vecteur3d(1.3529411765, 1.3529411765, 1.3529411765);
 		}
 
 		Modele3D(Modele *modele, Texture *texture) : Objet3D(){

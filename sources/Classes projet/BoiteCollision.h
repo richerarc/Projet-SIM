@@ -22,9 +22,9 @@ public:
 	Vecteur3<T> obtCentreBoite() {
 
 		Vecteur3<T> retour;
-		retour.x = (obtXMax() - obtXMin()) / 2;
+		retour.x = (obtXMax() - fabs(obtXMin())) / 2;
 		retour.y = 0;
-		retour.z = (obtZMax() - obtZMin()) / 2;
+		retour.z = (obtZMax() - fabs(obtZMin())) / 2;
 
 		return retour;
 	}
@@ -56,7 +56,7 @@ public:
 	}
 
 	bool pointDansBoiteX(double x) {
-		return true /*(x >= obtXMin() && x <= obtXMax())*/;
+		return (x >= obtXMin() && x <= obtXMax());
 	}
 
 	bool pointDansBoiteY(double y) {
@@ -68,63 +68,75 @@ public:
 	}
 
 	double obtXMin() {
-		double xDebut = boiteCollision[0].x;
-		double xAutre;
+		int xDebut = boiteCollision[0].x + 0.5;
+		int xAutre;
+		int rando;
 		do {
-			xAutre = boiteCollision[rand() % 7 + 1].x;
+			rando = rand() % 7 + 1;
+			xAutre = boiteCollision[rando].x + 0.5;
 		} while (xDebut == xAutre);
 
-		return (xDebut < xAutre) ? xDebut : xAutre;
+		return (xDebut < xAutre) ? boiteCollision[0].x : boiteCollision[rando].x;
 	}
 
 	double obtXMax() {
-		double xDebut = boiteCollision[0].x;
-		double xAutre;
+		int xDebut = boiteCollision[0].x + 0.5;
+		int xAutre;
+		int rando;
 		do {
-			xAutre = boiteCollision[rand() % 7 + 1].x;
+			rando = rand() % 7 + 1;
+			xAutre = boiteCollision[rando].x + 0.5;
 		} while (xDebut == xAutre);
 
-		return (xDebut > xAutre) ? xDebut : xAutre;
+		return (xDebut > xAutre) ? boiteCollision[0].x : boiteCollision[rando].x;
 	}
 
 	double obtYMin() {
-		double yDebut = boiteCollision[0].y;
-		double yAutre;
+		int yDebut = boiteCollision[0].y + 0.5;
+		int yAutre;
+		int rando;
 		do {
-			yAutre = boiteCollision[rand() % 7 + 1].y;
+			rando = rand() % 7 + 1;
+			yAutre = boiteCollision[rando].y + 0.5;
 		} while (yDebut == yAutre);
 
-		return (yDebut < yAutre) ? yDebut : yAutre;
+		return (yDebut < yAutre) ? boiteCollision[0].y : boiteCollision[rando].y;
 	}
 
 	double obtYMax() {
-		double yDebut = boiteCollision[0].y;
-		double yAutre;
+		int yDebut = boiteCollision[0].y + 0.5;
+		int yAutre;
+		int rando;
 		do {
-			yAutre = boiteCollision[rand() % 7 + 1].y;
+			rando = rand() % 7 + 1;
+			yAutre = boiteCollision[rando].y + 0.5;
 		} while (yDebut == yAutre);
 
-		return (yDebut > yAutre) ? yDebut : yAutre;
+		return (yDebut > yAutre) ? boiteCollision[0].y : boiteCollision[rando].y;
 	}
 
 	double obtZMin() {
-		double zDebut = boiteCollision[0].z;
-		double zAutre;
+		int zDebut = boiteCollision[0].z + 0.5;
+		int zAutre;
+		int rando;
 		do {
-			zAutre = boiteCollision[rand() % 7 + 1].z;
+			rando = rand() % 7 + 1;
+			zAutre = boiteCollision[rando].z + 0.5;
 		} while (zDebut == zAutre);
 
-		return (zDebut < zAutre) ? zDebut : zAutre;
+		return (zDebut < zAutre) ? boiteCollision[0].z : boiteCollision[rando].z;
 	}
 
 	double obtZMax() {
-		double zDebut = boiteCollision[0].z;
-		double zAutre;
+		int zDebut = boiteCollision[0].z + 0.5;
+		int zAutre;
+		int rando;
 		do {
-			zAutre = boiteCollision[rand() % 7 + 1].z;
+			rando = rand() % 7 + 1;
+			zAutre = boiteCollision[rando].z + 0.5;
 		} while (zDebut == zAutre);
 
-		return (zDebut > zAutre) ? zDebut : zAutre;
+		return (zDebut > zAutre) ? boiteCollision[0].z : boiteCollision[rando].z;
 	}
 
 	double obtGrandeurX() {

@@ -125,9 +125,7 @@ namespace gfx{
 
 		double obtHAngle(){	return hAngle; }
 
-		void defHAngle(double hAngle){ this->hAngle = hAngle; calculerVecteurs(); }
-
-		void defDevant(Vecteur3d devant){ this->devant = devant; }
+		void defHAngle(double hAngle){ this->hAngle -= hAngle; calculerVecteurs(); }
 
 		Vecteur3d obtHaut(){ return this->haut; }
 

@@ -17,7 +17,8 @@ private:
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
 	int sensPrecedent, sensActuel;
-	
+	Chrono tempsJeu;
+
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
 		if (temp < limite){
@@ -25,7 +26,7 @@ private:
 		}
 		return limite;
 	}
-	
+
 	void santeMentale(){
 		double pourcentagePerdu(0);
 		if (cheminRecursif.size() > 1){
@@ -44,8 +45,8 @@ private:
 		}
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f));
 	}
-	
-	
+
+
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
 			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
@@ -53,6 +54,7 @@ private:
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
 			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur);
+
 			if (typeCollision == MUR) {
 				//joueur->longer();
 				joueur->obtVitesse().x = 0.;
@@ -60,14 +62,14 @@ private:
 				//if (joueur->obtEtat() != CHUTE)
 				//	joueur->defEtat(CHUTE);
 			}
-			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)&& joueur->obtEtat()!= MARCHE){
+			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE) && joueur->obtEtat() != MARCHE){
 				joueur->defEtat(STABLE);
 				joueur->obtVitesse().y = 0.f;
 				joueur->obtVitesse().x = 0.f;
 				joueur->obtVitesse().z = 0.f;
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
 
 	bool detectionObjet() {
@@ -112,11 +114,12 @@ public:
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;
-		
+
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
 		iterateur_x = 0;
 		iterateur_z = 0;
+		tempsJeu = Chrono();
 	}
 
 	void rafraichir(float frameTime) {
@@ -171,6 +174,10 @@ public:
 	}
 
 	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+	}
+
+	float obtTemps() {
+		return tempsJeu.obtTempsEcoule().enSecondes();
 	}
 };
 
