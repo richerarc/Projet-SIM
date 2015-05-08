@@ -4,8 +4,7 @@
 #include "Plan.h"
 #include "GestionnaireControle.h"
 
-enum etatPhysique{ DEBOUT, ACCROUPI };
-enum etat { STABLE, MARCHE, SAUT, CHUTE, COURSE };
+enum etat { STABLE, MARCHE, SAUT, CHUTE };
 enum modele { MODELEDEBOUT, MODELEACCROUPI };
 
 class Joueur {
@@ -18,7 +17,6 @@ private:
 	Vecteur3d vitesse;
 	double masse;
 	float vitesseDeplacement;
-	short etatPhysique;
 	short etat;
 	short santePhysique, santeMentale;
 	Vecteur3d normale;
@@ -49,7 +47,6 @@ public:
 		this->vitesseDeplacement = 4.f;
 		this->position = position;
 		etat = CHUTE;
-		etatPhysique = DEBOUT;
 		masse = 87.f;
 		santePhysique = 100;
 		santeMentale = 100;
@@ -281,226 +278,6 @@ public:
 						chronoSaut.repartir();
 						vitesse.y = 7;
 						etat = SAUT;
-					}
-				}
-			}
-			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0)
-				modele3D->defOrientation(0, (camera->obtHAngle()), 0);
-		}
-	}
-
-	//A vérifier
-	void deplacement2(){
-		if (!bloque){
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) && (etat != STABLE && etat != CHUTE)){
-				vitesse.x = 0.f;
-				vitesse.z = 0.f;
-				if (vitesse.y == 0){
-					vitesse.y = 0.f;
-				}
-				etat = STABLE;
-			}
-
-			if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
-				etat = STABLE;
-			}
-
-
-			Vecteur3d devant = camera->obtDevant();
-			Vecteur3d cote = camera->obtCote();
-			Vecteur3d vitesseTemp;
-			devant.y = 0;
-			cote.y = 0;
-			devant.normaliser();
-			cote.normaliser();
-
-			if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && (etat != MARCHE))
-				etat = MARCHE;
-
-			if (etat != CHUTE) {
-
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) && (etatPhysique != ACCROUPI) && etat != COURSE)
-					etat = COURSE;
-
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && (etatPhysique != ACCROUPI) && etat != COURSE) {
-					camera = listeCamera[MODELEACCROUPI];
-					modele3D = listeModele3D[MODELEACCROUPI];
-					ajouterScene();
-					etatPhysique = ACCROUPI;
-				}
-
-				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && etatPhysique != DEBOUT) {
-					camera = listeCamera[MODELEDEBOUT];
-					modele3D = listeModele3D[MODELEDEBOUT];
-					ajouterScene();
-					etatPhysique = DEBOUT;
-				}
-
-				switch (etat)
-				{
-				case MARCHE:
-					vitesseDeplacement = (etatPhysique == DEBOUT) ? 4.0f : 2.0f;
-					break;
-				case COURSE:
-					vitesseDeplacement = 8.0f;
-					break;
-				}
-
-				//Avancer 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))){
-					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
-						vitesse.x = devant.x * vitesseDeplacement;
-						vitesse.z = devant.z * vitesseDeplacement;
-					}
-					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
-						vitesse = devant * vitesseDeplacement;
-					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x += (cote.x * vitesseDeplacement);
-								vitesse.z += (cote.z * vitesseDeplacement);
-							}
-							else
-								vitesse += (cote * vitesseDeplacement);
-						}
-
-						else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesseTemp.x = cote.x * vitesseDeplacement;
-								vitesseTemp.z = cote.z * vitesseDeplacement;
-							}
-							else
-								vitesseTemp = cote * vitesseDeplacement;
-							vitesseTemp.inverser();
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x += vitesseTemp.x;
-								vitesse.z += vitesseTemp.z;
-							}
-							else
-								vitesse += vitesseTemp;
-						}
-					}
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (devant.produitScalaire(tmpNormale) > 0.f) {
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
-					}
-				}
-
-				//Reculer
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
-					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
-						vitesse.x = devant.x * vitesseDeplacement;
-						vitesse.z = devant.z * vitesseDeplacement;
-					}
-					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
-						vitesse = devant * vitesseDeplacement;
-					vitesse.inverser();
-					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-								vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-							}
-							else
-								vitesse = vitesse + (cote * vitesseDeplacement);
-						}
-						else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesseTemp.x = cote.x * vitesseDeplacement;
-								vitesseTemp.z = cote.z * vitesseDeplacement;
-							}
-							else
-								vitesseTemp = cote * vitesseDeplacement;
-							vitesseTemp.inverser();
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x = vitesse.x + vitesseTemp.x;
-								vitesse.z = vitesse.z + vitesseTemp.z;
-							}
-							else
-								vitesse = vitesse + vitesseTemp;
-						}
-					}
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
-					}
-				}
-
-				//Gauche
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesseTemp.x = cote.x * vitesseDeplacement;
-						//vitesseTemp.z = cote.z * vitesseDeplacement;
-					}
-					else
-						vitesseTemp = cote * vitesseDeplacement;
-					vitesseTemp.inverser();
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesse.x = vitesse.x + vitesseTemp.x;
-						vitesse.z = vitesse.z + vitesseTemp.z;
-					}
-					else
-						vitesse = vitesse + vitesseTemp;
-
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
-					}
-				}
-
-				//Droite
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-					}
-					else
-						vitesse = vitesse + (cote * vitesseDeplacement);
-
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
-					}
-				}
-
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) && (camera != listeCamera[MODELEACCROUPI])) {
-					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
-					{
-						chronoSaut.repartir();
-						vitesse.y = 7;
-						etat = CHUTE;
 					}
 				}
 			}
