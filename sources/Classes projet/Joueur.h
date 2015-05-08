@@ -119,7 +119,7 @@ public:
 				vitesseDeplacement = 4.f;
 				}*/
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))){
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))) {
 					//etat = MARCHE;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
@@ -160,6 +160,7 @@ public:
 						}
 						//vitesse *= 2;
 						if (devant.produitScalaire(tmpNormale) > 0.f) {
+							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -173,10 +174,13 @@ public:
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
+						vitesse.x = -vitesse.x;
+						vitesse.z = -vitesse.z;
 					}
-					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
+					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f) {
 						vitesse = devant * vitesseDeplacement;
-					vitesse.inverser();
+						vitesse.inverser();
+					}
 					if (vitesseDeplacement < 5) {
 						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
 							if (normale.x != 0.f || normale.z != 0.f) {
@@ -209,6 +213,7 @@ public:
 						}
 						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
+							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -221,7 +226,7 @@ public:
 					//etat = MARCHE;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesseTemp.x = cote.x * vitesseDeplacement;
-						//vitesseTemp.z = cote.z * vitesseDeplacement;
+						vitesseTemp.z = cote.z * vitesseDeplacement;
 					}
 					else
 						vitesseTemp = cote * vitesseDeplacement;
@@ -240,6 +245,7 @@ public:
 						}
 						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
+							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -264,6 +270,7 @@ public:
 						}
 						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
+							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;

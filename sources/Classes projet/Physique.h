@@ -575,8 +575,10 @@ public:
 				normale.normaliser();
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
-				if (normale.y == 1)	collision = SOLDROIT;
-				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))	collision = SOLCROCHE;
+				if (normale.y == 1)
+					collision = SOLDROIT;
+				if ((normale.y > fabs(normale.x) && normale.y > fabs(normale.z)) && normale.y != 1)
+					collision = SOLCROCHE;
 				if (normale.y == 0){
 					//joueur->defNormale(normale);
 					collision = MUR;
@@ -593,9 +595,9 @@ public:
 					//joueur->defPosition(Joueur->obtPosition + pointDifference);
 				}
 			}
-			if (collision == AUCUNE) {
-				joueur->defNormale({ 0, 0, 0 });
-			}
+		}
+		if (collision == AUCUNE) {
+			joueur->defNormale({ 0, 0, 0 });
 		}
 		return collision;
 	}

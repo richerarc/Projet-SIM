@@ -60,7 +60,7 @@ private:
 				//if (joueur->obtEtat() != CHUTE)
 				//	joueur->defEtat(CHUTE);
 			}
-			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)&& joueur->obtEtat()!= MARCHE){
+			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)/*&& joueur->obtEtat()!= MARCHE*/){
 				joueur->defEtat(STABLE);
 				joueur->obtVitesse().y = 0.f;
 				joueur->obtVitesse().x = 0.f;
