@@ -403,9 +403,9 @@ public:
 
 		int itterateur(0);
 		while (!fichierSalle.eof()) {
-			char* curseur1 = new char[20];
-			char* curseur2 = new char[20];
-			char* curseur3 = new char[20];
+			char* curseur1 = new char[255];
+			char* curseur2 = new char[255];
+			char* curseur3 = new char[255];
 			fichierSalle >> curseur1; fichierSalle >> curseur2; /*fichierSalle >> curseur3;*/
 			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2/*, curseur3*/));
 			++itterateur;
