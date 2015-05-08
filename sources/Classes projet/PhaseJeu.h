@@ -52,7 +52,7 @@ private:
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur);
+			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur->obtModele3D()->obtBoiteDeCollisionModifiee(), joueur->obtVitesse(), joueur->obtNormale(), joueur->obtPointCollision(), joueur->obtPosition());
 			if (typeCollision == MUR) {
 				//joueur->longer();
 				joueur->obtVitesse().x = 0.;
@@ -67,7 +67,7 @@ private:
 				joueur->obtVitesse().z = 0.f;
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime);
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime);
 	}
 
 	bool detectionObjet() {
@@ -79,7 +79,7 @@ private:
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
 			ObjetFixe* it_ObjFixe = dynamic_cast<ObjetFixe*>(it);
 			Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtVectOrientationVue());
-			if ((Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Physique::obtInstance().vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
+			if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
 				//if (Physique::obtInstance().collisionDroiteObjet(*it, VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0))) {
 				//if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0), true)){
 				std::string str1 = "Press ";
