@@ -209,6 +209,7 @@ public:
 		if (controleur == CLAVIER){
 			return controles[std::make_tuple(act, controleur)];
 		}
+		return NULL;
 	}
 
 };

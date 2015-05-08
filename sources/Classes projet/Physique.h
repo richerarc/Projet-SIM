@@ -248,7 +248,7 @@ public:
 			double theta = sin(vecteurNormal.angleEntreVecteurs(rayon));
 			double masse = objet.obtMasse();
 			double vi = objet.obtVitesse().norme();
-			double wi = objet.obtVitesseAngulaire().norme();
+				//double wi = objet.obtVitesseAngulaire().norme();
 
 			// Pour le calcul du moment d'inertie...
 			Vecteur3d  coteX = { BoiteDeCollisionModifiee[7].x - BoiteDeCollisionModifiee[4].x,
@@ -464,9 +464,9 @@ public:
 
 		normale.normaliser();
 
-		double x = fabs(normale.x);
-		double y = fabs(normale.y);
-		double z = fabs(normale.z);
+		double x = std::fabs(normale.x);
+		double y = std::fabs(normale.y);
+		double z = std::fabs(normale.z);
 
 		if (y >= x && y >= z) {
 
@@ -570,15 +570,15 @@ public:
 			rayonCollision = Droite(point, joueur->obtVitesse());
 
 			if (collisionDroiteModele(salle->obtModele(), rayonCollision, pointCollision, normale)) {
-				if (fabs(normale.x) < 0.05f)
+				if (std::fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
-				if (fabs(normale.z) < 0.05f)
+				if (std::fabs(normale.z) < 0.05f)
 					normale.z = 0.f;
 				normale.normaliser();
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
 				if (normale.y == 1)	collision = SOLDROIT;
-				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))	collision = SOLCROCHE;
+				if (normale.y > std::fabs(normale.x) && normale.y > std::fabs(normale.z))	collision = SOLCROCHE;
 				if (normale.y == 0){
 					//joueur->defNormale(normale);
 					collision = MUR;

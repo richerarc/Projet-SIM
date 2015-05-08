@@ -184,7 +184,7 @@ namespace graphe{
 					}
 					if (assigner){
 						matrice[(sommetsArbres[3] * nombreSommet) + sommet[0]]++; // connection pont->arbre
-						assigner = false;
+																				  //assigner = false;
 					}
 					matrice[(sommet[0] * nombreSommet) + sommetsArbres[2]]++; // connection pont->arbre
 					break;
@@ -279,7 +279,7 @@ namespace graphe{
 					}
 					if (assigner){
 						matrice[(sommet[0] * nombreSommet) + sommetsArbres[1]]++; // connection pont->arbre
-						assigner = false;
+																				  //assigner = false;
 					}
 					matrice[(sommetsArbres[0] * nombreSommet) + sommet[0]]++; // connection arbre->Pont
 					break;
@@ -416,7 +416,7 @@ namespace graphe{
 						}
 						if (assigner){
 							matrice[(sommet[0] * nombreSommet) + sommetLien1]++; // connection arbre->pont
-							assigner = false;
+																				 //assigner = false;
 						}
 						matrice[(sommetLien2 * nombreSommet) + sommet[0]]++; // connection pont->arbre
 						break;

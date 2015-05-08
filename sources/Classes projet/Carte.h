@@ -93,7 +93,7 @@ private:
 			} while (point[i].y != point[j].y);
 
 			// Positionnement des points de blender dans le même sens...
-			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
+			if (std::abs(normale.x) != 1 && std::abs(normale.z) != 1) {
 				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 					if (point[i].x > point[j].x) {
 						swap = point[i];
@@ -223,7 +223,7 @@ private:
 
 		Vecteur3d hypothenuse = Physique::obtInstance().vecteurEntreDeuxPoints(pointDeCalcul1, pointDeCalcul2);
 
-		if (abs(hypothenuse.y) <= 2.71) {
+		if (std::abs(hypothenuse.y) <= 2.71) {
 			return false;
 		}
 
@@ -390,8 +390,6 @@ public:
 			porte[i] = 0;
 
 		for (unsigned int i = 0; i < nombreDeSalle; ++i){
-			if (i == 10)
-				int hue = 0;
 			itterateurPorte = 0;
 			for (unsigned int j = 0; j < nombreDeSalle; ++j){
 				if (carte.matrice[i * nombreDeSalle + j]){
@@ -399,11 +397,10 @@ public:
 					sortie = std::make_tuple(j, porte[j]);
 					++porte[j];
 					ajouterLien(entree, sortie);
-					Sortie pieceSuivante = liens[entree];
 				}
 			}
 		}
-
+		
 		// Load des salles possibles
 		std::ifstream fichierSalle("salle_text.txt");
 		std::ifstream fichierObjet("objet_text.txt");
@@ -411,9 +408,9 @@ public:
 
 		int itterateur(0);
 		while (!fichierSalle.eof()) {
-			char* curseur1 = new char[20];
-			char* curseur2 = new char[20];
-			char* curseur3 = new char[20];
+			char* curseur1 = new char[255];
+			char* curseur2 = new char[255];
+			char* curseur3 = new char[255];
 			fichierSalle >> curseur1; fichierSalle >> curseur2; fichierSalle >> curseur3;
 			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2, curseur3));
 			++itterateur;
@@ -421,7 +418,7 @@ public:
 
 		int nbrPuzzle(0);
 		while (!fichierPuzzle.eof()) {
-			char* curseur1 = new char[20];
+			char* curseur1 = new char[255];
 			fichierPuzzle >> curseur1;
 			cheminsPuzzle.push_back(curseur1);
 			++nbrPuzzle;
@@ -456,13 +453,12 @@ public:
 			--nbrPuzzle;
 			LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
 			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return chemin == cheminsPuzzle[aleatoire];}));
-			int lol = salle2.boitesCollision.size();
 			BoiteCollision<double> boiteTemp = salle2.obtBoiteCollisionModifie((2/*rand() % salle.boitesCollision.size()*/));
 			
 			if (boiteTemp.obtGrandeurX() - boiteTemp.obtGrandeurZ() < 0){
 				double deltaXmen;
 				for (auto &it : puzzle.objet){
-					deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
+					deltaXmen = std::fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
 					it.rotation = 270;
 					if (it.position.x < 0){
 						it.position.x += deltaXmen;
@@ -523,7 +519,6 @@ public:
 		}
 
 		finChargement = true;
-		//SDL_GL_DeleteContext(c);
 	}
 
 	void debut() {
