@@ -63,3 +63,5 @@
 `Mar. 28 avr.` Moi et Julien avons travaillé sur le système qui permet au joueur de perdre de la santé mantale. nous avons aussi travailler sur les menus de sons, et j'ai terminé lundi le menu de controle pour permetre d'utiliser les boutons de la souris dans le jeux. `9H00 => 3h00 lun. + 6H00 mar.`
 
 `Mer. 06 mai.` ... bonnn... petit laisser aller dans le journal de bord, mais j'ai tout de même activement travaillé sur le puzzle avec julien, tout en aidant les autre, (au moins 10 h le semaine dernière). Voilà que les puzzle existe, et sont dans les salle, il reste à les rotater, et les filler. `2h00`
+
+`Jeu. 07 mai.` On a enfin fais spawner des pendules qui bougent avec la physique. On s'occupe aussi de "filler" les espace autour; c'est vraiment propre comme solution. Aussi, les rotation du puzzle ce fait, avec quelque problème restant. Je ne suis toujours pas capable de faire quoi que ce soit avec mon executable sur mac... c'est plus que chiant étant donné les 3h30 que j'ai passé la dessus. `8h00`
