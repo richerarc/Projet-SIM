@@ -10,7 +10,7 @@ namespace LecteurFichier{
 
 		if (fichier.is_open()){
 
-			char* ligne = new char();
+			char* ligne = new char[255];
 			Vecteur3d tabBoite[8];
 
 			while (!fichier.eof()){
@@ -29,11 +29,11 @@ namespace LecteurFichier{
 
 	BoiteCollision<double> lireBoiteObjet(char* cheminAcces){
 		std::ifstream fichier(cheminAcces);
-		char* ligne = new char();
+		char* ligne = new char[255];
 		Vecteur3<double> tabBoite[8];
 		double x, y, z;
 
-		fichier.getline(ligne, 256);
+		fichier.getline(ligne, 255);
 
 		for (int i = 0; i < 8; ++i){
 			fichier >> x >> y >> z;
@@ -49,8 +49,8 @@ namespace LecteurFichier{
 		std::ifstream fichier(cheminAcces);
 
 		if (fichier.is_open()) {
-			char *cheminOBJ = new char();
-			char *cheminTEXTURE = new char();
+			char *cheminOBJ = new char[255];
+			char *cheminTEXTURE = new char[255];
 			int type;
 			fichier >> cheminOBJ >> cheminTEXTURE >> type;
 			info.cheminModele = cheminOBJ;
@@ -67,15 +67,15 @@ namespace LecteurFichier{
 		if (fichier.is_open()){
 
 			double x, y, z;
-			char* ligne = new char();
-			char* cheminObjet = new char();
+			char* ligne = new char[255];
+			char* cheminObjet = new char[255];
 			Vecteur3d tabBoite[8];
 			bool tabEntrees[4];
 
 			while (!fichier.eof()){
-				fichier.getline(ligne, 256);
+				fichier.getline(ligne, 255);
 				if (!strcmp(ligne, "puzzle{")){
-					fichier.getline(ligne, 256);
+					fichier.getline(ligne, 255);
 					while (strcmp(ligne, "};")){
 						if (!strcmp(ligne, "boite{")){
 							for (int i = 0; i < 8; ++i){
@@ -83,7 +83,7 @@ namespace LecteurFichier{
 								tabBoite[i] = Vecteur3d(x, y, z);
 							}
 							info.boiteCollision = BoiteCollision<double>(tabBoite);
-							fichier.getline(ligne, 256);
+							fichier.getline(ligne, 255);
 						}
 						if (!strcmp(ligne, "entrees{")) {
 							for (int i = 0; i < 4; ++i) {
@@ -91,7 +91,7 @@ namespace LecteurFichier{
 								tabEntrees[i] = x;
 							}
 							info.entrees = tabEntrees;
-							fichier.getline(ligne, 256);
+							fichier.getline(ligne, 255);
 						}
 						if (!strcmp(ligne, "objet{")){
 							InfoObjet objet;
@@ -104,9 +104,9 @@ namespace LecteurFichier{
 								objet.position = Vecteur3d(x, y, z);
 							}
 							info.objet.push_back(objet);
-							fichier.getline(ligne, 256);
+							fichier.getline(ligne, 255);
 						}
-						fichier.getline(ligne, 256);
+						fichier.getline(ligne, 255);
 					}
 				}
 			}
