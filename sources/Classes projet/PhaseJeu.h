@@ -49,11 +49,11 @@ private:
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
-			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+			//Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur);
+			short typeCollision = /*Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)*/0;
 
 			if (typeCollision == MUR) {
 				//joueur->longer();
