@@ -109,7 +109,7 @@ namespace gfx{
 		bool charger(const char* chemin){
 			std::ifstream Fichier(chemin);
 			if (Fichier.is_open()){
-				char *X = new char(), *Y = new char(), *Z = new char(), *temp = new char();
+				char *X = new char[255], *Y = new char[255], *Z = new char[255], *temp = new char[255];
 				std::vector<double> tmpVertices;
 				std::queue<double> Vertices;
 				std::vector<double> tmpTextures;
