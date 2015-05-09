@@ -296,6 +296,7 @@ public:
 
 		translationVersPositionASJoueur = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionASJoueur);
 		translationVersPositionASJoueur.normaliser();
+
 		// }
 
 		// Calcul de la nouvelle position du joueur et mur/porte
@@ -363,12 +364,13 @@ public:
 							joueur->obtCamera()->defVAngle(0);
 					}
 				}
+
 				if (translationVersPositionASJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionASJoueur)) > 0) {
-					joueur->obtPosition() += translationVersPositionASJoueur * frametime;
+					joueur->defPosition(joueur->obtPosition() + (translationVersPositionASJoueur * frametime));
 				}
 				else
 				{
-					joueur->obtPosition() = positionASJoueur;
+					joueur->defPosition(positionASJoueur);
 				}
 
 				if (joueur->obtCamera()->obtHAngle() == orientationInitialeCamera && joueur->obtCamera()->obtVAngle() == 0 && joueur->obtPosition() == positionASJoueur) {
@@ -387,12 +389,12 @@ public:
 			else
 			{
 				if (translationVersPositionNSFinaleJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionNSFinaleJoueur)) > 0) {
-					joueur->obtPosition() += translationVersPositionNSFinaleJoueur * frametime;
+					joueur->defPosition(joueur->obtPosition() + (translationVersPositionNSFinaleJoueur * frametime));
 					modelePorte->rotationner(0, 0.5, 0);
 				}
 				else
 				{
-					joueur->obtPosition() = positionNSFinaleJoueur;
+					joueur->defPosition(positionNSFinaleJoueur);
 					retirerMur();
 					//joueur->deBloquer();
 					enChangementDeSalle = false;
