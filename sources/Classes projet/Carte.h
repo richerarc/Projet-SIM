@@ -339,15 +339,22 @@ public:
 			if (!teleporte) {
 				// Ajustement de la caméra horizontale...
 				if (joueur->obtCamera()->obtHAngle() != orientationInitialeCamera) {
-					joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
 					if (vitesseHRotation < 0) {
-						if (joueur->obtCamera()->obtHAngle() <= orientationInitialeCamera)
+						if ((joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime)) <= orientationInitialeCamera)
 							joueur->obtCamera()->defHAngle(orientationInitialeCamera);
+						else
+						{
+							joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+						}
 					}
 					else
 					{
-						if (joueur->obtCamera()->obtHAngle() >= orientationInitialeCamera)
+						if (joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime) >= orientationInitialeCamera)
 							joueur->obtCamera()->defHAngle(orientationInitialeCamera);
+						else
+						{
+							joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+						}
 					}
 				}
 
