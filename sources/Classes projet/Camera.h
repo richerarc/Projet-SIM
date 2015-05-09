@@ -41,6 +41,11 @@ namespace gfx{
 			if (vAngle < -89)
 				vAngle = -89;
 
+			if (hAngle < 0)
+				hAngle += 360;
+			if (hAngle > 360)
+				hAngle -= 360;
+
 			double vAngleRadian = vAngle * MATHS_PI / 180;
 			double hAngleRadian = hAngle * MATHS_PI / 180;
 			double cos_vAngle = cos(vAngleRadian);
@@ -125,7 +130,11 @@ namespace gfx{
 
 		double obtHAngle(){	return hAngle; }
 
+		double obtVAngle() { return vAngle; }
+
 		void defHAngle(double hAngle){ this->hAngle = hAngle; calculerVecteurs(); }
+
+		void defVAngle(double vAngle) { this->vAngle = vAngle; calculerVecteurs(); }
 
 		void defDevant(Vecteur3d devant){ this->devant = devant; }
 

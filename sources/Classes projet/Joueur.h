@@ -390,6 +390,8 @@ public:
 
 	void defVitesseY(double y){ this->vitesse.y = y; }
 
+	void defVitesseY(double y) { this->vitesse.y = y; }
+
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
 		this->modele3D->defPosition(position);

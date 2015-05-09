@@ -107,7 +107,7 @@ private:
 public:
 
 	PhaseJeu() : Phase(){
-		joueur = new Joueur(Vecteur3d(-1, 2, -5));
+		joueur = new Joueur(Vecteur3d(-1, 0, -5));
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
@@ -128,7 +128,7 @@ public:
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
-			Carte::obtInstance().bougerMur(joueur, frameTime);
+			Carte::obtInstance().transitionSalle(joueur, frameTime);
 		}
 
 		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
@@ -146,7 +146,6 @@ public:
 			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relach�e bient�t...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
-					Carte::obtInstance().salleActive->remplir();
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
 							cheminRecursif.pop();
