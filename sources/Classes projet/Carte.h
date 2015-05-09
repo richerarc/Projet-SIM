@@ -262,7 +262,7 @@ public:
 
 	int destination(Entree entree, Joueur *joueur) {
 
-		//joueur->bloquer();
+		joueur->bloquer();
 		joueur->defVitesse(Vecteur3d(0, 0, 0));
 
 		salleSuivante = liens[entree];
@@ -396,7 +396,7 @@ public:
 				{
 					joueur->defPosition(positionNSFinaleJoueur);
 					retirerMur();
-					//joueur->deBloquer();
+					joueur->deBloquer();
 					enChangementDeSalle = false;
 				}
 			}
