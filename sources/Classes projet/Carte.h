@@ -366,7 +366,7 @@ public:
 				}
 
 				if (translationVersPositionASJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionASJoueur)) > 0) {
-					joueur->defPosition(joueur->obtPosition() + (translationVersPositionASJoueur * frametime));
+					joueur->defPosition(joueur->obtPosition() + (translationVersPositionASJoueur * frametime * 1.5));
 				}
 				else
 				{
@@ -390,7 +390,7 @@ public:
 			{
 				if (translationVersPositionNSFinaleJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionNSFinaleJoueur)) > 0) {
 					joueur->defPosition(joueur->obtPosition() + (translationVersPositionNSFinaleJoueur * frametime));
-					modelePorte->rotationner(0, 0.5, 0);
+					modelePorte->rotationner(0, 0.4, 0);
 				}
 				else
 				{
