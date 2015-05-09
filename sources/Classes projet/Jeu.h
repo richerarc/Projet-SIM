@@ -93,14 +93,14 @@ public:
 			}
 
 			if (Carte::obtInstance().finChargement) {
-				Carte::obtInstance().debut();
+				double hAngle;
+				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle);
 				gfx::Gestionnaire2D::obtInstance().vider();
 				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle));
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
 				thread_Creation.detach();
-				Carte::obtInstance().salleActive->remplir();
 			}
 
 

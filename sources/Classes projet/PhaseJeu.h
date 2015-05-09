@@ -106,13 +106,13 @@ private:
 
 public:
 
-	PhaseJeu() : Phase(){
-		joueur = new Joueur(Vecteur3d(-1, 0, -5));
+	PhaseJeu(Vecteur3d positionJoueur, double hAngle) : Phase(){
+		joueur = new Joueur(positionJoueur, hAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;
-		
+
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
 		iterateur_x = 0;

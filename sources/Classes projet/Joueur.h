@@ -43,7 +43,7 @@ public:
 
 	Joueur() {}
 
-	Joueur(Vecteur3d position) {
+	Joueur(Vecteur3d position, double hAngle) {
 		this->vitesseDeplacement = 4.f;
 		this->position = position;
 		etat = CHUTE;
@@ -52,14 +52,18 @@ public:
 		santeMentale = 100;
 		vitesse = { 0, 0, 0 };
 		bloque = false;
-		listeCamera[MODELEDEBOUT] = new gfx::Camera;
-		listeCamera[MODELEACCROUPI] = new gfx::Camera;
 		listeModele3D[MODELEDEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
 		listeModele3D[MODELEACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Joueur.png"));
-		camera = listeCamera[MODELEDEBOUT];
-		modele3D = listeModele3D[MODELEDEBOUT];
 		listeModele3D[MODELEDEBOUT]->defPosition(position);
 		listeModele3D[MODELEACCROUPI]->defPosition(position);
+		listeCamera[MODELEDEBOUT] = new gfx::Camera;
+		listeCamera[MODELEACCROUPI] = new gfx::Camera;
+		position.y += 1.74;
+		listeCamera[MODELEDEBOUT]->defPosition(position);
+		listeCamera[MODELEDEBOUT]->defHAngle(hAngle);
+		camera = listeCamera[MODELEDEBOUT];
+		modele3D = listeModele3D[MODELEDEBOUT];
+		camera->defHAngle(hAngle);
 		chronoSaut = Chrono();
 	}
 

@@ -537,7 +537,7 @@ public:
 		//SDL_GL_DeleteContext(c);
 	}
 
-	void debut() {
+	Vecteur3d debut(double& hAngle) {
 		auto debut = infosSalles.begin();
 		std::advance(debut, /*rand() % infosSalles.size()*/1);
 		creerSalle(*debut);
@@ -545,5 +545,9 @@ public:
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
+
+		auto porte = debut->Objet.begin();
+		hAngle = porte->rotation + 90;
+		return porte->position + (porte->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (porte->direction * 0.18);
 	}
 };
