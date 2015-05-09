@@ -65,3 +65,5 @@
 `Mer. 06 mai.` ... bonnn... petit laisser aller dans le journal de bord, mais j'ai tout de même activement travaillé sur le puzzle avec julien, tout en aidant les autre, (au moins 10 h le semaine dernière). Voilà que les puzzle existe, et sont dans les salle, il reste à les rotater, et les filler. `2h00`
 
 `Jeu. 07 mai.` On a enfin fais spawner des pendules qui bougent avec la physique. On s'occupe aussi de "filler" les espace autour; c'est vraiment propre comme solution. Aussi, les rotation du puzzle ce fait, avec quelque problème restant. Je ne suis toujours pas capable de faire quoi que ce soit avec mon executable sur mac... c'est plus que chiant étant donné les 3h30 que j'ai passé la dessus. `8h00`
+
+ˋVen. 08 mai.ˋ Enfin le bug sur Mac est réglé! Il était temps, étant donné les 11h30 passer à essayer d'arranger ça. Moi et Julien avons continuer les puzzles, mais nous n'en avons pas coder de nouveau ˋ2h00`
