@@ -58,3 +58,7 @@ J'ai essayer de trouver pourquoi ca plante. On m'a donner un autre projet et la 
 J'ai travailler sur le changement du bouton et de les sprites. Les boutons marches mais j'ai pas trouver pourquoi la surface du sprite ne se remets pas correct.
 ### Jeudi 7 mai ~2h30
 J'ai travailler sur mon modèle de piece. J'ai fait les texture et il ne me reste que les boites de collision. Je vais faire un modèle de coffre et d'une clef plus tard ce soir. Je vais mettre mon journal a jour ce soir quand tout sera completer. Je n'ai pas fait le modèle. Je l'ai commencer, mais j'ai regarder des videos sur youtube. Je blend un coffre et une clée. ~30 minutes
+###Vendredi 8 mai ~1h30
+J'ai fait le coffre mais presque terminé.
+###Samedi 9 mai ~30 min
+J'ai fini mon coffre.
