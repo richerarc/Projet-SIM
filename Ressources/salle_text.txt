@@ -9,3 +9,4 @@ SalleEscalier.obj SalleEscalier.png
 SalleEscalierDesaxee.obj SalleEscalierDesaxee.png
 SalleHexagonale.obj SalleHexagonale.png
 SalleOctogonale.obj SalleOctogonale.png
+SalleMulti.obj SalleMulti.png
