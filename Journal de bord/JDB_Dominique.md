@@ -59,3 +59,5 @@
 07/05/2015 (10h00 à 11h55) : J'ai terminé mon longement, puis j'ai commencé à le faire marcher avec le code de Kevin et Nathan. Il semblerait que quelque chose redéfinit la vitesse après le longement sans que ce soit voulu.
 
 08/05/2015 (11h00 à 12h50) : J'ai réussi à faire marcher le longement avec le déplacement. Il ne reste que quelques bugs.
+
+11/05/2015 (12h00 à 2h00) : J'ai (enfin) fini le longement, je vais l'intégrer au projet principal demain. Je sais d'où provient le dernier bug et il ne nuit pas au fonctionnement du jeu.
