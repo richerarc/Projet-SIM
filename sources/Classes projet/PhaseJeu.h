@@ -51,7 +51,7 @@ private:
 				break;
 			}
 		}
-		joueur->defSanteMentale((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f));
+		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 	}
 
 
@@ -161,7 +161,7 @@ public:
 			}
 		}
 		if (!this->pause) {
-			joueur->deplacement();
+			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);

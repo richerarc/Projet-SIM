@@ -5,7 +5,8 @@
 #include "Chrono.h"
 #include "Droite.h"
 #include "Plan.h"
-#include "Carte.h"
+#include "Vent.h"
+#include "Aimant.h"
 #include "Pendule.h"
 #include <string>
 
