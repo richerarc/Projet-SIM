@@ -436,7 +436,7 @@ public:
 		Entree entree;
 		Sortie sortie;
 		for (unsigned int i = 0; i < nombreDeSalle; ++i)
-			porte[i] = 0;
+			porte[i] = carte.degreSortant(i);
 
 		for (unsigned int i = 0; i < nombreDeSalle; ++i){
 			if (i == 10)
@@ -445,8 +445,7 @@ public:
 			for (unsigned int j = 0; j < nombreDeSalle; ++j){
 				if (carte.matrice[i * nombreDeSalle + j]){
 					entree = std::make_tuple(i, itterateurPorte++, false);
-					sortie = std::make_tuple(j, porte[j]);
-					++porte[j];
+					sortie = std::make_tuple(j, rand() % porte[j]);
 					ajouterLien(entree, sortie);
 					Sortie pieceSuivante = liens[entree];
 				}
