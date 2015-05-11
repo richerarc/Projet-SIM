@@ -15,6 +15,7 @@
 #include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
 #include "Joueur.h"
+#include "ControlleurAudio.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -391,13 +392,14 @@ public:
 					ajouterMur();
 					joueur->defPosition(positionNSInitialeJoueur);
 					joueur->obtCamera()->defHAngle(orientationFinaleCamera);
+					ControlleurAudio::obtInstance().jouer(OUVERTURE_PORTE_1, joueur);
 				}
 			}
 			else
 			{
 				if (translationVersPositionNSFinaleJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionNSFinaleJoueur)) > 0) {
 					joueur->defPosition(joueur->obtPosition() + (translationVersPositionNSFinaleJoueur * frametime));
-					modelePorte->rotationner(0, 0.4, 0);
+					modelePorte->rotationner(0, 1.6, 0);
 				}
 				else
 				{
@@ -405,6 +407,7 @@ public:
 					retirerMur();
 					joueur->deBloquer();
 					enChangementDeSalle = false;
+					ControlleurAudio::obtInstance().jouer(FERMETURE_PORTE, joueur);
 				}
 			}
 		}

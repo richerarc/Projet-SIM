@@ -23,7 +23,6 @@ public:
 		this->cheminIcone = cheminIcone;
 		this->maxPile = maxPile;
 		etat = EQUIPE;
-		defEtat(EtatItem::DEPOSE);
 		salleActive = nullptr;
 	}
 
