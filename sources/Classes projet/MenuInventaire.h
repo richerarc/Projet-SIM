@@ -25,22 +25,22 @@ public:
 		for (int i = 0; i < inventaire->obtTailleSacADos(); ++i){
 			position.x = 300 + (i % inventaire->obtTailleAccesRapide()) * 70;
 			position.y = 200 + int(i / inventaire->obtTailleAccesRapide()) * 70;
-			casesSacADos.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
+			casesSacADos.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
 			Item* objet = inventaire->obtObjetSacADos(i);
 			if (objet != nullptr)
-				objetsSacADos.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture(inventaire->obtObjetSacADos(i)->obtCheminIcone())));
+				objetsSacADos.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture(inventaire->obtObjetSacADos(i)->obtCheminIcone())));
 			else
 				objetsSacADos.push_back(new gfx::Sprite2D(position, nullptr));
 		}
 
 		for (int i = 0; i < inventaire->obtTailleAccesRapide(); ++i){
 
-			position.x = 1200;
+			position.x = 1190;
 			position.y = 10 + i * 70;
-			casesAccesRapide.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
+			casesAccesRapide.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
 			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
-				objetsAccesRapide.push_back(new gfx::Sprite2D(position, &gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone())));
+				objetsAccesRapide.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone())));
 			else
 				objetsAccesRapide.push_back(new gfx::Sprite2D(position, nullptr));
 		}
@@ -54,6 +54,7 @@ public:
 
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&MenuInventaire::surClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&MenuInventaire::survol, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuInventaire::toucheAppuyee, this, std::placeholders::_1));
 
 	}
 
@@ -90,7 +91,7 @@ public:
 		for (int i = 0; i < inventaire->obtTailleSacADos(); ++i){
 			Item* objet = inventaire->obtObjetSacADos(i);
 			if (objet != nullptr)
-				objetsSacADos[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
+				objetsSacADos[i]->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
 			else
 				objetsSacADos[i]->defTexture(nullptr);
 		}
@@ -98,14 +99,31 @@ public:
 		for (int i = 0; i < inventaire->obtTailleAccesRapide(); ++i){
 			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
-				objetsAccesRapide[i]->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
+				objetsAccesRapide[i]->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone()));
 			else
 				objetsAccesRapide[i]->defTexture(nullptr);
 		}
 		if (objetCurseur != nullptr)
-			spriteObjetCurseur->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture(objetCurseur->obtCheminIcone()));
+			spriteObjetCurseur->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture(objetCurseur->obtCheminIcone()));
 		else
 			spriteObjetCurseur->defTexture(nullptr);
+	}
+
+	void toucheAppuyee(SDL_Event &event){
+		if (pause)
+			return;
+		if (event.key.keysym.sym == SDLK_ESCAPE){
+			if (objetCurseur != nullptr){
+				inventaire->ajouterObjet(objetCurseur);
+				objetCurseur = nullptr;
+			}
+			gfx::Gestionnaire2D::obtInstance().vider();
+			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+			GestionnairePhases::obtInstance().enleverPhaseActive();
+			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+			gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
+			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+		}
 	}
 
 	void surClic(SDL_Event &event){
@@ -189,7 +207,7 @@ public:
 	void survol(SDL_Event &event){
 		if (pause)
 			return;
-
+		actualiserAffichage();
 		spriteObjetCurseur->defPosition(Vecteur2f(Curseur::obtPosition().x - 32, Curseur::obtPosition().y - 32));
 		if (objetCurseur != nullptr){
 			texteNom->defTexte(new std::string(objetCurseur->obtNom()));
@@ -205,10 +223,10 @@ public:
 					texteNom->defTexte(new std::string(inventaire->obtObjetAccesRapide(ID)->obtNom()));
 					texteDescription->defTexte(new std::string(inventaire->obtObjetAccesRapide(ID)->obtDescription()));
 				}
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
 			}
 			else{
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
 			}
 			ID++;
 		}
@@ -220,10 +238,10 @@ public:
 					texteNom->defTexte(new std::string(inventaire->obtObjetSacADos(ID)->obtNom()));
 					texteDescription->defTexte(new std::string(inventaire->obtObjetSacADos(ID)->obtDescription()));
 				}
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
 			}
 			else{
-				sprite->defTexture(&gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
 			}
 			ID++;
 		}
@@ -245,6 +263,19 @@ public:
 		for (gfx::Sprite2D* sprite : objetsAccesRapide)
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(sprite);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ texteNom, texteDescription, spriteObjetCurseur });
+	}
+
+	void vider(){
+		for (gfx::Sprite2D* sprite : casesSacADos)
+			gfx::Gestionnaire2D::obtInstance().retObjet(sprite);
+		for (gfx::Sprite2D* sprite : casesAccesRapide)
+			gfx::Gestionnaire2D::obtInstance().retObjet(sprite);
+
+		for (gfx::Sprite2D* sprite : objetsSacADos)
+			gfx::Gestionnaire2D::obtInstance().retObjet(sprite);
+		for (gfx::Sprite2D* sprite : objetsAccesRapide)
+			gfx::Gestionnaire2D::obtInstance().retObjet(sprite);
+		gfx::Gestionnaire2D::obtInstance().retObjets({ texteNom, texteDescription, spriteObjetCurseur });
 	}
 
 	void defPause(bool pause){

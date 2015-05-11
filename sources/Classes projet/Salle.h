@@ -62,6 +62,10 @@ public:
 		objets.push_back(objet);
 	}
 
+	void retirerObjet(Objet *objet){
+		objets.remove(objet);
+	}
+
 	Objet* obtObjet(unsigned int ID){
 		for (auto it : objets){
 			if (it->obtID() == ID)

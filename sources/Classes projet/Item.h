@@ -3,7 +3,7 @@
 #include "ObjetPhysique.h"
 #include "Salle.h"
 #include <math.h>
-enum class EtatItem { EQUIPE, RANGE, DEPOSE };
+enum EtatItem { EQUIPE, RANGE, DEPOSE };
 
 class Item : public ObjetPhysique{
 private:
@@ -22,44 +22,51 @@ public:
 		this->description = description;
 		this->cheminIcone = cheminIcone;
 		this->maxPile = maxPile;
-		etat = EtatItem::EQUIPE;
+		etat = EQUIPE;
+		defEtat(EtatItem::DEPOSE);
 		salleActive = nullptr;
 	}
 
 	void defEtat(EtatItem etat){
 		if (etat == this->etat)
 			return;
+		gfx::Gestionnaire3D::obtInstance().retObjet(modele);
 
 		if (etat == EtatItem::EQUIPE){
+			vitesse = Vecteur3d(0, 0, 0);
 			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant()*0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut()*0.13 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote()*0.5;
 			modele->defPosition(position);
 			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
 		}
 
-		else if (etat == EtatItem::DEPOSE)
-		{
+		else if (etat == EtatItem::DEPOSE){
 			if (!salleActive)
 				return;
+			vitesse = Vecteur3d(0.1, 0, 0);
 			salleActive->ajoutObjet(this);
+			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
 		}
 		else if (etat == EtatItem::RANGE){
+			vitesse = Vecteur3d(0, 0, 0);
+			if (this->etat == EtatItem::DEPOSE)
+				salleActive->retirerObjet(this);
 			gfx::Gestionnaire3D::obtInstance().retObjet(modele);
 		}
 		this->etat = etat;
 	}
 
-	void actualiser(Salle* salleActuelle, int etatJoueur){
+	void actualiser(Salle* salleActuelle, double vitesseJoueur){
 		this->salleActive = salleActuelle;
 		if (etat == EtatItem::EQUIPE){
-			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant()*0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut()*0.43 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote()*0.5;
+			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.33 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * 0.4;
 			modele->defPosition(position);
 			modele->defOrientation(0, 0, 0);
-			//if (etatJoueur == 2){
-			//	double tempsAnimation = animation.obtTempsEcoule().enSecondes();
-			//	modele->rotationner(10 * sin(10 * tempsAnimation), 0, 0);
-			//	modele->rotationner(0, 0, 10 * sin(10 * tempsAnimation) - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
-			//}
-			//else
+			if (vitesseJoueur > 0){
+				double tempsAnimation = animation.obtTempsEcoule().enSecondes();
+				//modele->rotationner(40 * sin(5 * tempsAnimation), 0, 0);
+				//modele->rotationner(0, 0, 40 * sin(5 * tempsAnimation) - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
+			}
+			else
 				modele->rotationner(0, 0, -gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 			modele->rotationner(0, 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle(), 0);
 		}

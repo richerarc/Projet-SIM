@@ -3,6 +3,7 @@
 #include "Vecteur3.h"
 #include "Plan.h"
 #include "GestionnaireControle.h"
+#include "Inventaire.h"
 
 enum etat { STABLE, MARCHE, SAUT, CHUTE };
 enum modele { MODELEDEBOUT, MODELEACCROUPI };
@@ -23,6 +24,8 @@ private:
 	Vecteur3d pointCollision;
 	bool bloque;
 	Chrono chronoSaut;
+
+	Inventaire* inventaire;
 
 	/*y=-(Ax+Cz+d)/B */
 	void ajusterVitesse(){
@@ -65,6 +68,7 @@ public:
 		modele3D = listeModele3D[MODELEDEBOUT];
 		camera->defHAngle(hAngle);
 		chronoSaut = Chrono();
+		inventaire = new Inventaire(Vecteur2f(9, 3));
 	}
 
 	~Joueur() {
@@ -474,4 +478,6 @@ public:
 	int obtEtat(){ return etat; }
 
 	Vecteur3d obtVectOrientationVue() { return camera->obtDevant(); }
+
+	Inventaire* obtInventaire(){ return this->inventaire; }
 };
