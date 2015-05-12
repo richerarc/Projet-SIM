@@ -19,6 +19,7 @@
 #include "Remplisseur.h"
 //#include "Balance.h"
 #include "ControlleurAudio.h"
+#include "Vent.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -166,7 +167,7 @@ private:
 
 				if (it_Porte.largeur != 0) {
 
-					/*if (it_Porte.rotation == 0) {
+					if (it_Porte.rotation == 0) {
 
 						if (objet.position.z < it_Porte.position.z || objet.position.x < it_Porte.position.x + it_Porte.largeur)
 							PorteAuMur = false;
@@ -175,7 +176,7 @@ private:
 					else if (it_Porte.rotation == 180) {
 						if (objet.position.z > it_Porte.position.z || objet.position.x < it_Porte.position.x)
 							PorteAuMur = false;
-					}*/
+					}
 				}
 
 				// Si les portes ont la même direction...
@@ -267,9 +268,9 @@ private:
 				case REMPLISSEUR:
 					salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
 					break;
-//				case BALANCE:
-//					salleActive->ajoutObjet(new Balance(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, true, false, 2));
-//					break;
+				case VENT:
+					salleActive->ajoutObjet(new Vent(modeleporte, it.ID, Vecteur3d(0,5,0), it.position, Vecteur3d(it.largeur, 20, it.largeur)));
+					break;
 			}
 		}
 
@@ -641,7 +642,8 @@ public:
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
 
-		auto porte = debut->Objet.begin();
+		auto porte = debut->Objet.end();
+		--porte;
 		hAngle = porte->rotation + 90;
 		return porte->position + (porte->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (porte->direction * 0.18);
 	}

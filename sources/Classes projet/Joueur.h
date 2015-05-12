@@ -129,54 +129,43 @@ public:
 				}*/
 
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))) {
-					//etat = MARCHE;
-					Vecteur3d tmpNormale = { 0, 0, 0 };
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-						tmpNormale = normale;
-					}
-					if (vitesseDeplacement > 5.f && (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))))
-						vitesseDeplacement = 4.f;
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-						tmpNormale = normale;
-					}
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
 					}
 					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
 						vitesse = devant * vitesseDeplacement;
-					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-								vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-							}
-							else
-								vitesse = vitesse + (cote * vitesseDeplacement);
+					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
+						if (normale.x != 0.f || normale.z != 0.f) {
+							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
 						}
+						else
+							vitesse = vitesse + (cote * vitesseDeplacement);
+					}
 
-						else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesseTemp.x = cote.x * vitesseDeplacement;
-								vitesseTemp.z = cote.z * vitesseDeplacement;
-							}
-							else
-								vitesseTemp = cote * vitesseDeplacement;
-							vitesseTemp.inverser();
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x = vitesse.x + vitesseTemp.x;
-								vitesse.z = vitesse.z + vitesseTemp.z;
-							}
-							else
-								vitesse = vitesse + vitesseTemp;
+					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
+						if (normale.x != 0.f || normale.z != 0.f) {
+							vitesseTemp.x = cote.x * vitesseDeplacement;
+							vitesseTemp.z = cote.z * vitesseDeplacement;
 						}
+						else
+							vitesseTemp = cote * vitesseDeplacement;
+						vitesseTemp.inverser();
+						if (normale.x != 0.f || normale.z != 0.f) {
+							vitesse.x = vitesse.x + vitesseTemp.x;
+							vitesse.z = vitesse.z + vitesseTemp.z;
+						}
+						else
+							vitesse = vitesse + vitesseTemp;
 					}
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						if (vitesseDeplacement > 5.f && (devant.produitScalaire(tmpNormale) < 0.f))
-							vitesseDeplacement = 4.f;
-						//vitesse *= 2;
+						Vecteur3d tmpNormale;
+						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
+							tmpNormale = normale;
+						}
 						if (devant.produitScalaire(tmpNormale) > 0.f) {
-							//etat = MARCHE;
+							etatDynamique = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -186,7 +175,6 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
-					//etat = MARCHE;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
@@ -197,39 +185,39 @@ public:
 						vitesse = devant * vitesseDeplacement;
 						vitesse.inverser();
 					}
-					if (vitesseDeplacement < 5) {
-						if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-								vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-							}
-							else
-								vitesse = vitesse + (cote * vitesseDeplacement);
+					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
+						if (normale.x != 0.f || normale.z != 0.f) {
+							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
 						}
-						else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesseTemp.x = cote.x * vitesseDeplacement;
-								vitesseTemp.z = cote.z * vitesseDeplacement;
-							}
-							else
-								vitesseTemp = cote * vitesseDeplacement;
-							vitesseTemp.inverser();
-							if (normale.x != 0.f || normale.z != 0.f) {
-								vitesse.x = vitesse.x + vitesseTemp.x;
-								vitesse.z = vitesse.z + vitesseTemp.z;
-							}
-							else
-								vitesse = vitesse + vitesseTemp;
+						else
+							vitesse = vitesse + (cote * vitesseDeplacement);
+					}
+
+					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
+						if (normale.x != 0.f || normale.z != 0.f) {
+							vitesseTemp.x = cote.x * vitesseDeplacement;
+							vitesseTemp.z = cote.z * vitesseDeplacement;
 						}
+						else
+							vitesseTemp = cote * vitesseDeplacement;
+						vitesseTemp.inverser();
+						if (normale.x != 0.f || normale.z != 0.f) {
+							vitesse.x = vitesse.x + vitesseTemp.x;
+							vitesse.z = vitesse.z + vitesseTemp.z;
+						}
+						else
+							vitesse = vitesse + vitesseTemp;
 					}
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
 						Vecteur3d tmpNormale;
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
+						//ajusterVitesse();
 						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							//etat = MARCHE;
+							etatDynamique = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -239,17 +227,13 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-					//etat = MARCHE;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesseTemp.x = cote.x * vitesseDeplacement;
 						vitesseTemp.z = cote.z * vitesseDeplacement;
-						vitesse.x = -vitesse.x;
-						vitesse.z = -vitesse.z;
 					}
-					else {
+					else
 						vitesseTemp = cote * vitesseDeplacement;
-						vitesseTemp.inverser();
-					}
+					vitesseTemp.inverser();
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + vitesseTemp.x;
 						vitesse.z = vitesse.z + vitesseTemp.z;
@@ -262,9 +246,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							//etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -274,22 +256,18 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
-					//etat = MARCHE;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
+						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 					}
 					else
 						vitesse = vitesse + (cote * vitesseDeplacement);
-
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
 						Vecteur3d tmpNormale;
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							//etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;

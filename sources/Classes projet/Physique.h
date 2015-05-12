@@ -161,7 +161,7 @@ public:
 						if (it_Objet->obtModele3D()->obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D()->obtPosition().x <= it->obtPosition().x + it_Vent->obtDimensions().x) {
 							if (it_Objet->obtModele3D()->obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D()->obtPosition().y <= it->obtPosition().y + it_Vent->obtDimensions().y) {
 								if (it_Objet->obtModele3D()->obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D()->obtPosition().z <= it->obtPosition().z + it_Vent->obtDimensions().z) {
-									Physique::obtInstance().appliquerVent(it->obtVitesse(), *it_Objet, frameTime);
+									Physique::obtInstance().appliquerVent(it->obtVitesse(), (*it_Objet).obtVitesse(), (*it_Objet).obtModele3D(), it->obtMasse(), frameTime);
 								}
 							}
 						}
@@ -200,7 +200,15 @@ public:
 			}
 		}
 	}
-
+	
+	void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
+		Vent* it_Vent = dynamic_cast<Vent*>(objet);
+		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
+		Pendule* it_Pendule = dynamic_cast<Pendule*>(objet);
+		if (it_Pendule != nullptr) {
+		}
+	}
+	
 	void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
 
 		Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
@@ -323,17 +331,17 @@ public:
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet, double frametime) {
+void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::Modele3D* modele, double masse, double frametime) {
 
-		double* tableaunormale = objet.obtModele3D()->obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
-		double* tableauVertices = objet.obtModele3D()->obtSommetsModifies();
+		double* tableaunormale = modele->obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
+		double* tableauVertices = modele->obtSommetsModifies();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreVertice = objet.obtModele3D()->obtModele()->obtNbrVertices();
+		double nombreVertice = modele->obtModele()->obtNbrVertices();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -382,7 +390,7 @@ public:
 		coefficientTrainer /= nombreFaceSousPression;
 
 		// Fin du calcul...
-		accelerationSelonForceVent *= (coefficientTrainer * surface / objet.obtMasse());
+		accelerationSelonForceVent *= (coefficientTrainer * surface / masse);
 
 		// Mise en proportion pour l'addition...
 		vecteurVitesseVent.normaliser();
@@ -390,7 +398,7 @@ public:
 		// Nécéssite l'ajout d'un division par le temps...
 		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
 
-		objet.obtVitesse() += vecteurVitesseAppliquer * frametime;
+		vitesseObjet += vecteurVitesseAppliquer * frametime;
 	}
 
 	void appliquerFrottement(Objet& objet, Vecteur3d& normale) {
