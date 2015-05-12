@@ -12,7 +12,7 @@
 
 enum collision{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
 
-class Physique : public Singleton<Physique>{
+class Physique : public Singleton < Physique > {
 private:
 
 	double gravite;
@@ -21,7 +21,7 @@ private:
 	std::map<char*, double> mapRestitution;
 	bool collision;
 
-	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
+	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, Vecteur3d* verticesPlan) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -69,12 +69,17 @@ private:
 						normale.normaliser();
 						rayonCollision.obtenirVecteurDirecteur().normaliser();
 						scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
-						if (scalaire < 0 && (Maths::distanceEntreDeuxPoints(pointCollision, rayonCollision.obtenirPoint()) < 1))
+						if (scalaire < 0 && (Maths::distanceEntreDeuxPoints(pointCollision, rayonCollision.obtenirPoint()) < 1)){
+							verticesPlan[0] = point1;
+							verticesPlan[1] = point2;
+							verticesPlan[2] = point3;
 							return true;
+						}
 					}
 				}
 			}
 		}
+		verticesPlan = nullptr;
 		return false;
 	}
 
@@ -147,7 +152,7 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
-	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle,std::list<Objet*> objets, float frameTime) {
+	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> objets, float frameTime) {
 
 		for (auto it : objets) {
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
@@ -187,7 +192,7 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle,objets, *it)) {
+				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it)) {
 					appliquerGravite(it->obtVitesse(), frameTime);
 					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 				}
@@ -417,7 +422,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D* modeleSalle,std::list<Objet*> listeObjet , Objet& objet) {
+	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -431,7 +436,7 @@ public:
 			point = tabObjet[i];
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr)) {
 
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
@@ -465,11 +470,12 @@ public:
 		return false;
 	}
 
-	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Vecteur3d* bteCollision, Vecteur3d& vitesseJoueur, Vecteur3d&normaleJoueur, Vecteur3d&normaleMur, Vecteur3d& pointCollisionJoueur, Vecteur3d& positionJoueur) {
+	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Vecteur3d* bteCollision, Vecteur3d& vitesseJoueur, Vecteur3d&normaleJoueur, Vecteur3d&normaleMur, Vecteur3d& pointCollisionJoueur, Vecteur3d& positionJoueur, Vecteur3d* verticesCollision) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
+		float hauteur;
 		short collision = AUCUNE;
 
 		for (int i = 0; i < 8; i++) {
@@ -478,7 +484,7 @@ public:
 
 			rayonCollision = Droite(point, vitesseJoueur);
 			bool mur = false;
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, verticesCollision)) {
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
 				if (fabs(normale.z) < 0.05f)
@@ -486,7 +492,7 @@ public:
 				normale.normaliser();
 				normaleJoueur = (normale);
 				pointCollisionJoueur = (pointCollision);
-				if (normale.y == 1)	
+				if (normale.y == 1)
 					collision = SOLDROIT;
 				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))
 					collision = SOLCROCHE;
@@ -497,24 +503,23 @@ public:
 				}
 				else {
 					if (!mur && i == 7)
-						normaleMur = Vecteur3d(0., 1., 0.);
+						normaleMur = Vecteur3d(0.f, 1.f, 0.f);
 				}
+
 				if (collision != MUR) {
 					Vecteur3d pointDifference = pointCollision - point;
-					positionJoueur.y +=  pointDifference.y;
+					positionJoueur.y += pointDifference.y;
 				}
 				else{
 					Vecteur3d pointDifference = pointCollision - point;
-					//if (HauteurVertice > 3)
-					positionJoueur = Vecteur3d( positionJoueur.x + pointDifference.x, positionJoueur.y, positionJoueur.z + pointDifference.z );
-					//else
-					//position += pointDifference;
+						positionJoueur = Vecteur3d(positionJoueur.x + pointDifference.x, positionJoueur.y, positionJoueur.z + pointDifference.z);
 				}
 			}
 		}
 		if (collision == AUCUNE) {
-				normaleJoueur = Vecteur3d({ 0, 0, 0 });
-			}
+			normaleJoueur = Vecteur3d({ 0, 0, 0 });
+		}
+
 		return collision;
 	}
 

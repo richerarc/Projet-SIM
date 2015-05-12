@@ -18,6 +18,7 @@ private:
 	Vecteur3d vitesse;
 	Vecteur3d normale;
 	Vecteur3d pointCollision;
+	Vecteur3d verticesCollision[3];
 	double masse;
 	float vitesseDeplacement;
 	short santePhysique, santeMentale;
@@ -284,7 +285,7 @@ public:
 					}
 				}
 			}
-		//	short typeCollision = Physique::obtInstance().collisionJoueurSalle(modele3D, modele3D->obtBoiteDeCollisionModifiee(), vitesse, normale, pointCollision, position);
+			//	short typeCollision = Physique::obtInstance().collisionJoueurSalle(modele3D, modele3D->obtBoiteDeCollisionModifiee(), vitesse, normale, pointCollision, position);
 			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0)
 				modele3D->defOrientation(0, (camera->obtHAngle()), 0);
 		}
@@ -461,6 +462,8 @@ public:
 	short obtSanteMentale(){ return santeMentale; }
 
 	Vecteur3d& obtPointCollision(){ return this->pointCollision; }
+
+	Vecteur3d* obtVerticesCollision(){ return this->verticesCollision; }
 
 	Vecteur3d& obtPosition(){ return this->position; }
 
