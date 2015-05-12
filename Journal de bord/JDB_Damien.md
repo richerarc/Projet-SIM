@@ -87,3 +87,5 @@
 	Finalisation de l'animation des portes qui, enfin disparaissent en touchant le mur et réaparraisent en changant de salle. Le joueur ne peut pas bouger tant que le faux mur ne touche pas le vrai mur. Aussi début de la rotation du joueur en changeant de salle afin qu'il fasse face au faux mur.
 #Jeudi 7 mai (10:00 à 14:00)
 	Modification du changement de l'angle de vision du joueur lors de la fin d'une téléportation ainsi que l'ajout d'un défénir devant dans la caméra.
+#Mardi 12 mai (14:40 à 17:30)
+	Réorganisation des taches de tous et modélisation d'une boîte de thai, d'une salle ainsi que le début de la modélisation de la salle de fin.

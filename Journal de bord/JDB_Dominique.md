@@ -63,3 +63,4 @@
 11/05/2015 (12h00 à 2h00) : J'ai (enfin) fini le longement, je vais l'intégrer au projet principal demain. Je sais d'où provient le dernier bug et il ne nuit pas au fonctionnement du jeu.
 
 12/05/2015 (8h10 à 8h40) : J'ai mis le longement sur master. Je l'ai testé pour vérifier qu'il ne crée pas de problèmes avec la dernière version de master.
+           (2h00 à 5h00) : J'étais présent pour la petite réunion de l'équipe, dans laquelle j'ai été assigné avec Sam pour créer les succès. Nous en avons fait l'analyse, puis avons commencé à coder un gestionnaire de succès.
