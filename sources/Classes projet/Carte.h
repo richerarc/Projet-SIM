@@ -369,34 +369,34 @@ public:
 				if (joueur->obtCamera()->obtHAngle() != orientationInitialeCamera) {
 					if (vitesseHRotation < 0) {
 						if ((joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime)) <= orientationInitialeCamera)
-							joueur->obtCamera()->defHAngle(orientationInitialeCamera);
+							joueur->defHAngle(orientationInitialeCamera);
 						else
 						{
-							joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+							joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
 						}
 					}
 					else
 					{
 						if (joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime) >= orientationInitialeCamera)
-							joueur->obtCamera()->defHAngle(orientationInitialeCamera);
+							joueur->defHAngle(orientationInitialeCamera);
 						else
 						{
-							joueur->obtCamera()->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+							joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
 						}
 					}
 				}
 
 				// Ajustement de la caméra verticale...
 				if (joueur->obtCamera()->obtVAngle() != 0) {
-					joueur->obtCamera()->defVAngle(joueur->obtCamera()->obtVAngle() + (vitesseVRotation * frametime));
+					joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (vitesseVRotation * frametime));
 					if (vitesseVRotation < 0) {
 						if (joueur->obtCamera()->obtVAngle() < 0)
-							joueur->obtCamera()->defVAngle(0);
+							joueur->defVAngle(0);
 					}
 					else
 					{
 						if (joueur->obtCamera()->obtVAngle() > 0)
-							joueur->obtCamera()->defVAngle(0);
+							joueur->defVAngle(0);
 					}
 				}
 
@@ -418,7 +418,7 @@ public:
 
 					ajouterMur();
 					joueur->defPosition(positionNSInitialeJoueur);
-					joueur->obtCamera()->defHAngle(orientationFinaleCamera);
+					joueur->defHAngle(orientationFinaleCamera);
 					ControlleurAudio::obtInstance().jouer(OUVERTURE_PORTE_1, joueur);
 				}
 			}
