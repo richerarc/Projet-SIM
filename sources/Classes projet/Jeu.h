@@ -96,7 +96,7 @@ public:
 			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
 			if (phase != nullptr) {
 				char chr[100];
-				fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().obtInstance().salleActive->obtID(), chr, 10)));
+					//fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().obtInstance().salleActive->obtID(), chr, 10)));
 			}
 			chargement = dynamic_cast<PhaseMenuChargement*>(GestionnairePhases::obtInstance().obtPhaseActive());
 			if (chargement != nullptr) {
@@ -111,7 +111,8 @@ public:
 				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle));
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
-				thread_Creation.detach();
+				thread_Creation.join();
+				Carte::obtInstance().salleActive->remplir();
 			}
 
 

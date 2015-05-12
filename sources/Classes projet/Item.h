@@ -13,8 +13,8 @@ private:
 	char* description;
 	char* cheminIcone;
 	int maxPile;
-	EtatItem etat;
 	Salle* salleActive;
+	EtatItem etat;
 public:
 	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne) : ObjetPhysique(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire, collisionInterne){
 		this->type = type;
@@ -66,6 +66,7 @@ public:
 				modele->rotationner(0, 0, -gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 			modele->rotationner(0, 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle(), 0);
 		}
+
 	}
 
 	EtatItem obtEtat(){

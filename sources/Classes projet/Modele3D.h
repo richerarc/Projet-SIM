@@ -51,6 +51,7 @@ Modele3D() : Objet3D(){
 			sommetsModif = nullptr;
 			normalesModif = nullptr;
 			matriceTransformation = Matrice4X4d();
+			echelle = Vecteur3d(1.3529411765, 1.3529411765, 1.3529411765);
 		}
 
 		Modele3D(Modele *modele, Texture *texture) : Objet3D(){
@@ -295,8 +296,8 @@ Modele3D() : Objet3D(){
 				//glLoadIdentity();
 				glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
 				glRotated(orientation.x, 1, 0, 0);
-				glRotated(orientation.y, 0, 1, 0);
 				glRotated(orientation.z, 0, 0, 1);
+				glRotated(orientation.y, 0, 1, 0);
 				glTranslated(origine.x, origine.y, origine.z);
 				glScaled(echelle.x, echelle.y, echelle.z);
 				glVertexPointer(3, GL_DOUBLE, 0, modele->obtVertices());

@@ -15,11 +15,14 @@
 #include "Gestionnaire3D.h"
 #include "LecteurFichier.h"
 #include "Joueur.h"
+#include "Physique.h"
+#include "Remplisseur.h"
+//#include "Balance.h"
 #include "ControlleurAudio.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
-typedef std::tuple<char*, char*/*, char**/> Modele_Text;
+typedef std::tuple<char*, char*, char*> Modele_Text;
 
 class Carte : public Singleton < Carte > {
 private:
@@ -97,7 +100,7 @@ private:
 				} while (i == j);
 			} while (point[i].y != point[j].y);
 
-			// Positionnement des points de blender dans le mÃªme sens...
+			// Positionnement des points de blender dans le même sens...
 			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
 				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 					if (point[i].x > point[j].x) {
@@ -157,12 +160,26 @@ private:
 			objet.position.x = vecteurRatio.x;
 			objet.position.z = vecteurRatio.z;
 
-			// Boucle qui vÃ©rifie si une porte sera en collision avec une autre...
+			// Boucle qui vérifie si une porte sera en collision avec une autre...
 			Vecteur3d pivot = { 0, 1, 0 };
 			for (auto it_Porte : salle.Objet) {
 
-				// Si les portes ont la mÃªme direction...
-				if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
+				if (it_Porte.largeur != 0) {
+
+					/*if (it_Porte.rotation == 0) {
+
+						if (objet.position.z < it_Porte.position.z || objet.position.x < it_Porte.position.x + it_Porte.largeur)
+							PorteAuMur = false;
+
+					}
+					else if (it_Porte.rotation == 180) {
+						if (objet.position.z > it_Porte.position.z || objet.position.x < it_Porte.position.x)
+							PorteAuMur = false;
+					}*/
+				}
+
+				// Si les portes ont la même direction...
+				else if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
 
 					if (Maths::distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
 						PorteAuMur = false;
@@ -228,6 +245,7 @@ private:
 
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
+		double phasePendule = MATHS_PI;
 
 		for (auto& it : infoSalleActive.Objet) {
 			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
@@ -238,11 +256,20 @@ private:
 					salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
 					break;
 				case PENDULE:
-					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 1 }, false, false, false, false));
+					if (!it.rotation)
+						salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 2, 0, 0 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+					else
+						salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 2 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
 					break;
 				case FIXE:
 					salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
 					break;
+				case REMPLISSEUR:
+					salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
+					break;
+//				case BALANCE:
+//					salleActive->ajoutObjet(new Balance(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, true, false, 2));
+//					break;
 			}
 		}
 
@@ -423,12 +450,12 @@ public:
 		gfx::Gestionnaire3D::obtInstance().retObjet(modelePorte);
 	}
 
-	// ProcÃ©dure qui permet de crÃ©er le graphe et la premiÃ¨re salle dans laquelle le joueur commence...
+	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
 	void creer() {
 		srand(time(NULL));
 		SDL_GLContext c = fenetre->obtNouveauContext();
 
-		// CrÃ©ation du graphe
+		// Création du graphe
 		carte.creer(nombreDeSalle);
 		int itterateurPorte(0);
 
@@ -465,11 +492,11 @@ public:
 			char* curseur1 = new char[255];
 			char* curseur2 = new char[255];
 			char* curseur3 = new char[255];
-			fichierSalle >> curseur1; fichierSalle >> curseur2; /*fichierSalle >> curseur3;*/
-			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2/*, curseur3*/));
+			fichierSalle >> curseur1; fichierSalle >> curseur2; fichierSalle >> curseur3;
+			cheminsModeleText.push_back(Modele_Text(curseur1, curseur2, curseur3));
 			++itterateur;
 		}
-		fichierSalle.close();
+
 		int nbrPuzzle(0);
 		while (!fichierPuzzle.eof()) {
 			char* curseur1 = new char[20];
@@ -477,9 +504,9 @@ public:
 			cheminsPuzzle.push_back(curseur1);
 			++nbrPuzzle;
 		}
-		fichierPuzzle.close();
+
 		unsigned int aleatoire;
-		InfoObjet objet;
+		InfoObjet objet, info;
 		InfoSalle salle;
 		InfoPuzzle puzzle;
 		gfx::Modele3D* modeleSalle;
@@ -489,40 +516,98 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0 };
-			aleatoire =  rand() % itterateur;
+			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,3,3};
+			aleatoire = 7;/*rand() % itterateur;*/
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
-			//LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
+			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
 			infosSalles.push_back(salle);
 			salle.boitesCollision.clear();
 			salle.Objet.clear();
 		}
 
-		/*int premiereSalle = 1;//rand() % nombreDeSalle;
+		int premiereSalle = 1;//rand() % nombreDeSalle;
 		InfoSalle &salle2 = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
-		
+		bool puzzlePlace = false;
+
 		for (int i = 0; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
 			int aleatoire = rand() % nbrPuzzle;
 			--nbrPuzzle;
 			LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
 			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return chemin == cheminsPuzzle[aleatoire];}));
 			int lol = salle2.boitesCollision.size();
-			BoiteCollision<double> boiteTemp = salle2.obtBoiteCollisionModifie((1/*rand() % salle.boitesCollision.size()));
-			if (boiteTemp.obtGrandeurZ() - boiteTemp.obtGrandeurX() < 0){
-				//
-			}
-			puzzle.position = boiteTemp.distanceEntreDeuxCentre(puzzle.boiteCollision);
-			/*for (auto &it : puzzle.objet)
-				it.position += puzzle.position;
+			BoiteCollision<double> boiteTemp = salle2.obtBoiteCollisionModifie((rand() % salle2.boitesCollision.size()));
+			BoiteCollision<double> boitePuzzleTemp;
+			puzzle.rotation = 0;
 
-			if (boiteTemp.boiteDansBoite(puzzle.obtBoiteCollisionModifie())){
-				for (auto &it : puzzle.objet){
-					salle2.Objet.push_back(it);
+			while (!puzzlePlace) {
+
+				puzzle.position = boiteTemp.distanceEntreDeuxCentre(puzzle.boiteCollision);
+				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
+
+				if (boiteTemp.boiteDansBoite(boitePuzzleTemp)){
+
+					if (boiteTemp.obtGrandeurX() - boiteTemp.obtGrandeurZ() < 0){
+						double deltaXmen;
+						for (auto &it : puzzle.objet){
+							deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
+							it.rotation = 270;
+							if (it.position.x < 0){
+								it.position.x += deltaXmen;
+								it.position.z -= deltaXmen;
+							}
+							else{
+								it.position.x -= deltaXmen;
+								it.position.z += deltaXmen;
+							}
+						}
+						puzzle.rotation = 270;
+					}
+					else{
+						puzzle.rotation = 0;
+					}
+					boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
 				}
-				
+
+				for (auto &it : puzzle.objet)
+					it.position += puzzle.position;
+
+				if (boiteTemp.boiteDansBoite(boitePuzzleTemp)){
+					if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
+						info.largeur = boiteTemp.obtGrandeurX();
+						info.cheminModele = "Remplisseur.obj";
+						info.cheminTexture = "Remplisseur.png";
+						info.type = 5;
+						info.rotation = 0;
+						info.position = Vecteur3d(boiteTemp.obtXMin(), 1, boitePuzzleTemp.obtZMin());
+						puzzle.objet.push_back(info);
+						info.rotation = 180;
+						info.position = Vecteur3d(boiteTemp.obtXMax(), 1, boitePuzzleTemp.obtZMax());
+						puzzle.objet.push_back(info);
+					}
+
+					else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
+						info.largeur = boiteTemp.obtGrandeurZ();
+						info.cheminModele = "Remplisseur.obj";
+						info.cheminTexture = "Remplisseur.png";
+						info.type = REMPLISSEUR;
+						info.rotation = 270;
+						info.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteTemp.obtZMin());
+						puzzle.objet.push_back(info);
+						info.rotation = 90;
+						info.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteTemp.obtZMax());
+						puzzle.objet.push_back(info);
+					}
+
+					for (auto &it : puzzle.objet){
+						salle2.Objet.push_back(it);
+					}
+					puzzlePlace = true;
+				}
+				else
+					boiteTemp = salle2.obtBoiteCollisionModifie((rand() % salle2.boitesCollision.size()));
 			}
-		}*/
+		}
 
 		for (auto &it : infosSalles) {
 
@@ -532,12 +617,13 @@ public:
 			// Boucle sur toutes les portes d'un salle pour les positionner...
 			for (unsigned short IDPorte = 0; IDPorte < it.nbrPorte; ++IDPorte) {
 				objet.ID = IDPorte;
+				objet.largeur = 0;
 				LecteurFichier::lireObjet("portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
 				it.Objet.push_back(objet);
 			}
 
-			// Ajout et rÃ©initialisation de la salle.
+			// Ajout et réinitialisation de la salle.
 			delete modeleSalle;
 			chargement += (100.0f / nombreDeSalle);
 		}

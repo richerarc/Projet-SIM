@@ -1,12 +1,10 @@
-SalleEnQuatre.obj SalleEnQuatre.png
-SallePente.obj SallePente.png
-SalleL.obj SalleL.png
-SalleCarree4x4.obj SalleCarree4x4.png
-SalleConference.obj SalleConference.png
-SalleConvergente.obj SalleConvergente.png
-SalleLosange.obj SalleLosange.png
-SalleEscalier.obj SalleEscalier.png
-SalleEscalierDesaxee.obj SalleEscalierDesaxee.png
-SalleHexagonale.obj SalleHexagonale.png
-SalleOctogonale.obj SalleOctogonale.png
-SalleMulti.obj SalleMulti.png
+SalleEnQuatre.obj SalleEnQuatre.png SalleEnQuatre.txt
+SallePente.obj SallePente.png SallePente.txt
+SalleL.obj SalleL.png SalleL.txt
+SalleCarree4x4.obj SalleCarree4x4.png SalleCarree4x4.txt
+SalleConference.obj SalleConference.png SalleConferenc.txt
+SalleConvergente.obj SalleConvergente.png SalleConvergente.txt
+SalleLosange.obj SalleLosange.png SalleLosange.txt
+SalleEscalier.obj SalleEscalier.png SalleEscalier.txt
+SalleEscalierDesaxee.obj SalleEscalierDesaxee.png SalleEscalierDesaxee.txt
+SalleTunnel.obj SalleTunnel.png SalleTunnel.txt

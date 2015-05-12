@@ -63,6 +63,7 @@ namespace gfx{
 
 			if (camera != nullptr)
 				camera->appliquer();
+			
 			for (auto &i : objets){
 				//glEnable(GL_LIGHTING);
 				//glEnable(GL_LIGHT0);
