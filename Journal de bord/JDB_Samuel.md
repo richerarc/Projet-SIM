@@ -40,12 +40,12 @@
 
 22 avril: codage interaction joeur-porte, probleme recontré avec la fonction destination, (1H)
 
-23 avril: finalisation de l'interaction joueur-objet fixe, 30 sec d'aide a damien pour le modele du mur qu'il veut spawner. 1h30
+23 avril: finalisation de l'interaction joueur-objet fixe, 30 sec d'aide a damien pour le modele du mur qu'il veut spawner. (1h30)
 
-30 avril: petit meeting en groupe, puis travbail sur des models de salle
+30 avril: petit meeting en groupe, puis travail sur des models de salle 3 heure)
 
 05 mai: continuation du travail sur les salles octogonale et hexagonales, et finition du modele de banniere (3 heure)
 
-07 mai: Les salles octo et hex sont terminées, debut de la piece de décor "map"
+07 mai: Les salles octo et hex sont terminées, debut de la piece de décor "map" (2h)
 
 12 mai: finition de la map et du cadre (1h15) meeting de groupe: (30 min) Travail avec Dominique sur les succes. (2 heure)
