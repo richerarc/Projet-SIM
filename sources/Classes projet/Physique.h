@@ -488,7 +488,7 @@ public:
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, verticesCollision)) {
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
-				if (std::fabs(normale.z) < 0.05f)
+				if (fabs(normale.z) < 0.05f)
 					normale.z = 0.f;
 				normale.normaliser();
 				normaleJoueur = (normale);

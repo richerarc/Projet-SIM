@@ -418,7 +418,7 @@ public:
 		camera->defHAngle(Maths::degreARadian(hAngle));
 	}
 
-	gfx::Camera* obtCamera(){ return listeCamera[0]; }
+	gfx::Camera* obtCamera(){ return camera; }
 
 	void defEtat(unsigned int etatDynamique){ if (etatDynamique <= 4) this->etatDynamique = etatDynamique; }
 

@@ -68,12 +68,12 @@ private:
 			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur->obtModele3D()->obtBoiteDeCollisionModifiee(), joueur->obtVitesse(), joueur->obtNormale(),joueur->obtNormaleMur(), joueur->obtPointCollision(), joueur->obtPosition(),joueur->obtVerticesCollision());
 			if (typeCollision == MUR) {
 				double hauteur = 0.f;
-				if (joueur->obtVerticesCollision[0].x == joueur->obtVerticesCollision[1].x && joueur->obtVerticesCollision[0].z == joueur->obtVerticesCollision[1].z)
-					hauteur = fabs(joueur->obtVerticesCollision[0].y - joueur->obtVerticesCollision[1].y);
-				else if (joueur->obtVerticesCollision[0].x == joueur->obtVerticesCollision[2].x && joueur->obtVerticesCollision[0].z == joueur->obtVerticesCollision[2].z)
-					hauteur = fabs(joueur->obtVerticesCollision[0].y - joueur->obtVerticesCollision[2].y);
-				else if (joueur->obtVerticesCollision[1].x == joueur->obtVerticesCollision[2].x && joueur->obtVerticesCollision[1].z == joueur->obtVerticesCollision[2].z)
-					hauteur = fabs(joueur->obtVerticesCollision[1].y - joueur->obtVerticesCollision[2].y);
+				if (joueur->obtVerticesCollision()[0].x == joueur->obtVerticesCollision()[1].x && joueur->obtVerticesCollision()[0].z == joueur->obtVerticesCollision()[1].z)
+					hauteur = fabs(joueur->obtVerticesCollision()[0].y - joueur->obtVerticesCollision()[1].y);
+				else if (joueur->obtVerticesCollision()[0].x == joueur->obtVerticesCollision()[2].x && joueur->obtVerticesCollision()[0].z == joueur->obtVerticesCollision()[2].z)
+					hauteur = fabs(joueur->obtVerticesCollision()[0].y - joueur->obtVerticesCollision()[2].y);
+				else if (joueur->obtVerticesCollision()[1].x == joueur->obtVerticesCollision()[2].x && joueur->obtVerticesCollision()[1].z == joueur->obtVerticesCollision()[2].z)
+					hauteur = fabs(joueur->obtVerticesCollision()[1].y - joueur->obtVerticesCollision()[2].y);
 				if (hauteur < .5)
 					joueur->defPositionY( joueur->obtPosition().y + hauteur);
 			}
