@@ -60,11 +60,8 @@ public:
 			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.33 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * 0.4;
 			modele->defPosition(position);
 			modele->defOrientation(0, 0, 0);
-			if (vitesseJoueur > 0){
-				double tempsAnimation = animation.obtTempsEcoule().enSecondes();
-				//modele->rotationner(40 * sin(5 * tempsAnimation), 0, 0);
-				//modele->rotationner(0, 0, 40 * sin(5 * tempsAnimation) - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
-			}
+			if (vitesseJoueur > 0)
+				modele->rotationner(0, 0, 10 * sin(5 * animation.obtTempsEcoule().enSecondes()) - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 			else
 				modele->rotationner(0, 0, -gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 			modele->rotationner(0, 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle(), 0);

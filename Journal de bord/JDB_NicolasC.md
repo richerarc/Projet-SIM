@@ -120,4 +120,8 @@
 **5 mai** durée 3h 30min  
   -Restructuration des objets, ajout des items et affichage d'un objet équipé avec Brandon.  
 **7 mai** durée 2h 20min  
-  -Amélioration de l'orientation des items équipés et d'ébut d'une animation quand le joueur marche (à améliorer) avec Brandon
+  -Amélioration de l'orientation des items équipés et d'ébut d'une animation quand le joueur marche (à améliorer) avec Brandon  
+**12 mai** durée 1h 20min  
+  -fix de l'animation et limitage des fps avec Brandon.  
+**12 mai** durée 1h 10min  
+  -modélisation d'une salle à 2 étages.
