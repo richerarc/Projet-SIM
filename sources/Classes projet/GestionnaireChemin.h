@@ -9,13 +9,14 @@ private:
 public:
 
     void initialiser(std::string argv){
-        unsigned int posString = (argv.length() - 1);
 #if defined(__UNIX__)
+		unsigned int posString = (argv.length() - 1);
         while (argv[posString] != '/'){
             argv.erase(posString, 1);
             posString--;
     }
 #elif defined (_WIN32)
+		unsigned int posString = (argv.length() - 1);
         while (argv[posString] != '\\'){
             argv.erase(posString, 1);
             posString--;

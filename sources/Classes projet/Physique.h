@@ -152,8 +152,7 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
-	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> objets, float frameTime) {
-
+	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> objets, float frameTime, double temps) {
 		for (auto it : objets) {
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
 			if (it_Vent != nullptr) {
@@ -179,8 +178,10 @@ public:
 			}
 			Pendule* it_Pendule = dynamic_cast<Pendule*>(it);
 			if (it_Pendule != nullptr) {
-				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), frameTime);
-				it_Pendule->obtModele3D()->defOrientation(it_Pendule->obtVitesseAngulaire() * angle);
+				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), temps);
+				Vecteur3d vectemp = it_Pendule->obtVitesseAngulaire() * angle;
+				vectemp.y = it_Pendule->obtModele3D()->obtOrientation().y;
+				it_Pendule->obtModele3D()->defOrientation(vectemp);
 			}
 			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
 			if (it_ObjetFixe != nullptr) {
@@ -229,7 +230,7 @@ public:
 			double theta = sin(vecteurNormal.angleEntreVecteurs(rayon));
 			double masse = objet.obtMasse();
 			double vi = objet.obtVitesse().norme();
-			double wi = objet.obtVitesseAngulaire().norme();
+				//double wi = objet.obtVitesseAngulaire().norme();
 
 			// Pour le calcul du moment d'inertie...
 			Vecteur3d  coteX = { BoiteDeCollisionModifiee[7].x - BoiteDeCollisionModifiee[4].x,
@@ -415,7 +416,7 @@ public:
 	}
 
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double phase, double frametime) {
-		return angleMaximal * SDL_cos(omega * frametime + phase);
+		return Maths::radianADegre(Maths::degreARadian(angleMaximal) * SDL_cos(omega * frametime + phase));
 	}
 
 	double obtenirEnergieCinetique(double masse, Vecteur3d& vecteurVitesseObjet) {
@@ -487,7 +488,7 @@ public:
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, verticesCollision)) {
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
-				if (fabs(normale.z) < 0.05f)
+				if (std::fabs(normale.z) < 0.05f)
 					normale.z = 0.f;
 				normale.normaliser();
 				normaleJoueur = (normale);

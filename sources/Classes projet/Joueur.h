@@ -214,6 +214,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
+						//ajusterVitesse();
 						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
 							etatDynamique = MARCHE;
@@ -257,11 +258,10 @@ public:
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
+						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 					}
 					else
 						vitesse = vitesse + (cote * vitesseDeplacement);
-
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
 						Vecteur3d tmpNormale;
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
@@ -418,7 +418,7 @@ public:
 		camera->defHAngle(Maths::degreARadian(hAngle));
 	}
 
-	gfx::Camera* obtCamera(){ return camera; }
+	gfx::Camera* obtCamera(){ return listeCamera[0]; }
 
 	void defEtat(unsigned int etatDynamique){ if (etatDynamique <= 4) this->etatDynamique = etatDynamique; }
 
@@ -448,9 +448,9 @@ public:
 	Vecteur3d& obtNormaleMur(){ return this->normaleMur; }
 
 	Vecteur3d obtPositionCamera(){
-		//Vecteur3d temp = camera->obtPosition();
-		//temp.y = temp.y - 1.8f;
-		return camera->obtPosition();
+		Vecteur3d temp = camera->obtPosition();
+		temp.y = temp.y - 1.8f;
+		return temp;
 	}
 
 	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }

@@ -20,6 +20,7 @@ private:
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
 	int sensPrecedent, sensActuel;
+	Chrono tempsJeu;
 	Item *itemEquipe;
 	Item *test;
 
@@ -83,7 +84,7 @@ private:
 				joueur->obtVitesse().z = 0.f;
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime);
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
 
 	bool detectionObjet() {
@@ -138,6 +139,7 @@ public:
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
 		iterateur_x = 0;
 		iterateur_z = 0;
+		tempsJeu = Chrono();
 
 		itemEquipe = nullptr;
 
@@ -240,6 +242,10 @@ public:
 	}
 
 	void actualiserEchelle(Vecteur2f vecteurEchelle) {
+	}
+
+	float obtTemps() {
+		return tempsJeu.obtTempsEcoule().enSecondes();
 	}
 };
 

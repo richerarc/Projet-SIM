@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "Texte2D.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnaireRessources.h"

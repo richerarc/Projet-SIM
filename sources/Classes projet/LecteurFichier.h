@@ -70,7 +70,7 @@ namespace LecteurFichier{
 			char* ligne = new char[255];
 			char* cheminObjet = new char[255];
 			Vecteur3d tabBoite[8];
-			bool tabEntrees[4];
+			bool tabEntrees[4] = {0,0,0,0};
 
 			while (!fichier.eof()){
 				fichier.getline(ligne, 255);
@@ -90,7 +90,9 @@ namespace LecteurFichier{
 								fichier >> x;
 								tabEntrees[i] = x;
 							}
-							info.entrees = tabEntrees;
+							for (int i = 0; i < 4; ++i){
+							info.entrees[i] = tabEntrees[i];
+							}
 							fichier.getline(ligne, 255);
 						}
 						if (!strcmp(ligne, "objet{")){
@@ -103,6 +105,8 @@ namespace LecteurFichier{
 							if (!strcmp(ligne, "p")){
 								objet.position = Vecteur3d(x, y, z);
 							}
+							objet.rotation = 0.0;
+							objet.largeur = 0;
 							info.objet.push_back(objet);
 							fichier.getline(ligne, 255);
 						}
