@@ -13,10 +13,10 @@ private:
 	char* description;
 	char* cheminIcone;
 	int maxPile;
-	Salle* salleActive;
 	EtatItem etat;
+	Salle* salleActive;
 public:
-	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne) : ObjetPhysique(modele, ID, materiaux, masse, vitesse, position, vitesseAngulaire, collisionInterne){
+	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse) : ObjetPhysique(modele, ID, materiaux, masse, Vecteur3d(), Vecteur3d(), Vecteur3d(), false){
 		this->type = type;
 		this->nom = nom;
 		this->description = description;
@@ -25,6 +25,9 @@ public:
 		etat = EQUIPE;
 		salleActive = nullptr;
 	}
+
+	//virtual void utiliser() = 0;
+	//virtual void equiper() = 0;
 
 	void defEtat(EtatItem etat){
 		if (etat == this->etat)
@@ -66,7 +69,6 @@ public:
 				modele->rotationner(0, 0, -gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 			modele->rotationner(0, 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle(), 0);
 		}
-
 	}
 
 	EtatItem obtEtat(){
@@ -91,10 +93,6 @@ public:
 
 	int obtMaxPile(){
 		return this->maxPile;
-	}
-
-	virtual void utiliser(){
-
 	}
 
 	bool obtSiPorte(){
