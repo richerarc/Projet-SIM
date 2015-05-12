@@ -195,4 +195,20 @@ J'ai recommencé mon blender parce que ça ne marchait pas vraiment, et j'ai fai
 
 ###Durée: 3h
 
-##Durée Totale: 59h30
+##Jeudi 7 mai 2015
+
+###10:30 à 12:30
+
+Ok là c'est gossant! Mon fil barbelé était pas si pire mais il n'y avait pas assez d'espace entre les boucles alors je l'ai recommencé en me disant que ce serait pas trop long. Par contre, mon fil fini toujours croche et ça ne donne rien de bon, je vais le retravailler à l'avenir en essayant de ne plus trop perdre de temps avec.
+
+###Durée: 2h
+
+##Mardi 12 mai 2015
+
+###14:30 à 17:30
+
+On a fait une rencontre d'équipe pour récapituler où on était rendu et ce qu'il restait à faire. On a aussi séparé des tâches parmis plusieurs personnes, moi et Xavier avont  reçu la responsabilité de s'occuper de l'histoire. Nous avons décider de faire une sorte d'article de journal comme intro et avons écrit le texte qui allait se trouver dedans. Nous avons aussi décidé de faire voir l'histoire au joueur durant le jeu par l'entremise de deux items: Les notes et les journaux. J'ai créé les classes pour ces items.
+
+###Durée: 3h
+
+##Durée Totale: 64h30
