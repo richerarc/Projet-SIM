@@ -8,19 +8,19 @@ public:
 		this->x = x; this->y = y; 
 	}
 		
-	Vecteur2 operator+(Vecteur2& vect) { 
+	Vecteur2 operator+(Vecteur2 vect) { 
 		return Vecteur2(this->x + vect.x, this->y + vect.y); 
 	}
 		
-	void operator+=(Vecteur2& autre) { 
+	void operator+=(Vecteur2 autre) {
 		x += autre.x; y += autre.y; 
 	}
 		
-	Vecteur2 operator-(Vecteur2& vect) { 
+	Vecteur2 operator-(Vecteur2 vect) {
 		return Vecteur2(this->x - vect.x, this->y - vect.y); 
 	}
 		
-	void operator-=(Vecteur2& autre) { 
+	void operator-=(Vecteur2 autre) {
 		x -= autre.x; y -= autre.y; 
 	}
 		
@@ -28,15 +28,15 @@ public:
 		return Vecteur2(this->x * scalaire, this->y * scalaire); 
 	}
 		
-	void operator*=(Vecteur2& autre) { 
+	void operator*=(Vecteur2 autre) {
 		x *= autre.x; y *= autre.y; 
 	}
 		
-	bool operator==(Vecteur2& autre) { 
+	bool operator==(Vecteur2 autre) {
 		return x == autre.x && y == autre.y; 
 	}
 		
-	bool operator!=(Vecteur2 &autre) { 
+	bool operator!=(Vecteur2 autre) {
 		return !operator==(autre); 
 	}
 

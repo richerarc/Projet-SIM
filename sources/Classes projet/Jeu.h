@@ -1,7 +1,8 @@
-enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUCHARGEMENT, PHASEJEU };
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUCHARGEMENT, MENUINVENTAIRE, PHASEJEU };
 
 #pragma once
 #include <thread>
+#include <sstream>
 #include "Singleton.h"
 #include "Fenetre.h"
 #include "GestionnaireRessources.h"
@@ -29,9 +30,9 @@ std::thread thread_Creation;
 #include "Aimant.h"
 #include "Porte.h"
 #include "Carte.h"
+#include "Physique.h"
 #include "Joueur.h"
 #include "Salle.h"
-#include "Physique.h"
 #include "PhaseJeu.h"
 #include "MenuPrincipal.h"
 #include "PhaseMenuPrincipal.h"
@@ -46,6 +47,8 @@ public:
 	static SDL_Event evenement;
 	static float frameTime;
 	static Chrono chrono;
+	static Chrono actualisationFPS;
+	static gfx::Texte2D* fps;
 
 public:
 
@@ -59,6 +62,8 @@ public:
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		ControlleurAudio::obtInstance().initialiser(100);
 		
+		fps = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 15), Vecteur2f(0, 700));
+
 		GestionnaireControle::obtInstance().lireControle("Controle.txt");
 
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
@@ -82,6 +87,12 @@ public:
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
 		{
+			if (actualisationFPS.obtTempsEcoule().enSecondes() > 0.2f){
+				std::stringstream ss;
+				ss << "The Journalist v0.134" << " @ " << 1 / frameTime << " fps";
+				actualisationFPS.repartir();
+				fps->defTexte(new std::string(ss.str()));
+			}
 			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
 			if (phase != nullptr) {
 				char chr[100];
@@ -93,10 +104,11 @@ public:
 			}
 
 			if (Carte::obtInstance().finChargement) {
-				Carte::obtInstance().debut();
+				double hAngle;
+				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle);
 				gfx::Gestionnaire2D::obtInstance().vider();
 				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu());
+				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle));
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
 				thread_Creation.join();
@@ -123,7 +135,7 @@ public:
 			gfx::Gestionnaire3D::obtInstance().defFrustum(2.5 , fenetre->obtRatio(), .1, 1000);
 			gfx::Gestionnaire3D::obtInstance().afficherTout();
 			gfx::Gestionnaire2D::obtInstance().afficherTout(*fenetre);
-			
+			fps->afficher(*fenetre);
 
 			fenetre->rafraichir();
 		}
@@ -139,3 +151,5 @@ public:
 SDL_Event Jeu::evenement;
 float Jeu::frameTime = 0;
 Chrono Jeu::chrono;
+Chrono Jeu::actualisationFPS;
+gfx::Texte2D* Jeu::fps;

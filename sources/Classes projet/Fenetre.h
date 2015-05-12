@@ -25,8 +25,9 @@ namespace gfx{
 		Fenetre(ModeVideo mv, const std::string& titre, bool pe){
 			this->taille.x = mv.l;
 			this->taille.y = mv.h;
-			sdlWindow = SDL_CreateWindow(titre.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, taille.x, taille.y, SDL_WINDOW_OPENGL);
+			sdlWindow = SDL_CreateWindow(titre.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, taille.x, taille.y, SDL_WINDOW_OPENGL | SDL_RENDERER_PRESENTVSYNC);
 			SDLGLContext = SDL_GL_CreateContext(sdlWindow);
+			SDL_GL_SetSwapInterval(1);
 			this->defTitre(titre);
 			defPleinEcran(pe);
 			fenetrePleinEcran = pe;

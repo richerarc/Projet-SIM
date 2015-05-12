@@ -15,7 +15,7 @@ Implémentation des deux classes de Vecteurs principales : Vecteur2 et Vecteur3.
 Implémentation du Singleton.
 # 3 mars de 13h à 15h #
 Finalisation du diagramme UML.
-# 4 mars de 19h à 20h #	
+# 4 mars de 19h à 20h #
 Séparation des tâches
 Implémentation des classes:	GestionnaireEvenements, Souris et Clavier.
 # 9 mars de 2h40 à 3h #
@@ -36,7 +36,7 @@ Nous avons eu une rencontre de toute l'équipe afin de récapituler l'avancement
 # 11 avril 2015 pendant 1h30 #
 J'ai discuté avec Kevin et il m'a fait part de la caméra qui ne fonctionnait pas lors de la mise en commun de la classe joueur, Caméra, Gestionnaire3D ainsi que Jeu. Du coup, j'ai donc réglé le problème. J'ai ensuite implémenté la base du système de Phases avec les classes GestionnairePhase ainsi que Phase qui servira d'interface pour les futures classes de Phase qui seront implémentées dans le futur au long de la progression du jeu.
 # 14 avril 2015 pendant 2h30 (de 14h30 à 17h) #
-Nous avons réparti les tâches afin de déterminer où était rendu le développement afin de lancer la phase "Sauver les meubles." Ceci étant fait, j'ai été affecté à la team des Interfaces afin de faire avancer un peu cette section. J'ai expliqué au reste de l'équipe ma vision des choses concernant la conception des menus et les liens entre ceux-ci (Système de phases implémenté cette fin de semaine.) Après débat, nous en avons convenu que nous ferions nos menus au plus simple, soit avec des Texte2D directement, sans Étiquette ni Bouton. J'Ai donc implémenté la classe Rect qui permet de composé un rectangle avec les méthodes contient() et intersecte(). J'ai ensuite contribué en concevant la classe MenuNouvellePartie et en guidant le reste de la sous-team vers un développement stable des interfaces graphiques ainsi que la bonne utilisation des évènements.
+Nous avons réparti les tâches afin de déterminer où était rendu le développement afin de lancer la phase "Sauver les meubles." Ceci étant fait, j'ai été affecté à la team des Interfaces afin de faire avancer un peu cette section. J'ai expliqué au reste de l'équipe ma vision des choses concernant la conception des menus et les liens entre ceux-ci (Système de phases implémenté cette fin de semaine.) Après débat, nous en avons convenu que nous ferions nos menus au plus simple, soit avec des Texte2D directement, sans Étiquette ni Bouton. J'ai donc implémenté la classe Rect qui permet de composé un rectangle avec les méthodes contient() et intersecte(). J'ai ensuite contribué en concevant la classe MenuNouvellePartie et en guidant le reste de la sous-team vers un développement stable des interfaces graphiques ainsi que la bonne utilisation des évènements.
 # 14 avril 2015 pendant 30 min (23h à 23h30). #
 J'ai finalisé la classe MenuNouvellePartie et j'ai révisé la classe Menu.¸
 # 16 avril 2015 pendant 1h30 (10h à 11h30) #
@@ -52,3 +52,9 @@ J'ai commencé la conception de l'inventaire. J'ai ajouté la classe Case qui co
 J'ai commencé et terminé la conception du menu Inventaire et du menu Acces Rapide (HotBar). J'ai aussi conçu leurs textures, cependant elles ne sont que provisoires (j'imagine). Pour ce qui est des items que j'ai ajoutés, ils ne sont utilisés qu'à des fins de test.
 # 3 mai pendant 2h #
 J'ai commencé à intégrer les items dans le jeu. La classe crée actuellement sera abstraite dans le futur, mais elle ne l'est pas pour l'instant afin d'effectuer des tests. J'ai aussi ajouté les textes de nom et de description dans le menu d'inventaire. En jouant avec les textes dans l'inventaire, je me suis rendu compte que ceux-ci avait un problème dû au fait que le loading ne se basait pas sur la taille, donc 2 textes avec le même string étaient pareils même si ils avaient des tailles différentes, j'ai donc fixé cela.
+# 5 mai pendant 3h #
+Nous avons discuté longuement de la manière de gérer les items et nous en sommes venus à la conclusion que les items devraient être une sous-classe de ObjetPhysique. Nous avons ensuite effectué les changements et commencé à implémenter les changements d'état des objets.
+# 7 mai pendant 2h #
+Moi et Nicolas Coutu avons travaillé sur les animations d'objets lorsqu'ils sont équipés. C'est plus ou moins au point.
+# 11 mai pendant 3h30 #
+J'ai commencé l'intégration des menus d'inventaire dans le gameplay et j'ai implémenté le ramassage d'objets dans les salles.

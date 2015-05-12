@@ -450,3 +450,67 @@ qu'il me donne:
 Sinon la génération de porte ne trouvait pas de mur valide.
 
 (Ajout d'un possible GL_LIGHT)
+
+###06 mai 2015
+
+**0h30**: J'ai redimensionné les portes pour qu'elles soient un peu plus grandes et larges et j'ai fait les modifications appropriées dans le code.
+
+###07 mai 2015
+
+***3h00**: Travail sur une possible lampe de poche, c'est un peu étrange et je n'ai pas encore trouvé un moyen d'y arriver, mais je commence un peu à comprendre ce qu'il faut faire.
+
+###08 mai 2015
+
+**0h30**: Restructuration de la classe physique, quelques déplacements de procédures et fonctions vers maths et retraire des paramètres en entrée dans certaines procédures (Salle et Joueur), avec Kevin.
+
+**1h00**: Travail sur le changement de salle du joueur, mur plus grand(en blender) pour l'ajustement fait à la porte, modification de quelques calculs.
+
+###09 mai 2015
+
+**4h00**: Gros travail sur le changement de salle, maintenant, le joueur se positionne devant la porte avec un vecteur Devant perpendiculaire à la porte, ensuite la salle se load et finalement le joueur se téléporte et il avance par la porte. Ce n'est plus le mur qui bouge parce que sinon, les objets dans la nouvelle salle ne bougeraient pas en entrant ce qui serait assez louche. Il va resté à texturer le mur et threader le load.
+
+**1h00**: Création d'une nouvelle salle super grosse de fou, pas encore texturée.
+
+###10 mai 2015
+
+**1h00**: Travail sur la lampe de poche, j'investigue toujours, je semble faire tout correctement, mais la lumière s'affiche très bizzarement.
+
+GL_AMBIENT { r, g, b, a}
+
+Lumière ambiante de base créée par la lumière. (Pour une lampe elle devrait probablement être à null)
+
+GL_DIFFUSE { r, g, b, a}
+
+Lumière diffusée par la source. (Probablement la plus important, dicte l'insensité du jet de lumière)
+
+GL_SPECULAR { r, g, b, a}
+
+Réflexion de la lumière sur de objets, doit être basse j'imagine.
+
+GL_POSITION { x, y, z, 0/1}
+
+Pour une lampe de poche, le quatrième paramètre doit être 1 pour une source non direcitonnelle. Pour le reste, je le modifie selon la position de la caméra du joueur.
+
+GL_SPOT_DIRECTION { x, y, z}
+
+Direction du jet lumineux (ajusté avec le devant).
+
+GL_SPOT_EXPONENT
+
+Diminution de l'intensité lumineuse selon l'angle avec l'axe central de la lampe de poche (fade).
+
+GL_SPOT_CUTOFF
+
+Angle d'ouverture des faisceaux lumineux projetés par la lampe de poche.
+
+GL_CONSTANT_ATTENUATION, GL_LINEAR_ATTENUATION, GL_QUADRATIC_ATTENUATION
+
+> att = 1 / c;
+> 
+> c = Constant att. + Linear att. * (d) + Quad att. * (d * d);
+> 
+> d = distance;
+
+Atténuation de la lumière selon la distance.
+
+Je crois que pour la position et la direction, il faut que je me serve de la matrice de vue, mais je ne suis pas très sur.

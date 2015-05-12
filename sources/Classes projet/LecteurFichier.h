@@ -33,7 +33,7 @@ namespace LecteurFichier{
 		Vecteur3<double> tabBoite[8];
 		double x, y, z;
 
-		fichier.getline(ligne, 256);
+		fichier.getline(ligne, 255);
 
 		for (int i = 0; i < 8; ++i){
 			fichier >> x >> y >> z;
@@ -108,9 +108,9 @@ namespace LecteurFichier{
 							objet.rotation = 0.0;
 							objet.largeur = 0;
 							info.objet.push_back(objet);
-							fichier.getline(ligne, 256);
+							fichier.getline(ligne, 255);
 						}
-						fichier.getline(ligne, 256);
+						fichier.getline(ligne, 255);
 					}
 				}
 			}

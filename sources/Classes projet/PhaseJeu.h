@@ -4,6 +4,9 @@
 #include <math.h>
 #include "PhaseMenuPause.h"
 #include "Maths.h"
+#include "Item.h"
+#include "MenuAccesRapide.h"
+#include "PhaseMenuInventaire.h"
 
 class PhaseJeu : public Phase{
 
@@ -18,6 +21,12 @@ private:
 	double iterateur_x, iterateur_z;
 	int sensPrecedent, sensActuel;
 	Chrono tempsJeu;
+	Item *itemEquipe;
+	Item *test;
+
+	bool retour;
+
+	MenuAccesRapide* accesRapide;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
@@ -43,33 +52,35 @@ private:
 				break;
 			}
 		}
-		joueur->defSanteMentale((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f));
+		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 	}
 
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
-			//Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
+			if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
+				joueur->longer();
+			}
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			short typeCollision = /*Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive, joueur)*/0;
-
+			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur->obtModele3D()->obtBoiteDeCollisionModifiee(), joueur->obtVitesse(), joueur->obtNormale(),joueur->obtNormaleMur(), joueur->obtPointCollision(), joueur->obtPosition());
 			if (typeCollision == MUR) {
 				//joueur->longer();
-				joueur->obtVitesse().x = 0.;
-				joueur->obtVitesse().z = 0.;
+				//joueur->obtVitesse().x = 0.;
+				//joueur->obtVitesse().z = 0.;
 				//if (joueur->obtEtat() != CHUTE)
 				//	joueur->defEtat(CHUTE);
 			}
-			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE) && joueur->obtEtat() != MARCHE){
+			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)/*&& joueur->obtEtat()!= MARCHE*/){
 				joueur->defEtat(STABLE);
 				joueur->obtVitesse().y = 0.f;
 				joueur->obtVitesse().x = 0.f;
 				joueur->obtVitesse().z = 0.f;
 			}
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive, frameTime, tempsJeu.obtTempsEcoule().enSecondes());
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime);
 	}
 
 	bool detectionObjet() {
@@ -79,9 +90,9 @@ private:
 
 		for (auto it : liste) {
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
-			ObjetFixe* it_ObjFixe = dynamic_cast<ObjetFixe*>(it);
+			Item* it_Item = dynamic_cast<Item*>(it);
 			Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtVectOrientationVue());
-			if ((Physique::obtInstance().distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Physique::obtInstance().vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
+			if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
 				//if (Physique::obtInstance().collisionDroiteObjet(*it, VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0))) {
 				//if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0), true)){
 				std::string str1 = "Press ";
@@ -90,13 +101,15 @@ private:
 				if (it_Porte != nullptr){
 					str1.append(" to open door.");
 				}
-				else if (it_ObjFixe != nullptr)
-					str1.append(" to pick up.");
+				else if (it_Item != nullptr){
+					str1.append(" to pick up ");
+					str1.append(it_Item->obtNom());
+				}
 				//	const char* chr1 = str1.c_str();
 				texte->defTexte(&str1);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
-				objetVise = it_Porte;
+				objetVise = it;
 				//}
 			}
 		}
@@ -108,10 +121,13 @@ private:
 
 public:
 
-	PhaseJeu() : Phase(){
-		joueur = new Joueur(Vecteur3d(-1, 2, -5));
+	PhaseJeu(Vecteur3d positionJoueur, double hAngle) : Phase(){
+		joueur = new Joueur(positionJoueur, hAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
+
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
+
 		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;
 
@@ -120,36 +136,49 @@ public:
 		iterateur_x = 0;
 		iterateur_z = 0;
 		tempsJeu = Chrono();
+
+		itemEquipe = nullptr;
+
+		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("luger.png")), 0, "metal", 20, Vecteur3d(0.1, 0, 0), Vecteur3d(), Vecteur3d(), false);
+
+		joueur->obtInventaire()->ajouterObjet(test);
+		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
+		accesRapide->remplir();
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+		retour = false;
 	}
 
 	void rafraichir(float frameTime) {
+		if (pause)
+			return;
+		joueur->obtInventaire()->actualiser();
+		itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+		if (itemEquipe != nullptr){
+			itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur->obtVitesse().norme());
+		}
+		accesRapide->actualiserAffichage();
 
+		if (Clavier::toucheAppuyee(SDLK_q)){
+			if (itemEquipe != nullptr){
+				itemEquipe->defEtat(EtatItem::DEPOSE);
+				joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+				itemEquipe = nullptr;
+			}
+		}
 		if (!this->pause) {
-			joueur->deplacement();
+			joueur->deplacement(frameTime);
 			appliquerPhysique(frameTime);
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
-			Carte::obtInstance().bougerMur(joueur, frameTime);
+			Carte::obtInstance().transitionSalle(joueur, frameTime);
 		}
-
-		if (Clavier::toucheAppuyee(SDLK_ESCAPE)) {
-			defPause(true);
-			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
-			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
-			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
-			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
-			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
-			curseur->remplir();
-		}
-
 
 		if (detectionObjet()){
 			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relach�e bient�t...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
-					Carte::obtInstance().salleActive->remplir();
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
 							cheminRecursif.pop();
@@ -158,18 +187,53 @@ public:
 					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
 					santeMentale();
 				}
+				else if (dynamic_cast<Item*>(objetVise)){
+					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
+					objetVise = nullptr;
+				}
 				toucheRelachee = false;
 			}
 			if (Clavier::toucheAppuyee(SDLK_e))
 				toucheRelachee = true;
 		}
+
+	}
+
+	void toucheAppuyee(SDL_Event &event){
+		if (pause)
+			return;
+		if (retour){
+			retour = false;
+			return;
+		}
+		if (event.key.keysym.sym == SDLK_ESCAPE) {
+			defPause(true);
+			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
+			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
+			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
+			curseur->remplir();
+		}
+		if (event.key.keysym.sym == SDLK_TAB) {
+			defPause(true);
+			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
+			GestionnairePhases::obtInstance().defPhaseActive(MENUINVENTAIRE);
+			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
+			curseur->remplir();
+			accesRapide->vider();
+		}
 	}
 
 	void remplir() {
-
+		accesRapide->remplir();
 	}
 
 	void defPause(bool pause) {
+		if (!pause)
+			retour = true;
 		this->pause = pause;
 	}
 

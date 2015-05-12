@@ -180,7 +180,7 @@ public:
 	}
 	
 	void jouer(Joueur* joueur){
-		if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 4.f && joueur->obtEtat() != SAUT){
+		if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() <= 4.f && joueur->obtEtat() != CHUTE){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= 650) || (Mix_Playing(idChaine)))){
 				if (premier){
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
@@ -192,7 +192,7 @@ public:
 				delais.repartir();
 			}
 		}
-		else if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() >= 5.f && joueur->obtEtat() != SAUT){
+		else if (joueur->obtVitesse().norme() && joueur->obtVitesseDeplacement() >= 5.f && joueur->obtEtat() != CHUTE){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= 325) || (Mix_Playing(idChaine)))){
 				if (premier){
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);

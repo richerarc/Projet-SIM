@@ -28,6 +28,21 @@ public:
 		}
 	}
 
+	void actualiser(){
+		int ID = 0;
+		for (auto& it : menuAccesRapide){
+			if (itemSelectionne != ID){
+				if (it->obtObjet() != nullptr)
+					it->obtObjet()->defEtat(EtatItem::RANGE);
+			}
+			else {
+				if (it->obtObjet() != nullptr)
+					it->obtObjet()->defEtat(EtatItem::EQUIPE);
+			}
+			ID++;
+		}
+	}
+
 	int obtTailleSacADos(){
 		return sacADos.size();
 	}
@@ -42,6 +57,7 @@ public:
 		for (Case* i : menuAccesRapide){
 			if (i->obtObjet() == nullptr){
 				i->defObjet(objet);
+				objet->defEtat(RANGE);
 				return true;
 			}
 		}
@@ -49,6 +65,7 @@ public:
 		for (Case* i : sacADos){
 			if (i->obtObjet() == nullptr){
 				i->defObjet(objet);
+				objet->defEtat(RANGE);
 				return true;
 			}
 		}
@@ -60,6 +77,7 @@ public:
 			return nullptr;
 		Item* tmp = sacADos[position]->retirerObjet();
 		sacADos[position]->defObjet(objet);
+		objet->defEtat(RANGE);
 		return tmp;
 	}
 
@@ -68,6 +86,7 @@ public:
 			return nullptr;
 		Item* tmp = menuAccesRapide[position]->retirerObjet();
 		menuAccesRapide[position]->defObjet(objet);
+		objet->defEtat(RANGE);
 		return tmp;
 	}
 

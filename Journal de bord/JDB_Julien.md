@@ -294,4 +294,28 @@ Temps : 8h
 
 Temps : 1h
 
-Temps total : 132h30
+###**` 4 mai 2015`**
+
+- 12h à 14h : J'ai mis les textures en pointeur dans le projet, pour régler plusieurs problèmes bizarres. J'ai aussi commencé avec Richer la conception de puzzle, nous avons mis de l'avant les nombreux problèmes, ce qui nous a un peu découragé, mais nous aloons réussir !!
+
+Temps : 2h
+
+###**`5 mai 2015`**
+
+- 12h à 17h20 : J'ai fait un petit edit dans le curseur, il ne sort plus de la fenêtre maitenant. J'ai continué à travailler sur les puzzles avec Richer, des heures de découvertes de nouvelles posibilitées et de nouveaux problèmes, mais ça progresse. J'ai participé à des discussions à part et aidé d'autres personnes durant ce temps également, ce qui à diminué notre temps de travaille, mais l'important c'est que le projet avance. J'ai ajouté une fonction dans BoiteCollision pour déterminer si une boite de collision est dans une boite de collision.
+
+Temps : 5h20
+
+###**`6 mai 2015`**
+
+11h à 13h30 : J'ai ajouté une fonction qui détermine le centre d'une boite de collision et une qui détermine la distance entre deux centre de boite de collision, ce qui m'a permis d'afficher pour la première fois des pendules dans une salle. Progression !!!
+
+Temps : 2h30
+
+###**`7 mai 2015`**
+
+- 10h à 18h (Avec pause, donc moins de 8h...) : Le plus gros avancement dans les puzzles, j'ai commencé par ajouter un chrono de jeu, pour que les pendules puisse faire leur travail. Avec Richer, nous avons placé correctement le puzzle dans une partie de la pièce et nous avons implémenté les rotations du puzzle. Nous avons introduit les remplisseurs, ce qui fait une très belle finition à notre puzzle. J'ai terminé le positionnement des remplisseurs quand Richer est parti. Il faut noter que nous avons réglé plusieurs bugs et que nous avons aidé plusieurs personnes dans leur travail.
+
+Temps : 6h30
+
+Temps total : 148h50

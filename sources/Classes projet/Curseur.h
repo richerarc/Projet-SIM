@@ -61,6 +61,10 @@ public:
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(texture);
 	}
 
+	void vider(){
+		gfx::Gestionnaire2D::obtInstance().retObjet(texture);
+	}
+
 	static void defPosition(Vecteur2f pos) {
 		position = pos;
 	}
