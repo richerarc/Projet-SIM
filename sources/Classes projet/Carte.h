@@ -579,10 +579,10 @@ public:
 						info.cheminTexture = "Remplisseur.png";
 						info.type = 5;
 						info.rotation = 0;
-						info.position = Vecteur3d(boiteTemp.obtXMin(), 0, boitePuzzleTemp.obtZMin());
+						info.position = Vecteur3d(boiteTemp.obtXMin(), 1, boitePuzzleTemp.obtZMin());
 						puzzle.objet.push_back(info);
 						info.rotation = 180;
-						info.position = Vecteur3d(boiteTemp.obtXMax(), 0, boitePuzzleTemp.obtZMax());
+						info.position = Vecteur3d(boiteTemp.obtXMax(), 1, boitePuzzleTemp.obtZMax());
 						puzzle.objet.push_back(info);
 					}
 
@@ -592,10 +592,10 @@ public:
 						info.cheminTexture = "Remplisseur.png";
 						info.type = REMPLISSEUR;
 						info.rotation = 270;
-						info.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 0, boiteTemp.obtZMin());
+						info.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteTemp.obtZMin());
 						puzzle.objet.push_back(info);
 						info.rotation = 90;
-						info.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 0, boiteTemp.obtZMax());
+						info.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteTemp.obtZMax());
 						puzzle.objet.push_back(info);
 					}
 
