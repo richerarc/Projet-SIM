@@ -26,6 +26,7 @@ private:
 	bool bloque;
 	Chrono chronoSaut;
 	Inventaire* inventaire;
+	Vecteur3d normaleMur;
 
 	/*y=-(Ax+Cz+d)/B */
 	void ajusterVitesse(){
@@ -290,95 +291,90 @@ public:
 	}
 
 	void longer(){
-		Vecteur3d direction;
-		//x
-		if (vitesse.x != 0 && vitesse.y != 0 && vitesse.z != 0){
-			if (normale.x != 0.){
-				if (normale.x > 0.){
-					direction.x = normale.x - 1;
-				}
-				else {
-					direction.x = normale.x + 1;
-				}
-				if ((vitesse.x < 0. && normale.x > 0.) || (vitesse.x > 0. && normale.x < 0.)){
-					if (vitesse.x != direction.x && vitesse.x != direction.x*-1){
-						if (vitesse.x < 0.){
-							if (!(direction.x < 0.))
-								direction.x = direction.x * -1;
-						}
-						else {
-							if (direction.x < 0.)
-								direction.x = direction.x * -1;
-						}
+		Vecteur3d direction1;
+		Vecteur3d direction2;
+		Vecteur3d vitesseNormalisee;
+		direction1.x = -normaleMur.z;
+		direction1.y = 0.f;
+		direction1.z = normaleMur.x;
+		direction2.x = normaleMur.z;
+		direction2.y = 0.f;
+		direction2.z = -normaleMur.x;
+		vitesseNormalisee = vitesse;
+		vitesseNormalisee.y = 0;
+		vitesseNormalisee.normaliser();
+		bool droit = false;
+		if (normaleMur.x == 0. || normaleMur.z == 0.){
+			droit = true;
+			if (normaleMur.x == 0.){
+				if (normaleMur.z == 1.){
+					if (vitesse.x > 0.){
+						vitesse.x = direction2.x * vitesseDeplacement;
+						vitesse.z = direction2.z * vitesseDeplacement;
+					}
+					else{
+						vitesse.x = direction1.x * vitesseDeplacement;
+						vitesse.z = direction1.z * vitesseDeplacement;
 					}
 				}
-				vitesse.x = direction.x;
-			}
-
-			//y
-			if (normale.y != 0.){
-				if (normale.y > 0.){
-					direction.y = normale.y - 1;
-				}
-				else {
-					direction.y = normale.y + 1;
-				}
-				if ((vitesse.y < 0. && normale.y > 0.) || (vitesse.y > 0. && normale.y < 0.)){
-					if (vitesse.y != direction.y && vitesse.y != direction.y*-1){
-						if (vitesse.y < 0.){
-							if (!(direction.y < 0.))
-								direction.y = direction.y * -1;
-						}
-						else {
-							if (direction.y < 0.)
-								direction.y = direction.y * -1;
-						}
+				else{
+					if (vitesse.x > 0.){
+						vitesse.x = direction1.x * vitesseDeplacement;
+						vitesse.z = direction1.z * vitesseDeplacement;
+					}
+					else{
+						vitesse.x = direction2.x * vitesseDeplacement;
+						vitesse.z = direction2.z * vitesseDeplacement;
 					}
 				}
-				vitesse.y = direction.y;
 			}
-
-			//z
-			if (normale.z != 0.){
-				if (normale.z > 0.){
-					direction.z = normale.z - 1;
-				}
-				else {
-					direction.z = normale.z + 1;
-				}
-				if ((vitesse.z < 0. && normale.z > 0.) || (vitesse.z > 0. && normale.z < 0.)){
-					if (vitesse.z != direction.z && vitesse.z != direction.z*-1){
-						if (vitesse.z < 0.){
-							if (!(direction.z < 0.))
-								direction.z = direction.z * -1;
-						}
-						else {
-							if (direction.z < 0.)
-								direction.z = direction.z * -1;
-						}
+			if (normaleMur.z == 0.){
+				if (normaleMur.x == 1.){
+					if (vitesse.z > 0.){
+						vitesse.x = direction1.x * vitesseDeplacement;
+						vitesse.z = direction1.z * vitesseDeplacement;
+					}
+					else{
+						vitesse.x = direction2.x * vitesseDeplacement;
+						vitesse.z = direction2.z * vitesseDeplacement;
 					}
 				}
-				vitesse.z = direction.z;
+				else{
+					if (vitesse.z > 0.){
+						vitesse.x = direction2.x * vitesseDeplacement;
+						vitesse.z = direction2.z * vitesseDeplacement;
+					}
+					else{
+						vitesse.x = direction1.x * vitesseDeplacement;
+						vitesse.z = direction1.z * vitesseDeplacement;
+					}
+				}
 			}
+		}
+		if (!((vitesseNormalisee.x == direction1.x && vitesseNormalisee.z == direction1.z) || (vitesseNormalisee.x == direction2.x && vitesseNormalisee.z == direction2.z)) && !droit){
 
-			/////
-			/*
-			if (normale.x != 0.){
-			if ((normale.x > 0. && vitesse.x < 0.) || (normale.x < 0. && vitesse.x > 0.)){
-			vitesse.x = 0.;
+			if ((normaleMur.x <= 0. && normaleMur.z >= 0. && vitesseNormalisee.x > direction2.x && vitesseNormalisee.z < direction2.z) ||
+				(normaleMur.x >= 0. && normaleMur.z >= 0. && vitesseNormalisee.x < direction2.x && vitesseNormalisee.z < direction2.z) ||
+				(normaleMur.x <= 0. && normaleMur.z <= 0. && vitesseNormalisee.x > direction2.x && vitesseNormalisee.z > direction2.z) ||
+				(normaleMur.x >= 0. && normaleMur.z <= 0. && vitesseNormalisee.x < direction2.x && vitesseNormalisee.z > direction2.z)
+				){
+				vitesse.x = direction2.x * vitesseDeplacement;
+				vitesse.z = direction2.z * vitesseDeplacement;
 			}
+			else {
+				if ((normaleMur.x <= 0. && normaleMur.z >= 0. && vitesseNormalisee.x >= direction1.x && vitesseNormalisee.z <= direction1.z) ||
+					(normaleMur.x >= 0. && normaleMur.z >= 0. && vitesseNormalisee.x <= direction1.x && vitesseNormalisee.z <= direction1.z) ||
+					(normaleMur.x <= 0. && normaleMur.z <= 0. && vitesseNormalisee.x >= direction1.x && vitesseNormalisee.z >= direction1.z) ||
+					(normaleMur.x >= 0. && normaleMur.z <= 0. && vitesseNormalisee.x <= direction1.x && vitesseNormalisee.z >= direction1.z)
+					){
+					vitesse.x = direction1.x * vitesseDeplacement;
+					vitesse.z = direction1.z * vitesseDeplacement;
+				}
+				else{
+					vitesse.x = direction2.x * vitesseDeplacement;
+					vitesse.z = direction2.z * vitesseDeplacement;
+				}
 			}
-			//if (normale.y != 0.){
-			//if ((normale.y > 0. && vitesse.y < 0.) || (normale.y < 0. && vitesse.y > 0.)){
-			//vitesse.y = 0.;
-			//}
-			//}
-			if (normale.z != 0.){
-			if ((normale.z > 0. && vitesse.z < 0.) || (normale.z < 0. && vitesse.z > 0.)){
-			vitesse.z = 0.;
-			}
-			}
-			*/
 		}
 	}
 
@@ -413,6 +409,7 @@ public:
 	}
 
 	void defNormale(Vecteur3d normale){ this->normale = normale; }
+	void defNormaleMur(Vecteur3d normaleMur){ this->normaleMur = normaleMur; }
 
 	void defAngleHorizontal(double hAngle){
 		/*listeCamera[DEBOUT]->defHAngle(Maths::degreARadian(hAngle));
@@ -447,6 +444,7 @@ public:
 	double obtAngleHorizontal(){ return camera->obtHAngle(); }
 
 	Vecteur3d& obtNormale(){ return this->normale; }
+	Vecteur3d& obtNormaleMur(){ return this->normaleMur; }
 
 	Vecteur3d obtPositionCamera(){
 		//Vecteur3d temp = camera->obtPosition();

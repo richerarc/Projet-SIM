@@ -465,7 +465,7 @@ public:
 		return false;
 	}
 
-	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Vecteur3d* bteCollision, Vecteur3d& vitesseJoueur, Vecteur3d&normaleJoueur, Vecteur3d& pointCollisionJoueur, Vecteur3d& positionJoueur) {
+	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Vecteur3d* bteCollision, Vecteur3d& vitesseJoueur, Vecteur3d&normaleJoueur, Vecteur3d&normaleMur, Vecteur3d& pointCollisionJoueur, Vecteur3d& positionJoueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -477,7 +477,7 @@ public:
 			point = bteCollision[i];
 
 			rayonCollision = Droite(point, vitesseJoueur);
-
+			bool mur = false;
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale)) {
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
@@ -491,7 +491,13 @@ public:
 				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))
 					collision = SOLCROCHE;
 				if (normale.y == 0){
+					normaleMur = (normale);
 					collision = MUR;
+					mur = true;
+				}
+				else {
+					if (!mur && i == 7)
+						normaleMur = Vecteur3d(0., 1., 0.);
 				}
 				if (collision != MUR) {
 					Vecteur3d pointDifference = pointCollision - point;
