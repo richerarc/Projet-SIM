@@ -19,7 +19,7 @@ struct InfoPuzzle{
 	std::list<InfoObjet> objet;
 	BoiteCollision<double> boiteCollision;
 	Vecteur3d position;
-	bool* entrees;
+	bool entrees[4];
 	double rotation;
 
 	BoiteCollision<double> obtBoiteCollisionModifie(){
