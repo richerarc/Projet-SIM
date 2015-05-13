@@ -240,9 +240,10 @@ public:
 						vitesseTemp.x = -vitesseTemp.x;
 						vitesseTemp.z = -vitesseTemp.z;
 					}
-					else
+					else {
 						vitesseTemp = cote * vitesseDeplacement;
-					vitesseTemp.inverser();
+						vitesseTemp.inverser();
+					}
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + vitesseTemp.x;
 						vitesse.z = vitesse.z + vitesseTemp.z;
@@ -269,7 +270,7 @@ public:
 					vitesseDeplacement = 4.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
+						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
 					}
 					else
 						vitesse = vitesse + (cote * vitesseDeplacement);
