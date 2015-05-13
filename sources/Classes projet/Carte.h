@@ -168,13 +168,19 @@ private:
 				if (it_Porte.largeur != 0) {
 
 					if (it_Porte.rotation == 0) {
-
-						if (objet.position.z < it_Porte.position.z || objet.position.x < it_Porte.position.x + it_Porte.largeur)
+						if (objet.position.z >= it_Porte.position.z && (objet.position.x <= it_Porte.position.x && objet.position.x >= it_Porte.position.x + it_Porte.largeur))
 							PorteAuMur = false;
-
 					}
 					else if (it_Porte.rotation == 180) {
-						if (objet.position.z > it_Porte.position.z || objet.position.x < it_Porte.position.x)
+						if (objet.position.z <= it_Porte.position.z && (objet.position.x >= it_Porte.position.x && objet.position.x <= it_Porte.position.x + it_Porte.largeur))
+							PorteAuMur = false;
+					}
+					else if (it_Porte.rotation == 270) {
+						if (objet.position.x <= it_Porte.position.x && (objet.position.z >= it_Porte.position.z + it_Porte.largeur && objet.position.z <= it_Porte.position.z))
+							PorteAuMur = false;
+					}
+					else if (it_Porte.rotation == 90) {
+						if (objet.position.x >= it_Porte.position.x && (objet.position.z <= it_Porte.position.z + it_Porte.largeur && objet.position.z >= it_Porte.position.z))
 							PorteAuMur = false;
 					}
 				}
@@ -517,8 +523,8 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,3,3};
-			aleatoire = 7;/*rand() % itterateur;*/
+			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,2,3};
+			aleatoire = 2;/*rand() % itterateur;*/
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
@@ -546,7 +552,7 @@ public:
 				puzzle.position = boiteTemp.distanceEntreDeuxCentre(puzzle.boiteCollision);
 				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
 
-				if (boiteTemp.boiteDansBoite(boitePuzzleTemp)){
+				if (!boiteTemp.boiteDansBoite(boitePuzzleTemp)){
 
 					if (boiteTemp.obtGrandeurX() - boiteTemp.obtGrandeurZ() < 0){
 						double deltaXmen;
@@ -578,7 +584,7 @@ public:
 						info.largeur = boiteTemp.obtGrandeurX();
 						info.cheminModele = "Remplisseur.obj";
 						info.cheminTexture = "Remplisseur.png";
-						info.type = 5;
+						info.type = REMPLISSEUR;
 						info.rotation = 0;
 						info.position = Vecteur3d(boiteTemp.obtXMin(), 1, boitePuzzleTemp.obtZMin());
 						puzzle.objet.push_back(info);
@@ -616,12 +622,12 @@ public:
 			modeleSalle->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
 
 			// Boucle sur toutes les portes d'un salle pour les positionner...
-			for (unsigned short IDPorte = 0; IDPorte < it.nbrPorte; ++IDPorte) {
-				objet.ID = IDPorte;
+			for (unsigned short IDPorte = it.nbrPorte; IDPorte > 0; --IDPorte) {
+				objet.ID = IDPorte - 1;
 				objet.largeur = 0;
 				LecteurFichier::lireObjet("portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
-				it.Objet.push_back(objet);
+				it.Objet.push_front(objet);
 			}
 
 			// Ajout et réinitialisation de la salle.

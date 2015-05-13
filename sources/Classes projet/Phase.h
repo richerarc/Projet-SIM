@@ -2,9 +2,11 @@
 #include "Gestionnaire2D.h"
 
 class Phase{
-protected:
-	bool pause;
+	
 public:
+	
+	bool pause;
+	
 	Phase(){
 		pause = false;
 	}

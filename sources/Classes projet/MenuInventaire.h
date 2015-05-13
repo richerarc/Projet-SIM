@@ -117,12 +117,14 @@ public:
 				inventaire->ajouterObjet(objetCurseur);
 				objetCurseur = nullptr;
 			}
-			gfx::Gestionnaire2D::obtInstance().vider();
-			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
-			GestionnairePhases::obtInstance().enleverPhaseActive();
-			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
-			gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
-			GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			if (GestionnairePhases::obtInstance().obtPhase(PHASEJEU)->pause) {
+				gfx::Gestionnaire2D::obtInstance().vider();
+				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+				GestionnairePhases::obtInstance().enleverPhaseActive();
+				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+				gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
+				GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+			}
 		}
 	}
 

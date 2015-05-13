@@ -416,13 +416,13 @@ public:
 	void defNormaleMur(Vecteur3d normaleMur){ this->normaleMur = normaleMur; }
 
 	void defHAngle(double hAngle){
-		listeCamera[MODELEDEBOUT]->defHAngle(Maths::degreARadian(hAngle));
-		listeCamera[MODELEACCROUPI]->defHAngle(Maths::degreARadian(hAngle));
+		listeCamera[MODELEDEBOUT]->defHAngle(hAngle);
+		listeCamera[MODELEACCROUPI]->defHAngle(hAngle);
 	}
 
 	void defVAngle(double vAngle) {
-		listeCamera[MODELEDEBOUT]->defVAngle(Maths::degreARadian(vAngle));
-		listeCamera[MODELEACCROUPI]->defVAngle(Maths::degreARadian(vAngle));
+		listeCamera[MODELEDEBOUT]->defVAngle(vAngle);
+		listeCamera[MODELEACCROUPI]->defVAngle(vAngle);
 	}
 
 	gfx::Camera* obtCamera(){ return camera; }
@@ -468,7 +468,7 @@ public:
 
 	Vecteur3d& obtPointCollision(){ return this->pointCollision; }
 
-	Vecteur3d* obtVerticesCollision(){ return this->verticesCollision; }
+	//Vecteur3d* obtVerticesCollision(){ return this->verticesCollision; }
 
 	Vecteur3d& obtPosition(){ return this->position; }
 
