@@ -300,8 +300,10 @@ public:
 					}
 				}
 			}
-			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0)
-				modele3D->defOrientation(0, (camera->obtHAngle()), 0);
+			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0) {
+				listeModele3D[MODELEDEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
+				listeModele3D[MODELEACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
+			}
 		}
 	}
 
@@ -402,7 +404,8 @@ public:
 
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
-		this->modele3D->defPosition(position);
+		this->listeModele3D[MODELEACCROUPI]->defPosition(position);
+		this->listeModele3D[MODELEDEBOUT]->defPosition(position);
 		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
 		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
