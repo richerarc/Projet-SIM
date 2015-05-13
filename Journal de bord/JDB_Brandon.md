@@ -58,3 +58,9 @@ Nous avons discuté longuement de la manière de gérer les items et nous en som
 Moi et Nicolas Coutu avons travaillé sur les animations d'objets lorsqu'ils sont équipés. C'est plus ou moins au point.
 # 11 mai pendant 3h30 #
 J'ai commencé l'intégration des menus d'inventaire dans le gameplay et j'ai implémenté le ramassage d'objets dans les salles.
+# 12 mai pendant 1h #
+J'ai essayé d'aider Nicolas à bien animer nos items lorsqu'ils sont équipés. On a fait un récapitulatif de semi-groupe sur l'avancement du projet.
+## pendant 3h30 ##
+Un autre recap. On a déterminé l'arborescence des items et comment les IDs seront attribués.
+## pendant 2h ##
+J'ai commencé à travailler sur les physiques de Fusil.
