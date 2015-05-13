@@ -115,6 +115,7 @@ public:
 						vitesseDeplacement = 4.f;
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && (camera != listeCamera[MODELEACCROUPI])) {
+					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
 					camera = listeCamera[MODELEACCROUPI];
 					modele3D = listeModele3D[MODELEACCROUPI];
 					ajouterScene();
@@ -122,6 +123,7 @@ public:
 				}
 
 				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && camera != listeCamera[MODELEDEBOUT]) {
+					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
 					camera = listeCamera[MODELEDEBOUT];
 					modele3D = listeModele3D[MODELEDEBOUT];
 					ajouterScene();
