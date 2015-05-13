@@ -484,12 +484,14 @@ public:
 
 	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Joueur* joueur) {
 		Droite rayonCollision;
+		Droite collisionEscalier;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 		short collision = AUCUNE;
 		bool mur = false;
+		bool escalier = false;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -509,7 +511,14 @@ public:
 					collision = SOLDROIT;
 				if ((normale.y > fabs(normale.x) && normale.y > fabs(normale.z)) && normale.y != 1)
 					collision = SOLCROCHE;
-				if (normale.y == 0){
+				if (normale.y == 0) {
+					if (point.y < joueur->obtPosition().y + 1) {
+						collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
+						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, true)) {
+							joueur->defPositionY(joueur->obtPosition().y + 0.5);
+							escalier = true;
+						}
+					}
 					joueur->defNormaleMur(normale);
 					collision = MUR;
 					mur = true;
@@ -522,8 +531,10 @@ public:
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
 				else{
-					Vecteur3d pointDifference = pointCollision - point;
-					joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+					if (!escalier) {
+						Vecteur3d pointDifference = pointCollision - point;
+						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+					}
 				}
 			}
 		}

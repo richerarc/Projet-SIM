@@ -183,3 +183,24 @@ Kevin et moi envons enfin réussi à faire bouger le joueur correctement dans un
 
 -environ 3 heures
 Travail sur le déplacement du joueur en général, il peut se déplacé sur le sol d'une façons environ correctement sauf à quelques exceptions
+
+5 mai
+
+-environ 3 heures
+Travail avec Kevin sur le déplacement du joueur pour le plus fluide possible
+
+7 mai
+
+-environ 2 heures
+Travail sur le joueur pour qu'il fonctionne dans la salle de Test (des pentes dans toutes les directions)
+
+8 mai
+
+-environ 3 heures
+Le joueur peut aller dans toutes les pentes peut importe la direction et peut importe si il recule ou qi'il va sur le côté
+
+12 mai
+
+-environ 3h30
+réglage du bug qui faisait en sorte que le joueur se déplaçais d'une façons bizarre. Finalement j'ai trouvé que c'était la camera que Kevin avait fait dans le joueur qui rendait le déplacement étrange
+

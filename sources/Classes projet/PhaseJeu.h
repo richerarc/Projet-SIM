@@ -59,9 +59,9 @@ private:
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
 			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-			if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
-				joueur->longer();
-			}
+			//if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
+			//	joueur->longer();
+			//}
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
@@ -136,7 +136,7 @@ public:
 
 		itemEquipe = nullptr;
 
-		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("luger.png")), 0, "metal", 20, Vecteur3d(0.1, 0, 0), Vecteur3d(), Vecteur3d(), false);
+		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("luger.png")), 0, "metal", 20);
 
 		joueur->obtInventaire()->ajouterObjet(test);
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
