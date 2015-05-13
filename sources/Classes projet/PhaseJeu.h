@@ -65,19 +65,12 @@ private:
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur->obtModele3D()->obtBoiteDeCollisionModifiee(), joueur->obtVitesse(), joueur->obtNormale(),joueur->obtNormaleMur(), joueur->obtPointCollision(), joueur->obtPosition(),joueur->obtVerticesCollision());
-			if (typeCollision == MUR) {
-				double hauteur = 0.f;
-				if (joueur->obtVerticesCollision()[0].x == joueur->obtVerticesCollision()[1].x && joueur->obtVerticesCollision()[0].z == joueur->obtVerticesCollision()[1].z)
-					hauteur = fabs(joueur->obtVerticesCollision()[0].y - joueur->obtVerticesCollision()[1].y);
-				else if (joueur->obtVerticesCollision()[0].x == joueur->obtVerticesCollision()[2].x && joueur->obtVerticesCollision()[0].z == joueur->obtVerticesCollision()[2].z)
-					hauteur = fabs(joueur->obtVerticesCollision()[0].y - joueur->obtVerticesCollision()[2].y);
-				else if (joueur->obtVerticesCollision()[1].x == joueur->obtVerticesCollision()[2].x && joueur->obtVerticesCollision()[1].z == joueur->obtVerticesCollision()[2].z)
-					hauteur = fabs(joueur->obtVerticesCollision()[1].y - joueur->obtVerticesCollision()[2].y);
-				if (hauteur < .5)
-					joueur->defPositionY( joueur->obtPosition().y + hauteur);
-			}
-			else if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)/*&& joueur->obtEtat()!= MARCHE*/){
+			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
+			//if (typeCollision == MUR) {
+			//	joueur->obtVitesse().x = 0.;
+			//	joueur->obtVitesse().z = 0.;
+			//}
+			if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
 				joueur->defEtat(STABLE);
 				joueur->obtVitesse().y = 0.f;
 				joueur->obtVitesse().x = 0.f;
@@ -170,7 +163,7 @@ public:
 			}
 		}
 		if (!this->pause) {
-			joueur->deplacement(frameTime);
+			joueur->deplacement();
 			appliquerPhysique(frameTime);
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);

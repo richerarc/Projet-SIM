@@ -133,3 +133,9 @@ de 15h à 16h(1h)
 
 7 mai de 9h40 à 12h40 (3h)
 -Étant donné que je rencontrais plusieurs problèmes avec la gestion des mouvements à partir du joystick, j'ai décidé, avec l'accord des membres, d'utiliser plutot le "hat" de la manette. 
+
+11 mai de 20h à 22h(~2h)
+-J'ai passé quelques heures à debugger la manette pour regler le problème des touches "qui restent enfoncés", le personne avance tjrs même lorsque le bouton est relaché, j'ai finalement compris où était la source de du problème mais je n'ai toujours rien de concluant pour le moment.
+
+12 mai de 14h30 à 17h30 (3h)
+-J'ai réussis à résoudre mon problème expliqué plus haut. J'ai revue ma facon de gérer les événements de la manette et c'est beaucoup plus simple de la nouvelle façon que je le fais et , le plus important, cela fonctionne! J'ai aussi résolue un problème avec le controle de la caméra mais il reste un petit problème sur lequel je travaille.

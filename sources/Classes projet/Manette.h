@@ -73,6 +73,14 @@ public:
 		if (event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)
 			positionDroitey = (event.caxis.value) / 22000.0f;
 	}
+
+	static void mettreAJourEtat(short orientations, bool etat){
+		if (etat)
+			orientation.insert(orientations);
+		else
+			orientation.erase(orientations);
+	}
+
 	//static void verifierOrientationControleGauche(SDL_Event &event){
 	//	if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX){
 	//		if (event.caxis.value > 0)
@@ -104,6 +112,9 @@ public:
 		return boutons.find(bouton) == boutons.end();
 	}
 	static bool orientationAppuyer(int i){
+		return orientation.find(i) != orientation.end();
+	}
+	static bool orientationRelacher(int i){
 		return orientation.find(i) == orientation.end();
 	}
 	static float obtenirPositionGaucheX(){

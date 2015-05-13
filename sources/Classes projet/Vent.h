@@ -23,4 +23,8 @@ public:
 	Vecteur3d obtDimensions(){
 		return dimensions;
 	}
+	
+	bool obtSiPorte(){
+		return false;
+	}
 };

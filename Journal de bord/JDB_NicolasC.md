@@ -124,4 +124,6 @@
 **12 mai** durée 1h 20min  
   -fix de l'animation et limitage des fps avec Brandon.  
 **12 mai** durée 1h 10min  
-  -modélisation d'une salle à 2 étages.
+  -modélisation d'une salle à 2 étages.  
+**12 mai** durée 3h  
+  -début de l'usine d'items avec Brandon

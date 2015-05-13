@@ -75,7 +75,7 @@ public:
 	}
 
 	void defTexte(std::string* texte){
-		this->texte->defTexte(texte);
+			//this->texte->defTexte(texte);
 	}
 
 	void defPosition(Vecteur2f &position){
