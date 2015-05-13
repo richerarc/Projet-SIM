@@ -129,9 +129,9 @@ public:
 					vitesseDeplacement = 4.f;
 				}
 
-				if ((normale.x != 0 || normale.z != 0) && (normale.y != 0)) {
-					vitesseDeplacement = 4.f;
-				}
+				/*if ((normale.x != 0 || normale.z != 0) && (normale.y != 0)) {
+				vitesseDeplacement = 4.f;
+				}*/
 
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))) {
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
@@ -180,7 +180,6 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
-					vitesseDeplacement = 4.f;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
@@ -233,7 +232,6 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-					vitesseDeplacement = 4.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesseTemp.x = cote.x * vitesseDeplacement;
 						vitesseTemp.z = cote.z * vitesseDeplacement;
@@ -266,7 +264,6 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
-					vitesseDeplacement = 4.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
@@ -470,6 +467,8 @@ public:
 	short obtSanteMentale(){ return santeMentale; }
 
 	Vecteur3d& obtPointCollision(){ return this->pointCollision; }
+
+	Vecteur3d* obtVerticesCollision(){ return this->verticesCollision; }
 
 	Vecteur3d& obtPosition(){ return this->position; }
 
