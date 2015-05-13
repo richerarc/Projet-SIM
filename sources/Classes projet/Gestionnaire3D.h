@@ -93,6 +93,34 @@ namespace gfx{
 			objets.remove(objet);
 		}
 
+		void ajouterTexture(gfx::Texture* texture, Vecteur3d position, Vecteur3d normale){
+			Vecteur3d tx = normale.produitVectoriel(normale + Vecteur3d(1, 2, 3));
+			Vecteur3d ty = normale.produitVectoriel(tx);
+			double d = position.norme();
+			double n = normale.norme();
+			double vertices[] = { (tx.x + ty.x) + n * d, (tx.y + ty.y) + n * d, (tx.z + ty.z) + n * d,
+								  (tx.x - ty.x) + n * d, (tx.y - ty.y) + n * d, (tx.z - ty.z) + n * d,
+								  (-tx.x - ty.x) + n * d, (-tx.y - ty.y) + n * d, (-tx.z - ty.z) + n * d,
+								  (tx.x - ty.x) + n * d, (tx.y - ty.y) + n * d, (tx.z - ty.z) + n * d,
+								  (-tx.x - ty.x) + n * d, (-tx.y - ty.y) + n * d, (-tx.z - ty.z) + n * d,
+								  (-tx.x + ty.x) + n * d, (-tx.y + ty.y) + n * d, (-tx.z + ty.z) + n * d };
+			double textures[] = { 0, 1,
+								  1, 1,
+								  1, 0,
+							      1, 1,
+								  1, 0,
+								  0, 0 };
+			double normales[] = { normale.x, normale.y, normale.z,
+								  normale.x, normale.y, normale.z,
+							   	  normale.x, normale.y, normale.z,
+								  normale.x, normale.y, normale.z,
+								  normale.x, normale.y, normale.z,
+								  normale.x, normale.y, normale.z };
+			gfx::Modele modele(vertices, textures, normales);
+			gfx::Modele3D plan(&modele, texture);
+			objets.push_back(&plan);
+		}
+
 		void ajouterObjet(Objet3D* Objet){
 			objets.push_back(Objet);
 		}
