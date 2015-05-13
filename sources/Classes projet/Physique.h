@@ -12,7 +12,7 @@
 
 enum collision{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
 
-class Physique : public Singleton < Physique > {
+class Physique : public Singleton<Physique>{
 private:
 
 	double gravite;
@@ -20,63 +20,6 @@ private:
 	double sensibiliteMagnetique;
 	std::map<char*, double> mapRestitution;
 	bool collision;
-
-	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
-
-		Vecteur3d point1;
-		Vecteur3d point2;
-		Vecteur3d point3;
-		Vecteur3d point;
-		double* tabVertices;
-		double scalaire;
-		Plan plan;
-
-		gfx::Modele* modele = modele3D->obtModele();
-
-		tabVertices = modele3D->obtSommetsModifies();
-
-		for (unsigned int Nbrface = 0; Nbrface < modele->obtNbrSommets(); Nbrface += 3) {
-
-			for (int j = 0; j < 3; j++) {
-				switch (j) {
-
-				case 0:
-					point1 = { tabVertices[(Nbrface)* 3], tabVertices[(Nbrface)* 3 + 1], tabVertices[(Nbrface)* 3 + 2] };
-					break;
-
-				case 1:
-					point2 = { tabVertices[(Nbrface)* 3 + 3], tabVertices[(Nbrface)* 3 + 4], tabVertices[(Nbrface)* 3 + 5] };
-					break;
-
-				case 2:
-					point3 = { tabVertices[(Nbrface)* 3 + 6], tabVertices[(Nbrface)* 3 + 7], tabVertices[(Nbrface)* 3 + 8] };
-					break;
-				}
-			}
-
-			plan.calculerPlan(point1, point2, point3);
-
-			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
-			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
-				if (abs(normale.x == abs(normale.z))) {
-					normale.z += 0.01;
-				}
-				if (Maths::pointDansFace1(point1, point2, point3, pointCollision, normale) && Maths::pointDansFace(pointCollision, point1, point2, point3)) {
-
-					point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
-
-					if (Maths::memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
-						normale.normaliser();
-						rayonCollision.obtenirVecteurDirecteur().normaliser();
-						scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
-						if (scalaire < 0 && (Maths::distanceEntreDeuxPoints(pointCollision, rayonCollision.obtenirPoint()) < 1))
-							return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
 
 	bool collisionDroiteObjet(Objet& objet, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
@@ -147,7 +90,73 @@ public:
 		mapRestitution["ballerebondissante"] = 0.1;
 	}
 
-	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> objets, float frameTime, double temps) {
+	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, bool collisionReelle) {
+
+		Vecteur3d point1;
+		Vecteur3d point2;
+		Vecteur3d point3;
+		Vecteur3d point;
+		double* tabVertices;
+		double scalaire;
+		Plan plan;
+
+		gfx::Modele* modele = modele3D->obtModele();
+
+		tabVertices = modele3D->obtSommetsModifies();
+
+		for (unsigned int Nbrface = 0; Nbrface < modele->obtNbrSommets(); Nbrface += 3) {
+
+			for (int j = 0; j < 3; j++) {
+				switch (j) {
+
+				case 0:
+					point1 = { tabVertices[(Nbrface)* 3], tabVertices[(Nbrface)* 3 + 1], tabVertices[(Nbrface)* 3 + 2] };
+					break;
+
+				case 1:
+					point2 = { tabVertices[(Nbrface)* 3 + 3], tabVertices[(Nbrface)* 3 + 4], tabVertices[(Nbrface)* 3 + 5] };
+					break;
+
+				case 2:
+					point3 = { tabVertices[(Nbrface)* 3 + 6], tabVertices[(Nbrface)* 3 + 7], tabVertices[(Nbrface)* 3 + 8] };
+					break;
+				}
+			}
+
+			plan.calculerPlan(point1, point2, point3);
+
+			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
+			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
+				if (abs(normale.x == abs(normale.z))) {
+					normale.z += 0.01;
+				}
+				if (Maths::pointDansFace1(point1, point2, point3, pointCollision, normale) && Maths::pointDansFace(pointCollision, point1, point2, point3)) {
+					if (collisionReelle){
+						point = pointCollision + rayonCollision.obtenirVecteurDirecteur();
+						if (Maths::memeCote(point, rayonCollision.obtenirPoint(), pointCollision, point1)) {
+							normale.normaliser();
+							rayonCollision.obtenirVecteurDirecteur().normaliser();
+							scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
+							if (scalaire < 0 && (Maths::distanceEntreDeuxPoints(pointCollision, rayonCollision.obtenirPoint()) < 1))
+								return true;
+						}
+					}
+					else{
+						scalaire = normale.produitScalaire(rayonCollision.obtenirVecteurDirecteur());
+						if (scalaire < 0)
+							return true;
+					}
+
+
+
+				}
+			}
+		}
+		return false;
+	}
+
+	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle,std::list<Objet*> objets, float frameTime) {
+
 		for (auto it : objets) {
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
 			if (it_Vent != nullptr) {
@@ -156,7 +165,7 @@ public:
 						if (it_Objet->obtModele3D()->obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D()->obtPosition().x <= it->obtPosition().x + it_Vent->obtDimensions().x) {
 							if (it_Objet->obtModele3D()->obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D()->obtPosition().y <= it->obtPosition().y + it_Vent->obtDimensions().y) {
 								if (it_Objet->obtModele3D()->obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D()->obtPosition().z <= it->obtPosition().z + it_Vent->obtDimensions().z) {
-									Physique::obtInstance().appliquerVent(it->obtVitesse(), (*it_Objet).obtVitesse(), (*it_Objet).obtModele3D(), it->obtMasse(), frameTime);
+									Physique::obtInstance().appliquerVent(it->obtVitesse(), *it_Objet, frameTime);
 								}
 							}
 						}
@@ -173,10 +182,8 @@ public:
 			}
 			Pendule* it_Pendule = dynamic_cast<Pendule*>(it);
 			if (it_Pendule != nullptr) {
-				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), temps);
-				Vecteur3d vectemp = it_Pendule->obtVitesseAngulaire() * angle;
-				vectemp.y = it_Pendule->obtModele3D()->obtOrientation().y;
-				it_Pendule->obtModele3D()->defOrientation(vectemp);
+				double angle = obtenirAnglePenduleSimple(it_Pendule->obtAngleMax(), it_Pendule->obtVitesseAngulaire().norme(), it_Pendule->obtConstantePhase(), frameTime);
+				it_Pendule->obtModele3D()->defOrientation(it_Pendule->obtVitesseAngulaire() * angle);
 			}
 			ObjetFixe* it_ObjetFixe = dynamic_cast<ObjetFixe*>(it);
 			if (it_ObjetFixe != nullptr) {
@@ -188,22 +195,14 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it)) {
+				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle,objets, *it)) {
 					appliquerGravite(it->obtVitesse(), frameTime);
 					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 				}
 			}
 		}
 	}
-	
-	void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
-		Vent* it_Vent = dynamic_cast<Vent*>(objet);
-		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
-		Pendule* it_Pendule = dynamic_cast<Pendule*>(objet);
-		if (it_Pendule != nullptr) {
-		}
-	}
-	
+
 	void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
 
 		Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
@@ -233,7 +232,7 @@ public:
 			double theta = sin(vecteurNormal.angleEntreVecteurs(rayon));
 			double masse = objet.obtMasse();
 			double vi = objet.obtVitesse().norme();
-				//double wi = objet.obtVitesseAngulaire().norme();
+			double wi = objet.obtVitesseAngulaire().norme();
 
 			// Pour le calcul du moment d'inertie...
 			Vecteur3d  coteX = { BoiteDeCollisionModifiee[7].x - BoiteDeCollisionModifiee[4].x,
@@ -326,17 +325,17 @@ public:
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::Modele3D* modele, double masse, double frametime) {
+	void appliquerVent(Vecteur3d vecteurVitesseVent, Objet& objet, double frametime) {
 
-		double* tableaunormale = modele->obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
-		double* tableauVertices = modele->obtSommetsModifies();
+		double* tableaunormale = objet.obtModele3D()->obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
+		double* tableauVertices = objet.obtModele3D()->obtSommetsModifies();
 
 		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreVertice = modele->obtModele()->obtNbrVertices();
+		double nombreVertice = objet.obtModele3D()->obtModele()->obtNbrVertices();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -385,7 +384,7 @@ void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::M
 		coefficientTrainer /= nombreFaceSousPression;
 
 		// Fin du calcul...
-		accelerationSelonForceVent *= (coefficientTrainer * surface / masse);
+		accelerationSelonForceVent *= (coefficientTrainer * surface / objet.obtMasse());
 
 		// Mise en proportion pour l'addition...
 		vecteurVitesseVent.normaliser();
@@ -393,7 +392,7 @@ void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::M
 		// Nécéssite l'ajout d'un division par le temps...
 		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
 
-		vitesseObjet += vecteurVitesseAppliquer * frametime;
+		objet.obtVitesse() += vecteurVitesseAppliquer * frametime;
 	}
 
 	void appliquerFrottement(Objet& objet, Vecteur3d& normale) {
@@ -419,14 +418,14 @@ void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::M
 	}
 
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double phase, double frametime) {
-		return Maths::radianADegre(Maths::degreARadian(angleMaximal) * SDL_cos(omega * frametime + phase));
+		return angleMaximal * SDL_cos(omega * frametime + phase);
 	}
 
 	double obtenirEnergieCinetique(double masse, Vecteur3d& vecteurVitesseObjet) {
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet) {
+	bool collisionObjetSalle(gfx::Modele3D* modeleSalle,std::list<Objet*> listeObjet , Objet& objet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -440,7 +439,7 @@ void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::M
 			point = tabObjet[i];
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
@@ -474,72 +473,73 @@ void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::M
 		return false;
 	}
 
-	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Joueur* joueur) {
+	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Vecteur3d* bteCollision, Vecteur3d& vitesseJoueur, Vecteur3d&normaleJoueur, Vecteur3d&normaleMur, Vecteur3d& pointCollisionJoueur, Vecteur3d& positionJoueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 		short collision = AUCUNE;
-		bool mur = false;
 
 		for (int i = 0; i < 8; i++) {
 
-			point = tabJoueur[i];
+			point = bteCollision[i];
 
-			rayonCollision = Droite(point, joueur->obtVitesse());
-
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale)) {
+			rayonCollision = Droite(point, vitesseJoueur);
+			bool mur = false;
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
 				if (fabs(normale.z) < 0.05f)
 					normale.z = 0.f;
 				normale.normaliser();
-				joueur->defNormale(normale);
-				joueur->defPointCollision(pointCollision);
-				if (normale.y == 1)
+				normaleJoueur = (normale);
+				pointCollisionJoueur = (pointCollision);
+				if (normale.y == 1)	
 					collision = SOLDROIT;
-				if ((normale.y > fabs(normale.x) && normale.y > fabs(normale.z)) && normale.y != 1)
+				if (normale.y > fabs(normale.x) && normale.y > fabs(normale.z))
 					collision = SOLCROCHE;
 				if (normale.y == 0){
-					joueur->defNormaleMur(normale);
+					normaleMur = (normale);
 					collision = MUR;
 					mur = true;
 				}
-				if (!mur && i == 7) {
-					joueur->defNormaleMur(Vecteur3d(0.f, 1.f, 0.f));
+				else {
+					if (!mur && i == 7)
+						normaleMur = Vecteur3d(0., 1., 0.);
 				}
 				if (collision != MUR) {
 					Vecteur3d pointDifference = pointCollision - point;
-					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
+					positionJoueur.y +=  pointDifference.y;
 				}
 				else{
 					Vecteur3d pointDifference = pointCollision - point;
-					joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+					//if (HauteurVertice > 3)
+					positionJoueur = Vecteur3d( positionJoueur.x + pointDifference.x, positionJoueur.y, positionJoueur.z + pointDifference.z );
+					//else
+					//position += pointDifference;
 				}
 			}
 		}
 		if (collision == AUCUNE) {
-			joueur->defNormale({ 0, 0, 0 });
-		}
+				normaleJoueur = Vecteur3d({ 0, 0, 0 });
+			}
 		return collision;
 	}
 
-	bool collisionJoueurObjet(Joueur* joueur, Objet &objet) {
+	bool collisionJoueurObjet(Objet &objet, Vecteur3d* bteCollision, Vecteur3d& vitesseJoueur, Vecteur3d& positionJoueur) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 
 		for (int i = 0; i < 8; i++) {
-			point = tabJoueur[i];
+			point = bteCollision[i];
 
-			rayonCollision = Droite(point, joueur->obtVitesse());
+			rayonCollision = Droite(point, vitesseJoueur);
 
 			if (collisionDroiteObjet(objet, rayonCollision, pointCollision, normale)) {
 				Vecteur3d pointDiference = pointCollision - point;
-				joueur->defPosition(joueur->obtPosition() + pointDiference);
+				positionJoueur += pointDiference;
 				return true;
 			}
 		}
