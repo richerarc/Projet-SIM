@@ -524,7 +524,9 @@ public:
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,2,3};
+
 			aleatoire = 2;/*rand() % itterateur;*/
+
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);

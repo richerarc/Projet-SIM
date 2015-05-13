@@ -57,26 +57,29 @@ private:
 
 
 	void appliquerPhysique(float frameTime) {
-		/*if (joueur->obtVitesse().norme() != 0) {
+		if (joueur->obtVitesse().norme() != 0) {
 			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 			if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
 				joueur->longer();
-			}*/
+			}
+			if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
+				joueur->longer();
+			}
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
-		//	iterateur_x += joueur->obtVitesse().x * frameTime;
-		//	iterateur_z += joueur->obtVitesse().z * frameTime;
-		//	short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
-		//	//if (typeCollision == MUR) {
-		//	//	joueur->obtVitesse().x = 0.;
-		//	//	joueur->obtVitesse().z = 0.;
-		//	//}
-		//	if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
-		//		joueur->defEtat(STABLE);
-		//		joueur->obtVitesse().y = 0.f;
-		//		joueur->obtVitesse().x = 0.f;
-		//		joueur->obtVitesse().z = 0.f;
-		//	}
-		//}
+			iterateur_x += joueur->obtVitesse().x * frameTime;
+			iterateur_z += joueur->obtVitesse().z * frameTime;
+			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
+			if (typeCollision == MUR) {
+				joueur->obtVitesse().x = 0.;
+				joueur->obtVitesse().z = 0.;
+			}
+			if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
+				joueur->defEtat(STABLE);
+				joueur->obtVitesse().y = 0.f;
+				joueur->obtVitesse().x = 0.f;
+				joueur->obtVitesse().z = 0.f;
+			}
+		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
 

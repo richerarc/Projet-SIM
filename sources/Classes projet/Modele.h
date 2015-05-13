@@ -90,6 +90,12 @@ namespace gfx{
 			charger(chemin);
 		}
 
+		Modele(double* vertices, double* textures, double* normales){
+			this->vertices = vertices;
+			this->textures = textures;
+			this->normales = normales;
+		}
+
 		~Modele(){
 			if (vertices)
 			{
