@@ -64,3 +64,5 @@
 
 12/05/2015 (8h10 à 8h40) : J'ai mis le longement sur master. Je l'ai testé pour vérifier qu'il ne crée pas de problèmes avec la dernière version de master.
            (2h00 à 5h00) : J'étais présent pour la petite réunion de l'équipe, dans laquelle j'ai été assigné avec Sam pour créer les succès. Nous en avons fait l'analyse, puis avons commencé à coder un gestionnaire de succès.
+
+14/05/2015 (9h45 à 12h10) : J'ai fait une texture pour la boite qui va afficher les succès. J'ai ensuite continué à faire le gestionnaire de succès avec Sam. Il ne reste essentiellement qu'à faire afficher les succès.
