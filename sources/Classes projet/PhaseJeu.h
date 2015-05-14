@@ -74,10 +74,15 @@ private:
 				joueur->obtVitesse().z = 0.;
 			}
 			if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
-				joueur->defEtat(STABLE);
 				joueur->obtVitesse().y = 0.f;
-				joueur->obtVitesse().x = 0.f;
-				joueur->obtVitesse().z = 0.f;
+				if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER))
+					&& Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER))
+					&& Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE))
+					&& Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) {
+					joueur->defEtat(STABLE);
+					joueur->obtVitesse().x = 0.f;
+					joueur->obtVitesse().z = 0.f;
+				}
 			}
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());

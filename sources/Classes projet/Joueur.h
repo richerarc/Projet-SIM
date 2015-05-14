@@ -39,6 +39,10 @@ private:
 			double d = plan.obtenirD();
 			double y = -(((A * x) + (C * z) + d) / B);
 			vitesse.y = y;
+			Vecteur3d vitesseTemp = vitesse;
+			vitesseTemp.normaliser();
+			vitesseTemp *= vitesseDeplacement;
+			vitesse.y = vitesseTemp.y;
 		}
 	}
 

@@ -509,7 +509,7 @@ public:
 				joueur->defPointCollision(pointCollision);
 				if (normale.y == 1)
 					collision = SOLDROIT;
-				if ((normale.y > fabs(normale.x) && normale.y > fabs(normale.z)) && normale.y != 1)
+				if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
 					collision = SOLCROCHE;
 				if (normale.y == 0) {
 					if (point.y < joueur->obtPosition().y + 1) {
