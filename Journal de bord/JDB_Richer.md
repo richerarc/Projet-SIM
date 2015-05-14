@@ -66,4 +66,10 @@
 
 `Jeu. 07 mai.` On a enfin fais spawner des pendules qui bougent avec la physique. On s'occupe aussi de "filler" les espace autour; c'est vraiment propre comme solution. Aussi, les rotation du puzzle ce fait, avec quelque problème restant. Je ne suis toujours pas capable de faire quoi que ce soit avec mon executable sur mac... c'est plus que chiant étant donné les 3h30 que j'ai passé la dessus. `8h00`
 
-ˋVen. 08 mai.ˋ Enfin le bug sur Mac est réglé! Il était temps, étant donné les 11h30 passer à essayer d'arranger ça. Moi et Julien avons continuer les puzzles, mais nous n'en avons pas coder de nouveau ˋ2h00`
+`Ven. 08 mai.` Enfin le bug sur Mac est réglé! Il était temps, étant donné les 11h30 passer à essayer d'arranger ça. Moi et Julien avons continuer les puzzles, mais nous n'en avons pas coder de nouveau `2h00`
+
+`Lun. 11 mai` J'ai travaillé longuement sur le flickering de texture, ce qui m'a permis de conclure qu'il n'y à rien à faire `3h00`
+
+`Mar. 12 mai` J'ai travaillé avec Julien encore sur les puzzle, on à remaper tout le monde pour un sprint finale et nous avons répondu à des question étalé sur 2 heures... `5h00`
+
+`Mer. 13 mai` J'ai travaillé en blender (je suis mauvais) et j'ai fais le poste de controle qui intègre la matière de mathématique discète. `6h00`
