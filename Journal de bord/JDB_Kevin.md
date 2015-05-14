@@ -269,3 +269,15 @@ Nathan et moi (plus Nathan) avons travaillé sur le déplacement du joueur pour 
 
 J'ai réglé le problement du joueur de 3 metres de large en jouant aven le frustum d'avantage. J'ai refait les modeles3D du joueur et j'ai arrenger le fait qu'il passait à travers les murs. Ce dernier point reste à arranger. J'ai commencer a coder comment je le ferais monter les escaliers, je m'insipire du positionnement des portes alors je vais demander plus de détail a Gabriel demain. 
  **Temps 5h**
+
+##**`8 Mai 2015`**
+J'ai blendé et texturé une salle test.
+
+##**`12 Mai 2015`**
+J'ai refait le hiérarchie un peu pour pouvoir utiliser des fonctions de la physique dans le joueur mais l'opération c'est avéré être un échec.
+
+##**`13 Mai 2015`**
+Nathan a régler le déplacement et maintenant le joueur monte les marches. Parcontre ça marche seulement sur son ordinateur et pas sur les ordinateur du cégep.
+J'ai aussi découper l'Avion de gabriel pour le préparer à la texturisation.
+
+
