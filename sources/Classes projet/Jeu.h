@@ -1,7 +1,6 @@
-enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUCHARGEMENT, MENUINVENTAIRE, PHASEJEU };
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINVENTAIRE, PHASEJEU };
 
 #pragma once
-#include <thread>
 #include <sstream>
 #include "Singleton.h"
 #include "Fenetre.h"
@@ -16,8 +15,6 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 gfx::Fenetre* fenetre;
 #include "Curseur.h"
 Curseur* curseur;
-std::thread thread_Creation;
-
 /*
 #include les classes plus bases plus tard
 */
@@ -38,7 +35,6 @@ std::thread thread_Creation;
 #include "PhaseMenuPrincipal.h"
 #include "PhaseMenuNouvellePartie.h"
 #include "PhaseMenuPause.h"
-#include "PhaseMenuChargement.h"
 
 class Jeu{
 
@@ -75,7 +71,6 @@ public:
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//4
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//5
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//6
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuChargement());
 		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -83,7 +78,6 @@ public:
 		//fenetre->defModeVideo(gfx::ModeVideo::obtModes()[0]);
 		curseur = new Curseur(Vecteur2f(500, 500));
 		curseur->remplir();
-		PhaseMenuChargement* chargement;
 		frameTime = chrono.repartir().enSecondes();
 		while (fenetre->estOuverte())
 		{
@@ -111,7 +105,6 @@ public:
 				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle));
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
-				thread_Creation.join();
 				Carte::obtInstance().salleActive->remplir();
 			}
 

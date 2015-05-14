@@ -64,22 +64,19 @@ public:
 	void enClicFacile(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 15;
-		clic(MENUCHARGEMENT);
-		Carte::obtInstance().initialiser();
+		Carte::obtInstance().creer();
 	}
 
 	void enClicNormal(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 20;
-		clic(MENUCHARGEMENT);
-		Carte::obtInstance().initialiser();
+		Carte::obtInstance().creer();
 	}
 
 	void enClicDifficile(Bouton* envoi) {
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 32;
-		clic(MENUCHARGEMENT);
-		Carte::obtInstance().initialiser();
+		Carte::obtInstance().creer();
 	}
 
 	void enClicRetour(Bouton* envoi) {

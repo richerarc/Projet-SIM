@@ -291,10 +291,6 @@ public:
 	bool finChargement;
 	int salle;
 
-	void initialiser() {
-		thread_Creation = std::thread(&Carte::creer, this);
-	}
-
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
@@ -525,7 +521,7 @@ public:
 			salle.nbrPorte = carte.degreSortant(i);
 			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,2,3};
 
-			aleatoire = 2;/*rand() % itterateur;*/
+			aleatoire = rand() % itterateur;
 
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
