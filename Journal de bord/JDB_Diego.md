@@ -85,3 +85,9 @@ Durée: environ 1h30
 J'ai créé un nouvel objet pour le jeu: une grenade.
 
 Durée: environ 2h
+
+-- 14 Mai 2015 (12h02)--
+
+J'a créé une nouvelle salle, la salle de debut. Elle est pas finie, ais c'est un bon début
+
+Durée, environ 1h50
