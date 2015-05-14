@@ -49,3 +49,5 @@
 07 mai: Les salles octo et hex sont terminées, debut de la piece de décor "map" (2h)
 
 12 mai: finition de la map et du cadre (1h15) meeting de groupe: (30 min) Travail avec Dominique sur les succes. (2 heure)
+
+14 mai: creation de variante de cadres pour le jeu (1h) et travail avec Dominique sur les achievements (2h).
