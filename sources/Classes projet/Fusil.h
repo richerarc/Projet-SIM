@@ -2,19 +2,23 @@
 #include "Item.h"
 #include "Carte.h"
 
+enum Ammo {ACP45, PARABELUM };
+
 class Fusil : public Item{
 private:
 	float ballesParSeconde;
 	float degat;
 	float angleMaximalEtendue;
+	int chargeur;
 	bool recul;
 	
 public:
-	Fusil(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, float ballesParSeconde, float degat, float angleMaximalEtendue, bool recul) : Item(type, nom, description, cheminIcone, 1, modele, 0, materiaux, masse){
+	Fusil(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, float ballesParSeconde, float degat, float angleMaximalEtendue, bool recul, int chargeur) : Item(type, nom, description, cheminIcone, 1, modele, 0, materiaux, masse){
 		this->ballesParSeconde = ballesParSeconde;
 		this->degat = degat;
 		this->angleMaximalEtendue = angleMaximalEtendue;
 		this->recul = recul;
+		this->chargeur = chargeur;
 	}
 
 	void utiliser(){

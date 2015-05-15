@@ -26,8 +26,8 @@ public:
 		salleActive = nullptr;
 	}
 
-	//virtual void utiliser() = 0;
-	//virtual void equiper() = 0;
+	virtual void utiliser() = 0;
+	virtual void equiper() = 0;
 
 	void defEtat(EtatItem etat){
 		if (etat == this->etat)
@@ -60,7 +60,11 @@ public:
 	void actualiser(Salle* salleActuelle, double vitesseJoueur){
 		this->salleActive = salleActuelle;
 		if (etat == EtatItem::EQUIPE){
+			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
+				utiliser();
+			}
 			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.33 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * 0.4;
+			this->position = position;
 			modele->defPosition(position);
 			modele->defOrientation(0, 0, 0);
 			if (vitesseJoueur > 0)

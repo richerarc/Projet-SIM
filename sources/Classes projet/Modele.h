@@ -90,10 +90,20 @@ namespace gfx{
 			charger(chemin);
 		}
 
-		Modele(double* vertices, double* textures, double* normales){
-			this->vertices = vertices;
-			this->textures = textures;
-			this->normales = normales;
+		Modele(double* vertices, double* textures, double* normales, unsigned int nbrVertices){
+			this->nbrVertices = nbrVertices;
+			this->vertices = new double[3 * nbrVertices];
+			this->textures = new double[2 * nbrVertices];
+			this->normales = new double[3 * nbrVertices];
+			for (int i = 0; i < 3 * nbrVertices; i++){
+				this->vertices[i] = vertices[i];
+				this->normales[i] = normales[i];
+			}
+			for (int i = 0; i < 2 * nbrVertices; i++){
+				this->textures[i] = textures[i];
+			}
+			calculerTaille();
+			calculerBoiteDeCollision();
 		}
 
 		~Modele(){
