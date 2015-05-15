@@ -316,6 +316,10 @@ public:
 
 		vitesseHRotation -= joueur->obtCamera()->obtHAngle();
 
+		if (vitesseHRotation < -180) {
+			vitesseHRotation += 360;
+		}
+
 		vitesseVRotation = joueur->obtCamera()->obtVAngle() * -1;
 
 		// }
