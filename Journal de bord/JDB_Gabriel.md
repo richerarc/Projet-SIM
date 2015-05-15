@@ -514,3 +514,37 @@ GL_CONSTANT_ATTENUATION, GL_LINEAR_ATTENUATION, GL_QUADRATIC_ATTENUATION
 Atténuation de la lumière selon la distance.
 
 Je crois que pour la position et la direction, il faut que je me serve de la matrice de vue, mais je ne suis pas très sur.
+
+###11 mai 2015
+
+**0h30**: Richer et moi avons résolu le problème des portes qui pointaient sur des salles inexistantes.
+
+###12 mai 2015
+
+**0h30**: Petite discution de groupe pour savoir ce qu'il nous reste à faire. J'ai été assigné l'implémentation d'un début et d'un fin de partie avec Damien et Diego, on va commencé par modéliser ceux-ci.
+
+**3h00**: Travail sur l'avion, bientôt finit, il me reste les ailes et les roues.
+
+**1h00**: Modifications sur mon lit, qui avait 130 000 faces, et textures. J'ai aussi modifié la rod pour qu'on la voit mieux quand le joueur la tient.
+
+###13 mai 2015
+
+**1h00**: Début du texture mapping de l'avion, Kevin va prendre la relève pour le reste de la texturisation.
+
+**2h00**: Travail sur les lumières, je ne crois pas que je vais venir à bout de faire une flashlight,  je vais probablement m'en tenir à des lumières comme une ampoule et de la lumière ambiante.
+
+###14 mai 2015
+
+**2h00**: Travail sur des lumières ponctuelles comme un ampoule.
+
+**2h00**: Modélisation et texturisation d'un lavabo plutôt sale.
+
+**0h15**: Réglage du bug où le joueur faisait un 360 avant de passer par la porte et d'une petite erreur d'inattention dans le nom du fichier SalleConference.txt.
+
+###15 mai 2015
+
+**1h00**: Petites retouches sur la salle de début faite par Diego pour la rendre plus "clean", j'ai aussi sorti le lit et la table de chevet qu'il y avait à l'intérieur, pour pouvoir les réutiliser plus tard et éviter de texturer un pièce avec des meubles dans un même png.
+
+**1h30**: Travail sur le début de la partie, le joueur apparaît dans la salle, j'y ait ajouté le lit, le lavabo ainsi qu'une porte connectée à une autre porte random du graphe. Le joueur ne pourra pas revenir à la salle de début.
+
+

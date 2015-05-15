@@ -656,7 +656,7 @@ public:
 		porte.direction = { 0, 0, 1 };
 		porte.ID = 0;
 		porte.largeur = 0;
-		porte.position = { 4.1, 0, 6 };
+		porte.position = { 4.1, 0, 2.57 };
 		porte.rotation = 90;
 
 		salleDebut.Objet.push_back(porte);
@@ -678,12 +678,40 @@ public:
 		InfoObjet lavabo;
 		LecteurFichier::lireObjet("Ressources/Info/lavabo.txt", lavabo);
 		lavabo.direction = { 0, 0, 0 };
-		lavabo.ID = 1;
+		lavabo.ID = 2;
 		lavabo.largeur = 0;
 		lavabo.position = { 5.0, 1.3, -1.5 };
 		lavabo.rotation = 0;
 
 		salleDebut.Objet.push_back(lavabo);
+
+		// Bureau
+
+		InfoObjet bureau;
+		LecteurFichier::lireObjet("Ressources/Info/bureau.txt", bureau);
+		bureau.direction = { 0, 0, 0 };
+		bureau.ID = 3;
+		bureau.largeur = 0;
+		bureau.position = { -4.9, 0.0, -3.0 };
+		bureau.rotation = -90;
+
+		salleDebut.Objet.push_back(bureau);
+
+		// Poubelle
+
+		InfoObjet poubelle;
+		LecteurFichier::lireObjet("Ressources/Info/poubelle.txt", poubelle);
+		poubelle.direction = { 0, 0, 0 };
+		poubelle.ID = 4;
+		poubelle.largeur = 0;
+		poubelle.position = { -4.3, 0.0, -0.75 };
+		poubelle.rotation = 0;
+
+		salleDebut.Objet.push_back(poubelle);
+
+		// Etagere
+
+		// Table de chevet
 
 		// Ajout du lien de sortie de la salle de début
 
@@ -708,7 +736,7 @@ public:
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
 
-		hAngle = porte.rotation + 90;
-		return porte.position + (porte.direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (porte.direction * 0.18);
+		hAngle = 270;
+		return lit.position + Vecteur3d(-1.3, 0, 0.9);
 	}
 };

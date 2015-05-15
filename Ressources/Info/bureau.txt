@@ -1,0 +1,2 @@
+Ressources/Modele/bureau.obj
+Ressources/Texture/bureau.png 2
