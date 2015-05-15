@@ -547,4 +547,4 @@ Je crois que pour la position et la direction, il faut que je me serve de la mat
 
 **1h30**: Travail sur le début de la partie, le joueur apparaît dans la salle, j'y ait ajouté le lit, le lavabo ainsi qu'une porte connectée à une autre porte random du graphe. Le joueur ne pourra pas revenir à la salle de début.
 
-
+**3h00**: Modélisation d'une poubelle, d'un bureau, correction d'erreurs de compilations causées par le commit pour les achievements( qui n'avait pas été testé sur une version à jour...), travail sur le début de la partie.
