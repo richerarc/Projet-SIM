@@ -460,7 +460,6 @@ public:
 	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
 	void creer() {
 		srand(time(NULL));
-		SDL_GLContext c = fenetre->obtNouveauContext();
 
 		// Création du graphe
 		carte.creer(nombreDeSalle);
@@ -636,9 +635,7 @@ public:
 			delete modeleSalle;
 			chargement += (100.0f / nombreDeSalle);
 		}
-
 		finChargement = true;
-		//SDL_GL_DeleteContext(c);
 	}
 
 	Vecteur3d debut(double& hAngle) {
