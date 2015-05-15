@@ -7,6 +7,7 @@
 #include "Item.h"
 #include "MenuAccesRapide.h"
 #include "PhaseMenuInventaire.h"
+#include "GestionnaireSucces.h"
 
 class PhaseJeu : public Phase{
 

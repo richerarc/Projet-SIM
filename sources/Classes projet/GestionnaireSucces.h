@@ -16,16 +16,16 @@ private:
 	gfx::Sprite2D* boite;
 public:
 	void initialiser(){
-		boite = new gfx::Sprite2D(Vecteur2f(0, 520), new gfx::Texture("achievement.png"));
-		listeSucces.push_back(Succes(new gfx::Texte2D(new std::string("Wait, what?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 58), Vecteur2f(620, 641)), new gfx::Texte2D(new std::string("Lose sanity for the first time."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 58), Vecteur2f(20, 580)), 0));
-		listeSucces.push_back(Succes(new gfx::Texte2D(new std::string("It's dangerous to go alone! Take this."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(0, 0)), new gfx::Texte2D(new std::string("Pick up an item for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 55), Vecteur2f(0, 0)), 1));
+		boite = new gfx::Sprite2D(Vecteur2f(0, 520), new gfx::Texture("Ressources/Texture/achievement.png"));
+		listeSucces.push_back(Succes(new gfx::Texte2D(new std::string("Wait, what?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 58), Vecteur2f(620, 641)), new gfx::Texte2D(new std::string("Lose sanity for the first time."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 58), Vecteur2f(20, 580)), 0));
+		listeSucces.push_back(Succes(new gfx::Texte2D(new std::string("It's dangerous to go alone! Take this."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(0, 0)), new gfx::Texte2D(new std::string("Pick up an item for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(0, 0)), 1));
 	}
 	void reinitialiserSauvegarde(){
 		for (auto it : listeSucces){
 			it.defAccompli(false);
 		}
 		std::ofstream fichier;
-		fichier.open("sauvegarde_succes.txt",std::ofstream::out | std::ofstream::trunc);
+		fichier.open("Ressources/Info/sauvegarde_succes.txt",std::ofstream::out | std::ofstream::trunc);
 		fichier.close();
 	}
 	void chargerFichier(const char* nomFichier){
@@ -55,7 +55,7 @@ public:
 	}
 	void ajouterAuFichier(unsigned short IDSucces){
 		std::ofstream fichier;
-		fichier.open("sauvegarde_succes.txt");
+		fichier.open("Ressources/Info/sauvegarde_succes.txt");
 		fichier << std::to_string(IDSucces) + "\n";
 		fichier.close();
 	}
