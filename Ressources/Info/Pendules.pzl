@@ -1,0 +1,50 @@
+puzzle{
+boite{
+2.499999 0.026497 -3.293949
+2.499999 0.026497 3.291577
+-2.499999 0.026497 3.291576
+-2.499998 0.026497 -3.293950
+2.500000 3.783446 -3.293948
+2.499997 3.783446 3.291578
+-2.500000 3.783446 3.291576
+-2.499999 3.783446 -3.293949
+}
+entrees{
+1
+0
+1
+0
+}
+objet{
+c Ressources/Info/Pendule.txt
+p -1.97501 3.580351 0
+}
+objet{
+c Ressources/Info/Pendule.txt
+p -.6533338 3.580351 0
+}
+objet{
+c Ressources/Info/Pendule.txt
+p .7591481 3.580351 0
+}
+objet{
+c Ressources/Info/Pendule.txt
+p 1.97994 3.580351 0
+}
+objet{
+c Ressources/Info/PoutreVerticale.txt
+p 1.98289 3.60631 0
+}
+objet{
+c Ressources/Info/PoutreVerticale.txt
+p .7621043 3.60631 0
+}
+objet{
+c Ressources/Info/PoutreVerticale.txt
+p -.6503776 3.60631 0
+}
+objet{
+c Ressources/Info/PoutreVerticale.txt
+p -1.97206 3.60631 0
+}
+};
