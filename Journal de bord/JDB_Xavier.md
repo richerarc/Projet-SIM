@@ -62,3 +62,9 @@ J'ai travailler sur mon modèle de piece. J'ai fait les texture et il ne me rest
 J'ai fait le coffre mais presque terminé.
 ###Samedi 9 mai ~30 min
 J'ai fini mon coffre.
+###Mardi 12 mai ~2h
+J'ai fait les textes avec nico et j'ai commencer à faire mon journal (l'intro). J'ai aussi blender une clef (texturer mais je dois la changer). 
+###Mercredi 13 mai ~30 min
+J'ai fini mon journal (l'intro)
+### Jeudi 14 mai ~1h30
+J'ai fait les classe de menuintro et phase menu intro. Je n'ai pas encore push parce que j'ai des bugs important et je ne veux pas que tout le monde les ai. J'ai aussi fini la 2e partie de l'intro qui est une description du batiment. Il ne reste qu'à prendre les photos pour les deux intros.
