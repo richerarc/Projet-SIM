@@ -1,0 +1,2 @@
+Ressources/Modele/lavabo.obj
+Ressources/Texture/lavabo.png 2

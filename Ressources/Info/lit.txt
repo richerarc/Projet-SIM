@@ -1,0 +1,2 @@
+Ressources/Modele/lit.obj
+Ressources/Texture/lit.png 2

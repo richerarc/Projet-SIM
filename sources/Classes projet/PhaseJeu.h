@@ -53,6 +53,8 @@ private:
 			}
 		}
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
+		if (pourcentagePerdu != 0.)
+			GestionnaireSucces::obtInstance().obtSucces(0);
 	}
 
 

@@ -642,16 +642,76 @@ public:
 	}
 
 	Vecteur3d debut(double& hAngle) {
-		auto debut = infosSalles.begin();
-		std::advance(debut, /*rand() % infosSalles.size()*/1);
-		creerSalle(*debut);
+
+		InfoSalle salleDebut;
+		salleDebut.cheminModele = "Ressources/Modele/SalleDebut.obj";
+		salleDebut.cheminTexture = "Ressources/Texture/SalleDebut.png";
+		salleDebut.echelle = { 1.0, 1.0, 1.0 };
+		salleDebut.ID = infosSalles.size();
+		salleDebut.nbrPorte = 1;
+
+		// Création des objets de la salle
+
+		// Porte (En premier)
+
+		InfoObjet porte;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
+		porte.direction = { 0, 0, 1 };
+		porte.ID = 0;
+		porte.largeur = 0;
+		porte.position = { 4.1, 0, 6 };
+		porte.rotation = 90;
+
+		salleDebut.Objet.push_back(porte);
+
+		// Lit
+
+		InfoObjet lit;
+		LecteurFichier::lireObjet("Ressources/Info/lit.txt", lit);
+		lit.direction = { 0, 0, 0 };
+		lit.ID = 1;
+		lit.largeur = 0;
+		lit.position = { 2.5, 1.0, -10.9 };
+		lit.rotation = 0;
+
+		salleDebut.Objet.push_back(lit);
+
+		// Lavabo
+
+		InfoObjet lavabo;
+		LecteurFichier::lireObjet("Ressources/Info/lavabo.txt", lavabo);
+		lavabo.direction = { 0, 0, 0 };
+		lavabo.ID = 1;
+		lavabo.largeur = 0;
+		lavabo.position = { 5.0, 1.3, -1.5 };
+		lavabo.rotation = 0;
+
+		salleDebut.Objet.push_back(lavabo);
+
+		// Ajout du lien de sortie de la salle de début
+
+		unsigned int IDSalleConnectee = rand() % (nombreDeSalle - 1);
+
+		/*InfoSalle salleConnectee = (*infosSalles.begin()); // Erreur louche
+		std::advance(IDSalleConnectee, salleConnectee);
+
+		unsigned int IDPorteSalleConnectee = rand() % salleConnectee.nbrPorte;*/
+
+		unsigned int IDPorteSalleConnectee = 0;
+
+		ajouterLien(Entree(20, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+
+		// Ajout/Création de la salle et autre
+		infosSalles.push_back(salleDebut);
+
+		creerSalle(salleDebut);
+
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/portePlate.png"));
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
 
-		auto porte = debut->Objet.begin();
-		hAngle = porte->rotation + 90;
-		return porte->position + (porte->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (porte->direction * 0.18);
+		hAngle = porte.rotation + 90;
+		return porte.position + (porte.direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (porte.direction * 0.18);
 	}
 };
