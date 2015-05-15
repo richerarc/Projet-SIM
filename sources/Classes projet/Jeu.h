@@ -79,6 +79,7 @@ public:
 		curseur = new Curseur(Vecteur2f(500, 500));
 		curseur->remplir();
 		frameTime = chrono.repartir().enSecondes();
+		GestionnaireSucces::obtInstance().initialiser();
 		while (fenetre->estOuverte())
 		{
 			if (actualisationFPS.obtTempsEcoule().enSecondes() > 0.2f){
