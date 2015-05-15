@@ -66,3 +66,5 @@
            (2h00 à 5h00) : J'étais présent pour la petite réunion de l'équipe, dans laquelle j'ai été assigné avec Sam pour créer les succès. Nous en avons fait l'analyse, puis avons commencé à coder un gestionnaire de succès.
 
 14/05/2015 (9h45 à 12h10) : J'ai fait une texture pour la boite qui va afficher les succès. J'ai ensuite continué à faire le gestionnaire de succès avec Sam. Il ne reste essentiellement qu'à faire afficher les succès.
+
+15/05/2015 (11h15 à 13h5) : J'ai réussi à faire fonctionner le premier succès. Le seul élément manquant est de faire disparaître la fenêtre après un certain temps. Les autres succès pourront facilement être implémenté suite au premier.
