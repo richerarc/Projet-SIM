@@ -18,14 +18,14 @@ public:
 		for (int i = 0; i < inventaire->obtTailleAccesRapide(); ++i){
 			position.x = 1120;
 			position.y = 10 + i * 70;
-			cases.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("caseAccesRapide.png")));
+			cases.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseAccesRapide.png")));
 			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
 				objets.push_back(new gfx::Sprite2D(position + Vecteur2f(70, 0), gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone())));
 			else
 				objets.push_back(new gfx::Sprite2D(position + Vecteur2f(70, 0), nullptr));
 		}
-		spriteSurvol = new gfx::Sprite2D(cases[0]->obtPosition() + Vecteur2f(-51, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("caseAccesRapideSurvol.png"));
+		spriteSurvol = new gfx::Sprite2D(cases[0]->obtPosition() + Vecteur2f(-51, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseAccesRapideSurvol.png"));
 
 		pause = false;
 		itemSelectionne = 0;

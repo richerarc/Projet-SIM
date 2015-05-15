@@ -17,7 +17,7 @@ public:
 		positionx = 0;
 		positiony = 0;
 		this->position = position;
-		texture = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Curseur.png"));
+		texture = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Curseur.png"));
 		hauteur = texture->obtTexture()->obtSurface()->h;
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Curseur::gererEvenementSouris, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Curseur::gererEvenementManette, this, std::placeholders::_1));

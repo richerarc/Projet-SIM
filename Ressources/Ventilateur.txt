@@ -1,1 +1,0 @@
-Ventilateur.obj Remplisseur.png 2

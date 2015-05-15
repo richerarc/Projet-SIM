@@ -486,9 +486,9 @@ public:
 		}
 
 		// Load des salles possibles
-		std::ifstream fichierSalle("salle_text.txt");
-		std::ifstream fichierObjet("objet_text.txt");
-		std::ifstream fichierPuzzle("puzzle_text.txt");
+		std::ifstream fichierSalle("Ressources/Info/salle_text.txt");
+		std::ifstream fichierObjet("Ressources/Info/objet_text.txt");
+		std::ifstream fichierPuzzle("Ressources/Info/puzzle_text.txt");
 
 		int itterateur(0);
 		while (!fichierSalle.eof()) {
@@ -580,8 +580,8 @@ public:
 				if (boiteTemp.boiteDansBoite(boitePuzzleTemp)){
 					if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
 						info.largeur = boiteTemp.obtGrandeurX();
-						info.cheminModele = "Remplisseur.obj";
-						info.cheminTexture = "Remplisseur.png";
+						info.cheminModele = "Ressources/Modele/Remplisseur.obj";
+						info.cheminTexture = "Ressources/Texture/Remplisseur.png";
 						info.type = REMPLISSEUR;
 						info.rotation = 0;
 						info.position = Vecteur3d(boiteTemp.obtXMin(), 1, boitePuzzleTemp.obtZMin());
@@ -593,8 +593,8 @@ public:
 
 					else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
 						info.largeur = boiteTemp.obtGrandeurZ();
-						info.cheminModele = "Remplisseur.obj";
-						info.cheminTexture = "Remplisseur.png";
+						info.cheminModele = "Ressources/Modele/Remplisseur.obj";
+						info.cheminTexture = "Ressources/Texture/Remplisseur.png";
 						info.type = REMPLISSEUR;
 						info.rotation = 270;
 						info.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteTemp.obtZMin());
@@ -623,7 +623,7 @@ public:
 			for (unsigned short IDPorte = it.nbrPorte; IDPorte > 0; --IDPorte) {
 				objet.ID = IDPorte - 1;
 				objet.largeur = 0;
-				LecteurFichier::lireObjet("portePlate.txt", objet);
+				LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
 				it.Objet.push_front(objet);
 			}
@@ -641,13 +641,12 @@ public:
 		auto debut = infosSalles.begin();
 		std::advance(debut, /*rand() % infosSalles.size()*/1);
 		creerSalle(*debut);
-		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("murSalle.png"));
-		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("portePlate.png"));
+		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/murSalle.png"));
+		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/portePlate.png"));
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
 
-		auto porte = debut->Objet.end();
-		--porte;
+		auto porte = debut->Objet.begin();
 		hAngle = porte->rotation + 90;
 		return porte->position + (porte->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (porte->direction * 0.18);
 	}

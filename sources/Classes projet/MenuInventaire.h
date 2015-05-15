@@ -25,7 +25,7 @@ public:
 		for (int i = 0; i < inventaire->obtTailleSacADos(); ++i){
 			position.x = 300 + (i % inventaire->obtTailleAccesRapide()) * 70;
 			position.y = 200 + int(i / inventaire->obtTailleAccesRapide()) * 70;
-			casesSacADos.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
+			casesSacADos.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseInventaire.png")));
 			Item* objet = inventaire->obtObjetSacADos(i);
 			if (objet != nullptr)
 				objetsSacADos.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture(inventaire->obtObjetSacADos(i)->obtCheminIcone())));
@@ -37,15 +37,15 @@ public:
 
 			position.x = 1190;
 			position.y = 10 + i * 70;
-			casesAccesRapide.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png")));
+			casesAccesRapide.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseInventaire.png")));
 			Item* objet = inventaire->obtObjetAccesRapide(i);
 			if (objet != nullptr)
 				objetsAccesRapide.push_back(new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture(objet->obtCheminIcone())));
 			else
 				objetsAccesRapide.push_back(new gfx::Sprite2D(position, nullptr));
 		}
-		texteNom = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 40), Vecteur2f(300, 425));
-		texteDescription = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 15), Vecteur2f(300, 405));
+		texteNom = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(300, 425));
+		texteDescription = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(300, 405));
 
 		pause = false;
 		objetCurseur = nullptr;
@@ -225,10 +225,10 @@ public:
 					texteNom->defTexte(new std::string(inventaire->obtObjetAccesRapide(ID)->obtNom()));
 					texteDescription->defTexte(new std::string(inventaire->obtObjetAccesRapide(ID)->obtDescription()));
 				}
-				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseInventaireSurvol.png"));
 			}
 			else{
-				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseInventaire.png"));
 			}
 			ID++;
 		}
@@ -240,10 +240,10 @@ public:
 					texteNom->defTexte(new std::string(inventaire->obtObjetSacADos(ID)->obtNom()));
 					texteDescription->defTexte(new std::string(inventaire->obtObjetSacADos(ID)->obtDescription()));
 				}
-				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaireSurvol.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseInventaireSurvol.png"));
 			}
 			else{
-				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("caseInventaire.png"));
+				sprite->defTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseInventaire.png"));
 			}
 			ID++;
 		}

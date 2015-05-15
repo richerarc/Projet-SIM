@@ -27,7 +27,7 @@ public:
 		clicRappel = fonctionClic;
 		survolRappel = fonctionSurvol;
 		defautRappel = fonctionDefaut;
-		this->texte = new gfx::Texte2D(texte, { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", taille), position);
+		this->texte = new gfx::Texte2D(texte, { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", taille), position);
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Bouton::gererSurvol, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONUP, std::bind(&Bouton::gererClic, this, std::placeholders::_1));

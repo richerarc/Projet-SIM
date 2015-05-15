@@ -1,1 +1,0 @@
-portePlate.obj portePlate.png 0

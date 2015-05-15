@@ -17,9 +17,9 @@ public:
 
 	MenuSon(void) : Menu() {
 
-		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
-		volumeJeu = new gfx::Texte2D(new std::string("Game sound"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 35), Vecteur2f(100, 415));
-		volumeFond = new gfx::Texte2D(new std::string("Back noice"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 35), Vecteur2f(100, 215));
+		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
+		volumeJeu = new gfx::Texte2D(new std::string("Game sound"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(100, 415));
+		volumeFond = new gfx::Texte2D(new std::string("Back noice"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(100, 215));
 
 		glisseurVolumeJeu = new Glisseur(Vecteur2f(100, 400), Vecteur2f(1, 1), 60, std::bind(&MenuSon::glisseurJeu, this, std::placeholders::_1));
 		glisseurVolumeFond = new Glisseur(Vecteur2f(100, 200), Vecteur2f(1, 1), 20, std::bind(&MenuSon::glisseurFond, this, std::placeholders::_1));

@@ -58,9 +58,9 @@ public:
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		ControlleurAudio::obtInstance().initialiser(100);
 		
-		fps = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 15), Vecteur2f(0, 700));
+		fps = new gfx::Texte2D(new std::string("0"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(0, 700));
 
-		GestionnaireControle::obtInstance().lireControle("Controle.txt");
+		GestionnaireControle::obtInstance().lireControle("Ressources/Info/Controle.txt");
 
 		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
 		Rect<float>::defDimension(1280, 720);
@@ -91,10 +91,6 @@ public:
 			if (phase != nullptr) {
 				char chr[100];
 					//fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().obtInstance().salleActive->obtID(), chr, 10)));
-			}
-			chargement = dynamic_cast<PhaseMenuChargement*>(GestionnairePhases::obtInstance().obtPhaseActive());
-			if (chargement != nullptr) {
-				chargement->actualiserChargement(Carte::obtInstance().chargement);
 			}
 
 			if (Carte::obtInstance().finChargement) {

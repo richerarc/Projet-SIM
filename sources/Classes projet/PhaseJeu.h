@@ -133,7 +133,7 @@ public:
 
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
 
-		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 20), Vecteur2f(300, 200));
+		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
@@ -144,7 +144,7 @@ public:
 
 		itemEquipe = nullptr;
 
-		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("luger.png")), 0, "metal", 20);
+		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "Ressources/Texture/fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), 0, "metal", 20);
 
 		joueur->obtInventaire()->ajouterObjet(test);
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());

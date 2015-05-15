@@ -43,8 +43,8 @@ public:
 			Vecteur2f(730, 120),
 			new std::string("Back"), 20);
 
-		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("arial.ttf", 50), Vecteur2f(100, 180));
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
+		choisirDiff = new gfx::Texte2D(new std::string("Please choose a difficulty"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 50), Vecteur2f(100, 180));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
 
 		defPause(true);
 	}

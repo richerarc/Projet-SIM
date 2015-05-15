@@ -30,12 +30,12 @@ public:
 	void initialiser(int chaines){
 		Mix_AllocateChannels(chaines);
 		ittChaine = 0;
-		std::ifstream fichierNom("sons.txt");
+		std::ifstream fichierNom("Ressources/Info/sons.txt");
 		std::string chemin;
 		if (fichierNom.is_open()) {
 			while (!fichierNom.eof()) {
 				fichierNom >> chemin;
-				if (chemin == "fond.ogg"){
+				if (chemin == "Ressources/Son/fond.ogg"){
 					Sons* temp = new Fond(chemin.c_str(), ++ittChaine, 20);
 					temp->defVolume(20);
 					sons[ittChaine] = temp;
@@ -46,8 +46,8 @@ public:
 			}
 			fichierNom.close();
 		}
-		sons[ittChaine] = new Coeur("battementLent.ogg", "battementMoyen.ogg", "battementRapide.ogg", "battementAccel.ogg", ++ittChaine, 10);
-		sons[ittChaine] = new Pas("pas1.ogg", "pas2.ogg", ++ittChaine, 12);
+		sons[ittChaine] = new Coeur("Ressources/Son/battementLent.ogg", "Ressources/Son/battementMoyen.ogg", "Ressources/Son/battementRapide.ogg", "Ressources/Son/battementAccel.ogg", ++ittChaine, 10);
+		sons[ittChaine] = new Pas("Ressources/Son/pas1.ogg", "Ressources/Son/pas2.ogg", ++ittChaine, 12);
 		initial = false;
 	}
 	

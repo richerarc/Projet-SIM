@@ -22,8 +22,8 @@ public:
 		this->position = position;
 		this->taille = taille;
 		
-		SpriteFond = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Barre.png"));
-		this->spriteGlisseur = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Glisseur.png"));
+		SpriteFond = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Barre.png"));
+		this->spriteGlisseur = new gfx::Sprite2D(position, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Glisseur.png"));
 		
 		spriteGlisseur->defPosition(Vecteur2f(position.x + SpriteFond->obtRectangle().l * (pourcentage / 100), position.y - SpriteFond->obtRectangle().h));
 		SpriteFond->defEchelle(taille);

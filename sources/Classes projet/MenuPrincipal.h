@@ -19,8 +19,8 @@ public:
 
 	MenuPrincipal(void) {
 
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("fondMenu.png"));
-		logo = new gfx::Sprite2D(Vecteur2f(450, 650), gfx::GestionnaireRessources::obtInstance().obtTexture("logo.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
+		logo = new gfx::Sprite2D(Vecteur2f(450, 650), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/logo.png"));
 
 		demarrer = new Bouton(std::bind(&MenuPrincipal::enClicDemarrer, this, std::placeholders::_1),
 			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
