@@ -2,7 +2,7 @@ Ressources/Modele/SalleEnQuatre.obj Ressources/Texture/SalleEnQuatre.png Ressour
 Ressources/Modele/SallePente.obj Ressources/Texture/SallePente.png Ressources/Info/SallePente.txt
 Ressources/Modele/SalleL.obj Ressources/Texture/SalleL.png Ressources/Info/SalleL.txt
 Ressources/Modele/SalleCarree4x4.obj Ressources/Texture/SalleCarree4x4.png Ressources/Info/SalleCarree4x4.txt
-Ressources/Modele/SalleConference.obj Ressources/Texture/SalleConference.png Ressources/Info/SalleConferenc.txt
+Ressources/Modele/SalleConference.obj Ressources/Texture/SalleConference.png Ressources/Info/SalleConference.txt
 Ressources/Modele/SalleConvergente.obj Ressources/Texture/SalleConvergente.png Ressources/Info/SalleConvergente.txt
 Ressources/Modele/SalleEscalier.obj Ressources/Texture/SalleEscalier.png Ressources/Info/SalleEscalier.txt
 Ressources/Modele/SalleHexagonale.obj Ressources/Texture/SalleHexagonale.png Ressources/Info/SalleHexagonale.txt
