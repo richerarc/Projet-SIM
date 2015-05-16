@@ -318,4 +318,36 @@ Temps : 2h30
 
 Temps : 6h30
 
-Temps total : 148h50
+###**`12 mai 2015`**
+
+- 11h à 5h20 : J'ai assemblé le nouveau puzzle de vent, je l'ai modifié quelque peu pour qu'il fonctionne bien avec les remplisseurs. J'ai fait sa nouvelle texture et j'ai continué à travailler ave Richer sur les puzzles. Richer et moi avons fait un récapitulatif de ce qui reste à faire avec toute la classe et nous avons séparé la classe en sous-équipe pour que le projet avance plus vite.
+
+Temps : 5h20 
+
+###**`13 mai 2015`**
+
+- 1h à 4h : J'ai travaillé sur les puzzles un petit peu, mais j'ai surtout réglé plusieurs problèmes dans le jeu, comme le menu pause qui ne fonctionnait pas si on n'avait pas ouvert l'inventaire et on ne pouvait plus se promener entre les salles. 
+
+Temps : 3h
+
+###**`14 mai 2015`**
+
+- 10h à 12h : Richer et moi avons enlevé le thread et nous avons fait beaucoup de boites de collisions afin que toutes les salles puissent contenir un puzzle.
+
+- 17h à 18h30 : J'ai décidé de mettre de l'ordre dans nos ressources, je les ai séparé entre quatre dossiers et j'ai changé les chemins dans tous les txt et dans toutes les classes. J'ai aussi enlevé les ressources que l'on ne se servait pas. (much ++ and much --)
+
+Temps : 3h30
+
+###**`15 mai 2015`**
+
+- 12h à 12h40 et 15h40 à 16h40 : J'ai commencé ma salle, elle avance tranquillement, mais elle devrait être fini bientôt.
+
+Temps : 1h40
+
+###**`16 mai 2015`**
+
+- 13h à 15h : J'ai fait en sorte qu'il y ait plus d'un puzzle dans la carte et qu'il ne soit pas un à côté de l'autre, il n'y a plus de boucle à l'infini, mais encore quelques problèmes avec l'emplacement des puzzles.
+
+Temps : 2h
+
+Temps total : 164h20
