@@ -22,9 +22,9 @@ public:
 	Vecteur3<T> obtCentreBoite() {
 
 		Vecteur3<T> retour;
-		retour.x = (obtXMax() - fabs(obtXMin())) / 2;
-		retour.y = 0;
-		retour.z = (obtZMax() - fabs(obtZMin())) / 2;
+		retour.x = (obtXMax() + obtXMin()) / 2;
+		retour.y = (obtYMax() + obtYMin()) / 2;
+		retour.z = (obtZMax() + obtZMin()) / 2;
 
 		return retour;
 	}

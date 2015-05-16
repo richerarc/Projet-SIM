@@ -1,8 +1,8 @@
  #pragma once
 #include <map>
 #include <tuple>
-#include <list>
 #include <vector>
+#include <list>
 #include <fstream>
 #include <cmath>
 #include "Modele3D.h"
@@ -49,8 +49,109 @@ private:
 	std::vector<Modele_Text> cheminsModeleText;
 	std::vector<char*> cheminsPuzzle;
 
+	int obtElementListe(std::list<int> liste, int ID) {
+		auto it = liste.begin();
+
+		for (int i = 0; i < ID; ++i)
+			++it;
+
+		return *it;
+	}
+
 	void ajouterLien(Entree entree, Sortie sortie){
 		liens[entree] = sortie;
+	}
+
+	bool positionnerPuzzle(InfoSalle& salle, InfoPuzzle& puzzle) {
+
+		bool puzzlePlace = false;
+		std::vector<int> nombreBoite;
+		std::vector<int>::iterator itBoites;
+		BoiteCollision<double> boiteSalle;
+		BoiteCollision<double> boitePuzzleTemp;
+		InfoObjet remplisseur;
+
+		remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+		remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+		remplisseur.type = REMPLISSEUR;
+
+		for (int i = 0; i < salle.boitesCollision.size(); ++i)
+			nombreBoite.push_back(i);
+
+		int aleatoire = rand() % nombreBoite.size();
+		boiteSalle = salle.obtBoiteCollisionModifie(nombreBoite[aleatoire]);
+		itBoites = nombreBoite.begin();
+		for (int i = 0; i < aleatoire; ++i) ++itBoites;
+
+		while (!puzzlePlace && nombreBoite.size()!= 0) {
+			
+			nombreBoite.erase(itBoites);
+			puzzle.position = boiteSalle.distanceEntreDeuxCentre(puzzle.boiteCollision);
+			boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
+
+			if (!boiteSalle.boiteDansBoite(boitePuzzleTemp)){
+
+				if (boiteSalle.obtGrandeurX() - boiteSalle.obtGrandeurZ() < 0){
+					double deltaXmen;
+					for (auto &it : puzzle.objet){
+						deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
+						it.rotation = 270;
+						if (it.position.x < 0){
+							it.position.x += deltaXmen;
+							it.position.z -= deltaXmen;
+						}
+						else{
+							it.position.x -= deltaXmen;
+							it.position.z += deltaXmen;
+						}
+					}
+					puzzle.rotation = 270;
+				}
+				else{
+					puzzle.rotation = 0;
+				}
+				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
+			}
+
+			for (auto &it : puzzle.objet)
+				it.position += puzzle.position;
+
+			if (boiteSalle.boiteDansBoite(boitePuzzleTemp)){
+				if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
+					remplisseur.largeur = boiteSalle.obtGrandeurX();
+					remplisseur.rotation = 0;
+					remplisseur.position = Vecteur3d(boiteSalle.obtXMin(), 1, boitePuzzleTemp.obtZMin());
+					puzzle.objet.push_back(remplisseur);
+					remplisseur.rotation = 180;
+					remplisseur.position = Vecteur3d(boiteSalle.obtXMax(), 1, boitePuzzleTemp.obtZMax());
+					puzzle.objet.push_back(remplisseur);
+				}
+
+				else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
+					remplisseur.largeur = boiteSalle.obtGrandeurZ();
+					remplisseur.rotation = 270;
+					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteSalle.obtZMin());
+					puzzle.objet.push_back(remplisseur);
+					remplisseur.rotation = 90;
+					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteSalle.obtZMax());
+					puzzle.objet.push_back(remplisseur);
+				}
+
+				for (auto &it : puzzle.objet){
+					salle.Objet.push_back(it);
+				}
+				return true;
+			}
+			else {
+				if (nombreBoite.size() > 0) {
+					aleatoire = rand() % nombreBoite.size();
+					boiteSalle = salle.obtBoiteCollisionModifie(nombreBoite[aleatoire]);
+					itBoites = nombreBoite.begin();
+					for (int i = 0; i < aleatoire; ++i) ++itBoites;
+				}
+			}
+		}
+		return false;
 	}
 
 	void positionnerPorte(gfx::Modele3D& modeleSalle, InfoSalle& salle, InfoObjet& objet) {
@@ -283,6 +384,25 @@ private:
 		salleActive->remplir();
 	}
 
+	bool creerPuzzle(int &nbrPuzzle, int IDSalle) {
+
+		InfoSalle& salle = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; });
+		InfoPuzzle puzzle;
+		bool puzzlePlace = false;
+		int aleatoire;
+
+		aleatoire = rand() % nbrPuzzle;
+		LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
+		puzzle.rotation = 0;
+
+		if (positionnerPuzzle(salle, puzzle)) {
+			--nbrPuzzle;
+			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return !strcmp(chemin, cheminsPuzzle[aleatoire]);}));
+			return true;
+		}
+		return false;
+	}
+
 public:
 
 	Salle *salleActive;
@@ -475,8 +595,6 @@ public:
 			porte[i] = carte.degreSortant(i);
 
 		for (unsigned int i = 0; i < nombreDeSalle; ++i){
-			if (i == 10)
-				int hue = 0;
 			itterateurPorte = 0;
 			for (unsigned int j = 0; j < nombreDeSalle; ++j){
 				if (carte.matrice[i * nombreDeSalle + j]){
@@ -512,9 +630,8 @@ public:
 		}
 
 		unsigned int aleatoire;
-		InfoObjet objet, info;
+		InfoObjet objet;
 		InfoSalle salle;
-		InfoPuzzle puzzle;
 		gfx::Modele3D* modeleSalle;
 
 		// Boucle sur toutes les salles...
@@ -522,9 +639,9 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,2,3};
+			salle.echelle = { 3, 2, 3 };
 
-			aleatoire = rand() % itterateur;
+			aleatoire = 2;//rand() % itterateur;
 
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
@@ -534,87 +651,44 @@ public:
 			salle.Objet.clear();
 		}
 
-		int premiereSalle = 1;//rand() % nombreDeSalle;
-		InfoSalle &salle2 = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
-		bool puzzlePlace = false;
+		int IDSalle(0);
+		int prochaineSalle;
+		bool salleCorrecte;
+		std::list<int> salleSuivante;
+		std::vector<int> salleAvecPuzzle;
 
-		for (int i = 0; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
-			int aleatoire = rand() % nbrPuzzle;
-			--nbrPuzzle;
-			LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
-			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return chemin == cheminsPuzzle[aleatoire];}));
-			int lol = salle2.boitesCollision.size();
-			BoiteCollision<double> boiteTemp = salle2.obtBoiteCollisionModifie((rand() % salle2.boitesCollision.size()));
-			BoiteCollision<double> boitePuzzleTemp;
-			puzzle.rotation = 0;
+		do {
+			IDSalle = rand() % nombreDeSalle;
+		}
+		while (!creerPuzzle(nbrPuzzle, IDSalle));
+		salleAvecPuzzle.push_back(IDSalle);
 
-			while (!puzzlePlace) {
+		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
 
-				puzzle.position = boiteTemp.distanceEntreDeuxCentre(puzzle.boiteCollision);
-				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
-
-				if (!boiteTemp.boiteDansBoite(boitePuzzleTemp)){
-
-					if (boiteTemp.obtGrandeurX() - boiteTemp.obtGrandeurZ() < 0){
-						double deltaXmen;
-						for (auto &it : puzzle.objet){
-							deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
-							it.rotation = 270;
-							if (it.position.x < 0){
-								it.position.x += deltaXmen;
-								it.position.z -= deltaXmen;
-							}
-							else{
-								it.position.x -= deltaXmen;
-								it.position.z += deltaXmen;
-							}
-						}
-						puzzle.rotation = 270;
+			do {
+				salleSuivante = carte.obtListeAdjacence(IDSalle);
+				prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
+				salleSuivante = carte.obtListeAdjacence(prochaineSalle);
+				int nbrEssais(0);
+				do {
+					salleCorrecte = true;
+					if (nbrEssais > 10) {
+						salleSuivante = carte.obtListeAdjacence(IDSalle);
+						prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
+						salleSuivante = carte.obtListeAdjacence(prochaineSalle);
+						nbrEssais = 0;
 					}
-					else{
-						puzzle.rotation = 0;
-					}
-					boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
-				}
+					prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
+					salleSuivante = carte.obtListeAdjacence(prochaineSalle);
 
-				for (auto &it : puzzle.objet)
-					it.position += puzzle.position;
-
-				if (boiteTemp.boiteDansBoite(boitePuzzleTemp)){
-					if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
-						info.largeur = boiteTemp.obtGrandeurX();
-						info.cheminModele = "Ressources/Modele/Remplisseur.obj";
-						info.cheminTexture = "Ressources/Texture/Remplisseur.png";
-						info.type = REMPLISSEUR;
-						info.rotation = 0;
-						info.position = Vecteur3d(boiteTemp.obtXMin(), 1, boitePuzzleTemp.obtZMin());
-						puzzle.objet.push_back(info);
-						info.rotation = 180;
-						info.position = Vecteur3d(boiteTemp.obtXMax(), 1, boitePuzzleTemp.obtZMax());
-						puzzle.objet.push_back(info);
+					for (int j = 0; j < salleAvecPuzzle.size() && salleCorrecte; ++j) {
+						salleCorrecte = !((salleAvecPuzzle[j] == prochaineSalle));
+						++nbrEssais;
 					}
-
-					else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
-						info.largeur = boiteTemp.obtGrandeurZ();
-						info.cheminModele = "Ressources/Modele/Remplisseur.obj";
-						info.cheminTexture = "Ressources/Texture/Remplisseur.png";
-						info.type = REMPLISSEUR;
-						info.rotation = 270;
-						info.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteTemp.obtZMin());
-						puzzle.objet.push_back(info);
-						info.rotation = 90;
-						info.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteTemp.obtZMax());
-						puzzle.objet.push_back(info);
-					}
-
-					for (auto &it : puzzle.objet){
-						salle2.Objet.push_back(it);
-					}
-					puzzlePlace = true;
-				}
-				else
-					boiteTemp = salle2.obtBoiteCollisionModifie((rand() % salle2.boitesCollision.size()));
-			}
+				} while (!salleCorrecte);
+			} while (!creerPuzzle(nbrPuzzle, prochaineSalle));
+			IDSalle = prochaineSalle;
+			salleAvecPuzzle.push_back(IDSalle);
 		}
 
 		for (auto &it : infosSalles) {
