@@ -1,0 +1,2 @@
+Ressources/Modele/etagere.obj
+Ressources/Texture/etagere.png 2

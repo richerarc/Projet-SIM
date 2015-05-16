@@ -711,6 +711,16 @@ public:
 
 		// Etagere
 
+		InfoObjet etagere;
+		LecteurFichier::lireObjet("Ressources/Info/etagere.txt", etagere);
+		etagere.direction = { 0, 0, 0 };
+		etagere.ID = 4;
+		etagere.largeur = 0;
+		etagere.position = { -1.7, 0.0, 1.55 };
+		etagere.rotation = 180;
+
+		salleDebut.Objet.push_back(etagere);
+
 		// Table de chevet
 
 		// Ajout du lien de sortie de la salle de début
