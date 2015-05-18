@@ -153,6 +153,8 @@ public:
 						}
 						else
 							vitesse = vitesse + (cote * vitesseDeplacement);
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
 					}
 
 					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
@@ -169,6 +171,8 @@ public:
 						}
 						else
 							vitesse = vitesse + vitesseTemp;
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
 					}
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
 						Vecteur3d tmpNormale;
@@ -204,22 +208,24 @@ public:
 						}
 						else
 							vitesse = vitesse + (cote * vitesseDeplacement);
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
 					}
 
 					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
 						if (normale.x != 0.f || normale.z != 0.f) {
 							vitesseTemp.x = cote.x * vitesseDeplacement;
 							vitesseTemp.z = cote.z * vitesseDeplacement;
+							vitesseTemp.x = -vitesseTemp.x;
+							vitesseTemp.z = -vitesseTemp.z;
 						}
-						else
+						else {
 							vitesseTemp = cote * vitesseDeplacement;
-						vitesseTemp.inverser();
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesse.x = vitesse.x + vitesseTemp.x;
-							vitesse.z = vitesse.z + vitesseTemp.z;
+							vitesseTemp.inverser();
 						}
-						else
-							vitesse = vitesse + vitesseTemp;
+						vitesse = vitesse + vitesseTemp;
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
 					}
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
 						Vecteur3d tmpNormale;
@@ -250,12 +256,7 @@ public:
 						vitesseTemp = cote * vitesseDeplacement;
 						vitesseTemp.inverser();
 					}
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesse.x = vitesse.x + vitesseTemp.x;
-						vitesse.z = vitesse.z + vitesseTemp.z;
-					}
-					else
-						vitesse = vitesse + vitesseTemp;
+					vitesse = vitesse + vitesseTemp;
 
 					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
 						Vecteur3d tmpNormale;

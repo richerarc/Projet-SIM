@@ -61,13 +61,12 @@ private:
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
-			Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-			if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
-				joueur->longer();
+			if (joueur->obtNormale().y != 1) {
+				Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
 			}
-			if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
-				joueur->longer();
-			}
+			//if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
+			//	joueur->longer();
+			//}
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
@@ -78,14 +77,9 @@ private:
 			}
 			if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
 				joueur->obtVitesse().y = 0.f;
-				if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER))
-					&& Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER))
-					&& Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE))
-					&& Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) {
-					joueur->defEtat(STABLE);
-					joueur->obtVitesse().x = 0.f;
-					joueur->obtVitesse().z = 0.f;
-				}
+				joueur->defEtat(STABLE);
+				joueur->obtVitesse().x = 0.f;
+				joueur->obtVitesse().z = 0.f;
 			}
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
