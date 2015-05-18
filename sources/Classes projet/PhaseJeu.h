@@ -70,11 +70,7 @@ private:
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
-			if (typeCollision == MUR) {
-				joueur->obtVitesse().x = 0.;
-				joueur->obtVitesse().z = 0.;
-			}
+			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), joueur);
 			if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
 				joueur->obtVitesse().y = 0.f;
 				joueur->defEtat(STABLE);

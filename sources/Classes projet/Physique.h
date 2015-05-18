@@ -482,7 +482,7 @@ public:
 		return false;
 	}
 
-	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Joueur* joueur) {
+	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Joueur* joueur) {
 		Droite rayonCollision;
 		Droite collisionEscalier;
 		Vecteur3d pointCollision;
@@ -496,8 +496,8 @@ public:
 		for (int i = 0; i < 8; i++) {
 
 			point = tabJoueur[i];
-
 			rayonCollision = Droite(point, joueur->obtVitesse());
+			rayonCollision.obtenirVecteurDirecteur().y = 0;
 
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 				if (fabs(normale.x) < 0.05f)
@@ -507,10 +507,7 @@ public:
 				normale.normaliser();
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
-				if (normale.y == 1)
-					collision = SOLDROIT;
-				if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
-					collision = SOLCROCHE;
+
 				if (normale.y == 0) {
 					if (point.y < joueur->obtPosition().y + 1) {
 						collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
@@ -522,10 +519,30 @@ public:
 					joueur->defNormaleMur(normale);
 					collision = MUR;
 					mur = true;
+					if (!escalier) {
+						Vecteur3d pointDifference = pointCollision - point;
+						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+					}
 				}
-				if (!mur && i == 7) {
-					joueur->defNormaleMur(Vecteur3d(0.f, 1.f, 0.f));
-				}
+				joueur->obtVitesse().x = 0.;
+				joueur->obtVitesse().z = 0.;
+			}
+		}
+
+
+		for (int i = 0; i < 8; i++) {
+			point = tabJoueur[i];
+			rayonCollision = Droite(point, { 0, -9.8, 0 });
+
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
+				normale.normaliser();
+				joueur->defNormale(normale);
+				joueur->defPointCollision(pointCollision);
+				if (normale.y == 1)
+					collision = SOLDROIT;
+				if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
+					collision = SOLCROCHE;
+
 				if (collision != MUR) {
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
@@ -536,7 +553,14 @@ public:
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
 					}
 				}
+				return collision;
 			}
+
+			/*for (auto it : listeObjet) {
+				if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
+					return MUR;
+				}
+			}*/
 		}
 		if (collision == AUCUNE) {
 			joueur->defNormale({ 0, 0, 0 });
