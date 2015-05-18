@@ -78,6 +78,8 @@ private:
 				joueur->obtVitesse().z = 0.f;
 			}
 		}
+		if (joueur->obtNormale().x == 0.f && joueur->obtNormale().y == 0.f && joueur->obtNormale().z == 0.f)
+			joueur->defEtat(CHUTE);
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
 

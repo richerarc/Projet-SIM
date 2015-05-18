@@ -145,6 +145,12 @@ public:
 					vitesseDeplacement = 4.f;
 				}
 
+				if (fabs(normale.x) < 0.05f)
+					normale.x = 0.f;
+				if (fabs(normale.z) < 0.05f)
+					normale.z = 0.f;
+				normale.normaliser();
+
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))) {
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
@@ -306,7 +312,7 @@ public:
 					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
 					{
 						chronoSaut.repartir();
-						vitesse.y = 7;
+						vitesse.y = 4;
 						etat = SAUT;
 					}
 				}
