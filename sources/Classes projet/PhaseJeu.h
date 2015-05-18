@@ -77,6 +77,10 @@ private:
 				joueur->obtVitesse().x = 0.f;
 				joueur->obtVitesse().z = 0.f;
 			}
+			if (typeCollision == PLAFOND){
+				joueur->obtVitesse().y = -0.000000000001f;
+				joueur->defEtat(CHUTE);
+			}
 		}
 		if (joueur->obtNormale().x == 0.f && joueur->obtNormale().y == 0.f && joueur->obtNormale().z == 0.f)
 			joueur->defEtat(CHUTE);
