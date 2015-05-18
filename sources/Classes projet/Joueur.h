@@ -87,7 +87,8 @@ public:
 
 	void deplacement(){
 		if (!bloque){
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
+
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) && (etat == STABLE)){
 				vitesse.x = 0.f;
 				vitesse.z = 0.f;
 				if (vitesse.y == 0){
@@ -112,14 +113,13 @@ public:
 				vitesseDeplacement = 4.f;
 
 			if (etat != SAUT && etat != CHUTE) {
+
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
-					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER)))
-						vitesseDeplacement = 10.f;
-					else
-						vitesseDeplacement = 4.f;
+					vitesseDeplacement = 8.f;
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && (camera != listeCamera[MODELEACCROUPI])) {
 					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
+					listeCamera[MODELEACCROUPI]->defVAngle(listeCamera[MODELEDEBOUT]->obtVAngle());
 					camera = listeCamera[MODELEACCROUPI];
 					modele3D = listeModele3D[MODELEACCROUPI];
 					ajouterScene();
@@ -127,23 +127,14 @@ public:
 				}
 
 				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && camera != listeCamera[MODELEDEBOUT]) {
-					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
+					listeCamera[MODELEDEBOUT]->defHAngle(listeCamera[MODELEACCROUPI]->obtHAngle());
+					listeCamera[MODELEDEBOUT]->defVAngle(listeCamera[MODELEACCROUPI]->obtVAngle());
 					camera = listeCamera[MODELEDEBOUT];
 					modele3D = listeModele3D[MODELEDEBOUT];
 					ajouterScene();
-					etat = STABLE;
 					vitesseDeplacement = 4.f;
 				}
 
-				if (fabs(normale.x) < 0.05f)
-					normale.x = 0.f;
-				if (fabs(normale.z) < 0.05f)
-					normale.z = 0.f;
-				normale.normaliser();
-
-				if ((normale.x != 0 || normale.z != 0) && (normale.y != 0)) {
-					vitesseDeplacement = 4.f;
-				}
 
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
@@ -192,7 +183,6 @@ public:
 							tmpNormale = normale;
 						}
 						if (devant.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -244,10 +234,7 @@ public:
 						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
 							tmpNormale = normale;
 						}
-						//ajusterVitesse();
-						//vitesse *= 2;
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -257,7 +244,8 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-					vitesseDeplacement = 4.f;
+					if (vitesseDeplacement >= 8.f)
+						vitesseDeplacement = 6.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesseTemp.x = cote.x * vitesseDeplacement;
 						vitesseTemp.z = cote.z * vitesseDeplacement;
@@ -276,7 +264,6 @@ public:
 							tmpNormale = normale;
 						}
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -286,7 +273,8 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
-					vitesseDeplacement = 4.f;
+					if (vitesseDeplacement >= 8.f)
+						vitesseDeplacement = 6.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
 						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
@@ -299,7 +287,6 @@ public:
 							tmpNormale = normale;
 						}
 						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
 							ajusterVitesse();
 							if (vitesse.y > 0.f) {
 								vitesse.y *= -1;
@@ -309,18 +296,16 @@ public:
 				}
 
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) && (camera != listeCamera[MODELEACCROUPI])) {
-					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
+					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1))
 					{
 						chronoSaut.repartir();
 						vitesse.y = 4;
-						etat = SAUT;
+						etat = CHUTE;
 					}
 				}
 			}
-			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0) {
-				listeModele3D[MODELEDEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
-				listeModele3D[MODELEACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
-			}
+			listeModele3D[MODELEDEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
+			listeModele3D[MODELEACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
 		}
 	}
 
