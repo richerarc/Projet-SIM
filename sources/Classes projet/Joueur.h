@@ -114,7 +114,7 @@ public:
 			if (etat != SAUT && etat != CHUTE) {
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
 					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER)))
-						vitesseDeplacement = 8.f;
+						vitesseDeplacement = 10.f;
 					else
 						vitesseDeplacement = 4.f;
 
@@ -134,6 +134,12 @@ public:
 					etat = STABLE;
 					vitesseDeplacement = 4.f;
 				}
+
+				if (fabs(normale.x) < 0.05f)
+					normale.x = 0.f;
+				if (fabs(normale.z) < 0.05f)
+					normale.z = 0.f;
+				normale.normaliser();
 
 				if ((normale.x != 0 || normale.z != 0) && (normale.y != 0)) {
 					vitesseDeplacement = 4.f;
