@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Succes.h"
 #include <list>
 #include "Chrono.h"
@@ -10,7 +11,8 @@
 class GestionnaireSucces: public Singleton<GestionnaireSucces>{
 private:
 	std::list<Succes*> listeSucces;
-	Chrono chronoSanteMentale;
+	Chrono* chronoSanteMentale;
+	bool chronoDeclenche;
 	Chrono chronoAffichage;
 	gfx::Sprite2D* boite;
 	gfx::Texte2D* titre;
@@ -23,7 +25,13 @@ public:
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Wait, what?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Lose sanity for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 19), Vecteur2f(905,585)), 0));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("It's dangerous to go alone! Take this."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Pick up an item for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 585)), 1));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("We've got a long way to go..."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Start a new game"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 585)), 2));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Am I even real?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 2 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 585)), 3));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("I should buy a boat"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 3 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 585)), 4));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Crazy? I'm not crazy, you're crazy!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 4 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 585)), 5));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Madness? THIS IS COUCOUNE!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 5 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 585)), 6));
 		chargerFichier("Ressources/Info/sauvegarde_succes.txt");
+		chronoSanteMentale = new Chrono();
+		chronoDeclenche = false;
 	}
 	void reinitialiserSauvegarde(){
 		for (auto it : listeSucces){
@@ -86,4 +94,16 @@ public:
 			}
 		}
 	}
+	Chrono* obtChronoSanteMentale(){
+		return chronoSanteMentale;
+	}
+
+	bool obtChronoDeclenche(){
+		return chronoDeclenche;
+	}
+
+	void defChronoDeclenche(){
+		chronoDeclenche = !chronoDeclenche;
+	}
+
 };

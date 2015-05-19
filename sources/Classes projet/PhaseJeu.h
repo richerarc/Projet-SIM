@@ -24,6 +24,7 @@ private:
 	Chrono tempsJeu;
 	Item *itemEquipe;
 	Item *test;
+	bool botest;
 
 	bool retour;
 
@@ -56,7 +57,12 @@ private:
 		short santeMentalePrecedente = joueur->obtSanteMentale();
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (joueur->obtSanteMentale() != santeMentalePrecedente)
-			GestionnaireSucces::obtInstance().obtSucces(0);
+			GestionnaireSucces::obtInstance().obtSucces(0);		
+		
+		if ((joueur->obtSanteMentale() < 100) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
+			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
+			GestionnaireSucces::obtInstance().defChronoDeclenche();
+		}		
 	}
 
 
@@ -203,6 +209,19 @@ public:
 			}
 			if (Clavier::toucheAppuyee(SDLK_e))
 				toucheRelachee = true;
+		}
+
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 120000)){
+			GestionnaireSucces::obtInstance().obtSucces(3);
+		}
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 180000)){
+			GestionnaireSucces::obtInstance().obtSucces(4);
+		}
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 240000)){
+			GestionnaireSucces::obtInstance().obtSucces(5);
+		}
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 300000)){
+			GestionnaireSucces::obtInstance().obtSucces(6);
 		}
 
 	}
