@@ -70,3 +70,4 @@
 15/05/2015 (11h15 à 13h5) : J'ai réussi à faire fonctionner le premier succès. Le seul élément manquant est de faire disparaître la fenêtre après un certain temps. Les autres succès pourront facilement être implémenté suite au premier.
 
 19/05/2015 (8h00 à 11h50) : J'ai fait une nouvelle boîte pour les succès pour qu'ils soient moins aggressants. J'ai aussi ajouté un chronomètre pour qu'ils disparaissent automatiquement. J'ai ensuite essayé de bien faire marcher la sauvegarde des succès, sans résultats pour l'instant.
+           (2h45 à 5h25) : J'ai fait fonctionner les interactions avec le fichier de sauvegarde des succès. J'ai ensuite mis à jour (encore) la texture de la boîte des succès. J'ai ensuite travaillé avec Sam à vérifier les conditions de chaques succès, il n'en reste qu'environ une dizaine.
