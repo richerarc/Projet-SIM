@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Succes.h"
 #include <list>
 #include "Chrono.h"
@@ -10,7 +11,8 @@
 class GestionnaireSucces: public Singleton<GestionnaireSucces>{
 private:
 	std::list<Succes*> listeSucces;
-	Chrono chronoSanteMentale;
+	Chrono* chronoSanteMentale;
+	bool chronoDeclenche;
 	Chrono chronoAffichage;
 	gfx::Sprite2D* boite;
 	gfx::Texte2D* titre;
@@ -19,11 +21,26 @@ public:
 	void initialiser(){
 		titre = nullptr;
 		description = nullptr;
-		boite = new gfx::Sprite2D(Vecteur2f(900, 550), new gfx::Texture("Ressources/Texture/achievement.png"));
-		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Wait, what?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Lose sanity for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 19), Vecteur2f(905,585)), 0));
-		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("It's dangerous to go alone! Take this."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Pick up an item for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 585)), 1));
-		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("We've got a long way to go..."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 650)), new gfx::Texte2D(new std::string("Start a new game"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 585)), 2));
+		boite = new gfx::Sprite2D(Vecteur2f(900, 540), new gfx::Texture("Ressources/Texture/achievement.png"));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Wait, what?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Lose sanity for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 19), Vecteur2f(905,575)), 0));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("It's dangerous to go alone! Take this."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Pick up an item for the first time"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 575)), 1));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("We've got a long way to go..."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Start a new game"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 2));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Am I even real?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 2 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 575)), 3));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("I should buy a boat!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 3 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 575)), 4));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Crazy? I'm not crazy, you're crazy!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 4 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 575)), 5));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Madness? THIS IS COUCOUNE!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Stay under 25% mental state for 5 minutes"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 17), Vecteur2f(905, 575)), 6));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("I'm Batman!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find Batman"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 7));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Say Hello to my little firend!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find a firearm."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 8));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Here be the holy hand grenade."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find a grenade"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 9));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Oh baby a triple!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Have three items in your inventory."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 10));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("WE shall engage in a jolly cooperation!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find the companion"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 11));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Praise the sun!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Get outside"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 12));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Hope this doesn't go like Slender..."), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find a note"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 13));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Death by HCN"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Get killed by the toxic gas"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 14));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Restart?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("You have to restart the game!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 15));
 		chargerFichier("Ressources/Info/sauvegarde_succes.txt");
+		chronoSanteMentale = new Chrono();
+		chronoDeclenche = false;
 	}
 	void reinitialiserSauvegarde(){
 		for (auto it : listeSucces){
@@ -86,4 +103,16 @@ public:
 			}
 		}
 	}
+	Chrono* obtChronoSanteMentale(){
+		return chronoSanteMentale;
+	}
+
+	bool obtChronoDeclenche(){
+		return chronoDeclenche;
+	}
+
+	void defChronoDeclenche(){
+		chronoDeclenche = !chronoDeclenche;
+	}
+
 };
