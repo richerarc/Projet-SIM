@@ -55,6 +55,7 @@ public:
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&MenuInventaire::surClic, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&MenuInventaire::survol, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuInventaire::toucheAppuyee, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&MenuInventaire::toucheAppuyee, this, std::placeholders::_1));
 
 	}
 
@@ -112,7 +113,7 @@ public:
 	void toucheAppuyee(SDL_Event &event){
 		if (pause)
 			return;
-		if (event.key.keysym.sym == SDLK_ESCAPE){
+		if ((event.key.keysym.sym == SDLK_ESCAPE) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)){
 			if (objetCurseur != nullptr){
 				inventaire->ajouterObjet(objetCurseur);
 				objetCurseur = nullptr;

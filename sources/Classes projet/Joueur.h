@@ -88,7 +88,7 @@ public:
 	void deplacement(){
 		if (!bloque){
 
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) && (etat == STABLE)){
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) && (etat == STABLE)){
 				vitesse.x = 0.f;
 				vitesse.z = 0.f;
 				if (vitesse.y == 0){
@@ -109,15 +109,15 @@ public:
 			devant.normaliser();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
-			if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
 				vitesseDeplacement = 4.f;
 
 			if (etat != SAUT && etat != CHUTE) {
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
+				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
 					vitesseDeplacement = 8.f;
 
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && (camera != listeCamera[MODELEACCROUPI])) {
+				else if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_B)) && (camera != listeCamera[MODELEACCROUPI])) {
 					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
 					listeCamera[MODELEACCROUPI]->defVAngle(listeCamera[MODELEDEBOUT]->obtVAngle());
 					camera = listeCamera[MODELEACCROUPI];
@@ -126,7 +126,7 @@ public:
 					vitesseDeplacement = 2.f;
 				}
 
-				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && camera != listeCamera[MODELEDEBOUT]) {
+				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_B) && camera != listeCamera[MODELEDEBOUT]) {
 					listeCamera[MODELEDEBOUT]->defHAngle(listeCamera[MODELEACCROUPI]->obtHAngle());
 					listeCamera[MODELEDEBOUT]->defVAngle(listeCamera[MODELEACCROUPI]->obtVAngle());
 					camera = listeCamera[MODELEDEBOUT];
@@ -142,14 +142,14 @@ public:
 					normale.z = 0.f;
 				normale.normaliser();
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))) {
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_UP)) {
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
 						vitesse.z = devant.z * vitesseDeplacement;
 					}
 					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
 						vitesse = devant * vitesseDeplacement;
-					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
+					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
 						if (normale.x != 0.f || normale.z != 0.f) {
 							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
@@ -160,7 +160,7 @@ public:
 						vitesse *= vitesseDeplacement;
 					}
 
-					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
+					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
 						if (normale.x != 0.f || normale.z != 0.f) {
 							vitesseTemp.x = cote.x * vitesseDeplacement;
 							vitesseTemp.z = cote.z * vitesseDeplacement;
@@ -191,7 +191,7 @@ public:
 					}
 				}
 
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_DOWN)) {
 					vitesseDeplacement = 4.f;
 					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
 						vitesse.x = devant.x * vitesseDeplacement;
@@ -203,7 +203,7 @@ public:
 						vitesse = devant * vitesseDeplacement;
 						vitesse.inverser();
 					}
-					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
+					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
 						if (normale.x != 0.f || normale.z != 0.f) {
 							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
 							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
@@ -214,7 +214,7 @@ public:
 						vitesse *= vitesseDeplacement;
 					}
 
-					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
+					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
 						if (normale.x != 0.f || normale.z != 0.f) {
 							vitesseTemp.x = cote.x * vitesseDeplacement;
 							vitesseTemp.z = cote.z * vitesseDeplacement;
@@ -243,7 +243,7 @@ public:
 					}
 				}
 
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
 					if (vitesseDeplacement >= 8.f)
 						vitesseDeplacement = 6.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
@@ -272,7 +272,7 @@ public:
 					}
 				}
 
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)){
 					if (vitesseDeplacement >= 8.f)
 						vitesseDeplacement = 6.f;
 					if (normale.x != 0.f || normale.z != 0.f) {
@@ -295,7 +295,7 @@ public:
 					}
 				}
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) && (camera != listeCamera[MODELEACCROUPI])) {
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_A)) && (camera != listeCamera[MODELEACCROUPI])) {
 					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1))
 					{
 						chronoSaut.repartir();
