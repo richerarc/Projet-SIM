@@ -128,4 +128,6 @@
 **12 mai** durée 3h  
   -début de l'usine d'items avec Brandon.  
 **14 mai** durée 2h 15min  
-  -Tests de l'affichage des trous de balle et ajout d'objet dans l'usine avec Brandon.
+  -Tests de l'affichage des trous de balle et ajout d'objet dans l'usine avec Brandon.  
+**19 mai** durée 30min  
+  -Correctifs des escaliers de la salle à 2 étages.
