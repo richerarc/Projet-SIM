@@ -130,4 +130,7 @@
 **14 mai** durée 2h 15min  
   -Tests de l'affichage des trous de balle et ajout d'objet dans l'usine avec Brandon.  
 **19 mai** durée 30min  
-  -Correctifs des escaliers de la salle à 2 étages.
+  -Correctifs des escaliers de la salle à 2 étages.  
+**19 mai** durée 3h  
+  -Brandon et moi avons tenté de comprendre ce qui arrivait avec les rotations  .
+  -Recodage de code effacer par un revert.

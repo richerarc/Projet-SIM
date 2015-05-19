@@ -93,3 +93,5 @@
 	Travail sur le model de la salle de fin.
 #Samedi 16 mai (2 heures)
 	Travail sur le model de la salle de fin mais quelques problèmes avec mon Blender.
+#Mardi 19 mai (14:40 à 17:25)
+	Finallisation du modele et  de la texture de la salle de fin. Début de l'implémentation de cette salle dans le programme avec l'ordre en ajoutant la salle dans le programme et débutant d'ajouter l'avion et la seule porte.

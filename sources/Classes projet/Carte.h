@@ -713,6 +713,36 @@ public:
 	}
 
 	Vecteur3d debut(double& hAngle) {
+		// Salle de fin
+
+		InfoSalle salleFin;
+		salleFin.cheminModele = "Ressources/Modele/SalleFin.obj";
+		salleFin.cheminTexture = "Ressources/Texture/SalleFin.png";
+		salleFin.echelle = { 1.0, 1.0, 1.0 };
+		salleFin.ID = infosSalles.size();
+		salleFin.nbrPorte = 1;
+
+		// Création objets salle finale
+
+		// Porte
+
+		//InfoObjet porteFin;
+		//LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
+		//porteFin.direction = { 0, 0, 1 };
+		//porteFin.ID = 0;
+		//porteFin.largeur = 0;
+		//porteFin.position = { 1.07, 1.01, 53.71 }; //Fix this
+		//porte.rotation = 0; //Fix that
+
+
+		// Création de l'avion
+
+		/*InfoObjet avion;
+		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);*/
+
+
+
+		// Salle de début
 
 		InfoSalle salleDebut;
 		salleDebut.cheminModele = "Ressources/Modele/SalleDebut.obj";

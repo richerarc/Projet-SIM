@@ -8,6 +8,7 @@
 #include "MenuAccesRapide.h"
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
+#include "UsineItem.h"
 
 class PhaseJeu : public Phase{
 
@@ -57,6 +58,10 @@ private:
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (joueur->obtSanteMentale() != santeMentalePrecedente)
 			GestionnaireSucces::obtInstance().obtSucces(0);
+		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
+			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
+			GestionnaireSucces::obtInstance().defChronoDeclenche();
+		}
 	}
 
 
@@ -144,7 +149,7 @@ public:
 
 		itemEquipe = nullptr;
 
-		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "Ressources/Texture/fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), 0, "metal", 20);
+		test = UsineItem::obtInstance().obtItemParType(10, 0);
 
 		joueur->obtInventaire()->ajouterObjet(test);
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
@@ -196,7 +201,25 @@ public:
 				}
 				else if (dynamic_cast<Item*>(objetVise)){
 					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
-					GestionnaireSucces::obtInstance().obtSucces(1);
+					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
+					if (nom == "Water"){
+						GestionnaireSucces::obtInstance().obtSucces(18);
+					}
+					else{
+						if (nom == "Holy Rod")
+							GestionnaireSucces::obtInstance().obtSucces(17);
+						else
+							if (nom == "Gun")
+								int a = 0;//GestionnaireSucces::obtInstance().obtSucces(8);
+							else
+								if (nom == "Grenade")
+									GestionnaireSucces::obtInstance().obtSucces(9);
+								else
+									if (nom == "Note")
+										GestionnaireSucces::obtInstance().obtSucces(13);
+									else
+										GestionnaireSucces::obtInstance().obtSucces(1);
+					}
 					objetVise = nullptr;
 				}
 				toucheRelachee = false;
@@ -204,7 +227,18 @@ public:
 			if (Clavier::toucheAppuyee(SDLK_e))
 				toucheRelachee = true;
 		}
-
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 120000)){
+			GestionnaireSucces::obtInstance().obtSucces(3);
+		}
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 180000)){
+			GestionnaireSucces::obtInstance().obtSucces(4);
+		}
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 240000)){
+			GestionnaireSucces::obtInstance().obtSucces(5);
+		}
+		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 300000)){
+			GestionnaireSucces::obtInstance().obtSucces(6);
+		}
 	}
 
 	void toucheAppuyee(SDL_Event &event){
