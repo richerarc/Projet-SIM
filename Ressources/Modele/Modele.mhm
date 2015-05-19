@@ -1,0 +1,48 @@
+# Written by MakeHuman 1.0.2
+version v1.0.2
+tags Modele
+face head-oval 0.121000
+face head-diamond 0.250000
+face r-eye-move-in-out -0.146000
+face chin-bones-in-out -0.646000
+face l-eye-height1-min-max 0.162000
+face l-cheek-volume-deflate-inflate -1.000000
+face head-age-less-more 0.338000
+face chin-prognathism-less-more -1.000000
+face r-eye-height1-min-max 0.210000
+face chin-prominent-less-more 0.178000
+face l-eye-height2-min-max 0.146000
+face head-angle-in-out -0.064000
+face r-eye-height2-min-max 0.130000
+face chin-height-min-max -0.306000
+face chin-width-min-max -1.000000
+torso torso-scale-depth-decr-incr -1.000000
+torso torso-scale-horiz-decr-incr -0.468000
+teeth Teeth_Shape01 ce6f6919-b5fd-42a4-ba45-b38b2f79edfd
+hair afro01 59627022-32e9-4126-9cf1-036d4b9335fc
+eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
+clothes jeans01 faa58a00-05db-4a53-a3a6-72af1cec2053
+clothes Shirt01 c8c87311-c197-4bf8-9e01-fc05a308aee0
+clothesHideFaces True
+gendered breast-dist-min-max -0.064000
+gendered penis-length-min-max 1.000000
+gendered breast-trans-vert-down-up 0.290000
+gendered BreastFirmness 0.387000
+gendered BreastSize 0.476000
+gendered penis-circ-min-max 0.420000
+gendered breast-point-min-max -0.112000
+gendered breast-volume-vert-up-down 0.726000
+macro Weight 0.500000
+macro Gender 1.000000
+macro Age 0.500000
+macro Height 0.500000
+macro Asian 0.333333
+macro African 0.333333
+macro Caucasian 0.333333
+macro Muscle 0.500000
+macro BodyProportions 0.500000
+background enabled False
+skinMaterial skins/default.mhmat
+material afro01 59627022-32e9-4126-9cf1-036d4b9335fc hair/hairtype02/afro01.mhmat
+material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
+subdivide False
