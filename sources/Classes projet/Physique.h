@@ -494,83 +494,100 @@ public:
 		bool mur = false;
 		bool escalier = false;
 
-		for (int i = 0; i < 8; i++) {
-
-			point = tabJoueur[i];
+		for (unsigned int i = 0; i < joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3; i++) {
+			for (unsigned int j = 0; j < 3; j++) {
+				if (j == 0)
+					point.x = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+				else if (j == 1)
+					point.y = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+				else if (j == 2)
+					point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+			}
 			rayonCollision = Droite(point, joueur->obtVitesse());
 			if (joueur->obtVitesse().y < 0.f)
 				rayonCollision.obtenirVecteurDirecteur().y = 0;
 
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
-				if (fabs(normale.x) < 0.05f)
-					normale.x = 0.f;
-				if (fabs(normale.z) < 0.05f)
-					normale.z = 0.f;
-				normale.normaliser();
+				if (Maths::distanceEntreDeuxPoints(pointCollision, point) < 10) {
+					if (fabs(normale.x) < 0.05f)
+						normale.x = 0.f;
+					if (fabs(normale.z) < 0.05f)
+						normale.z = 0.f;
+					normale.normaliser();
 
-				joueur->defNormale(normale);
-				joueur->defPointCollision(pointCollision);
-				if (normale.y < 0){
-					collision = PLAFOND;
-					Vecteur3d pointDifference = pointCollision - point;
-					joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
-				}
-				if (normale.y == 0) {
-					if (point.y < joueur->obtPosition().y + 1) {
-						collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
-						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, verticesCollision, true)) {
-							double hauteur = 0.f;
-							if (verticesCollision[0].x == verticesCollision[1].x && verticesCollision[0].z == verticesCollision[1].z){
-								hauteur = fabs(verticesCollision[0].y - verticesCollision[1].y);
-							}
-
-							if (verticesCollision[0].x == verticesCollision[2].x && verticesCollision[0].z == verticesCollision[2].z){
-								hauteur = fabs(verticesCollision[0].y - verticesCollision[2].y);
-							}
-
-							if (verticesCollision[1].x == verticesCollision[2].x && verticesCollision[1].z == verticesCollision[2].z){
-								hauteur = fabs(verticesCollision[1].y - verticesCollision[2].y);
-							}
-							if (hauteur != 0.f)
-								joueur->defPositionY(joueur->obtPosition().y + hauteur + .03);
-							escalier = true;
-						}
-					}
-					joueur->defNormaleMur(normale);
-					collision = MUR;
-					mur = true;
-					if (!escalier) {
+					joueur->defNormale(normale);
+					joueur->defPointCollision(pointCollision);
+					if (normale.y < 0){
+						collision = PLAFOND;
 						Vecteur3d pointDifference = pointCollision - point;
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
 					}
+					if (normale.y == 0) {
+						if (point.y < joueur->obtPosition().y + 1) {
+							collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
+							if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, verticesCollision, true)) {
+								double hauteur = 0.f;
+								if (verticesCollision[0].x == verticesCollision[1].x && verticesCollision[0].z == verticesCollision[1].z){
+									hauteur = fabs(verticesCollision[0].y - verticesCollision[1].y);
+								}
+
+								if (verticesCollision[0].x == verticesCollision[2].x && verticesCollision[0].z == verticesCollision[2].z){
+									hauteur = fabs(verticesCollision[0].y - verticesCollision[2].y);
+								}
+
+								if (verticesCollision[1].x == verticesCollision[2].x && verticesCollision[1].z == verticesCollision[2].z){
+									hauteur = fabs(verticesCollision[1].y - verticesCollision[2].y);
+								}
+								if (hauteur != 0.f)
+									joueur->defPositionY(joueur->obtPosition().y + hauteur + .03);
+								escalier = true;
+							}
+						}
+						joueur->defNormaleMur(normale);
+						collision = MUR;
+						mur = true;
+						if (!escalier) {
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+						}
+					}
+					joueur->obtVitesse().x = 0.;
+					joueur->obtVitesse().z = 0.;
 				}
-				joueur->obtVitesse().x = 0.;
-				joueur->obtVitesse().z = 0.;
 			}
 		}
 
 
-		for (int i = 0; i < 8; i++) {
-			point = tabJoueur[i];
+		for (unsigned int i = 0; i < joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3; i++) {
+			for (unsigned int j = 0; j < 3; j++) {
+				if (j == 0)
+					point.x = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+				else if (j == 1)
+					point.y = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+				else if (j == 2)
+					point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+			}
 			rayonCollision = Droite(point, { 0, -9.8, 0 });
 
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
-				normale.normaliser();
-				joueur->defNormale(normale);
-				joueur->defPointCollision(pointCollision);
-				if (normale.y == 1)
-					collision = SOLDROIT;
-				if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
-					collision = SOLCROCHE;
+				if (Maths::distanceEntreDeuxPoints(pointCollision, point) < 10) {
+					normale.normaliser();
+					joueur->defNormale(normale);
+					joueur->defPointCollision(pointCollision);
+					if (normale.y == 1)
+						collision = SOLDROIT;
+					if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
+						collision = SOLCROCHE;
 
-				if (collision != MUR) {
-					Vecteur3d pointDifference = pointCollision - point;
-					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
-				}
-				else{
-					if (!escalier) {
+					if (collision != MUR) {
 						Vecteur3d pointDifference = pointCollision - point;
-						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+						joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
+					}
+					else{
+						if (!escalier) {
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+						}
 					}
 				}
 				return collision;
