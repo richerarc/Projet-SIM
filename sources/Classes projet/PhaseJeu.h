@@ -8,6 +8,7 @@
 #include "MenuAccesRapide.h"
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
+#include "UsineItem.h"
 
 class PhaseJeu : public Phase{
 
@@ -148,7 +149,7 @@ public:
 
 		itemEquipe = nullptr;
 
-		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "Ressources/Texture/fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), 0, "metal", 20);
+		test = UsineItem::obtInstance().obtItemParType(10, 0);
 
 		joueur->obtInventaire()->ajouterObjet(test);
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
