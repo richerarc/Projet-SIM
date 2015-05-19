@@ -61,9 +61,10 @@ namespace gfx{
 
 		void afficherTout(){
 
-			if (camera != nullptr)
+			if (camera != nullptr){
 				camera->appliquer();
-			
+				camera->rafraichir();
+			}
 			for (auto &i : objets){
 				//glEnable(GL_LIGHTING);
 				//glEnable(GL_LIGHT0);

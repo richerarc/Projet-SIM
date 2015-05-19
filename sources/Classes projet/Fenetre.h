@@ -103,8 +103,16 @@ namespace gfx{
 					Souris::mettreAJourEtatMolette(event.wheel.x, event.wheel.y);
 				if (event.type != SDL_MOUSEWHEEL)
 					Souris::mettreAJourEtatMolette(0, 0);
+				//Gestion de la manette
+				if (event.type == SDL_CONTROLLERBUTTONDOWN)
+					Manette::mettreAJourEtat(event.jhat.hat, true);
+				if (event.type == SDL_CONTROLLERBUTTONUP)
+					Manette::mettreAJourEtat(event.jhat.hat, false);
 
-				//Manette::mettreAJourEtat();
+				if (event.type == SDL_CONTROLLERAXISMOTION)
+					Manette::mettreAJourEtat(event.caxis.axis, true);
+
+				Manette::mettreAJourBoutons();
 
 				return true;
 			}

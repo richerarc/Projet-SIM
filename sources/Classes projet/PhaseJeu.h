@@ -156,6 +156,7 @@ public:
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 		retour = false;
 		pause = false;
 	}
@@ -171,7 +172,7 @@ public:
 		}
 		accesRapide->actualiserAffichage();
 
-		if (Clavier::toucheAppuyee(SDLK_q)){
+		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
@@ -189,7 +190,7 @@ public:
 		}
 
 		if (detectionObjet()){
-			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relach�e bient�t...
+			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){// Touche relach�e bient�t...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
@@ -207,7 +208,7 @@ public:
 				}
 				toucheRelachee = false;
 			}
-			if (Clavier::toucheAppuyee(SDLK_e))
+			if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
 				toucheRelachee = true;
 		}
 
@@ -233,7 +234,7 @@ public:
 			retour = false;
 			return;
 		}
-		if (event.key.keysym.sym == SDLK_ESCAPE) {
+		if ((event.key.keysym.sym == SDLK_ESCAPE) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_START)) {
 			defPause(true);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
@@ -242,7 +243,7 @@ public:
 			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
 			curseur->remplir();
 		}
-		if (event.key.keysym.sym == SDLK_TAB) {
+		if ((event.key.keysym.sym == SDLK_TAB) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)) {
 			defPause(true);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUINVENTAIRE);

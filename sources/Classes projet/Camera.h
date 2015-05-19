@@ -13,7 +13,8 @@ namespace gfx{
 			cote,
 			devant;
 		double sensibilite;
-
+		double valeurx;
+		double valeury;
 		double hAngle;
 		double vAngle;
 		double matriceVue[4][4];
@@ -82,6 +83,8 @@ namespace gfx{
 	public:
 
 		Camera(Vecteur3d position, Vecteur3d cible, Vecteur3d haut){
+			this->valeurx = 0;
+			this->valeury = 0;
 			this->position = position;
 			this->cible = cible;
 			this->haut = haut;
@@ -99,6 +102,7 @@ namespace gfx{
 			calculerVecteurs();
 
 			GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEMOTION, std::bind(&Camera::surMouvementSouris, this, std::placeholders::_1));
+			GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERAXISMOTION, std::bind(&Camera::surMouvementManette, this, std::placeholders::_1));
 
 			SDL_SetRelativeMouseMode(SDL_TRUE);
 			SDL_ShowCursor(SDL_DISABLE);
@@ -118,7 +122,24 @@ namespace gfx{
 				calculerVecteurs();
 			}
 		}
-
+		void surMouvementManette(SDL_Event& event){
+			if (!pause) {
+				if ((event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX || event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)){
+						Manette::mettreAJourControleDroite(event);
+						valeurx = (Manette::obtenirPositionDroiteX());
+						valeury = (Manette::obtenirPositionDroiteY());
+				}
+				else{
+					valeurx = 0;
+					valeury = 0;
+				}
+			}
+		}
+		void rafraichir(){
+			hAngle -= valeurx;
+			vAngle -= valeury;
+			calculerVecteurs();
+		}
 		void appliquer(){
 			glMultMatrixd(&matriceVue[0][0]);
 			glTranslated(-position.x, -position.y, -position.z);
