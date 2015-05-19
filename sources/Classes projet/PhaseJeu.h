@@ -208,7 +208,7 @@ public:
 						if (nom == "Holy Rod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
 						else
-							GestionnaireSucces::obtInstance().obtSucces(17);
+							GestionnaireSucces::obtInstance().obtSucces(1);
 					}
 					objetVise = nullptr;
 				}
