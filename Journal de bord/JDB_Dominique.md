@@ -68,3 +68,5 @@
 14/05/2015 (9h45 à 12h10) : J'ai fait une texture pour la boite qui va afficher les succès. J'ai ensuite continué à faire le gestionnaire de succès avec Sam. Il ne reste essentiellement qu'à faire afficher les succès.
 
 15/05/2015 (11h15 à 13h5) : J'ai réussi à faire fonctionner le premier succès. Le seul élément manquant est de faire disparaître la fenêtre après un certain temps. Les autres succès pourront facilement être implémenté suite au premier.
+
+19/05/2015 (8h00 à 11h50) : J'ai fait une nouvelle boîte pour les succès pour qu'ils soient moins aggressants. J'ai aussi ajouté un chronomètre pour qu'ils disparaissent automatiquement. J'ai ensuite essayé de bien faire marcher la sauvegarde des succès, sans résultats pour l'instant.
