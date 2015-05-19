@@ -53,8 +53,9 @@ private:
 				break;
 			}
 		}
+		short santeMentalePrecedente = joueur->obtSanteMentale();
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
-		if (pourcentagePerdu != 0.)
+		if (joueur->obtSanteMentale() != santeMentalePrecedente)
 			GestionnaireSucces::obtInstance().obtSucces(0);
 	}
 
@@ -154,6 +155,7 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
+		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
 		joueur->obtInventaire()->actualiser();
@@ -194,6 +196,7 @@ public:
 				}
 				else if (dynamic_cast<Item*>(objetVise)){
 					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
+					GestionnaireSucces::obtInstance().obtSucces(1);
 					objetVise = nullptr;
 				}
 				toucheRelachee = false;

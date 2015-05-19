@@ -80,6 +80,7 @@ public:
 		curseur->remplir();
 		frameTime = chrono.repartir().enSecondes();
 		GestionnaireSucces::obtInstance().initialiser();
+		GestionnaireSucces::obtInstance().reinitialiserSauvegarde();
 		while (fenetre->estOuverte())
 		{
 			if (actualisationFPS.obtTempsEcoule().enSecondes() > 0.2f){
@@ -115,6 +116,8 @@ public:
 
 			fenetre->vider();
 			glLoadIdentity();
+			//Succès expirés ici
+			GestionnaireSucces::obtInstance().verifierTempsAffichage();
 			// Mouvement ici
 			if (GestionnairePhases::obtInstance().obtPhaseActive() == nullptr)
 				fenetre->fermer();
