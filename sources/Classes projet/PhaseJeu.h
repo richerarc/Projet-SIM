@@ -57,7 +57,7 @@ private:
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (joueur->obtSanteMentale() != santeMentalePrecedente)
 			GestionnaireSucces::obtInstance().obtSucces(0);
-		if ((joueur->obtSanteMentale() < 100) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
+		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
 		}
@@ -208,7 +208,16 @@ public:
 						if (nom == "Holy Rod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
 						else
-							GestionnaireSucces::obtInstance().obtSucces(1);
+							if (nom == "Gun")
+								int a = 0;//GestionnaireSucces::obtInstance().obtSucces(8);
+							else
+								if (nom == "Grenade")
+									GestionnaireSucces::obtInstance().obtSucces(9);
+								else
+									if (nom == "Note")
+										GestionnaireSucces::obtInstance().obtSucces(13);
+									else
+										GestionnaireSucces::obtInstance().obtSucces(1);
 					}
 					objetVise = nullptr;
 				}
