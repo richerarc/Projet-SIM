@@ -24,7 +24,6 @@ private:
 	Chrono tempsJeu;
 	Item *itemEquipe;
 	Item *test;
-	bool botest;
 
 	bool retour;
 
@@ -57,12 +56,11 @@ private:
 		short santeMentalePrecedente = joueur->obtSanteMentale();
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (joueur->obtSanteMentale() != santeMentalePrecedente)
-			GestionnaireSucces::obtInstance().obtSucces(0);		
-		
+			GestionnaireSucces::obtInstance().obtSucces(0);
 		if ((joueur->obtSanteMentale() < 100) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
-		}		
+		}
 	}
 
 
@@ -202,7 +200,16 @@ public:
 				}
 				else if (dynamic_cast<Item*>(objetVise)){
 					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
-					GestionnaireSucces::obtInstance().obtSucces(1);
+					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
+					if (nom == "Water"){
+						GestionnaireSucces::obtInstance().obtSucces(18);
+					}
+					else{
+						if (nom == "Holy Rod")
+							GestionnaireSucces::obtInstance().obtSucces(17);
+						else
+							GestionnaireSucces::obtInstance().obtSucces(17);
+					}
 					objetVise = nullptr;
 				}
 				toucheRelachee = false;
@@ -210,7 +217,6 @@ public:
 			if (Clavier::toucheAppuyee(SDLK_e))
 				toucheRelachee = true;
 		}
-
 		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 120000)){
 			GestionnaireSucces::obtInstance().obtSucces(3);
 		}
@@ -223,7 +229,6 @@ public:
 		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 300000)){
 			GestionnaireSucces::obtInstance().obtSucces(6);
 		}
-
 	}
 
 	void toucheAppuyee(SDL_Event &event){
