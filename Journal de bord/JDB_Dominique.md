@@ -63,11 +63,15 @@
 11/05/2015 (12h00 à 2h00) : J'ai (enfin) fini le longement, je vais l'intégrer au projet principal demain. Je sais d'où provient le dernier bug et il ne nuit pas au fonctionnement du jeu.
 
 12/05/2015 (8h10 à 8h40) : J'ai mis le longement sur master. Je l'ai testé pour vérifier qu'il ne crée pas de problèmes avec la dernière version de master.
-           (2h00 à 5h00) : J'étais présent pour la petite réunion de l'équipe, dans laquelle j'ai été assigné avec Sam pour créer les succès. Nous en avons fait l'analyse, puis avons commencé à coder un gestionnaire de succès.
+
+(2h00 à 5h00) : J'étais présent pour la petite réunion de l'équipe, dans laquelle j'ai été assigné avec Sam pour créer les succès. Nous en avons fait l'analyse, puis avons commencé à coder un gestionnaire de succès.
 
 14/05/2015 (9h45 à 12h10) : J'ai fait une texture pour la boite qui va afficher les succès. J'ai ensuite continué à faire le gestionnaire de succès avec Sam. Il ne reste essentiellement qu'à faire afficher les succès.
 
 15/05/2015 (11h15 à 13h5) : J'ai réussi à faire fonctionner le premier succès. Le seul élément manquant est de faire disparaître la fenêtre après un certain temps. Les autres succès pourront facilement être implémenté suite au premier.
 
 19/05/2015 (8h00 à 11h50) : J'ai fait une nouvelle boîte pour les succès pour qu'ils soient moins aggressants. J'ai aussi ajouté un chronomètre pour qu'ils disparaissent automatiquement. J'ai ensuite essayé de bien faire marcher la sauvegarde des succès, sans résultats pour l'instant.
-           (2h45 à 5h25) : J'ai fait fonctionner les interactions avec le fichier de sauvegarde des succès. J'ai ensuite mis à jour (encore) la texture de la boîte des succès. J'ai ensuite travaillé avec Sam à vérifier les conditions de chaques succès, il n'en reste qu'environ une dizaine.
+
+(2h45 à 5h25) : J'ai fait fonctionner les interactions avec le fichier de sauvegarde des succès. J'ai ensuite mis à jour (encore) la texture de la boîte des succès. J'ai ensuite travaillé avec Sam à vérifier les conditions de chaques succès, il n'en reste qu'environ une dizaine.
+
+20/05/2015 (3h00 à 4h00) : J'ai fait fonctionner 2 succès un peu plus complexes, celui lorsqu'on obtient 3 objets et celui quand onlâche/ramasse rapidement le même objet. 
