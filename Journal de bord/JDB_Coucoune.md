@@ -49,3 +49,7 @@ Aujourd'hui j'ai tenté de transcender mon âme à travers le corps de Julien. M
 #21 avril 2015
 
 J'ai pris possesion l'ordinateur de Nicolas Coutu. Je suis allée sur catporntubehub.cat pendant que Nicolas n'était pas là. Chrome à crashé car l'historique de recherche de l'ordinateur de Nicolas était calissement loadé de site comme «Frozen original soundtrack» et «disney princess». Je crois qu'il aime un peu trop les princesses.  Effectivement je confirme, en fouillant un peu j'ai découvert une photo de son dernier cosplay de Elsa. Je continue a rechercher d'autres preuves... EWWW c'est quoi ça...! Holy shit Nicolas reviens, je doit me dépecher de partir.
+
+#19 mai 2015 (Quelque part dans la salle où tu est)
+
+Moew! Purr-pare to die! >83 
