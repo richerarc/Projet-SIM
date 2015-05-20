@@ -5,20 +5,19 @@
 #include "GestionnaireControle.h"
 #include "Inventaire.h"
 
-enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
-enum modele { MODELEDEBOUT, MODELEACCROUPI };
-
+enum etatDynamique { STABLE, CHUTE };
+enum etatStatique { DEBOUT, ACCROUPI };
 class Joueur {
 private:
 	gfx::Modele3D* modele3D;
 	gfx::Camera* camera;
 	gfx::Modele3D* listeModele3D[2];
-	gfx::Camera* listeCamera[2];
+//	gfx::Camera* listeCamera[2];
 	Vecteur3d position;
 	Vecteur3d vitesse;
 	double masse;
 	float vitesseDeplacement;
-	short etat;
+	short etatDynamique, etatStatique;
 	short santePhysique, santeMentale;
 	Vecteur3d normale;
 	Vecteur3d pointCollision;
@@ -53,33 +52,36 @@ public:
 	Joueur(Vecteur3d position, double hAngle) {
 		this->vitesseDeplacement = 4.f;
 		this->position = position;
-		etat = CHUTE;
+		etatDynamique = CHUTE;
+		etatStatique = DEBOUT;
 		masse = 87.f;
 		santePhysique = 100;
 		santeMentale = 100;
 		vitesse = { 0, 0, 0 };
 		bloque = false;
-		listeCamera[MODELEDEBOUT] = new gfx::Camera;
-		listeCamera[MODELEACCROUPI] = new gfx::Camera;
-		listeModele3D[MODELEDEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
-		listeModele3D[MODELEACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
-		camera = listeCamera[MODELEDEBOUT];
-		modele3D = listeModele3D[MODELEDEBOUT];
-		listeModele3D[MODELEDEBOUT]->defPosition(position);
-		listeModele3D[MODELEACCROUPI]->defPosition(position);
+		//listeCamera[DEBOUT] = new gfx::Camera;
+		//listeCamera[ACCROUPI] = new gfx::Camera;
+		//camera = listeCamera[DEBOUT];
+		camera = new gfx::Camera;
+		listeModele3D[DEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
+		listeModele3D[ACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
+
+		modele3D = listeModele3D[DEBOUT];
+		listeModele3D[DEBOUT]->defPosition(position);
+		listeModele3D[ACCROUPI]->defPosition(position);
 		chronoSaut = Chrono();
 		position.y += 1.74;
 		camera->defPosition(position);
-		etat = STABLE;
-		modele3D = listeModele3D[MODELEDEBOUT];
+		modele3D = listeModele3D[DEBOUT];
 		camera->defHAngle(hAngle);
 		chronoSaut = Chrono();
 		inventaire = new Inventaire(Vecteur2f(9, 3));
 	}
 
 	~Joueur() {
-		delete listeCamera[0];
-		delete listeCamera[1];
+		/*delete listeCamera[0];
+		delete listeCamera[1];*/
+		delete camera;
 		delete listeModele3D[0];
 		delete listeModele3D[1];
 		delete inventaire;
@@ -88,18 +90,15 @@ public:
 	void deplacement(){
 		if (!bloque){
 
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) && (etat == STABLE)){
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) && (etatDynamique == STABLE)){
 				vitesse.x = 0.f;
 				vitesse.z = 0.f;
-				if (vitesse.y == 0){
-					etat = STABLE;
+				if (vitesse.y == 0)
 					vitesse.y = 0.f;
-				}
-				etat = STABLE;
 			}
 
-			if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
-				etat = STABLE;
+			if (etatDynamique == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
+				etatDynamique = STABLE;
 			}
 
 
@@ -109,29 +108,31 @@ public:
 			devant.normaliser();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (etatStatique == DEBOUT))
 				vitesseDeplacement = 4.f;
 
-			if (etat != SAUT && etat != CHUTE) {
+			if (etatDynamique != CHUTE) {
 
-				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
+				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (etatStatique == DEBOUT) && vitesseDeplacement != 8.f)
 					vitesseDeplacement = 8.f;
 
-				else if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_B)) && (camera != listeCamera[MODELEACCROUPI])) {
-					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
-					listeCamera[MODELEACCROUPI]->defVAngle(listeCamera[MODELEDEBOUT]->obtVAngle());
-					camera = listeCamera[MODELEACCROUPI];
-					modele3D = listeModele3D[MODELEACCROUPI];
+				else if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_B)) && (etatStatique == DEBOUT)) {
+					//listeCamera[ACCROUPI]->defHAngle(listeCamera[DEBOUT]->obtHAngle());
+					//listeCamera[ACCROUPI]->defVAngle(listeCamera[DEBOUT]->obtVAngle());
+					//camera = listeCamera[ACCROUPI];
+					modele3D = listeModele3D[ACCROUPI];
 					ajouterScene();
+					etatStatique = ACCROUPI;
 					vitesseDeplacement = 2.f;
 				}
 
-				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_B) && camera != listeCamera[MODELEDEBOUT]) {
-					listeCamera[MODELEDEBOUT]->defHAngle(listeCamera[MODELEACCROUPI]->obtHAngle());
-					listeCamera[MODELEDEBOUT]->defVAngle(listeCamera[MODELEACCROUPI]->obtVAngle());
-					camera = listeCamera[MODELEDEBOUT];
-					modele3D = listeModele3D[MODELEDEBOUT];
+				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_B) && etatStatique == ACCROUPI) {
+					//listeCamera[DEBOUT]->defHAngle(listeCamera[ACCROUPI]->obtHAngle());
+					//listeCamera[DEBOUT]->defVAngle(listeCamera[ACCROUPI]->obtVAngle());
+					//camera = listeCamera[DEBOUT];
+					modele3D = listeModele3D[DEBOUT];
 					ajouterScene();
+					etatStatique = DEBOUT;
 					vitesseDeplacement = 4.f;
 				}
 
@@ -295,17 +296,17 @@ public:
 					}
 				}
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_A)) && (camera != listeCamera[MODELEACCROUPI])) {
+				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_A)) && (etatStatique == DEBOUT)) {
 					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1))
 					{
 						chronoSaut.repartir();
 						vitesse.y = 4;
-						etat = CHUTE;
+						etatDynamique = CHUTE;
 					}
 				}
 			}
-			listeModele3D[MODELEDEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
-			listeModele3D[MODELEACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
+			listeModele3D[DEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
+			listeModele3D[ACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
 		}
 	}
 
@@ -406,17 +407,25 @@ public:
 
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
-		this->listeModele3D[MODELEACCROUPI]->defPosition(position);
-		this->listeModele3D[MODELEDEBOUT]->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
-		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
+		this->listeModele3D[ACCROUPI]->defPosition(position);
+		this->listeModele3D[DEBOUT]->defPosition(position);
+		//listeCamera[DEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		//listeCamera[ACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
+		if (etatStatique == DEBOUT)
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		else
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
 
 	void defPositionY(double y) {
 		this->position.y = y;
 		this->modele3D->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
-		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
+		//listeCamera[DEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		//listeCamera[ACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
+		if (etatStatique == DEBOUT)
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		else
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
 
 	void defPointCollision(Vecteur3d pointCollision){
@@ -427,31 +436,33 @@ public:
 	void defNormaleMur(Vecteur3d normaleMur){ this->normaleMur = normaleMur; }
 
 	void defHAngle(double hAngle){
-		listeCamera[MODELEDEBOUT]->defHAngle(hAngle);
-		listeCamera[MODELEACCROUPI]->defHAngle(hAngle);
+		//listeCamera[DEBOUT]->defHAngle(hAngle);
+		//listeCamera[ACCROUPI]->defHAngle(hAngle);
+		camera->defHAngle(hAngle);
 	}
 
 	void defVAngle(double vAngle) {
-		listeCamera[MODELEDEBOUT]->defVAngle(vAngle);
-		listeCamera[MODELEACCROUPI]->defVAngle(vAngle);
+		//listeCamera[DEBOUT]->defVAngle(vAngle);
+		//listeCamera[ACCROUPI]->defVAngle(vAngle);
+		camera->defVAngle(vAngle);
 	}
 
 	gfx::Camera* obtCamera(){ return camera; }
 
-	void defEtat(unsigned int etat){ if (etat <= 5) this->etat = etat; }
+	void defEtat(unsigned int etatDynamique){ if (etatDynamique <= 5) this->etatDynamique = etatDynamique; }
 
 	void bloquer(){
 		this->bloque = true;
-		listeCamera[MODELEDEBOUT]->bloquer();
-		listeCamera[MODELEACCROUPI]->bloquer();
-		//gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
+		//listeCamera[DEBOUT]->bloquer();
+		//listeCamera[ACCROUPI]->bloquer();
+		camera->bloquer();
 	}
 
 	void deBloquer(){
 		this->bloque = false;
-		listeCamera[MODELEDEBOUT]->deBloquer();
-		listeCamera[MODELEACCROUPI]->deBloquer();
-		//gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
+		//listeCamera[DEBOUT]->deBloquer();
+		//listeCamera[ACCROUPI]->deBloquer();
+		camera->deBloquer();
 	}
 
 	gfx::Modele3D* obtModele3D() { return modele3D; }
@@ -461,12 +472,11 @@ public:
 	double obtAngleHorizontal(){ return camera->obtHAngle(); }
 
 	Vecteur3d& obtNormale(){ return this->normale; }
+
 	Vecteur3d& obtNormaleMur(){ return this->normaleMur; }
 
 	Vecteur3d obtPositionCamera(){
-		Vecteur3d temp = camera->obtPosition();
-		temp.y = temp.y - 1.8f;
-		return temp;
+		return camera->obtPosition();
 	}
 
 	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
@@ -487,9 +497,9 @@ public:
 
 	float obtVitesseDeplacement(){ return vitesseDeplacement; }
 
-	short obtEtat(){ return etat; }
+	short obtEtat(){ return etatDynamique; }
 
-	Vecteur3d obtVectOrientationVue() { return camera->obtDevant(); }
+	Vecteur3d obtDevant() { return camera->obtDevant(); }
 
 	Inventaire* obtInventaire(){ return this->inventaire; }
 };
