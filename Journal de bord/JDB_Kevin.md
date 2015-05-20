@@ -26,12 +26,12 @@ Nous devrions ce rencontrer sur Gitter pour parler des besoins et de l'analyse p
 		 
  On fais un escape game: le but c'est de sortir vivant et dans un ceratin laps de temps un Labyrinthe ou un Batiment selon des "salles" ou   des couloirs choisis aléatoirement parmis une liste. Un systeme pts de vie et de  santée mentale pt pour l'éduc, Un gaz toxique pour la chimie ,Un choix de porte  éventuel pour la Philo". 
 
-**temps du débat:  1h  participants 4.2/14 (Jessy as été présent quelques secondes)**
+**Temps 1h**
 
 ##**`10 Février 2015`**
 Nous avons discuter plus en détails du jeu et sommes arrivées a un concept final sur le gameplay et l'embiance.Nous avons délibérées de 8h30 a 10h49 et un peu de 11h50 a 12h35.
 
-**total de temps:3h20**
+**Temps 3.5h**
 
 ##**`Du 11 au 16 Février 2015`**
 L'analyse à pris forme tout au long de ce laps de temps. Il y a eu formations des équipes (Divide and Conquer). Le 16 (aujourd'hui) l'analyse fut complètée par collaboration de tout le monde et corrigée par moi même. Nous discuterons de nos besoins pour les graphiques (menus2D, cameras,etc...) avec mon équipe demain avant le cours.
@@ -61,7 +61,7 @@ J'ai terminer le model de pendule, il reste juste à le texturer. J'ai aussi cor
 ##**`3 Mars 2015`**###
 J'ai corriger des erreurs dans la classe Vecteur2. j'ai également discuter avec l'équipe sur certains points.
 
-**Temps 30min**
+**Temps 0.5h**
 
 ##**`4 Mars 2015`**
 Aujourd'hui, j'avais organiser une journée prise de son avec notre "sound man" préféré Fabien. De 1h15 à 3h nous avons enregistré plusieurs sons pour notre jeu. J'ai commencé, en avant-midi la classe Model et que j'ai terminé après souper. J'ai ensuite commencer la classe Model3D. De l'optimisation reste à faire dans mes deux classes, je continurai demain.
@@ -135,7 +135,7 @@ J'ai "pointeurisé modifier quelque trucs, pour permettre une meuileure gestion 
 
 J'ai commencer une classe matrice... J'ai beaucoup de problemes je vais avoir besoin d'aide surement. J'espere que ça ne sera pas une perte de temps totale...
 
-**temps 5-6h**
+**temps 5.5h**
 
 ##**`27 Mars 2015`**
 
@@ -175,7 +175,7 @@ Après les cours je suis rester jusqu'a 19h30 pour continuer ou jessy avait lais
 
 J'ai réglé les problèmes d'inclusion. J'ai fait le minimum pour qu'une fenetre affiche à l'écran et que toutes les classes du moteur graphique compilent. Je me suis rendu compte que je n'ai toujours pas fait la phase conception alors , avant de continuer à programmer, je vais entammer une bref analyse demain. 
 
-**Temps 9h30**
+**Temps 9.5**
 
 ##**`3 Avril 2015`**
 
@@ -197,7 +197,7 @@ Ce matin nous avions un problème pour l'affichage des modeles alors j'ai résol
 
 P.S:Comme il y avait un examen de physique cette apres midi, j'ai beaucoup fait de physique et moins de prog.
 
-**Temps 3h30**
+**Temps 3.5**
 
 ##**`14 Avril 2015`**
 
@@ -238,46 +238,79 @@ J'ai fais quelques modifications avec Nathan pour le déplacement du joueur, nou
 
 Aujourd'hui j'ai tenter en vain de replacer la physique pour faire tomber le joueur selon la gravité. Nathan a finalement trouvé la réponse. De plus j'ai trouvé un moyen de le faire monter la pente. Je voulais éviter d'imjplémenter la projection mais je dois me rendre a l'évidence, on n'a pas le choix, c'est le seul moyen.
 
-**Temps 1h30**
+**Temps 1.5h**
 
 ##**`27 Avril 2015`**
 
 Aujourd'hui j'ai tenté avec Nathan de regler le déplacement du joueur dans une pente sans succes. J'ai aussi fait du menage et du réglage de bugs. J'ai revert quelques de nos commits sur le joueur quand j'ai remarqué que nous avions causé plus de marde que de bien. Le déplacement sur les surfaces planes sont quasi parfaits. Encore quelques réglages comme comprendre pourquoi le joueur passe a travers les murs quand l'angle est petit...
 Nous allons devoir trouver un moyen de faire marcher l'Ajustement de la vitesse selon le plan de la face de collision pour permettre un déplacement en pente. Il va falloir aussi trouver un moyen de monter dans des escaliers...  
 
-**Temps: Beaucoup trop...** (4h)
+**Temps 4h**
 
 ##**`28 Avril 2015`**
 
 Nathan et moi avons faits quelques modifications pour le joueur maintenenat il descends les pentes. Nous avons gosser longtemps pour arriver à ce résultat. Ça commence a être long la.
 
-**Temps 4h...**
+**Temps 4h**
 
 ##**`30 Avril et 1 Mai 2015`**
 
 J'ai esseyer quelques trucs pour faire fonctionner le personnage comme il le faut avec Nathan hier et aujourd'hui. Jai modéliser une nouvelle piece en pente. Cet apres midi j'ai esseyer quqleques autres pistes. J'ai regler le probleme du personnage qui n'avancait aps quand il regardait trop haut ou trop bas.
 
-**Temps pour les 2 jour: 5h**
+**Temps 5h**
 
 ##**`5 et 6 Mai 2015`**
 
 #####le 5 Mai 
 Nathan et moi (plus Nathan) avons travaillé sur le déplacement du joueur pour le rendre meuilleur.
+
 **temps 2h**
 
 #####le 6 Mai
 
 J'ai réglé le problement du joueur de 3 metres de large en jouant aven le frustum d'avantage. J'ai refait les modeles3D du joueur et j'ai arrenger le fait qu'il passait à travers les murs. Ce dernier point reste à arranger. J'ai commencer a coder comment je le ferais monter les escaliers, je m'insipire du positionnement des portes alors je vais demander plus de détail a Gabriel demain. 
+
  **Temps 5h**
 
 ##**`8 Mai 2015`**
 J'ai blendé et texturé une salle test.
 
+**temps 2h**
+
 ##**`12 Mai 2015`**
 J'ai refait le hiérarchie un peu pour pouvoir utiliser des fonctions de la physique dans le joueur mais l'opération c'est avéré être un échec.
 
+**temps 2h**
+
 ##**`13 Mai 2015`**
 Nathan a régler le déplacement et maintenant le joueur monte les marches. Parcontre ça marche seulement sur son ordinateur et pas sur les ordinateur du cégep.
-J'ai aussi découper l'Avion de gabriel pour le préparer à la texturisation.
+J'ai aussi découper l'avion de Gabriel pour le préparer à la texturisation.
 
+**temps 3h**
 
+##**`14 Mai 2015`**
+Debuggage pour tenter de regler les bugs que j'avais crée la veille 
+
+**temps 2h**
+
+##**`15Mai 2015`**
+
+j'ai fini de texturer l'avion de Gabriel, il avait l'air contant du résultat, il manque juse a rajouter des éléments de nazisme dedans.
+**temps 1.5h**
+
+##**`18 mai 2015`**
+Julien, Gabriel, Nathan et moi-même sommes venus au cégep pour travailler sur le projet en plus de faire de la physique. Julien nous as aidé pour les collisions, cela a grandement améliorer le déplacement du joueur.
+
+De plus, j'ai optimiser le code pour monter les marches, maintenant il se fie à la hauteur des marches pour les monter de la bonne hauteur. 
+
+**temps 3h**
+
+##**`19 mai 2015`**
+Aujourd'hui Nathan et moi avont crée une nouvelle technique pour faciliter les collision avec le joueur(Le joueur consiste maintenant d'une barre remplie de vettices pour pouvoir vérifier a partir de plusieurs points différents). Julien nous as encore une fois un peu aider. 
+
+De plus, j'ai retirer du code inutile qui était en commentaire dans phasejeu.h, j'ai également mis plus de cohérence dans le nom d'une fonction dans joueur. Finalement, j'ai re-tenté de retirer le système à deux cameras du joueur avec succes cette fois-ci!  
+
+**temps 5h**
+
+##**`20 mai 2015`**
+//À Remplir

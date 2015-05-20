@@ -8,6 +8,7 @@
 #include "MenuAccesRapide.h"
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
+#include "UsineItem.h"
 
 class PhaseJeu : public Phase{
 
@@ -57,7 +58,7 @@ private:
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (joueur->obtSanteMentale() != santeMentalePrecedente)
 			GestionnaireSucces::obtInstance().obtSucces(0);
-		if ((joueur->obtSanteMentale() < 100) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
+		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
 		}
@@ -100,10 +101,7 @@ private:
 		for (auto it : liste) {
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
 			Item* it_Item = dynamic_cast<Item*>(it);
-			Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtVectOrientationVue());
-			if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtVectOrientationVue().angleEntreVecteurs(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
-				//if (Physique::obtInstance().collisionDroiteObjet(*it, VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0))) {
-				//if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, Vecteur3d(0, 0, 0), Vecteur3d(0, 0, 0), true)){
+			if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtDevant().angleEntreVecteurs(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
 				std::string str1 = "Press ";
 				str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
 
@@ -114,12 +112,10 @@ private:
 					str1.append(" to pick up ");
 					str1.append(it_Item->obtNom());
 				}
-				//	const char* chr1 = str1.c_str();
 				texte->defTexte(&str1);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
 				objetDetecte = true;
 				objetVise = it;
-				//}
 			}
 		}
 
@@ -148,12 +144,13 @@ public:
 
 		itemEquipe = nullptr;
 
-		test = new Item(1, "Gun", "Allows you to shoot long range targets.", "Ressources/Texture/fusilIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), 0, "metal", 20);
+		test = UsineItem::obtInstance().obtItemParType(10, 0);
 
 		joueur->obtInventaire()->ajouterObjet(test);
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 		retour = false;
 		pause = false;
 	}
@@ -169,7 +166,7 @@ public:
 		}
 		accesRapide->actualiserAffichage();
 
-		if (Clavier::toucheAppuyee(SDLK_q)){
+		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
@@ -187,7 +184,7 @@ public:
 		}
 
 		if (detectionObjet()){
-			if (Clavier::toucheRelachee(SDLK_e) && toucheRelachee){// Touche relach�e bient�t...
+			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){// Touche relach�e bient�t...
 				if (objetVise->obtSiPorte()){
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
@@ -208,13 +205,22 @@ public:
 						if (nom == "Holy Rod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
 						else
-							GestionnaireSucces::obtInstance().obtSucces(1);
+							if (nom == "Gun")
+								int a = 0;//GestionnaireSucces::obtInstance().obtSucces(8);
+							else
+								if (nom == "Grenade")
+									GestionnaireSucces::obtInstance().obtSucces(9);
+								else
+									if (nom == "Note")
+										GestionnaireSucces::obtInstance().obtSucces(13);
+									else
+										GestionnaireSucces::obtInstance().obtSucces(1);
 					}
 					objetVise = nullptr;
 				}
 				toucheRelachee = false;
 			}
-			if (Clavier::toucheAppuyee(SDLK_e))
+			if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
 				toucheRelachee = true;
 		}
 		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 120000)){
@@ -238,7 +244,7 @@ public:
 			retour = false;
 			return;
 		}
-		if (event.key.keysym.sym == SDLK_ESCAPE) {
+		if ((event.key.keysym.sym == SDLK_ESCAPE) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_START)) {
 			defPause(true);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUPAUSE);
@@ -247,7 +253,7 @@ public:
 			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
 			curseur->remplir();
 		}
-		if (event.key.keysym.sym == SDLK_TAB) {
+		if ((event.key.keysym.sym == SDLK_TAB) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)) {
 			defPause(true);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUINVENTAIRE);
