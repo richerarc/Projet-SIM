@@ -7,7 +7,6 @@ enum EtatItem { EQUIPE, RANGE, DEPOSE };
 
 class Item : public ObjetPhysique{
 private:
-	Chrono animation;
 	int type;
 	char* nom;
 	char* description;
@@ -15,6 +14,8 @@ private:
 	int maxPile;
 	EtatItem etat;
 	Salle* salleActive;
+
+	Chrono animation;
 public:
 	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse) : ObjetPhysique(modele, ID, materiaux, masse, Vecteur3d(), Vecteur3d(), Vecteur3d(), false){
 		this->type = type;
@@ -27,6 +28,7 @@ public:
 	}
 
 	virtual void utiliser() = 0;
+	virtual void utiliser2() = 0;
 	virtual void equiper() = 0;
 
 	void defEtat(EtatItem etat){
@@ -63,12 +65,15 @@ public:
 			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
 				utiliser();
 			}
-			this->position = position;
-			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.33 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * 0.4;
+			if (Souris::boutonAppuye(SDL_BUTTON_RIGHT)){
+				utiliser2();
+			}
+			Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.33 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * 0.4;
+			this->position = newPosition;
 			modele->defPosition(position);
 			modele->defOrientation(0, 0, 0);
-			modele->rotationner(0, 0, -gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
-			modele->rotationner(0, 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle(), 0);
+			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut(), 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle());
+			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle() + 10 * sin(10 * animation.obtTempsEcoule().enSecondes()));
 		}
 	}
 

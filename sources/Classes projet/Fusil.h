@@ -25,16 +25,16 @@ public:
 		Vecteur3d normale;
 		for (auto &it : Carte::obtInstance().salleActive->obtListeObjet()){
 			if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false)){
-				std::cout << pointCollision.x << ", " << pointCollision.y << ", " << pointCollision.z << std::endl;
-				std::cout << normale.x << ", " << normale.y << ", " << normale.z << std::endl;
 				gfx::Gestionnaire3D::obtInstance().ajouterTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png"), pointCollision, normale);
 			}
 		}
 		if (Physique::obtInstance().collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
-			std::cout << pointCollision.x << ", " << pointCollision.y << ", " << pointCollision.z << std::endl;
-			std::cout << normale.x << ", " << normale.y << ", " << normale.z << std::endl;
 			gfx::Gestionnaire3D::obtInstance().ajouterTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png"), pointCollision, normale);
 		}
+	}
+
+	void utiliser2(){
+
 	}
 
 	void equiper(){

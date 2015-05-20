@@ -12,6 +12,11 @@ public:
 	void utiliser(){
 
 	}
+
+	void utiliser2(){
+
+	}
+
 	void equiper(){
 
 	}
