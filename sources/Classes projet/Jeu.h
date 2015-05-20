@@ -132,7 +132,7 @@ public:
 
 			fenetre->rafraichir();
 		}
-		
+		GestionnaireSucces::obtInstance().sauvegarder();
 		delete fenetre;
 		ControlleurAudio::obtInstance().fermer();
 		Mix_CloseAudio();

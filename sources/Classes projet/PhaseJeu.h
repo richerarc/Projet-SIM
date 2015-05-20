@@ -169,7 +169,9 @@ public:
 		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
+				GestionnaireSucces::obtInstance().defItemOuiNonLache(joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne()));
 				joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+				GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() - 1);
 				itemEquipe = nullptr;
 			}
 		}
@@ -197,7 +199,11 @@ public:
 				}
 				else if (dynamic_cast<Item*>(objetVise)){
 					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
+					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() + 1);
+					if (GestionnaireSucces::obtInstance().obtNbrItems() == 3)
+						GestionnaireSucces::obtInstance().obtSucces(10);
 					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
+					GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
 					if (nom == "Water"){
 						GestionnaireSucces::obtInstance().obtSucces(18);
 					}
@@ -205,8 +211,8 @@ public:
 						if (nom == "Holy Rod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
 						else
-							if (nom == "Gun")
-								int a = 0;//GestionnaireSucces::obtInstance().obtSucces(8);
+							if (nom == "Luger P08" || "Thompson M1")
+								GestionnaireSucces::obtInstance().obtSucces(8);
 							else
 								if (nom == "Grenade")
 									GestionnaireSucces::obtInstance().obtSucces(9);
