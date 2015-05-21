@@ -64,3 +64,7 @@ J'ai essayé d'aider Nicolas à bien animer nos items lorsqu'ils sont équipés.
 Un autre recap. On a déterminé l'arborescence des items et comment les IDs seront attribués.
 ## pendant 2h ##
 J'ai commencé à travailler sur les physiques de Fusil.
+#19 mai pendant 3h#
+Tentatives de fixer les rotations d'items avec Nicolas.
+#20 mai pendant 3h#
+Modification des rotations de Modele3D et ajustement des rotations de trous de balles. Début de l'implémentations des mécaniques de fusil ainsi que l'ajout de la mire.

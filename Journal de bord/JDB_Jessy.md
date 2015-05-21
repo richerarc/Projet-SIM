@@ -139,3 +139,9 @@ de 15h à 16h(1h)
 
 12 mai de 14h30 à 17h30 (3h)
 -J'ai réussis à résoudre mon problème expliqué plus haut. J'ai revue ma facon de gérer les événements de la manette et c'est beaucoup plus simple de la nouvelle façon que je le fais et , le plus important, cela fonctionne! J'ai aussi résolue un problème avec le controle de la caméra mais il reste un petit problème sur lequel je travaille.
+
+14 mai de 10h à 12h (2h)
+-Moi et Nicolas Dean avons débuggé la manette afin de régler le caméra
+
+19 mai de 14h30 à 17h30 (3h)
+-Grosse journée aujourd'hui, j'ai tout ajouté les controles au jeu et mis mes modifications finales sur le projet. J'ai aussi beaucoup testé pour être sur que tout soit fonctionnel.

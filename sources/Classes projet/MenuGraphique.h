@@ -86,12 +86,16 @@ public:
 	}
 
 	void enClicRetour(Bouton* envoi) {
+		if (pause)
+			return;
 		clicRetour();
 		iterateur = resolutionDefaut;
 		modeVideo = modeVideoDefaut;
 	}
 
 	void enClicDroite(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().retObjet((*iterateur));
 		
 		++iterateur;
@@ -106,6 +110,8 @@ public:
 	}
 
 	void enClicGauche(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().retObjet((*iterateur));
 		 
 		if (iterateur != resolutions.begin()) {
@@ -122,6 +128,8 @@ public:
 	}
 
 	void enClicAppliquer(Bouton* envoi) {
+		if (pause)
+			return;
 		float l = (*modeVideo).l;
 		float ratio = modeDefaut.l / l;
 		resolutionDefaut = iterateur;
@@ -135,10 +143,14 @@ public:
 	}
 
 	void survol(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 

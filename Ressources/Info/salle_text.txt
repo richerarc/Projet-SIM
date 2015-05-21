@@ -6,5 +6,5 @@ Ressources/Modele/SalleConference.obj Ressources/Texture/SalleConference.png Res
 Ressources/Modele/SalleConvergente.obj Ressources/Texture/SalleConvergente.png Ressources/Info/SalleConvergente.txt
 Ressources/Modele/SalleEscalier.obj Ressources/Texture/SalleEscalier.png Ressources/Info/SalleEscalier.txt
 Ressources/Modele/SalleHexagonale.obj Ressources/Texture/SalleHexagonale.png Ressources/Info/SalleHexagonale.txt
-Ressources/Modele/SalleOctogonale.obj Ressources/Texture/SalleOctogonale.png Ressources/Info/SalleOctoganale.txt
+Ressources/Modele/SalleOctogonale.obj Ressources/Texture/SalleOctogonale.png Ressources/Info/SalleOctogonale.txt
 Ressources/Modele/SalleMulti.obj Ressources/Texture/SalleMulti.png Ressources/Info/SalleMulti.txt

@@ -1,8 +1,8 @@
  #pragma once
 #include <map>
 #include <tuple>
-#include <list>
 #include <vector>
+#include <list>
 #include <fstream>
 #include <cmath>
 #include "Modele3D.h"
@@ -20,6 +20,7 @@
 //#include "Balance.h"
 #include "ControlleurAudio.h"
 #include "Vent.h"
+#include "Commutateur.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -49,8 +50,109 @@ private:
 	std::vector<Modele_Text> cheminsModeleText;
 	std::vector<char*> cheminsPuzzle;
 
+	int obtElementListe(std::list<int> liste, int ID) {
+		auto it = liste.begin();
+
+		for (int i = 0; i < ID; ++i)
+			++it;
+
+		return *it;
+	}
+
 	void ajouterLien(Entree entree, Sortie sortie){
 		liens[entree] = sortie;
+	}
+
+	bool positionnerPuzzle(InfoSalle& salle, InfoPuzzle& puzzle) {
+
+		bool puzzlePlace = false;
+		std::vector<int> nombreBoite;
+		std::vector<int>::iterator itBoites;
+		BoiteCollision<double> boiteSalle;
+		BoiteCollision<double> boitePuzzleTemp;
+		InfoObjet remplisseur;
+
+		remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+		remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+		remplisseur.type = REMPLISSEUR;
+
+		for (int i = 0; i < salle.boitesCollision.size(); ++i)
+			nombreBoite.push_back(i);
+
+		int aleatoire = rand() % nombreBoite.size();
+		boiteSalle = salle.obtBoiteCollisionModifie(nombreBoite[aleatoire]);
+		itBoites = nombreBoite.begin();
+		for (int i = 0; i < aleatoire; ++i) ++itBoites;
+
+		while (!puzzlePlace && nombreBoite.size()!= 0) {
+			
+			nombreBoite.erase(itBoites);
+			puzzle.position = boiteSalle.distanceEntreDeuxCentre(puzzle.boiteCollision);
+			boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
+
+			if (!boiteSalle.boiteDansBoite(boitePuzzleTemp)){
+
+				if (boiteSalle.obtGrandeurX() - boiteSalle.obtGrandeurZ() < 0){
+					double deltaXmen;
+					for (auto &it : puzzle.objet){
+						deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
+						it.rotation = 270;
+						if (it.position.x < 0){
+							it.position.x += deltaXmen;
+							it.position.z -= deltaXmen;
+						}
+						else{
+							it.position.x -= deltaXmen;
+							it.position.z += deltaXmen;
+						}
+					}
+					puzzle.rotation = 270;
+				}
+				else{
+					puzzle.rotation = 0;
+				}
+				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
+			}
+
+			for (auto &it : puzzle.objet)
+				it.position += puzzle.position;
+
+			if (boiteSalle.boiteDansBoite(boitePuzzleTemp)){
+				if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
+					remplisseur.largeur = boiteSalle.obtGrandeurX();
+					remplisseur.rotation = 0;
+					remplisseur.position = Vecteur3d(boiteSalle.obtXMin(), 1, boitePuzzleTemp.obtZMin());
+					puzzle.objet.push_back(remplisseur);
+					remplisseur.rotation = 180;
+					remplisseur.position = Vecteur3d(boiteSalle.obtXMax(), 1, boitePuzzleTemp.obtZMax());
+					puzzle.objet.push_back(remplisseur);
+				}
+
+				else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
+					remplisseur.largeur = boiteSalle.obtGrandeurZ();
+					remplisseur.rotation = 270;
+					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteSalle.obtZMin());
+					puzzle.objet.push_back(remplisseur);
+					remplisseur.rotation = 90;
+					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteSalle.obtZMax());
+					puzzle.objet.push_back(remplisseur);
+				}
+
+				for (auto &it : puzzle.objet){
+					salle.Objet.push_back(it);
+				}
+				return true;
+			}
+			else {
+				if (nombreBoite.size() > 0) {
+					aleatoire = rand() % nombreBoite.size();
+					boiteSalle = salle.obtBoiteCollisionModifie(nombreBoite[aleatoire]);
+					itBoites = nombreBoite.begin();
+					for (int i = 0; i < aleatoire; ++i) ++itBoites;
+				}
+			}
+		}
+		return false;
 	}
 
 	void positionnerPorte(gfx::Modele3D& modeleSalle, InfoSalle& salle, InfoObjet& objet) {
@@ -274,13 +376,35 @@ private:
 				case REMPLISSEUR:
 					salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
 					break;
-				case VENT:
+				case VENTILATEUR:
 					salleActive->ajoutObjet(new Vent(modeleporte, it.ID, Vecteur3d(0,5,0), it.position, Vecteur3d(it.largeur, 20, it.largeur)));
+					break;
+				case COMMUTATEUR:
+					salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
 					break;
 			}
 		}
 
 		salleActive->remplir();
+	}
+
+	bool creerPuzzle(int &nbrPuzzle, int IDSalle) {
+
+		InfoSalle& salle = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; });
+		InfoPuzzle puzzle;
+		bool puzzlePlace = false;
+		int aleatoire;
+
+		aleatoire = rand() % nbrPuzzle;
+		LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
+		puzzle.rotation = 0;
+
+		if (positionnerPuzzle(salle, puzzle)) {
+			--nbrPuzzle;
+			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return !strcmp(chemin, cheminsPuzzle[aleatoire]);}));
+			return true;
+		}
+		return false;
 	}
 
 public:
@@ -421,6 +545,7 @@ public:
 					auto debut = infosSalles.begin();
 					std::advance(debut, std::get<0>(salleSuivante));
 
+					gfx::Gestionnaire3D::obtInstance().vider();
 					creerSalle(*debut);
 
 					ajouterMur();
@@ -475,8 +600,6 @@ public:
 			porte[i] = carte.degreSortant(i);
 
 		for (unsigned int i = 0; i < nombreDeSalle; ++i){
-			if (i == 10)
-				int hue = 0;
 			itterateurPorte = 0;
 			for (unsigned int j = 0; j < nombreDeSalle; ++j){
 				if (carte.matrice[i * nombreDeSalle + j]){
@@ -512,9 +635,8 @@ public:
 		}
 
 		unsigned int aleatoire;
-		InfoObjet objet, info;
+		InfoObjet objet;
 		InfoSalle salle;
-		InfoPuzzle puzzle;
 		gfx::Modele3D* modeleSalle;
 
 		// Boucle sur toutes les salles...
@@ -522,7 +644,7 @@ public:
 
 			salle.ID = i;
 			salle.nbrPorte = carte.degreSortant(i);
-			salle.echelle = { /*rand() % 3 + 2.0, 2.0, rand() % 3 + 2.0*/3,2,3};
+			salle.echelle = { 3, 2, 3 };
 
 			aleatoire = rand() % itterateur;
 
@@ -534,87 +656,44 @@ public:
 			salle.Objet.clear();
 		}
 
-		int premiereSalle = 1;//rand() % nombreDeSalle;
-		InfoSalle &salle2 = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == premiereSalle; });
-		bool puzzlePlace = false;
+		int IDSalle(0);
+		int prochaineSalle;
+		bool salleCorrecte;
+		std::list<int> salleSuivante;
+		std::vector<int> salleAvecPuzzle;
 
-		for (int i = 0; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
-			int aleatoire = rand() % nbrPuzzle;
-			--nbrPuzzle;
-			LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
-			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return chemin == cheminsPuzzle[aleatoire];}));
-			int lol = salle2.boitesCollision.size();
-			BoiteCollision<double> boiteTemp = salle2.obtBoiteCollisionModifie((rand() % salle2.boitesCollision.size()));
-			BoiteCollision<double> boitePuzzleTemp;
-			puzzle.rotation = 0;
+		do {
+			IDSalle = rand() % nombreDeSalle;
+		}
+		while (!creerPuzzle(nbrPuzzle, IDSalle));
+		salleAvecPuzzle.push_back(IDSalle);
 
-			while (!puzzlePlace) {
+		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
 
-				puzzle.position = boiteTemp.distanceEntreDeuxCentre(puzzle.boiteCollision);
-				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
-
-				if (!boiteTemp.boiteDansBoite(boitePuzzleTemp)){
-
-					if (boiteTemp.obtGrandeurX() - boiteTemp.obtGrandeurZ() < 0){
-						double deltaXmen;
-						for (auto &it : puzzle.objet){
-							deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
-							it.rotation = 270;
-							if (it.position.x < 0){
-								it.position.x += deltaXmen;
-								it.position.z -= deltaXmen;
-							}
-							else{
-								it.position.x -= deltaXmen;
-								it.position.z += deltaXmen;
-							}
-						}
-						puzzle.rotation = 270;
+			do {
+				salleSuivante = carte.obtListeAdjacence(IDSalle);
+				prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
+				salleSuivante = carte.obtListeAdjacence(prochaineSalle);
+				int nbrEssais(0);
+				do {
+					salleCorrecte = true;
+					if (nbrEssais > 10) {
+						salleSuivante = carte.obtListeAdjacence(IDSalle);
+						prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
+						salleSuivante = carte.obtListeAdjacence(prochaineSalle);
+						nbrEssais = 0;
 					}
-					else{
-						puzzle.rotation = 0;
-					}
-					boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
-				}
+					prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
+					salleSuivante = carte.obtListeAdjacence(prochaineSalle);
 
-				for (auto &it : puzzle.objet)
-					it.position += puzzle.position;
-
-				if (boiteTemp.boiteDansBoite(boitePuzzleTemp)){
-					if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
-						info.largeur = boiteTemp.obtGrandeurX();
-						info.cheminModele = "Ressources/Modele/Remplisseur.obj";
-						info.cheminTexture = "Ressources/Texture/Remplisseur.png";
-						info.type = REMPLISSEUR;
-						info.rotation = 0;
-						info.position = Vecteur3d(boiteTemp.obtXMin(), 1, boitePuzzleTemp.obtZMin());
-						puzzle.objet.push_back(info);
-						info.rotation = 180;
-						info.position = Vecteur3d(boiteTemp.obtXMax(), 1, boitePuzzleTemp.obtZMax());
-						puzzle.objet.push_back(info);
+					for (int j = 0; j < salleAvecPuzzle.size() && salleCorrecte; ++j) {
+						salleCorrecte = !((salleAvecPuzzle[j] == prochaineSalle));
+						++nbrEssais;
 					}
-
-					else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
-						info.largeur = boiteTemp.obtGrandeurZ();
-						info.cheminModele = "Ressources/Modele/Remplisseur.obj";
-						info.cheminTexture = "Ressources/Texture/Remplisseur.png";
-						info.type = REMPLISSEUR;
-						info.rotation = 270;
-						info.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteTemp.obtZMin());
-						puzzle.objet.push_back(info);
-						info.rotation = 90;
-						info.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteTemp.obtZMax());
-						puzzle.objet.push_back(info);
-					}
-
-					for (auto &it : puzzle.objet){
-						salle2.Objet.push_back(it);
-					}
-					puzzlePlace = true;
-				}
-				else
-					boiteTemp = salle2.obtBoiteCollisionModifie((rand() % salle2.boitesCollision.size()));
-			}
+				} while (!salleCorrecte);
+			} while (!creerPuzzle(nbrPuzzle, prochaineSalle));
+			IDSalle = prochaineSalle;
+			salleAvecPuzzle.push_back(IDSalle);
 		}
 
 		for (auto &it : infosSalles) {
@@ -639,6 +718,36 @@ public:
 	}
 
 	Vecteur3d debut(double& hAngle) {
+		// Salle de fin
+
+		InfoSalle salleFin;
+		salleFin.cheminModele = "Ressources/Modele/SalleFin.obj";
+		salleFin.cheminTexture = "Ressources/Texture/SalleFin.png";
+		salleFin.echelle = { 1.0, 1.0, 1.0 };
+		salleFin.ID = infosSalles.size();
+		salleFin.nbrPorte = 1;
+
+		// Création objets salle finale
+
+		// Porte
+
+		//InfoObjet porteFin;
+		//LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
+		//porteFin.direction = { 0, 0, 1 };
+		//porteFin.ID = 0;
+		//porteFin.largeur = 0;
+		//porteFin.position = { 1.07, 1.01, 53.71 }; //Fix this
+		//porte.rotation = 0; //Fix that
+
+
+		// Création de l'avion
+
+		/*InfoObjet avion;
+		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);*/
+
+
+
+		// Salle de début
 
 		InfoSalle salleDebut;
 		salleDebut.cheminModele = "Ressources/Modele/SalleDebut.obj";
@@ -727,14 +836,9 @@ public:
 
 		unsigned int IDSalleConnectee = rand() % (nombreDeSalle - 1);
 
-		/*InfoSalle salleConnectee = (*infosSalles.begin()); // Erreur louche
-		std::advance(IDSalleConnectee, salleConnectee);
-
-		unsigned int IDPorteSalleConnectee = rand() % salleConnectee.nbrPorte;*/
-
 		unsigned int IDPorteSalleConnectee = 0;
 
-		ajouterLien(Entree(20, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
@@ -747,6 +851,174 @@ public:
 		modelePorte->defOrientation(0, 0, 0);
 
 		hAngle = 270;
+		teleporteur();
 		return lit.position + Vecteur3d(-1.3, 0, 0.9);
+	}
+	
+	void teleporteur(){
+		
+		InfoSalle salleTeleporteur;
+		salleTeleporteur.cheminModele = "Ressources/Modele/teleporteur.obj";
+		salleTeleporteur.cheminTexture = "Ressources/Texture/teleporteur.png";
+		salleTeleporteur.echelle = { 1.0, 1.0, 1.0 };
+		salleTeleporteur.ID = infosSalles.size();
+		salleTeleporteur.nbrPorte = 1;
+		
+			// Création des objets de la salle
+		
+			// Porte (EntrŽe)
+		
+		InfoObjet porte;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
+		porte.direction = { 1, 0, 0};
+		porte.ID = 0;
+		porte.largeur = 0;
+		porte.position = { 21.1, 0, -1.470588235/2 };
+		porte.rotation = 180;
+		
+		salleTeleporteur.Objet.push_back(porte);
+		
+		
+			// Porte (Sortie)
+		InfoObjet porte2;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
+		porte2.direction = { -1, 0, 0 };
+		porte2.ID = 1;
+		porte2.largeur = 0;
+		porte2.position = { -21.1, 0, 1.470588235/2 };
+		porte2.rotation = 0;
+		
+		salleTeleporteur.Objet.push_back(porte2);
+		
+			// Poste
+		InfoObjet poste;
+		poste.cheminModele = "Ressources/Modele/poste.obj";
+		poste.cheminTexture = "Ressources/Texture/poste.png";
+		poste.direction = { 0, 0, 0 };
+		poste.ID = 2;
+		poste.largeur = 0;
+		poste.position = { 0, 0, 5 };
+		poste.rotation = 90;
+		poste.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(poste);
+		
+			// Plate
+		InfoObjet plate;
+		plate.cheminModele = "Ressources/Modele/plate.obj";
+		plate.cheminTexture = "Ressources/Texture/plate.png";
+		plate.direction = { 0, 0, 0 };
+		plate.ID = 3;
+		plate.largeur = 0;
+		plate.position = { 0.93, 0.96, 4.7 };
+		plate.rotation = 90;
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		plate.ID = 4;
+		plate.position = { 0.73, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		plate.ID = 5;
+		plate.position = { 0.53, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		plate.ID = 6;
+		plate.position = { 0.33, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		
+		
+		plate.ID = 7;
+		plate.position = { -0.13, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		plate.ID = 10;
+		plate.position = { -0.73, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		plate.ID = 9;
+		plate.position = { -0.53, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+		plate.ID = 8;
+		plate.position = { -0.33, 0.96, 4.7 };
+		plate.type = FIXE;
+		
+		salleTeleporteur.Objet.push_back(plate);
+		
+			//Switch
+		
+		InfoObjet com;
+		com.cheminModele = "Ressources/Modele/switch.obj";
+		com.cheminTexture = "Ressources/Texture/switch.png";
+		com.direction = { 0, 0, 0 };
+		com.ID = 11;
+		com.largeur = 0;
+		com.position = { 0.93, 0.99, 4.72 };
+		com.rotation = 90;
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		com.ID = 12;
+		com.position = { 0.73, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		com.ID = 13;
+		com.position = { 0.53, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		com.ID = 14;
+		com.position = { 0.33, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		
+		
+		com.ID = 15;
+		com.position = { -0.13, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		com.ID = 18;
+		com.position = { -0.73, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		com.ID = 17;
+		com.position = { -0.53, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		com.ID = 16;
+		com.position = { -0.33, 0.99, 4.72 };
+		com.type = COMMUTATEUR;
+		
+		salleTeleporteur.Objet.push_back(com);
+		
+		
+		infosSalles.push_back(salleTeleporteur);
 	}
 };

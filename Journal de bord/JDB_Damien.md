@@ -89,3 +89,9 @@
 	Modification du changement de l'angle de vision du joueur lors de la fin d'une téléportation ainsi que l'ajout d'un défénir devant dans la caméra.
 #Mardi 12 mai (14:40 à 17:30)
 	Réorganisation des taches de tous et modélisation d'une boîte de thai, d'une salle ainsi que le début de la modélisation de la salle de fin.
+#Jeudi 14 mai (2 heures)
+	Travail sur le model de la salle de fin.
+#Samedi 16 mai (2 heures)
+	Travail sur le model de la salle de fin mais quelques problèmes avec mon Blender.
+#Mardi 19 mai (14:40 à 17:25)
+	Finallisation du modele et  de la texture de la salle de fin. Début de l'implémentation de cette salle dans le programme avec l'ordre en ajoutant la salle dans le programme et débutant d'ajouter l'avion et la seule porte.

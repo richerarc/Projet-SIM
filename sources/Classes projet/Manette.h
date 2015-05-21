@@ -1,11 +1,12 @@
 #pragma once
 #include <set>
+#include <stdlib.h>
 class Manette{
 private:
 	static SDL_GameController *manette;
 	static SDL_Joystick* patron;
 	static std::set<short> boutons;
-	static std::set<int> orientation;
+	static std::set<short> orientation;
 	static float positionGauchex;
 	static float positionGauchey;
 	static float positionDroitex;
@@ -19,13 +20,11 @@ public:
 		for (int i = 0; i < SDL_NumJoysticks(); ++i) {
 			if (SDL_IsGameController(i)) {
 				manette = SDL_GameControllerOpen(i);
+
 				patron = SDL_GameControllerGetJoystick(manette);
-				patron = SDL_JoystickOpen(i);
-				break;
 			}
 		}
 		return manette == nullptr;
-		
 	}
 
 	static void mettreAJourBoutons(){
@@ -34,6 +33,10 @@ public:
 		bool XButton = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_X);
 		bool YButton = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_Y);
 		bool ESCButton = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_START);
+		bool EpauleGauche = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		bool EpauleDroite = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+		bool ControleDroiteBouton = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+		bool BoutonBack = SDL_GameControllerGetButton(manette, SDL_CONTROLLER_BUTTON_BACK);
 
 		if (AButton)
 			boutons.insert(SDL_CONTROLLER_BUTTON_A);
@@ -55,23 +58,42 @@ public:
 			boutons.insert(SDL_CONTROLLER_BUTTON_START);
 		else
 			boutons.erase(SDL_CONTROLLER_BUTTON_START);
-	
+		if (EpauleGauche)
+			boutons.insert(SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		else
+			boutons.erase(SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		if (EpauleDroite)
+			boutons.insert(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+		else
+			boutons.erase(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+		if (ControleDroiteBouton)
+			boutons.insert(SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+		else
+			boutons.erase(SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+		if (BoutonBack)
+			boutons.insert(SDL_CONTROLLER_BUTTON_BACK);
+		else
+			boutons.erase(SDL_CONTROLLER_BUTTON_BACK);
+
+
+
 	}
 	static void mettreAJourControleGauche(SDL_Event &event){
-		
-		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX)
-			positionGauchex = (event.caxis.value) / 22000.0f;
 
-		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY)
-			positionGauchey = (event.caxis.value) / 22000.0f;
-		
+		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX && event.caxis.value != 0)
+			positionGauchex = (event.caxis.value) / 3200.0f;
+
+		if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY && event.caxis.value != 0)
+			positionGauchey = (event.caxis.value) / 3200.0f;
+
 	}
 	static void mettreAJourControleDroite(SDL_Event &event){
+
 		if (event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX)
-			positionDroitex = (event.caxis.value) / 22000.0f;
-		
+			positionDroitex = (event.caxis.value) / 32000.0f;
+
 		if (event.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)
-			positionDroitey = (event.caxis.value) / 22000.0f;
+			positionDroitey = (event.caxis.value) / 32000.0f;
 	}
 
 	static void mettreAJourEtat(short orientations, bool etat){
@@ -80,30 +102,6 @@ public:
 		else
 			orientation.erase(orientations);
 	}
-
-	//static void verifierOrientationControleGauche(SDL_Event &event){
-	//	if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX){
-	//		if (event.caxis.value > 0)
-	//			orientation.insert(0);
-	//		else
-	//			orientation.erase(0);
-	//		if (event.caxis.value < 0)
-	//			orientation.insert(1);
-	//		else
-	//			orientation.erase(1);
-	//		
-	//	}
-	//	if (event.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY){
-	//		if (event.caxis.value > 0)
-	//			orientation.insert(2);
-	//		else
-	//			orientation.erase(2);
-	//		if (event.caxis.value < 0)
-	//			orientation.insert(3);
-	//		else
-	//			orientation.erase(3);
-	//	}
-	//}
 
 	static bool boutonAppuyer(short bouton){
 		return boutons.find(bouton) != boutons.end();
@@ -129,12 +127,19 @@ public:
 	static float obtenirPositionDroiteY(){
 		return positionDroitey;
 	}
+	static void Test(bool bo){
+		orientation.erase(0);
+		orientation.erase(1);
+		orientation.erase(2);
+		orientation.erase(3);
+	}
 };
 std::set<short> Manette::boutons;
-std::set<int> Manette::orientation;
+std::set<short> Manette::orientation;
 SDL_GameController* Manette::manette = NULL;
 SDL_Joystick* Manette::patron = NULL;
 float Manette::positionGauchex(0);
 float Manette::positionGauchey(0);
 float Manette::positionDroitex(0);
 float Manette::positionDroitey(0);
+

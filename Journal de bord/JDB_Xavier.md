@@ -68,3 +68,7 @@ J'ai fait les textes avec nico et j'ai commencer à faire mon journal (l'intro).
 J'ai fini mon journal (l'intro)
 ### Jeudi 14 mai ~1h30
 J'ai fait les classe de menuintro et phase menu intro. Je n'ai pas encore push parce que j'ai des bugs important et je ne veux pas que tout le monde les ai. J'ai aussi fini la 2e partie de l'intro qui est une description du batiment. Il ne reste qu'à prendre les photos pour les deux intros.
+### Fin de semaine du 15 mai ~1h
+J'ai fini l'intro, je l'ai tester.
+### Mardi 19 mai ~2h
+J'ai plus ou moins été productif. J'ai commencer un "clignement de yeux". Je n'ai toujours pas push mes affaires puisque j'ai encore des bugs et je ne veux pas push des bugs. J'ai "blender" un personnage. 

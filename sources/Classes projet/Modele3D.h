@@ -23,6 +23,8 @@ namespace gfx{
 		bool normale_Est_Transforme;
 		bool bDC_Est_Transformee;
 
+		std::vector<std::tuple<double, Vecteur3d>> rotations;
+
 		void calculerMatriceTransformation(bool sommet){
 			double mat[16];
 			glPushMatrix();
@@ -34,7 +36,7 @@ namespace gfx{
 			glTranslated(origine.x, origine.y, origine.z);
 			if (sommet)
 				glScaled(echelle.x, echelle.y, echelle.z);
-			else 
+			else
 				glScaled(echelle.z, echelle.y, echelle.x);
 			glGetDoublev(GL_MODELVIEW_MATRIX, mat);
 			glPopMatrix();
@@ -43,7 +45,7 @@ namespace gfx{
 
 	public:
 
-Modele3D() : Objet3D(){
+		Modele3D() : Objet3D(){
 			echelle = Vecteur3d(1, 1, 1);
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
@@ -89,7 +91,7 @@ Modele3D() : Objet3D(){
 					vecteurNormal[0] = (matriceTransformation[0] * normalTemp[0]) + (matriceTransformation[4] * normalTemp[1]) + (matriceTransformation[8] * normalTemp[2]) + (matriceTransformation[12] * normalTemp[3]);
 					vecteurNormal[1] = (matriceTransformation[1] * normalTemp[0]) + (matriceTransformation[5] * normalTemp[1]) + (matriceTransformation[9] * normalTemp[2]) + (matriceTransformation[13] * normalTemp[3]);
 					vecteurNormal[2] = (matriceTransformation[2] * normalTemp[0]) + (matriceTransformation[6] * normalTemp[1]) + (matriceTransformation[10] * normalTemp[2]) + (matriceTransformation[14] * normalTemp[3]);
-					vecteurNormal[3] = (matriceTransformation[3] * normalTemp[0]) + (matriceTransformation[7] * normalTemp[1]) + (matriceTransformation[11] * normalTemp[2]) + (matriceTransformation[15] * normalTemp[3]); 
+					vecteurNormal[3] = (matriceTransformation[3] * normalTemp[0]) + (matriceTransformation[7] * normalTemp[1]) + (matriceTransformation[11] * normalTemp[2]) + (matriceTransformation[15] * normalTemp[3]);
 
 					for (unsigned int j = 0; j < 3; j++){
 						if (vecteurNormal[3] != 1)
@@ -115,10 +117,10 @@ Modele3D() : Objet3D(){
 					for (unsigned int j = 0; j < 3; j++)
 						normalTemp[j] = modele->obtVertices()[i * 3 + j];
 
-					vecteurNormal[0] =(matriceTransformation[0] * normalTemp[0]) + (matriceTransformation[4] * normalTemp[1]) + (matriceTransformation[8] * normalTemp[2]) + (matriceTransformation[12] * normalTemp[3]);
-					vecteurNormal[1] =(matriceTransformation[1] * normalTemp[0]) + (matriceTransformation[5] * normalTemp[1]) + (matriceTransformation[9] * normalTemp[2]) + (matriceTransformation[13] * normalTemp[3]);
-					vecteurNormal[2] =(matriceTransformation[2] * normalTemp[0]) + (matriceTransformation[6] * normalTemp[1]) + (matriceTransformation[10] * normalTemp[2]) + (matriceTransformation[14] * normalTemp[3]);
-					vecteurNormal[3] =(matriceTransformation[3] * normalTemp[0]) + (matriceTransformation[7] * normalTemp[1]) + (matriceTransformation[11] * normalTemp[2]) + (matriceTransformation[15] * normalTemp[3]);
+					vecteurNormal[0] = (matriceTransformation[0] * normalTemp[0]) + (matriceTransformation[4] * normalTemp[1]) + (matriceTransformation[8] * normalTemp[2]) + (matriceTransformation[12] * normalTemp[3]);
+					vecteurNormal[1] = (matriceTransformation[1] * normalTemp[0]) + (matriceTransformation[5] * normalTemp[1]) + (matriceTransformation[9] * normalTemp[2]) + (matriceTransformation[13] * normalTemp[3]);
+					vecteurNormal[2] = (matriceTransformation[2] * normalTemp[0]) + (matriceTransformation[6] * normalTemp[1]) + (matriceTransformation[10] * normalTemp[2]) + (matriceTransformation[14] * normalTemp[3]);
+					vecteurNormal[3] = (matriceTransformation[3] * normalTemp[0]) + (matriceTransformation[7] * normalTemp[1]) + (matriceTransformation[11] * normalTemp[2]) + (matriceTransformation[15] * normalTemp[3]);
 
 					for (unsigned int j = 0; j < 3; j++){
 						if (vecteurNormal[3] != 1)
@@ -126,7 +128,7 @@ Modele3D() : Objet3D(){
 						else
 							sommetsModif[i * 3 + j] = vecteurNormal[j];
 					}
-						
+
 				}
 				sommet_Est_Transforme = false;
 			}
@@ -161,7 +163,7 @@ Modele3D() : Objet3D(){
 						boiteDeCollisionModifiee[i].y = bteCol[1];
 						boiteDeCollisionModifiee[i].z = bteCol[2];
 					}
-					
+
 				}
 				bDC_Est_Transformee = false;
 			}
@@ -169,7 +171,7 @@ Modele3D() : Objet3D(){
 		}
 
 
-			~Modele3D(){
+		~Modele3D(){
 			if (sommetsModif){
 				delete[] sommetsModif;
 				sommetsModif = nullptr;
@@ -233,6 +235,7 @@ Modele3D() : Objet3D(){
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			rotations.clear();
 		}
 
 		void rotationner(Vecteur3d rot){
@@ -269,6 +272,7 @@ Modele3D() : Objet3D(){
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			rotations.clear();
 		}
 
 		void rotationner(double axeX, double axeY, double axeZ){
@@ -278,6 +282,15 @@ Modele3D() : Objet3D(){
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+		}
+
+		void rotationner(Vecteur3d axe, double angle){
+			sommet_Est_Transforme = true;
+			normale_Est_Transforme = true;
+			bDC_Est_Transformee = true;
+
+			rotations.push_back(std::make_tuple(angle, axe));
+
 		}
 
 		void deplacer(double axeX, double axeY, double axeZ){
@@ -293,17 +306,21 @@ Modele3D() : Objet3D(){
 			glEnable(GL_DEPTH_TEST);
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glPushMatrix();
-				//glLoadIdentity();
-				glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
-				glRotated(orientation.x, 1, 0, 0);
-				glRotated(orientation.z, 0, 0, 1);
-				glRotated(orientation.y, 0, 1, 0);
-				glTranslated(origine.x, origine.y, origine.z);
-				glScaled(echelle.x, echelle.y, echelle.z);
-				glVertexPointer(3, GL_DOUBLE, 0, modele->obtVertices());
-				glTexCoordPointer(2, GL_DOUBLE, 0, modele->obtTextures());
-				glNormalPointer(GL_DOUBLE, 0, modele->obtNormales());
-				glDrawArrays(GL_TRIANGLES, 0, modele->obtNbrSommets());
+			//glLoadIdentity();
+			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
+			for (auto &it : rotations){
+				Vecteur3d axe = std::get<1>(it);
+				glRotated(std::get<0>(it), axe.x, axe.y, axe.z);
+			}
+			glRotated(orientation.x, 1, 0, 0);
+			glRotated(orientation.z, 0, 0, 1);
+			glRotated(orientation.y, 0, 1, 0);
+			glTranslated(origine.x, origine.y, origine.z);
+			glScaled(echelle.x, echelle.y, echelle.z);
+			glVertexPointer(3, GL_DOUBLE, 0, modele->obtVertices());
+			glTexCoordPointer(2, GL_DOUBLE, 0, modele->obtTextures());
+			glNormalPointer(GL_DOUBLE, 0, modele->obtNormales());
+			glDrawArrays(GL_TRIANGLES, 0, modele->obtNbrSommets());
 			glPopMatrix();
 			glDisable(GL_DEPTH_TEST);
 			//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

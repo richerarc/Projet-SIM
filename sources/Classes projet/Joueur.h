@@ -5,20 +5,18 @@
 #include "GestionnaireControle.h"
 #include "Inventaire.h"
 
-enum etat { STABLE, ACCROUPI, MARCHE, SAUT, CHUTE };
-enum modele { MODELEDEBOUT, MODELEACCROUPI };
-
+enum etatDynamique { STABLE, CHUTE };
+enum etatStatique { DEBOUT, ACCROUPI };
 class Joueur {
 private:
 	gfx::Modele3D* modele3D;
 	gfx::Camera* camera;
 	gfx::Modele3D* listeModele3D[2];
-	gfx::Camera* listeCamera[2];
 	Vecteur3d position;
 	Vecteur3d vitesse;
 	double masse;
 	float vitesseDeplacement;
-	short etat;
+	short etatDynamique, etatStatique;
 	short santePhysique, santeMentale;
 	Vecteur3d normale;
 	Vecteur3d pointCollision;
@@ -53,33 +51,31 @@ public:
 	Joueur(Vecteur3d position, double hAngle) {
 		this->vitesseDeplacement = 4.f;
 		this->position = position;
-		etat = CHUTE;
+		etatDynamique = CHUTE;
+		etatStatique = DEBOUT;
 		masse = 87.f;
 		santePhysique = 100;
 		santeMentale = 100;
 		vitesse = { 0, 0, 0 };
 		bloque = false;
-		listeCamera[MODELEDEBOUT] = new gfx::Camera;
-		listeCamera[MODELEACCROUPI] = new gfx::Camera;
-		listeModele3D[MODELEDEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
-		listeModele3D[MODELEACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
-		camera = listeCamera[MODELEDEBOUT];
-		modele3D = listeModele3D[MODELEDEBOUT];
-		listeModele3D[MODELEDEBOUT]->defPosition(position);
-		listeModele3D[MODELEACCROUPI]->defPosition(position);
+		camera = new gfx::Camera;
+		listeModele3D[DEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
+		listeModele3D[ACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
+		ajouterScene();
+		modele3D = listeModele3D[DEBOUT];
+		listeModele3D[DEBOUT]->defPosition(position);
+		listeModele3D[ACCROUPI]->defPosition(position);
 		chronoSaut = Chrono();
 		position.y += 1.74;
 		camera->defPosition(position);
-		etat = STABLE;
-		modele3D = listeModele3D[MODELEDEBOUT];
+		modele3D = listeModele3D[DEBOUT];
 		camera->defHAngle(hAngle);
 		chronoSaut = Chrono();
 		inventaire = new Inventaire(Vecteur2f(9, 3));
 	}
 
 	~Joueur() {
-		delete listeCamera[0];
-		delete listeCamera[1];
+		delete camera;
 		delete listeModele3D[0];
 		delete listeModele3D[1];
 		delete inventaire;
@@ -87,20 +83,17 @@ public:
 
 	void deplacement(){
 		if (!bloque){
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE))) && (etat == STABLE || etat == MARCHE || etat == ACCROUPI)){
+
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) && (etatDynamique == STABLE)){
 				vitesse.x = 0.f;
 				vitesse.z = 0.f;
-				if (vitesse.y == 0){
-					etat = STABLE;
+				if (vitesse.y == 0)
 					vitesse.y = 0.f;
-				}
-				etat = STABLE;
 			}
 
-			if (etat == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
-				etat = STABLE;
+			if (etatDynamique == CHUTE && vitesse.x == 0 && vitesse.y == 0 && vitesse.z == 0){
+				etatDynamique = STABLE;
 			}
-
 
 			Vecteur3d devant = camera->obtDevant();
 			devant.y = 0;
@@ -108,209 +101,103 @@ public:
 			devant.normaliser();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
-			if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && (vitesseDeplacement != 4.f) && (camera != listeCamera[MODELEACCROUPI]))
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (etatStatique == DEBOUT))
 				vitesseDeplacement = 4.f;
 
-			if (etat != SAUT && etat != CHUTE) {
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) && (camera != listeCamera[MODELEACCROUPI]) && vitesseDeplacement != 8.f)
-					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER)))
-						vitesseDeplacement = 8.f;
-					else
-						vitesseDeplacement = 4.f;
+			if (etatDynamique != CHUTE) {
 
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && (camera != listeCamera[MODELEACCROUPI])) {
-					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
-					camera = listeCamera[MODELEACCROUPI];
-					modele3D = listeModele3D[MODELEACCROUPI];
-					ajouterScene();
+				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (etatStatique == DEBOUT) && vitesseDeplacement != 8.f)
+					vitesseDeplacement = 8.f;
+
+				else if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_B)) && (etatStatique == DEBOUT)) {
+					modele3D = listeModele3D[ACCROUPI];
+					etatStatique = ACCROUPI;
 					vitesseDeplacement = 2.f;
 				}
 
-				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && camera != listeCamera[MODELEDEBOUT]) {
-					listeCamera[MODELEACCROUPI]->defHAngle(listeCamera[MODELEDEBOUT]->obtHAngle());
-					camera = listeCamera[MODELEDEBOUT];
-					modele3D = listeModele3D[MODELEDEBOUT];
+				else if (Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_B) && etatStatique == ACCROUPI) {
+					modele3D = listeModele3D[DEBOUT];
 					ajouterScene();
-					etat = STABLE;
+					etatStatique = DEBOUT;
 					vitesseDeplacement = 4.f;
 				}
 
-				if ((normale.x != 0 || normale.z != 0) && (normale.y != 0)) {
-					vitesseDeplacement = 4.f;
-				}
+				//if (fabs(normale.x) < 0.05f)
+				//	normale.x = 0.f;
+				//if (fabs(normale.z) < 0.05f)
+				//	normale.z = 0.f;
+				//normale.normaliser();
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER))) {
-					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
-						vitesse.x = devant.x * vitesseDeplacement;
-						vitesse.z = devant.z * vitesseDeplacement;
-					}
-					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f)
-						vitesse = devant * vitesseDeplacement;
-					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-						}
-						else
-							vitesse = vitesse + (cote * vitesseDeplacement);
+				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_UP)) {
+					vitesse = devant * vitesseDeplacement;
+					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
+						vitesse = vitesse + (cote * vitesseDeplacement);
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
 					}
 
-					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesseTemp.x = cote.x * vitesseDeplacement;
-							vitesseTemp.z = cote.z * vitesseDeplacement;
-						}
-						else
-							vitesseTemp = cote * vitesseDeplacement;
-						vitesseTemp.inverser();
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesse.x = vitesse.x + vitesseTemp.x;
-							vitesse.z = vitesse.z + vitesseTemp.z;
-						}
-						else
-							vitesse = vitesse + vitesseTemp;
-					}
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (devant.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
-					}
-				}
-
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER))) {
-					vitesseDeplacement = 4.f;
-					if ((normale.x != 0.f || normale.z != 0.f) || normale == Vecteur3d(0, 0, 0)) {
-						vitesse.x = devant.x * vitesseDeplacement;
-						vitesse.z = devant.z * vitesseDeplacement;
-						vitesse.x = -vitesse.x;
-						vitesse.z = -vitesse.z;
-					}
-					else if (normale.x == 0.f && normale.z == 0.f && normale.y != 0.f) {
-						vitesse = devant * vitesseDeplacement;
-						vitesse.inverser();
-					}
-					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))) {
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-							vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-						}
-						else
-							vitesse = vitesse + (cote * vitesseDeplacement);
-					}
-
-					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesseTemp.x = cote.x * vitesseDeplacement;
-							vitesseTemp.z = cote.z * vitesseDeplacement;
-						}
-						else
-							vitesseTemp = cote * vitesseDeplacement;
-						vitesseTemp.inverser();
-						if (normale.x != 0.f || normale.z != 0.f) {
-							vitesse.x = vitesse.x + vitesseTemp.x;
-							vitesse.z = vitesse.z + vitesseTemp.z;
-						}
-						else
-							vitesse = vitesse + vitesseTemp;
-					}
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						//ajusterVitesse();
-						//vitesse *= 2;
-						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
-					}
-				}
-
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE))) {
-					vitesseDeplacement = 4.f;
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesseTemp.x = cote.x * vitesseDeplacement;
-						vitesseTemp.z = cote.z * vitesseDeplacement;
-						vitesseTemp.x = -vitesseTemp.x;
-						vitesseTemp.z = -vitesseTemp.z;
-					}
-					else {
+					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
 						vitesseTemp = cote * vitesseDeplacement;
 						vitesseTemp.inverser();
-					}
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesse.x = vitesse.x + vitesseTemp.x;
-						vitesse.z = vitesse.z + vitesseTemp.z;
-					}
-					else
 						vitesse = vitesse + vitesseTemp;
-
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
-						}
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
 					}
 				}
 
-				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE))){
-					vitesseDeplacement = 4.f;
-					if (normale.x != 0.f || normale.z != 0.f) {
-						vitesse.x = vitesse.x + (cote.x * vitesseDeplacement);
-						vitesse.z = vitesse.z + (cote.z * vitesseDeplacement);
-					}
-					else
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_DOWN)) {
+					vitesse = devant * vitesseDeplacement;
+					vitesse.inverser();
+					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
 						vitesse = vitesse + (cote * vitesseDeplacement);
-					if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f)) || normale == Vecteur3d(0, 0, 0)) {
-						Vecteur3d tmpNormale;
-						if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
-							tmpNormale = normale;
-						}
-						if (vitesse.produitScalaire(tmpNormale) > 0.f) {
-							etat = MARCHE;
-							ajusterVitesse();
-							if (vitesse.y > 0.f) {
-								vitesse.y *= -1;
-							}
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
+					}
+
+					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
+						vitesseTemp = cote * vitesseDeplacement;
+						vitesseTemp.inverser();
+						vitesse = vitesse + vitesseTemp;
+						vitesse.normaliser();
+						vitesse *= vitesseDeplacement;
+					}
+				}
+
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
+					if (vitesseDeplacement >= 8.f)
+						vitesseDeplacement = 6.f;
+					vitesseTemp = cote * vitesseDeplacement;
+					vitesseTemp.inverser();
+					vitesse = vitesse + vitesseTemp;
+				}
+
+				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)){
+					if (vitesseDeplacement >= 8.f)
+						vitesseDeplacement = 6.f;
+					vitesse = vitesse + (cote * vitesseDeplacement);
+				}
+
+				if (((normale.x != 0.f || normale.z != 0.f) && (normale.y != 0.f))) {
+					if (vitesse.produitScalaire(normale) > 0.f) {
+						ajusterVitesse();
+						if (vitesse.y > 0.f) {
+							vitesse.y *= -1;
 						}
 					}
 				}
 
-				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) && (camera != listeCamera[MODELEACCROUPI])) {
-					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1.15))
-					{
+				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_A)) && (etatStatique == DEBOUT)) {
+					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1)){
 						chronoSaut.repartir();
-						vitesse.y = 7;
-						etat = SAUT;
+						vitesse.y = 4;
+						etatDynamique = CHUTE;
 					}
 				}
 			}
-			if (normale.x == 0.f && normale.z == 0.f && normale.y != 0) {
-				listeModele3D[MODELEDEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
-				listeModele3D[MODELEACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
-			}
+			listeModele3D[DEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
+			listeModele3D[ACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
 		}
 	}
-
 
 	void longer(){
 		Vecteur3d direction1;
@@ -408,52 +295,45 @@ public:
 
 	void defPosition(Vecteur3d pos){
 		this->position = pos;
-		this->listeModele3D[MODELEACCROUPI]->defPosition(position);
-		this->listeModele3D[MODELEDEBOUT]->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
-		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
+		this->listeModele3D[ACCROUPI]->defPosition(position);
+		this->listeModele3D[DEBOUT]->defPosition(position);
+		if (etatStatique == DEBOUT)
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		else
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
 
 	void defPositionY(double y) {
 		this->position.y = y;
 		this->modele3D->defPosition(position);
-		listeCamera[MODELEDEBOUT]->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
-		listeCamera[MODELEACCROUPI]->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
+		if (etatStatique == DEBOUT)
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
+		else
+			camera->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 	}
 
-	void defPointCollision(Vecteur3d pointCollision){
-		this->pointCollision = pointCollision;
-	}
+	void defPointCollision(Vecteur3d pointCollision){ this->pointCollision = pointCollision; }
 
 	void defNormale(Vecteur3d normale){ this->normale = normale; }
+
 	void defNormaleMur(Vecteur3d normaleMur){ this->normaleMur = normaleMur; }
 
-	void defHAngle(double hAngle){
-		listeCamera[MODELEDEBOUT]->defHAngle(hAngle);
-		listeCamera[MODELEACCROUPI]->defHAngle(hAngle);
-	}
+	void defHAngle(double hAngle){ camera->defHAngle(hAngle); }
 
-	void defVAngle(double vAngle) {
-		listeCamera[MODELEDEBOUT]->defVAngle(vAngle);
-		listeCamera[MODELEACCROUPI]->defVAngle(vAngle);
-	}
+	void defVAngle(double vAngle) { camera->defVAngle(vAngle); }
 
 	gfx::Camera* obtCamera(){ return camera; }
 
-	void defEtat(unsigned int etat){ if (etat <= 5) this->etat = etat; }
+	void defEtat(unsigned int etatDynamique){ if (etatDynamique <= 5) this->etatDynamique = etatDynamique; }
 
 	void bloquer(){
 		this->bloque = true;
-		listeCamera[MODELEDEBOUT]->bloquer();
-		listeCamera[MODELEACCROUPI]->bloquer();
-		//gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
+		camera->bloquer();
 	}
 
 	void deBloquer(){
 		this->bloque = false;
-		listeCamera[MODELEDEBOUT]->deBloquer();
-		listeCamera[MODELEACCROUPI]->deBloquer();
-		//gfx::Gestionnaire3D::obtInstance().obtCamera()->deBloquer();
+		camera->deBloquer();
 	}
 
 	gfx::Modele3D* obtModele3D() { return modele3D; }
@@ -463,13 +343,10 @@ public:
 	double obtAngleHorizontal(){ return camera->obtHAngle(); }
 
 	Vecteur3d& obtNormale(){ return this->normale; }
+
 	Vecteur3d& obtNormaleMur(){ return this->normaleMur; }
 
-	Vecteur3d obtPositionCamera(){
-		Vecteur3d temp = camera->obtPosition();
-		temp.y = temp.y - 1.8f;
-		return temp;
-	}
+	Vecteur3d obtPositionCamera(){ return camera->obtPosition(); }
 
 	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
 
@@ -489,9 +366,9 @@ public:
 
 	float obtVitesseDeplacement(){ return vitesseDeplacement; }
 
-	short obtEtat(){ return etat; }
+	short obtEtat(){ return etatDynamique; }
 
-	Vecteur3d obtVectOrientationVue() { return camera->obtDevant(); }
+	Vecteur3d obtDevant() { return camera->obtDevant(); }
 
 	Inventaire* obtInventaire(){ return this->inventaire; }
 };

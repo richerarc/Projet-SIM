@@ -211,4 +211,19 @@ On a fait une rencontre d'équipe pour récapituler où on était rendu et ce qu
 
 ###Durée: 3h
 
-##Durée Totale: 64h30
+##Jeudi 14 mai 2015
+
+###10:30 à 12:30
+
+J'ai aidé Jessy avec les controlles de la manette car il avait des bugs et commençait à être écoeuré. On a travaillé sur les bugs de vision qui fait que défois quand on tente de bouger sa vision ça bloque et ça ne bouge pas. Il y a aussi le fait que le jeu est trop sensible au joystick ce qui fait que la caméra est toujours en rotation. On n'a pas fini mais il n'y a plus de problèmes de blocage quand on fait bouger la caméra et le joueur est immobile.
+
+###Durée: 2h
+
+##Mardi 19 mai 2015
+
+###14:30 à 17:30
+
+J'ai commencé en travaillant sur mon fil barbelé sur blender, je suis bientôt rendu à la version finale. Ensuite j'ai continué à aider Jessy un peu avec les contrôles, le joystick est encore un peu trop sensible mais et on sait maintenant et la rotation de la caméra ne bloque que quand le joystick est poussé au max car il arrête de détecter des événements. Après on a fait les événements pour l'action qui est rattaché à chaque bouton. On a trouvé un autre bug que quand on ouvre une porte en bougeant le joystick ça fait des... Petits pépins mais on était pas capable de résoudre cela. Puisque la manette n'est pas la plus grande priorité on reviendra sur ce bug plus tard si on a le temps. 
+###Durée: 3h
+
+##Durée Totale: 69h30

@@ -61,9 +61,10 @@ namespace gfx{
 
 		void afficherTout(){
 
-			if (camera != nullptr)
+			if (camera != nullptr){
 				camera->appliquer();
-			
+				//camera->rafraichir();
+			}
 			for (auto &i : objets){
 				//glEnable(GL_LIGHTING);
 				//glEnable(GL_LIGHT0);
@@ -71,6 +72,8 @@ namespace gfx{
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 				glEnableClientState(GL_NORMAL_ARRAY);
 				glEnable(GL_TEXTURE_2D);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_BLEND); 
 				i->afficher();
 				glDisable(GL_TEXTURE_2D);
 				glDisableClientState(GL_VERTEX_ARRAY);
@@ -91,34 +94,6 @@ namespace gfx{
 
 		void retObjet(Objet3D* objet){
 			objets.remove(objet);
-		}
-
-		void ajouterTexture(gfx::Texture* texture, Vecteur3d position, Vecteur3d normale){
-			Vecteur3d tx = normale.produitVectoriel(normale + Vecteur3d(1, 2, 3));
-			Vecteur3d ty = normale.produitVectoriel(tx);
-			double d = position.norme();
-			double n = normale.norme();
-			double vertices[] = { (tx.x + ty.x) + n * d, (tx.y + ty.y) + n * d, (tx.z + ty.z) + n * d,
-								  (tx.x - ty.x) + n * d, (tx.y - ty.y) + n * d, (tx.z - ty.z) + n * d,
-								  (-tx.x - ty.x) + n * d, (-tx.y - ty.y) + n * d, (-tx.z - ty.z) + n * d,
-								  (tx.x - ty.x) + n * d, (tx.y - ty.y) + n * d, (tx.z - ty.z) + n * d,
-								  (-tx.x - ty.x) + n * d, (-tx.y - ty.y) + n * d, (-tx.z - ty.z) + n * d,
-								  (-tx.x + ty.x) + n * d, (-tx.y + ty.y) + n * d, (-tx.z + ty.z) + n * d };
-			double textures[] = { 0, 1,
-								  1, 1,
-								  1, 0,
-							      1, 1,
-								  1, 0,
-								  0, 0 };
-			double normales[] = { normale.x, normale.y, normale.z,
-								  normale.x, normale.y, normale.z,
-							   	  normale.x, normale.y, normale.z,
-								  normale.x, normale.y, normale.z,
-								  normale.x, normale.y, normale.z,
-								  normale.x, normale.y, normale.z };
-			gfx::Modele modele(vertices, textures, normales);
-			gfx::Modele3D plan(&modele, texture);
-			objets.push_back(&plan);
 		}
 
 		void ajouterObjet(Objet3D* Objet){

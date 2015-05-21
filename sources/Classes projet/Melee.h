@@ -9,10 +9,15 @@ public:
 		this->portee = portee;
 		this->degats = degats;
 	}
-	void utiliser(){
+	void utiliser(Joueur* joueur){
 
 	}
-	void equiper(){
+
+	void utiliser2(Joueur* joueur){
+
+	}
+
+	void equiper(Joueur* joueur){
 
 	}
 };
