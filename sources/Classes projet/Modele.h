@@ -14,7 +14,7 @@ namespace gfx{
 		unsigned int nbrVertices;
 		Vecteur3d boiteDeCollision[8];
 		Vecteur3i indicesBoiteDeCollision[12];
-		static Vecteur3i* normalesBoiteDeCollision;
+		static Vecteur3f* normalesBoiteDeCollision;
 
 		void calculerBoiteDeCollision(){
 			std::vector<double> tmpX;
@@ -57,14 +57,14 @@ namespace gfx{
 
 			if (!normalesBoiteDeCollision) {
 
-				normalesBoiteDeCollision = new Vecteur3i[6];
+				normalesBoiteDeCollision = new Vecteur3f[6];
 
-				normalesBoiteDeCollision[0] = Vecteur3i(0, 0, 1);
-				normalesBoiteDeCollision[1] = Vecteur3i(0, 0, -1);
-				normalesBoiteDeCollision[2] = Vecteur3i(0, -1, 0);
-				normalesBoiteDeCollision[3] = Vecteur3i(0, 1, 0);
-				normalesBoiteDeCollision[4] = Vecteur3i(-1, 0, 0);
-				normalesBoiteDeCollision[5] = Vecteur3i(1, 0, 0);
+				normalesBoiteDeCollision[0] = Vecteur3f(0, 0, 1);
+				normalesBoiteDeCollision[1] = Vecteur3f(0, 0, -1);
+				normalesBoiteDeCollision[2] = Vecteur3f(0, -1, 0);
+				normalesBoiteDeCollision[3] = Vecteur3f(0, 1, 0);
+				normalesBoiteDeCollision[4] = Vecteur3f(-1, 0, 0);
+				normalesBoiteDeCollision[5] = Vecteur3f(1, 0, 0);
 			}
 		}
 
@@ -249,7 +249,7 @@ namespace gfx{
 			return indicesBoiteDeCollision;
 		}
 
-		Vecteur3i* obtNormalesBoiteDeCollision() {
+		Vecteur3f* obtNormalesBoiteDeCollision() {
 			return normalesBoiteDeCollision;
 		}
 
@@ -282,5 +282,5 @@ namespace gfx{
 		}
 	};
 
-	Vecteur3i* gfx::Modele::normalesBoiteDeCollision = nullptr;
+	Vecteur3f* gfx::Modele::normalesBoiteDeCollision = nullptr;
 }
