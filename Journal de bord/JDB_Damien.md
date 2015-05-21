@@ -95,3 +95,5 @@
 	Travail sur le model de la salle de fin mais quelques problèmes avec mon Blender.
 #Mardi 19 mai (14:40 à 17:25)
 	Finallisation du modele et  de la texture de la salle de fin. Début de l'implémentation de cette salle dans le programme avec l'ordre en ajoutant la salle dans le programme et débutant d'ajouter l'avion et la seule porte.
+#Jeudi 21 mai (9:45 à 13:40)
+	Modification du modèle de la salle finale en la divisant en deux parties pour causer moins de lag. Modification de l'implémentation de la salle finale en la divisant en fesant bouger le dome et pas les batiments.

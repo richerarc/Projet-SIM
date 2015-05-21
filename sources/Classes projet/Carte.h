@@ -718,35 +718,6 @@ public:
 	}
 
 	Vecteur3d debut(double& hAngle) {
-		// Salle de fin
-
-		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/SalleFin.obj";
-		salleFin.cheminTexture = "Ressources/Texture/SalleFin.png";
-		salleFin.echelle = { 1.0, 1.0, 1.0 };
-		salleFin.ID = infosSalles.size();
-		salleFin.nbrPorte = 1;
-
-		// Création objets salle finale
-
-		// Porte
-
-		//InfoObjet porteFin;
-		//LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
-		//porteFin.direction = { 0, 0, 1 };
-		//porteFin.ID = 0;
-		//porteFin.largeur = 0;
-		//porteFin.position = { 1.07, 1.01, 53.71 }; //Fix this
-		//porte.rotation = 0; //Fix that
-
-
-		// Création de l'avion
-
-		/*InfoObjet avion;
-		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);*/
-
-
-
 		// Salle de début
 
 		InfoSalle salleDebut;
@@ -1020,5 +991,48 @@ public:
 		
 		
 		infosSalles.push_back(salleTeleporteur);
+
+		fin();
+	}
+
+	void fin(){
+		// Salle de fin
+
+		InfoSalle salleFin;
+		salleFin.cheminModele = "Ressources/Modele/salleFinStuff.obj";
+		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
+		salleFin.echelle = { 1.0, 1.0, 1.0 };
+		salleFin.ID = infosSalles.size();
+		salleFin.nbrPorte = 1;
+
+		// Création objets salle finale
+
+		// Porte
+
+		InfoObjet porteFin;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
+		porteFin.direction = { 0, 0, 0 };
+		porteFin.ID = 0;
+		porteFin.largeur = 0;
+		porteFin.position = { 147.07, -19.2, -597.71 }; //Fix this
+		porteFin.rotation = -90; //Fix that
+
+		salleFin.Objet.push_back(porteFin);
+
+
+		// Création de l'avion
+
+		InfoObjet avion;
+		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);
+		avion.direction = { 0, 0, 0 };
+		avion.ID = 1;
+		avion.largeur = 0;
+		avion.position = {};
+		avion.rotation = 0;
+		avion.type = FIXE;
+
+		salleFin.Objet.push_back(avion);
+
+		infosSalles.push_back(salleFin);
 	}
 };
