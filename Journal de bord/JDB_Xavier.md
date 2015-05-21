@@ -72,3 +72,5 @@ J'ai fait les classe de menuintro et phase menu intro. Je n'ai pas encore push p
 J'ai fini l'intro, je l'ai tester.
 ### Mardi 19 mai ~2h
 J'ai plus ou moins été productif. J'ai commencer un "clignement de yeux". Je n'ai toujours pas push mes affaires puisque j'ai encore des bugs et je ne veux pas push des bugs. J'ai "blender" un personnage. 
+### Jeudi 21 mai ~2h
+J'ai travailler sur l'intro. J'ai fait les pauses pour quelque menus. J'ai push sur le serveur enfin. Je devrais faire quelque journal d'ici se soir.

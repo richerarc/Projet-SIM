@@ -1,4 +1,4 @@
-enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINVENTAIRE, PHASEJEU };
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINTRO, MENUSUCCES, MENUINVENTAIRE, PHASEJEU };
 
 #pragma once
 #include <sstream>
@@ -35,6 +35,7 @@ Curseur* curseur;
 #include "PhaseMenuPrincipal.h"
 #include "PhaseMenuNouvellePartie.h"
 #include "PhaseMenuPause.h"
+#include "PhaseMenuIntro.h"
 
 class Jeu{
 
@@ -73,6 +74,8 @@ public:
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//4
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//5
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//6
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuIntro());			//7
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSucces());			//8
 		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -97,7 +100,7 @@ public:
 					fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().obtInstance().salleActive->obtID(), chr, 10)));
 			}
 
-			if (Carte::obtInstance().finChargement) {
+			/*if (Carte::obtInstance().finChargement) {
 				double hAngle;
 				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle);
 				gfx::Gestionnaire2D::obtInstance().vider();
@@ -106,7 +109,7 @@ public:
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
 				Carte::obtInstance().salleActive->remplir();
-			}
+			}*/
 
 
 			frameTime = chrono.repartir().enSecondes();
