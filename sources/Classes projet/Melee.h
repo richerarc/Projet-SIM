@@ -13,11 +13,11 @@ public:
 
 	}
 
-	void utiliser2(Joueur* joueur){
+	virtual void utiliser2(Joueur* joueur){
 
 	}
 
-	void equiper(Joueur* joueur){
+	virtual void equiper(Joueur* joueur){
 
 	}
 };
