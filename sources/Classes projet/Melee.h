@@ -9,6 +9,10 @@ public:
 		this->portee = portee;
 		this->degats = degats;
 	}
+	void animer(){
+
+	}
+
 	void utiliser(Joueur* joueur){
 
 	}
