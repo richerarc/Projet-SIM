@@ -55,7 +55,7 @@ public:
 		
 		premierMenu = false;
 		suivant->defTexte(new std::string("Start"));
-		this->spriteFond->defTexture(new gfx::Texture("Partie2_000000.png"));
+		this->spriteFond->defTexture(new gfx::Texture("Ressources/Texture/Partie2_000000.png"));
 
 	}
 	void remplir(void) {
