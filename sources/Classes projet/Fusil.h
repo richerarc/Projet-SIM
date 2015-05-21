@@ -1,6 +1,6 @@
 #pragma once 
 #include "Item.h"
-#include "Carte.h"
+#include "Peinture.h"
 
 enum Ammo { ACP45, PARABELUM };
 
@@ -29,11 +29,15 @@ public:
 			Vecteur3d normale;
 			for (auto &it : Carte::obtInstance().salleActive->obtListeObjet()){
 				if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false)){
-					gfx::Gestionnaire3D::obtInstance().ajouterTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png"), pointCollision, normale);
+					Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale);
+					salleActive->ajoutObjet(trou);
+					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
 				}
 			}
 			if (Physique::obtInstance().collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
-				gfx::Gestionnaire3D::obtInstance().ajouterTexture(gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png"), pointCollision, normale);
+				Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale);
+				salleActive->ajoutObjet(trou);
+				gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
 			}
 			dps.repartir();
 		}

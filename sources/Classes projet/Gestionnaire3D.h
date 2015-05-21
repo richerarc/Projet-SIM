@@ -96,17 +96,6 @@ namespace gfx{
 			objets.remove(objet);
 		}
 
-		void ajouterTexture(gfx::Texture* texture, Vecteur3d position, Vecteur3d normale){
-			gfx::Modele3D* plan = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png"));
-			plan->defPosition(position + normale * 0.01);
-			plan->defEchelle(2, 2, 2);
-			double vRot = Maths::radianADegre(normale.angleEntreVecteurs(Vecteur3d(plan->obtModele()->obtNormales()[0], plan->obtModele()->obtNormales()[1], plan->obtModele()->obtNormales()[2])));
-
-			Vecteur3d normaleModele = Vecteur3d(1, 0, 0);
-			plan->rotationner(normaleModele.produitVectoriel(normale), vRot);
-			objets.push_back(plan);
-		}
-
 		void ajouterObjet(Objet3D* Objet){
 			objets.push_back(Objet);
 		}

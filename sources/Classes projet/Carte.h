@@ -545,6 +545,7 @@ public:
 					auto debut = infosSalles.begin();
 					std::advance(debut, std::get<0>(salleSuivante));
 
+					gfx::Gestionnaire3D::obtInstance().vider();
 					creerSalle(*debut);
 
 					ajouterMur();
