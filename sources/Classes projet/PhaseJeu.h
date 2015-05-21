@@ -30,6 +30,8 @@ private:
 
 	MenuAccesRapide* accesRapide;
 
+	gfx::Sprite2D* mire;
+
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
 		if (temp < limite){
@@ -166,6 +168,9 @@ public:
 		accesRapide->remplir();
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+
+		mire = new gfx::Sprite2D(Vecteur2f(624, 344), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/mire.png"));
+
 		retour = false;
 		pause = false;
 	}
@@ -175,9 +180,15 @@ public:
 		if (pause)
 			return;
 		joueur->obtInventaire()->actualiser();
+		bool nouvelEquipement = itemEquipe == nullptr;
 		itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
 		if (itemEquipe != nullptr){
-			itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur->obtVitesse().norme());
+			if (nouvelEquipement)
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(mire);
+			itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur);
+		}
+		else{
+			gfx::Gestionnaire2D::obtInstance().retObjet(mire);
 		}
 		accesRapide->actualiserAffichage();
 

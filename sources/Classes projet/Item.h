@@ -4,6 +4,7 @@
 #include "Salle.h"
 #include <math.h>
 enum EtatItem { EQUIPE, RANGE, DEPOSE };
+class Joueur;
 
 class Item : public ObjetPhysique{
 private:
@@ -27,9 +28,9 @@ public:
 		salleActive = nullptr;
 	}
 
-	virtual void utiliser() = 0;
-	virtual void utiliser2() = 0;
-	virtual void equiper() = 0;
+	virtual void utiliser(Joueur* joueur) = 0;
+	virtual void utiliser2(Joueur* joueur) = 0;
+	virtual void equiper(Joueur* joueur) = 0;
 
 	void defEtat(EtatItem etat){
 		if (etat == this->etat)
@@ -59,21 +60,21 @@ public:
 		this->etat = etat;
 	}
 
-	void actualiser(Salle* salleActuelle, double vitesseJoueur){
+	void actualiser(Salle* salleActuelle, Joueur* joueur){
 		this->salleActive = salleActuelle;
 		if (etat == EtatItem::EQUIPE){
 			if (Souris::boutonAppuye(SDL_BUTTON_LEFT)){
-				utiliser();
+				utiliser(joueur);
 			}
 			if (Souris::boutonAppuye(SDL_BUTTON_RIGHT)){
-				utiliser2();
+				utiliser2(joueur);
 			}
 			Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.33 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * 0.4;
 			this->position = newPosition;
 			modele->defPosition(position);
 			modele->defOrientation(0, 0, 0);
 			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut(), 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle());
-			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle() + 10 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 		}
 	}
 
