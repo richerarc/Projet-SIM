@@ -94,31 +94,46 @@ private:
 	}
 
 	bool detectionObjet() {
-
+		
 		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
 		bool objetDetecte = false;
-
+		
 		for (auto it : liste) {
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
 			Item* it_Item = dynamic_cast<Item*>(it);
-			if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && (joueur->obtDevant().angleEntreVecteurs(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), it->obtPosition())) <= M_PI / 2)) {
-				std::string str1 = "Press ";
-				str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
-
-				if (it_Porte != nullptr){
-					str1.append(" to open door.");
+			Commutateur* it_com = dynamic_cast<Commutateur*>(it);
+			ObjetFixe* it_fixe = dynamic_cast<ObjetFixe*>(it);
+			if(it_Porte || !it_fixe){
+				Vecteur3d pointCollision, normale;
+				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtDevant());
+				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, nullptr, false)) {
+					
+					std::string str1 = "Press ";
+					str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
+					
+					if (it_Porte != nullptr){
+						str1.append(" to open door.");
+					}
+					else if (it_Item != nullptr){
+						str1.append(" to pick up ");
+						str1.append(it_Item->obtNom());
+					}
+					else if (it_com != nullptr){
+						if (it_com->obtEtat())
+							str1.append(" to turn off");
+						else
+							str1.append(" to turn on");
+					}
+						//	const char* chr1 = str1.c_str();
+					texte->defTexte(&str1);
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+					objetDetecte = true;
+					objetVise = it;
+						//}
 				}
-				else if (it_Item != nullptr){
-					str1.append(" to pick up ");
-					str1.append(it_Item->obtNom());
-				}
-				texte->defTexte(&str1);
-				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
-				objetDetecte = true;
-				objetVise = it;
 			}
 		}
-
+		
 		if (!objetDetecte)
 			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
 		return objetDetecte;
@@ -223,6 +238,9 @@ public:
 										GestionnaireSucces::obtInstance().obtSucces(1);
 					}
 					objetVise = nullptr;
+				}
+				else if (dynamic_cast<Commutateur*>(objetVise)){
+					dynamic_cast<Commutateur*>(objetVise)->actioner();
 				}
 				toucheRelachee = false;
 			}

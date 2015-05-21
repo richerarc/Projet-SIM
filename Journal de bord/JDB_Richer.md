@@ -77,3 +77,5 @@
 `Ven. 15 mai` J'ai commencé la salle téléporteur pour pouvoir ajouté l'intégration des maths discrète; j'ai aussi blendé la salle et les éléments interne nécéssaire. `5h00`
 
 `Mar. 19 mai` J'ai continué la salle téléporteur, mais j'ai des problème avec les objet. `4h00`
+
+`Mer. 20 mai` J'ai enfin terminer la salle du teleporteur, il ne reste qu'a teleporter. J'ai donc fait une classe commutateur, et j'ai positionné tout les objet nécéssaire. Aussi le son était tout peté... j'ai passer un bon 2h dessus avec de me rendre compte que ce qui petait tout, c'était une ligne vide à la fin d'un fichier texte... `3h30`

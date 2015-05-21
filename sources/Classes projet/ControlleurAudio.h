@@ -8,8 +8,6 @@ enum Sons_t {AH = 1, AVION = 2, BOIRE = 3, BOIS_1 = 4, BOIS_2 = 5, BRUIT = 6, VE
 class ControlleurAudio : public Singleton<ControlleurAudio>{
 private:
 	std::map<int, Sons*> sons;
-	Coeur *coeur;
-	Pas *pas;
 	int ittChaine;
 	bool initial;
 	
@@ -29,25 +27,27 @@ public:
 	
 	void initialiser(int chaines){
 		Mix_AllocateChannels(chaines);
-		ittChaine = 0;
+		ittChaine = 1;
 		std::ifstream fichierNom("Ressources/Info/sons.txt");
 		std::string chemin;
 		if (fichierNom.is_open()) {
 			while (!fichierNom.eof()) {
 				fichierNom >> chemin;
 				if (chemin == "Ressources/Son/fond.ogg"){
-					Sons* temp = new Fond(chemin.c_str(), ++ittChaine, 20);
+					Sons* temp = new Fond(chemin.c_str(), ittChaine, 20);
 					temp->defVolume(20);
 					sons[ittChaine] = temp;
 				}
 				else{
-					sons[ittChaine] = new Sons(chemin.c_str(), ++ittChaine, 80);
+					sons[ittChaine] = new Sons(chemin.c_str(), ittChaine, 80);
 				}
+				++ittChaine;
 			}
 			fichierNom.close();
 		}
-		sons[ittChaine] = new Coeur("Ressources/Son/battementLent.ogg", "Ressources/Son/battementMoyen.ogg", "Ressources/Son/battementRapide.ogg", "Ressources/Son/battementAccel.ogg", ++ittChaine, 10);
-		sons[ittChaine] = new Pas("Ressources/Son/pas1.ogg", "Ressources/Son/pas2.ogg", ++ittChaine, 12);
+		sons[ittChaine] = new Coeur("Ressources/Son/battementLent.ogg", "Ressources/Son/battementMoyen.ogg", "Ressources/Son/battementRapide.ogg", "Ressources/Son/battementAccel.ogg", ittChaine, 10);
+		++ittChaine;
+		sons[ittChaine] = new Pas("Ressources/Son/pas1.ogg", "Ressources/Son/pas2.ogg", ittChaine, 12);
 		initial = false;
 	}
 	
