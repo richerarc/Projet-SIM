@@ -30,7 +30,7 @@ private:
 		Vecteur3d* boiteCollision = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
 		Plan plan;
 		Vecteur3i* indices = objet.obtModele3D()->obtModele()->obtIndidesBoiteDeCollision();
-		Vecteur3i* normales = objet.obtModele3D()->obtModele()->obtNormalesBoiteDeCollision();
+		Vecteur3f* normales = objet.obtModele3D()->obtModele()->obtNormalesBoiteDeCollision();
 
 		for (unsigned int nbrFace = 0; nbrFace < 12; nbrFace++) {
 
