@@ -9,15 +9,19 @@ public:
 		this->portee = portee;
 		this->degats = degats;
 	}
+	void animer(){
+
+	}
+
 	void utiliser(Joueur* joueur){
 
 	}
 
-	void utiliser2(Joueur* joueur){
+	virtual void utiliser2(Joueur* joueur){
 
 	}
 
-	void equiper(Joueur* joueur){
+	virtual void equiper(Joueur* joueur){
 
 	}
 };

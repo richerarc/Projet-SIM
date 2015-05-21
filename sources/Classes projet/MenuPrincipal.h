@@ -4,6 +4,7 @@
 #include "GestionnairePhases.h"
 #include "PhaseMenuNouvellePartie.h"
 #include "PhaseMenuOptions.h"
+#include "PhaseMenuSucces.h"
 #include "Bouton.h"
 
 
@@ -13,6 +14,7 @@ private:
 
 	Bouton* demarrer;
 	Bouton* options;
+	Bouton* succes;
 	gfx::Sprite2D* logo;
 
 public:
@@ -25,7 +27,7 @@ public:
 		demarrer = new Bouton(std::bind(&MenuPrincipal::enClicDemarrer, this, std::placeholders::_1),
 			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
 			std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
-			Vecteur2f(50, 330),
+			Vecteur2f(50, 480),
 			new std::string("New Game"), 50);
 
 		options = new Bouton(std::bind(&MenuPrincipal::enClicOptions, this, std::placeholders::_1),
@@ -33,6 +35,12 @@ public:
 			std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
 			Vecteur2f(50, 180),
 			new std::string("Options"), 50);
+
+		succes = new Bouton(std::bind(&MenuPrincipal::enClicSucces, this, std::placeholders::_1),
+			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
+			std::bind(&MenuPrincipal::defaut, this, std::placeholders::_1),
+			Vecteur2f(50, 330),
+			new std::string("Achievements"), 50);
 
 		retour = new Bouton(std::bind(&MenuPrincipal::enClicQuitter, this, std::placeholders::_1),
 			std::bind(&MenuPrincipal::survol, this, std::placeholders::_1),
@@ -63,6 +71,10 @@ public:
 		clic(MENUOPTIONS);
 	}
 
+	void enClicSucces(Bouton* envoi){
+		clic(MENUSUCCES);
+	}
+
 	void enClicQuitter(Bouton* envoi){
 		GestionnairePhases::obtInstance().enleverPhaseActive();
 	}
@@ -73,6 +85,7 @@ public:
 		demarrer->remplir();
 		options->remplir();
 		retour->remplir();
+		succes->remplir();
 
 	}
 

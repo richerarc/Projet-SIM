@@ -47,6 +47,7 @@ public:
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Restart?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("You have to restart the game!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 15));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Out of Mein Kampfort zone"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Finish the game in easy or medium"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 19));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Holocaust 2, the return"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Finish the game in hardcore"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 20));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Right into the Thai Zone"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find the Thai box"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 21));
 
 
 
@@ -137,6 +138,10 @@ public:
 
 	void defChronoDeclenche(){
 		chronoDeclenche = !chronoDeclenche;
+	}
+
+	std::list<Succes*> obtListeSucces(){
+		return listeSucces;
 	}
 
 	void defNbrItems(unsigned short nbrItems){
