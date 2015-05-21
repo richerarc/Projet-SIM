@@ -837,7 +837,7 @@ public:
 
 		unsigned int IDPorteSalleConnectee = 0;
 
-		ajouterLien(Entree(SalleDebut.ID, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
