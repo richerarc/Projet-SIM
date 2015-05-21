@@ -13,6 +13,12 @@ public:
 		this->accompli = false;
 		this->ID = ID;
 	}
+	~Succes(){
+		if (titre != nullptr)
+			delete titre;
+		if (description != nullptr)
+		    delete description;
+	}
 
 	gfx::Texte2D* obtTitre(){
 		return titre;

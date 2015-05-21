@@ -230,24 +230,17 @@ public:
 						GestionnaireSucces::obtInstance().obtSucces(10);
 					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
 					GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
-					if (nom == "Water"){
+					GestionnaireSucces::obtInstance().obtSucces(1);
+					if (nom == "Water")
 						GestionnaireSucces::obtInstance().obtSucces(18);
-					}
-					else{
-						if (nom == "Holy Rod")
-							GestionnaireSucces::obtInstance().obtSucces(17);
-						else
-							if (nom == "Luger P08" || "Thompson M1")
-								GestionnaireSucces::obtInstance().obtSucces(8);
-							else
-								if (nom == "Grenade")
-									GestionnaireSucces::obtInstance().obtSucces(9);
-								else
-									if (nom == "Note")
-										GestionnaireSucces::obtInstance().obtSucces(13);
-									else
-										GestionnaireSucces::obtInstance().obtSucces(1);
-					}
+					if (nom == "Holy Rod")
+						GestionnaireSucces::obtInstance().obtSucces(17);
+				    if (nom == "Luger P08" || "Thompson M1")
+						GestionnaireSucces::obtInstance().obtSucces(8);
+					if (nom == "Grenade")
+						GestionnaireSucces::obtInstance().obtSucces(9);
+					if (nom == "Note")
+						GestionnaireSucces::obtInstance().obtSucces(13);
 					objetVise = nullptr;
 				}
 				else if (dynamic_cast<Commutateur*>(objetVise)){

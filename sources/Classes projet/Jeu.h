@@ -134,7 +134,7 @@ public:
 
 			fenetre->rafraichir();
 		}
-		GestionnaireSucces::obtInstance().sauvegarder();
+		GestionnaireSucces::obtInstance().tuerGestionnaireSucces();
 		delete fenetre;
 		ControlleurAudio::obtInstance().fermer();
 		Mix_CloseAudio();
