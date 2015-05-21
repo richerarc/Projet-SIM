@@ -17,6 +17,7 @@ protected:
 	Salle* salleActive;
 
 	Chrono animation;
+	double angleAnimation;
 public:
 	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse) : ObjetPhysique(modele, ID, materiaux, masse, Vecteur3d(), Vecteur3d(), Vecteur3d(), false){
 		this->type = type;
@@ -31,6 +32,8 @@ public:
 	virtual void utiliser(Joueur* joueur) = 0;
 	virtual void utiliser2(Joueur* joueur) = 0;
 	virtual void equiper(Joueur* joueur) = 0;
+
+	virtual void animer() = 0;
 
 	void defEtat(EtatItem etat){
 		if (etat == this->etat)
@@ -74,7 +77,9 @@ public:
 			modele->defPosition(position);
 			modele->defOrientation(0, 0, 0);
 			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut(), 80 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle());
-			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
+			animer();
+			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle() + angleAnimation);
+			
 		}
 	}
 

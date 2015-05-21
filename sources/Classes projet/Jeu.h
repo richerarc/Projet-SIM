@@ -1,4 +1,5 @@
-enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINTRO, MENUINVENTAIRE, PHASEJEU };
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINTRO, MENUSUCCES, MENUINVENTAIRE, PHASEJEU };
+
 #pragma once
 #include <sstream>
 #include "Singleton.h"
@@ -73,7 +74,8 @@ public:
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuOptions());			//4
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//5
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//6
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuIntro());
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuIntro());			//7
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSucces());			//8
 		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);

@@ -132,5 +132,7 @@
 **19 mai** durée 30min  
   -Correctifs des escaliers de la salle à 2 étages.  
 **19 mai** durée 3h  
-  -Brandon et moi avons tenté de comprendre ce qui arrivait avec les rotations  .
-  -Recodage de code effacer par un revert.
+  -Brandon et moi avons tenté de comprendre ce qui arrivait avec les rotations.  
+  -Recodage de code effacer par un revert.  
+**21 mai** durée 2h  
+  -J'ai fais les consomables, quelques icones et aider Brandon dans la formule de "recoil".

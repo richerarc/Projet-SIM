@@ -86,8 +86,9 @@ public:
 		// Ajout des coefficients de restitution des différents matériaux
 		mapRestitution["metal"] = 0.9;
 		mapRestitution["bois"] = 0.5;
-		mapRestitution["plastic"] = 0.68;
+		mapRestitution["plastique"] = 0.68;
 		mapRestitution["ballerebondissante"] = 0.1;
+		mapRestitution["carton"] = 0.55;
 	}
 
 	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, Vecteur3d* verticesCollision, bool collisionReelle) {
