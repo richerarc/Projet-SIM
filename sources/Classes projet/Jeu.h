@@ -58,11 +58,13 @@ public:
 		Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 		ControlleurAudio::obtInstance().initialiser(100);
 		
+		
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
+
 		fps = new gfx::Texte2D(new std::string("0"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(0, 700));
 
 		GestionnaireControle::obtInstance().lireControle("Ressources/Info/Controle.txt");
 
-		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
 		Rect<float>::defDimension(1280, 720);
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());		//0
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//1

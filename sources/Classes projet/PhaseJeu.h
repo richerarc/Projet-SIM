@@ -105,7 +105,7 @@ private:
 			ObjetFixe* it_fixe = dynamic_cast<ObjetFixe*>(it);
 			if(it_Porte || !it_fixe){
 				Vecteur3d pointCollision, normale;
-				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtVectOrientationVue());
+				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtDevant());
 				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, nullptr, false)) {
 					
 					std::string str1 = "Press ";
