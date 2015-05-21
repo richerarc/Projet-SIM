@@ -7,7 +7,7 @@ enum EtatItem { EQUIPE, RANGE, DEPOSE };
 class Joueur;
 
 class Item : public ObjetPhysique{
-private:
+protected:
 	int type;
 	char* nom;
 	char* description;

@@ -266,6 +266,36 @@ public:
 
 	void defPause(bool pause) {
 		this->pause = pause;
+		if (pause) {
+			ctrlAvancer->defEtat(PAUSE);
+			ctrlReculer->defEtat(PAUSE);
+			ctrlDroite->defEtat(PAUSE);
+			ctrlGauche->defEtat(PAUSE);
+			ctrlSauter->defEtat(PAUSE);
+			ctrlAccroupir->defEtat(PAUSE);
+			ctrlCourir->defEtat(PAUSE);
+			ctrlTirer->defEtat(PAUSE);
+			ctrlUtiliser->defEtat(PAUSE);
+			ctrlInventaire->defEtat(PAUSE);
+			Enregistrer->defEtat(PAUSE);
+			this->retour->defEtat(PAUSE);
+		}
+
+		else {
+			ctrlAvancer->defEtat(DEFAUT);
+			ctrlReculer->defEtat(DEFAUT);
+			ctrlDroite->defEtat(DEFAUT);
+			ctrlGauche->defEtat(DEFAUT);
+			ctrlSauter->defEtat(DEFAUT);
+			ctrlAccroupir->defEtat(DEFAUT);
+			ctrlCourir->defEtat(DEFAUT);
+			ctrlTirer->defEtat(DEFAUT);
+			ctrlUtiliser->defEtat(DEFAUT);
+			ctrlInventaire->defEtat(DEFAUT);
+			Enregistrer->defEtat(DEFAUT);
+			this->retour->defEtat(DEFAUT);
+
+		}
 	}
 
 	void actualiserEchelle(Vecteur2f vecteurEchelle) {

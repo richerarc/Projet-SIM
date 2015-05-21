@@ -13,19 +13,11 @@ private :
 public:
 	MenuIntro(void) : Menu() {
 		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Journa2l_000000.png"));
-		/*this->retour = new Bouton(std::bind(&MenuIntro::enClickRetour, this, std::placeholders::_1), std::bind(&MenuIntro::survol, this, std::placeholders::_1),
-			std::bind(&MenuIntro::defaut, this, std::placeholders::_1),
-			Vecteur2f(0, 0),
-			new std::string("Main Menu"), 55);*/
+		
 		suivant = new Bouton(std::bind(&MenuIntro::enClickSuivant, this, std::placeholders::_1), std::bind(&MenuIntro::survol, this, std::placeholders::_1),
 			std::bind(&MenuIntro::defaut, this, std::placeholders::_1),
 			Vecteur2f(1080, 0),
 			new std::string("Next"), 55);
-		
-		noirHaut = new gfx::Sprite2D(Vecteur2f(0, (fenetre->obtTaille().y / 2) ), gfx::GestionnaireRessources::obtInstance().obtTexture("Noir.png"));
-		noirBas = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Noir.png"));
-
-		noirBas->defPosition(Vecteur2f(0, -(noirHaut->obtTexture()->obtTaille().y - (fenetre->obtTaille().y / 2))));
 		
 		premierMenu = true;
 	}
