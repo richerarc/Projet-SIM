@@ -78,20 +78,8 @@ private:
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			short typeCollision = Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), joueur);
-			if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
-				joueur->obtVitesse().y = 0.f;
-				joueur->defEtat(STABLE);
-				joueur->obtVitesse().x = 0.f;
-				joueur->obtVitesse().z = 0.f;
-			}
-			if (typeCollision == PLAFOND){
-				joueur->obtVitesse().y = -0.000000000001f;
-				joueur->defEtat(CHUTE);
-			}
+			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), joueur);
 		}
-		if (joueur->obtNormale().x == 0.f && joueur->obtNormale().y == 0.f && joueur->obtNormale().z == 0.f)
-			joueur->defEtat(CHUTE);
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
 

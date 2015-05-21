@@ -122,12 +122,6 @@ public:
 					vitesseDeplacement = 4.f;
 				}
 
-				//if (fabs(normale.x) < 0.05f)
-				//	normale.x = 0.f;
-				//if (fabs(normale.z) < 0.05f)
-				//	normale.z = 0.f;
-				//normale.normaliser();
-
 				if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(AVANCER)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_UP)) {
 					vitesse = devant * vitesseDeplacement;
 					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
@@ -189,7 +183,7 @@ public:
 				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(SAUTER)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_A)) && (etatStatique == DEBOUT)) {
 					if ((chronoSaut.obtTempsEcoule().enSecondes() > 1)){
 						chronoSaut.repartir();
-						vitesse.y = 4;
+						vitesse.y = 5;
 						etatDynamique = CHUTE;
 					}
 				}
