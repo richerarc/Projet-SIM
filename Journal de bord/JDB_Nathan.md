@@ -204,3 +204,29 @@ Le joueur peut aller dans toutes les pentes peut importe la direction et peut im
 -environ 3h30
 réglage du bug qui faisait en sorte que le joueur se déplaçais d'une façons bizarre. Finalement j'ai trouvé que c'était la camera que Kevin avait fait dans le joueur qui rendait le déplacement étrange
 
+13 mai
+
+-environ 3 heures
+le joueur peut maintnant monter les escaliers. Essai de réglage d'un bug qui fait que le joueur se déplace bizarrement sur les autres ordi que le mien
+
+14 mai
+
+-environ 2 heures
+Réglage de quelques bug de déplacement du joueur
+
+18 mai
+
+-environ 3 heures
+Réglage de plusieurs bug de déplacement (vitesse du joueur qui ne devenait pas ce qu'elle devrait)
+
+19 mai
+
+-environ 3h30
+Plusieurs test de collision du joueur qui devenait une simple ligne avec une vingtaine de point (ça ne marchera pas)
+
+21 mai
+
+-environ 3 heures
+Commencement des collisions du joueur avec les objets. Le joueur va collisionner avec la boite de collision des objets et le modele selon les cas. Le joueur détectionne des collisions à des endroit vraiment étrange (à plus de 10 mètre d'un objet)
+
+
