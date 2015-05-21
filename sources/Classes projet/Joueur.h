@@ -83,7 +83,6 @@ public:
 
 	void deplacement(){
 		if (!bloque){
-
 			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) && (etatDynamique == STABLE)){
 				vitesse.x = 0.f;
 				vitesse.z = 0.f;
@@ -107,7 +106,7 @@ public:
 			if (etatDynamique != CHUTE) {
 
 				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(COURIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (etatStatique == DEBOUT) && vitesseDeplacement != 8.f)
-					vitesseDeplacement = 8.f;
+					vitesseDeplacement = 10.f;
 
 				else if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_B)) && (etatStatique == DEBOUT)) {
 					modele3D = listeModele3D[ACCROUPI];
@@ -140,15 +139,21 @@ public:
 				}
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(RECULER)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_DOWN)) {
+					if (vitesseDeplacement == 10.f)
+						vitesseDeplacement = 5.f;
 					vitesse = devant * vitesseDeplacement;
 					vitesse.inverser();
 					if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) {
+						if (vitesseDeplacement == 5.f)
+							vitesseDeplacement = 4.f;
 						vitesse = vitesse + (cote * vitesseDeplacement);
 						vitesse.normaliser();
 						vitesse *= vitesseDeplacement;
 					}
 
 					else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
+						if (vitesseDeplacement == 5.f)
+							vitesseDeplacement = 4.f;
 						vitesseTemp = cote * vitesseDeplacement;
 						vitesseTemp.inverser();
 						vitesse = vitesse + vitesseTemp;
@@ -159,7 +164,7 @@ public:
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_LEFT)) {
 					if (vitesseDeplacement >= 8.f)
-						vitesseDeplacement = 6.f;
+						vitesseDeplacement = 5.f;
 					vitesseTemp = cote * vitesseDeplacement;
 					vitesseTemp.inverser();
 					vitesse = vitesse + vitesseTemp;
@@ -167,7 +172,7 @@ public:
 
 				else if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationAppuyer(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)){
 					if (vitesseDeplacement >= 8.f)
-						vitesseDeplacement = 6.f;
+						vitesseDeplacement = 5.f;
 					vitesse = vitesse + (cote * vitesseDeplacement);
 				}
 
@@ -190,6 +195,15 @@ public:
 			}
 			listeModele3D[DEBOUT]->defOrientation(0, (camera->obtHAngle()), 0);
 			listeModele3D[ACCROUPI]->defOrientation(0, (camera->obtHAngle()), 0);
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) &&
+				Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) &&
+				Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) &&
+				Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) &&
+				Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) &&
+				Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) &&
+				Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) &&
+				Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)))
+				vitesseDeplacement = 0;
 		}
 	}
 
@@ -316,8 +330,6 @@ public:
 
 	void defVAngle(double vAngle) { camera->defVAngle(vAngle); }
 
-	gfx::Camera* obtCamera(){ return camera; }
-
 	void defEtat(unsigned int etatDynamique){ if (etatDynamique <= 5) this->etatDynamique = etatDynamique; }
 
 	void bloquer(){
@@ -334,7 +346,9 @@ public:
 
 	bool obtBloque(){ return bloque; }
 
-	double obtAngleHorizontal(){ return camera->obtHAngle(); }
+	double obtHAngle(){ return camera->obtHAngle(); }
+
+	double obtVAngle(){ return camera->obtVAngle(); }
 
 	Vecteur3d& obtNormale(){ return this->normale; }
 

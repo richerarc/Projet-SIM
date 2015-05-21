@@ -78,9 +78,8 @@ private:
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
-			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), joueur);
+			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
 			//Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
-
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}

@@ -438,13 +438,13 @@ public:
 		if (orientationInitialeCamera > 360)
 			orientationInitialeCamera -= 360;
 
-		vitesseHRotation -= joueur->obtCamera()->obtHAngle();
+		vitesseHRotation -= joueur->obtHAngle();
 
 		if (vitesseHRotation < -180) {
 			vitesseHRotation += 360;
 		}
 
-		vitesseVRotation = joueur->obtCamera()->obtVAngle() * -1;
+		vitesseVRotation = joueur->obtVAngle() * -1;
 
 		// }
 
@@ -497,36 +497,36 @@ public:
 		if (enChangementDeSalle) {
 			if (!teleporte) {
 				// Ajustement de la caméra horizontale...
-				if (joueur->obtCamera()->obtHAngle() != orientationInitialeCamera) {
+				if (joueur->obtHAngle() != orientationInitialeCamera) {
 					if (vitesseHRotation < 0) {
-						if ((joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime)) <= orientationInitialeCamera)
+						if ((joueur->obtHAngle() + (vitesseHRotation * frametime)) <= orientationInitialeCamera)
 							joueur->defHAngle(orientationInitialeCamera);
 						else
 						{
-							joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+							joueur->defHAngle(joueur->obtHAngle() + (vitesseHRotation * frametime));
 						}
 					}
 					else
 					{
-						if (joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime) >= orientationInitialeCamera)
+						if (joueur->obtHAngle() + (vitesseHRotation * frametime) >= orientationInitialeCamera)
 							joueur->defHAngle(orientationInitialeCamera);
 						else
 						{
-							joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+							joueur->defHAngle(joueur->obtHAngle() + (vitesseHRotation * frametime));
 						}
 					}
 				}
 
 				// Ajustement de la caméra verticale...
-				if (joueur->obtCamera()->obtVAngle() != 0) {
-					joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (vitesseVRotation * frametime));
+				if (joueur->obtVAngle() != 0) {
+					joueur->defVAngle(joueur->obtVAngle() + (vitesseVRotation * frametime));
 					if (vitesseVRotation < 0) {
-						if (joueur->obtCamera()->obtVAngle() < 0)
+						if (joueur->obtVAngle() < 0)
 							joueur->defVAngle(0);
 					}
 					else
 					{
-						if (joueur->obtCamera()->obtVAngle() > 0)
+						if (joueur->obtVAngle() > 0)
 							joueur->defVAngle(0);
 					}
 				}
@@ -539,7 +539,7 @@ public:
 					joueur->defPosition(positionASJoueur);
 				}
 
-				if (joueur->obtCamera()->obtHAngle() == orientationInitialeCamera && joueur->obtCamera()->obtVAngle() == 0 && joueur->obtPosition() == positionASJoueur) {
+				if (joueur->obtHAngle() == orientationInitialeCamera && joueur->obtVAngle() == 0 && joueur->obtPosition() == positionASJoueur) {
 					teleporte = true;
 					delete salleActive;
 					auto debut = infosSalles.begin();

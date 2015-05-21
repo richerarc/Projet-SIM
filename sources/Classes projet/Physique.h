@@ -10,7 +10,7 @@
 #include "Pendule.h"
 #include <string>
 
-enum collision{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
+enum collisions{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
 
 class Physique : public Singleton < Physique > {
 private:
@@ -483,7 +483,7 @@ public:
 		return false;
 	}
 
-	short collisionJoueurSalle(gfx::Modele3D* modeleSalle, Joueur* joueur) {
+	bool collisionJoueurSalle(gfx::Modele3D* modeleSalle, Joueur* joueur) {
 		Droite rayonCollision;
 		Droite collisionEscalier;
 		Vecteur3d pointCollision;
@@ -491,12 +491,11 @@ public:
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
 		Vecteur3d verticesCollision[3];
-		short collision = AUCUNE;
+		collisions typeCollision = AUCUNE;
 		bool mur = false;
 		bool escalier = false;
 
 		for (int i = 0; i < 8; i++) {
-
 			point = tabJoueur[i];
 			rayonCollision = Droite(point, joueur->obtVitesse());
 			if (joueur->obtVitesse().y < 0.f)
@@ -508,37 +507,37 @@ public:
 				if (fabs(normale.z) < 0.05f)
 					normale.z = 0.f;
 				normale.normaliser();
-
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
+
+				// Collision au Plafond
 				if (normale.y < 0){
-					collision = PLAFOND;
+					joueur->obtVitesse().y = -0.000000000001f;
+					joueur->defEtat(CHUTE);
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+					return true;
 				}
+
+				// Collision sur un mur
 				if (normale.y == 0) {
 					if (point.y < joueur->obtPosition().y + 1) {
 						collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
 						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, verticesCollision, true)) {
 							double hauteur = 0.f;
-							if (verticesCollision[0].x == verticesCollision[1].x && verticesCollision[0].z == verticesCollision[1].z){
+							if (verticesCollision[0].x == verticesCollision[1].x && verticesCollision[0].z == verticesCollision[1].z)
 								hauteur = fabs(verticesCollision[0].y - verticesCollision[1].y);
-							}
-
-							if (verticesCollision[0].x == verticesCollision[2].x && verticesCollision[0].z == verticesCollision[2].z){
+							if (verticesCollision[0].x == verticesCollision[2].x && verticesCollision[0].z == verticesCollision[2].z)
 								hauteur = fabs(verticesCollision[0].y - verticesCollision[2].y);
-							}
-
-							if (verticesCollision[1].x == verticesCollision[2].x && verticesCollision[1].z == verticesCollision[2].z){
+							if (verticesCollision[1].x == verticesCollision[2].x && verticesCollision[1].z == verticesCollision[2].z)
 								hauteur = fabs(verticesCollision[1].y - verticesCollision[2].y);
-							}
 							if (hauteur != 0.f)
 								joueur->defPositionY(joueur->obtPosition().y + hauteur + .03);
 							escalier = true;
 						}
 					}
 					joueur->defNormaleMur(normale);
-					collision = MUR;
+					typeCollision = MUR;
 					mur = true;
 					if (!escalier) {
 						Vecteur3d pointDifference = pointCollision - point;
@@ -559,12 +558,13 @@ public:
 				normale.normaliser();
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
-				if (normale.y == 1)
-					collision = SOLDROIT;
+				if (normale.y == 1) {
+					typeCollision = SOLDROIT;
+				}
 				if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
-					collision = SOLCROCHE;
+					typeCollision = SOLCROCHE;
 
-				if (collision != MUR) {
+				if (typeCollision != MUR) {
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
@@ -574,19 +574,18 @@ public:
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
 					}
 				}
-				return collision;
+				if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
+					joueur->obtVitesse().y = 0.f;
+					joueur->defEtat(STABLE);
+				}
+				return typeCollision;
 			}
-
-			/*for (auto it : listeObjet) {
-			if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
-			return MUR;
-			}
-			}*/
 		}
-		if (collision == AUCUNE) {
+		if (typeCollision == AUCUNE) {
+			joueur->defEtat(CHUTE);
 			joueur->defNormale({ 0, 0, 0 });
 		}
-		return collision;
+		return typeCollision;
 	}
 
 	bool collisionJoueurObjet(Joueur* joueur, std::list<Objet*> listeObjet) {
