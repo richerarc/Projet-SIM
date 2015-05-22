@@ -135,4 +135,6 @@
   -Brandon et moi avons tenté de comprendre ce qui arrivait avec les rotations.  
   -Recodage de code effacer par un revert.  
 **21 mai** durée 2h  
-  -J'ai fais les consomables, quelques icones et aider Brandon dans la formule de "recoil".
+  -J'ai fais les consomables, quelques icones et aider Brandon dans la formule de "recoil".  
+**22 mai** durée 30min  
+	-finitions sur la salle à 2 étages et cération d'icones.
