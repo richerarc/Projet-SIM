@@ -48,10 +48,11 @@ public:
 			Carte::obtInstance().creer();
 			if (Carte::obtInstance().finChargement) {
 				double hAngle;
-				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle);
+				double vAngle;
 				gfx::Gestionnaire2D::obtInstance().vider();
+				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle, vAngle);
 				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle));
+				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle, vAngle));
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
 				Carte::obtInstance().salleActive->remplir();

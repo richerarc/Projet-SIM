@@ -132,8 +132,8 @@ private:
 
 public:
 
-	PhaseJeu(Vecteur3d positionJoueur, double hAngle) : Phase(){
-		joueur = new Joueur(positionJoueur, hAngle);
+	PhaseJeu(Vecteur3d positionJoueur, double hAngle, double vAngle) : Phase(){
+		joueur = new Joueur(positionJoueur, hAngle, vAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
@@ -192,7 +192,8 @@ public:
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
-			Carte::obtInstance().transitionSalle(joueur, frameTime);
+			Carte::obtInstance().animationTransitionSalle(joueur, frameTime);
+			Carte::obtInstance().animationLeverLit(joueur, frameTime);
 
 		}
 

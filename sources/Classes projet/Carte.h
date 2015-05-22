@@ -1115,7 +1115,7 @@ public:
 				else
 				{
 					if (translations[0].x) {
-						if (Maths::vecteurEntreDeuxPoints(positions[0], positions[1]).produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtCamera()->obtPosition(), positions[1])) > 0) {
+						if (Maths::vecteurEntreDeuxPoints(positions[0], positions[1]).produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPositionCamera(), positions[1])) > 0) {
 							double ln = log(temps / 0.08);
 							Vecteur3d tmp = { 2.17433 - (ln / translations[0].x),
 								1.98625 + (ln / translations[0].y),
@@ -1134,9 +1134,9 @@ public:
 					else
 					{
 						if (temps > 2) {
-							if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtCamera()->obtPosition(), positions[2])) > 0) {
+							if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPositionCamera(), positions[2])) > 0) {
 								joueur->defPosition(joueur->obtPosition() + (translations[1] * frameTime * 1.5));
-								joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (frameTime * 40));
+								joueur->defVAngle(joueur->obtVAngle() + (frameTime * 40));
 							}
 							else
 							{
