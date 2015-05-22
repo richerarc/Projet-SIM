@@ -66,6 +66,9 @@ public:
 			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
 		}
 	}
+	virtual void jouerRepetitions(Joueur* joueur){
+			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
+	}
 };
 
 class Coeur : public Sons {

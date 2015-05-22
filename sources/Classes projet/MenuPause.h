@@ -42,14 +42,20 @@ public:
 	}
 
 	void survol(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 255, 0, 0, 255 });
 	}
 
 	void defaut(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	void enClicRetour(Bouton* sender){
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 		GestionnairePhases::obtInstance().enleverPhaseActive();
@@ -58,10 +64,14 @@ public:
 	}
 
 	void enClicOptions(Bouton* sender){
+		if (pause)
+			return;
 		clic(MENUOPTIONS);
 	}
 
 	void enClicQuitter(Bouton* sender){
+		if (pause)
+			return;
 		GestionnairePhases::obtInstance().viderPhaseActive();
 	}
 

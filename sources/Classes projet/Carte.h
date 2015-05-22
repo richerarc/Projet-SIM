@@ -444,13 +444,13 @@ public:
 		if (orientationCamera[0] > 360)
 			orientationCamera[0] -= 360;
 
-		vitesseRotationHV[0] -= joueur->obtCamera()->obtHAngle();
+		vitesseRotationHV[0] -= joueur->obtHAngle();
 
 		if (vitesseRotationHV[0] < -180) {
 			vitesseRotationHV[0] += 360;
 		}
 
-		vitesseRotationHV[1] = joueur->obtCamera()->obtVAngle() * -1;
+		vitesseRotationHV[1] = joueur->obtVAngle() * -1;
 
 		// }
 
@@ -501,40 +501,42 @@ public:
 	}
 
 	void animationTransitionSalle(Joueur* joueur, float frametime) {
+
 		if (enChangementDeSalle) {
+
 			if (!premiereFois) {
 				if (!teleporte) {
-					// Ajustement de la camÃ©ra horizontale...
-					if (joueur->obtCamera()->obtHAngle() != orientationCamera[0]) {
+					// Ajustement de la camera horizontale...
+					if (joueur->obtHAngle() != orientationCamera[0]) {
 						if (vitesseRotationHV[0] < 0) {
-							if ((joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime)) <= orientationCamera[0])
+							if ((joueur->obtHAngle() + (vitesseRotationHV[0] * frametime)) <= orientationCamera[0])
 								joueur->defHAngle(orientationCamera[0]);
 							else
 							{
-								joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime));
+								joueur->defHAngle(joueur->obtHAngle() + (vitesseRotationHV[0] * frametime));
 							}
 						}
 						else
 						{
-							if (joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime) >= orientationCamera[0])
+							if (joueur->obtHAngle() + (vitesseRotationHV[0] * frametime) >= orientationCamera[0])
 								joueur->defHAngle(orientationCamera[0]);
 							else
 							{
-								joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime));
+								joueur->defHAngle(joueur->obtHAngle() + (vitesseRotationHV[0] * frametime));
 							}
 						}
 					}
 
-					// Ajustement de la camÃ©ra verticale...
-					if (joueur->obtCamera()->obtVAngle() != 0) {
-						joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (vitesseRotationHV[1] * frametime));
+					// Ajustement de la camera verticale...
+					if (joueur->obtVAngle() != 0) {
+						joueur->defVAngle(joueur->obtVAngle() + (vitesseRotationHV[1] * frametime));
 						if (vitesseRotationHV[1] < 0) {
-							if (joueur->obtCamera()->obtVAngle() < 0)
+							if (joueur->obtVAngle() < 0)
 								joueur->defVAngle(0);
 						}
 						else
 						{
-							if (joueur->obtCamera()->obtVAngle() > 0)
+							if (joueur->obtVAngle() > 0)
 								joueur->defVAngle(0);
 						}
 					}
@@ -547,7 +549,7 @@ public:
 						joueur->defPosition(positions[0]);
 					}
 
-					if (joueur->obtCamera()->obtHAngle() == orientationCamera[0] && joueur->obtCamera()->obtVAngle() == 0 && joueur->obtPosition() == positions[0]) {
+					if (joueur->obtHAngle() == orientationCamera[0] && joueur->obtVAngle() == 0 && joueur->obtPosition() == positions[0]) {
 						teleporte = true;
 						delete salleActive;
 						auto debut = infosSalles.begin();
@@ -559,6 +561,7 @@ public:
 						joueur->defPosition(positions[1]);
 						joueur->defHAngle(orientationCamera[1]);
 						ControlleurAudio::obtInstance().jouer(OUVERTURE_PORTE_1, joueur);
+
 					}
 				}
 				else
@@ -728,6 +731,8 @@ public:
 	}
 
 	Vecteur3d debut(double& hAngle, double& vAngle) {
+
+		// Salle de début
 
 		InfoSalle salleDebut;
 		salleDebut.cheminModele = "Ressources/Modele/SalleDebut.obj";
@@ -1034,6 +1039,49 @@ public:
 		
 		
 		infosSalles.push_back(salleTeleporteur);
+
+		fin();
+	}
+
+	void fin(){
+		// Salle de fin
+
+		InfoSalle salleFin;
+		salleFin.cheminModele = "Ressources/Modele/salleFinStuff.obj";
+		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
+		salleFin.echelle = { 1.0, 1.0, 1.0 };
+		salleFin.ID = infosSalles.size();
+		salleFin.nbrPorte = 1;
+
+		// Création objets salle finale
+
+		// Porte
+
+		InfoObjet porteFin;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
+		porteFin.direction = { 0, 0, 0 };
+		porteFin.ID = 0;
+		porteFin.largeur = 0;
+		porteFin.position = { 147.07, -19.2, -597.71 }; //Fix this
+		porteFin.rotation = -90; //Fix that
+
+		salleFin.Objet.push_back(porteFin);
+
+
+		// Création de l'avion
+
+		InfoObjet avion;
+		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);
+		avion.direction = { 0, 0, 0 };
+		avion.ID = 1;
+		avion.largeur = 0;
+		avion.position = {};
+		avion.rotation = 0;
+		avion.type = FIXE;
+
+		salleFin.Objet.push_back(avion);
+
+		infosSalles.push_back(salleFin);
 	}
 
 	void animationLeverLit(Joueur* joueur, float frameTime) {

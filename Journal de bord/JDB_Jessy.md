@@ -145,3 +145,6 @@ de 15h à 16h(1h)
 
 19 mai de 14h30 à 17h30 (3h)
 -Grosse journée aujourd'hui, j'ai tout ajouté les controles au jeu et mis mes modifications finales sur le projet. J'ai aussi beaucoup testé pour être sur que tout soit fonctionnel.
+
+21 mai de 10h10 à 12h10(2h)
+-Aujourd'hui j'ai fais du Blender, j'ai modélisé une Pinte de Lait, ce qui a été une bonne révision de blend puisque j'en avais pas fait depuis longtemps

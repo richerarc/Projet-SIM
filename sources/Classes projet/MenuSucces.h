@@ -50,18 +50,26 @@ public:
 	}
 
 	void enClicReinit(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUSUCCES);
 	}
 
 	void enClicRetour(Bouton* envoi){
+		if (pause)
+			return;
 		clicRetour();
 	}
 
 	void survol(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 255, 0, 0, 255 });
 	}
 
 	void defaut(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 

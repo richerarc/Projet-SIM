@@ -93,10 +93,9 @@ public:
 
 		double invDenom = 1 / (produit00 * produit11 - produit01 * produit01);
 		double u = (produit11 * produit02 - produit01 * produit12) * invDenom;
-		double vv = (produit00 * produit12 - produit01 * produit02) * invDenom;
-		double v = (produit00 * produit12 - produit12 * produit02) * invDenom;
+		double v = (produit00 * produit12 - produit01 * produit02) * invDenom;
 
-		return ((u >= 0) && (vv >= 0) && (u + vv < 1)) || ((u >= 0) && (v >= 0) && (u + v < 1));
+		return ((u >= 0) && (v >= 0) && (u + v < 1));
 
 	}
 

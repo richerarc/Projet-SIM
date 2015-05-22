@@ -56,26 +56,38 @@ public:
 	}
 
 	void survol(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	void enClicDemarrer(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUNOUVELLEPARTIE);
 	}
 
 	void enClicOptions(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUOPTIONS);
 	}
 
 	void enClicSucces(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUSUCCES);
 	}
 
 	void enClicQuitter(Bouton* envoi){
+		if (pause)
+			return;
 		GestionnairePhases::obtInstance().enleverPhaseActive();
 	}
 

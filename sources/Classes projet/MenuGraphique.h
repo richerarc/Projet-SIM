@@ -167,9 +167,15 @@ public:
 		this->pause = pause;
 		if (pause) {
 			retour->defEtat(PAUSE);
+			appliquer->defEtat(PAUSE);
+			flecheDroite->defEtat(PAUSE);
+			flecheGauche->defEtat(PAUSE);
 		}
 		else {
 			retour->defEtat(DEFAUT);
+			appliquer->defEtat(DEFAUT);
+			flecheDroite->defEtat(DEFAUT);
+			flecheGauche->defEtat(DEFAUT);
 		}
 	}
 

@@ -3,6 +3,7 @@
 #include "Melee.h"
 #include "GestionnaireRessources.h"
 #include "Fusil.h"
+#include "Consommable.h"
 
 class UsineItem : public Singleton<UsineItem>{
 public:
@@ -20,9 +21,9 @@ public:
 			case (1) :
 				switch (type % 10){
 					case(0) ://luger
-						return new Fusil(type, "Luger P08", "Pow, Pow", "Ressources/Texture/fusilIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), ID, "metal", 0.871, 1.5, 10.0, 5.0, true, 8, false);;
+						return new Fusil(type, "Luger P08", "Pow, Pow", "Ressources/Texture/lugerIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), ID, "metal", 0.871, 2.5, 10.0, 0.1, 1, 8, false);;
 					case(1) ://thompson
-						return new Fusil(type, "Thompson M1", "PPPPPow", "Ressources/Texture/fusilIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thai.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thai.png")), ID, "metal", 4.47, 12, 5.0, 20.0, false, 30, true);
+						return new Fusil(type, "Thompson M1", "PPPPPow", "Ressources/Texture/thompsonIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thompson.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thompson.png")), ID, "metal", 4.47, 12, 20, 2.0, 1, 30, true);
 				}
 			case (2) :
 				switch (type % 10){
@@ -34,7 +35,15 @@ public:
 			case (3) :
 				switch (type % 10){
 					case(0) ://thai
-						return nullptr;
+						return new Thai(ID);
+					case(1) ://eau
+						return new Eau(ID);
+					case(2) ://poulet
+						return new Poulet(ID);
+					case(3) ://pilule
+						return new Pilule(ID);
+					case(4) ://lait
+						return new Lait(ID);
 				}
 			case (4) :
 				switch (type % 10){

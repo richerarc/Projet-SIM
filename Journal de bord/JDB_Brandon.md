@@ -68,3 +68,7 @@ J'ai commencé à travailler sur les physiques de Fusil.
 Tentatives de fixer les rotations d'items avec Nicolas.
 #20 mai pendant 3h#
 Modification des rotations de Modele3D et ajustement des rotations de trous de balles. Début de l'implémentations des mécaniques de fusil ainsi que l'ajout de la mire.
+#21 mai pendant 2h#
+Début de l'animation du fusil avec Nicolas et recherche des fonctions associées.
+##pendant 4h##
+Continuation de l'implémentation des animations de fusil, ajout du "scoping", du recul et du spread des fusils. Ajout de sons.

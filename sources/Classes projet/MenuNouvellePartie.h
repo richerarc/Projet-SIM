@@ -54,32 +54,47 @@ public:
 	}
 
 	void survol(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	void enClicFacile(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 15;
-		Carte::obtInstance().creer();
+		clic(MENUINTRO);
+		//Carte::obtInstance().creer();
 	}
 
 	void enClicNormal(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 20;
-		Carte::obtInstance().creer();
+		clic(MENUINTRO);
+		//Carte::obtInstance().creer();
 	}
 
 	void enClicDifficile(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 32;
-		Carte::obtInstance().creer();
+		clic(MENUINTRO);
+		//Carte::obtInstance().creer();
 	}
 
 	void enClicRetour(Bouton* envoi) {
+		if (pause)
+			return;
 		clicRetour();
 	}
 
