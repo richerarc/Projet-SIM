@@ -8,6 +8,7 @@
 #include "Modele.h"
 #include "Texture.h"
 #include "Objet3D.h"
+#include "BoiteCollision.h"
 
 namespace gfx{
 	class Modele3D : public Objet3D {
@@ -20,6 +21,7 @@ namespace gfx{
 		double* normalesModif;
 		Vecteur3d boiteDeCollisionModifiee[8];
 		Vecteur3f normaleBoiteDeCollision[6];
+		BoiteCollision<double> boiteCollision;
 		bool sommet_Est_Transforme;
 		bool normale_Est_Transforme;
 		bool bDC_Est_Transformee;
@@ -75,6 +77,7 @@ namespace gfx{
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
 			matriceTransformation = Matrice4X4d();
+			boiteCollision = BoiteCollision<double>(obtBoiteDeCollisionModifiee());
 		}
 
 		double* obtNormalesModifies(){
@@ -207,6 +210,10 @@ namespace gfx{
 				bN_Est_Transformee = false;
 			}
 			return normaleBoiteDeCollision;
+		}
+
+		BoiteCollision<double> obtBoiteCollision() {
+			return BoiteCollision<double>(obtBoiteDeCollisionModifiee());
 		}
 
 		~Modele3D(){

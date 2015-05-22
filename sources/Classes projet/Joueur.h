@@ -101,8 +101,12 @@ public:
 			devant.normaliser();
 			cote.y = 0;
 			Vecteur3d vitesseTemp;
-			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (etatStatique == DEBOUT))
-				vitesseDeplacement = 4.f;
+			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (etatStatique == DEBOUT || etatStatique == ACCROUPI)) {
+				if (etatStatique == DEBOUT)
+					vitesseDeplacement = 4.f;
+				else
+					vitesseDeplacement = 2.f;
+			}
 
 			if (etatDynamique != CHUTE) {
 
@@ -112,6 +116,7 @@ public:
 				else if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCROUPIR)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_B)) && (etatStatique == DEBOUT)) {
 					modele3D = listeModele3D[ACCROUPI];
 					etatStatique = ACCROUPI;
+					camera->defPosition(Vecteur3d(position.x, position.y + 1.00f, position.z));
 					vitesseDeplacement = 2.f;
 				}
 
@@ -119,6 +124,7 @@ public:
 					modele3D = listeModele3D[DEBOUT];
 					ajouterScene();
 					etatStatique = DEBOUT;
+					camera->defPosition(Vecteur3d(position.x, position.y + 1.74f, position.z));
 					vitesseDeplacement = 4.f;
 				}
 
