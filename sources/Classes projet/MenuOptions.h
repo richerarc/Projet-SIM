@@ -55,26 +55,38 @@ public:
 	}
 	
 	void survol(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 255, 0, 0, 255 });
 	}
 
 	void defaut(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	void enClicRetour(Bouton* envoi){
+		if (pause)
+			return;
 		clicRetour();
 	}
 
 	void enClicSon(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUSON);
 	}
 
 	void enClicGraphique(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUGRAPHIQUE);
 	}
 
 	void enClicControle(Bouton* envoi){
+		if (pause)
+			return;
 		clic(MENUCONTROL);
 	}
 

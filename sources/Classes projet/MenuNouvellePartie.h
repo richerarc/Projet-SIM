@@ -54,14 +54,20 @@ public:
 	}
 
 	void survol(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	void enClicFacile(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 15;
 		clic(MENUINTRO);
@@ -69,6 +75,8 @@ public:
 	}
 
 	void enClicNormal(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 20;
 		clic(MENUINTRO);
@@ -76,6 +84,8 @@ public:
 	}
 
 	void enClicDifficile(Bouton* envoi) {
+		if (pause)
+			return;
 		gfx::Gestionnaire2D::obtInstance().vider();
 		Carte::obtInstance().nombreDeSalle = 32;
 		clic(MENUINTRO);
@@ -83,6 +93,8 @@ public:
 	}
 
 	void enClicRetour(Bouton* envoi) {
+		if (pause)
+			return;
 		clicRetour();
 	}
 

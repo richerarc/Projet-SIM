@@ -30,7 +30,7 @@ private:
 
 	MenuAccesRapide* accesRapide;
 
-	gfx::Sprite2D* mire;
+	gfx::Sprite2D* point;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
@@ -150,16 +150,17 @@ public:
 
 		itemEquipe = nullptr;
 
-		test = UsineItem::obtInstance().obtItemParType(10, 0);
+		test = UsineItem::obtInstance().obtItemParType(11, 0);
 
 		joueur->obtInventaire()->ajouterObjet(test);
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 
-		mire = new gfx::Sprite2D(Vecteur2f(624, 344), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/mire.png"));
-
+		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
 		retour = false;
 		pause = false;
 	}
@@ -168,18 +169,6 @@ public:
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
-		joueur->obtInventaire()->actualiser();
-		bool nouvelEquipement = itemEquipe == nullptr;
-		itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
-		if (itemEquipe != nullptr){
-			if (nouvelEquipement)
-				gfx::Gestionnaire2D::obtInstance().ajouterObjet(mire);
-			itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur);
-		}
-		else{
-			gfx::Gestionnaire2D::obtInstance().retObjet(mire);
-		}
-		accesRapide->actualiserAffichage();
 
 		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
@@ -193,11 +182,18 @@ public:
 		if (!this->pause) {
 			joueur->deplacement();
 			appliquerPhysique(frameTime);
+			joueur->obtInventaire()->actualiser();
+			itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+			if (itemEquipe != nullptr){
+				itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur, frameTime);
+			}
+			accesRapide->actualiserAffichage();
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
 			Carte::obtInstance().transitionSalle(joueur, frameTime);
+
 		}
 
 		if (detectionObjet()){

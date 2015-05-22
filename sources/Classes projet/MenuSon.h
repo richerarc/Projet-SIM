@@ -35,23 +35,33 @@ public:
 	}
 
 	void survol(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* envoi){
+		if (pause)
+			return;
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	void enClicRetour(Bouton* envoi) {
+		if (pause)
+			return;
 		clicRetour();
 	}
 
 	void glisseurFond(Glisseur* envoi) {
+		if (pause)
+			return;
 
 		ControlleurAudio::obtInstance().defVolumeFond((envoi->obtPourcentage() / 100) * 128);
 	}
 
 	void glisseurJeu(Glisseur* envoi) {
+		if (pause)
+			return;
 
 		ControlleurAudio::obtInstance().defVolumeEffet((envoi->obtPourcentage() / 100) * 128);
 	}

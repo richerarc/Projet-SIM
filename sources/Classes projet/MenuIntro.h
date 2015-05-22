@@ -12,7 +12,7 @@ private :
 	bool premierMenu;
 public:
 	MenuIntro(void) : Menu() {
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Journa2l_000000.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Journa2l_000000.png"));
 		
 		suivant = new Bouton(std::bind(&MenuIntro::enClickSuivant, this, std::placeholders::_1), std::bind(&MenuIntro::survol, this, std::placeholders::_1),
 			std::bind(&MenuIntro::defaut, this, std::placeholders::_1),
@@ -27,16 +27,22 @@ public:
 	}
 
 	void survol(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
 
 	
 
 	void enClickSuivant(Bouton* sender) {
+		if (pause)
+			return;
 		if (!premierMenu) {
 			gfx::Gestionnaire2D::obtInstance().vider();
 			Carte::obtInstance().creer();

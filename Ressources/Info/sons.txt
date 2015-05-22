@@ -39,3 +39,7 @@ Ressources/Son/tirroir2.ogg
 Ressources/Son/tonnere.ogg
 Ressources/Son/toux1.ogg
 Ressources/Son/toux2.ogg
+Ressources/Son/coupLuger.ogg
+Ressources/Son/coupThompson.ogg
+Ressources/Son/equiperFusil.ogg
+Ressources/Son/mire.ogg

@@ -145,15 +145,21 @@ public:
 	}
 
 	void survol(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 215, 110, 75, 255 });
 	}
 
 	void defaut(Bouton* sender){
+		if (pause)
+			return;
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
 	
 
 	void gererEvenement(SDL_Event Event){
+		if (pause)
+			return;
 		if (enChoixDeTouche) {
 			if (Event.type == SDL_MOUSEBUTTONDOWN && premierClic){
 				premierClic = false;
@@ -175,15 +181,21 @@ public:
 	}
 
 	void enClickRetour(Bouton* sender) {
+		if (pause)
+			return;
 		GestionnaireControle::obtInstance().lireControle("Ressources/Info/Controle.txt");
 		reinitialiserControle();
 		clicRetour();
 	}
 	void enClickEnregistrer(Bouton* sender) {
+		if (pause)
+			return;
 		GestionnaireControle::obtInstance().sauvegarderControle("Ressources/Info/Controle.txt");
 	}
 	
 	void enClickAvancer(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = AVANCER;
 		enChoixDeTouche = true;
@@ -192,54 +204,72 @@ public:
 
 
 	void enClickReculer(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = RECULER;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlReculer;
 	}
 	void enClickGauche(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = GAUCHE;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlGauche;
 	}
 	void enClickDroite(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = DROITE;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlDroite;
 	}
 	void enClickSauter(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = SAUTER;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlSauter;
 	}
 	void enClickAccroupir(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = ACCROUPIR;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlAccroupir;
 	}
 	void enClickCourir(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = COURIR;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlCourir;
 	}
 	void enClickTirer(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = TIRER;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlTirer;
 	}
 	void enClickUtiliser(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = UTILISER;
 		enChoixDeTouche = true;
 		toucheEnChoix = ctrlUtiliser;
 	}
 	void enClickInventaire(Bouton* sender) {
+		if (pause)
+			return;
 		sender->defTexte(changementTouche);
 		action = ACCESINVENTAIRE;
 		enChoixDeTouche = true;
