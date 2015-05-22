@@ -84,7 +84,7 @@ public:
 		collision = false;
 
 		// Ajout des coefficients de restitution des différents matériaux
-		mapRestitution["metal"] = 0.9;
+		mapRestitution["metal"] = 0.6;
 		mapRestitution["bois"] = 0.5;
 		mapRestitution["plastique"] = 0.68;
 		mapRestitution["ballerebondissante"] = 0.1;
@@ -215,80 +215,78 @@ public:
 
 	void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
 
-		Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
-
-		Vecteur3d positionCM = { 0, 0, 0 };
-
-		for (unsigned int i = 0; i < 8; i++) {
-			positionCM.x += BoiteDeCollisionModifiee[i].x;
-		}
-		for (unsigned int i = 0; i < 8; i++) {
-			positionCM.y += BoiteDeCollisionModifiee[i].y;
-		}
-		for (unsigned int i = 0; i < 8; i++) {
-			positionCM.z += BoiteDeCollisionModifiee[i].z;
-		}
-		positionCM /= 8;
-
-		Vecteur3d rayon = { positionCM.x - pointdecollision.x, positionCM.y - pointdecollision.y, positionCM.z - pointdecollision.z };
-
-		Vecteur3d axederotation = rayon.produitVectoriel(vecteurNormal);
-		axederotation.normaliser();
-
-		if (axederotation.norme() != 0) {
-
-			double cr = 1 - mapRestitution[objet.obtMateriaux()];
-			double r = rayon.norme();
-			double theta = sin(vecteurNormal.angleEntreVecteurs(rayon));
-			double masse = objet.obtMasse();
-			double vi = objet.obtVitesse().norme();
-			//double wi = objet.obtVitesseAngulaire().norme();
-
-			// Pour le calcul du moment d'inertie...
-			Vecteur3d  coteX = { BoiteDeCollisionModifiee[7].x - BoiteDeCollisionModifiee[4].x,
-				BoiteDeCollisionModifiee[7].y - BoiteDeCollisionModifiee[4].y,
-				BoiteDeCollisionModifiee[7].z - BoiteDeCollisionModifiee[4].z };
-			double longueurcoteX = coteX.norme();
-			coteX.normaliser();
-
-			Vecteur3d coteY = { BoiteDeCollisionModifiee[5].x - BoiteDeCollisionModifiee[4].x,
-				BoiteDeCollisionModifiee[5].y - BoiteDeCollisionModifiee[4].y,
-				BoiteDeCollisionModifiee[5].z - BoiteDeCollisionModifiee[4].z };
-			double longueurcoteY = coteY.norme();
-			coteY.normaliser();
-
-			Vecteur3d coteZ = { BoiteDeCollisionModifiee[0].x - BoiteDeCollisionModifiee[4].x,
-				BoiteDeCollisionModifiee[0].y - BoiteDeCollisionModifiee[4].y,
-				BoiteDeCollisionModifiee[0].z - BoiteDeCollisionModifiee[4].z };
-			double longueurcoteZ = coteZ.norme();
-			coteZ.normaliser();
-
-			double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, masse);
-			double r2theta2 = pow(r, 2)*pow(theta, 2);
-			double masser2theta2 = masse*r2theta2;
-			double a = (masse / 2)*(1 + (masser2theta2) / (I));
-			double b = (-pow(masse, 2)*r2theta2*vi) / I;
-			double c = (masse*pow(vi, 2) / 2) * (((masser2theta2) / (I)) - (pow(cr, 2)));
-
-			double vitesseFinale = (-b - sqrt(pow(b, 2) - 4 * a*c)) / (2 * a);
-
-			double wf = (r * masse * (vitesseFinale - vi) * theta) / I * 20;
-
-			Vecteur3d vvitesseAngulaire = axederotation * wf;
-
-			objet.defVitesseAngulaire(vvitesseAngulaire);
-			objet.obtVitesse().normaliser();
-			double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
-			objet.obtVitesse() -= vecteurNormal * dScalaire;
-			objet.obtVitesse() *= vitesseFinale;
-		}
-		else
-		{
-			// Rebond simple sans rotation...
-			double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
-			objet.obtVitesse() -= vecteurNormal * dScalaire;
-		}
+		double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
+		objet.obtVitesse() -= vecteurNormal * dScalaire;
 	}
+
+	//void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
+
+	//	Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
+
+	//	Vecteur3d positionCM = { 0, 0, 0 };
+
+	//	for (unsigned int i = 0; i < 8; i++) {
+	//		positionCM.x += BoiteDeCollisionModifiee[i].x;
+	//	}
+	//	for (unsigned int i = 0; i < 8; i++) {
+	//		positionCM.y += BoiteDeCollisionModifiee[i].y;
+	//	}
+	//	for (unsigned int i = 0; i < 8; i++) {
+	//		positionCM.z += BoiteDeCollisionModifiee[i].z;
+	//	}
+	//	positionCM /= 8;
+
+	//	Vecteur3d rayon = { positionCM.x - pointdecollision.x, positionCM.y - pointdecollision.y, positionCM.z - pointdecollision.z };
+
+	//	double cr = 1 - mapRestitution[objet.obtMateriaux()];
+	//	double r = rayon.norme();
+	//	double theta = sin(vecteurNormal.angleEntreVecteurs(rayon));
+	//	double masse = objet.obtMasse();
+	//	double vi = objet.obtVitesse().norme();
+	//	double wi = objet.obtVitesseAngulaire().norme();
+
+	//	// Pour le calcul du moment d'inertie...
+	//	Vecteur3d  coteX = { BoiteDeCollisionModifiee[7].x - BoiteDeCollisionModifiee[4].x,
+	//		BoiteDeCollisionModifiee[7].y - BoiteDeCollisionModifiee[4].y,
+	//		BoiteDeCollisionModifiee[7].z - BoiteDeCollisionModifiee[4].z };
+	//	double longueurcoteX = coteX.norme();
+	//	coteX.normaliser();
+
+	//	Vecteur3d coteY = { BoiteDeCollisionModifiee[5].x - BoiteDeCollisionModifiee[4].x,
+	//		BoiteDeCollisionModifiee[5].y - BoiteDeCollisionModifiee[4].y,
+	//		BoiteDeCollisionModifiee[5].z - BoiteDeCollisionModifiee[4].z };
+	//	double longueurcoteY = coteY.norme();
+	//	coteY.normaliser();
+
+	//	Vecteur3d coteZ = { BoiteDeCollisionModifiee[0].x - BoiteDeCollisionModifiee[4].x,
+	//		BoiteDeCollisionModifiee[0].y - BoiteDeCollisionModifiee[4].y,
+	//		BoiteDeCollisionModifiee[0].z - BoiteDeCollisionModifiee[4].z };
+	//	double longueurcoteZ = coteZ.norme();
+	//	coteZ.normaliser();
+
+	//	rayon.normaliser();
+	//	vecteurNormal.normaliser();
+	//	Vecteur3d axederotation = rayon.produitVectoriel(vecteurNormal);
+	//	axederotation.normaliser();
+
+	//	double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, masse);
+
+	//	double a = (masse / 2)*(1 + (masse*pow(r, 2)*pow(theta, 2)) / (I));
+	//	double b = (-pow(masse, 2)*pow(r, 2)*pow(theta, 2)*vi) / I;
+	//	double c = (masse*pow(vi, 2) / 2) * (((masse*pow(r, 2)*pow(theta, 2)) / (I)) - (pow(cr, 2)));
+
+	//	double vitesseFinale = (-b - sqrt(pow(b, 2) - 4 * a*c)) / (2 * a);
+
+	//	double wf = (r * masse * (vitesseFinale - vi) * theta) / I * 20;
+
+	//	Vecteur3d vvitesseAngulaire = axederotation * wf;
+	//	objet.defVitesseAngulaire(vvitesseAngulaire);
+	//	objet.obtVitesse().normaliser();
+
+	//	double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
+	//	objet.obtVitesse() -= vecteurNormal * dScalaire;
+	//	objet.obtVitesse() *= vitesseFinale;
+	//}
 
 	// Procédure qui donne le moment d'inertie d'un rectangle, tous les vecteurs doivent être normalisés(unitaires).
 	double calculerMomentInertie(Vecteur3d axederotation, Vecteur3d coteX, Vecteur3d coteY, Vecteur3d coteZ, double longueurcoteX, double longueurcoteY, double longueurcoteZ, double masse) {
