@@ -548,3 +548,35 @@ Je crois que pour la position et la direction, il faut que je me serve de la mat
 **1h30**: Travail sur le début de la partie, le joueur apparaît dans la salle, j'y ait ajouté le lit, le lavabo ainsi qu'une porte connectée à une autre porte random du graphe. Le joueur ne pourra pas revenir à la salle de début.
 
 **3h00**: Modélisation d'une poubelle, d'un bureau, correction d'erreurs de compilations causées par le commit pour les achievements( qui n'avait pas été testé sur une version à jour...), travail sur le début de la partie.
+
+###16 mai 2015
+
+**3h00**: Travail sur un animation pour que le joueur se lève du lit. J'ai séparé l'animation en deux parties:
+
+Position couchée à position assise->Position assise à position debout.
+
+Au début le joueur regarde le plafond. Le mouvement de la position couchée à assise est représenté par une exponentielle (Je me suis levé plusieurs fois de mon lit pour essayé d'imiter le mouvement!). Durant ce mouvement , le devant du joueur descend et tourne vers le côté du lit, il regardera avec une petite inclinaison vers le sol. Ensuite, la position suit un vecteur vers le haut et le devant remonte vers l'horizontal.
+
+###19 mai 2015
+
+**2h45**: Travail sur l'animation, je vais faire des oeils qui s'ouvrent et qui se ferment avant de se lever du lit. J'ai aussi eu beaucoup d'aide à donner au autres, par exemple à Richer pour sa salle de commande, Damien avec la salle finale ou encore Diego pour faire les "Seam" de sa table de chevet.
+
+###21 mai 2015
+
+**2h00**: Travail sur l'animation de début de partie avec Xavier pour finalement se rendre compte qu'on devrait faire lire les journaux avant que le gars ouver les yeux. On avait déjà une petite base alors j'ai continué des mon côté pour faire l'animation au complet dans carte. J'ai un problème avec les deux images qui forment les paupières de l'oeil, il y a des pixels qui décident de s'incruster dans la masse.
+
+###22 mai 2015
+
+>BON! Je viens de finir ma semaine d'examen, il ne m'en reste plus que deux alors dès aujourd'hui je vais me mettre à coder plus intensivement. D'abord il faut que je finisse le début de la partie puis je vais concentrer mes efforts de façon intense à finir les rebonds rapidement!
+
+**2h00**: Travail dans le début de la partie. Le jeu se lève correctement, il cligne des yeux( Par contre j'ai toujours les petits problèmes de transparence quand le joueur ferme les yeux). J'ai laissé un potentiel délai lorsque le joueur est en position assise sur le lit si jamais Xavier et Dean ont un petit discours oratoire à faire. Étant donné que je n'avais pas push ce que j'avais de fait depuis longtemps, j'ai eu quelques erreurs de cohérence entre ma version et la version à jour du projet, mais j'ai pu tout régler. J'ai aussi fait un petit clean up pour avoir le moins de variables d'animation ou les regrouper. 
+
+**1h00**: J'ai remis la version plus de base des rebonds. J'ai révisé ce que j'avais de fait jusqu'à maintenant pour les rebonds afin de pouvoir m'y remettre et j'ai fais d'autres formules pour peut-être m'y prend différemment.
+
+Voici des petites photos de mon cheminement mathématique:
+
+![](http://i.imgur.com/xbkVn3m.jpg)
+
+![](http://i.imgur.com/qoh3d8b.jpg)
+
+Je crois que ces calculs devront s'additionner à ce que j'ai déjà, ça devrait régler le problème où un objet qui était en contact constant avec le sol gagnait son moment de force très lentement.
