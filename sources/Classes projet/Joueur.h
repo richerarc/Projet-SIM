@@ -48,7 +48,7 @@ public:
 
 	Joueur() {}
 
-	Joueur(Vecteur3d position, double hAngle) {
+	Joueur(Vecteur3d position, double hAngle, double vAngle) {
 		this->vitesseDeplacement = 4.f;
 		this->position = position;
 		etatDynamique = CHUTE;
@@ -57,7 +57,6 @@ public:
 		santePhysique = 100;
 		santeMentale = 100;
 		vitesse = { 0, 0, 0 };
-		bloque = false;
 		camera = new gfx::Camera;
 		listeModele3D[DEBOUT] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joueur.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
 		listeModele3D[ACCROUPI] = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/JoueurAccroupi.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joueur.png"));
@@ -70,8 +69,10 @@ public:
 		camera->defPosition(position);
 		modele3D = listeModele3D[DEBOUT];
 		camera->defHAngle(hAngle);
+		camera->defVAngle(vAngle);
 		chronoSaut = Chrono();
 		inventaire = new Inventaire(Vecteur2f(9, 3));
+		bloque = true;
 	}
 
 	~Joueur() {

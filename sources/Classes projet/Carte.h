@@ -34,18 +34,24 @@ private:
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
 
-	Vecteur3d translationVersPositionASJoueur;
-	Vecteur3d translationVersPositionNSFinaleJoueur;
-	Vecteur3d positionASJoueur;
-	Vecteur3d positionNSInitialeJoueur;
-	Vecteur3d positionNSFinaleJoueur;
-	double orientationInitialeCamera;
-	double orientationFinaleCamera;
-	double vitesseHRotation;
-	double vitesseVRotation;
-	bool enChangementDeSalle;
-	bool teleporte;
+	// Variables d'animation...
+	Vecteur3d translations[2],
+		positions[3];
+
+	double orientationCamera[2],
+		vitesseRotationHV[2];
+
+	float temps;
+
+	bool premiereFois,
+		enChangementDeSalle,
+		enLeverLit,
+		ouvrirYeux,
+		teleporte;
+
 	Sortie salleSuivante;
+
+	gfx::Sprite2D* noirHautBas[2];
 
 	std::vector<Modele_Text> cheminsModeleText;
 	std::vector<char*> cheminsPuzzle;
@@ -430,31 +436,31 @@ public:
 		// Calcul de la rotation de camÃ©ra Ã  appliquer:
 		// {
 
-		orientationInitialeCamera = vitesseHRotation = portePrecedente->rotation + 270;
+		orientationCamera[0] = vitesseRotationHV[0] = portePrecedente->rotation + 270;
 
-		if (vitesseHRotation > 360)
-			vitesseHRotation -= 360;
+		if (vitesseRotationHV[0] > 360)
+			vitesseRotationHV[0] -= 360;
 
-		if (orientationInitialeCamera > 360)
-			orientationInitialeCamera -= 360;
+		if (orientationCamera[0] > 360)
+			orientationCamera[0] -= 360;
 
-		vitesseHRotation -= joueur->obtCamera()->obtHAngle();
+		vitesseRotationHV[0] -= joueur->obtCamera()->obtHAngle();
 
-		if (vitesseHRotation < -180) {
-			vitesseHRotation += 360;
+		if (vitesseRotationHV[0] < -180) {
+			vitesseRotationHV[0] += 360;
 		}
 
-		vitesseVRotation = joueur->obtCamera()->obtVAngle() * -1;
+		vitesseRotationHV[1] = joueur->obtCamera()->obtVAngle() * -1;
 
 		// }
 
 		// Calcul de la translation Ã  appliquer sur le joueur...
 		// {
 
-		positionASJoueur = portePrecedente->position + (portePrecedente->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (portePrecedente->direction * 1.5);
+		positions[0] = portePrecedente->position + (portePrecedente->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (portePrecedente->direction * 1.5);
 
-		translationVersPositionASJoueur = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionASJoueur);
-		translationVersPositionASJoueur.normaliser();
+		translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0]);
+		translations[0].normaliser();
 
 		// }
 
@@ -475,100 +481,104 @@ public:
 		modeleMur->defOrientation(0, it->rotation, 0);
 		modelePorte->defOrientation(0, it->rotation + 180, 0);
 
-		positionNSInitialeJoueur = it->position + (it->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (it->direction * 0.18);
-		positionNSFinaleJoueur = positionNSInitialeJoueur - (it->direction * 1.5);
+		positions[1] = it->position + (it->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (it->direction * 0.18);
+		positions[2] = positions[1] - (it->direction * 1.5);
 
-		translationVersPositionNSFinaleJoueur = Maths::vecteurEntreDeuxPoints(positionNSInitialeJoueur, positionNSFinaleJoueur);
-		translationVersPositionNSFinaleJoueur.normaliser();
+		translations[1] = Maths::vecteurEntreDeuxPoints(positions[1], positions[2]);
+		translations[1].normaliser();
 
-		orientationFinaleCamera = it->rotation + 90;
+		orientationCamera[1] = it->rotation + 90;
 
-		if (orientationFinaleCamera > 360)
-			orientationFinaleCamera -= 360;
+		if (orientationCamera[1] > 360)
+			orientationCamera[1] -= 360;
 
 		// }
 
 		teleporte = false;
 		enChangementDeSalle = true;
+		premiereFois = true;
 		return std::get<1>(salleSuivante);
 	}
 
-	void transitionSalle(Joueur* joueur, float frametime) {
+	void animationTransitionSalle(Joueur* joueur, float frametime) {
 		if (enChangementDeSalle) {
-			if (!teleporte) {
-				// Ajustement de la camÃ©ra horizontale...
-				if (joueur->obtCamera()->obtHAngle() != orientationInitialeCamera) {
-					if (vitesseHRotation < 0) {
-						if ((joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime)) <= orientationInitialeCamera)
-							joueur->defHAngle(orientationInitialeCamera);
+			if (!premiereFois) {
+				if (!teleporte) {
+					// Ajustement de la camÃ©ra horizontale...
+					if (joueur->obtCamera()->obtHAngle() != orientationCamera[0]) {
+						if (vitesseRotationHV[0] < 0) {
+							if ((joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime)) <= orientationCamera[0])
+								joueur->defHAngle(orientationCamera[0]);
+							else
+							{
+								joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime));
+							}
+						}
 						else
 						{
-							joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
+							if (joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime) >= orientationCamera[0])
+								joueur->defHAngle(orientationCamera[0]);
+							else
+							{
+								joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseRotationHV[0] * frametime));
+							}
 						}
+					}
+
+					// Ajustement de la camÃ©ra verticale...
+					if (joueur->obtCamera()->obtVAngle() != 0) {
+						joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (vitesseRotationHV[1] * frametime));
+						if (vitesseRotationHV[1] < 0) {
+							if (joueur->obtCamera()->obtVAngle() < 0)
+								joueur->defVAngle(0);
+						}
+						else
+						{
+							if (joueur->obtCamera()->obtVAngle() > 0)
+								joueur->defVAngle(0);
+						}
+					}
+
+					if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0])) > 0) {
+						joueur->defPosition(joueur->obtPosition() + (translations[0] * frametime * 1.5));
 					}
 					else
 					{
-						if (joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime) >= orientationInitialeCamera)
-							joueur->defHAngle(orientationInitialeCamera);
-						else
-						{
-							joueur->defHAngle(joueur->obtCamera()->obtHAngle() + (vitesseHRotation * frametime));
-						}
+						joueur->defPosition(positions[0]);
 					}
-				}
 
-				// Ajustement de la camÃ©ra verticale...
-				if (joueur->obtCamera()->obtVAngle() != 0) {
-					joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (vitesseVRotation * frametime));
-					if (vitesseVRotation < 0) {
-						if (joueur->obtCamera()->obtVAngle() < 0)
-							joueur->defVAngle(0);
-					}
-					else
-					{
-						if (joueur->obtCamera()->obtVAngle() > 0)
-							joueur->defVAngle(0);
-					}
-				}
+					if (joueur->obtCamera()->obtHAngle() == orientationCamera[0] && joueur->obtCamera()->obtVAngle() == 0 && joueur->obtPosition() == positions[0]) {
+						teleporte = true;
+						delete salleActive;
+						auto debut = infosSalles.begin();
+						std::advance(debut, std::get<0>(salleSuivante));
 
-				if (translationVersPositionASJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionASJoueur)) > 0) {
-					joueur->defPosition(joueur->obtPosition() + (translationVersPositionASJoueur * frametime * 1.5));
+						creerSalle(*debut);
+
+						ajouterMur();
+						joueur->defPosition(positions[1]);
+						joueur->defHAngle(orientationCamera[1]);
+						ControlleurAudio::obtInstance().jouer(OUVERTURE_PORTE_1, joueur);
+					}
 				}
 				else
 				{
-					joueur->defPosition(positionASJoueur);
-				}
-
-				if (joueur->obtCamera()->obtHAngle() == orientationInitialeCamera && joueur->obtCamera()->obtVAngle() == 0 && joueur->obtPosition() == positionASJoueur) {
-					teleporte = true;
-					delete salleActive;
-					auto debut = infosSalles.begin();
-					std::advance(debut, std::get<0>(salleSuivante));
-
-					gfx::Gestionnaire3D::obtInstance().vider();
-					creerSalle(*debut);
-
-					ajouterMur();
-					joueur->defPosition(positionNSInitialeJoueur);
-					joueur->defHAngle(orientationFinaleCamera);
-					ControlleurAudio::obtInstance().jouer(OUVERTURE_PORTE_1, joueur);
+					if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[2])) > 0) {
+						joueur->defPosition(joueur->obtPosition() + (translations[1] * frametime));
+						modelePorte->rotationner(0, 1.6, 0);
+					}
+					else
+					{
+						joueur->defPosition(positions[2]);
+						retirerMur();
+						joueur->deBloquer();
+						enChangementDeSalle = false;
+						ControlleurAudio::obtInstance().jouer(FERMETURE_PORTE, joueur);
+					}
 				}
 			}
 			else
-			{
-				if (translationVersPositionNSFinaleJoueur.produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positionNSFinaleJoueur)) > 0) {
-					joueur->defPosition(joueur->obtPosition() + (translationVersPositionNSFinaleJoueur * frametime));
-					modelePorte->rotationner(0, 1.6, 0);
-				}
-				else
-				{
-					joueur->defPosition(positionNSFinaleJoueur);
-					retirerMur();
-					joueur->deBloquer();
-					enChangementDeSalle = false;
-					ControlleurAudio::obtInstance().jouer(FERMETURE_PORTE, joueur);
-				}
-			}
+				premiereFois = false;
 		}
 	}
 
@@ -717,37 +727,7 @@ public:
 		finChargement = true;
 	}
 
-	Vecteur3d debut(double& hAngle) {
-		// Salle de fin
-
-		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/SalleFin.obj";
-		salleFin.cheminTexture = "Ressources/Texture/SalleFin.png";
-		salleFin.echelle = { 1.0, 1.0, 1.0 };
-		salleFin.ID = infosSalles.size();
-		salleFin.nbrPorte = 1;
-
-		// Création objets salle finale
-
-		// Porte
-
-		//InfoObjet porteFin;
-		//LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
-		//porteFin.direction = { 0, 0, 1 };
-		//porteFin.ID = 0;
-		//porteFin.largeur = 0;
-		//porteFin.position = { 1.07, 1.01, 53.71 }; //Fix this
-		//porte.rotation = 0; //Fix that
-
-
-		// Création de l'avion
-
-		/*InfoObjet avion;
-		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);*/
-
-
-
-		// Salle de début
+	Vecteur3d debut(double& hAngle, double& vAngle) {
 
 		InfoSalle salleDebut;
 		salleDebut.cheminModele = "Ressources/Modele/SalleDebut.obj";
@@ -832,13 +812,28 @@ public:
 
 		// Table de chevet
 
+		InfoObjet tabledechevet;
+		LecteurFichier::lireObjet("Ressources/Info/tabledechevet.txt", tabledechevet);
+		tabledechevet.direction = { 0, 0, 0 };
+		tabledechevet.ID = 4;
+		tabledechevet.largeur = 0;
+		tabledechevet.position = { 1.0, 1.0, -10.5 };
+		tabledechevet.rotation = 0;
+
+		salleDebut.Objet.push_back(tabledechevet);
+
 		// Ajout du lien de sortie de la salle de début
 
 		unsigned int IDSalleConnectee = rand() % (nombreDeSalle - 1);
 
+		/*InfoSalle salleConnectee = (*infosSalles.begin()); // Erreur louche
+		std::advance(IDSalleConnectee, salleConnectee);
+
+		unsigned int IDPorteSalleConnectee = rand() % salleConnectee.nbrPorte;*/
+
 		unsigned int IDPorteSalleConnectee = 0;
 
-		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+		ajouterLien(Entree(20, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
@@ -850,9 +845,28 @@ public:
 		modeleMur->defOrientation(0, 0, 0);
 		modelePorte->defOrientation(0, 0, 0);
 
-		hAngle = 270;
-		teleporteur();
-		return lit.position + Vecteur3d(-1.3, 0, 0.9);
+		translations[0] = Vecteur3d(6.2604991551431175809545086, 7.80950374479346291875153944, 4.65);
+		positions[0] = lit.position + Vecteur3d(-0.32567, 0.98625, 0.43851);
+		double ln = log(1.611022959 / 0.08);
+		positions[1] = Vecteur3d(positions[0].x - (ln / translations[0].x),
+			positions[0].y + (ln / translations[0].y),
+			positions[0].z + (ln / translations[0].z));
+		positions[2] = Vecteur3d(1.32694, 2.74, -9.81577);
+		translations[1] = Maths::vecteurEntreDeuxPoints(positions[1], positions[2]);
+		premiereFois = true;
+		ouvrirYeux = true;
+		enLeverLit = true;
+		teleporte = true;
+		hAngle = 0;
+		vAngle = 50;
+
+		noirHautBas[0] = new gfx::Sprite2D(Vecteur2f(0, (fenetre->obtTaille().y / 2) - 170), new gfx::Texture("Ressources/Texture/noirHaut.png"));
+		noirHautBas[1] = new gfx::Sprite2D(Vecteur2f(0, 0), new gfx::Texture("Ressources/Texture/noirBas.png"));
+		noirHautBas[1]->defPosition(Vecteur2f(0, -(noirHautBas[1]->obtTexture()->obtTaille().y - fenetre->obtTaille().y / 2) + 170));
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ noirHautBas[0], noirHautBas[1] });
+
+		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 	
 	void teleporteur(){
@@ -1020,5 +1034,73 @@ public:
 		
 		
 		infosSalles.push_back(salleTeleporteur);
+	}
+
+	void animationLeverLit(Joueur* joueur, float frameTime) {
+		if (enLeverLit) {
+			if (!premiereFois) { // À cause du frametime accumulé
+				temps += frameTime;
+				if (ouvrirYeux) {
+					if (temps < 4.2) {
+						if (temps < 1) {
+							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y + (frameTime * 360)));
+							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y - (frameTime * 360)));
+						}
+						else if (temps < 2) {
+							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y - (frameTime * 360)));
+							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y + (frameTime * 360)));
+						}
+						else if (temps > 2.5 && temps < 4) {
+							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y + (frameTime * 360)));
+							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y - (frameTime * 360)));
+						}
+					}
+					else
+					{
+						ouvrirYeux = false;
+						gfx::Gestionnaire2D::obtInstance().retObjets({ noirHautBas[0], noirHautBas[1] });
+						delete noirHautBas[0];
+						delete noirHautBas[1];
+						temps = 0;
+					}
+				}
+				else
+				{
+					if (translations[0].x) {
+						if (Maths::vecteurEntreDeuxPoints(positions[0], positions[1]).produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtCamera()->obtPosition(), positions[1])) > 0) {
+							double ln = log(temps / 0.08);
+							Vecteur3d tmp = { 2.17433 - (ln / translations[0].x),
+								1.98625 + (ln / translations[0].y),
+								-10.46149 + (ln / translations[0].z) };
+							tmp.y -= 1.74;
+							joueur->defPosition(tmp);
+							joueur->defHAngle(0 - (temps*55.86512563));
+							joueur->defVAngle(50 - (temps*46.55427137));
+						}
+						else
+						{
+							translations[0].x = 0;
+							temps = 0;
+						}
+					}
+					else
+					{
+						if (temps > 2) {
+							if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtCamera()->obtPosition(), positions[2])) > 0) {
+								joueur->defPosition(joueur->obtPosition() + (translations[1] * frameTime * 1.5));
+								joueur->defVAngle(joueur->obtCamera()->obtVAngle() + (frameTime * 40));
+							}
+							else
+							{
+								joueur->deBloquer();
+								enLeverLit = false;
+							}
+						}
+					}
+				}
+			}
+			else
+				premiereFois = false;
+		}
 	}
 };
