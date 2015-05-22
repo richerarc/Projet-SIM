@@ -77,3 +77,5 @@
 20/05/2015 (3h00 à 4h00) : J'ai fait fonctionner 2 succès un peu plus complexes, celui lorsqu'on obtient 3 objets et celui quand onlâche/ramasse rapidement le même objet. 
 
 21/05/2015 (9h00 à 12h10) : J'ai fait un peu de ménage dans les succès pour plus de clarté, puis j'ai fait le menu des succès avec Sam (tout les changements sont dans les commits de Sam pour ça). J'ai aussi commencé à dessiner sur GIMP une grille pour afficher les achievements.
+
+22/05/2015 (12h00 à 2h00) : J'ai réussi à faire fonctionner les achievements dans le menu, mais ça a créé un bug d'affichage dans le jeu dont je n'ai pas encore trouvé la source. Je ne commit pas mes changements pour ne pas déranger les autres.
