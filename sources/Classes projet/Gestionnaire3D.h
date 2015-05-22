@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "CameraGodMode.h"
+#include "Camera.h"
 #include "Modele3D.h"
 #include "Singleton.h"
 #include "Fenetre.h"
