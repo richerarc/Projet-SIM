@@ -129,25 +129,25 @@ J'ai débuger la camera avec brandon, j'ai corriger des trucs dans quelques clas
 
 J'ai "pointeurisé modifier quelque trucs, pour permettre une meuileure gestion de la mémoire pour les modèles.
 
-**temps 1h**
+**Temps 1h**
 
 ##**`26 Mars 2015`**
 
 J'ai commencer une classe matrice... J'ai beaucoup de problemes je vais avoir besoin d'aide surement. J'espere que ça ne sera pas une perte de temps totale...
 
-**temps 5.5h**
+**Temps 5.5h**
 
 ##**`27 Mars 2015`**
 
 J'ai terminé les classes représentant les matrices. J'ai du demainder a richer de compiler su XCode pour touver mes erreurs alor maintenant la classe fonctionne alors il reste a tester avec le normales...
 
-**temps 2h**
+**Temps 2h**
 
 ##**`31 Mars 2015`**
 
 J'ai ajuster le retour de la classe modifiée maintenant elle marche, j'ai fais quelque modification dans les classes 2D et 3D, j'ai ajuster le frustum dans le gestionnaire 3D, j'ai corriger l'affichage des textures. 
 
-**temps 2h**
+**Temps 2h**
 
 ##**`1 Avril 2015`**
 
@@ -264,7 +264,7 @@ J'ai esseyer quelques trucs pour faire fonctionner le personnage comme il le fau
 #####le 5 Mai 
 Nathan et moi (plus Nathan) avons travaillé sur le déplacement du joueur pour le rendre meuilleur.
 
-**temps 2h**
+**Temps 2h**
 
 #####le 6 Mai
 
@@ -275,42 +275,52 @@ J'ai réglé le problement du joueur de 3 metres de large en jouant aven le frus
 ##**`8 Mai 2015`**
 J'ai blendé et texturé une salle test.
 
-**temps 2h**
+**Temps 2h**
 
 ##**`12 Mai 2015`**
 J'ai refait le hiérarchie un peu pour pouvoir utiliser des fonctions de la physique dans le joueur mais l'opération c'est avéré être un échec.
 
-**temps 2h**
+**Temps 2h**
 
 ##**`13 Mai 2015`**
 Nathan a régler le déplacement et maintenant le joueur monte les marches. Parcontre ça marche seulement sur son ordinateur et pas sur les ordinateur du cégep.
 J'ai aussi découper l'avion de Gabriel pour le préparer à la texturisation.
 
-**temps 3h**
+**Temps 3h**
 
 ##**`14 Mai 2015`**
 Debuggage pour tenter de regler les bugs que j'avais crée la veille 
 
-**temps 2h**
+**Temps 2h**
 
 ##**`15Mai 2015`**
 
 j'ai fini de texturer l'avion de Gabriel, il avait l'air contant du résultat, il manque juse a rajouter des éléments de nazisme dedans.
-**temps 1.5h**
+**Temps 1.5h**
 
 ##**`18 mai 2015`**
 Julien, Gabriel, Nathan et moi-même sommes venus au cégep pour travailler sur le projet en plus de faire de la physique. Julien nous as aidé pour les collisions, cela a grandement améliorer le déplacement du joueur.
 
 De plus, j'ai optimiser le code pour monter les marches, maintenant il se fie à la hauteur des marches pour les monter de la bonne hauteur. 
 
-**temps 3h**
+**Temps 3h**
 
 ##**`19 mai 2015`**
 Aujourd'hui Nathan et moi avont crée une nouvelle technique pour faciliter les collision avec le joueur(Le joueur consiste maintenant d'une barre remplie de vettices pour pouvoir vérifier a partir de plusieurs points différents). Julien nous as encore une fois un peu aider. 
 
 De plus, j'ai retirer du code inutile qui était en commentaire dans phasejeu.h, j'ai également mis plus de cohérence dans le nom d'une fonction dans joueur. Finalement, j'ai re-tenté de retirer le système à deux cameras du joueur avec succes cette fois-ci!  
 
-**temps 5h**
+**Temps 5h**
 
 ##**`20 mai 2015`**
+Les déplacement du joueurs sonts plus clairs (j'ai retiré plusieurs conditions qui n'étaitent plus nécéssaires).
+
+**Temps 1h**
+
+##**`21 mai 2015`**
+Appliquer physique dans pahsejeu.h et collision joueur salle sont maintent plus clairs et nous devrons ajuster la gravité pour q'elle aie l'air plus réaliste.(Création d'une seconde salle test pour tester la gravité et le vent)
+
+**Temps 2h**
+
+##**`22 mai 2015`**
 //À Remplir

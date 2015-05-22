@@ -591,44 +591,31 @@ public:
 		Vecteur3d pointCollision;
 		Vecteur3d point;
 		Vecteur3d normale;
-		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
+		Vecteur3d difference;
+		Vecteur3d* tabJoueur;
 
 		for (auto it : listeObjet) {
-			for (unsigned int i = 0; i < joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3; ++i) {
-				for (unsigned int j = 0; j < 3; ++j) {
-					if (j == 0)
-						point.x = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
-					else if (j == 1)
-						point.y = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
-					else if (j == 2)
-						point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+
+			if (!it->obtCollisionInterne()) {
+				if (it->obtModele3D()->obtBoiteCollision().collisionDeuxBoite(joueur->obtModele3D()->obtBoiteCollision())) {
+					joueur->defEtat(STABLE);
+					joueur->obtVitesse().y = 0.f;
+					joueur->obtVitesse().x = 0.f;
+					joueur->obtVitesse().z = 0.f;
+					return true;
 				}
-
-				rayonCollision = Droite(point, joueur->obtVitesse());
-
-				if (fabs(normale.x) < 0.05f)
-					normale.x = 0.f;
-				if (fabs(normale.z) < 0.05f)
-					normale.z = 0.f;
-				normale.normaliser();
-
-				if (!it->obtCollisionInterne()) {
-					if (collisionDroiteObjet(*it, rayonCollision, pointCollision, normale)) {
-						joueur->defNormale(normale);
-						joueur->defPointCollision(pointCollision);
-						Vecteur3d pointDiference = pointCollision - point;
-						joueur->defPosition(joueur->obtPosition() + pointDiference);
-						return true;
-					}
-				}
-				if (it->obtCollisionInterne()) {
-					if (collisionDroiteModele(it->obtModele3D(), rayonCollision, pointCollision, normale, nullptr, true)) {
-						joueur->defNormale(normale);
-						joueur->defPointCollision(pointCollision);
-						Vecteur3d pointDiference = pointCollision - point;
-						joueur->defPosition(joueur->obtPosition() + pointDiference);
-						return true;
-					}
+			}
+			if (it->obtCollisionInterne()) {
+				if (collisionDroiteModele(it->obtModele3D(), rayonCollision, pointCollision, normale, nullptr, true)) {
+					joueur->defNormale(normale);
+					joueur->defPointCollision(pointCollision);
+					Vecteur3d pointDiference = pointCollision - point;
+					joueur->defPosition(joueur->obtPosition() + pointDiference);
+					joueur->defEtat(STABLE);
+					joueur->obtVitesse().y = 0.f;
+					joueur->obtVitesse().x = 0.f;
+					joueur->obtVitesse().z = 0.f;
+					return true;
 				}
 			}
 		}

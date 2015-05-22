@@ -51,6 +51,21 @@ public:
 		return temp == 8;
 	}
 
+	bool collisionDeuxBoite(BoiteCollision<T> boite) {
+		Vecteur3d pointBoite;
+		for (int i = 0; i < 8; ++i) {
+			pointBoite = boite.obtBoite()[i];
+			if (this->pointDansBoite(pointBoite))
+				return true;
+		}
+		for (int i = 0; i < 8; ++i) {
+			pointBoite = this->obtBoite()[i];
+			if (boite.pointDansBoite(pointBoite))
+				return true;
+		}
+		return false;
+	}
+
 	bool pointDansBoite(Vecteur3d point) {
 		return (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
 	}
