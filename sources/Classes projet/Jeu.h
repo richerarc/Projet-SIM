@@ -4,6 +4,7 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include <sstream>
 #include "Singleton.h"
 #include "Fenetre.h"
+gfx::Fenetre* fenetre;
 #include "GestionnaireRessources.h"
 #include "Gestionnaire3D.h"
 #include "Gestionnaire2D.h"
@@ -12,7 +13,6 @@ enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, M
 #include "Objet.h"
 #include "Sons.h"
 #include "ControlleurAudio.h"
-gfx::Fenetre* fenetre;
 #include "Curseur.h"
 Curseur* curseur;
 /*
@@ -60,7 +60,7 @@ public:
 		ControlleurAudio::obtInstance().initialiser(100);
 		
 		
-		fenetre = new gfx::Fenetre(gfx::ModeVideo(1280, 720), "CoffeeTrip", false);
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(RESOLUTION_DEFAUT_X, RESOLUTION_DEFAUT_Y), "CoffeeTrip", false);
 
 		fps = new gfx::Texte2D(new std::string("0"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(0, 700));
 
@@ -92,7 +92,7 @@ public:
 				ss << "The Journalist v0.134" << " @ " << 1 / frameTime << " fps";
 				actualisationFPS.repartir();
 				fps->defTexte(new std::string(ss.str()));
-				fps->defEchelle(Vecteur2f((float)fenetre->obtTaille().x / 1280, (float)fenetre->obtTaille().y / 720));
+				fps->defEchelle(Vecteur2f((float)fenetre->obtTaille().x / RESOLUTION_DEFAUT_X, (float)fenetre->obtTaille().y / RESOLUTION_DEFAUT_Y));
 			}
 			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
 			if (phase != nullptr) {

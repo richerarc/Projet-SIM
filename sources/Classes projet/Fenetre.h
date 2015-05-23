@@ -8,6 +8,9 @@
 #include "Souris.h"
 #include "Manette.h"
 
+#define RESOLUTION_DEFAUT_X 1280
+#define RESOLUTION_DEFAUT_Y 720
+
 namespace gfx{
 	class Fenetre{
 	protected:

@@ -1,19 +1,23 @@
 #pragma once
 namespace gfx{
+
 	class Objet2D{
 	protected:
+
 		Vecteur2f position;
 		double orientation;
 		Vecteur2f origine;
 		Vecteur2f echelle;
 		SDL_Surface* surface;
+
 	public:
+
 		Objet2D(Vecteur2f position){
 			this->position = position;
-			echelle.x = 1;
-			echelle.y = 1;
-
+			echelle.x = (float)fenetre->obtTaille().x / RESOLUTION_DEFAUT_X;
+			echelle.y = (float)fenetre->obtTaille().y / RESOLUTION_DEFAUT_Y;
 		}
+
 		Objet2D():Objet2D(Vecteur2f()){
 		}
 
