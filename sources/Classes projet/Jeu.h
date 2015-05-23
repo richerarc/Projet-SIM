@@ -65,8 +65,7 @@ public:
 		fps = new gfx::Texte2D(new std::string("0"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(0, 700));
 
 		GestionnaireControle::obtInstance().lireControle("Ressources/Info/Controle.txt");
-
-		Rect<float>::defDimension(1280, 720);
+		
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPrincipal());		//0
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuControle());		//1
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuGraphique());		//2
@@ -93,6 +92,7 @@ public:
 				ss << "The Journalist v0.134" << " @ " << 1 / frameTime << " fps";
 				actualisationFPS.repartir();
 				fps->defTexte(new std::string(ss.str()));
+				fps->defEchelle(Vecteur2f((float)fenetre->obtTaille().x / 1280, (float)fenetre->obtTaille().y / 720));
 			}
 			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
 			if (phase != nullptr) {

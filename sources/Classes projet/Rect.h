@@ -25,10 +25,8 @@ public:
 		return false;
 	}
 
-	static void defDimension(int l, int h) {
-
-		hauteur = h;
-
+	static void defDimension(T ratiol, T ratioh) {
+		hauteur = ratioh;
 	}
 
 	T x, y, l, h;

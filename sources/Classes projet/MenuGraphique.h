@@ -23,7 +23,7 @@ private:
 public:
 
 	MenuGraphique(void) : Menu() {
-		modeDefaut = gfx::ModeVideo(1366, 768);
+		modeDefaut = gfx::ModeVideo(1280, 720);
 		std::string* str = new std::string();
 		char chr[20];
 
@@ -131,15 +131,16 @@ public:
 		if (pause)
 			return;
 		float l = (*modeVideo).l;
-		float ratio = modeDefaut.l / l;
+		float h = (*modeVideo).h;
+		float ratiol = l / modeDefaut.l;
+		float ratioh = h / modeDefaut.h;
 		resolutionDefaut = iterateur;
 		modeVideoDefaut = modeVideo;
 		Rect<float>::defDimension((*modeVideo).l, (*modeVideo).h);
 		for (auto it : GestionnairePhases::obtInstance().obtListePhases())
-			it->actualiserEchelle(Vecteur2f(ratio, ratio));
-
-		this->spriteFond->defPosModifier();
-		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));
+			it->actualiserEchelle(Vecteur2f(ratiol, ratioh));
+		glViewport(0, 0, modeVideo->l, modeVideo->h);
+		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));;
 	}
 
 	void survol(Bouton* envoi){
@@ -186,6 +187,8 @@ public:
 		flecheGauche->defEchelle(vecteurEchelle);
 		flecheDroite->defEchelle(vecteurEchelle);
 		appliquer->defEchelle(vecteurEchelle);
+		for (auto it : resolutions)
+			it->defEchelle(vecteurEchelle);
 	}
 
 };

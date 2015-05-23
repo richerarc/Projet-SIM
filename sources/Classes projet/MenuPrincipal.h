@@ -128,6 +128,7 @@ public:
 		demarrer->defEchelle(vecteurEchelle);
 		options->defEchelle(vecteurEchelle);
 		logo->defEchelle(vecteurEchelle);
+		succes->defEchelle(vecteurEchelle);
 	}
 
 };
