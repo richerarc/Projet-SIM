@@ -75,18 +75,21 @@ public:
 	void enClicSon(Bouton* envoi){
 		if (pause)
 			return;
+		son->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUSON);
 	}
 
 	void enClicGraphique(Bouton* envoi){
 		if (pause)
 			return;
+		graphique->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUGRAPHIQUE);
 	}
 
 	void enClicControle(Bouton* envoi){
 		if (pause)
 			return;
+		controle->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUCONTROL);
 	}
 

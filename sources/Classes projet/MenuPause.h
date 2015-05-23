@@ -56,6 +56,7 @@ public:
 	void enClicRetour(Bouton* sender){
 		if (pause)
 			return;
+		retour->defCouleur({ 0, 0, 0, 255 });
 		gfx::Gestionnaire2D::obtInstance().vider();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 		GestionnairePhases::obtInstance().enleverPhaseActive();
@@ -66,6 +67,7 @@ public:
 	void enClicOptions(Bouton* sender){
 		if (pause)
 			return;
+		options->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUOPTIONS);
 	}
 

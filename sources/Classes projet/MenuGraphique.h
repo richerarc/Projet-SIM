@@ -23,7 +23,7 @@ private:
 public:
 
 	MenuGraphique(void) : Menu() {
-		modeDefaut = gfx::ModeVideo(1366, 768);
+		modeDefaut = gfx::ModeVideo(RESOLUTION_DEFAUT_X, RESOLUTION_DEFAUT_Y);
 		std::string* str = new std::string();
 		char chr[20];
 
@@ -43,7 +43,7 @@ public:
 				str->append(SDL_itoa(modesVideo.back().h, chr, 10));
 				resolutions.push_back(new gfx::Texte2D(str, { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 513)));
 
-				if (modesVideo.back().l == 1280 && modesVideo.back().h == 720) {
+				if (modesVideo.back().l == RESOLUTION_DEFAUT_X && modesVideo.back().h == RESOLUTION_DEFAUT_Y) {
 					resolutionDefaut = resolutions.end();
 					--resolutionDefaut;
 					modeVideoDefaut = modesVideo.end();
@@ -76,6 +76,7 @@ public:
 			Vecteur2f(300, 500),
 			new std::string(">"), 60);
 
+		
 		retour = new Bouton(std::bind(&MenuGraphique::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuGraphique::survol, this, std::placeholders::_1),
 			std::bind(&MenuGraphique::defaut, this, std::placeholders::_1),
@@ -131,14 +132,15 @@ public:
 		if (pause)
 			return;
 		float l = (*modeVideo).l;
-		float ratio = modeDefaut.l / l;
+		float h = (*modeVideo).h;
+		float ratiol = l / modeDefaut.l;
+		float ratioh = h / modeDefaut.h;
 		resolutionDefaut = iterateur;
 		modeVideoDefaut = modeVideo;
 		Rect<float>::defDimension((*modeVideo).l, (*modeVideo).h);
 		for (auto it : GestionnairePhases::obtInstance().obtListePhases())
-			it->actualiserEchelle(Vecteur2f(ratio, ratio));
-
-		this->spriteFond->defPosModifier();
+			it->actualiserEchelle(Vecteur2f(ratiol, ratioh));
+		glViewport(0, 0, modeVideo->l, modeVideo->h);
 		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));
 	}
 
@@ -186,6 +188,8 @@ public:
 		flecheGauche->defEchelle(vecteurEchelle);
 		flecheDroite->defEchelle(vecteurEchelle);
 		appliquer->defEchelle(vecteurEchelle);
+		for (auto it : resolutions)
+			it->defEchelle(vecteurEchelle);
 	}
 
 };

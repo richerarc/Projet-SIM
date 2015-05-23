@@ -1,4 +1,4 @@
- #pragma once
+#pragma once
 #include <map>
 #include <tuple>
 #include <vector>
@@ -90,8 +90,8 @@ private:
 		itBoites = nombreBoite.begin();
 		for (int i = 0; i < aleatoire; ++i) ++itBoites;
 
-		while (!puzzlePlace && nombreBoite.size()!= 0) {
-			
+		while (!puzzlePlace && nombreBoite.size() != 0) {
+
 			nombreBoite.erase(itBoites);
 			puzzle.position = boiteSalle.distanceEntreDeuxCentre(puzzle.boiteCollision);
 			boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
@@ -367,27 +367,27 @@ private:
 			modeleporte->defPosition(it.position);
 			modeleporte->defOrientation(0, it.rotation, 0);
 			switch (it.type) {
-				case PORTE:
-					salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
-					break;
-				case PENDULE:
-					if (!it.rotation)
-						salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 2, 0, 0 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
-					else
-						salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 2 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
-					break;
-				case FIXE:
-					salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
-					break;
-				case REMPLISSEUR:
-					salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
-					break;
-				case VENTILATEUR:
-					salleActive->ajoutObjet(new Vent(modeleporte, it.ID, Vecteur3d(0,5,0), it.position, Vecteur3d(it.largeur, 20, it.largeur)));
-					break;
-				case COMMUTATEUR:
-					salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
-					break;
+			case PORTE:
+				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
+				break;
+			case PENDULE:
+				if (!it.rotation)
+					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 2, 0, 0 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+				else
+					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 2 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+				break;
+			case FIXE:
+				salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
+				break;
+			case REMPLISSEUR:
+				salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
+				break;
+			case VENTILATEUR:
+				salleActive->ajoutObjet(new Vent(modeleporte, it.ID, Vecteur3d(0, 5, 0), it.position, Vecteur3d(it.largeur, 20, it.largeur)));
+				break;
+			case COMMUTATEUR:
+				salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
+				break;
 			}
 		}
 
@@ -407,7 +407,7 @@ private:
 
 		if (positionnerPuzzle(salle, puzzle)) {
 			--nbrPuzzle;
-			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return !strcmp(chemin, cheminsPuzzle[aleatoire]);}));
+			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return !strcmp(chemin, cheminsPuzzle[aleatoire]); }));
 			return true;
 		}
 		return false;
@@ -677,8 +677,7 @@ public:
 
 		do {
 			IDSalle = rand() % nombreDeSalle;
-		}
-		while (!creerPuzzle(nbrPuzzle, IDSalle));
+		} while (!creerPuzzle(nbrPuzzle, IDSalle));
 		salleAvecPuzzle.push_back(IDSalle);
 
 		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
@@ -864,52 +863,53 @@ public:
 		teleporte = true;
 		hAngle = 0;
 		vAngle = 50;
-
-		noirHautBas[0] = new gfx::Sprite2D(Vecteur2f(0, (fenetre->obtTaille().y / 2) - 170), new gfx::Texture("Ressources/Texture/noirHaut.png"));
+		float ff = fenetre->obtTaille().y;
+		float f = (170 * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y));
+		noirHautBas[0] = new gfx::Sprite2D(Vecteur2f(0, (fenetre->obtTaille().y / 2) - (170 * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y))), new gfx::Texture("Ressources/Texture/noirHaut.png"));
 		noirHautBas[1] = new gfx::Sprite2D(Vecteur2f(0, 0), new gfx::Texture("Ressources/Texture/noirBas.png"));
-		noirHautBas[1]->defPosition(Vecteur2f(0, -(noirHautBas[1]->obtTexture()->obtTaille().y - fenetre->obtTaille().y / 2) + 170));
+		noirHautBas[1]->defPosition(Vecteur2f(0, -((noirHautBas[1]->obtTexture()->obtTaille().y * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y)) - fenetre->obtTaille().y / 2) + (170 * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y))));
 
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ noirHautBas[0], noirHautBas[1] });
 
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
-	
+
 	void teleporteur(){
-		
+
 		InfoSalle salleTeleporteur;
 		salleTeleporteur.cheminModele = "Ressources/Modele/teleporteur.obj";
 		salleTeleporteur.cheminTexture = "Ressources/Texture/teleporteur.png";
 		salleTeleporteur.echelle = { 1.0, 1.0, 1.0 };
 		salleTeleporteur.ID = infosSalles.size();
 		salleTeleporteur.nbrPorte = 1;
-		
-			// Création des objets de la salle
-		
-			// Porte (EntrŽe)
-		
+
+		// Création des objets de la salle
+
+		// Porte (EntrŽe)
+
 		InfoObjet porte;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
-		porte.direction = { 1, 0, 0};
+		porte.direction = { 1, 0, 0 };
 		porte.ID = 0;
 		porte.largeur = 0;
-		porte.position = { 21.1, 0, -1.470588235/2 };
+		porte.position = { 21.1, 0, -1.470588235 / 2 };
 		porte.rotation = 180;
-		
+
 		salleTeleporteur.Objet.push_back(porte);
-		
-		
-			// Porte (Sortie)
+
+
+		// Porte (Sortie)
 		InfoObjet porte2;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
 		porte2.direction = { -1, 0, 0 };
 		porte2.ID = 1;
 		porte2.largeur = 0;
-		porte2.position = { -21.1, 0, 1.470588235/2 };
+		porte2.position = { -21.1, 0, 1.470588235 / 2 };
 		porte2.rotation = 0;
-		
+
 		salleTeleporteur.Objet.push_back(porte2);
-		
-			// Poste
+
+		// Poste
 		InfoObjet poste;
 		poste.cheminModele = "Ressources/Modele/poste.obj";
 		poste.cheminTexture = "Ressources/Texture/poste.png";
@@ -919,10 +919,10 @@ public:
 		poste.position = { 0, 0, 5 };
 		poste.rotation = 90;
 		poste.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(poste);
-		
-			// Plate
+
+		// Plate
 		InfoObjet plate;
 		plate.cheminModele = "Ressources/Modele/plate.obj";
 		plate.cheminTexture = "Ressources/Texture/plate.png";
@@ -932,55 +932,55 @@ public:
 		plate.position = { 0.93, 0.96, 4.7 };
 		plate.rotation = 90;
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
+
 		plate.ID = 4;
 		plate.position = { 0.73, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
+
 		plate.ID = 5;
 		plate.position = { 0.53, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
+
 		plate.ID = 6;
 		plate.position = { 0.33, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
-		
-		
+
+
+
 		plate.ID = 7;
 		plate.position = { -0.13, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
+
 		plate.ID = 10;
 		plate.position = { -0.73, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
+
 		plate.ID = 9;
 		plate.position = { -0.53, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
+
 		plate.ID = 8;
 		plate.position = { -0.33, 0.96, 4.7 };
 		plate.type = FIXE;
-		
+
 		salleTeleporteur.Objet.push_back(plate);
-		
-			//Switch
-		
+
+		//Switch
+
 		InfoObjet com;
 		com.cheminModele = "Ressources/Modele/switch.obj";
 		com.cheminTexture = "Ressources/Texture/switch.png";
@@ -990,54 +990,54 @@ public:
 		com.position = { 0.93, 0.99, 4.72 };
 		com.rotation = 90;
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
+
 		com.ID = 12;
 		com.position = { 0.73, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
+
 		com.ID = 13;
 		com.position = { 0.53, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
+
 		com.ID = 14;
 		com.position = { 0.33, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
-		
-		
+
+
+
 		com.ID = 15;
 		com.position = { -0.13, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
+
 		com.ID = 18;
 		com.position = { -0.73, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
+
 		com.ID = 17;
 		com.position = { -0.53, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
+
 		com.ID = 16;
 		com.position = { -0.33, 0.99, 4.72 };
 		com.type = COMMUTATEUR;
-		
+
 		salleTeleporteur.Objet.push_back(com);
-		
-		
+
+
 		infosSalles.push_back(salleTeleporteur);
 
 		fin();
@@ -1090,17 +1090,13 @@ public:
 				temps += frameTime;
 				if (ouvrirYeux) {
 					if (temps < 4.2) {
-						if (temps < 1) {
-							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y + (frameTime * 360)));
-							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y - (frameTime * 360)));
+						if ((temps < 1) || (temps > 2.5 && temps < 4)) {
+							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y + (frameTime * (float)(fenetre->obtTaille().y / 2))));
+							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y - (frameTime * (float)(fenetre->obtTaille().y / 2))));
 						}
 						else if (temps < 2) {
-							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y - (frameTime * 360)));
-							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y + (frameTime * 360)));
-						}
-						else if (temps > 2.5 && temps < 4) {
-							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y + (frameTime * 360)));
-							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y - (frameTime * 360)));
+							noirHautBas[0]->defPosition(Vecteur2f(noirHautBas[0]->obtPosition().x, noirHautBas[0]->obtPosition().y - (frameTime * (float)(fenetre->obtTaille().y / 2))));
+							noirHautBas[1]->defPosition(Vecteur2f(noirHautBas[1]->obtPosition().x, noirHautBas[1]->obtPosition().y + (frameTime * (float)(fenetre->obtTaille().y / 2))));
 						}
 					}
 					else

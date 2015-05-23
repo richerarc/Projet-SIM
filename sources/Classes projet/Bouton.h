@@ -41,7 +41,7 @@ public:
 
 	void gererClic(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectModifier().contient(Curseur::obtPosition()) && (event.button.button == SDL_BUTTON_LEFT || event.cbutton.button == SDL_CONTROLLER_BUTTON_A)){
+			if (texte->obtRectangle().contient(Curseur::obtPosition()) && (event.button.button == SDL_BUTTON_LEFT || event.cbutton.button == SDL_CONTROLLER_BUTTON_A)){
 				clicRappel(this);
 				if (etat != PAUSE)
 					etat = EN_CLIC;
@@ -56,7 +56,7 @@ public:
 	
 	void gererSurvol(SDL_Event &event){
 		if (etat != PAUSE) {
-			if (texte->obtRectModifier().contient(Curseur::obtPosition())){
+			if (texte->obtRectangle().contient(Curseur::obtPosition())){
 				if (etat != SURVOL)
 					survolRappel(this);
 				etat = SURVOL;
