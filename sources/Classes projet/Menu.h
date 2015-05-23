@@ -27,6 +27,7 @@ public:
 	}
 
 	void clicRetour(void){
+		retour->defCouleur({ 0, 0, 0, 255 });
 		gfx::Gestionnaire2D::obtInstance().vider();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 		GestionnairePhases::obtInstance().enleverPhaseActive();

@@ -70,18 +70,21 @@ public:
 	void enClicDemarrer(Bouton* envoi){
 		if (pause)
 			return;
+		demarrer->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUNOUVELLEPARTIE);
 	}
 
 	void enClicOptions(Bouton* envoi){
 		if (pause)
 			return;
+		options->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUOPTIONS);
 	}
 
 	void enClicSucces(Bouton* envoi){
 		if (pause)
 			return;
+		succes->defCouleur({ 0, 0, 0, 255 });
 		clic(MENUSUCCES);
 	}
 

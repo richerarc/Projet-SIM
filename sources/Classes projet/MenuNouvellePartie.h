@@ -68,28 +68,25 @@ public:
 	void enClicFacile(Bouton* envoi) {
 		if (pause)
 			return;
-		gfx::Gestionnaire2D::obtInstance().vider();
+		facile->defCouleur({ 0, 0, 0, 255 });
 		Carte::obtInstance().nombreDeSalle = 15;
 		clic(MENUINTRO);
-		//Carte::obtInstance().creer();
 	}
 
 	void enClicNormal(Bouton* envoi) {
 		if (pause)
 			return;
-		gfx::Gestionnaire2D::obtInstance().vider();
+		normal->defCouleur({ 0, 0, 0, 255 });
 		Carte::obtInstance().nombreDeSalle = 20;
 		clic(MENUINTRO);
-		//Carte::obtInstance().creer();
 	}
 
 	void enClicDifficile(Bouton* envoi) {
 		if (pause)
 			return;
-		gfx::Gestionnaire2D::obtInstance().vider();
+		difficile->defCouleur({ 0, 0, 0, 255 });
 		Carte::obtInstance().nombreDeSalle = 32;
 		clic(MENUINTRO);
-		//Carte::obtInstance().creer();
 	}
 
 	void enClicRetour(Bouton* envoi) {
