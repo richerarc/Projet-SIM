@@ -1086,7 +1086,7 @@ public:
 
 	void animationLeverLit(Joueur* joueur, float frameTime) {
 		if (enLeverLit) {
-			if (!premiereFois) { // À cause du frametime accumulé
+			if (frameTime < 0.5) { // À cause du frametime accumulé
 				temps += frameTime;
 				if (ouvrirYeux) {
 					if (temps < 4.2) {
@@ -1147,8 +1147,6 @@ public:
 					}
 				}
 			}
-			else
-				premiereFois = false;
 		}
 	}
 };

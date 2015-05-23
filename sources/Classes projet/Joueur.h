@@ -72,7 +72,7 @@ public:
 		camera->defVAngle(vAngle);
 		chronoSaut = Chrono();
 		inventaire = new Inventaire(Vecteur2f(9, 3));
-		bloque = true;
+		bloquer();
 	}
 
 	~Joueur() {
