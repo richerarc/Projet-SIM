@@ -97,3 +97,5 @@
 	Finallisation du modele et  de la texture de la salle de fin. Début de l'implémentation de cette salle dans le programme avec l'ordre en ajoutant la salle dans le programme et débutant d'ajouter l'avion et la seule porte.
 #Jeudi 21 mai (9:45 à 13:40)
 	Modification du modèle de la salle finale en la divisant en deux parties pour causer moins de lag. Modification de l'implémentation de la salle finale en la divisant en fesant bouger le dome et pas les batiments.
+#Lundi 25 mai (10:00 à 15:23)
+	Modelage et texturage d'une barre de chocolat et modification de la salle finale pour que la sky sphere soit séparée du reste des objets de la salle afin de voir le ciel avec une distance de vision moins longue de la salle. 

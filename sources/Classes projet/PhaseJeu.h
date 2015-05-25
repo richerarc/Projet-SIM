@@ -180,6 +180,11 @@ public:
 			}
 		}
 		if (!this->pause) {
+			if (Carte::obtInstance().salleActive->obtID() == (Carte::obtInstance().nombreDeSalle + 2)){
+				Carte::obtInstance().salleActive->obtObjet(0)->defPosition(joueur->obtPosition());
+				Carte::obtInstance().salleActive->obtObjet(0)->defCollisionInterne(true);
+				GestionnaireSucces::obtInstance().obtSucces(12);
+			}
 			joueur->deplacement();
 			appliquerPhysique(frameTime);
 			joueur->obtInventaire()->actualiser();

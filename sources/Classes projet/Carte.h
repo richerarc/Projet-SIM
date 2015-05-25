@@ -871,6 +871,9 @@ public:
 
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ noirHautBas[0], noirHautBas[1] });
 
+		teleporteur();
+		fin();
+
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 
@@ -1039,8 +1042,6 @@ public:
 
 
 		infosSalles.push_back(salleTeleporteur);
-
-		fin();
 	}
 
 	void fin(){
@@ -1054,6 +1055,19 @@ public:
 		salleFin.nbrPorte = 1;
 
 		// Création objets salle finale
+
+		//Demi sphère
+
+		InfoObjet demiSphere;
+		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
+		demiSphere.direction = { 0, 0, 0 };
+		demiSphere.ID = 0;
+		demiSphere.largeur = 0;
+		demiSphere.position = { 147.07, -19.2, -597.71 };
+		demiSphere.rotation = 0;
+		demiSphere.type = FIXE;
+
+		salleFin.Objet.push_back(demiSphere);
 
 		// Porte
 
