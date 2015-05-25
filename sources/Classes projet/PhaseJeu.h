@@ -212,8 +212,6 @@ public:
 				else if (dynamic_cast<Item*>(objetVise)){
 					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
 					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() + 1);
-					if (GestionnaireSucces::obtInstance().obtNbrItems() == 3)
-						GestionnaireSucces::obtInstance().obtSucces(10);
 					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
 					GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
 					GestionnaireSucces::obtInstance().obtSucces(1);
@@ -227,6 +225,8 @@ public:
 						GestionnaireSucces::obtInstance().obtSucces(9);
 					if (nom == "Note")
 						GestionnaireSucces::obtInstance().obtSucces(13);
+					if (nom == "Corrections")
+						GestionnaireSucces::obtInstance().obtSucces(24);
 					objetVise = nullptr;
 				}
 				else if (dynamic_cast<Commutateur*>(objetVise)){
