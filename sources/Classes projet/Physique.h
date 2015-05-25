@@ -8,6 +8,7 @@
 #include "Vent.h"
 #include "Aimant.h"
 #include "Pendule.h"
+#include "Remplisseur.h"
 #include <string>
 
 enum collisions{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
