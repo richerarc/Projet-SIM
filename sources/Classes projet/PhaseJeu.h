@@ -232,6 +232,7 @@ public:
 								diz = strtoull(dizaine, NULL, 2);
 								uni = strtoull(unite, NULL, 2);
 								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni,0));
+							}
 						}
 					}
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
