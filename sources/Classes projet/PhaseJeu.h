@@ -18,20 +18,20 @@ private:
 	gfx::Texte2D* texte;
 	Objet* objetVise;
 	bool toucheRelachee;
+	bool retour;
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
 	int sensPrecedent, sensActuel;
 	Chrono tempsJeu;
+	gfx::Texte2D* texteChrono;
+	std::string stringTexteChrono;
+	int heures, minutes, secondes;
 	Item *itemEquipe;
 	Item *test;
 	char dizaine[5];
 	char unite[5];
-	
-	bool retour;
-
 	MenuAccesRapide* accesRapide;
-
 	gfx::Sprite2D* point;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
@@ -68,6 +68,40 @@ private:
 		}
 	}
 
+	void mettreAJourtexteChrono(){
+		stringTexteChrono = "";
+		char temp[255];
+		heures = tempsRestant / 3600;
+		minutes = (int)(tempsRestant / 60) % 60;
+		secondes = (int)tempsRestant % 60;
+
+		if (heures > 10){
+			stringTexteChrono.append(SDL_itoa(heures, temp, 10));
+		}
+		else{
+			stringTexteChrono.append("0");
+			stringTexteChrono.append(SDL_itoa(heures, temp, 10));
+		}
+		stringTexteChrono.append(":");
+		if (minutes > 10){
+			stringTexteChrono.append(SDL_itoa(minutes, temp, 10));
+		}
+		else{
+			stringTexteChrono.append("0");
+			stringTexteChrono.append(SDL_itoa(minutes, temp, 10));
+		}
+		stringTexteChrono.append(":");
+		if (secondes > 10){
+			stringTexteChrono.append(SDL_itoa(secondes, temp, 10));
+		}
+		else{
+			stringTexteChrono.append("0");
+			stringTexteChrono.append(SDL_itoa(secondes, temp, 10));
+		}
+
+
+		texteChrono->defTexte(&stringTexteChrono);
+	}
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
@@ -169,6 +203,24 @@ public:
 			unite[i] = '\0';
 			dizaine[i] = '\0';
 		}
+
+		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
+		stringTexteChrono = "";
+		if (Carte::obtInstance().nombreDeSalle == 15)
+			tempsRestant = 3600;
+		else
+			tempsRestant = 1800;
+		mettreAJourtexteChrono();
+		gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
+		tempsJeu = Chrono();
+	}
+
+	~PhaseJeu(){
+		delete joueur;
+		delete texteUtiliser;
+		delete point;
+		delete accesRapide;
+		delete texteChrono;
 	}
 
 	void rafraichir(float frameTime) {
@@ -205,7 +257,11 @@ public:
 			ControlleurAudio::obtInstance().jouerTout(joueur);
 			Carte::obtInstance().animationTransitionSalle(joueur, frameTime);
 			Carte::obtInstance().animationLeverLit(joueur, frameTime);
-
+			if (Carte::obtInstance().salleActive->obtID() != Carte::obtInstance().nombreDeSalle){
+				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				mettreAJourtexteChrono();
+			}
+			tempsJeu.repartir();
 		}
 
 		if (detectionObjet()){
