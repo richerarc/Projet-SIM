@@ -600,6 +600,7 @@ public:
 				if (it->obtModele3D()->obtBoiteCollision().collisionDeuxBoite(joueur->obtModele3D()->obtBoiteCollision())) {
 					joueur->defEtat(STABLE);
 					joueur->obtVitesse().y = 0.f;
+					joueur->defPosition(joueur->obtPosition() - joueur->obtVitesse() / 50);
 					joueur->obtVitesse().x = 0.f;
 					joueur->obtVitesse().z = 0.f;
 					return true;
