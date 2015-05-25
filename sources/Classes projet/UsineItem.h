@@ -44,6 +44,8 @@ public:
 						return new Pilule(ID);
 					case(4) ://lait
 						return new Lait(ID);
+					case(5) ://chocolat
+						return new Chocolat(ID);
 				}
 			case (4) :
 				switch (type % 10){
