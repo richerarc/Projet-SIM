@@ -17,6 +17,6 @@ public:
 		}
 		return O_F;
 	}
-	bool obtEtat(){return O_F;}
+	int obtEtat(){return O_F;}
 	bool obtSiPorte(){return false;}
 };
