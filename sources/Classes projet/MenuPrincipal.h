@@ -99,6 +99,8 @@ public:
 				y = 0.;
 				x = x + 400;
 			}
+			it->obtDescription()->defPosition(Vecteur2f(900, 35));
+			it->obtDescription()->defCouleur({ 255, 255, 255, 255 });
 		}
 		clic(MENUSUCCES);
 	}
