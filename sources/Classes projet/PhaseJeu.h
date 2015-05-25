@@ -25,7 +25,9 @@ private:
 	Chrono tempsJeu;
 	Item *itemEquipe;
 	Item *test;
-
+	char dizaine[5];
+	char unite[5];
+	
 	bool retour;
 
 	MenuAccesRapide* accesRapide;
@@ -163,6 +165,10 @@ public:
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
 		retour = false;
 		pause = false;
+		for (int i = 0; i < 4; ++i){
+			unite[i] = '\0';
+			dizaine[i] = '\0';
+		}
 	}
 
 	void rafraichir(float frameTime) {
@@ -205,6 +211,29 @@ public:
 		if (detectionObjet()){
 			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){// Touche relach�e bient�t...
 				if (objetVise->obtSiPorte()){
+					if (objetVise->obtSiPorte()){
+						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
+							if (objetVise->obtID()){
+								Commutateur* com = nullptr;
+								for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
+									com = dynamic_cast<Commutateur*>(it);
+									if (com){
+										if (com->obtID() < 15){
+											dizaine[com->obtID() - 11] = com->obtEtat() + 48;
+										}
+										else{
+											dizaine[4] = '\0';
+											unite[com->obtID() - 15] = com->obtEtat() + 48;
+										}
+									}
+								}
+								unite[4] = '\0';
+								short diz, uni;
+								diz = strtoull(dizaine, NULL, 2);
+								uni = strtoull(unite, NULL, 2);
+								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni,0));
+						}
+					}
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
