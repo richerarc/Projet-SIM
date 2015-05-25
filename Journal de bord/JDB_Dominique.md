@@ -81,3 +81,5 @@
 22/05/2015 (12h00 à 2h00) : J'ai réussi à faire fonctionner les achievements dans le menu, mais ça a créé un bug d'affichage dans le jeu dont je n'ai pas encore trouvé la source. Je ne commit pas mes changements pour ne pas déranger les autres.
 
 25/05/2015 (8h30 à 10h30) : J'ai commit les changements mentionnés précédemment, ils ne comportent aucun bug dont je suis au courant. J'ai ensuite ajouté quelques succès dans le code et mis à jour l'analyse. J'ai ensuite modelisé brièvement.
+
+(12h00 à 2h00) : J'ai (pour le plus grand bonheur de tous) mis à disposition du projet mon Batman, dont j'ai ajusté la taille. J'ai aussi ajouté une fonctionnalité qui affiche la description des succès lorsqu'ils sont survolés dans le menu. 

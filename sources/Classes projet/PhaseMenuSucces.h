@@ -24,7 +24,7 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
-
+		menuSucces->survolSucces();
 	}
 
 	void remplir() {

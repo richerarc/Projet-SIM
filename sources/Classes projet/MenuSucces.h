@@ -12,6 +12,7 @@ private:
 	Bouton* reinitialiser;
 	std::list<gfx::Texte2D*> listeTitres;
 	gfx::Sprite2D* quadrillage;
+	gfx::Texte2D* descriptionSurvol;
 public:
 
 	MenuSucces(void){
@@ -46,6 +47,7 @@ public:
 			}
 			//it->obtTitre()->defPosition();
 		}
+		descriptionSurvol == nullptr;
 		defPause(true);
 	}
 
@@ -65,6 +67,8 @@ public:
 		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
 			it->obtTitre()->defCouleur({0,0,0,255});
 			it->obtTitre()->defPosition(Vecteur2f(905, 640));
+			it->obtDescription()->defPosition(Vecteur2f(905, 575));
+			it->obtDescription()->defCouleur({0,0,0,255});
 		}
 		clicRetour();
 	}
@@ -107,6 +111,25 @@ public:
 		this->retour->defEchelle(vecteurEchelle);
 		this->spriteFond->defEchelle(vecteurEchelle);
 		reinitialiser->defEchelle(vecteurEchelle);
+	}
+
+	void survolSucces(){
+		bool enSurvol = false;
+		Vecteur2d souris = Souris::obtPosition();
+		if (Clavier::toucheAppuyee(SDLK_ESCAPE)){
+			int a = 0;
+		}
+		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
+			if (it->obtTitre()->obtRectangle().contient(Curseur::obtPosition())){
+				descriptionSurvol = it->obtDescription();
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(descriptionSurvol);
+				enSurvol = true;
+			}
+		}
+		if (!enSurvol){
+			if (descriptionSurvol != nullptr)
+				gfx::Gestionnaire2D::obtInstance().retObjet(descriptionSurvol);
+		}
 	}
 
 };
