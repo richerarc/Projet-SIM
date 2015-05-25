@@ -11,23 +11,23 @@ class MenuSucces : public Menu{
 private:
 	Bouton* reinitialiser;
 	std::list<gfx::Texte2D*> listeTitres;
-
+	gfx::Sprite2D* quadrillage;
 public:
 
 	MenuSucces(void){
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
-
+		quadrillage = new gfx::Sprite2D(Vecteur2f(20, 90), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/achievementsMenu.png"));
 		reinitialiser = new Bouton(std::bind(&MenuSucces::enClicReinit, this, std::placeholders::_1),
 			std::bind(&MenuSucces::survol, this, std::placeholders::_1),
 			std::bind(&MenuSucces::defaut, this, std::placeholders::_1),
-			Vecteur2f(300, 50),
+			Vecteur2f(300, 25),
 			new std::string("Reset Achievements"),
 			50);
 
 		this->retour = new Bouton(std::bind(&MenuSucces::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuSucces::survol, this, std::placeholders::_1),
 			std::bind(&MenuSucces::defaut, this, std::placeholders::_1),
-			Vecteur2f(50, 50),
+			Vecteur2f(50, 25),
 			new std::string("Back"),
 			50);
 
@@ -52,12 +52,20 @@ public:
 	void enClicReinit(Bouton* envoi){
 		if (pause)
 			return;
-		clic(MENUSUCCES);
+		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
+			it->obtTitre()->defCouleur({ 200, 200, 200, 255 });
+			it->defAccompli(false);
+		}
+		GestionnaireSucces::obtInstance().reinitialiserSauvegarde();
 	}
 
 	void enClicRetour(Bouton* envoi){
 		if (pause)
 			return;
+		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
+			it->obtTitre()->defCouleur({0,0,0,255});
+			it->obtTitre()->defPosition(Vecteur2f(905, 640));
+		}
 		clicRetour();
 	}
 
@@ -75,6 +83,10 @@ public:
 
 	void remplir(){
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(quadrillage);
+		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(it->obtTitre());
+		}
 		retour->remplir();
 		reinitialiser->remplir();
 	}

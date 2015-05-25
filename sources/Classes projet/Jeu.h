@@ -84,7 +84,7 @@ public:
 		curseur->remplir();
 		frameTime = chrono.repartir().enSecondes();
 		GestionnaireSucces::obtInstance().initialiser();
-		GestionnaireSucces::obtInstance().reinitialiserListe();
+
 		while (fenetre->estOuverte())
 		{
 			if (actualisationFPS.obtTempsEcoule().enSecondes() > 0.2f){

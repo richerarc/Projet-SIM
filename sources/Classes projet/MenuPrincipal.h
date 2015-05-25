@@ -84,7 +84,22 @@ public:
 	void enClicSucces(Bouton* envoi){
 		if (pause)
 			return;
-		succes->defCouleur({ 0, 0, 0, 255 });
+		float x = 0.;
+		float y = 0.;
+		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
+			if (it->obtAccompli()){
+				it->obtTitre()->defCouleur({ 155, 0, 0, 255 });
+			}
+			else{
+				it->obtTitre()->defCouleur({ 200, 200, 200, 255 });
+			}
+			it->obtTitre()->defPosition(Vecteur2f(x + 30, 650 - y));
+			y = y + 60.;
+			if (y == 600){
+				y = 0.;
+				x = x + 400;
+			}
+		}
 		clic(MENUSUCCES);
 	}
 
