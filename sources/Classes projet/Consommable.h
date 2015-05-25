@@ -37,7 +37,7 @@ struct Lait : public Melee{
 	void equiper(Joueur* joueur){}
 };
 struct Chocolat : public Melee{
-	Chocolate(unsigned int ID) : Melee(0.3, 2.0, 30, "Big Black Chocolate", "JEW won't belive it how good it tastes", "Ressources/Texture/chocolatIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chocolat.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chocolat.png")), ID, "carton", 2.1){
+	Chocolat(unsigned int ID) : Melee(0.3, 2.0, 30, "Big Black Chocolate", "JEW won't belive it how good it tastes", "Ressources/Texture/chocolatIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chocolat.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chocolat.png")), ID, "carton", 2.1){
 
 	}
 	void utiliser2(Joueur* joueur){}

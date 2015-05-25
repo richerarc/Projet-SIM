@@ -873,10 +873,6 @@ public:
 
 		teleporteur();
 		fin();
-<<<<<<< HEAD
-
-=======
->>>>>>> 94fc4f1fa9207c9dd3c6c5d8eadd1c3d8fabc4f6
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 

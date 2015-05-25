@@ -15,7 +15,7 @@ class PhaseJeu : public Phase{
 private:
 
 	Joueur* joueur;
-	gfx::Texte2D* texte;
+	gfx::Texte2D* texteUtiliser;
 	Objet* objetVise;
 	bool toucheRelachee;
 	bool retour;
@@ -26,6 +26,7 @@ private:
 	Chrono tempsJeu;
 	gfx::Texte2D* texteChrono;
 	std::string stringTexteChrono;
+	double tempsRestant;
 	int heures, minutes, secondes;
 	Item *itemEquipe;
 	Item *test;
@@ -151,18 +152,16 @@ private:
 						else
 							str1.append(" to turn on");
 					}
-						//	const char* chr1 = str1.c_str();
-					texte->defTexte(&str1);
-					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+					texteUtiliser->defTexte(&str1);
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texteUtiliser);
 					objetDetecte = true;
 					objetVise = it;
-						//}
 				}
 			}
 		}
 		
 		if (!objetDetecte)
-			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+			gfx::Gestionnaire2D::obtInstance().retObjet(texteUtiliser);
 		return objetDetecte;
 	}
 
@@ -175,7 +174,7 @@ public:
 
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
 
-		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
+		texteUtiliser = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
 		toucheRelachee = false;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
