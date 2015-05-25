@@ -79,3 +79,5 @@
 21/05/2015 (9h00 à 12h10) : J'ai fait un peu de ménage dans les succès pour plus de clarté, puis j'ai fait le menu des succès avec Sam (tout les changements sont dans les commits de Sam pour ça). J'ai aussi commencé à dessiner sur GIMP une grille pour afficher les achievements.
 
 22/05/2015 (12h00 à 2h00) : J'ai réussi à faire fonctionner les achievements dans le menu, mais ça a créé un bug d'affichage dans le jeu dont je n'ai pas encore trouvé la source. Je ne commit pas mes changements pour ne pas déranger les autres.
+
+25/05/2015 (8h30 à 10h30) : J'ai commit les changements mentionnés précédemment, ils ne comportent aucun bug dont je suis au courant. J'ai ensuite ajouté quelques succès dans le code et mis à jour l'analyse. J'ai ensuite modelisé brièvement.
