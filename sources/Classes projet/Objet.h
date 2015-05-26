@@ -4,17 +4,23 @@
 
 class Objet {
 protected:
+
 	unsigned int ID;
 	gfx::Modele3D* modele;
 	char* materiaux;
 	double masse;
 	Vecteur3d vitesse;
 	bool collisionInterne;
+	bool stable;
 	Vecteur3d position;
 	Vecteur3d vitesseAngulaire;
+
 public:
+
 	Objet(){}
+
 	Objet(gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, Vecteur3d vitesse, Vecteur3d position, Vecteur3d vitesseAngulaire, bool collisionInterne){
+		stable = false;
 		this->modele = modele;
 		this->ID = ID;
 		this->materiaux = materiaux;
@@ -105,5 +111,9 @@ public:
 		return vitesseAngulaire;
 	}
 
+	bool estStable() { return stable; }
 
+	void defStable(bool stable) {
+		this->stable = stable;
+	}
 };

@@ -580,3 +580,7 @@ Voici des petites photos de mon cheminement mathématique:
 ![](http://i.imgur.com/qoh3d8b.jpg)
 
 Je crois que ces calculs devront s'additionner à ce que j'ai déjà, ça devrait régler le problème où un objet qui était en contact constant avec le sol gagnait son moment de force très lentement.
+
+**0h30**: En gossant un peu dans le jeu, j'ai remarqué que lorsque j'entrait dans un menu, et que je le quittait, le bouton par lequel j'était entré était toujours allumé (vice-versa si tu quitte et revient, le bouton back est allumé). Alors j'ai réglé le problème.
+
+**2h00**: Cette semain j'avais remarqué que le changement de résolution ne se faisait pas du tout bien, alors j'ai travaillé dessus et je suis arrivé à le faire fonctionner, il manquait plusieurs modifications à faire du genre la modification de la position selon l'échelle ou le ratio de la nouvelle résolution par rapport à celle de défaut, le changement du glViewPort() et quelques autres choses.
