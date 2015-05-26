@@ -148,3 +148,9 @@ de 15h à 16h(1h)
 
 21 mai de 10h10 à 12h10(2h)
 -Aujourd'hui j'ai fais du Blender, j'ai modélisé une Pinte de Lait, ce qui a été une bonne révision de blend puisque j'en avais pas fait depuis longtemps
+
+23 mai de 13h à 14h(1h)
+-J'ai commencé la "base" du modèle de pot de pillule mais puisque je ne me souvenais plus comment lié 2 faces je n'ai pas commit
+
+26 mai de 13h à 15h30 (2h30)
+-J'ai fais le modèle d'une bouteille de vin qui est assez bien réussis ! 
