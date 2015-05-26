@@ -6,7 +6,7 @@ before_install:
   - echo $LC_ALL
 install:
     #GCC
-    - sudo apt-get install gcc-4.8
+    - sudo apt-get install gcc-4.7
     # SDL2
     - curl -O http://www.libsdl.org/release/SDL2-2.0.0.zip
     - unzip SDL2-2.0.0.zip
