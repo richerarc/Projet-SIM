@@ -6,9 +6,7 @@ before_install:
   - echo $LC_ALL
 install:
     #GCC
-    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-    - sudo apt-get update
-    - sudo apt-get install gcc-4.9
+    - sudo apt-get install gcc-4.7
     # SDL2
     - curl -O http://www.libsdl.org/release/SDL2-2.0.0.zip
     - unzip SDL2-2.0.0.zip
