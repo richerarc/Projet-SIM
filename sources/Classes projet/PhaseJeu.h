@@ -348,6 +348,8 @@ public:
 						GestionnaireSucces::obtInstance().obtSucces(24);
 					if (nom == "Thai")
 						GestionnaireSucces::obtInstance().obtSucces(21);
+					if (nom == "Chicken")
+						GestionnaireSucces::obtInstance().obtSucces(25);
 					objetVise = nullptr;
 				}
 				else if (dynamic_cast<Commutateur*>(objetVise)){
