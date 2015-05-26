@@ -315,8 +315,6 @@ public:
 		if (detectionObjet()){
 			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
 				if (objetVise->obtSiPorte()){
-					//Ce if me semble inutile...
-					//if (objetVise->obtSiPorte()){
 						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
 							if (objetVise->obtID()){
 								Commutateur* com = nullptr;
@@ -339,7 +337,6 @@ public:
 								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni,0));
 							}
 						}
-					//}
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
