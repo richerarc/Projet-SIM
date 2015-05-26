@@ -1040,6 +1040,7 @@ public:
 		com.type = COMMUTATEUR;
 		
 		salleTeleporteur.Objet.push_back(com);
+		int IDsalle, IDporte;
 		
 		InfoObjet obj;
 		obj.largeur = 0;
