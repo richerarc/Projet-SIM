@@ -62,7 +62,7 @@ private:
 		}
 		short santeMentalePrecedente = joueur->obtSanteMentale();
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
-		if (joueur->obtSanteMentale() != santeMentalePrecedente)
+		if (((santeMentalePrecedente - joueur->obtSanteMentale()) / santeMentalePrecedente) > 0.02)
 			GestionnaireSucces::obtInstance().obtSucces(0);
 		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();

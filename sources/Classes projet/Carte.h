@@ -1041,7 +1041,24 @@ public:
 		
 		salleTeleporteur.Objet.push_back(com);
 		
-		ajouterLien(Entree(salleTeleporteur.ID, 0, false), Sortie(rand() % nombreDeSalle ,0));
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &it : infosSalles){
+			if (it.nbrPorte < 3){
+				IDsalle = it.ID;
+				IDporte = obj.ID = it.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				mod->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
+				it.nbrPorte++;
+				positionnerPorte(*mod, it, obj);
+				it.Objet.push_back(obj);
+				break;
+			}
+		}
+		
+		ajouterLien(Entree(IDsalle, IDporte, false), Sortie(salleTeleporteur.ID, 0));
 		
 		infosSalles.push_back(salleTeleporteur);
 	}
