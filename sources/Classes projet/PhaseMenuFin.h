@@ -4,7 +4,7 @@
 class PhaseMenuFin : public Phase {
 private:
 	MenuFin* menuFin;
-
+	bool perdu;
 public:
 	PhaseMenuFin(void) : Phase() {
 		menuFin = new MenuFin();
@@ -33,6 +33,11 @@ public:
 
 	void actualiserEchelle(Vecteur2f vecteurEchelle) {
 		menuFin->actualiserEchelle(vecteurEchelle);
+	}
+
+	void defPerdu(bool perdu) {
+		this->perdu = perdu;
+		menuFin->defPerdu(perdu);
 	}
 
 };

@@ -1195,4 +1195,21 @@ public:
 		}
 		return false;
 	}
+
+	void recommencer() {
+		delete modeleMur;
+		delete modelePorte;
+		modeleMur = nullptr;
+		modelePorte = nullptr;
+		carte = graphe::Graphe();
+		delete salleActive;
+		salleActive = nullptr;
+		infosSalles.clear();
+		liens.clear();
+		chargement = 0;
+
+	}
+	void defNbrSalle(unsigned int nbrSalles) {
+		nombreDeSalle = nbrSalles;
+	}
 };

@@ -9,6 +9,7 @@
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
 #include "UsineItem.h"
+#include "PhaseMenuFin"
 enum niveauDifficulte{ FACILE = 15, NORMAL = 20, HARDCORE = 32 };
 class PhaseJeu : public Phase{
 
@@ -308,13 +309,29 @@ public:
 			if (Carte::obtInstance().salleActive->obtID() != difficulte){
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				mettreAJourtexteChrono();
+				if (tempsRestant <= 0) {
+					gfx::Gestionnaire2D::obtInstance().vider();
+					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
+					if (tmp != nullptr)
+						tmp->defPerdu(true);
+
+					GestionnairePhases::obtInstance().retirerPhase();
+					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
+					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+					GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+					curseur->remplir();
+					gfx::Gestionnaire3D::obtInstance().vider();
+					return;
+
+				}
 			}
 			tempsJeu.repartir();
 		}
-
-		if (detectionObjet()){
-			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
-				if (objetVise->obtSiPorte()){
+		if (tempsRestant > 0) {
+			if (detectionObjet()){
+				if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
+					if (objetVise->obtSiPorte()){
 						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
 							if (objetVise->obtID()){
 								Commutateur* com = nullptr;
@@ -334,50 +351,51 @@ public:
 								short diz, uni;
 								diz = strtoull(dizaine, NULL, 2);
 								uni = strtoull(unite, NULL, 2);
-								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni,0));
+								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni, 0));
 							}
 						}
-					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
-					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
-						for (int i = 0; i < cheminRecursif.size(); ++i)
-							cheminRecursif.pop();
+						Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
+						if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
+							for (int i = 0; i < cheminRecursif.size(); ++i)
+								cheminRecursif.pop();
+						}
+						cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
+						cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
+						santeMentale();
+						finTransitionSalle = false;
 					}
-					cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
-					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
-					santeMentale(); 
-					finTransitionSalle = false;
+					else if (dynamic_cast<Item*>(objetVise)){
+						joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
+						GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() + 1);
+						char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
+						GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
+						GestionnaireSucces::obtInstance().obtSucces(1);
+						if (nom == "Water")
+							GestionnaireSucces::obtInstance().obtSucces(18);
+						if (nom == "Holy Rod")
+							GestionnaireSucces::obtInstance().obtSucces(17);
+						if (nom == "Luger P08" || "Thompson M1")
+							GestionnaireSucces::obtInstance().obtSucces(8);
+						if (nom == "Grenade")
+							GestionnaireSucces::obtInstance().obtSucces(9);
+						if (nom == "Note")
+							GestionnaireSucces::obtInstance().obtSucces(13);
+						if (nom == "Corrections")
+							GestionnaireSucces::obtInstance().obtSucces(24);
+						if (nom == "Thai")
+							GestionnaireSucces::obtInstance().obtSucces(21);
+						if (nom == "Chicken")
+							GestionnaireSucces::obtInstance().obtSucces(25);
+						objetVise = nullptr;
+					}
+					else if (dynamic_cast<Commutateur*>(objetVise)){
+						dynamic_cast<Commutateur*>(objetVise)->actioner();
+					}
+					toucheRelachee = false;
 				}
-				else if (dynamic_cast<Item*>(objetVise)){
-					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
-					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() + 1);
-					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
-					GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
-					GestionnaireSucces::obtInstance().obtSucces(1);
-					if (nom == "Water")
-						GestionnaireSucces::obtInstance().obtSucces(18);
-					if (nom == "Holy Rod")
-						GestionnaireSucces::obtInstance().obtSucces(17);
-					if (nom == "Luger P08" || "Thompson M1")
-						GestionnaireSucces::obtInstance().obtSucces(8);
-					if (nom == "Grenade")
-						GestionnaireSucces::obtInstance().obtSucces(9);
-					if (nom == "Note")
-						GestionnaireSucces::obtInstance().obtSucces(13);
-					if (nom == "Corrections")
-						GestionnaireSucces::obtInstance().obtSucces(24);
-					if (nom == "Thai")
-						GestionnaireSucces::obtInstance().obtSucces(21);
-					if (nom == "Chicken")
-						GestionnaireSucces::obtInstance().obtSucces(25);
-					objetVise = nullptr;
-				}
-				else if (dynamic_cast<Commutateur*>(objetVise)){
-					dynamic_cast<Commutateur*>(objetVise)->actioner();
-				}
-				toucheRelachee = false;
+				if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
+					toucheRelachee = true;
 			}
-			if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
-				toucheRelachee = true;
 		}
 		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 120000)){
 			GestionnaireSucces::obtInstance().obtSucces(3);
@@ -442,5 +460,10 @@ public:
 	float obtTemps() {
 		return tempsJeu.obtTempsEcoule().enSecondes();
 	}
+
+	double obtTempsRestant(void) {
+		return tempsRestant;
+	}
+
 };
 
