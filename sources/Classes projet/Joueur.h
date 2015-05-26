@@ -384,6 +384,7 @@ public:
 	short obtEtat(){ return etatDynamique; }
 
 	Vecteur3d obtDevant() { return camera->obtDevant(); }
-
+	Vecteur3d obtHaut() { return camera->obtHaut(); }
+	Vecteur3d obtCote() { return camera->obtCote(); }
 	Inventaire* obtInventaire(){ return this->inventaire; }
 };
