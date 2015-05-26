@@ -43,3 +43,6 @@ Ressources/Son/coupLuger.ogg
 Ressources/Son/coupThompson.ogg
 Ressources/Son/equiperFusil.ogg
 Ressources/Son/mire.ogg
+Ressources/Son/equiperCouteau.ogg
+Ressources/Son/coupCouteau.ogg
+Ressources/Son/coupCouteauVide.ogg
