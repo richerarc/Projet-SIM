@@ -79,3 +79,5 @@
 `Mar. 19 mai` J'ai continué la salle téléporteur, mais j'ai des problème avec les objet. `4h00`
 
 `Mer. 20 mai` J'ai enfin terminer la salle du teleporteur, il ne reste qu'a teleporter. J'ai donc fait une classe commutateur, et j'ai positionné tout les objet nécéssaire. Aussi le son était tout peté... j'ai passer un bon 2h dessus avec de me rendre compte que ce qui petait tout, c'était une ligne vide à la fin d'un fichier texte... `3h30`
+
+`Lun. 25 mai` Dernière semaine de Prog! J'ai terminé le puzzle du téléporteur de façons optimale, et le liens existe dans la map, il fait donc partie intégrante du jeux. j'ai passe un bon deux heure à aider un peu tout le monde. Moi et Kevin avons ajouté le timer de partie (1h de jeu en facile, 30 min pour normale et difficile). J'ai commencé à faire un peu de profiling pour éliminer le plus d'exception possible. Sinon je suis en discution avec Julien (je compte complèter les puzzles/objets seul et le laisser se reposer). `7h00`
