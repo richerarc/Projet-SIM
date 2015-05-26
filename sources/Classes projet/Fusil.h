@@ -96,7 +96,9 @@ public:
 					salleActive->ajoutObjet(trou);
 					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
 					if (dynamic_cast<Item*>(it)){
-						it->defVitesse(nouveauRayon * (1 / (2 * it->obtMasse())));
+						Vecteur3d poussee = nouveauRayon * (1 / (degat * it->obtMasse()));
+						poussee.y = 0;
+						it->defVitesse(poussee);
 					}
 				}
 			}
