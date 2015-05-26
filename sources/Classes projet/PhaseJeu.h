@@ -27,6 +27,9 @@ private:
 	Chrono tempsJeu, tempsAffichageID;
 	gfx::Texte2D* texteChrono;
 	gfx::Texte2D* texte_ID_Salle;
+	gfx::Texte2D* vie;
+	gfx::Texte2D* vieMentale;
+	bool statsAffiches;
 	double tempsRestant;
 	Item *itemEquipe;
 	Item *test;
@@ -78,6 +81,9 @@ private:
 		minutes = (int)(tempsRestant / 60) % 60;
 		secondes = (int)tempsRestant % 60;
 
+		if (secondes < 0)
+			secondes = 0;
+
 		if (heures >= 10){
 			stringTexteChrono.append(SDL_itoa(heures, chritoa, 10));
 		}
@@ -117,7 +123,7 @@ private:
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
 			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
-			//Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
+			Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
@@ -169,6 +175,10 @@ public:
 
 	PhaseJeu(Vecteur3d positionJoueur, double hAngle, double vAngle) : Phase(){
 
+		vie = new gfx::Texte2D(new std::string("Health : "), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 650));
+		vieMentale = new gfx::Texte2D(new std::string("Sanity : "), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 600));
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
 		difficulte = Carte::obtInstance().nombreDeSalle;
 
 		joueur = new Joueur(positionJoueur, hAngle, vAngle);
@@ -231,6 +241,18 @@ public:
 
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
+		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
+			std::stringstream nouvVie;
+			std::stringstream nouvVieMentale;
+			nouvVie << "Health : " << joueur->obtSantePhysique();
+			vie->defTexte(new std::string(nouvVie.str()));
+			nouvVieMentale << "Sanity : " << joueur->obtSanteMentale();
+			vieMentale->defTexte(new std::string(nouvVieMentale.str()));
+		}
+		else{
+			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
+			gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
+		}
 		if (pause)
 			return;
 		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
@@ -293,8 +315,6 @@ public:
 		if (detectionObjet()){
 			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
 				if (objetVise->obtSiPorte()){
-					//Ce if me semble inutile...
-					//if (objetVise->obtSiPorte()){
 						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
 							if (objetVise->obtID()){
 								Commutateur* com = nullptr;
@@ -317,7 +337,6 @@ public:
 								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni,0));
 							}
 						}
-					//}
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
@@ -411,6 +430,8 @@ public:
 			retour = true;
 			gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
 			gfx::Gestionnaire2D().obtInstance().ajouterObjet(point);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
 		}
 		this->pause = pause;
 	}
