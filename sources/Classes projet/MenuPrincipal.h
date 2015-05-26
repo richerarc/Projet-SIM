@@ -100,7 +100,7 @@ public:
 				x = x + 400;
 			}
 			it->obtDescription()->defPosition(Vecteur2f(900, 35));
-			it->obtDescription()->defCouleur({ 255, 255, 255, 255 });
+			//it->obtDescription()->defCouleur({ 0, 0, 0, 255 });
 		}
 		clic(MENUSUCCES);
 	}

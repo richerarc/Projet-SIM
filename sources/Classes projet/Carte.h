@@ -829,17 +829,31 @@ public:
 		salleDebut.Objet.push_back(tabledechevet);
 
 		// Ajout du lien de sortie de la salle de début
-
-		unsigned int IDSalleConnectee = rand() % (nombreDeSalle - 1);
-
-		/*InfoSalle salleConnectee = (*infosSalles.begin()); // Erreur louche
-		std::advance(IDSalleConnectee, salleConnectee);
-
-		unsigned int IDPorteSalleConnectee = rand() % salleConnectee.nbrPorte;*/
-
-		unsigned int IDPorteSalleConnectee = 0;
-
-		ajouterLien(Entree(20, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+		
+		int IDporte;
+		
+		auto it = infosSalles.begin();
+		
+		std::advance(it, rand() % nombreDeSalle);
+		
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				itt.Objet.push_back(obj);
+				break;
+			}
+		}
+		
+		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
