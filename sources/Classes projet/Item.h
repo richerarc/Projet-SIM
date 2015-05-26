@@ -89,6 +89,7 @@ public:
 			modele->defOrientation(0, 0, 0);
 			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut(), angleHorizontal + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle());
 			animer(joueur);
+			if (etat == EtatItem::EQUIPE)
 			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
 		}
 	}

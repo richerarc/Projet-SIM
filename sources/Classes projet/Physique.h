@@ -618,7 +618,7 @@ public:
 				}
 			}
 			if (it->obtCollisionInterne() || dynamic_cast<Remplisseur*>(it)) {
-				collisionJoueurSalle(it->obtModele3D(), joueur);
+				/*collisionJoueurSalle(it->obtModele3D(), joueur);*/
 				return true;
 			}
 		}

@@ -829,17 +829,31 @@ public:
 		salleDebut.Objet.push_back(tabledechevet);
 
 		// Ajout du lien de sortie de la salle de début
-
-		unsigned int IDSalleConnectee = rand() % (nombreDeSalle - 1);
-
-		/*InfoSalle salleConnectee = (*infosSalles.begin()); // Erreur louche
-		std::advance(IDSalleConnectee, salleConnectee);
-
-		unsigned int IDPorteSalleConnectee = rand() % salleConnectee.nbrPorte;*/
-
-		unsigned int IDPorteSalleConnectee = 0;
-
-		ajouterLien(Entree(20, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+		
+		int IDporte;
+		
+		auto it = infosSalles.begin();
+		
+		std::advance(it, rand() % nombreDeSalle);
+		
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				itt.Objet.push_back(obj);
+				break;
+			}
+		}
+		
+		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
@@ -1068,7 +1082,7 @@ public:
 		// Salle de fin
 
 		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/salleFinStuff.obj";
+		salleFin.cheminModele = "Ressources/Modele/SalleFinObjet.obj";
 		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
 		salleFin.echelle = { 1.0, 1.0, 1.0 };
 		salleFin.ID = infosSalles.size();
@@ -1083,7 +1097,7 @@ public:
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { 147.07, -19.2, -597.71 };
+		demiSphere.position = { 66.1796, -10.9267, -287.6508 };
 		demiSphere.rotation = 0;
 		demiSphere.type = FIXE;
 
@@ -1096,8 +1110,8 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 0;
 		porteFin.largeur = 0;
-		porteFin.position = { 147.07, -19.2, -597.71 }; //Fix this
-		porteFin.rotation = -90; //Fix that
+		porteFin.position = { 66.1796, -10.9267, -287.6508 };
+		porteFin.rotation = -90;
 
 		salleFin.Objet.push_back(porteFin);
 
@@ -1109,8 +1123,8 @@ public:
 		avion.direction = { 0, 0, 0 };
 		avion.ID = 1;
 		avion.largeur = 0;
-		avion.position = {};
-		avion.rotation = 0;
+		avion.position = { -89.8287, -10.7889, 80.2138 };
+		avion.rotation = 90;
 		avion.type = FIXE;
 
 		salleFin.Objet.push_back(avion);
