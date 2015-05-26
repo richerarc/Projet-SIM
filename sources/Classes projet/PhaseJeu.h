@@ -81,6 +81,9 @@ private:
 		minutes = (int)(tempsRestant / 60) % 60;
 		secondes = (int)tempsRestant % 60;
 
+		if (secondes < 0)
+			secondes = 0;
+
 		if (heures >= 10){
 			stringTexteChrono.append(SDL_itoa(heures, chritoa, 10));
 		}
@@ -120,7 +123,7 @@ private:
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
 			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
-			//Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
+			Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
