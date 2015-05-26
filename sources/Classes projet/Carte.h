@@ -65,10 +65,6 @@ private:
 		return *it;
 	}
 
-	void ajouterLien(Entree entree, Sortie sortie){
-		liens[entree] = sortie;
-	}
-
 	bool positionnerPuzzle(InfoSalle& salle, InfoPuzzle& puzzle) {
 
 		bool puzzlePlace = false;
@@ -421,6 +417,10 @@ public:
 	bool finChargement;
 	int salle;
 
+	void ajouterLien(Entree entree, Sortie sortie){
+		liens[entree] = sortie;
+	}
+	
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
@@ -500,7 +500,7 @@ public:
 		return std::get<1>(salleSuivante);
 	}
 
-	void animationTransitionSalle(Joueur* joueur, float frametime) {
+	bool animationTransitionSalle(Joueur* joueur, float frametime) {
 
 		if (enChangementDeSalle) {
 
@@ -582,7 +582,9 @@ public:
 			}
 			else
 				premiereFois = false;
+			return true;
 		}
+		return false;
 	}
 
 	void ajouterMur(){
@@ -827,17 +829,31 @@ public:
 		salleDebut.Objet.push_back(tabledechevet);
 
 		// Ajout du lien de sortie de la salle de début
-
-		unsigned int IDSalleConnectee = rand() % (nombreDeSalle - 1);
-
-		/*InfoSalle salleConnectee = (*infosSalles.begin()); // Erreur louche
-		std::advance(IDSalleConnectee, salleConnectee);
-
-		unsigned int IDPorteSalleConnectee = rand() % salleConnectee.nbrPorte;*/
-
-		unsigned int IDPorteSalleConnectee = 0;
-
-		ajouterLien(Entree(20, 0, false), Sortie(IDSalleConnectee, IDPorteSalleConnectee));
+		
+		int IDporte;
+		
+		auto it = infosSalles.begin();
+		
+		std::advance(it, rand() % nombreDeSalle);
+		
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				itt.Objet.push_back(obj);
+				break;
+			}
+		}
+		
+		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
@@ -871,45 +887,47 @@ public:
 
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ noirHautBas[0], noirHautBas[1] });
 
+		teleporteur();
+		fin();
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 
 	void teleporteur(){
-
+		
 		InfoSalle salleTeleporteur;
 		salleTeleporteur.cheminModele = "Ressources/Modele/teleporteur.obj";
 		salleTeleporteur.cheminTexture = "Ressources/Texture/teleporteur.png";
 		salleTeleporteur.echelle = { 1.0, 1.0, 1.0 };
 		salleTeleporteur.ID = infosSalles.size();
 		salleTeleporteur.nbrPorte = 1;
-
-		// Création des objets de la salle
-
-		// Porte (EntrŽe)
-
+		
+			// Création des objets de la salle
+		
+			// Porte (EntrŽe)
+		
 		InfoObjet porte;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
-		porte.direction = { 1, 0, 0 };
+		porte.direction = { 1, 0, 0};
 		porte.ID = 0;
 		porte.largeur = 0;
-		porte.position = { 21.1, 0, -1.470588235 / 2 };
+		porte.position = { 21.1, 0, -1.470588235/2 };
 		porte.rotation = 180;
-
+		
 		salleTeleporteur.Objet.push_back(porte);
-
-
-		// Porte (Sortie)
+		
+		
+			// Porte (Sortie)
 		InfoObjet porte2;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
 		porte2.direction = { -1, 0, 0 };
 		porte2.ID = 1;
 		porte2.largeur = 0;
-		porte2.position = { -21.1, 0, 1.470588235 / 2 };
+		porte2.position = { -21.1, 0, 1.470588235/2 };
 		porte2.rotation = 0;
-
+		
 		salleTeleporteur.Objet.push_back(porte2);
-
-		// Poste
+		
+			// Poste
 		InfoObjet poste;
 		poste.cheminModele = "Ressources/Modele/poste.obj";
 		poste.cheminTexture = "Ressources/Texture/poste.png";
@@ -919,10 +937,10 @@ public:
 		poste.position = { 0, 0, 5 };
 		poste.rotation = 90;
 		poste.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(poste);
-
-		// Plate
+		
+			// Plate
 		InfoObjet plate;
 		plate.cheminModele = "Ressources/Modele/plate.obj";
 		plate.cheminTexture = "Ressources/Texture/plate.png";
@@ -932,128 +950,158 @@ public:
 		plate.position = { 0.93, 0.96, 4.7 };
 		plate.rotation = 90;
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
+		
 		plate.ID = 4;
 		plate.position = { 0.73, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
+		
 		plate.ID = 5;
 		plate.position = { 0.53, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
+		
 		plate.ID = 6;
 		plate.position = { 0.33, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
-
-
+		
+		
+		
 		plate.ID = 7;
 		plate.position = { -0.13, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
+		
 		plate.ID = 10;
 		plate.position = { -0.73, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
+		
 		plate.ID = 9;
 		plate.position = { -0.53, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
+		
 		plate.ID = 8;
 		plate.position = { -0.33, 0.96, 4.7 };
 		plate.type = FIXE;
-
+		
 		salleTeleporteur.Objet.push_back(plate);
-
-		//Switch
-
+		
+			//Switch
+		
 		InfoObjet com;
 		com.cheminModele = "Ressources/Modele/switch.obj";
 		com.cheminTexture = "Ressources/Texture/switch.png";
 		com.direction = { 0, 0, 0 };
 		com.ID = 11;
 		com.largeur = 0;
-		com.position = { 0.93, 0.99, 4.72 };
+		com.position = { 0.93, 0.98, 4.72 };
 		com.rotation = 90;
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
+		
 		com.ID = 12;
-		com.position = { 0.73, 0.99, 4.72 };
+		com.position = { 0.73, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
+		
 		com.ID = 13;
-		com.position = { 0.53, 0.99, 4.72 };
+		com.position = { 0.53, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
+		
 		com.ID = 14;
-		com.position = { 0.33, 0.99, 4.72 };
+		com.position = { 0.33, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
-
-
+		
+		
+		
 		com.ID = 15;
-		com.position = { -0.13, 0.99, 4.72 };
+		com.position = { -0.13, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
+		
 		com.ID = 18;
-		com.position = { -0.73, 0.99, 4.72 };
+		com.position = { -0.73, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
+		
 		com.ID = 17;
-		com.position = { -0.53, 0.99, 4.72 };
+		com.position = { -0.53, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
+		
 		com.ID = 16;
-		com.position = { -0.33, 0.99, 4.72 };
+		com.position = { -0.33, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-
+		
 		salleTeleporteur.Objet.push_back(com);
-
-
+		int IDsalle, IDporte;
+		
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &it : infosSalles){
+			if (it.nbrPorte < 3){
+				IDsalle = it.ID;
+				IDporte = obj.ID = it.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				mod->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
+				it.nbrPorte++;
+				positionnerPorte(*mod, it, obj);
+				it.Objet.push_back(obj);
+				break;
+			}
+		}
+		
+		ajouterLien(Entree(IDsalle, IDporte, false), Sortie(salleTeleporteur.ID, 0));
+		
 		infosSalles.push_back(salleTeleporteur);
-
-		fin();
 	}
 
 	void fin(){
 		// Salle de fin
 
 		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/salleFinStuff.obj";
+		salleFin.cheminModele = "Ressources/Modele/SalleFinObjet.obj";
 		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
 		salleFin.echelle = { 1.0, 1.0, 1.0 };
 		salleFin.ID = infosSalles.size();
 		salleFin.nbrPorte = 1;
 
 		// Création objets salle finale
+
+		//Demi sphère
+
+		InfoObjet demiSphere;
+		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
+		demiSphere.direction = { 0, 0, 0 };
+		demiSphere.ID = 0;
+		demiSphere.largeur = 0;
+		demiSphere.position = { 66.1796, -10.9267, -287.6508 };
+		demiSphere.rotation = 0;
+		demiSphere.type = FIXE;
+
+		salleFin.Objet.push_back(demiSphere);
 
 		// Porte
 
@@ -1062,8 +1110,8 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 0;
 		porteFin.largeur = 0;
-		porteFin.position = { 147.07, -19.2, -597.71 }; //Fix this
-		porteFin.rotation = -90; //Fix that
+		porteFin.position = { 66.1796, -10.9267, -287.6508 };
+		porteFin.rotation = -90;
 
 		salleFin.Objet.push_back(porteFin);
 
@@ -1075,8 +1123,8 @@ public:
 		avion.direction = { 0, 0, 0 };
 		avion.ID = 1;
 		avion.largeur = 0;
-		avion.position = {};
-		avion.rotation = 0;
+		avion.position = { -89.8287, -10.7889, 80.2138 };
+		avion.rotation = 90;
 		avion.type = FIXE;
 
 		salleFin.Objet.push_back(avion);
@@ -1084,7 +1132,7 @@ public:
 		infosSalles.push_back(salleFin);
 	}
 
-	void animationLeverLit(Joueur* joueur, float frameTime) {
+	bool animationLeverLit(Joueur* joueur, float frameTime) {
 		if (enLeverLit) {
 			if (frameTime < 0.5) { // À cause du frametime accumulé
 				temps += frameTime;
@@ -1143,6 +1191,25 @@ public:
 					}
 				}
 			}
+			return true;
 		}
+		return false;
+	}
+
+	void recommencer() {
+		delete modeleMur;
+		delete modelePorte;
+		modeleMur = nullptr;
+		modelePorte = nullptr;
+		carte = graphe::Graphe();
+		delete salleActive;
+		salleActive = nullptr;
+		infosSalles.clear();
+		liens.clear();
+		chargement = 0;
+
+	}
+	void defNbrSalle(unsigned int nbrSalles) {
+		nombreDeSalle = nbrSalles;
 	}
 };

@@ -79,3 +79,9 @@
 21/05/2015 (9h00 à 12h10) : J'ai fait un peu de ménage dans les succès pour plus de clarté, puis j'ai fait le menu des succès avec Sam (tout les changements sont dans les commits de Sam pour ça). J'ai aussi commencé à dessiner sur GIMP une grille pour afficher les achievements.
 
 22/05/2015 (12h00 à 2h00) : J'ai réussi à faire fonctionner les achievements dans le menu, mais ça a créé un bug d'affichage dans le jeu dont je n'ai pas encore trouvé la source. Je ne commit pas mes changements pour ne pas déranger les autres.
+
+25/05/2015 (8h30 à 10h30) : J'ai commit les changements mentionnés précédemment, ils ne comportent aucun bug dont je suis au courant. J'ai ensuite ajouté quelques succès dans le code et mis à jour l'analyse. J'ai ensuite modelisé brièvement.
+
+(12h00 à 2h00) : J'ai (pour le plus grand bonheur de tous) mis à disposition du projet mon Batman, dont j'ai ajusté la taille. J'ai aussi ajouté une fonctionnalité qui affiche la description des succès lorsqu'ils sont survolés dans le menu. 
+
+26/05/2015 (4-5 heures au cours de la journée) : J'ai ajouté quelques succès, plusieurs modèles et j'ai codé l'affichage des valeurs de santé physique et de santé mentale  dans le jeu. J'ai aussi aidé Kevin dans le début de son modèle de masque à gaz.

@@ -9,27 +9,35 @@
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
 #include "UsineItem.h"
-
+#include "PhaseMenuFin"
+enum niveauDifficulte{ FACILE = 15, NORMAL = 20, HARDCORE = 32 };
 class PhaseJeu : public Phase{
 
 private:
 
 	Joueur* joueur;
-	gfx::Texte2D* texte;
+	gfx::Texte2D* texteUtiliser;
 	Objet* objetVise;
 	bool toucheRelachee;
+	bool retour;
+	bool finAnimationDebut, finTransitionSalle;
+	unsigned int difficulte;
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
-	int sensPrecedent, sensActuel;
-	Chrono tempsJeu;
+	Chrono tempsJeu, tempsAffichageID;
+	gfx::Texte2D* texteChrono;
+	gfx::Texte2D* texte_ID_Salle;
+	gfx::Texte2D* vie;
+	gfx::Texte2D* vieMentale;
+	bool statsAffiches;
+	double tempsRestant;
 	Item *itemEquipe;
 	Item *test;
-
-	bool retour;
-
+	char dizaine[5];
+	char unite[5];
+	char chritoa[255];
 	MenuAccesRapide* accesRapide;
-
 	gfx::Sprite2D* point;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
@@ -58,12 +66,49 @@ private:
 		}
 		short santeMentalePrecedente = joueur->obtSanteMentale();
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
-		if (joueur->obtSanteMentale() != santeMentalePrecedente)
+		if (((santeMentalePrecedente - joueur->obtSanteMentale()) / santeMentalePrecedente) > 0.02)
 			GestionnaireSucces::obtInstance().obtSucces(0);
 		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
 		}
+	}
+
+	void mettreAJourtexteChrono(){
+		std::string stringTexteChrono;
+		stringTexteChrono = "";
+		int heures, minutes, secondes;
+		heures = (int)(tempsRestant / 3600);
+		minutes = (int)(tempsRestant / 60) % 60;
+		secondes = (int)tempsRestant % 60;
+
+		if (secondes < 0)
+			secondes = 0;
+
+		if (heures >= 10){
+			stringTexteChrono.append(SDL_itoa(heures, chritoa, 10));
+		}
+		else{
+			stringTexteChrono.append("0");
+			stringTexteChrono.append(SDL_itoa(heures, chritoa, 10));
+		}
+		stringTexteChrono.append(":");
+		if (minutes >= 10){
+			stringTexteChrono.append(SDL_itoa(minutes, chritoa, 10));
+		}
+		else{
+			stringTexteChrono.append("0");
+			stringTexteChrono.append(SDL_itoa(minutes, chritoa, 10));
+		}
+		stringTexteChrono.append(":");
+		if (secondes >= 10){
+			stringTexteChrono.append(SDL_itoa(secondes, chritoa, 10));
+		}
+		else{
+			stringTexteChrono.append("0");
+			stringTexteChrono.append(SDL_itoa(secondes, chritoa, 10));
+		}
+		texteChrono->defTexte(&stringTexteChrono);
 	}
 
 
@@ -79,16 +124,16 @@ private:
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
 			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
-			//Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
+			Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
 		}
 		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
 	}
 
 	bool detectionObjet() {
-		
+
 		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
 		bool objetDetecte = false;
-		
+
 		for (auto it : liste) {
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
 			Item* it_Item = dynamic_cast<Item*>(it);
@@ -98,7 +143,7 @@ private:
 				Vecteur3d pointCollision, normale;
 				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtDevant());
 				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, nullptr, false)) {
-					
+
 					std::string str1 = "Press ";
 					str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
 					
@@ -115,61 +160,103 @@ private:
 						else
 							str1.append(" to turn on");
 					}
-						//	const char* chr1 = str1.c_str();
-					texte->defTexte(&str1);
-					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte);
+					texteUtiliser->defTexte(&str1);
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texteUtiliser);
 					objetDetecte = true;
 					objetVise = it;
-						//}
 				}
 			}
 		}
-		
 		if (!objetDetecte)
-			gfx::Gestionnaire2D::obtInstance().retObjet(texte);
+			gfx::Gestionnaire2D::obtInstance().retObjet(texteUtiliser);
 		return objetDetecte;
 	}
 
 public:
 
 	PhaseJeu(Vecteur3d positionJoueur, double hAngle, double vAngle) : Phase(){
+
+		vie = new gfx::Texte2D(new std::string("Health : "), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 650));
+		vieMentale = new gfx::Texte2D(new std::string("Sanity : "), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 600));
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
+		difficulte = Carte::obtInstance().nombreDeSalle;
+
 		joueur = new Joueur(positionJoueur, hAngle, vAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
+		test = UsineItem::obtInstance().obtItemParType(11, 0);
+		joueur->obtInventaire()->ajouterObjet(test);
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
+		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
+		accesRapide->remplir();
 
-		texte = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+
+		texteUtiliser = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
+		texte_ID_Salle = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 150 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 100), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 100, 300));
+		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
+		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
+		std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
+		texte_ID_Salle->defTexte(&str);
+
 		toucheRelachee = false;
+		retour = false;
+		pause = false;
+		finAnimationDebut = false;
+		finTransitionSalle = true;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
 		iterateur_x = 0;
 		iterateur_z = 0;
-		tempsJeu = Chrono();
-
 		itemEquipe = nullptr;
 
-		test = UsineItem::obtInstance().obtItemParType(11, 0);
+		for (int i = 0; i < 4; ++i){
+			unite[i] = '\0';
+			dizaine[i] = '\0';
+		}
 
-		joueur->obtInventaire()->ajouterObjet(test);
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
-		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
-		accesRapide->remplir();
-		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
-		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+		if (difficulte == FACILE)
+			tempsRestant = 3600;
+		else
+			tempsRestant = 1800;
+		mettreAJourtexteChrono();
+		tempsJeu = Chrono();
+		tempsAffichageID = Chrono();
+	}
 
-		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
-		retour = false;
-		pause = false;
+	~PhaseJeu(){
+		delete joueur;
+		delete texteUtiliser;
+		delete point;
+		delete accesRapide;
+		delete texteChrono;
+		delete texte_ID_Salle;
 	}
 
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
+		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
+			std::stringstream nouvVie;
+			std::stringstream nouvVieMentale;
+			nouvVie << "Health : " << joueur->obtSantePhysique();
+			vie->defTexte(new std::string(nouvVie.str()));
+			nouvVieMentale << "Sanity : " << joueur->obtSanteMentale();
+			vieMentale->defTexte(new std::string(nouvVieMentale.str()));
+		}
+		else{
+			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
+			gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
+		}
 		if (pause)
 			return;
-
+		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
 		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
@@ -180,6 +267,11 @@ public:
 			}
 		}
 		if (!this->pause) {
+			if (Carte::obtInstance().salleActive->obtID() == (Carte::obtInstance().nombreDeSalle + 2)){
+				Carte::obtInstance().salleActive->obtObjet(0)->defPosition(joueur->obtPosition());
+				Carte::obtInstance().salleActive->obtObjet(0)->defCollisionInterne(true);
+				GestionnaireSucces::obtInstance().obtSucces(12);
+			}
 			joueur->deplacement();
 			appliquerPhysique(frameTime);
 			joueur->obtInventaire()->actualiser();
@@ -192,50 +284,118 @@ public:
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
-			Carte::obtInstance().animationTransitionSalle(joueur, frameTime);
-			Carte::obtInstance().animationLeverLit(joueur, frameTime);
 
-		}
-
-		if (detectionObjet()){
-			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){// Touche relach�e bient�t...
-				if (objetVise->obtSiPorte()){
-					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
-					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
-						for (int i = 0; i < cheminRecursif.size(); ++i)
-							cheminRecursif.pop();
-					}
-					cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
-					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
-					santeMentale();
-				}
-				else if (dynamic_cast<Item*>(objetVise)){
-					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
-					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() + 1);
-					if (GestionnaireSucces::obtInstance().obtNbrItems() == 3)
-						GestionnaireSucces::obtInstance().obtSucces(10);
-					char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
-					GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
-					GestionnaireSucces::obtInstance().obtSucces(1);
-					if (nom == "Water")
-						GestionnaireSucces::obtInstance().obtSucces(18);
-					if (nom == "Holy Rod")
-						GestionnaireSucces::obtInstance().obtSucces(17);
-				    if (nom == "Luger P08" || "Thompson M1")
-						GestionnaireSucces::obtInstance().obtSucces(8);
-					if (nom == "Grenade")
-						GestionnaireSucces::obtInstance().obtSucces(9);
-					if (nom == "Note")
-						GestionnaireSucces::obtInstance().obtSucces(13);
-					objetVise = nullptr;
-				}
-				else if (dynamic_cast<Commutateur*>(objetVise)){
-					dynamic_cast<Commutateur*>(objetVise)->actioner();
-				}
-				toucheRelachee = false;
+			// On regarde si les animation de début et de transisiton de salle sont fini pour ajouter les textes a afficher.
+			if (!Carte::obtInstance().animationTransitionSalle(joueur, frameTime) && !finTransitionSalle){
+				std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
+				texte_ID_Salle->defTexte(&str);
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
+				tempsAffichageID.repartir();
+				finTransitionSalle = true;
 			}
-			if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
-				toucheRelachee = true;
+
+			if (!Carte::obtInstance().animationLeverLit(joueur, frameTime) && !finAnimationDebut){
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
+				gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
+				tempsAffichageID.repartir();
+				finAnimationDebut = true;
+			}
+
+			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
+				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
+				tempsAffichageID.repartir();
+			}
+
+			if (Carte::obtInstance().salleActive->obtID() != difficulte){
+				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				mettreAJourtexteChrono();
+				if (tempsRestant <= 0) {
+					gfx::Gestionnaire2D::obtInstance().vider();
+					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
+					if (tmp != nullptr)
+						tmp->defPerdu(true);
+
+					GestionnairePhases::obtInstance().retirerPhase();
+					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
+					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
+					GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
+					curseur->remplir();
+					gfx::Gestionnaire3D::obtInstance().vider();
+					return;
+
+				}
+			}
+			tempsJeu.repartir();
+		}
+		if (tempsRestant > 0) {
+			if (detectionObjet()){
+				if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
+					if (objetVise->obtSiPorte()){
+						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
+							if (objetVise->obtID()){
+								Commutateur* com = nullptr;
+								for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
+									com = dynamic_cast<Commutateur*>(it);
+									if (com){
+										if (com->obtID() < 15){
+											dizaine[com->obtID() - 11] = com->obtEtat() + 48;
+										}
+										else{
+											dizaine[4] = '\0';
+											unite[com->obtID() - 15] = com->obtEtat() + 48;
+										}
+									}
+								}
+								unite[4] = '\0';
+								short diz, uni;
+								diz = strtoull(dizaine, NULL, 2);
+								uni = strtoull(unite, NULL, 2);
+								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni, 0));
+							}
+						}
+						Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
+						if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
+							for (int i = 0; i < cheminRecursif.size(); ++i)
+								cheminRecursif.pop();
+						}
+						cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
+						cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
+						santeMentale();
+						finTransitionSalle = false;
+					}
+					else if (dynamic_cast<Item*>(objetVise)){
+						joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
+						GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() + 1);
+						char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
+						GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
+						GestionnaireSucces::obtInstance().obtSucces(1);
+						if (nom == "Water")
+							GestionnaireSucces::obtInstance().obtSucces(18);
+						if (nom == "Holy Rod")
+							GestionnaireSucces::obtInstance().obtSucces(17);
+						if (nom == "Luger P08" || "Thompson M1")
+							GestionnaireSucces::obtInstance().obtSucces(8);
+						if (nom == "Grenade")
+							GestionnaireSucces::obtInstance().obtSucces(9);
+						if (nom == "Note")
+							GestionnaireSucces::obtInstance().obtSucces(13);
+						if (nom == "Corrections")
+							GestionnaireSucces::obtInstance().obtSucces(24);
+						if (nom == "Thai")
+							GestionnaireSucces::obtInstance().obtSucces(21);
+						if (nom == "Chicken")
+							GestionnaireSucces::obtInstance().obtSucces(25);
+						objetVise = nullptr;
+					}
+					else if (dynamic_cast<Commutateur*>(objetVise)){
+						dynamic_cast<Commutateur*>(objetVise)->actioner();
+					}
+					toucheRelachee = false;
+				}
+				if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
+					toucheRelachee = true;
+			}
 		}
 		if ((GestionnaireSucces::obtInstance().obtChronoDeclenche()) && (GestionnaireSucces::obtInstance().obtChronoSanteMentale()->obtTempsEcoule().enMillisecondes() > 120000)){
 			GestionnaireSucces::obtInstance().obtSucces(3);
@@ -284,8 +444,13 @@ public:
 	}
 
 	void defPause(bool pause) {
-		if (!pause)
+		if (!pause){
 			retour = true;
+			gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
+			gfx::Gestionnaire2D().obtInstance().ajouterObjet(point);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
+		}
 		this->pause = pause;
 	}
 
@@ -295,5 +460,10 @@ public:
 	float obtTemps() {
 		return tempsJeu.obtTempsEcoule().enSecondes();
 	}
+
+	double obtTempsRestant(void) {
+		return tempsRestant;
+	}
+
 };
 

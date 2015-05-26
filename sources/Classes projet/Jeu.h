@@ -1,10 +1,12 @@
-enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINTRO, MENUSUCCES, MENUINVENTAIRE, PHASEJEU };
+enum TypeMenu { MENUPRINCIPAL, MENUCONTROL, MENUGRAPHIQUE, MENUNOUVELLEPARTIE, MENUOPTIONS, MENUPAUSE, MENUSON, MENUINTRO, MENUFIN, MENUSUCCES, MENUINVENTAIRE, PHASEJEU };
 
 #pragma once
 #include <sstream>
 #include "Singleton.h"
 #include "Fenetre.h"
 gfx::Fenetre* fenetre;
+bool nouvelle_Partie;
+int nbrSalle;
 #include "GestionnaireRessources.h"
 #include "Gestionnaire3D.h"
 #include "Gestionnaire2D.h"
@@ -36,6 +38,7 @@ Curseur* curseur;
 #include "PhaseMenuNouvellePartie.h"
 #include "PhaseMenuPause.h"
 #include "PhaseMenuIntro.h"
+#include "PhaseMenuFin.h"
 
 class Jeu{
 
@@ -74,7 +77,8 @@ public:
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuPause());			//5
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSon());				//6
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuIntro());			//7
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSucces());			//8
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuFin());			    //8
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuSucces());			//9
 		GestionnairePhases::obtInstance().defPhaseActive(MENUPRINCIPAL);
 		GestionnairePhases::obtInstance().obtPhaseActive()->remplir();
 		GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -84,9 +88,24 @@ public:
 		curseur->remplir();
 		frameTime = chrono.repartir().enSecondes();
 		GestionnaireSucces::obtInstance().initialiser();
-		GestionnaireSucces::obtInstance().reinitialiserListe();
+
 		while (fenetre->estOuverte())
 		{
+			if (nouvelle_Partie) {
+				Carte::obtInstance().recommencer();
+				Carte::obtInstance().defNbrSalle(nbrSalle);
+				Carte::obtInstance().creer();
+
+				double hAngle;
+				double vAngle;
+				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle, vAngle);
+				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle, vAngle));
+
+				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
+				nouvelle_Partie = false;
+			}
+
 			if (actualisationFPS.obtTempsEcoule().enSecondes() > 0.2f){
 				std::stringstream ss;
 				ss << "The Journalist v0.134" << " @ " << 1 / frameTime << " fps";

@@ -323,4 +323,21 @@ Appliquer physique dans pahsejeu.h et collision joueur salle sont maintent plus 
 **Temps 2h**
 
 ##**`22 mai 2015`**
-//À Remplir
+//Rien a dire de majeur, discussion avec Julien
+
+##**`25 mai 2015`**
+Dernière semaine de programation en cours:
+
+J'ai fait l'affichage du timer et de l'ID de la salle (Richer et moi avons trouver une façon algébrique de transformer le temps restant(exprimé en secondes) vers le format heures:minutes:secondes.
+
+- heures = (int)(tempsRestant / 3600)
+- minutes = (int)(tempsRestant / 60) % 60
+- secondes = (int)tempsRestant % 60
+	
+il reste à integrer le niveau de difficulté pour ce qui est de l'affichage des ID et de la santé(mentale et physique)
+
+J'ai mis un peu d'ordre dans le constructeur de phase jeu. J'ai des éclaircissement a demander sur l'utilisation de "new std::string" au lieu de "&std::string"...
+
+Richer Gabriel(nouveau sous-chef remplacant) et moi avons discuté de ce qu'il restait à faire. J'ai aussi répondu à quelques questions.
+
+**Temps 4h**

@@ -81,6 +81,7 @@ public:
 			double y = sin(phi) * sinT;
 
 			Vecteur3d nouveauRayon = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote() * x + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * y + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * z;
+			nouveauRayon.normaliser();
 
 			Droite rayon(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition(), nouveauRayon);
 			Vecteur3d pointCollision;
@@ -94,6 +95,11 @@ public:
 					Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale);
 					salleActive->ajoutObjet(trou);
 					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
+					if (dynamic_cast<Item*>(it)){
+						Vecteur3d poussee = nouveauRayon * (1 / (degat * it->obtMasse()));
+						poussee.y = 0;
+						it->defVitesse(poussee);
+					}
 				}
 			}
 			if (Physique::obtInstance().collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){

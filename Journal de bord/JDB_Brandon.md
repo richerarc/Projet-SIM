@@ -72,3 +72,5 @@ Modification des rotations de Modele3D et ajustement des rotations de trous de b
 Début de l'animation du fusil avec Nicolas et recherche des fonctions associées.
 ##pendant 4h##
 Continuation de l'implémentation des animations de fusil, ajout du "scoping", du recul et du spread des fusils. Ajout de sons.
+#26 mai pendant 2h#
+Commencement des animations d'armes de mêlée et ajout des sons et des trous. J'ai aussi redimensionné les modèles utilisés pour les armes de mêlée et les consommables avec mon grand talent de Blender afin qu'ils soient bien visibles et animables.

@@ -76,3 +76,5 @@ J'ai plus ou moins été productif. J'ai commencer un "clignement de yeux". Je n
 J'ai travailler sur l'intro. J'ai fait les pauses pour quelque menus. J'ai push sur le serveur enfin. Je devrais faire quelque journal d'ici se soir.
 ### Vendredi 22 mai ~3h30
 J'ai fait le menu de fin et la phase menu fin. Il reste a clarifier comment qu'on gagne le jeu. J'ai fait le journal quand on gagne et le journal quand on perd est bientot fini. J'ai fait une roche en blender. Je suis en train de faire des schéma de pièce. J'ai penser de faire un piège pour les marches .. mais je suis pas sur que les gars vont trop aimer ca. J'ai fait aussi 2 journal : 1er : "Why are you still here ?" et 2e : "I'm sorry".
+### Samedi et dimanche 23-24 mai
+J'ai fait une piece (c'est l'entrée du cegep) vraiment original. J'ai aussi fait un autre note disant :"Behind you :)". J'ai rajouter une rampe dans ma pièce parce que c'est important la sécurité. J'ai rien fait de plus à cause d'un mal de tête qui m'empêche de me concentrer.
