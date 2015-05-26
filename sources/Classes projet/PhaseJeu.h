@@ -9,7 +9,7 @@
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
 #include "UsineItem.h"
-#include "PhaseMenuFin"
+#include "PhaseMenuFin.h"
 enum niveauDifficulte{ FACILE = 15, NORMAL = 20, HARDCORE = 32 };
 class PhaseJeu : public Phase{
 

@@ -472,7 +472,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet) {
+	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet, double frameTime) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
