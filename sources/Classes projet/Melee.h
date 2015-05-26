@@ -44,7 +44,7 @@ public:
 			Vecteur3d pointCollision;
 			Vecteur3d normale;
 			if (Physique::obtInstance().collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
-				if (Maths::distanceEntreDeuxPoints(pointCollision, gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition()) < 2){
+				if (Maths::distanceEntreDeuxPoints(pointCollision, gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition()) < portee){
 					Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeMelee.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeMelee.png")), pointCollision, normale);
 					salleActive->ajoutObjet(trou);
 					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
