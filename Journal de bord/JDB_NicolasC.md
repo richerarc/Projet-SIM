@@ -137,4 +137,6 @@
 **21 mai** durée 2h  
   -J'ai fais les consomables, quelques icones et aider Brandon dans la formule de "recoil".  
 **22 mai** durée 30min  
-	-finitions sur la salle à 2 étages et cération d'icones.
+	-finitions sur la salle à 2 étages et cération d'icones.  
+**26 mai** durée 4h  
+	-modifications des textures de fusils et complétion dans leur totalité des consommable et presque des jetables avec Brandon.
