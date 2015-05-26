@@ -500,7 +500,7 @@ public:
 		return std::get<1>(salleSuivante);
 	}
 
-	void animationTransitionSalle(Joueur* joueur, float frametime) {
+	bool animationTransitionSalle(Joueur* joueur, float frametime) {
 
 		if (enChangementDeSalle) {
 
@@ -582,7 +582,9 @@ public:
 			}
 			else
 				premiereFois = false;
+			return true;
 		}
+		return false;
 	}
 
 	void ajouterMur(){
@@ -1098,7 +1100,7 @@ public:
 		infosSalles.push_back(salleFin);
 	}
 
-	void animationLeverLit(Joueur* joueur, float frameTime) {
+	bool animationLeverLit(Joueur* joueur, float frameTime) {
 		if (enLeverLit) {
 			if (frameTime < 0.5) { // À cause du frametime accumulé
 				temps += frameTime;
@@ -1157,6 +1159,8 @@ public:
 					}
 				}
 			}
+			return true;
 		}
+		return false;
 	}
 };

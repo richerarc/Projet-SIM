@@ -9,7 +9,7 @@
 #include "PhaseMenuInventaire.h"
 #include "GestionnaireSucces.h"
 #include "UsineItem.h"
-
+enum niveauDifficulte{ FACILE = 15, NORMAL = 20, HARDCORE = 32 };
 class PhaseJeu : public Phase{
 
 private:
@@ -19,19 +19,20 @@ private:
 	Objet* objetVise;
 	bool toucheRelachee;
 	bool retour;
+	bool finAnimationDebut, finTransitionSalle;
+	unsigned int difficulte;
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
-	int sensPrecedent, sensActuel;
-	Chrono tempsJeu;
+	Chrono tempsJeu, tempsAffichageID;
 	gfx::Texte2D* texteChrono;
-	std::string stringTexteChrono;
+	gfx::Texte2D* texte_ID_Salle;
 	double tempsRestant;
-	int heures, minutes, secondes;
 	Item *itemEquipe;
 	Item *test;
 	char dizaine[5];
 	char unite[5];
+	char chritoa[255];
 	MenuAccesRapide* accesRapide;
 	gfx::Sprite2D* point;
 
@@ -70,39 +71,39 @@ private:
 	}
 
 	void mettreAJourtexteChrono(){
+		std::string stringTexteChrono;
 		stringTexteChrono = "";
-		char temp[255];
-		heures = tempsRestant / 3600;
+		int heures, minutes, secondes;
+		heures = (int)(tempsRestant / 3600);
 		minutes = (int)(tempsRestant / 60) % 60;
 		secondes = (int)tempsRestant % 60;
 
-		if (heures > 10){
-			stringTexteChrono.append(SDL_itoa(heures, temp, 10));
+		if (heures >= 10){
+			stringTexteChrono.append(SDL_itoa(heures, chritoa, 10));
 		}
 		else{
 			stringTexteChrono.append("0");
-			stringTexteChrono.append(SDL_itoa(heures, temp, 10));
+			stringTexteChrono.append(SDL_itoa(heures, chritoa, 10));
 		}
 		stringTexteChrono.append(":");
-		if (minutes > 10){
-			stringTexteChrono.append(SDL_itoa(minutes, temp, 10));
+		if (minutes >= 10){
+			stringTexteChrono.append(SDL_itoa(minutes, chritoa, 10));
 		}
 		else{
 			stringTexteChrono.append("0");
-			stringTexteChrono.append(SDL_itoa(minutes, temp, 10));
+			stringTexteChrono.append(SDL_itoa(minutes, chritoa, 10));
 		}
 		stringTexteChrono.append(":");
-		if (secondes > 10){
-			stringTexteChrono.append(SDL_itoa(secondes, temp, 10));
+		if (secondes >= 10){
+			stringTexteChrono.append(SDL_itoa(secondes, chritoa, 10));
 		}
 		else{
 			stringTexteChrono.append("0");
-			stringTexteChrono.append(SDL_itoa(secondes, temp, 10));
+			stringTexteChrono.append(SDL_itoa(secondes, chritoa, 10));
 		}
-
-
 		texteChrono->defTexte(&stringTexteChrono);
 	}
+
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
@@ -122,10 +123,10 @@ private:
 	}
 
 	bool detectionObjet() {
-		
+
 		std::list<Objet*> liste = Carte::obtInstance().salleActive->obtListeObjet();
 		bool objetDetecte = false;
-		
+
 		for (auto it : liste) {
 			Porte* it_Porte = dynamic_cast<Porte*>(it);
 			Item* it_Item = dynamic_cast<Item*>(it);
@@ -135,7 +136,7 @@ private:
 				Vecteur3d pointCollision, normale;
 				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtDevant());
 				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, nullptr, false)) {
-					
+
 					std::string str1 = "Press ";
 					str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
 					
@@ -159,7 +160,6 @@ private:
 				}
 			}
 		}
-		
 		if (!objetDetecte)
 			gfx::Gestionnaire2D::obtInstance().retObjet(texteUtiliser);
 		return objetDetecte;
@@ -168,50 +168,56 @@ private:
 public:
 
 	PhaseJeu(Vecteur3d positionJoueur, double hAngle, double vAngle) : Phase(){
+
+		difficulte = Carte::obtInstance().nombreDeSalle;
+
 		joueur = new Joueur(positionJoueur, hAngle, vAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
+		test = UsineItem::obtInstance().obtItemParType(11, 0);
+		joueur->obtInventaire()->ajouterObjet(test);
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
+		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
+		accesRapide->remplir();
 
-		texteUtiliser = new gfx::Texte2D(new std::string("123"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
+		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
+
+		texteUtiliser = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
+		texte_ID_Salle = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 150 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 100), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 100, 300));
+		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
+		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
+		std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
+		texte_ID_Salle->defTexte(&str);
+
 		toucheRelachee = false;
+		retour = false;
+		pause = false;
+		finAnimationDebut = false;
+		finTransitionSalle = true;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
 		iterateur_x = 0;
 		iterateur_z = 0;
-		tempsJeu = Chrono();
-
 		itemEquipe = nullptr;
 
-		test = UsineItem::obtInstance().obtItemParType(11, 0);
-
-		joueur->obtInventaire()->ajouterObjet(test);
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
-		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
-		accesRapide->remplir();
-		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
-		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
-
-		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
-		retour = false;
-		pause = false;
 		for (int i = 0; i < 4; ++i){
 			unite[i] = '\0';
 			dizaine[i] = '\0';
 		}
 
-		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
-		stringTexteChrono = "";
-		if (Carte::obtInstance().nombreDeSalle == 15)
+		if (difficulte == FACILE)
 			tempsRestant = 3600;
 		else
 			tempsRestant = 1800;
 		mettreAJourtexteChrono();
-		gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
 		tempsJeu = Chrono();
+		tempsAffichageID = Chrono();
 	}
 
 	~PhaseJeu(){
@@ -220,13 +226,14 @@ public:
 		delete point;
 		delete accesRapide;
 		delete texteChrono;
+		delete texte_ID_Salle;
 	}
 
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
-
+		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
 		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
@@ -254,9 +261,29 @@ public:
 			ControlleurAudio::obtInstance().jouer(PAS, joueur);
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
-			Carte::obtInstance().animationTransitionSalle(joueur, frameTime);
-			Carte::obtInstance().animationLeverLit(joueur, frameTime);
-			if (Carte::obtInstance().salleActive->obtID() != Carte::obtInstance().nombreDeSalle){
+
+			// On regarde si les animation de début et de transisiton de salle sont fini pour ajouter les textes a afficher.
+			if (!Carte::obtInstance().animationTransitionSalle(joueur, frameTime) && !finTransitionSalle){
+				std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
+				texte_ID_Salle->defTexte(&str);
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
+				tempsAffichageID.repartir();
+				finTransitionSalle = true;
+			}
+
+			if (!Carte::obtInstance().animationLeverLit(joueur, frameTime) && !finAnimationDebut){
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
+				gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
+				tempsAffichageID.repartir();
+				finAnimationDebut = true;
+			}
+
+			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
+				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
+				tempsAffichageID.repartir();
+			}
+
+			if (Carte::obtInstance().salleActive->obtID() != difficulte){
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				mettreAJourtexteChrono();
 			}
@@ -264,9 +291,10 @@ public:
 		}
 
 		if (detectionObjet()){
-			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){// Touche relach�e bient�t...
+			if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
 				if (objetVise->obtSiPorte()){
-					if (objetVise->obtSiPorte()){
+					//Ce if me semble inutile...
+					//if (objetVise->obtSiPorte()){
 						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
 							if (objetVise->obtID()){
 								Commutateur* com = nullptr;
@@ -289,7 +317,7 @@ public:
 								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni,0));
 							}
 						}
-					}
+					//}
 					Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
 						for (int i = 0; i < cheminRecursif.size(); ++i)
@@ -297,7 +325,8 @@ public:
 					}
 					cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
-					santeMentale();
+					santeMentale(); 
+					finTransitionSalle = false;
 				}
 				else if (dynamic_cast<Item*>(objetVise)){
 					joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
@@ -309,7 +338,7 @@ public:
 						GestionnaireSucces::obtInstance().obtSucces(18);
 					if (nom == "Holy Rod")
 						GestionnaireSucces::obtInstance().obtSucces(17);
-				    if (nom == "Luger P08" || "Thompson M1")
+					if (nom == "Luger P08" || "Thompson M1")
 						GestionnaireSucces::obtInstance().obtSucces(8);
 					if (nom == "Grenade")
 						GestionnaireSucces::obtInstance().obtSucces(9);
@@ -374,8 +403,11 @@ public:
 	}
 
 	void defPause(bool pause) {
-		if (!pause)
+		if (!pause){
 			retour = true;
+			gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
+			gfx::Gestionnaire2D().obtInstance().ajouterObjet(point);
+		}
 		this->pause = pause;
 	}
 
