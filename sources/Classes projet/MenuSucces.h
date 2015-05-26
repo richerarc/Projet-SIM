@@ -12,12 +12,15 @@ private:
 	Bouton* reinitialiser;
 	std::list<gfx::Texte2D*> listeTitres;
 	gfx::Sprite2D* quadrillage;
+	gfx::Sprite2D* boiteDescription;
 	gfx::Texte2D* descriptionSurvol;
 public:
 
 	MenuSucces(void){
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
 		quadrillage = new gfx::Sprite2D(Vecteur2f(20, 90), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/achievementsMenu.png"));
+		boiteDescription = new gfx::Sprite2D(Vecteur2f(885, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/achievementDescription.png"));
+
 		reinitialiser = new Bouton(std::bind(&MenuSucces::enClicReinit, this, std::placeholders::_1),
 			std::bind(&MenuSucces::survol, this, std::placeholders::_1),
 			std::bind(&MenuSucces::defaut, this, std::placeholders::_1),
@@ -88,6 +91,7 @@ public:
 	void remplir(){
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(spriteFond);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(quadrillage);
+		
 		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(it->obtTitre());
 		}
@@ -122,13 +126,16 @@ public:
 		for (auto it : GestionnaireSucces::obtInstance().obtListeSucces()){
 			if (it->obtTitre()->obtRectangle().contient(Curseur::obtPosition())){
 				descriptionSurvol = it->obtDescription();
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(boiteDescription);
 				gfx::Gestionnaire2D::obtInstance().ajouterObjet(descriptionSurvol);
 				enSurvol = true;
 			}
 		}
 		if (!enSurvol){
-			if (descriptionSurvol != nullptr)
+			if (descriptionSurvol != nullptr){
 				gfx::Gestionnaire2D::obtInstance().retObjet(descriptionSurvol);
+				gfx::Gestionnaire2D::obtInstance().retObjet(boiteDescription);
+			}
 		}
 	}
 
