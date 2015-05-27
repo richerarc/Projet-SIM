@@ -43,6 +43,7 @@ public:
 
 		enCredits = false;
 		perdu = true;
+		defPause(true);
 	}
 
 	void survol(Bouton* envoi){
