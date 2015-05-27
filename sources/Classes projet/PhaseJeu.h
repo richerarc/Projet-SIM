@@ -382,9 +382,9 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(13);
 						if (nom == "Corrections")
 							GestionnaireSucces::obtInstance().obtSucces(24);
-						if (nom == "Thai")
+						if (nom == "Felix's thai box")
 							GestionnaireSucces::obtInstance().obtSucces(21);
-						if (nom == "Chicken")
+						if (nom == "Chicken drumstick")
 							GestionnaireSucces::obtInstance().obtSucces(25);
 						objetVise = nullptr;
 					}

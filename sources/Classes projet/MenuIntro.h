@@ -20,6 +20,7 @@ public:
 			new std::string("Next"), 55);
 		
 		premierMenu = true;
+		defPause(true);
 	}
 
 	~MenuIntro(void) {
