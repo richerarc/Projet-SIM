@@ -116,8 +116,8 @@ private:
 		std::string nouvVieMentale = "Sanity : ";
 		nouvVie.append(SDL_itoa(joueur->obtSantePhysique(), chritoa, 10));
 		nouvVieMentale.append(SDL_itoa(joueur->obtSanteMentale(), chritoa, 10));
-		vie->defTexte(nouvVie);
-		vieMentale->defTexte(nouvVieMentale);
+		vie->defTexte(&nouvVie);
+		vieMentale->defTexte(&nouvVieMentale);
 	}
 
 	void appliquerPhysique(float frameTime) {
@@ -255,7 +255,7 @@ public:
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
-			mettreAJourTextesSante()
+			mettreAJourTextesSante();
 		}
 		else{
 			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
