@@ -61,7 +61,7 @@ public:
 					case(1) ://roche
 						return new Jetable(type, "Rock", "Paper Scissors", "Ressources/Texture/RocheIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Roche.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Roche.png")), ID, "metal", 0.5);
 					case(2) ://companion
-						return nullptr;
+						return new Companion(ID);
 				}
 			case (5) :
 				switch (type % 10){

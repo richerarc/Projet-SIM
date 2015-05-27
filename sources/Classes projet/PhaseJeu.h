@@ -72,6 +72,22 @@ private:
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
 		}
+		for (int i = 0; i < joueur->obtInventaire()->obtTailleSacADos(); i++){
+			if (joueur->obtInventaire()->obtObjetSacADos(i) != nullptr){
+				if (joueur->obtInventaire()->obtObjetSacADos(i)->obtNom() == "Companion"){
+					Companion* companion = dynamic_cast<Companion*>(joueur->obtInventaire()->obtObjetSacADos(i));
+					companion->changerModele(joueur->obtSanteMentale());
+				}
+			}
+		}
+		for (int i = 0; i < joueur->obtInventaire()->obtTailleAccesRapide(); i++){
+			if (joueur->obtInventaire()->obtObjetAccesRapide(i) != nullptr){
+				if (joueur->obtInventaire()->obtObjetAccesRapide(i)->obtNom() == "Companion"){
+					Companion* companion = dynamic_cast<Companion*>(joueur->obtInventaire()->obtObjetAccesRapide(i));
+					companion->changerModele(joueur->obtSanteMentale());
+				}
+			}
+		}
 	}
 
 	void mettreAJourtexteChrono(){
