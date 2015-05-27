@@ -393,7 +393,7 @@ public:
 					}
 					toucheRelachee = false;
 				}
-				if ((Clavier::toucheAppuyee(SDLK_e) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
+				if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(UTILISER)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_Y)))
 					toucheRelachee = true;
 			}
 		}
