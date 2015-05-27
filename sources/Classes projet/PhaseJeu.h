@@ -25,7 +25,7 @@ private:
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
-	Chrono tempsJeu, tempsAffichageID;
+	Chrono tempsJeu, tempsAffichageID, tempsPhysique;
 	gfx::Texte2D* texteChrono;
 	gfx::Texte2D* texte_ID_Salle;
 	gfx::Texte2D* vie;
@@ -134,7 +134,7 @@ private:
 			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
 			Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsPhysique.obtTempsEcoule().enSecondes());
 	}
 
 	bool detectionObjet() {
@@ -241,6 +241,7 @@ public:
 		mettreAJourtexteChrono();
 		tempsJeu = Chrono();
 		tempsAffichageID = Chrono();
+		tempsPhysique = Chrono();
 	}
 
 	~PhaseJeu(){
