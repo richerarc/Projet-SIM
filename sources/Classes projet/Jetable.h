@@ -23,3 +23,41 @@ struct Jetable : public Item{
 	}
 	void equiper(Joueur* joueur){}
 };
+
+class Companion : public Jetable{
+private:
+	gfx::Modele3D* batman;
+	gfx::Modele3D* joker;
+	gfx::Modele3D* companion;
+	gfx::Modele3D* modeleActuel;
+public:
+	Companion(int ID) : Jetable(40, "Companion", "Your trustworthy companion", "Ressources/Texture/CompanionIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Companion.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Companion.png")), ID, "roche", 1){
+		batman = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/batman.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/batman.png"));
+		joker = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joker.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joker.png"));
+		companion = this->obtModele3D();
+		modeleActuel = companion;
+		modeleActuel->defEchelle(0.5, 0.5, 0.5);
+	}
+
+	void changerModele(short santeMentale){
+		if (santeMentale <= 25 && modeleActuel != joker){
+			modeleActuel = joker;
+			modeleActuel->defModele(joker->obtModele());
+			modeleActuel->defTexture(joker->obtTexture());
+			GestionnaireSucces::obtInstance().obtSucces(26);
+		}
+		if (santeMentale <= 60 && santeMentale > 25 && modeleActuel != batman){
+			modeleActuel = batman;
+			modeleActuel->defModele(batman->obtModele());
+			modeleActuel->defTexture(batman->obtTexture());
+			GestionnaireSucces::obtInstance().obtSucces(7);
+		}
+		if (santeMentale > 60 && modeleActuel != companion){
+			modeleActuel = companion;
+			modeleActuel->defModele(companion->obtModele());
+			modeleActuel->defTexture(companion->obtTexture());
+		}
+		modele->defModele(modeleActuel->obtModele());
+		modele->defTexture(modeleActuel->obtTexture());
+	}
+};

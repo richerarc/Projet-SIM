@@ -5,7 +5,7 @@
 #include <fstream>
 
 enum Action {
-	AVANCER,RECULER,DROITE,GAUCHE,SAUTER,ACCROUPIR,COURIR,TIRER,UTILISER,ACCESINVENTAIRE
+	AVANCER, RECULER, DROITE, GAUCHE, SAUTER, ACCROUPIR, COURIR, TIRER, UTILISER, ACCESINVENTAIRE, DEPOSER, VISER
 };
 
 enum Controleur_t {CLAVIER = 0, SOURIS = 1, MANETTE = 2};
@@ -67,6 +67,12 @@ public:
 					break;
 				case 9:
 					controles[cle(ACCESINVENTAIRE, controleurEnInt)] = toucheEnInt;
+					break;
+				case 10:
+					controles[cle(DEPOSER, controleurEnInt)] = toucheEnInt;
+					break;
+				case 11:
+					controles[cle(VISER, controleurEnInt)] = toucheEnInt;
 					break;
 				}
 			}
