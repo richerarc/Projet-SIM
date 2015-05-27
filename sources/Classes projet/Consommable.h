@@ -7,7 +7,7 @@ protected:
 	Vecteur3d posAnimation;
 	Vecteur3d posDepart;
 	Vecteur3d rotAnimation;
-	void consommer(double temps, Joueur* joueur){
+	virtual void consommer(double temps, Joueur* joueur){
 		rotAnimation = Vecteur3d(0, 0, -50 * temps);
 		posAnimation = Vecteur3d(posDepart + (joueur->obtHaut() * 0.30 - joueur->obtDevant() * 0.8 - joueur->obtCote() * 0.5) * (temps / 2));
 	}
@@ -51,7 +51,7 @@ struct Thai : public Jetable, public Consommable{
 	void equiper(Joueur* joueur){}
 };
 struct Eau : public Jetable, public Consommable{
-	Eau(unsigned int ID) : Jetable(30, "Water bottle", "Fresh old water", "Ressources/Texture/eauIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/eau.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/eau.png")), ID, "plastique", 0.4){}
+	Eau(unsigned int ID) : Jetable(31, "Water bottle", "Fresh old water", "Ressources/Texture/eauIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/eau.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/eau.png")), ID, "plastique", 0.4){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
@@ -78,7 +78,7 @@ struct Eau : public Jetable, public Consommable{
 	void equiper(Joueur* joueur){}
 };
 struct Poulet : public Melee, public Consommable{
-	Poulet(unsigned int ID) : Melee(0.3, 2.0, 30, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
+	Poulet(unsigned int ID) : Melee(1.0, 2.0, 32, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
@@ -96,6 +96,17 @@ struct Poulet : public Melee, public Consommable{
 				finConsommation(joueur);
 			}
 		}
+		else if (animationActuelle == 1){
+			double tempsMax = 0.4;
+			double tempsEcoule = animationMelee.obtTempsEcoule().enSecondes();
+			if (tempsEcoule < tempsMax){
+				modele->rotationner(Vecteur3d(0, 0, 1), 12500 * tempsEcoule * (tempsEcoule - tempsMax) * (tempsEcoule - 2 * tempsMax / 3));
+			}
+			else{
+				animationMelee.repartir();
+				animationActuelle = 0;
+			}
+		}
 	}
 	void utiliser2(Joueur* joueur){
 		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
@@ -108,7 +119,7 @@ struct Poulet : public Melee, public Consommable{
 	void equiper(Joueur* joueur){}
 };
 struct Pilule : public Jetable, public Consommable{
-	Pilule(unsigned int ID) : Jetable(30, "Some pills", "This is your last chance. After this, there is no turning back.", "Ressources/Texture/piluleIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/pilule.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/pilule.png")), ID, "plastique", 0.05){}
+	Pilule(unsigned int ID) : Jetable(33, "Some pills", "This is your last chance. After this, there is no turning back.", "Ressources/Texture/pilluleIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/potpillule.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/potpilluletexture.png")), ID, "plastique", 0.05){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
@@ -138,7 +149,7 @@ struct Pilule : public Jetable, public Consommable{
 	void equiper(Joueur* joueur){}
 };
 struct Lait : public Jetable, public Consommable{
-	Lait(unsigned int ID) : Jetable(30, "Milk carton", "You deserve Natrel", "Ressources/Texture/PinteDeLaitIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/PinteDeLait.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/PinteDeLait.png")), ID, "carton", 2.1){}
+	Lait(unsigned int ID) : Jetable(34, "Milk carton", "You deserve Natrel", "Ressources/Texture/PinteDeLaitIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/PinteDeLait.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/PinteDeLait.png")), ID, "carton", 2.1){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
@@ -165,7 +176,7 @@ struct Lait : public Jetable, public Consommable{
 	void equiper(Joueur* joueur){}
 };
 struct Chocolat : public Jetable, public Consommable{
-	Chocolat(unsigned int ID) : Jetable(30, "Big Black Chocolate", "JEW won't belive it how good it tastes", "Ressources/Texture/chocolatIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chocolat.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chocolat.png")), ID, "carton", 2.1){}
+	Chocolat(unsigned int ID) : Jetable(35, "Big Black Chocolate", "JEW won't belive it how good it tastes", "Ressources/Texture/chocolatIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chocolat.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chocolat.png")), ID, "carton", 2.1){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
@@ -177,6 +188,64 @@ struct Chocolat : public Jetable, public Consommable{
 			}
 			else{
 				joueur->defSanteMentale(joueur->obtSanteMentale() + 10);
+				finConsommation(joueur);
+			}
+		}
+	}
+	void utiliser2(Joueur* joueur){
+		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			etatAnimation = true;
+			posDepart = position;
+			joueur->bloquer();
+			animation.repartir();
+		}
+	}
+	void equiper(Joueur* joueur){}
+};
+struct Vin : public Jetable, public Consommable{
+	Vin(unsigned int ID) : Jetable(36, "Red winw", "Pray for it to be a good vintage", "Ressources/Texture/bouteillevinIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/bouteillevin.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/bouteillevin.png")), ID, "metal", 2.1){}
+	void animer(Joueur* joueur){
+		if (etatAnimation){
+			if (animation.obtTempsEcoule().enSecondes() < 1.5){
+				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (etat == EtatItem::EQUIPE){
+					this->modele->rotationner(rotAnimation);
+					this->defPosition(posAnimation);
+				}
+			}
+			else{
+				//modifier caméra
+				finConsommation(joueur);
+			}
+		}
+	}
+	void utiliser2(Joueur* joueur){
+		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			etatAnimation = true;
+			posDepart = position;
+			joueur->bloquer();
+			animation.repartir();
+		}
+	}
+	void equiper(Joueur* joueur){}
+};
+struct Seringue : public Jetable, public Consommable{
+	Seringue(unsigned int ID) : Jetable(37, "Seringe", "50cc of pure expirementation", "Ressources/Texture/seringueIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/seringue.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/seringue.png")), ID, "metal", 2.1){}
+	void consommer(double temps, Joueur* joueur){
+		rotAnimation = Vecteur3d(90 * temps, 0, 0);
+		posAnimation = Vecteur3d(posDepart + (joueur->obtHaut() * 0.30 - joueur->obtCote() * 0.50) * (temps / 2));
+	}
+	void animer(Joueur* joueur){
+		if (etatAnimation){
+			if (animation.obtTempsEcoule().enSecondes() < 1.5){
+				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (etat == EtatItem::EQUIPE){
+					this->modele->rotationner(rotAnimation);
+					this->defPosition(posAnimation);
+				}
+			}
+			else{
+				//slow-mo mode
 				finConsommation(joueur);
 			}
 		}

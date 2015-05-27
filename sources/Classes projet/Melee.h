@@ -3,7 +3,7 @@
 #include "Peinture.h"
 
 class Melee : public Item{
-private:
+protected:
 	double portee, degats;
 
 	Chrono dps;
