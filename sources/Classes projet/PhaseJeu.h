@@ -330,7 +330,7 @@ public:
 		}
 		if (tempsRestant > 0) {
 			if (detectionObjet()){
-				if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(UTILISER)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
+				if ((Clavier::toucheRelachee(SDLK_e) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
 					if (objetVise->obtSiPorte()){
 						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
 							if (objetVise->obtID()){
@@ -382,9 +382,9 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(13);
 						if (nom == "Corrections")
 							GestionnaireSucces::obtInstance().obtSucces(24);
-						if (nom == "Thai")
+						if (nom == "Felix's thai box")
 							GestionnaireSucces::obtInstance().obtSucces(21);
-						if (nom == "Chicken")
+						if (nom == "Chicken drumstick")
 							GestionnaireSucces::obtInstance().obtSucces(25);
 						objetVise = nullptr;
 					}
