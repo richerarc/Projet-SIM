@@ -20,7 +20,7 @@ private:
 	Objet* objetVise;
 	bool toucheRelachee;
 	bool retour;
-	bool finAnimationDebut, finTransitionSalle;
+	bool finAnimationDebut, finTransitionSalle, santeEstAffichee;
 	unsigned int difficulte;
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
@@ -30,8 +30,8 @@ private:
 	gfx::Texte2D* texte_ID_Salle;
 	gfx::Texte2D* vie;
 	gfx::Texte2D* vieMentale;
-	bool statsAffiches;
 	double tempsRestant;
+	double compteurViePhysique;
 	Item *itemEquipe;
 	Item *test;
 	char dizaine[5];
@@ -188,10 +188,6 @@ public:
 
 	PhaseJeu(Vecteur3d positionJoueur, double hAngle, double vAngle) : Phase(){
 
-		vie = new gfx::Texte2D(new std::string("Health : "), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 650));
-		vieMentale = new gfx::Texte2D(new std::string("Sanity : "), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 600));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
 		difficulte = Carte::obtInstance().nombreDeSalle;
 
 		joueur = new Joueur(positionJoueur, hAngle, vAngle);
@@ -211,8 +207,13 @@ public:
 		texteUtiliser = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
 		texte_ID_Salle = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 150 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 100), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 100, 300));
 		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
+		vie = new gfx::Texte2D(new std::string("Health : "), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 650));
+		vieMentale = new gfx::Texte2D(new std::string("Sanity : "), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 600));
 		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
 
+		mettreAJourTextesSante();
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
 		std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
 		texte_ID_Salle->defTexte(&str);
@@ -222,6 +223,8 @@ public:
 		pause = false;
 		finAnimationDebut = false;
 		finTransitionSalle = true;
+		santeEstAffichee = true;
+		compteurViePhysique = 0;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
@@ -234,10 +237,21 @@ public:
 			dizaine[i] = '\0';
 		}
 
-		if (difficulte == FACILE)
-			tempsRestant = 3600;
-		else
+		switch (difficulte)
+		{
+		case FACILE:
+			tempsRestant = 2700;
+			break;
+		case NORMAL:
 			tempsRestant = 1800;
+			break;
+		case HARDCORE:
+			tempsRestant = 900;
+			joueur->defSanteMentale(50);
+			joueur->defSantePhysique(50);
+			break;
+		}
+
 		mettreAJourtexteChrono();
 		tempsJeu = Chrono();
 		tempsAffichageID = Chrono();
@@ -251,17 +265,12 @@ public:
 		delete accesRapide;
 		delete texteChrono;
 		delete texte_ID_Salle;
+		delete vie;
+		delete vieMentale;
 	}
 
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
-		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
-			mettreAJourTextesSante();
-		}
-		else{
-			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
-			gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
-		}
 		if (pause)
 			return;
 		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
@@ -315,15 +324,27 @@ public:
 			}
 
 			if (Carte::obtInstance().salleActive->obtID() != difficulte){
+				if (difficulte != FACILE && santeEstAffichee){
+					gfx::Gestionnaire2D::obtInstance().retObjet(vie);
+					gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
+					santeEstAffichee = false;
+				}
+				else
+					mettreAJourTextesSante();
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
+				if (compteurViePhysique >= 5){
+					joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+					compteurViePhysique = 0;
+				}
 				mettreAJourtexteChrono();
+
 				if (tempsRestant <= 0) {
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
-
 					GestionnairePhases::obtInstance().retirerPhase();
 					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -331,7 +352,6 @@ public:
 					curseur->remplir();
 					gfx::Gestionnaire3D::obtInstance().vider();
 					return;
-
 				}
 			}
 			tempsJeu.repartir();
