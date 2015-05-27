@@ -1290,7 +1290,7 @@ public:
 		avion.largeur = 0;
 		avion.position = { -16.0395, 0, 61.8221 };
 		avion.rotation = 90;
-		avion.type = FIXE;
+		avion.type = 180;
 
 		salleFin.Objet.push_back(avion);
 
