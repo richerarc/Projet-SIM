@@ -58,4 +58,4 @@
 
 26 mai: creation de la cartouche de gas et creation de la salle illuminati (4h)
 
-27 mai: deverrouillage de portes, creation de la seringue, creation de la cible.
+27 mai: deverrouillage de portes, creation de la seringue, creation de la cible, de la salle sérieuse et la table serieuse, ajout d'une tour de controle a la salle de fin.
