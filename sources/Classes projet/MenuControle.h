@@ -137,19 +137,19 @@ public:
 			Vecteur2f(400, 53),
 			GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE), 45);
 
-		inventaire = new gfx::Texte2D(new std::string("Inventory"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(100, 53));
-		ctrlInventaire = new Bouton(std::bind(&MenuControle::enClickInventaire, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
+		deposer = new gfx::Texte2D(new std::string("Drop"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(600, 665));
+		ctrlDeposer = new Bouton(std::bind(&MenuControle::enClickDeposer, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
-			Vecteur2f(400, 53),
-			GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE), 45);
+			Vecteur2f(900, 665),
+			GestionnaireControle::obtInstance().obtTouche(DEPOSER), 45);
 
-		deposer = new gfx::Texte2D(new std::string("Drop"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(100, 53));
-		ctrlInventaire = new Bouton(std::bind(&MenuControle::enClickInventaire, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
+		viser = new gfx::Texte2D(new std::string("Aim"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(600, 597));
+		ctrlViser = new Bouton(std::bind(&MenuControle::enClickViser, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
-			Vecteur2f(400, 53),
-			GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE), 45);
+			Vecteur2f(900, 597),
+			GestionnaireControle::obtInstance().obtTouche(VISER), 45);
 
-		
+
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
 
@@ -173,7 +173,7 @@ public:
 			return;
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
-	
+
 
 	void gererEvenement(SDL_Event Event){
 		if (pause)
@@ -210,7 +210,7 @@ public:
 			return;
 		GestionnaireControle::obtInstance().sauvegarderControle("Ressources/Info/Controle.txt");
 	}
-	
+
 	void enClickAvancer(Bouton* sender) {
 		if (pause)
 			return;
@@ -314,7 +314,7 @@ public:
 
 
 	void remplir(void) {
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, avancer, reculer, gauche, droite, sauter, accroupir, courir, tirer, utiliser, inventaire });
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, avancer, reculer, gauche, droite, sauter, accroupir, courir, tirer, utiliser, inventaire, viser, deposer });
 		this->retour->remplir();
 		this->Enregistrer->remplir();
 		ctrlAvancer->remplir();
@@ -329,7 +329,7 @@ public:
 		ctrlInventaire->remplir();
 		ctrlDeposer->remplir();
 		ctrlViser->remplir();
-		
+
 	}
 
 	void defPause(bool pause) {
