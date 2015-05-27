@@ -111,6 +111,14 @@ private:
 		texteChrono->defTexte(&stringTexteChrono);
 	}
 
+	void mettreAJourTextesSante(){
+		std::string nouvVie = "Health : ";
+		std::string nouvVieMentale = "Sanity : ";
+		nouvVie.append(SDL_itoa(joueur->obtSantePhysique(), chritoa, 10));
+		nouvVieMentale.append(SDL_itoa(joueur->obtSanteMentale(), chritoa, 10));
+		vie->defTexte(nouvVie);
+		vieMentale->defTexte(nouvVieMentale);
+	}
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
@@ -247,12 +255,7 @@ public:
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
-			std::stringstream nouvVie;
-			std::stringstream nouvVieMentale;
-			nouvVie << "Health : " << joueur->obtSantePhysique();
-			vie->defTexte(new std::string(nouvVie.str()));
-			nouvVieMentale << "Sanity : " << joueur->obtSanteMentale();
-			vieMentale->defTexte(new std::string(nouvVieMentale.str()));
+			mettreAJourTextesSante()
 		}
 		else{
 			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
