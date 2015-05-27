@@ -148,8 +148,12 @@ private:
 					str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
 					
 					if (it_Porte != nullptr){
-						str1.append(" to open door.");
+						if (it_Porte->obtVerrouillee())
+							str1.append(" to unlock door.");
+						else
+							str1.append(" to open door.");
 					}
+
 					else if (it_Item != nullptr){
 						str1.append(" to pick up ");
 						str1.append(it_Item->obtNom());
@@ -332,37 +336,42 @@ public:
 			if (detectionObjet()){
 				if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(UTILISER)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
 					if (objetVise->obtSiPorte()){
-						if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
-							if (objetVise->obtID()){
-								Commutateur* com = nullptr;
-								for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
-									com = dynamic_cast<Commutateur*>(it);
-									if (com){
-										if (com->obtID() < 15){
-											dizaine[com->obtID() - 11] = com->obtEtat() + 48;
-										}
-										else{
-											dizaine[4] = '\0';
-											unite[com->obtID() - 15] = com->obtEtat() + 48;
+						if (!(dynamic_cast<Porte*>(objetVise))->obtVerrouillee()){
+							if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
+								if (objetVise->obtID()){
+									Commutateur* com = nullptr;
+									for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
+										com = dynamic_cast<Commutateur*>(it);
+										if (com){
+											if (com->obtID() < 15){
+												dizaine[com->obtID() - 11] = com->obtEtat() + 48;
+											}
+											else{
+												dizaine[4] = '\0';
+												unite[com->obtID() - 15] = com->obtEtat() + 48;
+											}
 										}
 									}
+									unite[4] = '\0';
+									short diz, uni;
+									diz = strtoull(dizaine, NULL, 2);
+									uni = strtoull(unite, NULL, 2);
+									Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni, 0));
 								}
-								unite[4] = '\0';
-								short diz, uni;
-								diz = strtoull(dizaine, NULL, 2);
-								uni = strtoull(unite, NULL, 2);
-								Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni, 0));
 							}
+							Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
+							if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
+								for (int i = 0; i < cheminRecursif.size(); ++i)
+									cheminRecursif.pop();
+							}
+							cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
+							cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
+							santeMentale();
+							finTransitionSalle = false;
 						}
-						Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
-						if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
-							for (int i = 0; i < cheminRecursif.size(); ++i)
-								cheminRecursif.pop();
+						else{ //a ajouter: verification si le joeueur a une cle
+							(dynamic_cast<Porte*>(objetVise))->defVerrouillee(false);
 						}
-						cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
-						cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
-						santeMentale();
-						finTransitionSalle = false;
 					}
 					else if (dynamic_cast<Item*>(objetVise)){
 						joueur->obtInventaire()->ajouterObjet((Item*)objetVise);
@@ -382,9 +391,9 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(13);
 						if (nom == "Corrections")
 							GestionnaireSucces::obtInstance().obtSucces(24);
-						if (nom == "Felix's thai box")
+						if (nom == "Thai")
 							GestionnaireSucces::obtInstance().obtSucces(21);
-						if (nom == "Chicken drumstick")
+						if (nom == "Chicken")
 							GestionnaireSucces::obtInstance().obtSucces(25);
 						objetVise = nullptr;
 					}
