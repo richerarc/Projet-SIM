@@ -25,7 +25,7 @@ private:
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
-	Chrono tempsJeu, tempsAffichageID;
+	Chrono tempsJeu, tempsAffichageID, tempsPhysique;
 	gfx::Texte2D* texteChrono;
 	gfx::Texte2D* texte_ID_Salle;
 	gfx::Texte2D* vie;
@@ -111,6 +111,14 @@ private:
 		texteChrono->defTexte(&stringTexteChrono);
 	}
 
+	void mettreAJourTextesSante(){
+		std::string nouvVie = "Health : ";
+		std::string nouvVieMentale = "Sanity : ";
+		nouvVie.append(SDL_itoa(joueur->obtSantePhysique(), chritoa, 10));
+		nouvVieMentale.append(SDL_itoa(joueur->obtSanteMentale(), chritoa, 10));
+		vie->defTexte(&nouvVie);
+		vieMentale->defTexte(&nouvVieMentale);
+	}
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
@@ -126,7 +134,7 @@ private:
 			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
 			Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsPhysique.obtTempsEcoule().enSecondes());
 	}
 
 	bool detectionObjet() {
@@ -233,6 +241,7 @@ public:
 		mettreAJourtexteChrono();
 		tempsJeu = Chrono();
 		tempsAffichageID = Chrono();
+		tempsPhysique = Chrono();
 	}
 
 	~PhaseJeu(){
@@ -247,12 +256,7 @@ public:
 	void rafraichir(float frameTime) {
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
-			std::stringstream nouvVie;
-			std::stringstream nouvVieMentale;
-			nouvVie << "Health : " << joueur->obtSantePhysique();
-			vie->defTexte(new std::string(nouvVie.str()));
-			nouvVieMentale << "Sanity : " << joueur->obtSanteMentale();
-			vieMentale->defTexte(new std::string(nouvVieMentale.str()));
+			mettreAJourTextesSante();
 		}
 		else{
 			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
