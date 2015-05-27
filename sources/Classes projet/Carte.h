@@ -1247,8 +1247,8 @@ public:
 		// Salle de fin
 
 		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/SalleFinObjet.obj";
-		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
+		salleFin.cheminModele = "Ressources/Modele/SalleFinStuff.obj";
+		salleFin.cheminTexture = "Ressources/Texture/salleFinStuff.png";
 		salleFin.echelle = { 1.0, 1.0, 1.0 };
 		salleFin.ID = infosSalles.size();
 		salleFin.nbrPorte = 1;
@@ -1262,7 +1262,7 @@ public:
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { 66.1796, -10.9267, -287.6508 };
+		demiSphere.position = { -56.175, 0, -74.7745 };
 		demiSphere.rotation = 0;
 		demiSphere.type = FIXE;
 
@@ -1275,8 +1275,8 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 0;
 		porteFin.largeur = 0;
-		porteFin.position = { 66.1796, -10.9267, -287.6508 };
-		porteFin.rotation = -90;
+		porteFin.position = { -57.475, 0, -74.7745 };
+		porteFin.rotation = -38;
 
 		salleFin.Objet.push_back(porteFin);
 
@@ -1288,7 +1288,7 @@ public:
 		avion.direction = { 0, 0, 0 };
 		avion.ID = 1;
 		avion.largeur = 0;
-		avion.position = { -89.8287, -10.7889, 80.2138 };
+		avion.position = { -16.0395, 0, 61.8221 };
 		avion.rotation = 90;
 		avion.type = FIXE;
 
