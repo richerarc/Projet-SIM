@@ -216,7 +216,7 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(42, 0);
+		test = UsineItem::obtInstance().obtItemParType(37, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
@@ -292,6 +292,7 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
+		GestionnaireSucces::obtInstance().verifierPacifisme();
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
@@ -317,9 +318,12 @@ public:
 			itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
 			if (itemEquipe != nullptr){
 				Item* itemPrecedent = itemEquipe;
+				short typePrecedent = itemPrecedent->obtType();
 				itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur, frameTime);
 				if (itemPrecedent->obtType() > 29 && itemPrecedent->obtType() < 50 && itemPrecedent->obtEtat() == DEPOSE)
 					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() - 1);
+				if (typePrecedent == 37 && itemPrecedent->obtEtat() == -17891602)//touchez pas à ça
+					GestionnaireSucces::obtInstance().obtSucces(9);
 			}
 			accesRapide->actualiserAffichage();
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
@@ -359,7 +363,7 @@ public:
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
 				if (compteurViePhysique >= 5){
-					Item* itemTmp = joueur->obtInventaire()->obtItemParID(50);
+					Item* itemTmp = joueur->obtInventaire()->obtItemParType(50);
 					if (itemTmp != nullptr){
 						MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
 						if (tmp != nullptr){
