@@ -32,6 +32,7 @@ Curseur* curseur;
 #include "Physique.h"
 #include "Joueur.h"
 #include "Salle.h"
+Salle* salleActive;
 #include "PhaseJeu.h"
 #include "MenuPrincipal.h"
 #include "PhaseMenuPrincipal.h"
@@ -39,6 +40,8 @@ Curseur* curseur;
 #include "PhaseMenuPause.h"
 #include "PhaseMenuIntro.h"
 #include "PhaseMenuFin.h"
+
+
 
 class Jeu{
 

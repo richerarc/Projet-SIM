@@ -21,6 +21,7 @@
 #include "ControlleurAudio.h"
 #include "Vent.h"
 #include "Commutateur.h"
+#include "UsineItem.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -1247,8 +1248,8 @@ public:
 		// Salle de fin
 
 		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/SalleFinStuff.obj";
-		salleFin.cheminTexture = "Ressources/Texture/salleFinStuff.png";
+		salleFin.cheminModele = "Ressources/Modele/SalleFinObjet.obj";
+		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
 		salleFin.echelle = { 1.0, 1.0, 1.0 };
 		salleFin.ID = infosSalles.size();
 		salleFin.nbrPorte = 1;
@@ -1262,7 +1263,7 @@ public:
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { -56.175, 0, -74.7745 };
+		demiSphere.position = { 66.1796, -10.9267, -287.6508 };
 		demiSphere.rotation = 0;
 		demiSphere.type = FIXE;
 
@@ -1275,8 +1276,8 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 0;
 		porteFin.largeur = 0;
-		porteFin.position = { -57.475, 0, -74.7745 };
-		porteFin.rotation = -38;
+		porteFin.position = { 66.1796, -10.9267, -287.6508 };
+		porteFin.rotation = -90;
 
 		salleFin.Objet.push_back(porteFin);
 
@@ -1288,9 +1289,9 @@ public:
 		avion.direction = { 0, 0, 0 };
 		avion.ID = 1;
 		avion.largeur = 0;
-		avion.position = { -16.0395, 0, 61.8221 };
+		avion.position = { -89.8287, -10.7889, 80.2138 };
 		avion.rotation = 90;
-		avion.type = 180;
+		avion.type = FIXE;
 
 		salleFin.Objet.push_back(avion);
 
@@ -1378,3 +1379,41 @@ public:
 		nombreDeSalle = nbrSalles;
 	}
 };
+
+void creerSalle(InfoSalle& infoSalleActive) {
+	Salle* salleActive;
+	salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
+	salleActive->defEchelle(infoSalleActive.echelle);
+	double phasePendule = MATHS_PI;
+	
+	for (auto& it : infoSalleActive.Objet) {
+		gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+		modeleporte->defPosition(it.position);
+		modeleporte->defOrientation(0, it.rotation, 0);
+		switch (it.type) {
+			case PORTE:
+				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
+				break;
+			case PENDULE:
+				if (!it.rotation)
+					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 2, 0, 0 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+				else
+					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 2 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+				break;
+			case FIXE:
+				salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
+				break;
+			case REMPLISSEUR:
+				salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
+				break;
+			case VENTILATEUR:
+				salleActive->ajoutObjet(new Vent(modeleporte, it.ID, Vecteur3d(0, 5, 0), it.position, Vecteur3d(it.largeur, 20, it.largeur)));
+				break;
+			case COMMUTATEUR:
+				salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
+				break;
+		}
+	}
+	
+	salleActive->remplir();
+}

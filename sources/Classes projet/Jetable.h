@@ -44,13 +44,13 @@ public:
 			modeleActuel = joker;
 			modeleActuel->defModele(joker->obtModele());
 			modeleActuel->defTexture(joker->obtTexture());
-			GestionnaireSucces::obtInstance().obtSucces(26);
+				//GestionnaireSucces::obtInstance().obtSucces(26);
 		}
 		if (santeMentale <= 60 && santeMentale > 25 && modeleActuel != batman){
 			modeleActuel = batman;
 			modeleActuel->defModele(batman->obtModele());
 			modeleActuel->defTexture(batman->obtTexture());
-			GestionnaireSucces::obtInstance().obtSucces(7);
+				//GestionnaireSucces::obtInstance().obtSucces(7);
 		}
 		if (santeMentale > 60 && modeleActuel != companion){
 			modeleActuel = companion;
