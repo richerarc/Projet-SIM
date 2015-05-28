@@ -523,11 +523,13 @@ private:
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
 		double phasePendule = MATHS_PI;
-
 		for (auto& it : infoSalleActive.Objet) {
-			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-			modeleporte->defPosition(it.position);
-			modeleporte->defOrientation(0, it.rotation, 0);
+			gfx::Modele3D* modeleporte = nullptr;
+			if (it.type != ITEM){
+				modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				modeleporte->defPosition(it.position);
+				modeleporte->defOrientation(0, it.rotation, 0);
+			}
 			switch (it.type) {
 			case PORTE:
 				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
