@@ -1,5 +1,6 @@
 #pragma once
 #include "Vecteur3.h"
+#include "Plan.h"
 
 template<typename T>
 class BoiteCollision{
