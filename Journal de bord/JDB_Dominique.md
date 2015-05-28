@@ -87,3 +87,5 @@
 26/05/2015 (4-5 heures au cours de la journée) : J'ai ajouté quelques succès, plusieurs modèles et j'ai codé l'affichage des valeurs de santé physique et de santé mentale  dans le jeu. J'ai aussi aidé Kevin dans le début de son modèle de masque à gaz.
 
 27/05/2015 (1h00 à 4h30) : J'ai codé le companion, qui se transforme avec la santé mentale. J'ai aussi ajouté des succès et mis divers models/textures sur le projet.
+
+28/05/2015 (4-5 heures dans la journée) : J'ai corrigé des problèmes liées au succès, notamment un qui causait une inclusion circulaire avec les items. J'ai ensuite fini de modeliser l'être humain qui sera utilisé pour un choix philosophique. À noter que Kevin s'est porté volontaire pour servir de texture, je ne l'ai pas forcé. J'ai aussi ajouté des succès associés à la philosophie. J'ai aussi commmencer à préparer ma partie de la présentation.
