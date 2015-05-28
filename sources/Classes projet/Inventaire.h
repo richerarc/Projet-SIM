@@ -117,4 +117,15 @@ public:
 	int obtItemSelectionne(){
 		return itemSelectionne;
 	}
+	Item* obtItemParID(unsigned int ID){
+		for (auto it : sacADos){
+			if (it->obtObjet() != nullptr && it->obtObjet()->obtType() == ID)
+				return it->obtObjet();
+		}
+		for (auto it : menuAccesRapide){
+			if (it->obtObjet() != nullptr && it->obtObjet()->obtType() == ID)
+				return it->obtObjet();
+		}
+		return nullptr;
+	}
 };
