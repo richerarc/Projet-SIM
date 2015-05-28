@@ -30,6 +30,7 @@ private:
 	gfx::Texte2D* texte_ID_Salle;
 	gfx::Texte2D* vie;
 	gfx::Texte2D* vieMentale;
+	gfx::Texte2D* munitionRestantes;
 	double tempsRestant;
 	double compteurViePhysique;
 	Item *itemEquipe;
@@ -39,6 +40,7 @@ private:
 	char chritoa[255];
 	MenuAccesRapide* accesRapide;
 	gfx::Sprite2D* point;
+	gfx::Sprite2D* compteurMunition;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
@@ -142,6 +144,13 @@ private:
 		vieMentale->defTexte(&nouvVieMentale);
 	}
 
+	void mettreAJourMunitionsRestante(short munitions){
+		std::string str;
+		str = SDL_itoa(munitions, chritoa, 10);
+		str.append(" %");
+		munitionRestantes->defTexte(&str);
+	}
+
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
 			if (joueur->obtNormale().y != 1) {
@@ -229,14 +238,18 @@ public:
 		texteUtiliser = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
 		texte_ID_Salle = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 60), Vecteur2f(70, 50));
 		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
-		vie = new gfx::Texte2D(new std::string(""), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(15, 10));
-		vieMentale = new gfx::Texte2D(new std::string(""), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(150, 10));
+		vie = new gfx::Texte2D(new std::string(""), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(200, 10));
+		vieMentale = new gfx::Texte2D(new std::string(""), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(350, 10));
+		munitionRestantes = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 10));
 		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-
+		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
 		mettreAJourTextesSante();
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionRestantes);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunition);
+
 		std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
 		texte_ID_Salle->defTexte(&str);
 
@@ -359,25 +372,25 @@ public:
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
 				if (compteurViePhysique >= 5){
-					Item* itemTmp = joueur->obtInventaire()->obtItemParID(50);
+					compteurViePhysique = 0;
+					Item* itemTmp = joueur->obtInventaire()->obtItemParType(50);
 					if (itemTmp != nullptr){
 						MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
 						if (tmp != nullptr){
 							if (!tmp->estEquipe()){
 								joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
-								compteurViePhysique = 0;
 							}
-							else
+							else{
 								tmp->user();
+								mettreAJourMunitionsRestante(tmp->obtDurabilite());
+							}
 						}
 						else{
 							joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
-							compteurViePhysique = 0;
 						}
 					}
 					else{
 						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
-						compteurViePhysique = 0;
 					}
 				}
 				mettreAJourtexteChrono();
