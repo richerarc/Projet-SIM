@@ -359,8 +359,23 @@ public:
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
 				if (compteurViePhysique >= 5){
-					MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemEquipe);
-					if (tmp == nullptr){
+					Item* itemTmp = joueur->obtInventaire()->obtItemParID(50);
+					if (itemTmp != nullptr){
+						MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
+						if (tmp != nullptr){
+							if (!tmp->estEquipe()){
+								joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+								compteurViePhysique = 0;
+							}
+							else
+								tmp->user();
+						}
+						else{
+							joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+							compteurViePhysique = 0;
+						}
+					}
+					else{
 						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
 						compteurViePhysique = 0;
 					}

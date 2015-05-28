@@ -4,11 +4,13 @@
 class MasqueGaz : public Item{
 	bool etatEquipe;
 	gfx::Objet2D* filtre;
+	short durabilite;
 public:
 	MasqueGaz(unsigned int ID) : Item(50, "Gaz Mask", "Your key to get away alive", "Ressources/Texture/masqueAGazIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/masqueAGaz.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/masqueAGaz.png")), ID, "metal", 2.0){
 		etatEquipe = false;
 		filtre = new gfx::Sprite2D(Vecteur2f(), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/filtreMasqueAGaz.png"));
 		filtre->defEchelle(Vecteur2f(fenetre->obtTaille().x / 1024.0, fenetre->obtTaille().y / 1024.0));
+		durabilite = 100;
 	}
 	virtual void defEtat(EtatItem etat){
 		if (etat == this->etat)
@@ -38,12 +40,13 @@ public:
 			if (this->etat == EtatItem::DEPOSE)
 				salleActive->retirerObjet(this);
 			gfx::Gestionnaire3D::obtInstance().retObjet(modele);
+			etatEquipe = false;
 			equipe = false;
 		}
 		this->etat = etat;
 	}
 	void utiliser(Joueur* joueur){
-		if (!etatEquipe){
+		if (!etatEquipe && durabilite > 0){
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
 			gfx::Gestionnaire3D::obtInstance().retObjet(modele);
 			etatEquipe = true;
@@ -57,5 +60,15 @@ public:
 		}
 	}
 	void equiper(Joueur* joueur){}
-	void animer(Joueur* joueur) {	}
+	void animer(Joueur* joueur) {}
+
+	bool estEquipe(){ return etatEquipe; }
+	void user(){
+		etatEquipe = (--durabilite >= 0);
+		if (!etatEquipe){
+			gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
+			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
+		}
+	}
+	short obtDurabilite() { return durabilite; }
 };
