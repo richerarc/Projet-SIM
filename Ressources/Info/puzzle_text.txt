@@ -1,1 +1,2 @@
 Ressources/Info/Ventilateur.pzl
+Ressources/Info/Plafond.pzl
