@@ -69,6 +69,12 @@ private:
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (((santeMentalePrecedente - joueur->obtSanteMentale()) / santeMentalePrecedente) > 0.02)
 			GestionnaireSucces::obtInstance().obtSucces(0);
+		if (joueur->obtSanteMentale() <= 60 && santeMentalePrecedente > 60){
+			GestionnaireSucces::obtInstance().obtSucces(7);
+		}
+		if (joueur->obtSanteMentale() <= 25 && santeMentalePrecedente > 25){
+			GestionnaireSucces::obtInstance().obtSucces(26);
+		}
 		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
@@ -215,7 +221,7 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(11, 0);
+		test = UsineItem::obtInstance().obtItemParType(42, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
@@ -304,7 +310,10 @@ public:
 			joueur->obtInventaire()->actualiser();
 			itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
 			if (itemEquipe != nullptr){
+				Item* itemPrecedent = itemEquipe;
 				itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur, frameTime);
+				if (itemPrecedent->obtType() > 29 && itemPrecedent->obtType() < 50 && itemPrecedent->obtEtat() == DEPOSE)
+					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() - 1);
 			}
 			accesRapide->actualiserAffichage();
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
@@ -407,7 +416,7 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(18);
 						if (nom == "Holy Rod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
-						if (nom == "Luger P08" || "Thompson M1")
+						if (nom == "Luger P08" || nom == "Thompson M1")
 							GestionnaireSucces::obtInstance().obtSucces(8);
 						if (nom == "Grenade")
 							GestionnaireSucces::obtInstance().obtSucces(9);
@@ -417,8 +426,10 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(24);
 						if (nom == "Thai")
 							GestionnaireSucces::obtInstance().obtSucces(21);
-						if (nom == "Chicken")
+						if (nom == "Chicken drumstick")
 							GestionnaireSucces::obtInstance().obtSucces(25);
+						if (nom == "Companion")
+							GestionnaireSucces::obtInstance().obtSucces(11);
 						objetVise = nullptr;
 					}
 					else if (dynamic_cast<Commutateur*>(objetVise)){
