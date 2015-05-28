@@ -7,6 +7,7 @@
 #include "Equipable.h"
 #include "Note.h"
 #include "Journal.h"
+#include "Munition.h"
 
 class UsineItem : public Singleton<UsineItem>{
 public:
@@ -69,6 +70,15 @@ public:
 				switch (type % 10){
 					case(0) ://masque a gaz
 						return new MasqueGaz(ID);
+				}
+			case (6) :
+				switch (type % 10){
+				case(0) ://ACP45
+					return new MasqueGaz(ID);
+				case(1) ://PARABELUM
+					return new MasqueGaz(ID);
+				case(2) ://Capsule de gaz
+					return new MasqueGaz(ID);
 			}
 		}
 		return nullptr;

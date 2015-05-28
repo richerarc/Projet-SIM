@@ -1,8 +1,12 @@
 #pragma once
 #include "BoiteCollision.h"
 
+<<<<<<< HEAD
+enum objet_type{PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR, VENTILATEUR, COMMUTATEUR, PLAFOND};
+=======
 enum objet_type{PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR, VENTILATEUR, COMMUTATEUR};
 enum position_type{MURS = 101, SOLS=102, PLAFONDS=103, MURS_SOLS=104, MURS_PLAFONDS=105};
+>>>>>>> bc04fc63d903cf0264b5969a545b87791d4898d1
 
 struct InfoObjet {
 	unsigned int ID;
