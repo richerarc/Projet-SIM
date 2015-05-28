@@ -359,8 +359,11 @@ public:
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
 				if (compteurViePhysique >= 5){
-					joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
-					compteurViePhysique = 0;
+					MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemEquipe);
+					if (tmp == nullptr){
+						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+						compteurViePhysique = 0;
+					}
 				}
 				mettreAJourtexteChrono();
 
