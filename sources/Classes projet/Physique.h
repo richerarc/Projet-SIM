@@ -577,6 +577,8 @@ public:
 					mur = true;
 					if (!escalier) {
 						Vecteur3d pointDifference = pointCollision - point;
+						if (normale.x == 1.f || normale.z == 1.f)
+							pointDifference *= Vecteur3d(fabs(normale.x), normale.y, fabs(normale.z)); // lololol
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
 					}
 				}
