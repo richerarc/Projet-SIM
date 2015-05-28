@@ -20,8 +20,8 @@ private:
 	short santePhysique, santeMentale;
 	Vecteur3d normale;
 	Vecteur3d pointCollision;
-	bool bloque;
-	Chrono chronoSaut;
+	bool bloque, saoul;
+	Chrono chronoSaut, chronoAlcoolemie;
 	Inventaire* inventaire;
 	Vecteur3d normaleMur;
 
@@ -73,6 +73,7 @@ public:
 		chronoSaut = Chrono();
 		inventaire = new Inventaire(Vecteur2f(9, 3));
 		bloquer();
+		saoul = false;
 	}
 
 	~Joueur() {
@@ -100,6 +101,16 @@ public:
 			Vecteur3d cote = camera->obtCote();
 			devant.normaliser();
 			cote.y = 0;
+			if (saoul){
+				double temps = chronoAlcoolemie.obtTempsEcoule().enSecondes();
+				if (temps < 120){
+					double sinT4 = sin(temps) / 4;
+					camera->defHAngle(camera->obtHAngle() + sinT4);
+					camera->defVAngle(camera->obtVAngle() - sin(temps / 2) / 8 - sinT4);
+				}
+				else
+					saoul = false;
+			}
 			Vecteur3d vitesseTemp;
 			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(COURIR)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_LEFTSHOULDER)) && (vitesseDeplacement != 4.f) && (etatStatique == DEBOUT || etatStatique == ACCROUPI)) {
 				if (etatStatique == DEBOUT)
@@ -347,6 +358,12 @@ public:
 	void deBloquer(){
 		this->bloque = false;
 		camera->deBloquer();
+	}
+
+	void saouler(){
+		saoul = true;
+		santeMentale += 10;
+		chronoAlcoolemie.repartir();
 	}
 
 	gfx::Modele3D* obtModele3D() { return modele3D; }

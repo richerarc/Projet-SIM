@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include "Texte2D.h"
 
 class Journal : public Item {
 
@@ -13,12 +14,9 @@ public:
 
 	}
 
-	void utiliser(){
-		
-	}
-
-	void equiper(){
-		
-	}
+	void utiliser(Joueur* joueur){}
+	void utiliser2(Joueur* joueur){}
+	void equiper(Joueur* joueur){}
+	void animer(Joueur* joueur){}
 
 };
