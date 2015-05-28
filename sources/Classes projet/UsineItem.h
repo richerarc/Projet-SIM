@@ -33,7 +33,7 @@ public:
 			case (2) :
 				switch (type % 10){
 					case(0) ://note
-						return nullptr /*new Note()*/;
+						return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Whyv2_000000.png"));
 					case(1) ://journal
 						return nullptr /*new Journal()*/;
 				}

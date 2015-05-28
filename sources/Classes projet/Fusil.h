@@ -2,15 +2,13 @@
 #include "Item.h"
 #include "Peinture.h"
 
-enum Ammo { ACP45, PARABELUM };
-
 class Fusil : public Item{
 private:
 	float ballesParSeconde;
 	float degat;
 	float angleMaximalEtendue;
 	float recul;
-
+	short chargeur, munition;
 	bool automatique;
 	bool dernierCoup;
 
@@ -20,12 +18,14 @@ private:
 	int animationActuelle;
 
 public:
-	Fusil(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, float ballesParSeconde, float degat, float angleMaximalEtendue, float recul, int chargeur, bool automatique) : Item(type, nom, description, cheminIcone, 1, modele, ID, materiaux, masse){
+	Fusil(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, float ballesParSeconde, float degat, float angleMaximalEtendue, float recul, short chargeur, bool automatique) : Item(type, nom, description, cheminIcone, 1, modele, ID, materiaux, masse){
 		this->ballesParSeconde = ballesParSeconde;
 		this->degat = degat;
 		this->angleMaximalEtendue = angleMaximalEtendue;
 		this->recul = recul;
 		this->automatique = automatique;
+		this->chargeur = chargeur;
+		munition = rand() % 3;
 		if (nom == "Thompson M1")
 			this->modele->defEchelle(0.25, 0.25, 0.25);
 	}
@@ -61,9 +61,9 @@ public:
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
-		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde){
+		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde && munition > 0){
 			dps.repartir();
-
+			--munition;
 			if (type == 10)
 				ControlleurAudio::obtInstance().jouer(COUPLUGER, joueur);
 			if (type == 11)
@@ -127,4 +127,10 @@ public:
 		ControlleurAudio::obtInstance().jouer(EQUIPERFUSIL, joueur);
 	}
 
+	void charger(short munition){
+		this->munition += munition;
+	}
+
+	short obtChargeur(){ return chargeur; }
+	short obtballesRestantes() { return munition; }
 };
