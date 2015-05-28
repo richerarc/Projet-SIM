@@ -134,8 +134,8 @@ private:
 	}
 
 	void mettreAJourTextesSante(){
-		std::string nouvVie = "Health : ";
-		std::string nouvVieMentale = "Sanity : ";
+		std::string nouvVie = "Health: ";
+		std::string nouvVieMentale = "Sanity: ";
 		nouvVie.append(SDL_itoa(joueur->obtSantePhysique(), chritoa, 10));
 		nouvVieMentale.append(SDL_itoa(joueur->obtSanteMentale(), chritoa, 10));
 		vie->defTexte(&nouvVie);
