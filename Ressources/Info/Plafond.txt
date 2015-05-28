@@ -1,0 +1,1 @@
+Ressources/Modele/DeathCeiling.obj Ressources/Texture/DeathCeiling.png 8
