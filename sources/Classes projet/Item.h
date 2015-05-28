@@ -38,7 +38,7 @@ public:
 
 	virtual void animer(Joueur* joueur) = 0;
 
-	void defEtat(EtatItem etat){
+	 virtual void defEtat(EtatItem etat){
 		if (etat == this->etat)
 			return;
 		gfx::Gestionnaire3D::obtInstance().retObjet(modele);

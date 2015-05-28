@@ -20,22 +20,10 @@ public:
 
 	}
 
-	void animer(Joueur* joueur){
-		
-	}
-
-	void utiliser(){
-
-	}
-
-	void utiliser2(){
-
-
-	}
-
-	void equiper(){
-
-	}
+	void utiliser(Joueur* joueur){}
+	void utiliser2(Joueur* joueur){}
+	void equiper(Joueur* joueur){}
+	void animer(Joueur* joueur){}
 
 	void defcode(std::string* texte) {
 		code->defTexte(texte);

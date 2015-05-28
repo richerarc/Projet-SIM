@@ -5,6 +5,8 @@
 #include "Fusil.h"
 #include "Consommable.h"
 #include "Equipable.h"
+#include "Note.h"
+#include "Journal.h"
 
 class UsineItem : public Singleton<UsineItem>{
 public:
@@ -31,9 +33,9 @@ public:
 			case (2) :
 				switch (type % 10){
 					case(0) ://note
-						return nullptr;
-					case(1) ://article
-						return nullptr;
+						return nullptr /*new Note()*/;
+					case(1) ://journal
+						return nullptr /*new Journal()*/;
 				}
 			case (3) :
 				switch (type % 10){

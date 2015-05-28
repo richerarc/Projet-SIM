@@ -187,7 +187,7 @@ struct Chocolat : public Jetable, public Consommable{
 				}
 			}
 			else{
-				joueur->defSanteMentale(joueur->obtSanteMentale() + 10);
+				joueur->defSanteMentale(joueur->obtSanteMentale() + 5);
 				finConsommation(joueur);
 			}
 		}
@@ -214,7 +214,7 @@ struct Vin : public Jetable, public Consommable{
 				}
 			}
 			else{
-				//modifier caméra
+				joueur->saouler();
 				finConsommation(joueur);
 			}
 		}
@@ -245,7 +245,7 @@ struct Seringue : public Jetable, public Consommable{
 				}
 			}
 			else{
-				//slow-mo mode
+				//effet seringue
 				finConsommation(joueur);
 			}
 		}
