@@ -9,6 +9,7 @@
 #include "Aimant.h"
 #include "Pendule.h"
 #include "Remplisseur.h"
+#include "PlafondTueur.h"
 #include <string>
 
 enum collisions{ AUCUNE, MUR, SOLDROIT, SOLCROCHE, PLAFOND };
@@ -195,6 +196,12 @@ public:
 
 					}
 				}
+			}
+			PlafondTueur* it_Plafond = dynamic_cast<PlafondTueur*>(it);
+			if (it_Plafond){
+				Vecteur3d plafPos = it_Plafond->obtPosition();
+				plafPos.y = cos(temps) + 2;
+				it_Plafond->defPosition(plafPos);
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {

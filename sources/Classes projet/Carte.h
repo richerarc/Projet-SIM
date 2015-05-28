@@ -22,6 +22,7 @@
 #include "Vent.h"
 #include "Commutateur.h"
 #include "UsineItem.h"
+#include "PlafondTueur.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -552,10 +553,13 @@ private:
 			case COMMUTATEUR:
 				salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
 				break;
+			case PLAFONDTUEUR:
+				salleActive->ajoutObjet(new PlafondTueur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, true, false));
+				break;
 			case ITEM:
 				Item *itm = UsineItem::obtInstance().obtItemParType(it.IDitem, it.ID);
 				itm->defPosition(it.position);
-					itm->defVitesse({0,0.1,0});
+				itm->defVitesse({ 0, 0.1, 0 });
 				salleActive->ajoutObjet(itm);
 				break;
 			}
