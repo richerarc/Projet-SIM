@@ -631,9 +631,10 @@ public:
 		Vecteur3d normale;
 		Vecteur3d difference;
 		Vecteur3d* tabJoueur;
+		collisions typeCollision = AUCUNE;
+		bool mur = false;
 
 		for (auto it : listeObjet) {
-
 			if (!it->obtCollisionInterne()) {
 				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
 					for (unsigned int j = 0; j < 3; j++) {
@@ -644,13 +645,72 @@ public:
 						else if (j == 2)
 							point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
 					}
-					if ((it->obtModele3D()->obtBoiteCollision().collisionDeuxBoite(joueur->obtModele3D()->obtBoiteCollision())) || (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point))) {
-						joueur->defEtat(STABLE);
-						joueur->obtVitesse().y = 0.f;
-						joueur->defPosition(joueur->obtPosition() - joueur->obtVitesse() / 50);
-						joueur->obtVitesse().x = 0.f;
-						joueur->obtVitesse().z = 0.f;
-						return true;
+					rayonCollision = Droite(point, joueur->obtVitesse());
+					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
+						if (fabs(normale.x) < 0.05f)
+							normale.x = 0.f;
+						if (fabs(normale.z) < 0.05f)
+							normale.z = 0.f;
+						normale.normaliser();
+						joueur->defNormale(normale);
+						joueur->defPointCollision(pointCollision);
+
+						// Collision au Plafond
+						if (normale.y < 0){
+							joueur->obtVitesse().y = -0.000000000001f;
+							joueur->defEtat(CHUTE);
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+							return true;
+						}
+
+						// Collision sur un mur
+						if (normale.y == 0) {
+							joueur->defNormaleMur(normale);
+							typeCollision = MUR;
+							mur = true;
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+						}
+						joueur->obtVitesse().x = 0.;
+						joueur->obtVitesse().z = 0.;
+						break;
+					}
+				}
+
+				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
+					for (unsigned int j = 0; j < 3; j++) {
+						if (j == 0)
+							point.x = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+						else if (j == 1)
+							point.y = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+						else if (j == 2)
+							point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+					}
+					rayonCollision = Droite(point, joueur->obtVitesse());
+					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
+						if (fabs(normale.x) < 0.05f)
+							normale.x = 0.f;
+						if (fabs(normale.z) < 0.05f)
+							normale.z = 0.f;
+						normale.normaliser();
+						joueur->defNormale(normale);
+						joueur->defPointCollision(pointCollision);
+						if (normale.y == 1) {
+							typeCollision = SOLDROIT;
+						}
+						if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
+							typeCollision = SOLCROCHE;
+
+						if (typeCollision != MUR) {
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
+						}
+						if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
+							joueur->obtVitesse().y = 0.f;
+							joueur->defEtat(STABLE);
+						}
+						return typeCollision;
 					}
 				}
 			}
