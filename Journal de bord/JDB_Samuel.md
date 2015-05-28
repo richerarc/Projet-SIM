@@ -53,3 +53,9 @@
 14 mai: creation de variante de cadres pour le jeu (1h) et travail avec Dominique sur les achievements (2h).
 
 19 mai: modification de l'origin de mes modeles de decor (20 min) puis travail sur les achievements (2h40)
+
+21 mai: liste des achievbements, ne reste plus qua les afficher dans un menu (2h)
+
+26 mai: creation de la cartouche de gas et creation de la salle illuminati (4h)
+
+27 mai: deverrouillage de portes, creation de la seringue, creation de la cible, de la salle sérieuse et la table serieuse, ajout d'une tour de controle a la salle de fin.

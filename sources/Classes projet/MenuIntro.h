@@ -20,6 +20,7 @@ public:
 			new std::string("Next"), 55);
 		
 		premierMenu = true;
+		defPause(true);
 	}
 
 	~MenuIntro(void) {
@@ -56,13 +57,18 @@ public:
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
 				Carte::obtInstance().salleActive->remplir();
+				premierMenu = true;
+				suivant->defTexte(new std::string("Next"));
+				this->spriteFond->defTexture(new gfx::Texture("Ressources/Texture/Journa2l_000000.png"));
 			}
 			
 		}
 		
-		premierMenu = false;
-		suivant->defTexte(new std::string("Start"));
-		this->spriteFond->defTexture(new gfx::Texture("Ressources/Texture/Partie2_000000.png"));
+		else {
+			premierMenu = false;
+			suivant->defTexte(new std::string("Start"));
+			this->spriteFond->defTexture(new gfx::Texture("Ressources/Texture/Partie2_000000.png"));
+		}
 
 	}
 	void remplir(void) {

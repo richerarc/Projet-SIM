@@ -85,7 +85,7 @@ public:
 		collision = false;
 
 		// Ajout des coefficients de restitution des différents matériaux
-		mapRestitution["metal"] = 0.6;
+		mapRestitution["metal"] = 0.9;
 		mapRestitution["bois"] = 0.5;
 		mapRestitution["plastique"] = 0.68;
 		mapRestitution["ballerebondissante"] = 0.1;
@@ -198,9 +198,12 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it)) {
-					appliquerGravite(it->obtVitesse(), frameTime);
-					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
+				if (!it_ObjetPhysique->estStable()) {
+					if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it, frameTime)) {
+						appliquerGravite(it->obtVitesse(), frameTime);
+						it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
+						it->obtModele3D()->defOrientation(it->obtModele3D()->obtOrientation() + (it->obtVitesseAngulaire() * frameTime));
+					}
 				}
 			}
 		}
@@ -214,80 +217,112 @@ public:
 		}
 	}
 
-	void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
+	/*void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
 
-		double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
-		objet.obtVitesse() -= vecteurNormal * dScalaire;
+	double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
+	objet.obtVitesse() -= vecteurNormal * dScalaire;
+	}*/
+
+	void rebondObjetCarte(Objet& objet, Vecteur3d normale, Vecteur3d pointdeCollision, double frameTime) {
+
+		normale.normaliser();
+
+		for (unsigned int i = 0; i < 6; ++i) {
+			Vecteur3f huehue = objet.obtModele3D()->obtNormaleBoiteDeCollision()[i];
+			huehue.normaliser();
+			float f = huehue.produitScalaire(Vecteur3f(normale.x, normale.y, normale.z));
+			if (f > 0.99) {
+				objet.defStable(true);
+			}
+		}
+
+		if (!objet.estStable()) {
+			// Calcul de la force normale
+
+			Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
+
+			Vecteur3d positionCM = { 0, 0, 0 };
+
+			for (unsigned int i = 0; i < 8; i++) {
+				positionCM.x += BoiteDeCollisionModifiee[i].x;
+				positionCM.y += BoiteDeCollisionModifiee[i].y;
+				positionCM.z += BoiteDeCollisionModifiee[i].z;
+			}
+
+			positionCM /= 8;
+
+			Vecteur3d rayon = Maths::vecteurEntreDeuxPoints(pointdeCollision, positionCM);
+			double r = rayon.norme();
+			rayon.normaliser();
+
+			double theta = M_PI - normale.angleEntreVecteurs(Vecteur3d(0, -1, 0));
+			double phi = rayon.angleEntreVecteurs(normale);
+
+			// Pour le calcul du moment d'inertie...
+			Vecteur3d coteX = Maths::vecteurEntreDeuxPoints(BoiteDeCollisionModifiee[4], BoiteDeCollisionModifiee[7]);
+			double longueurcoteX = coteX.norme();
+			coteX.normaliser();
+
+			Vecteur3d coteY = Maths::vecteurEntreDeuxPoints(BoiteDeCollisionModifiee[4], BoiteDeCollisionModifiee[5]);
+			double longueurcoteY = coteY.norme();
+			coteY.normaliser();
+
+			Vecteur3d coteZ = Maths::vecteurEntreDeuxPoints(BoiteDeCollisionModifiee[4], BoiteDeCollisionModifiee[0]);
+			double longueurcoteZ = coteZ.norme();
+			coteZ.normaliser();
+
+			Vecteur3d axederotation = rayon.produitVectoriel(normale);
+
+			double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, objet.obtMasse());
+
+			//            wf               =                 wi                  +                               alpha * delta T
+			double normeMomentForceNormale = objet.obtVitesseAngulaire().norme() + (((r * objet.obtMasse() * -9.8 * cos(theta) * sin(phi)) / I) * 3);
+
+			double wi = objet.obtVitesseAngulaire().norme();
+
+			objet.defVitesseAngulaire(axederotation * normeMomentForceNormale);
+			//objet.obtModele3D()->defOrigine(Maths::vecteurEntreDeuxPoints(positionCM, pointdeCollision));
+
+			// Calcul du rebond
+
+			//double cr = mapRestitution[objet.obtMateriaux()];
+			///*theta = sin(normale.angleEntreVecteurs(rayon));
+			//double masse = objet.obtMasse();
+			//double vi = (objet.obtVitesse() * normale).norme();
+			//double wi = objet.obtVitesseAngulaire().norme();*/
+
+			//theta = normale.angleEntreVecteurs(rayon);
+			//double vi = (normale * objet.obtVitesse().norme()).norme();
+			//double masse = objet.obtMasse();
+
+			//double a = pow((r * masse * cos(theta) * frameTime / I), 2);
+			//double b = (-2 * r * masse * cos(theta) * frameTime / I)*((r * masse * cos(theta) * frameTime * vi / I) - wi);
+			//double c = (r * masse * vi * cos(theta) * frameTime / I)*((r * masse * cos(theta) * frameTime * vi / I) + (2 * wi)) + pow(wi, 2);
+
+
+
+			///*double a = (masse / 2)*(1 + (masse*pow(r, 2)*pow(theta, 2)) / (I));
+			//double b = (-pow(masse, 2)*pow(r, 2)*pow(theta, 2)*vi) / I;
+			//double c = (masse*pow(vi, 2) / 2) * (((masse*pow(r, 2)*pow(theta, 2)) / (I)) - (pow(cr, 2)));*/
+
+			//double vf = (-b - sqrt(abs(pow(b, 2) - 4 * a*c))) / (2 * a);
+
+			//double wf = pow(((((r * masse * (vf - vi) * cos(theta) * frameTime) / I) - wi) * (pow(cr, 2))), 2);
+
+			//Vecteur3d vvitesseAngulaire = axederotation * wf;
+			////Vecteur3d vitesseAngulaireFinale = vvitesseAngulaire + momentForceNormale;
+			////objet.defVitesseAngulaire(objet.obtVitesseAngulaire() + vvitesseAngulaire);
+			//objet.obtVitesse().normaliser();
+			//objet.obtVitesse() *= vf;
+			double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(normale);
+			objet.obtVitesse() -= normale * dScalaire;
+			//objet.obtVitesse() *= vitesseFinale;
+		}
+		else {
+			objet.defVitesse(Vecteur3d(0, 0, 0));
+			objet.defVitesseAngulaire(Vecteur3d(0, 0, 0));
+		}
 	}
-
-	//void rebondObjetCarte(Objet& objet, Vecteur3d vecteurNormal, Vecteur3d pointdecollision) {
-
-	//	Vecteur3d* BoiteDeCollisionModifiee = objet.obtModele3D()->obtBoiteDeCollisionModifiee();
-
-	//	Vecteur3d positionCM = { 0, 0, 0 };
-
-	//	for (unsigned int i = 0; i < 8; i++) {
-	//		positionCM.x += BoiteDeCollisionModifiee[i].x;
-	//	}
-	//	for (unsigned int i = 0; i < 8; i++) {
-	//		positionCM.y += BoiteDeCollisionModifiee[i].y;
-	//	}
-	//	for (unsigned int i = 0; i < 8; i++) {
-	//		positionCM.z += BoiteDeCollisionModifiee[i].z;
-	//	}
-	//	positionCM /= 8;
-
-	//	Vecteur3d rayon = { positionCM.x - pointdecollision.x, positionCM.y - pointdecollision.y, positionCM.z - pointdecollision.z };
-
-	//	double cr = 1 - mapRestitution[objet.obtMateriaux()];
-	//	double r = rayon.norme();
-	//	double theta = sin(vecteurNormal.angleEntreVecteurs(rayon));
-	//	double masse = objet.obtMasse();
-	//	double vi = objet.obtVitesse().norme();
-	//	double wi = objet.obtVitesseAngulaire().norme();
-
-	//	// Pour le calcul du moment d'inertie...
-	//	Vecteur3d  coteX = { BoiteDeCollisionModifiee[7].x - BoiteDeCollisionModifiee[4].x,
-	//		BoiteDeCollisionModifiee[7].y - BoiteDeCollisionModifiee[4].y,
-	//		BoiteDeCollisionModifiee[7].z - BoiteDeCollisionModifiee[4].z };
-	//	double longueurcoteX = coteX.norme();
-	//	coteX.normaliser();
-
-	//	Vecteur3d coteY = { BoiteDeCollisionModifiee[5].x - BoiteDeCollisionModifiee[4].x,
-	//		BoiteDeCollisionModifiee[5].y - BoiteDeCollisionModifiee[4].y,
-	//		BoiteDeCollisionModifiee[5].z - BoiteDeCollisionModifiee[4].z };
-	//	double longueurcoteY = coteY.norme();
-	//	coteY.normaliser();
-
-	//	Vecteur3d coteZ = { BoiteDeCollisionModifiee[0].x - BoiteDeCollisionModifiee[4].x,
-	//		BoiteDeCollisionModifiee[0].y - BoiteDeCollisionModifiee[4].y,
-	//		BoiteDeCollisionModifiee[0].z - BoiteDeCollisionModifiee[4].z };
-	//	double longueurcoteZ = coteZ.norme();
-	//	coteZ.normaliser();
-
-	//	rayon.normaliser();
-	//	vecteurNormal.normaliser();
-	//	Vecteur3d axederotation = rayon.produitVectoriel(vecteurNormal);
-	//	axederotation.normaliser();
-
-	//	double I = calculerMomentInertie(axederotation, coteX, coteY, coteZ, longueurcoteX, longueurcoteY, longueurcoteZ, masse);
-
-	//	double a = (masse / 2)*(1 + (masse*pow(r, 2)*pow(theta, 2)) / (I));
-	//	double b = (-pow(masse, 2)*pow(r, 2)*pow(theta, 2)*vi) / I;
-	//	double c = (masse*pow(vi, 2) / 2) * (((masse*pow(r, 2)*pow(theta, 2)) / (I)) - (pow(cr, 2)));
-
-	//	double vitesseFinale = (-b - sqrt(pow(b, 2) - 4 * a*c)) / (2 * a);
-
-	//	double wf = (r * masse * (vitesseFinale - vi) * theta) / I * 20;
-
-	//	Vecteur3d vvitesseAngulaire = axederotation * wf;
-	//	objet.defVitesseAngulaire(vvitesseAngulaire);
-	//	objet.obtVitesse().normaliser();
-
-	//	double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(vecteurNormal);
-	//	objet.obtVitesse() -= vecteurNormal * dScalaire;
-	//	objet.obtVitesse() *= vitesseFinale;
-	//}
 
 	// Procédure qui donne le moment d'inertie d'un rectangle, tous les vecteurs doivent être normalisés(unitaires).
 	double calculerMomentInertie(Vecteur3d axederotation, Vecteur3d coteX, Vecteur3d coteY, Vecteur3d coteZ, double longueurcoteX, double longueurcoteY, double longueurcoteZ, double masse) {
@@ -323,6 +358,9 @@ public:
 
 		vecteurNormal2 *= j / objet2.obtMasse();
 		objet2.obtVitesse() -= vecteurNormal2;
+
+		objet1.defStable(false);
+		objet2.defStable(false);
 	}
 
 	double obtenirForceNormale(double masse, Vecteur3d& vitesse, Vecteur3d normale) {
@@ -434,7 +472,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet) {
+	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet, double frameTime) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -454,8 +492,7 @@ public:
 				objet.defPosition(objet.obtPosition() + difference);
 
 				normale.normaliser();
-				rebondObjetCarte(objet, normale, pointCollision);
-
+				rebondObjetCarte(objet, normale, pointCollision, frameTime);
 
 				return true;
 			}
@@ -471,7 +508,7 @@ public:
 						if (it_physique)
 							rebondObjetObjet(objet, *it, normale);
 						else
-							rebondObjetCarte(objet, normale, pointCollision);
+							rebondObjetCarte(objet, normale, pointCollision, frameTime);
 
 						collision = true;
 						return true;
@@ -540,6 +577,8 @@ public:
 					mur = true;
 					if (!escalier) {
 						Vecteur3d pointDifference = pointCollision - point;
+						if (normale.x == 1.f || normale.z == 1.f)
+							pointDifference *= Vecteur3d(fabs(normale.x), normale.y, fabs(normale.z)); // lololol
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
 					}
 				}
@@ -594,9 +633,10 @@ public:
 		Vecteur3d normale;
 		Vecteur3d difference;
 		Vecteur3d* tabJoueur;
+		collisions typeCollision = AUCUNE;
+		bool mur = false;
 
 		for (auto it : listeObjet) {
-
 			if (!it->obtCollisionInterne()) {
 				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
 					for (unsigned int j = 0; j < 3; j++) {
@@ -607,18 +647,77 @@ public:
 						else if (j == 2)
 							point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
 					}
-					if ((it->obtModele3D()->obtBoiteCollision().collisionDeuxBoite(joueur->obtModele3D()->obtBoiteCollision())) || (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point))) {
-						joueur->defEtat(STABLE);
-						joueur->obtVitesse().y = 0.f;
-						joueur->defPosition(joueur->obtPosition() - joueur->obtVitesse() / 50);
-						joueur->obtVitesse().x = 0.f;
-						joueur->obtVitesse().z = 0.f;
-						return true;
+					rayonCollision = Droite(point, joueur->obtVitesse());
+					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
+						if (fabs(normale.x) < 0.05f)
+							normale.x = 0.f;
+						if (fabs(normale.z) < 0.05f)
+							normale.z = 0.f;
+						normale.normaliser();
+						joueur->defNormale(normale);
+						joueur->defPointCollision(pointCollision);
+
+						// Collision au Plafond
+						if (normale.y < 0){
+							joueur->obtVitesse().y = -0.000000000001f;
+							joueur->defEtat(CHUTE);
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+							return true;
+						}
+
+						// Collision sur un mur
+						if (normale.y == 0) {
+							joueur->defNormaleMur(normale);
+							typeCollision = MUR;
+							mur = true;
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+						}
+						joueur->obtVitesse().x = 0.;
+						joueur->obtVitesse().z = 0.;
+						break;
+					}
+				}
+
+				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
+					for (unsigned int j = 0; j < 3; j++) {
+						if (j == 0)
+							point.x = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+						else if (j == 1)
+							point.y = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+						else if (j == 2)
+							point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
+					}
+					rayonCollision = Droite(point, joueur->obtVitesse());
+					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
+						if (fabs(normale.x) < 0.05f)
+							normale.x = 0.f;
+						if (fabs(normale.z) < 0.05f)
+							normale.z = 0.f;
+						normale.normaliser();
+						joueur->defNormale(normale);
+						joueur->defPointCollision(pointCollision);
+						if (normale.y == 1) {
+							typeCollision = SOLDROIT;
+						}
+						if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
+							typeCollision = SOLCROCHE;
+
+						if (typeCollision != MUR) {
+							Vecteur3d pointDifference = pointCollision - point;
+							joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
+						}
+						if ((typeCollision == SOLDROIT || typeCollision == SOLCROCHE)){
+							joueur->obtVitesse().y = 0.f;
+							joueur->defEtat(STABLE);
+						}
+						return typeCollision;
 					}
 				}
 			}
 			if (it->obtCollisionInterne() || dynamic_cast<Remplisseur*>(it)) {
-				collisionJoueurSalle(it->obtModele3D(), joueur);
+				/*collisionJoueurSalle(it->obtModele3D(), joueur);*/
 				return true;
 			}
 		}

@@ -31,6 +31,7 @@ namespace gfx{
 
 		void calculerMatriceTransformation(bool sommet){
 			double mat[16];
+			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 			glLoadIdentity();
 			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
@@ -76,6 +77,7 @@ namespace gfx{
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
+			bN_Est_Transformee = false;
 			matriceTransformation = Matrice4X4d();
 			boiteCollision = BoiteCollision<double>(obtBoiteDeCollisionModifiee());
 		}
@@ -189,12 +191,13 @@ namespace gfx{
 				{
 					bteColTemp[0] = modele->obtNormalesBoiteDeCollision()[i].x;
 					bteColTemp[1] = modele->obtNormalesBoiteDeCollision()[i].y;
-					bteColTemp[2] = modele->obtIndidesBoiteDeCollision()[i].z;
+					bteColTemp[2] = modele->obtNormalesBoiteDeCollision()[i].z;
+					
 					bteCol[0] = (matriceTransformation[0] * bteColTemp[0]) + (matriceTransformation[4] * bteColTemp[1]) + (matriceTransformation[8] * bteColTemp[2]) + (matriceTransformation[12] * bteColTemp[3]);
 					bteCol[1] = (matriceTransformation[1] * bteColTemp[0]) + (matriceTransformation[5] * bteColTemp[1]) + (matriceTransformation[9] * bteColTemp[2]) + (matriceTransformation[13] * bteColTemp[3]);
 					bteCol[2] = (matriceTransformation[2] * bteColTemp[0]) + (matriceTransformation[6] * bteColTemp[1]) + (matriceTransformation[10] * bteColTemp[2]) + (matriceTransformation[14] * bteColTemp[3]);
 					bteCol[3] = (matriceTransformation[3] * bteColTemp[0]) + (matriceTransformation[7] * bteColTemp[1]) + (matriceTransformation[11] * bteColTemp[2]) + (matriceTransformation[15] * bteColTemp[3]);
-					if (bteCol[3] != 1)
+					/*if (bteCol[3] != 1)
 					{
 						normaleBoiteDeCollision[i].x = bteCol[0] / bteCol[3];
 						normaleBoiteDeCollision[i].y = bteCol[1] / bteCol[3];
@@ -205,7 +208,10 @@ namespace gfx{
 						normaleBoiteDeCollision[i].x = bteCol[0];
 						normaleBoiteDeCollision[i].y = bteCol[1];
 						normaleBoiteDeCollision[i].z = bteCol[2];
-					}
+					}*/
+					normaleBoiteDeCollision[i].x = bteCol[0];
+					normaleBoiteDeCollision[i].y = bteCol[1];
+					normaleBoiteDeCollision[i].z = bteCol[2];
 				}
 				bN_Est_Transformee = false;
 			}
@@ -242,6 +248,7 @@ namespace gfx{
 			sommet_Est_Transforme = false;
 			normale_Est_Transforme = false;
 			bDC_Est_Transformee = false;
+			bN_Est_Transformee = false;
 		}
 
 		void defTexture(Texture *texture){
@@ -249,10 +256,12 @@ namespace gfx{
 		}
 
 		void defEchelle(double echX, double echY, double echZ){
+
 			echelle = Vecteur3d(echX, echY, echZ);
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			bN_Est_Transformee = true;
 		}
 
 		Modele* obtModele(){
@@ -264,39 +273,47 @@ namespace gfx{
 		}
 
 		void defPosition(Vecteur3d pos){
+
 			position = pos;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
 		void defOrigine(Vecteur3d org){
+
 			origine.x = -org.x;
 			origine.y = -org.y;
 			origine.z = -org.z;
 		}
 
 		void defOrientation(Vecteur3d ort){
+
 			orientation = ort;
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			bN_Est_Transformee = true;
 			rotations.clear();
 		}
 
 		void rotationner(Vecteur3d rot){
+
 			orientation += rot;
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			bN_Est_Transformee = true;
 		}
 
 		void deplacer(Vecteur3d dep){
+
 			position += dep;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
 		}
 
 		void defPosition(double axeX, double axeY, double axeZ){
+
 			position.x = axeX;
 			position.y = axeY;
 			position.z = axeZ;
@@ -305,37 +322,42 @@ namespace gfx{
 		}
 
 		void defOrigine(double axeX, double axeY, double axeZ){
+
 			origine.x = -axeX;
 			origine.y = -axeY;
 			origine.z = -axeZ;
 		}
 
 		void defOrientation(double axeX, double axeY, double axeZ){
+
 			orientation.x = axeX;
 			orientation.y = axeY;
 			orientation.z = axeZ;
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			bN_Est_Transformee = true;
 			rotations.clear();
 		}
 
 		void rotationner(double axeX, double axeY, double axeZ){
+
 			orientation.x += axeX;
 			orientation.y += axeY;
 			orientation.z += axeZ;
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
+			bN_Est_Transformee = true;
 		}
 
 		void rotationner(Vecteur3d axe, double angle){
+
 			sommet_Est_Transforme = true;
 			normale_Est_Transforme = true;
 			bDC_Est_Transformee = true;
-
+			bN_Est_Transformee = true;
 			rotations.push_back(std::make_tuple(angle, axe));
-
 		}
 
 		void deplacer(double axeX, double axeY, double axeZ){

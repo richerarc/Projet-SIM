@@ -53,7 +53,7 @@ public:
 	}
 
 	bool ajouterObjet(Item *objet){
-		//Vérifions si il reste de la place dans le menu d'accès rapide
+		//VÃ©rifions si il reste de la place dans le menu d'accÃ¨s rapide
 		for (Case* i : menuAccesRapide){
 			if (i->obtObjet() == nullptr){
 				i->defObjet(objet);
@@ -61,7 +61,7 @@ public:
 				return true;
 			}
 		}
-		//Sinon, regardons pour le sac à dos.
+		//Sinon, regardons pour le sac Ã  dos.
 		for (Case* i : sacADos){
 			if (i->obtObjet() == nullptr){
 				i->defObjet(objet);
@@ -91,10 +91,14 @@ public:
 	}
 
 	Item* retirerObjetSacADos(int position){
+		menuAccesRapide[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(45, 0, 45));
+		menuAccesRapide[position]->obtObjet()->defStable(false);
 		return sacADos[position]->retirerObjet();
 	}
 
 	Item* retirerObjetAccesRapide(int position){
+		menuAccesRapide[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(45, 0, 45));
+		menuAccesRapide[position]->obtObjet()->defStable(false);
 		return menuAccesRapide[position]->retirerObjet();
 	}
 
@@ -112,5 +116,16 @@ public:
 
 	int obtItemSelectionne(){
 		return itemSelectionne;
+	}
+	Item* obtItemParType(unsigned int Type){
+		for (auto it : sacADos){
+			if (it->obtObjet() != nullptr && it->obtObjet()->obtType() == Type)
+				return it->obtObjet();
+		}
+		for (auto it : menuAccesRapide){
+			if (it->obtObjet() != nullptr && it->obtObjet()->obtType() == Type)
+				return it->obtObjet();
+		}
+		return nullptr;
 	}
 };

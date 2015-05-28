@@ -3,6 +3,7 @@
 #include "Menu.h"
 #include "Bouton.h"
 #include "Carte.h"
+#include "Phase.h"
 class MenuFin : public Menu {
 private:
 	Bouton* credits;
@@ -11,56 +12,76 @@ private:
 	Bouton* quitter;
 
 	bool enCredits;
+	bool perdu;
 public:
 	MenuFin(void) {
-		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Journa2l_000000.png"));
+		this->spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources\\Texture\\JournalPerdu.png"));
 
-		credits = new Bouton(std::bind(&MenuFin::enClickCredits, this, std::placeholders::_1), std::bind(&MenuFin::survol, this, std::placeholders::_1),
+		credits = new Bouton(std::bind(&MenuFin::enClickCredits, this, std::placeholders::_1),
+			std::bind(&MenuFin::survol, this, std::placeholders::_1),
 			std::bind(&MenuFin::defaut, this, std::placeholders::_1),
 			Vecteur2f(1080, 0),
 			new std::string("Credits"), 55);
 
-		nouvellePartie = new Bouton(std::bind(&MenuFin::enClickNouvllePartie, this, std::placeholders::_1), std::bind(&MenuFin::survol, this, std::placeholders::_1),
+		nouvellePartie = new Bouton(std::bind(&MenuFin::enClickRecommencer, this, std::placeholders::_1),
+			std::bind(&MenuFin::survol, this, std::placeholders::_1),
 			std::bind(&MenuFin::defaut, this, std::placeholders::_1),
 			Vecteur2f(600, 0),
 			new std::string("New Game"), 55);
 
-		menuPrincipal = new Bouton(std::bind(&MenuFin::enClickMenuPrincipal, this, std::placeholders::_1), std::bind(&MenuFin::survol, this, std::placeholders::_1),
+		menuPrincipal = new Bouton(std::bind(&MenuFin::enClickMenuPrincipal, this, std::placeholders::_1),
+			std::bind(&MenuFin::survol, this, std::placeholders::_1),
 			std::bind(&MenuFin::defaut, this, std::placeholders::_1),
 			Vecteur2f(300, 0),
 			new std::string("Main Menu"), 55);
 
-		quitter = new Bouton(std::bind(&MenuFin::enClickQuitter, this, std::placeholders::_1), std::bind(&MenuFin::survol, this, std::placeholders::_1),
+		quitter = new Bouton(std::bind(&MenuFin::enClickQuitter, this, std::placeholders::_1),
+			std::bind(&MenuFin::survol, this, std::placeholders::_1),
 			std::bind(&MenuFin::defaut, this, std::placeholders::_1),
 			Vecteur2f(0, 0),
 			new std::string("Quit"), 55);
 
-		credits = false;
+		enCredits = false;
+		perdu = true;
+		defPause(true);
 	}
 
-	void survol(Bouton* sender){
-		sender->defCouleur({ 215, 110, 75, 255 });
+	void survol(Bouton* envoi){
+		envoi->defCouleur({ 215, 110, 75, 255 });
 	}
 
-	void defaut(Bouton* sender){
-		sender->defCouleur({ 0, 0, 0, 255 });
+	void defaut(Bouton* envoi){
+		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
-	void enClickCredits(void) {
+	void enClickCredits(Bouton* envoi) {
 		enCredits = true;
 	}
 
-	void enClickNouvllePartie(void) {
-		//Carte::obtInstance().
+	void enClickRecommencer(Bouton* envoi) {
+		gfx::Gestionnaire2D::obtInstance().vider();
+
+
+		nouvelle_Partie = true;
+
+		nbrSalle = Carte::obtInstance().nombreDeSalle;
+
+		perdu = true;
+
 	}
 
-	void enClickMenuPrincipal(void) {
+	void enClickMenuPrincipal(Bouton* envoi) {
 		clic(MENUPRINCIPAL);
+		perdu = true;
 	}
-	void enClickQuitter(void) {
+	void enClickQuitter(Bouton* envoi) {
 		GestionnairePhases::obtInstance().viderPhaseActive();
 	}
 
 	void remplir(void) {
+		if (!perdu) {
+			this->spriteFond->defTexture(new gfx::Texture("Ressources\\Texture\\JournalGagner.png"));
+
+		}
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(this->spriteFond);
 		menuPrincipal->remplir();
 		credits->remplir();
@@ -95,5 +116,9 @@ public:
 
 	bool obtCredits(void) {
 		return enCredits;
+	}
+
+	void defPerdu(bool perdu) {
+		this->perdu = perdu;
 	}
 };

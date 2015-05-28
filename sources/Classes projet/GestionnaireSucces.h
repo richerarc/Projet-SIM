@@ -44,6 +44,7 @@ public:
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Collection!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Have ten items in your inventory"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 22));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("This can wait"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find your inner Singcaster"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 24));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Leeeeroy Jenkins!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("At least I have chicken"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 25));
+		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("Where'd Batman go?"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Hahahahaha!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 26));
 		//Succès fonctionnels mais pas encore vérifiables dans le code...
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("I'm Batman!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find Batman"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 7));
 		listeSucces.push_back(new Succes(new gfx::Texte2D(new std::string("We shall engage in a jolly cooperation!"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 640)), new gfx::Texte2D(new std::string("Find the companion"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(905, 575)), 11));
@@ -60,7 +61,7 @@ public:
 		chronoSanteMentale = new Chrono();
 		chronoDeclenche = false;
 		
-		nbrItems = 1;
+		nbrItems = 2;
 
 		chargerFichier("Ressources/Info/sauvegarde_succes.txt");
 	}

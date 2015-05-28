@@ -2,15 +2,13 @@
 #include "Item.h"
 #include "Peinture.h"
 
-enum Ammo { ACP45, PARABELUM };
-
 class Fusil : public Item{
 private:
 	float ballesParSeconde;
 	float degat;
 	float angleMaximalEtendue;
 	float recul;
-
+	short chargeur, munition;
 	bool automatique;
 	bool dernierCoup;
 
@@ -20,12 +18,14 @@ private:
 	int animationActuelle;
 
 public:
-	Fusil(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, float ballesParSeconde, float degat, float angleMaximalEtendue, float recul, int chargeur, bool automatique) : Item(type, nom, description, cheminIcone, 1, modele, ID, materiaux, masse){
+	Fusil(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse, float ballesParSeconde, float degat, float angleMaximalEtendue, float recul, short chargeur, bool automatique) : Item(type, nom, description, cheminIcone, 1, modele, ID, materiaux, masse){
 		this->ballesParSeconde = ballesParSeconde;
 		this->degat = degat;
 		this->angleMaximalEtendue = angleMaximalEtendue;
 		this->recul = recul;
 		this->automatique = automatique;
+		this->chargeur = chargeur;
+		munition = rand() % 3;
 		if (nom == "Thompson M1")
 			this->modele->defEchelle(0.25, 0.25, 0.25);
 	}
@@ -61,9 +61,9 @@ public:
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
-		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde){
+		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde && munition > 0){
 			dps.repartir();
-
+			--munition;
 			if (type == 10)
 				ControlleurAudio::obtInstance().jouer(COUPLUGER, joueur);
 			if (type == 11)
@@ -88,7 +88,7 @@ public:
 			Vecteur3d normale;
 			animationActuelle = 1;
 			animationFusil.repartir();
-			for (auto &it : Carte::obtInstance().salleActive->obtListeObjet()){
+			for (auto &it : salleActive->obtListeObjet()){
 				if (dynamic_cast<Peinture*>(it))
 					continue;
 				if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false)){
@@ -102,7 +102,7 @@ public:
 					}
 				}
 			}
-			if (Physique::obtInstance().collisionDroiteModele(Carte::obtInstance().salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
+			if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
 				Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale);
 				salleActive->ajoutObjet(trou);
 				gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
@@ -127,4 +127,10 @@ public:
 		ControlleurAudio::obtInstance().jouer(EQUIPERFUSIL, joueur);
 	}
 
+	void charger(short munition){
+		this->munition += munition;
+	}
+
+	short obtChargeur(){ return chargeur; }
+	short obtballesRestantes() { return munition; }
 };

@@ -580,3 +580,27 @@ Voici des petites photos de mon cheminement mathématique:
 ![](http://i.imgur.com/qoh3d8b.jpg)
 
 Je crois que ces calculs devront s'additionner à ce que j'ai déjà, ça devrait régler le problème où un objet qui était en contact constant avec le sol gagnait son moment de force très lentement.
+
+###23 mai 2015
+
+**0h30**: En gossant un peu dans le jeu, j'ai remarqué que lorsque j'entrait dans un menu, et que je le quittait, le bouton par lequel j'était entré était toujours allumé (vice-versa si tu quitte et revient, le bouton back est allumé). Alors j'ai réglé le problème.
+
+**2h00**: Cette semaine j'avais remarqué que le changement de résolution ne se faisait pas du tout bien, alors j'ai travaillé dessus et je suis arrivé à le faire fonctionner, il manquait plusieurs modifications à faire du genre la modification de la position selon l'échelle ou le ratio de la nouvelle résolution par rapport à celle de défaut, le changement du glViewPort() et quelques autres choses.
+
+###25 mai 2015
+
+**1h00**: Je suis allé voir Charles (mon professeur de physique) pour travailler sur les rebonds.
+
+**0h30**: Un peu de travail sur les rebonds
+
+###26 mai 2015
+
+**5h00**: Travail sur les rebonds, encore une fois, beaucoup de débogage pour finalement trouver une série d'erreurs dans le code de d'autres personnes que j'utilise. J'ai révisé le calcul des normales des boites de collision et quelques autres choses. Pour empêcher que les objets vibrent sans cesse, j'ai ajouté un état aux objets: l'état stable. Pour déclarer un objet comme étant stable, voici comment je m'y suis pris:
+
+![](http://i.imgur.com/YavSnsZ.png)
+
+**1h30**: J'ai eu l"idée de faire un nouvel item. C'est un canon à peinture qui va permettre au joueur de peinture le mur d'une salle et lorsqu'il la quitte et revient la peinture sera toujours présente, donc c'est un outil pour l'aider à se retrouver. Le gros problème c'est que ça risque de faire descendre énormément les fps si je m'y prends comme avec le fusil. J'ai d'ailleurs testé, si on tire assez longtemps avec le fusil, le jeu se met à perdre beaucoup de fps. Je crois que je devrai peut-être modifier la texture directement, reste à voir. J'ai créé la classe (elle n'est pas encore complète). Je n'ai pas pu testé étant donné que mon projet ne fonctionnait pas hier soir. J'ai fais l'objet en blender ainsi que sa texture et la texture de la peinture. J'ai aussi réglé quelques erreures de compilation.
+
+###27 mai 2015
+
+**0h10**: Haha je viens de tester les rebonds ce matin et c'est super (même dans les escaliers)!
