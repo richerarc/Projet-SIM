@@ -398,6 +398,8 @@ public:
 						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
 					}
 				}
+				if (joueur->obtSantePhysique() <= 0)
+					GestionnaireSucces::obtInstance().obtSucces(14);
 				mettreAJourtexteChrono();
 
 				if (tempsRestant <= 0) {
@@ -464,9 +466,9 @@ public:
 						char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
 						GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
 						GestionnaireSucces::obtInstance().obtSucces(1);
-						if (nom == "Water")
+						if (nom == "Water bottle")
 							GestionnaireSucces::obtInstance().obtSucces(18);
-						if (nom == "Holy Rod")
+						if (nom == "HolyRod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
 						if (nom == "Luger P08" || nom == "Thompson M1")
 							GestionnaireSucces::obtInstance().obtSucces(8);
@@ -476,7 +478,7 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(13);
 						if (nom == "Corrections")
 							GestionnaireSucces::obtInstance().obtSucces(24);
-						if (nom == "Thai")
+						if (nom == "Felix's thai box")
 							GestionnaireSucces::obtInstance().obtSucces(21);
 						if (nom == "Chicken drumstick")
 							GestionnaireSucces::obtInstance().obtSucces(25);
