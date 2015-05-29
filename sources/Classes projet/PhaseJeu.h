@@ -225,7 +225,7 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(37, 0);
+		test = UsineItem::obtInstance().obtItemParType(42, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
@@ -306,7 +306,9 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
-		GestionnaireSucces::obtInstance().verifierPacifisme();
+		if (salleActive != nullptr)
+			if (salleActive->obtID() == difficulte + 2)
+				GestionnaireSucces::obtInstance().verifierPacifisme();
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
@@ -470,8 +472,10 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(18);
 						if (nom == "HolyRod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
-						if (nom == "Luger P08" || nom == "Thompson M1")
+						if (nom == "Luger P08" || nom == "Thompson M1"){
 							GestionnaireSucces::obtInstance().obtSucces(8);
+							GestionnaireSucces::obtInstance().defPacifisme(false);
+						}
 						if (nom == "Grenade")
 							GestionnaireSucces::obtInstance().obtSucces(9);
 						if (nom == "Note")
@@ -484,6 +488,8 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(25);
 						if (nom == "Companion")
 							GestionnaireSucces::obtInstance().obtSucces(11);
+						if (nom == "Exam")
+							GestionnaireSucces::obtInstance().obtSucces(24);
 						objetVise = nullptr;
 					}
 					else if (dynamic_cast<Commutateur*>(objetVise)){

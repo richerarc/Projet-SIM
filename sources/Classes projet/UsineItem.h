@@ -7,8 +7,11 @@
 #include "Equipable.h"
 #include "Note.h"
 #include "Journal.h"
+#include "Examen.h"
 
 class UsineItem : public Singleton<UsineItem>{
+private:
+	bool examensUtilises[14];
 public:
 	Item* obtItemParType(int type, unsigned int ID){
 		switch (type / 10){
@@ -36,6 +39,18 @@ public:
 						return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Whyv2_000000.png"));
 					case(1) ://journal
 						return nullptr /*new Journal()*/;
+					case(2) :
+						bool nouveau = false;
+						unsigned short aleatoire = 0;
+						while (!nouveau){
+							aleatoire = rand() % 14;
+							if (examensUtilises[aleatoire] == false){
+								nouveau = true;
+								examensUtilises[aleatoire] = true;
+							}
+						}
+						return new Examen(ID, aleatoire);
+						break;
 				}
 			case (3) :
 				switch (type % 10){
