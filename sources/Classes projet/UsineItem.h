@@ -8,6 +8,8 @@
 #include "Note.h"
 #include "Journal.h"
 #include "Examen.h"
+#include "Munition.h"
+
 
 class UsineItem : public Singleton<UsineItem>{
 private:
@@ -18,13 +20,13 @@ public:
 			case (0) :
 				switch (type % 10){
 					case(0) ://couteau
-						return new Melee(0.3, 20.0, type, "Knife", "Don't cut yourself, bro.", "Ressources/Texture/couteauIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/couteau.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/couteau.png")), ID, "metal", 0.545);
+						return new Melee(0.3, 15, type, "Knife", "Don't cut yourself, bro.", "Ressources/Texture/couteauIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/couteau.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/couteau.png")), ID, "metal", 0.545);
 					case(1) ://chandelier
-						return new Melee(0.7, 10.0, type, "Candlestick", "Use it to guide your path, or simply smash things...", "Ressources/Texture/chandelierIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chandelier.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chandelier.png")), ID, "metal", 3.0);
+						return new Melee(0.7, 10, type, "Candlestick", "Use it to guide your path, or simply smash things...", "Ressources/Texture/chandelierIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chandelier.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chandelier.png")), ID, "metal", 3.0);
 					case(2) ://HolyRod
-						return new Melee(1.5, 236.0, type, "HolyRod", "The divine window opener!", "Ressources/Texture/HolyRod236Icone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/HolyRod236.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/HolyRod236.png")), ID, "metal", 1.4);
+						return new Melee(1.5, 236, type, "HolyRod", "The divine window opener!", "Ressources/Texture/HolyRod236Icone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/HolyRod236.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/HolyRod236.png")), ID, "metal", 1.4);
 					case(3) ://Mac a Patrick
-						return new Melee(0.5, 5.0, type, "Your Mac", "The battery is dead", "Ressources/Texture/macIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/mac.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/mac.png")), ID, "metal", 2.06);
+						return new Melee(0.5, 5, type, "Your Mac", "The battery is dead", "Ressources/Texture/macIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/mac.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/mac.png")), ID, "metal", 2.06);
 				}
 			case (1) :
 				switch (type % 10){
@@ -84,6 +86,15 @@ public:
 				switch (type % 10){
 					case(0) ://masque a gaz
 						return new MasqueGaz(ID);
+			}
+			case (6) :
+				switch (type % 10){
+				case(0) ://ACP45
+					return new Acp45(ID);
+				case(1) ://PARABELLUM
+					return new Parabellum(ID);
+				case(2) ://Capsule de gaz
+					return new CartoucheGaz(ID);
 			}
 		}
 		return nullptr;
