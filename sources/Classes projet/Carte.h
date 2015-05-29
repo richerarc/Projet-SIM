@@ -1245,21 +1245,24 @@ public:
 		com.type = COMMUTATEUR;
 		
 		salleTeleporteur.Objet.push_back(com);
-		int IDsalle, IDporte;
+		int IDporte;
+		
+		auto it = infosSalles.begin();
+		
+		std::advance(it, rand() % nombreDeSalle);
 		
 		InfoObjet obj;
 		obj.largeur = 0;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
 		gfx::Modele3D* mod;
-		for (auto &it : infosSalles){
-			if (it.nbrPorte < 3){
-				IDsalle = it.ID;
-				IDporte = obj.ID = it.Objet.size();
-				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-				mod->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
-				it.nbrPorte++;
-				positionnerPorte(*mod, it, obj);
-				it.Objet.push_back(obj);
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				itt.Objet.push_back(obj);
 				break;
 			}
 		}
@@ -1321,21 +1324,24 @@ public:
 		
 		salleFin.Objet.push_back(avion);
 		
-		int IDsalle, IDporte;
+		int IDporte;
+		
+		auto it = infosSalles.begin();
+		
+		std::advance(it, rand() % nombreDeSalle);
 		
 		InfoObjet obj;
 		obj.largeur = 0;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
 		gfx::Modele3D* mod;
-		for (auto &it : infosSalles){
-			if (it.nbrPorte < 3){
-				IDsalle = it.ID;
-				IDporte = obj.ID = it.Objet.size();
-				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-				mod->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
-				it.nbrPorte++;
-				positionnerPorte(*mod, it, obj);
-				it.Objet.push_back(obj);
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				itt.Objet.push_back(obj);
 				break;
 			}
 		}
