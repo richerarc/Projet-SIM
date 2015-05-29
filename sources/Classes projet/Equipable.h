@@ -6,7 +6,7 @@ class MasqueGaz : public Item{
 	gfx::Objet2D* filtre;
 	short durabilite;
 public:
-	MasqueGaz(unsigned int ID) : Item(50, "Gaz Mask", "Your key to get away alive", "Ressources/Texture/masqueAGazIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/masqueAGaz.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/masqueAGaz.png")), ID, "metal", 2.0){
+	MasqueGaz(unsigned int ID) : Item(50, "Gas Mask", "Your key to get away alive", "Ressources/Texture/masqueAGazIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/masqueAGaz.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/masqueAGaz.png")), ID, "metal", 2.0){
 		etatEquipe = false;
 		filtre = new gfx::Sprite2D(Vecteur2f(), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/filtreMasqueAGaz.png"));
 		filtre->defEchelle(Vecteur2f(fenetre->obtTaille().x / 1024.0, fenetre->obtTaille().y / 1024.0));
@@ -32,7 +32,9 @@ public:
 				return;
 			vitesse = Vecteur3d(0.1, 0, 0);
 			salleActive->ajoutObjet(this);
+			gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
 			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
+			etatEquipe = false;
 			equipe = false;
 		}
 		else if (etat == EtatItem::RANGE){
@@ -40,7 +42,6 @@ public:
 			if (this->etat == EtatItem::DEPOSE)
 				salleActive->retirerObjet(this);
 			gfx::Gestionnaire3D::obtInstance().retObjet(modele);
-			etatEquipe = false;
 			equipe = false;
 		}
 		this->etat = etat;
@@ -71,4 +72,5 @@ public:
 		}
 	}
 	short obtDurabilite() { return durabilite; }
+	void recharger() { durabilite = 100; }
 };
