@@ -8,4 +8,4 @@ Ressources/Modele/SalleEscalier.obj Ressources/Texture/SalleEscalier.png Ressour
 Ressources/Modele/SalleHexagonale.obj Ressources/Texture/SalleHexagonale.png Ressources/Info/SalleHexagonale.txt
 Ressources/Modele/SalleOctogonale.obj Ressources/Texture/SalleOctogonale.png Ressources/Info/SalleOctogonale.txt
 Ressources/Modele/SalleMulti.obj Ressources/Texture/SalleMulti.png Ressources/Info/SalleMulti.txt
-Ressources/Modele/SalleMonteDescent.obj Ressources/Texture/SalleMonteDescent.png Ressources/Info/SalleMonteDescent.txt Ressources/Modele/SalleCafette.obj Ressources/Texture/SalleCafette.png Ressources/Info/SalleCafette.txt
+Ressources/Modele/SalleCafette.obj Ressources/Texture/SalleCafette.png Ressources/Info/SalleCafette.txt

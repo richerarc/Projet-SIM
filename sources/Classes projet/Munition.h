@@ -8,7 +8,7 @@ protected:
 public:
 	Munition(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, double masse) : Item(type, nom, description, cheminIcone, INT_MAX, modele, ID, "metal", masse){	}
 	void utiliser(Joueur* joueur){
-		if (quantite != 0)
+		if (quantite)
 			recharger(joueur);
 	}
 	void utiliser2(Joueur* joueur){}
@@ -25,9 +25,8 @@ class Acp45 : public Munition{
 			short munition = tmp->obtChargeur() - tmp->obtballesRestantes();
 			if (munition > quantite){
 				munition = quantite;
-				this->defEtat(DEPOSE);
 			}
-			if (munition != 0){
+			if (munition){
 				tmp->charger(munition);
 				quantite -= munition;
 			}
@@ -36,6 +35,7 @@ class Acp45 : public Munition{
 public:
 	Acp45(unsigned int ID) : Munition(60, "ACP45", "A box of 60 thompson ammo", "Ressources/Texture/ACP45Icone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Munition.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/ACP45.png")), ID, 0.2){
 		quantite = 60;
+		modele->defEchelle(0.5, 0.4, 0.5);
 	}
 };
 
@@ -47,9 +47,8 @@ class Parabellum : public Munition{
 			short munition = tmp->obtChargeur() - tmp->obtballesRestantes();
 			if (munition > quantite){
 				munition = quantite;
-				this->defEtat(DEPOSE);
 			}
-			if (munition != 0){
+			if (munition){
 				tmp->charger(munition);
 				quantite -= munition;
 			}
@@ -58,6 +57,7 @@ class Parabellum : public Munition{
 public:
 	Parabellum(unsigned int ID) : Munition(61, "PARABELLUM", "A box of 24 luger ammo", "Ressources/Texture/PARABELLUMIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Munition.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/PARABELLUM.png")), ID, 0.2){
 		quantite = 24;
+		modele->defEchelle(0.5, 0.4, 0.5);
 	}
 };
 

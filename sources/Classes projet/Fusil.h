@@ -26,8 +26,6 @@ public:
 		this->automatique = automatique;
 		this->chargeur = chargeur;
 		munition = rand() % 3;
-		if (nom == "Thompson M1")
-			this->modele->defEchelle(0.25, 0.25, 0.25);
 	}
 
 	void animer(Joueur* joueur){
@@ -61,7 +59,7 @@ public:
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
-		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde && munition > 0){
+		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde && munition){
 			dps.repartir();
 			--munition;
 			if (type == 10)
