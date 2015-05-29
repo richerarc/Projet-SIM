@@ -12,7 +12,7 @@ public:
 		filtre->defEchelle(Vecteur2f(fenetre->obtTaille().x / 1024.0, fenetre->obtTaille().y / 1024.0));
 		durabilite = 100;
 	}
-	virtual void defEtat(EtatItem etat){
+	void defEtat(EtatItem etat){
 		if (etat == this->etat)
 			return;
 		gfx::Gestionnaire3D::obtInstance().retObjet(modele);

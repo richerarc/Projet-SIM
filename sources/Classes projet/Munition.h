@@ -10,6 +10,11 @@ public:
 	void utiliser(Joueur* joueur){
 		if (quantite)
 			recharger(joueur);
+		if (!quantite){
+			Item* item = joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+			item->defEtat(EtatItem::RANGE);
+			delete item;
+		}
 	}
 	void utiliser2(Joueur* joueur){}
 	void equiper(Joueur* joueur){}
@@ -51,6 +56,7 @@ class Parabellum : public Munition{
 			if (munition){
 				tmp->charger(munition);
 				quantite -= munition;
+				
 			}
 		}
 	}
