@@ -615,6 +615,11 @@ public:
 					typeCollision = SOLCROCHE;
 
 				if (typeCollision != MUR) {
+					if (joueur->obtVitesse().y <= -12 && joueur->obtVitesse().y >= -35) {
+						joueur->defSantePhysique(joueur->obtSantePhysique() - fabs(joueur->obtVitesse().y * 0.5));
+					}
+					if (joueur->obtVitesse().y < -35)
+						joueur->defSantePhysique(0);
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
@@ -717,6 +722,11 @@ public:
 							typeCollision = SOLCROCHE;
 
 						if (typeCollision != MUR) {
+							if (joueur->obtVitesse().y <= -12 && joueur->obtVitesse().y >= -35) {
+								joueur->defSantePhysique(joueur->obtSantePhysique() - fabs(joueur->obtVitesse().y * 0.5));
+							}
+							if (joueur->obtVitesse().y < -35)
+								joueur->defSantePhysique(0);
 							Vecteur3d pointDifference = pointCollision - point;
 							joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 						}
