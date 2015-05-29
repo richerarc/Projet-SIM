@@ -103,3 +103,7 @@
 	Modification du modele de la salle finale et du ciel pour enlever des faces inutiles. Positionnement de l'avion de et la porte prêt pour l'animation. La salle de fin est donc plus ou moins terminée.
 #Mercredi 27 mai (11:00 à 17:27)
 	Finalisation du modelage, texturage, fix de bugs ET implémentation de la salle finale. FINALEMENT FINIE AHAHAHAHAHAH
+#Jeudi 28 mai (11:00 à 16:00)
+	Finalisation de salles et clean de certaines choses.
+#Vendredi 29 mai (10:00 à 16:00)
+	Création de la salle SalleAccroupie et discution pour la présentation (Stress pour moi...j'espère que le travail que j'ai fait est bien)
