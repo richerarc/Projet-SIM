@@ -96,6 +96,15 @@ public:
 				case(2) ://Capsule de gaz
 					return new CartoucheGaz(ID);
 			}
+			case (7) :
+				switch (type % 10){
+				case(0) ://Clé roulliée
+					return new CleRoulliee(ID);
+				case(1) ://Clé en fer
+					return new CleFer(ID);
+				case(2) ://Clé finale
+					return new CleFinale(ID);
+			}
 		}
 		return nullptr;
 	}
