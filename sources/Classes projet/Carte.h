@@ -21,6 +21,8 @@
 #include "ControlleurAudio.h"
 #include "Vent.h"
 #include "Commutateur.h"
+#include "UsineItem.h"
+#include "PlafondTueur.h"
 
 typedef std::tuple<unsigned int, unsigned int, bool> Entree;
 typedef std::tuple<unsigned int, unsigned int> Sortie;
@@ -295,6 +297,171 @@ private:
 					if (Maths::distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
 						PorteAuMur = false;
 					}
+					Remplisseur* remp;
+					for (auto it_boite : salle.Objet){
+						if (it_boite.type == REMPLISSEUR){
+							remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it_boite.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it_boite.cheminTexture)), it_boite.largeur, it_boite.position, it_boite.ID);
+							if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
+								PorteAuMur = false;
+								break;
+							}
+							delete remp;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	void positionnerObjet(gfx::Modele3D& modeleSalle, InfoSalle& salle, InfoObjet& objet) {
+		unsigned int depart;
+		Vecteur3d normale;
+		Vecteur3d point[3];
+		Vecteur3d swap;
+		
+		bool PorteAuMur = false;
+		double* vertices = modeleSalle.obtSommetsModifies();
+		double* normales = modeleSalle.obtNormalesModifies();
+		while (!PorteAuMur)
+		{
+			PorteAuMur = true;
+			do{
+				double y;
+				do{
+					depart = (rand() % modeleSalle.obtModele()->obtNbrFaces()) * 9;
+					normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
+				} while (normale.y != 0);
+				for (int i = 0; i < 3; ++i) {
+					
+					point[i] = { vertices[depart + i * 3], vertices[depart + i * 3 + 1], vertices[depart + i * 3 + 2] };
+					
+				}
+			} while (!espacePorte(point[0], point[1], point[2]));
+			normale.normaliser();
+				// Angle de la porte...
+			objet.rotation = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
+			: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
+			
+			objet.direction = normale * -1;
+			
+			double y1 = point[0].y;
+			double y2;
+			do {
+				y2 = point[rand() % 2 + 1].y;
+			} while (y1 == y2);
+			
+			objet.position.y = (y1 < y2) ? y1 : y2;
+			
+			unsigned int i;
+			unsigned int j;
+			do {
+				do{
+					i = rand() % 3;
+					j = rand() % 3;
+				} while (i == j);
+			} while (point[i].y != point[j].y);
+			
+				// Positionnement des points de blender dans le même sens...
+			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
+				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
+					if (point[i].x > point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+				}
+				else if ((normale.x < 0 && normale.z < 0) || (normale.x >= 0 && normale.z < 0)) {
+					if (point[i].x < point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+				}
+			}
+			else
+			{
+				switch ((int)normale.x) {
+					case 1:
+						if (point[i].z < point[j].z) {
+							swap = point[i];
+							point[i] = point[j];
+							point[j] = swap;
+						}
+						break;
+					case -1:
+						if (point[i].z > point[j].z) {
+							swap = point[i];
+							point[i] = point[j];
+							point[j] = swap;
+						}
+						break;
+				}
+				switch ((int)normale.z) {
+					case 1:
+						if (point[i].x > point[j].x) {
+							swap = point[i];
+							point[i] = point[j];
+							point[j] = swap;
+						}
+						break;
+					case -1:
+						if (point[i].x < point[j].x) {
+							swap = point[i];
+							point[i] = point[j];
+							point[j] = swap;
+						}
+						break;
+				}
+			}
+			
+			Vecteur3d vecteurRatio = Maths::vecteurEntreDeuxPoints(point[i], point[j]);
+			vecteurRatio *= ((vecteurRatio.norme() - 1.471) / vecteurRatio.norme());
+			vecteurRatio *= ((double)rand() / RAND_MAX);
+			vecteurRatio = point[i] + vecteurRatio;
+			objet.position.x = vecteurRatio.x;
+			objet.position.z = vecteurRatio.z;
+			
+				// Boucle qui vérifie si une porte sera en collision avec une autre...
+			Vecteur3d pivot = { 0, 1, 0 };
+			for (auto it_Porte : salle.Objet) {
+				
+				if (it_Porte.largeur != 0) {
+					
+					if (it_Porte.rotation == 0) {
+						if (objet.position.z >= it_Porte.position.z && (objet.position.x <= it_Porte.position.x && objet.position.x >= it_Porte.position.x + it_Porte.largeur))
+							PorteAuMur = false;
+					}
+					else if (it_Porte.rotation == 180) {
+						if (objet.position.z <= it_Porte.position.z && (objet.position.x >= it_Porte.position.x && objet.position.x <= it_Porte.position.x + it_Porte.largeur))
+							PorteAuMur = false;
+					}
+					else if (it_Porte.rotation == 270) {
+						if (objet.position.x <= it_Porte.position.x && (objet.position.z >= it_Porte.position.z + it_Porte.largeur && objet.position.z <= it_Porte.position.z))
+							PorteAuMur = false;
+					}
+					else if (it_Porte.rotation == 90) {
+						if (objet.position.x >= it_Porte.position.x && (objet.position.z <= it_Porte.position.z + it_Porte.largeur && objet.position.z >= it_Porte.position.z))
+							PorteAuMur = false;
+					}
+				}
+				
+					// Si les portes ont la même direction...
+				else if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
+					
+					if (Maths::distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
+						PorteAuMur = false;
+					}
+					Remplisseur* remp;
+					for (auto it_boite : salle.Objet){
+						if (it_boite.type == REMPLISSEUR){
+							remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it_boite.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it_boite.cheminTexture)), it_boite.largeur, it_boite.position, it_boite.ID);
+							if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
+								PorteAuMur = false;
+								break;
+							}
+							delete remp;
+						}
+					}
 				}
 			}
 		}
@@ -357,11 +524,13 @@ private:
 		salleActive = new Salle(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(infoSalleActive.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(infoSalleActive.cheminTexture)), infoSalleActive.nbrPorte, infoSalleActive.ID);
 		salleActive->defEchelle(infoSalleActive.echelle);
 		double phasePendule = MATHS_PI;
-
 		for (auto& it : infoSalleActive.Objet) {
-			gfx::Modele3D* modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-			modeleporte->defPosition(it.position);
-			modeleporte->defOrientation(0, it.rotation, 0);
+			gfx::Modele3D* modeleporte = nullptr;
+			if (it.type != ITEM){
+				modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
+				modeleporte->defPosition(it.position);
+				modeleporte->defOrientation(0, it.rotation, 0);
+			}
 			switch (it.type) {
 			case PORTE:
 				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
@@ -383,6 +552,15 @@ private:
 				break;
 			case COMMUTATEUR:
 				salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
+				break;
+			case PLAFONDTUEUR:
+				salleActive->ajoutObjet(new PlafondTueur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, true, false));
+				break;
+			case ITEM:
+				Item *itm = UsineItem::obtInstance().obtItemParType(it.IDitem, it.ID);
+				itm->defPosition(it.position);
+				itm->defVitesse({ 0, 0.1, 0 });
+				salleActive->ajoutObjet(itm);
 				break;
 			}
 		}
@@ -827,6 +1005,19 @@ public:
 		tabledechevet.rotation = 0;
 
 		salleDebut.Objet.push_back(tabledechevet);
+		
+			// Masque
+		
+		InfoObjet masque;
+		masque.direction = { 0, 0, 0 };
+		masque.ID = 5;
+		masque.largeur = 0;
+		masque.position = { 1.0, 2.0, -10.5 };
+		masque.rotation = 0;
+		masque.IDitem = 50;
+		masque.type = ITEM;
+		
+		salleDebut.Objet.push_back(masque);
 
 		// Ajout du lien de sortie de la salle de début
 		
@@ -1079,59 +1270,59 @@ public:
 	}
 
 	void fin(){
-		// Salle de fin
-
+			// Salle de fin
+		
 		InfoSalle salleFin;
-		salleFin.cheminModele = "Ressources/Modele/SalleFinObjet.obj";
-		salleFin.cheminTexture = "Ressources/Texture/salleFin.png";
+		salleFin.cheminModele = "Ressources/Modele/SalleFinStuff.obj";
+		salleFin.cheminTexture = "Ressources/Texture/salleFinStuff.png";
 		salleFin.echelle = { 1.0, 1.0, 1.0 };
 		salleFin.ID = infosSalles.size();
 		salleFin.nbrPorte = 1;
-
-		// Création objets salle finale
-
-		//Demi sphère
-
+		
+			// Création objets salle finale
+		
+			//Demi sphère
+		
 		InfoObjet demiSphere;
 		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { 66.1796, -10.9267, -287.6508 };
+		demiSphere.position = { -56.175, 0, -74.7745 };
 		demiSphere.rotation = 0;
 		demiSphere.type = FIXE;
-
+		
 		salleFin.Objet.push_back(demiSphere);
-
-		// Porte
-
+		
+			// Porte
+		
 		InfoObjet porteFin;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 0;
 		porteFin.largeur = 0;
-		porteFin.position = { 66.1796, -10.9267, -287.6508 };
-		porteFin.rotation = -90;
-
+		porteFin.position = { -57.475, 0, -74.7745 };
+		porteFin.rotation = -38;
+		
 		salleFin.Objet.push_back(porteFin);
-
-
-		// Création de l'avion
-
+		
+		
+			// Création de l'avion
+		
 		InfoObjet avion;
 		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);
 		avion.direction = { 0, 0, 0 };
 		avion.ID = 1;
 		avion.largeur = 0;
-		avion.position = { -89.8287, -10.7889, 80.2138 };
+		avion.position = { -16.0395, 0, 61.8221 };
 		avion.rotation = 90;
-		avion.type = FIXE;
-
+		avion.type = 180;
+		
 		salleFin.Objet.push_back(avion);
-
+		
 		infosSalles.push_back(salleFin);
 	}
-
+	
 	bool animationLeverLit(Joueur* joueur, float frameTime) {
 		if (enLeverLit) {
 			if (frameTime < 0.5) { // À cause du frametime accumulé

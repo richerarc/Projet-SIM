@@ -23,6 +23,8 @@ private:
 	gfx::Texte2D* tirer;
 	gfx::Texte2D* utiliser;
 	gfx::Texte2D* inventaire;
+	gfx::Texte2D* deposer;
+	gfx::Texte2D* viser;
 
 	Bouton* ctrlAvancer;
 	Bouton* ctrlReculer;
@@ -34,6 +36,8 @@ private:
 	Bouton* ctrlTirer;
 	Bouton* ctrlUtiliser;
 	Bouton* ctrlInventaire;
+	Bouton* ctrlDeposer;
+	Bouton* ctrlViser;
 
 	Action action;
 	Bouton* toucheEnChoix;
@@ -51,6 +55,8 @@ private:
 		ctrlCourir->defTexte(GestionnaireControle::obtInstance().obtTouche(COURIR));
 		ctrlUtiliser->defTexte(GestionnaireControle::obtInstance().obtTouche(UTILISER));
 		ctrlInventaire->defTexte(GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE));
+		ctrlDeposer->defTexte(GestionnaireControle::obtInstance().obtTouche(DEPOSER));
+		ctrlViser->defTexte(GestionnaireControle::obtInstance().obtTouche(VISER));
 
 	}
 
@@ -131,7 +137,19 @@ public:
 			Vecteur2f(400, 53),
 			GestionnaireControle::obtInstance().obtTouche(ACCESINVENTAIRE), 45);
 
-		
+		deposer = new gfx::Texte2D(new std::string("Drop"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(600, 665));
+		ctrlDeposer = new Bouton(std::bind(&MenuControle::enClickDeposer, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
+			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
+			Vecteur2f(900, 665),
+			GestionnaireControle::obtInstance().obtTouche(DEPOSER), 45);
+
+		viser = new gfx::Texte2D(new std::string("Aim"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(600, 597));
+		ctrlViser = new Bouton(std::bind(&MenuControle::enClickViser, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
+			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
+			Vecteur2f(900, 597),
+			GestionnaireControle::obtInstance().obtTouche(VISER), 45);
+
+
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEBUTTONDOWN, std::bind(&MenuControle::gererEvenement, this, std::placeholders::_1));
 
@@ -155,7 +173,7 @@ public:
 			return;
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
-	
+
 
 	void gererEvenement(SDL_Event Event){
 		if (pause)
@@ -192,7 +210,7 @@ public:
 			return;
 		GestionnaireControle::obtInstance().sauvegarderControle("Ressources/Info/Controle.txt");
 	}
-	
+
 	void enClickAvancer(Bouton* sender) {
 		if (pause)
 			return;
@@ -276,9 +294,27 @@ public:
 		toucheEnChoix = ctrlInventaire;
 	}
 
+	void enClickDeposer(Bouton* sender) {
+		if (pause)
+			return;
+		sender->defTexte(changementTouche);
+		action = DEPOSER;
+		enChoixDeTouche = true;
+		toucheEnChoix = ctrlDeposer;
+	}
+
+	void enClickViser(Bouton* sender) {
+		if (pause)
+			return;
+		sender->defTexte(changementTouche);
+		action = VISER;
+		enChoixDeTouche = true;
+		toucheEnChoix = ctrlViser;
+	}
+
 
 	void remplir(void) {
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, avancer, reculer, gauche, droite, sauter, accroupir, courir, tirer, utiliser, inventaire });
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, avancer, reculer, gauche, droite, sauter, accroupir, courir, tirer, utiliser, inventaire, viser, deposer });
 		this->retour->remplir();
 		this->Enregistrer->remplir();
 		ctrlAvancer->remplir();
@@ -291,7 +327,9 @@ public:
 		ctrlTirer->remplir();
 		ctrlUtiliser->remplir();
 		ctrlInventaire->remplir();
-		
+		ctrlDeposer->remplir();
+		ctrlViser->remplir();
+
 	}
 
 	void defPause(bool pause) {
@@ -309,6 +347,8 @@ public:
 			ctrlInventaire->defEtat(PAUSE);
 			Enregistrer->defEtat(PAUSE);
 			this->retour->defEtat(PAUSE);
+			ctrlDeposer->defEtat(PAUSE);
+			ctrlViser->defEtat(PAUSE);
 		}
 
 		else {
@@ -324,6 +364,8 @@ public:
 			ctrlInventaire->defEtat(DEFAUT);
 			Enregistrer->defEtat(DEFAUT);
 			this->retour->defEtat(DEFAUT);
+			ctrlDeposer->defEtat(DEFAUT);
+			ctrlViser->defEtat(DEFAUT);
 
 		}
 	}
@@ -343,6 +385,8 @@ public:
 		tirer->defEchelle(vecteurEchelle);
 		utiliser->defEchelle(vecteurEchelle);
 		inventaire->defEchelle(vecteurEchelle);
+		viser->defEchelle(vecteurEchelle);
+		deposer->defEchelle(vecteurEchelle);
 
 		ctrlAvancer->defEchelle(vecteurEchelle);
 		ctrlReculer->defEchelle(vecteurEchelle);
@@ -354,5 +398,7 @@ public:
 		ctrlTirer->defEchelle(vecteurEchelle);
 		ctrlUtiliser->defEchelle(vecteurEchelle);
 		ctrlInventaire->defEchelle(vecteurEchelle);
+		ctrlDeposer->defEchelle(vecteurEchelle);
+		ctrlViser->defEchelle(vecteurEchelle);
 	}
 };

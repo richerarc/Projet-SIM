@@ -1,0 +1,2 @@
+Ressources/Modele/ciel.obj
+Ressources/Texture/ciel.png 2

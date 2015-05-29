@@ -1,7 +1,10 @@
 #pragma once
 #include "BoiteCollision.h"
 
-enum objet_type{PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR, VENTILATEUR, COMMUTATEUR};
+
+enum objet_type{ PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR, VENTILATEUR, COMMUTATEUR, PLAFONDTUEUR };
+enum position_type{MURS = 101, SOLS=102, PLAFONDS=103, MURS_SOLS=104, MURS_PLAFONDS=105};
+
 
 struct InfoObjet {
 	unsigned int ID;
@@ -12,6 +15,8 @@ struct InfoObjet {
 	char* cheminTexture;
 	int type;
 	double largeur;
+	int IDitem;
+	position_type positionement;
 };
 
 

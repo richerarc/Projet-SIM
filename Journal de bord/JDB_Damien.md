@@ -101,3 +101,5 @@
 	Modelage et texturage d'une barre de chocolat et modification de la salle finale pour que la sky sphere soit séparée du reste des objets de la salle afin de voir le ciel avec une distance de vision moins longue de la salle. 
 #Mardi 26 mai (11:00 à 16:34)
 	Modification du modele de la salle finale et du ciel pour enlever des faces inutiles. Positionnement de l'avion de et la porte prêt pour l'animation. La salle de fin est donc plus ou moins terminée.
+#Mercredi 27 mai (11:00 à 17:27)
+	Finalisation du modelage, texturage, fix de bugs ET implémentation de la salle finale. FINALEMENT FINIE AHAHAHAHAHAH

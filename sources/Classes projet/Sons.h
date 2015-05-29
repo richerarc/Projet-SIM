@@ -183,7 +183,7 @@ public:
 	}
 	
 	void jouer(Joueur* joueur){
-		if (joueur->obtVitesseDeplacement() <= 4.f && joueur->obtEtat() != CHUTE){
+		if (joueur->obtVitesseDeplacement() > 0 && joueur->obtVitesseDeplacement() <= 4.f && joueur->obtEtat() != CHUTE){
 			if (!((delais.obtTempsEcoule().enMillisecondes() <= 650) || (Mix_Playing(idChaine)))){
 				if (premier){
 					Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);

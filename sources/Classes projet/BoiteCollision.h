@@ -1,5 +1,6 @@
 #pragma once
 #include "Vecteur3.h"
+#include "Plan.h"
 
 template<typename T>
 class BoiteCollision{
@@ -51,8 +52,8 @@ public:
 	bool boiteDansBoite(BoiteCollision<T> boite) {
 		int temp(0);
 		for (int i = 0; i < 8; ++i)
-			if (pointDansBoite(boite.obtBoite()[i]))
-				++temp;
+		if (pointDansBoite(boite.obtBoite()[i]))
+			++temp;
 		return temp == 8;
 	}
 
@@ -73,6 +74,140 @@ public:
 
 	bool pointDansBoite(Vecteur3d point) {
 		return (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
+	}
+
+	bool pointDansBoite(Vecteur3d point, Droite rayonCollision, Vecteur3d &normale, Vecteur3d vitesse, Vecteur3d &pointCollision) {
+		bool collision = (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
+		if (collision) {
+			double distanceX = fabs(obtBoite()[0].x - point.x);
+			double distanceY = fabs(obtBoite()[0].y - point.y);
+			double distanceZ = fabs(obtBoite()[0].z - point.z);
+			Vecteur3<T> point1X, point2X, point3X, point1Y, point2Y, point3Y, point1Z, point2Z, point3Z, pointBoite, pointPlan1, pointPlan2, pointPlan3;
+			pointBoite = obtBoite()[0];
+			Plan plan1, plan2, plan3;
+			bool collision = false;
+			for (int h = 0; h < 3; ++h) {
+				std::vector<Vecteur3d> listePoint;
+				auto it = listePoint.begin();
+				for (int g = 0; g < 8; ++g)
+					listePoint.push_back(obtBoite()[g]);
+				for (int i = 0; i < 3; ++i) {
+					for (int j = 0; j < listePoint.size(); ++j) {
+						if (h == 0) {
+							if (fabs(listePoint[j].x - point.x) < distanceX) {
+								distanceX = fabs(listePoint[j].x - point.x);
+								pointBoite = listePoint[j];
+								it = listePoint.begin();
+								std::advance(it, j);
+								collision = true;
+							}
+						}
+						if (h == 1) {
+							if (fabs(listePoint[j].y - point.y) < distanceY) {
+								distanceY = fabs(listePoint[j].y - point.y);
+								pointBoite = listePoint[j];
+								it = listePoint.begin();
+								std::advance(it, j);
+								collision = true;
+							}
+						}
+						if (h == 2) {
+							if (fabs(listePoint[j].z - point.z) < distanceZ) {
+								distanceZ = fabs(listePoint[j].z - point.z);
+								pointBoite = listePoint[j];
+								it = listePoint.begin();
+								std::advance(it, j);
+								collision = true;
+							}
+						}
+						if ((j == listePoint.size() - 1) && !collision) {
+							it = listePoint.begin();
+							pointBoite = listePoint[0];
+						}
+					}
+
+					listePoint.erase(it);
+					it = listePoint.begin();
+					if (i == 0 && h == 0) {
+						point1X = pointBoite;
+					}
+					else if (i == 1 && h == 0) {
+						point2X = pointBoite;
+					}
+					else if (i == 2 && h == 0) {
+						point3X = pointBoite;
+					}
+					else if (i == 0 && h == 1) {
+						point1Y = pointBoite;
+					}
+					else if (i == 1 && h == 1) {
+						point2Y = pointBoite;
+					}
+					else if (i == 2 && h == 1) {
+						point3Y = pointBoite;
+					}
+					else if (i == 0 && h == 2) {
+						point1Z = pointBoite;
+					}
+					else if (i == 1 && h == 2) {
+						point2Z = pointBoite;
+					}
+					else if (i == 2 && h == 2) {
+						point3Z = pointBoite;
+					}
+					if (h == 0)
+						distanceX = fabs(listePoint[0].x - point.x);
+					else if (h == 1)
+						distanceY = fabs(listePoint[0].y - point.y);
+					else if (h == 2)
+						distanceZ = fabs(listePoint[0].z - point.z);
+					collision = false;
+				}
+			}
+			plan1 = Plan(point1X, point2X, point3X);
+			plan2 = Plan(point1Y, point2Y, point3Y);
+			plan3 = Plan(point1Z, point2Z, point3Z);
+
+			bool inversement = false;
+			Plan planNormale;
+
+			rayonCollision = Droite(point, vitesse);
+
+			bool collision1, collision2, collision3;
+
+			collision1 = plan1.insertionDroitePlan(rayonCollision, pointPlan1);
+			collision2 = plan2.insertionDroitePlan(rayonCollision, pointPlan2);
+			collision3 = plan3.insertionDroitePlan(rayonCollision, pointPlan3);
+
+			distanceX = Maths::distanceEntreDeuxPoints(pointPlan1, point);
+			distanceY = Maths::distanceEntreDeuxPoints(pointPlan2, point);
+			distanceZ = Maths::distanceEntreDeuxPoints(pointPlan3, point);
+
+			if (collision1 && (distanceX < distanceY) && (distanceX < distanceZ)) {
+				planNormale = Plan(point1X, point2X, point3X);
+				pointCollision = Vecteur3d((pointPlan1.x - point.x) + point.x, point.y, point.z);
+				if ((planNormale.obtenirNormale().x < 0 && vitesse.x < 0) || (planNormale.obtenirNormale().x > 0 && vitesse.x > 0))
+					inversement = true;
+			}
+			else if (collision2 && (distanceY < distanceX) && (distanceY < distanceZ)) {
+				planNormale = Plan(point1Y, point2Y, point3Y);
+				pointCollision = Vecteur3d(point.x, (pointPlan2.y - point.y) + point.y, point.z);
+				if ((planNormale.obtenirNormale().y < 0 && vitesse.y < 0) || (planNormale.obtenirNormale().y > 0 && vitesse.y > 0))
+					inversement = true;
+			}
+			else if (collision3 && (distanceZ < distanceY) && (distanceZ < distanceX)) {
+				planNormale = Plan(point1Z, point2Z, point3Z);
+				pointCollision = Vecteur3d(point.x, point.y, (pointPlan3.z - point.z) + point.z);
+				if ((planNormale.obtenirNormale().z < 0 && vitesse.z < 0) || (planNormale.obtenirNormale().z > 0 && vitesse.z > 0))
+					inversement = true;
+			}
+			normale = planNormale.obtenirNormale();
+			normale.normaliser();
+			if (inversement)
+				normale.inverser();
+
+		}
+		return collision;
 	}
 
 	bool pointDansBoiteX(T x) {

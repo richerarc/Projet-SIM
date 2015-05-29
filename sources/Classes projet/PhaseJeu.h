@@ -20,18 +20,19 @@ private:
 	Objet* objetVise;
 	bool toucheRelachee;
 	bool retour;
-	bool finAnimationDebut, finTransitionSalle;
+	bool finAnimationDebut, finTransitionSalle, santeEstAffichee;
 	unsigned int difficulte;
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
 	double iterateur_x, iterateur_z;
-	Chrono tempsJeu, tempsAffichageID;
+	Chrono tempsJeu, tempsAffichageID, tempsPhysique;
 	gfx::Texte2D* texteChrono;
 	gfx::Texte2D* texte_ID_Salle;
 	gfx::Texte2D* vie;
 	gfx::Texte2D* vieMentale;
-	bool statsAffiches;
+	gfx::Texte2D* munitionRestantes;
 	double tempsRestant;
+	double compteurViePhysique;
 	Item *itemEquipe;
 	Item *test;
 	char dizaine[5];
@@ -39,6 +40,7 @@ private:
 	char chritoa[255];
 	MenuAccesRapide* accesRapide;
 	gfx::Sprite2D* point;
+	gfx::Sprite2D* compteurMunition;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
@@ -68,9 +70,31 @@ private:
 		joueur->defSanteMentale((double)joueur->obtSanteMentale() - ((double)joueur->obtSanteMentale() * (pourcentagePerdu / 100.f)));
 		if (((santeMentalePrecedente - joueur->obtSanteMentale()) / santeMentalePrecedente) > 0.02)
 			GestionnaireSucces::obtInstance().obtSucces(0);
+		if (joueur->obtSanteMentale() <= 60 && santeMentalePrecedente > 60){
+			GestionnaireSucces::obtInstance().obtSucces(7);
+		}
+		if (joueur->obtSanteMentale() <= 25 && santeMentalePrecedente > 25){
+			GestionnaireSucces::obtInstance().obtSucces(26);
+		}
 		if ((joueur->obtSanteMentale() < 25) && !(GestionnaireSucces::obtInstance().obtChronoDeclenche())){
 			GestionnaireSucces::obtInstance().obtChronoSanteMentale()->repartir();
 			GestionnaireSucces::obtInstance().defChronoDeclenche();
+		}
+		for (int i = 0; i < joueur->obtInventaire()->obtTailleSacADos(); i++){
+			if (joueur->obtInventaire()->obtObjetSacADos(i) != nullptr){
+				if (joueur->obtInventaire()->obtObjetSacADos(i)->obtNom() == "Companion"){
+					Companion* companion = dynamic_cast<Companion*>(joueur->obtInventaire()->obtObjetSacADos(i));
+					companion->changerModele(joueur->obtSanteMentale());
+				}
+			}
+		}
+		for (int i = 0; i < joueur->obtInventaire()->obtTailleAccesRapide(); i++){
+			if (joueur->obtInventaire()->obtObjetAccesRapide(i) != nullptr){
+				if (joueur->obtInventaire()->obtObjetAccesRapide(i)->obtNom() == "Companion"){
+					Companion* companion = dynamic_cast<Companion*>(joueur->obtInventaire()->obtObjetAccesRapide(i));
+					companion->changerModele(joueur->obtSanteMentale());
+				}
+			}
 		}
 	}
 
@@ -112,12 +136,19 @@ private:
 	}
 
 	void mettreAJourTextesSante(){
-		std::string nouvVie = "Health : ";
-		std::string nouvVieMentale = "Sanity : ";
+		std::string nouvVie = "Health: ";
+		std::string nouvVieMentale = "Sanity: ";
 		nouvVie.append(SDL_itoa(joueur->obtSantePhysique(), chritoa, 10));
 		nouvVieMentale.append(SDL_itoa(joueur->obtSanteMentale(), chritoa, 10));
 		vie->defTexte(&nouvVie);
 		vieMentale->defTexte(&nouvVieMentale);
+	}
+
+	void mettreAJourMunitionsRestante(short munitions){
+		std::string str;
+		str = SDL_itoa(munitions, chritoa, 10);
+		str.append(" %");
+		munitionRestantes->defTexte(&str);
 	}
 
 	void appliquerPhysique(float frameTime) {
@@ -134,7 +165,7 @@ private:
 			Physique::obtInstance().collisionJoueurSalle(Carte::obtInstance().salleActive->obtModele(), joueur);
 			Physique::obtInstance().collisionJoueurObjet(joueur, Carte::obtInstance().salleActive->obtListeObjet());
 		}
-		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsJeu.obtTempsEcoule().enSecondes());
+		Physique::obtInstance().appliquerPhysiqueSurListeObjet(Carte::obtInstance().salleActive->obtModele(), Carte::obtInstance().salleActive->obtListeObjet(), frameTime, tempsPhysique.obtTempsEcoule().enSecondes());
 	}
 
 	bool detectionObjet() {
@@ -188,19 +219,15 @@ public:
 
 	PhaseJeu(Vecteur3d positionJoueur, double hAngle, double vAngle) : Phase(){
 
-		vie = new gfx::Texte2D(new std::string("Health : "), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 650));
-		vieMentale = new gfx::Texte2D(new std::string("Sanity : "), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 35), Vecteur2f(0, 600));
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
 		difficulte = Carte::obtInstance().nombreDeSalle;
 
 		joueur = new Joueur(positionJoueur, hAngle, vAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(11, 0);
+		test = UsineItem::obtInstance().obtItemParType(37, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 
@@ -209,11 +236,21 @@ public:
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 
 		texteUtiliser = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 20), Vecteur2f(300, 200));
-		texte_ID_Salle = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 150 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 100), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 100, 300));
+		texte_ID_Salle = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 60), Vecteur2f(70, 50));
 		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
+		vie = new gfx::Texte2D(new std::string(""), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(200, 10));
+		vieMentale = new gfx::Texte2D(new std::string(""), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(350, 10));
+		munitionRestantes = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 10));
 		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-
+		//compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
+		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/masqueAGazIcone.png"));
+		mettreAJourTextesSante();
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionRestantes);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunition);
+
 		std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
 		texte_ID_Salle->defTexte(&str);
 
@@ -222,6 +259,8 @@ public:
 		pause = false;
 		finAnimationDebut = false;
 		finTransitionSalle = true;
+		santeEstAffichee = true;
+		compteurViePhysique = 0;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
 		cheminLogique.push_back(Carte::obtInstance().salleActive->obtID());
@@ -234,13 +273,25 @@ public:
 			dizaine[i] = '\0';
 		}
 
-		if (difficulte == FACILE)
-			tempsRestant = 3600;
-		else
+		switch (difficulte)
+		{
+		case FACILE:
+			tempsRestant = 2700;
+			break;
+		case NORMAL:
 			tempsRestant = 1800;
+			break;
+		case HARDCORE:
+			tempsRestant = 900;
+			joueur->defSanteMentale(50);
+			joueur->defSantePhysique(50);
+			break;
+		}
+
 		mettreAJourtexteChrono();
 		tempsJeu = Chrono();
 		tempsAffichageID = Chrono();
+		tempsPhysique = Chrono();
 	}
 
 	~PhaseJeu(){
@@ -250,17 +301,13 @@ public:
 		delete accesRapide;
 		delete texteChrono;
 		delete texte_ID_Salle;
+		delete vie;
+		delete vieMentale;
 	}
 
 	void rafraichir(float frameTime) {
+		GestionnaireSucces::obtInstance().verifierPacifisme();
 		GestionnaireSucces::obtInstance().obtSucces(2);
-		if (difficulte == FACILE || (difficulte == NORMAL && Carte::obtInstance().salleActive->obtID() == 20) || (difficulte == HARDCORE && Carte::obtInstance().salleActive->obtID() == 32)){
-			mettreAJourTextesSante();
-		}
-		else{
-			gfx::Gestionnaire2D::obtInstance().retObjet(vie);
-			gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
-		}
 		if (pause)
 			return;
 		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
@@ -284,7 +331,13 @@ public:
 			joueur->obtInventaire()->actualiser();
 			itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
 			if (itemEquipe != nullptr){
+				Item* itemPrecedent = itemEquipe;
+				short typePrecedent = itemPrecedent->obtType();
 				itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur, frameTime);
+				if (itemPrecedent->obtType() > 29 && itemPrecedent->obtType() < 50 && itemPrecedent->obtEtat() == DEPOSE)
+					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() - 1);
+				if (typePrecedent == 37 && itemPrecedent->obtEtat() == -17891602)//touchez pas à ça
+					GestionnaireSucces::obtInstance().obtSucces(9);
 			}
 			accesRapide->actualiserAffichage();
 			ControlleurAudio::obtInstance().jouer(COEUR, joueur);
@@ -314,15 +367,45 @@ public:
 			}
 
 			if (Carte::obtInstance().salleActive->obtID() != difficulte){
+				if (difficulte != FACILE && santeEstAffichee){
+					gfx::Gestionnaire2D::obtInstance().retObjet(vie);
+					gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
+					santeEstAffichee = false;
+				}
+				else
+					mettreAJourTextesSante();
 				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
+				if (compteurViePhysique >= 5){
+					compteurViePhysique = 0;
+					Item* itemTmp = joueur->obtInventaire()->obtItemParType(50);
+					if (itemTmp != nullptr){
+						MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
+						if (tmp != nullptr){
+							if (!tmp->estEquipe()){
+								joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+							}
+							else{
+								tmp->user();
+								mettreAJourMunitionsRestante(tmp->obtDurabilite());
+							}
+						}
+						else{
+							joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+						}
+					}
+					else{
+						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
+					}
+				}
 				mettreAJourtexteChrono();
+
 				if (tempsRestant <= 0) {
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
-
 					GestionnairePhases::obtInstance().retirerPhase();
 					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -330,7 +413,6 @@ public:
 					curseur->remplir();
 					gfx::Gestionnaire3D::obtInstance().vider();
 					return;
-
 				}
 			}
 			tempsJeu.repartir();
@@ -386,7 +468,7 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(18);
 						if (nom == "Holy Rod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
-						if (nom == "Luger P08" || "Thompson M1")
+						if (nom == "Luger P08" || nom == "Thompson M1")
 							GestionnaireSucces::obtInstance().obtSucces(8);
 						if (nom == "Grenade")
 							GestionnaireSucces::obtInstance().obtSucces(9);
@@ -396,8 +478,10 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(24);
 						if (nom == "Thai")
 							GestionnaireSucces::obtInstance().obtSucces(21);
-						if (nom == "Chicken")
+						if (nom == "Chicken drumstick")
 							GestionnaireSucces::obtInstance().obtSucces(25);
+						if (nom == "Companion")
+							GestionnaireSucces::obtInstance().obtSucces(11);
 						objetVise = nullptr;
 					}
 					else if (dynamic_cast<Commutateur*>(objetVise)){

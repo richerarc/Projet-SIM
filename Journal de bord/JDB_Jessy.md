@@ -154,3 +154,11 @@ de 15h à 16h(1h)
 
 26 mai de 13h à 15h30 (2h30)
 -J'ai fais le modèle d'une bouteille de vin qui est assez bien réussis ! 
+
+27 mai de 13h à 15h (2h)
+-J'ai continué mon pot de pillule en blender.
+-Nous avons discuté de l'oral 
+
+28 mai de 22h à 23h30 (1h30)
+-J'ai réglé des problèmes de transparence et quelques modifications sur le pot de pillule
+
