@@ -34,11 +34,11 @@ namespace gfx{
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 			glLoadIdentity();
-			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
+			glTranslated(position.x + origine.x, position.y + origine.y, position.z + origine.z);
 			glRotated(orientation.x, 1, 0, 0);
 			glRotated(orientation.y, 0, 1, 0);
 			glRotated(orientation.z, 0, 0, 1);
-			glTranslated(origine.x, origine.y, origine.z);
+			glTranslated(-origine.x, -origine.y, -origine.z);
 			if (sommet)
 				glScaled(echelle.x, echelle.y, echelle.z);
 			else
@@ -197,18 +197,7 @@ namespace gfx{
 					bteCol[1] = (matriceTransformation[1] * bteColTemp[0]) + (matriceTransformation[5] * bteColTemp[1]) + (matriceTransformation[9] * bteColTemp[2]) + (matriceTransformation[13] * bteColTemp[3]);
 					bteCol[2] = (matriceTransformation[2] * bteColTemp[0]) + (matriceTransformation[6] * bteColTemp[1]) + (matriceTransformation[10] * bteColTemp[2]) + (matriceTransformation[14] * bteColTemp[3]);
 					bteCol[3] = (matriceTransformation[3] * bteColTemp[0]) + (matriceTransformation[7] * bteColTemp[1]) + (matriceTransformation[11] * bteColTemp[2]) + (matriceTransformation[15] * bteColTemp[3]);
-					/*if (bteCol[3] != 1)
-					{
-						normaleBoiteDeCollision[i].x = bteCol[0] / bteCol[3];
-						normaleBoiteDeCollision[i].y = bteCol[1] / bteCol[3];
-						normaleBoiteDeCollision[i].z = bteCol[2] / bteCol[3];
-					}
-					else
-					{
-						normaleBoiteDeCollision[i].x = bteCol[0];
-						normaleBoiteDeCollision[i].y = bteCol[1];
-						normaleBoiteDeCollision[i].z = bteCol[2];
-					}*/
+
 					normaleBoiteDeCollision[i].x = bteCol[0];
 					normaleBoiteDeCollision[i].y = bteCol[1];
 					normaleBoiteDeCollision[i].z = bteCol[2];
@@ -280,10 +269,15 @@ namespace gfx{
 		}
 
 		void defOrigine(Vecteur3d org){
+			origine.x = org.x;
+			origine.y = org.y;
+			origine.z = org.z;
+		}
 
-			origine.x = -org.x;
-			origine.y = -org.y;
-			origine.z = -org.z;
+		void defOrigine(double axeX, double axeY, double axeZ){
+			origine.x = axeX;
+			origine.y = axeY;
+			origine.z = axeZ;
 		}
 
 		void defOrientation(Vecteur3d ort){
@@ -319,13 +313,6 @@ namespace gfx{
 			position.z = axeZ;
 			sommet_Est_Transforme = true;
 			bDC_Est_Transformee = true;
-		}
-
-		void defOrigine(double axeX, double axeY, double axeZ){
-
-			origine.x = -axeX;
-			origine.y = -axeY;
-			origine.z = -axeZ;
 		}
 
 		void defOrientation(double axeX, double axeY, double axeZ){
@@ -374,7 +361,7 @@ namespace gfx{
 			glBindTexture(GL_TEXTURE_2D, texture->obtID());
 			glPushMatrix();
 			//glLoadIdentity();
-			glTranslated(position.x - origine.x, position.y - origine.y, position.z - origine.z);
+			glTranslated(position.x + origine.x, position.y + origine.y, position.z + origine.z);
 			for (auto &it : rotations){
 				Vecteur3d axe = std::get<1>(it);
 				glRotated(std::get<0>(it), axe.x, axe.y, axe.z);
@@ -382,7 +369,7 @@ namespace gfx{
 			glRotated(orientation.x, 1, 0, 0);
 			glRotated(orientation.z, 0, 0, 1);
 			glRotated(orientation.y, 0, 1, 0);
-			glTranslated(origine.x, origine.y, origine.z);
+			glTranslated(-origine.x, -origine.y, -origine.z);
 			glScaled(echelle.x, echelle.y, echelle.z);
 			glVertexPointer(3, GL_DOUBLE, 0, modele->obtVertices());
 			glTexCoordPointer(2, GL_DOUBLE, 0, modele->obtTextures());

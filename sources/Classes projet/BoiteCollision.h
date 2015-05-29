@@ -21,12 +21,17 @@ public:
 
 	Vecteur3<T> obtCentreBoite() {
 
-		Vecteur3<T> retour;
-		retour.x = (obtXMax() + obtXMin()) / 2;
-		retour.y = (obtYMax() + obtYMin()) / 2;
-		retour.z = (obtZMax() + obtZMin()) / 2;
+		Vecteur3<T> positionCM = { 0, 0, 0 };
 
-		return retour;
+		for (unsigned int i = 0; i < 8; i++) {
+			positionCM.x += boiteCollision[i].x;
+			positionCM.y += boiteCollision[i].y;
+			positionCM.z += boiteCollision[i].z;
+		}
+
+		positionCM /= 8;
+
+		return positionCM;
 	}
 
 	Vecteur3<T> distanceEntreDeuxCentre(BoiteCollision<T> boite) {
@@ -52,7 +57,7 @@ public:
 	}
 
 	bool collisionDeuxBoite(BoiteCollision<T> boite) {
-		Vecteur3d pointBoite;
+		Vecteur3<T> pointBoite;
 		for (int i = 0; i < 8; ++i) {
 			pointBoite = boite.obtBoite()[i];
 			if (this->pointDansBoite(pointBoite))
@@ -70,99 +75,87 @@ public:
 		return (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
 	}
 
-	bool pointDansBoiteX(double x) {
+	bool pointDansBoiteX(T x) {
 		return (x >= obtXMin() && x <= obtXMax());
 	}
 
-	bool pointDansBoiteY(double y) {
+	bool pointDansBoiteY(T y) {
 		return (y >= obtYMin() && y <= obtYMax());
 	}
 
-	bool pointDansBoiteZ(double z) {
+	bool pointDansBoiteZ(T z) {
 		return (z >= obtZMin() && z <= obtZMax());
 	}
 
-	double obtXMin() {
-		int xDebut = boiteCollision[0].x + 0.5f;
-		int xAutre;
-		int i;
-		for (i = 1; i < 8; ++i){
-			xAutre = boiteCollision[i].x + 0.5f;
+	T obtXMin() {
+		T xDebut = boiteCollision[0].x;
+		T xAutre;
+		for (int i = 1; i < 8; ++i){
+			xAutre = boiteCollision[i].x;
 			if (xAutre != xDebut)
-				break;
+				return (xDebut < xAutre) ? boiteCollision[0].x : boiteCollision[i].x;
 		}
-		return (xDebut < xAutre) ? boiteCollision[0].x : boiteCollision[i].x;
 	}
 
-	double obtXMax() {
-		int xDebut = boiteCollision[0].x + 0.5f;
-		int xAutre;
-		int i;
-		for (i = 1; i < 8; ++i){
-			xAutre = boiteCollision[i].x + 0.5f;
+	T obtXMax() {
+		T xDebut = boiteCollision[0].x;
+		T xAutre;
+		for (int i = 1; i < 8; ++i){
+			xAutre = boiteCollision[i].x;
 			if (xAutre != xDebut)
-				break;
+				return (xDebut > xAutre) ? boiteCollision[0].x : boiteCollision[i].x;
 		}
-		return (xDebut > xAutre) ? boiteCollision[0].x : boiteCollision[i].x;
 	}
 
-	double obtYMin() {
-		int yDebut = boiteCollision[0].y + 0.5f;
-		int yAutre;
-		int i;
-		for (i = 1; i < 8; ++i){
-			yAutre = boiteCollision[i].y + 0.5f;
+	T obtYMin() {
+		T yDebut = boiteCollision[0].y;
+		T yAutre;
+		for (int i = 1; i < 8; ++i){
+			yAutre = boiteCollision[i].y;
 			if (yAutre != yDebut)
-				break;
+				return (yDebut < yAutre) ? boiteCollision[0].y : boiteCollision[i].y;
 		}
-		return (yDebut < yAutre) ? boiteCollision[0].y : boiteCollision[i].y;
 	}
 
-	double obtYMax() {
-		int yDebut = boiteCollision[0].y + 0.5f;
-		int yAutre;
-		int i;
-		for (i = 1; i < 8; ++i){
-			yAutre = boiteCollision[i].y + 0.5f;
+	T obtYMax() {
+		T yDebut = boiteCollision[0].y;
+		T yAutre;
+		for (int i = 1; i < 8; ++i){
+			yAutre = boiteCollision[i].y;
 			if (yAutre != yDebut)
-				break;
+				return (yDebut > yAutre) ? boiteCollision[0].y : boiteCollision[i].y;
 		}
-		return (yDebut > yAutre) ? boiteCollision[0].y : boiteCollision[i].y;
 	}
 
-	double obtZMin() {
-		int zDebut = boiteCollision[0].z + 0.5f;
-		int zAutre;
-		int i;
-		for (i = 1; i < 8; ++i){
-			zAutre = boiteCollision[i].z + 0.5f;
+	T obtZMin() {
+		T zDebut = boiteCollision[0].z;
+		T zAutre;
+		for (int i = 1; i < 8; ++i){
+			zAutre = boiteCollision[i].z;
 			if (zAutre != zDebut)
-				break;
+				return (zDebut < zAutre) ? boiteCollision[0].z : boiteCollision[i].z;
 		}
-		return (zDebut < zAutre) ? boiteCollision[0].z : boiteCollision[i].z;
 	}
 
-	double obtZMax() {
-		int zDebut = boiteCollision[0].z + 0.5f;
-		int zAutre;
-		int i;
-		for (i = 1; i < 8; ++i){
-			zAutre = boiteCollision[i].z + 0.5f;
+	T obtZMax() {
+		T zDebut = boiteCollision[0].z;
+		T zAutre;
+		for (int i = 1; i < 8; ++i){
+			zAutre = boiteCollision[i].z;
 			if (zAutre != zDebut)
-				break;
+				return (zDebut > zAutre) ? boiteCollision[0].z : boiteCollision[i].z;
 		}
-		return (zDebut > zAutre) ? boiteCollision[0].z : boiteCollision[i].z;
 	}
 
-	double obtGrandeurX() {
+	T obtGrandeurX() {
 		return obtXMax() - obtXMin();
 	}
 
-	double obtGrandeurY() {
+	T obtGrandeurY() {
 		return obtYMax() - obtYMin();
 	}
 
-	double obtGrandeurZ() {
+	T obtGrandeurZ() {
 		return obtZMax() - obtZMin();
 	}
 };
