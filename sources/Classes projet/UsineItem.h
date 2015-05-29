@@ -36,20 +36,9 @@ public:
 				return new Fusil(type, "Thompson M1", "PPPPPow", "Ressources/Texture/thompsonIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thompson.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thompson.png")), ID, "metal", 4.47, 12, 20, 2.0, 1, 30, true);
 		}
 		case (2) :
-			switch (type / 10){
-			case(0) :
-				switch (type % 10){
-				case(0) :
-					return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Whyv2_000000.png")); //Note #0
-				case(1) :
-					return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Whyv2_000000.png")); //Note #1
-				case(2) :
-					return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Whyv2_000000.png")); //Note #2
-				case(3) :
-					return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Whyv2_000000.png")); //Note #3
-				}
-			case(1):
-				bool nouveau = false;
+			switch (type % 10){
+			case(0):
+			{bool nouveau = false;
 				unsigned short aleatoire = 0;
 				while (!nouveau){
 					aleatoire = rand() % 14;
@@ -59,7 +48,24 @@ public:
 					}
 				}
 				return new Examen(ID, aleatoire);
-			}
+			}	
+			case(1) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Why.png"));
+			case(2) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Sorry.png"));
+			case(3) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/HurryUp.png"));
+			case(4) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+			case(5) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/BehindYou.png"));
+			case(6) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+			case(7) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+			case(8) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+		}
 		case (3) :
 			switch (type % 10){
 			case(0) ://thai

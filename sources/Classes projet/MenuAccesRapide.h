@@ -11,6 +11,7 @@ private:
 
 	Inventaire *inventaire;
 	int itemSelectionne;
+	int dernierItemSelectionne;
 public:
 	MenuAccesRapide(Inventaire *inventaire){
 		Vecteur2f position;
@@ -29,7 +30,9 @@ public:
 
 		pause = false;
 		itemSelectionne = 0;
+		dernierItemSelectionne = itemSelectionne + 1;
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEWHEEL, std::bind(&MenuAccesRapide::molette, this, std::placeholders::_1));
+		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuAccesRapide::toucheAppuyee, this, std::placeholders::_1));
 	}
 
 	~MenuAccesRapide(){
@@ -57,7 +60,7 @@ public:
 	}
 
 	void molette(SDL_Event &event){
-
+		dernierItemSelectionne = itemSelectionne;
 		itemSelectionne = inventaire->obtItemSelectionne() + event.wheel.y;
 		itemSelectionne %= inventaire->obtTailleAccesRapide();
 		if (itemSelectionne < 0)
@@ -65,6 +68,22 @@ public:
 
 		spriteSurvol->defPosition(cases[itemSelectionne]->obtPosition() + Vecteur2f(-51, 0));
 		inventaire->defItemSelectionne(itemSelectionne);
+	}
+
+	void toucheAppuyee(SDL_Event& event){
+		if (event.key.keysym.sym >= 49 && event.key.keysym.sym <= 58){
+			dernierItemSelectionne = itemSelectionne;
+			itemSelectionne = event.key.keysym.sym - 49;
+			spriteSurvol->defPosition(cases[itemSelectionne]->obtPosition() + Vecteur2f(-51, 0));
+			inventaire->defItemSelectionne(itemSelectionne);
+		}
+		if (event.key.keysym.sym == SDLK_q){
+			int swap = itemSelectionne;
+			itemSelectionne = dernierItemSelectionne;
+			dernierItemSelectionne = swap;
+			spriteSurvol->defPosition(cases[itemSelectionne]->obtPosition() + Vecteur2f(-51, 0));
+			inventaire->defItemSelectionne(itemSelectionne);
+		}
 	}
 
 	void remplir(){

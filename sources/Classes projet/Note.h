@@ -8,15 +8,15 @@ private:
 	int animationActuelle;
 public:
 
-	Note(int ID, gfx::Texture* texture) : Item(20, "Note", "Something is written on this piece of paper.", "Ressources/Texture/noteIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("note.obj"), texture), ID, "carton", 1.0){
+	Note(int ID, gfx::Texture* texture) : Item(20, "Note", "Something is written on this piece of paper.", "Ressources/Texture/noteIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/note.obj"), texture), ID, "carton", 1.0){
 		
 	}
 
 	void utiliser(Joueur* joueur){
-		Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.4 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.145;
+		Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8;
 		this->position = newPosition;
 		modele->defPosition(position);
-		angleHorizontal = 90;
+		angleHorizontal = 120;
 	}
 
 	void utiliser2(Joueur* joueur){
