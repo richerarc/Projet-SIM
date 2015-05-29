@@ -54,11 +54,17 @@ namespace gfx{
 			this->taille = Vecteur2ui(mv.l, mv.h);
 			bool tmpFs = fenetrePleinEcran;
 			defPleinEcran(false);
-
 			SDL_SetWindowSize(sdlWindow, taille.x, taille.y);
 			SDL_SetWindowPosition(sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 			if (tmpFs)
 				defPleinEcran(true);
+		}
+
+		void defBordure(bool bordure) {
+			if (bordure)
+				SDL_SetWindowBordered(sdlWindow, SDL_TRUE);
+			else
+				SDL_SetWindowBordered(sdlWindow, SDL_FALSE);
 		}
 
 		void defPleinEcran(bool pe){
