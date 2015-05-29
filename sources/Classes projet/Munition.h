@@ -74,7 +74,6 @@ class CartoucheGaz : public Munition{
 			MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
 			tmp->recharger();
 			--quantite;
-			this->defEtat(DEPOSE);
 		}
 	}
 public:
