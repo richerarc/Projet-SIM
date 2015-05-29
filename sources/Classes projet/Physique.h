@@ -584,9 +584,12 @@ public:
 					mur = true;
 					if (!escalier) {
 						Vecteur3d pointDifference = pointCollision - point;
-						if (normale.x == 1.f || normale.z == 1.f)
-							pointDifference *= Vecteur3d(fabs(normale.x), normale.y, fabs(normale.z)); // lololol
-						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+						if (pointDifference.y != 0)
+							pointDifference.y = 0;
+						double normePointDifference = pointDifference.norme();
+						Vecteur3d normaleReposition = normale;
+						normaleReposition *= normePointDifference;
+						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + normaleReposition.x, joueur->obtPosition().y, joueur->obtPosition().z + normaleReposition.z));
 					}
 				}
 				joueur->obtVitesse().x = 0.;
