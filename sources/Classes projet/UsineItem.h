@@ -9,7 +9,7 @@
 #include "Journal.h"
 #include "Examen.h"
 #include "Munition.h"
-
+#include "Cle.h"
 
 class UsineItem : public Singleton<UsineItem>{
 private:
