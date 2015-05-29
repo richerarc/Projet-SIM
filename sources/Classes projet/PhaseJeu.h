@@ -225,9 +225,11 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(37, 0);
+		test = UsineItem::obtInstance().obtItemParType(42, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(61, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 
@@ -242,8 +244,7 @@ public:
 		vieMentale = new gfx::Texte2D(new std::string(""), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(350, 10));
 		munitionRestantes = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 10));
 		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-		//compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
-		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/masqueAGazIcone.png"));
+		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
 		mettreAJourTextesSante();
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
@@ -306,7 +307,9 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
-		GestionnaireSucces::obtInstance().verifierPacifisme();
+		if (salleActive != nullptr)
+			if (salleActive->obtID() == difficulte + 2)
+				GestionnaireSucces::obtInstance().verifierPacifisme();
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
@@ -470,8 +473,10 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(18);
 						if (nom == "HolyRod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
-						if (nom == "Luger P08" || nom == "Thompson M1")
+						if (nom == "Luger P08" || nom == "Thompson M1"){
 							GestionnaireSucces::obtInstance().obtSucces(8);
+							GestionnaireSucces::obtInstance().defPacifisme(false);
+						}
 						if (nom == "Grenade")
 							GestionnaireSucces::obtInstance().obtSucces(9);
 						if (nom == "Note")
@@ -484,6 +489,8 @@ public:
 							GestionnaireSucces::obtInstance().obtSucces(25);
 						if (nom == "Companion")
 							GestionnaireSucces::obtInstance().obtSucces(11);
+						if (nom == "Exam")
+							GestionnaireSucces::obtInstance().obtSucces(24);
 						objetVise = nullptr;
 					}
 					else if (dynamic_cast<Commutateur*>(objetVise)){
