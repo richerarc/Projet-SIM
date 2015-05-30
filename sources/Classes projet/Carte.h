@@ -100,7 +100,7 @@ private:
 					double deltaXmen;
 					for (auto &it : puzzle.objet){
 						deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
-						it.rotation = 270;
+						it.rotation = { 0, 270, 0 };
 						if (it.position.x < 0){
 							it.position.x += deltaXmen;
 							it.position.z -= deltaXmen;
@@ -124,26 +124,26 @@ private:
 			if (boiteSalle.boiteDansBoite(boitePuzzleTemp)){
 				if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
 					remplisseur.largeur = boiteSalle.obtGrandeurX();
-					remplisseur.rotation = 0;
+					remplisseur.rotation = { 0, 0, 0 };
 					remplisseur.position = Vecteur3d(boiteSalle.obtXMin(), 1, boitePuzzleTemp.obtZMin());
 					puzzle.objet.push_back(remplisseur);
-					remplisseur.rotation = 180;
+					remplisseur.rotation = { 0, 180, 0 };
 					remplisseur.position = Vecteur3d(boiteSalle.obtXMax(), 1, boitePuzzleTemp.obtZMax());
 					puzzle.objet.push_back(remplisseur);
 				}
 
 				else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
 					remplisseur.largeur = boiteSalle.obtGrandeurZ();
-					remplisseur.rotation = 270;
+					remplisseur.rotation = { 0, 270, 0 };
 					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteSalle.obtZMin());
 					puzzle.objet.push_back(remplisseur);
-					remplisseur.rotation = 90;
+					remplisseur.rotation = { 0, 90, 0 };
 					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteSalle.obtZMax());
 					puzzle.objet.push_back(remplisseur);
 				}
 
 				for (auto &it : puzzle.objet){
-					salle.Objet.push_back(it);
+					salle.Objet.push_back(new InfoObjet(it));
 				}
 				return true;
 			}
@@ -185,7 +185,7 @@ private:
 			} while (!espacePorte(point[0], point[1], point[2]));
 			normale.normaliser();
 			// Angle de la porte...
-			objet.rotation = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
+			objet.rotation.y = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
 				: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
 
 			objet.direction = normale * -1;
@@ -271,36 +271,36 @@ private:
 			Vecteur3d pivot = { 0, 1, 0 };
 			for (auto it_Porte : salle.Objet) {
 
-				if (it_Porte.largeur != 0) {
+				if ((*it_Porte).largeur != 0) {
 
-					if (it_Porte.rotation == 0) {
-						if (objet.position.z >= it_Porte.position.z && (objet.position.x <= it_Porte.position.x && objet.position.x >= it_Porte.position.x + it_Porte.largeur))
+					if ((*it_Porte).rotation.y == 0) {
+						if (objet.position.z >= (*it_Porte).position.z && (objet.position.x <= (*it_Porte).position.x && objet.position.x >= (*it_Porte).position.x + (*it_Porte).largeur))
 							PorteAuMur = false;
 					}
-					else if (it_Porte.rotation == 180) {
-						if (objet.position.z <= it_Porte.position.z && (objet.position.x >= it_Porte.position.x && objet.position.x <= it_Porte.position.x + it_Porte.largeur))
+					else if ((*it_Porte).rotation.y == 180) {
+						if (objet.position.z <= (*it_Porte).position.z && (objet.position.x >= (*it_Porte).position.x && objet.position.x <= (*it_Porte).position.x + (*it_Porte).largeur))
 							PorteAuMur = false;
 					}
-					else if (it_Porte.rotation == 270) {
-						if (objet.position.x <= it_Porte.position.x && (objet.position.z >= it_Porte.position.z + it_Porte.largeur && objet.position.z <= it_Porte.position.z))
+					else if ((*it_Porte).rotation.y == 270) {
+						if (objet.position.x <= (*it_Porte).position.x && (objet.position.z >= (*it_Porte).position.z + (*it_Porte).largeur && objet.position.z <= (*it_Porte).position.z))
 							PorteAuMur = false;
 					}
-					else if (it_Porte.rotation == 90) {
-						if (objet.position.x >= it_Porte.position.x && (objet.position.z <= it_Porte.position.z + it_Porte.largeur && objet.position.z >= it_Porte.position.z))
+					else if ((*it_Porte).rotation.y == 90) {
+						if (objet.position.x >= (*it_Porte).position.x && (objet.position.z <= (*it_Porte).position.z + (*it_Porte).largeur && objet.position.z >= (*it_Porte).position.z))
 							PorteAuMur = false;
 					}
 				}
 
 				// Si les portes ont la même direction...
-				else if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
+				else if ((objet.direction == (*it_Porte).direction) && !(objet.position == (*it_Porte).position)) {
 
-					if (Maths::distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
+					if (Maths::distanceEntreDeuxPoints(objet.position, (*it_Porte).position) <= 1.471) {
 						PorteAuMur = false;
 					}
 					Remplisseur* remp;
 					for (auto it_boite : salle.Objet){
-						if (it_boite.type == REMPLISSEUR){
-							remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it_boite.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it_boite.cheminTexture)), it_boite.largeur, it_boite.position, it_boite.ID);
+						if ((*it_boite).type == REMPLISSEUR){
+							remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it_boite).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it_boite).cheminTexture)), (*it_boite).largeur, (*it_boite).position, (*it_boite).ID);
 							if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
 								PorteAuMur = false;
 								break;
@@ -312,13 +312,13 @@ private:
 			}
 		}
 	}
-	
+
 	void positionnerObjet(gfx::Modele3D& modeleSalle, InfoSalle& salle, InfoObjet& objet) {
 		unsigned int depart;
 		Vecteur3d normale;
 		Vecteur3d point[3];
 		Vecteur3d swap;
-		
+
 		bool PorteAuMur = false;
 		double* vertices = modeleSalle.obtSommetsModifies();
 		double* normales = modeleSalle.obtNormalesModifies();
@@ -332,26 +332,26 @@ private:
 					normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
 				} while (normale.y != 0);
 				for (int i = 0; i < 3; ++i) {
-					
+
 					point[i] = { vertices[depart + i * 3], vertices[depart + i * 3 + 1], vertices[depart + i * 3 + 2] };
-					
+
 				}
 			} while (!espacePorte(point[0], point[1], point[2]));
 			normale.normaliser();
-				// Angle de la porte...
-			objet.rotation = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
-			: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
-			
+			// Angle de la porte...
+			objet.rotation.y = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
+				: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
+
 			objet.direction = normale * -1;
-			
+
 			double y1 = point[0].y;
 			double y2;
 			do {
 				y2 = point[rand() % 2 + 1].y;
 			} while (y1 == y2);
-			
+
 			objet.position.y = (y1 < y2) ? y1 : y2;
-			
+
 			unsigned int i;
 			unsigned int j;
 			do {
@@ -360,8 +360,8 @@ private:
 					j = rand() % 3;
 				} while (i == j);
 			} while (point[i].y != point[j].y);
-			
-				// Positionnement des points de blender dans le même sens...
+
+			// Positionnement des points de blender dans le même sens...
 			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
 				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 					if (point[i].x > point[j].x) {
@@ -381,80 +381,80 @@ private:
 			else
 			{
 				switch ((int)normale.x) {
-					case 1:
-						if (point[i].z < point[j].z) {
-							swap = point[i];
-							point[i] = point[j];
-							point[j] = swap;
-						}
-						break;
-					case -1:
-						if (point[i].z > point[j].z) {
-							swap = point[i];
-							point[i] = point[j];
-							point[j] = swap;
-						}
-						break;
+				case 1:
+					if (point[i].z < point[j].z) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
+				case -1:
+					if (point[i].z > point[j].z) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
 				}
 				switch ((int)normale.z) {
-					case 1:
-						if (point[i].x > point[j].x) {
-							swap = point[i];
-							point[i] = point[j];
-							point[j] = swap;
-						}
-						break;
-					case -1:
-						if (point[i].x < point[j].x) {
-							swap = point[i];
-							point[i] = point[j];
-							point[j] = swap;
-						}
-						break;
+				case 1:
+					if (point[i].x > point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
+				case -1:
+					if (point[i].x < point[j].x) {
+						swap = point[i];
+						point[i] = point[j];
+						point[j] = swap;
+					}
+					break;
 				}
 			}
-			
+
 			Vecteur3d vecteurRatio = Maths::vecteurEntreDeuxPoints(point[i], point[j]);
 			vecteurRatio *= ((vecteurRatio.norme() - 1.471) / vecteurRatio.norme());
 			vecteurRatio *= ((double)rand() / RAND_MAX);
 			vecteurRatio = point[i] + vecteurRatio;
 			objet.position.x = vecteurRatio.x;
 			objet.position.z = vecteurRatio.z;
-			
-				// Boucle qui vérifie si une porte sera en collision avec une autre...
+
+			// Boucle qui vérifie si une porte sera en collision avec une autre...
 			Vecteur3d pivot = { 0, 1, 0 };
 			for (auto it_Porte : salle.Objet) {
-				
-				if (it_Porte.largeur != 0) {
-					
-					if (it_Porte.rotation == 0) {
-						if (objet.position.z >= it_Porte.position.z && (objet.position.x <= it_Porte.position.x && objet.position.x >= it_Porte.position.x + it_Porte.largeur))
+
+				if ((*it_Porte).largeur != 0) {
+
+					if ((*it_Porte).rotation.y == 0) {
+						if (objet.position.z >= (*it_Porte).position.z && (objet.position.x <= (*it_Porte).position.x && objet.position.x >= (*it_Porte).position.x + (*it_Porte).largeur))
 							PorteAuMur = false;
 					}
-					else if (it_Porte.rotation == 180) {
-						if (objet.position.z <= it_Porte.position.z && (objet.position.x >= it_Porte.position.x && objet.position.x <= it_Porte.position.x + it_Porte.largeur))
+					else if ((*it_Porte).rotation.y == 180) {
+						if (objet.position.z <= (*it_Porte).position.z && (objet.position.x >= (*it_Porte).position.x && objet.position.x <= (*it_Porte).position.x + (*it_Porte).largeur))
 							PorteAuMur = false;
 					}
-					else if (it_Porte.rotation == 270) {
-						if (objet.position.x <= it_Porte.position.x && (objet.position.z >= it_Porte.position.z + it_Porte.largeur && objet.position.z <= it_Porte.position.z))
+					else if ((*it_Porte).rotation.y == 270) {
+						if (objet.position.x <= (*it_Porte).position.x && (objet.position.z >= (*it_Porte).position.z + (*it_Porte).largeur && objet.position.z <= (*it_Porte).position.z))
 							PorteAuMur = false;
 					}
-					else if (it_Porte.rotation == 90) {
-						if (objet.position.x >= it_Porte.position.x && (objet.position.z <= it_Porte.position.z + it_Porte.largeur && objet.position.z >= it_Porte.position.z))
+					else if ((*it_Porte).rotation.y == 90) {
+						if (objet.position.x >= (*it_Porte).position.x && (objet.position.z <= (*it_Porte).position.z + (*it_Porte).largeur && objet.position.z >= (*it_Porte).position.z))
 							PorteAuMur = false;
 					}
 				}
-				
-					// Si les portes ont la même direction...
-				else if ((objet.direction == it_Porte.direction) && !(objet.position == it_Porte.position)) {
-					
-					if (Maths::distanceEntreDeuxPoints(objet.position, it_Porte.position) <= 1.471) {
+
+				// Si les portes ont la même direction...
+				else if ((objet.direction == (*it_Porte).direction) && !(objet.position == (*it_Porte).position)) {
+
+					if (Maths::distanceEntreDeuxPoints(objet.position, (*it_Porte).position) <= 1.471) {
 						PorteAuMur = false;
 					}
 					Remplisseur* remp;
 					for (auto it_boite : salle.Objet){
-						if (it_boite.type == REMPLISSEUR){
-							remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it_boite.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it_boite.cheminTexture)), it_boite.largeur, it_boite.position, it_boite.ID);
+						if ((*it_boite).type == REMPLISSEUR){
+							remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it_boite).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it_boite).cheminTexture)), (*it_boite).largeur, (*it_boite).position, (*it_boite).ID);
 							if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
 								PorteAuMur = false;
 								break;
@@ -525,40 +525,43 @@ private:
 		salleActive->defEchelle(infoSalleActive.echelle);
 		double phasePendule = MATHS_PI;
 		for (auto& it : infoSalleActive.Objet) {
-			gfx::Modele3D* modeleporte = nullptr;
-			if (it.type != ITEM){
-				modeleporte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(it.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(it.cheminTexture));
-				modeleporte->defPosition(it.position);
-				modeleporte->defOrientation(0, it.rotation, 0);
+			gfx::Modele3D* modeleObjet = nullptr;
+			if ((*it).type != ITEM){
+				modeleObjet = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it).cheminTexture));
+				modeleObjet->defPosition((*it).position);
+				modeleObjet->defOrientation((*it).rotation);
 			}
-			switch (it.type) {
+			switch ((*it).type) {
 			case PORTE:
-				salleActive->ajoutObjet(new Porte(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, true, false, false));
+				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, false, false));
 				break;
 			case PENDULE:
-				if (!it.rotation)
-					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 2, 0, 0 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+				if (!(*it).rotation.y)
+					salleActive->ajoutObjet(new Pendule(modeleObjet, (*it).ID, "metal", (*it).position, { 2, 0, 0 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
 				else
-					salleActive->ajoutObjet(new Pendule(modeleporte, it.ID, "metal", it.position, { 0, 0, 2 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
+					salleActive->ajoutObjet(new Pendule(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 2 }, false, false, phasePendule += (rand() % 4 + 1) / MATHS_PI, 30));
 				break;
 			case FIXE:
-				salleActive->ajoutObjet(new ObjetFixe(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false, false));
+				salleActive->ajoutObjet(new ObjetFixe(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, false));
+				break;
+			case PEINTURE:
+				salleActive->ajoutObjet(new Peinture((*it).ID, modeleObjet, (*it).position));
 				break;
 			case REMPLISSEUR:
-				salleActive->ajoutObjet(new Remplisseur(modeleporte, it.largeur, it.position, it.ID));
+				salleActive->ajoutObjet(new Remplisseur(modeleObjet, (*it).largeur, (*it).position, (*it).ID));
 				break;
 			case VENTILATEUR:
-				salleActive->ajoutObjet(new Vent(modeleporte, it.ID, Vecteur3d(0, 5, 0), it.position, Vecteur3d(it.largeur, 20, it.largeur)));
+				salleActive->ajoutObjet(new Vent(modeleObjet, (*it).ID, Vecteur3d(0, 5, 0), (*it).position, Vecteur3d((*it).largeur, 20, (*it).largeur)));
 				break;
 			case COMMUTATEUR:
-				salleActive->ajoutObjet(new Commutateur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, false));
+				salleActive->ajoutObjet(new Commutateur(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false));
 				break;
 			case PLAFONDTUEUR:
-				salleActive->ajoutObjet(new PlafondTueur(modeleporte, it.ID, "metal", it.position, { 0, 0, 0 }, true, false));
+				salleActive->ajoutObjet(new PlafondTueur(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, true, false));
 				break;
 			case ITEM:
-				Item *itm = UsineItem::obtInstance().obtItemParType(it.IDitem, it.ID);
-				itm->defPosition(it.position);
+				Item *itm = UsineItem::obtInstance().obtItemParType((*it).IDitem, (*it).ID);
+				itm->defPosition((*it).position);
 				itm->defVitesse({ 0, 0.1, 0 });
 				salleActive->ajoutObjet(itm);
 				break;
@@ -598,7 +601,7 @@ public:
 	void ajouterLien(Entree entree, Sortie sortie){
 		liens[entree] = sortie;
 	}
-	
+
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
@@ -608,13 +611,60 @@ public:
 
 		auto sallePrecedente = infosSalles.begin();
 		std::advance(sallePrecedente, std::get<0>(entree));
+
+		bool estDansListe = false;
+
+		InfoObjet* infosObjetARetirer[4] = { nullptr, nullptr, nullptr, nullptr };
+		unsigned int nbrinfosObjARet = 0;
+
+		for (auto it : sallePrecedente->Objet) {
+			if (it->type == PEINTURE) {
+				for (auto it_SalleActive : salleActive->obtListeObjet()) {
+					Peinture* peinture = dynamic_cast<Peinture*>(it_SalleActive);
+					if (peinture) {
+						if (it->position == peinture->obtPosition()) {
+							salleActive->retirerObjet(it_SalleActive);
+							delete it_SalleActive;
+							it_SalleActive = nullptr;
+							estDansListe = true;
+							break;
+						}
+					}
+				}
+				if (!estDansListe) {
+					infosObjetARetirer[nbrinfosObjARet++] = it;
+				}
+				else
+					estDansListe = false;
+			}
+		}
+
+		for (; nbrinfosObjARet > 0; --nbrinfosObjARet) {
+			sallePrecedente->Objet.remove(infosObjetARetirer[nbrinfosObjARet - 1]);
+		}
+
+		for (auto it : salleActive->obtListeObjet()) {
+			Peinture* peinture = dynamic_cast<Peinture*>(it);
+			if (peinture) {
+
+				InfoObjet lapeinture;
+				lapeinture.ID = peinture->obtID();
+				lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
+				lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
+				lapeinture.position = peinture->obtPosition();
+				lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
+				lapeinture.type = PEINTURE;
+				sallePrecedente->Objet.push_back(new InfoObjet(lapeinture));
+			}
+		}
+
 		auto portePrecedente = (*sallePrecedente).Objet.begin();
 		std::advance(portePrecedente, std::get<1>(entree));
 
 		// Calcul de la rotation de camÃ©ra Ã  appliquer:
 		// {
 
-		orientationCamera[0] = vitesseRotationHV[0] = portePrecedente->rotation + 270;
+		orientationCamera[0] = vitesseRotationHV[0] = (*portePrecedente)->rotation.y + 270;
 
 		if (vitesseRotationHV[0] > 360)
 			vitesseRotationHV[0] -= 360;
@@ -635,7 +685,7 @@ public:
 		// Calcul de la translation Ã  appliquer sur le joueur...
 		// {
 
-		positions[0] = portePrecedente->position + (portePrecedente->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (portePrecedente->direction * 1.5);
+		positions[0] = (*portePrecedente)->position + ((*portePrecedente)->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - ((*portePrecedente)->direction * 1.5);
 
 		translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0]);
 		translations[0].normaliser();
@@ -652,20 +702,20 @@ public:
 		std::advance(it, std::get<1>(salleSuivante));
 
 		// DÃ©finition de la position du faux mur, de la fausse porte et du joueur...
-		Vecteur3d positionMur = it->position - (it->direction * 1.68);
+		Vecteur3d positionMur = (*it)->position - ((*it)->direction * 1.68);
 
 		modeleMur->defPosition(positionMur);
-		modelePorte->defPosition(positionMur.x - (1.470588235 * it->direction.z), positionMur.y, positionMur.z + (1.470588235 * it->direction.x));
-		modeleMur->defOrientation(0, it->rotation, 0);
-		modelePorte->defOrientation(0, it->rotation + 180, 0);
+		modelePorte->defPosition(positionMur.x - (1.470588235 * (*it)->direction.z), positionMur.y, positionMur.z + (1.470588235 * (*it)->direction.x));
+		modeleMur->defOrientation((*it)->rotation);
+		modelePorte->defOrientation((*it)->rotation.x, (*it)->rotation.y + 180, (*it)->rotation.z);
 
-		positions[1] = it->position + (it->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - (it->direction * 0.18);
-		positions[2] = positions[1] - (it->direction * 1.5);
+		positions[1] = (*it)->position + ((*it)->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - ((*it)->direction * 0.18);
+		positions[2] = positions[1] - ((*it)->direction * 1.5);
 
 		translations[1] = Maths::vecteurEntreDeuxPoints(positions[1], positions[2]);
 		translations[1].normaliser();
 
-		orientationCamera[1] = it->rotation + 90;
+		orientationCamera[1] = (*it)->rotation.y + 90;
 
 		if (orientationCamera[1] > 360)
 			orientationCamera[1] -= 360;
@@ -734,6 +784,10 @@ public:
 						std::advance(debut, std::get<0>(salleSuivante));
 
 						creerSalle(*debut);
+
+						Item* canon = joueur->obtInventaire()->obtItemParType(12);
+						if (canon)
+							canon->reinitialiserListePeinture();
 
 						ajouterMur();
 						joueur->defPosition(positions[1]);
@@ -841,6 +895,7 @@ public:
 
 			aleatoire = rand() % itterateur;
 
+
 			salle.cheminModele = (char*)(std::get<0>(cheminsModeleText[aleatoire]));
 			salle.cheminTexture = (char*)(std::get<1>(cheminsModeleText[aleatoire]));
 			LecteurFichier::lireBoite(std::get<2>(cheminsModeleText[aleatoire]), salle);
@@ -899,7 +954,7 @@ public:
 				objet.largeur = 0;
 				LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
-				it.Objet.push_front(objet);
+				it.Objet.push_front(new InfoObjet(objet));
 			}
 
 			// Ajout et réinitialisation de la salle.
@@ -930,9 +985,9 @@ public:
 		porte.ID = 0;
 		porte.largeur = 0;
 		porte.position = { 4.1, 0, 2.57 };
-		porte.rotation = 90;
+		porte.rotation = { 0, 90, 0 };
 
-		salleDebut.Objet.push_back(porte);
+		salleDebut.Objet.push_back(new InfoObjet(porte));
 
 		// Lit
 
@@ -942,9 +997,9 @@ public:
 		lit.ID = 1;
 		lit.largeur = 0;
 		lit.position = { 2.5, 1.0, -10.9 };
-		lit.rotation = 0;
+		lit.rotation = { 0, 0, 0 };
 
-		salleDebut.Objet.push_back(lit);
+		salleDebut.Objet.push_back(new InfoObjet(lit));
 
 		// Lavabo
 
@@ -954,9 +1009,9 @@ public:
 		lavabo.ID = 2;
 		lavabo.largeur = 0;
 		lavabo.position = { 5.0, 1.3, -1.5 };
-		lavabo.rotation = 0;
+		lavabo.rotation = { 0, 0, 0 };
 
-		salleDebut.Objet.push_back(lavabo);
+		salleDebut.Objet.push_back(new InfoObjet(lavabo));
 
 		// Bureau
 
@@ -966,9 +1021,9 @@ public:
 		bureau.ID = 3;
 		bureau.largeur = 0;
 		bureau.position = { -4.9, 0.0, -3.0 };
-		bureau.rotation = -90;
+		bureau.rotation = { 0, -90, 0 };
 
-		salleDebut.Objet.push_back(bureau);
+		salleDebut.Objet.push_back(new InfoObjet(bureau));
 
 		// Poubelle
 
@@ -978,9 +1033,9 @@ public:
 		poubelle.ID = 4;
 		poubelle.largeur = 0;
 		poubelle.position = { -4.3, 0.0, -0.75 };
-		poubelle.rotation = 0;
+		poubelle.rotation = { 0, 0, 0 };
 
-		salleDebut.Objet.push_back(poubelle);
+		salleDebut.Objet.push_back(new InfoObjet(poubelle));
 
 		// Etagere
 
@@ -990,9 +1045,9 @@ public:
 		etagere.ID = 4;
 		etagere.largeur = 0;
 		etagere.position = { -1.7, 0.0, 1.55 };
-		etagere.rotation = 180;
+		etagere.rotation = { 0, 180, 0 };
 
-		salleDebut.Objet.push_back(etagere);
+		salleDebut.Objet.push_back(new InfoObjet(etagere));
 
 		// Table de chevet
 
@@ -1002,31 +1057,31 @@ public:
 		tabledechevet.ID = 4;
 		tabledechevet.largeur = 0;
 		tabledechevet.position = { 1.0, 1.0, -10.5 };
-		tabledechevet.rotation = 0;
+		tabledechevet.rotation = { 0, 0, 0 };
 
-		salleDebut.Objet.push_back(tabledechevet);
-		
-			// Masque
-		
+		salleDebut.Objet.push_back(new InfoObjet(tabledechevet));
+
+		// Masque
+
 		InfoObjet masque;
 		masque.direction = { 0, 0, 0 };
 		masque.ID = 5;
 		masque.largeur = 0;
 		masque.position = { 1.0, 2.0, -10.5 };
-		masque.rotation = 0;
+		masque.rotation = { 0, 0, 0 };
 		masque.IDitem = 50;
 		masque.type = ITEM;
-		
-		salleDebut.Objet.push_back(masque);
+
+		salleDebut.Objet.push_back(new InfoObjet(masque));
 
 		// Ajout du lien de sortie de la salle de début
-		
+
 		int IDporte;
-		
+
 		auto it = infosSalles.begin();
-		
+
 		std::advance(it, rand() % nombreDeSalle);
-		
+
 		InfoObjet obj;
 		obj.largeur = 0;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
@@ -1038,11 +1093,11 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				itt.Objet.push_back(obj);
+				itt.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
 		}
-		
+
 		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
 		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
@@ -1070,8 +1125,6 @@ public:
 		teleporte = true;
 		hAngle = 0;
 		vAngle = 50;
-		float ff = fenetre->obtTaille().y;
-		float f = (170 * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y));
 		noirHautBas[0] = new gfx::Sprite2D(Vecteur2f(0, (fenetre->obtTaille().y / 2) - (170 * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y))), new gfx::Texture("Ressources/Texture/noirHaut.png"));
 		noirHautBas[1] = new gfx::Sprite2D(Vecteur2f(0, 0), new gfx::Texture("Ressources/Texture/noirBas.png"));
 		noirHautBas[1]->defPosition(Vecteur2f(0, -((noirHautBas[1]->obtTexture()->obtTaille().y * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y)) - fenetre->obtTaille().y / 2) + (170 * ((float)fenetre->obtTaille().y / (float)RESOLUTION_DEFAUT_Y))));
@@ -1084,41 +1137,41 @@ public:
 	}
 
 	void teleporteur(){
-		
+
 		InfoSalle salleTeleporteur;
 		salleTeleporteur.cheminModele = "Ressources/Modele/teleporteur.obj";
 		salleTeleporteur.cheminTexture = "Ressources/Texture/teleporteur.png";
 		salleTeleporteur.echelle = { 1.0, 1.0, 1.0 };
 		salleTeleporteur.ID = infosSalles.size();
 		salleTeleporteur.nbrPorte = 1;
-		
-			// Création des objets de la salle
-		
-			// Porte (EntrŽe)
-		
+
+		// Création des objets de la salle
+
+		// Porte (EntrŽe)
+
 		InfoObjet porte;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
-		porte.direction = { 1, 0, 0};
+		porte.direction = { 1, 0, 0 };
 		porte.ID = 0;
 		porte.largeur = 0;
-		porte.position = { 21.1, 0, -1.470588235/2 };
-		porte.rotation = 180;
-		
-		salleTeleporteur.Objet.push_back(porte);
-		
-		
-			// Porte (Sortie)
+		porte.position = { 21.1, 0, -1.470588235 / 2 };
+		porte.rotation = { 0, 180, 0 };
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(porte));
+
+
+		// Porte (Sortie)
 		InfoObjet porte2;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
 		porte2.direction = { -1, 0, 0 };
 		porte2.ID = 1;
 		porte2.largeur = 0;
-		porte2.position = { -21.1, 0, 1.470588235/2 };
-		porte2.rotation = 0;
-		
-		salleTeleporteur.Objet.push_back(porte2);
-		
-			// Poste
+		porte2.position = { -21.1, 0, 1.470588235 / 2 };
+		porte2.rotation = { 0, 0, 0 };
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(porte2));
+
+		// Poste
 		InfoObjet poste;
 		poste.cheminModele = "Ressources/Modele/poste.obj";
 		poste.cheminTexture = "Ressources/Texture/poste.png";
@@ -1126,12 +1179,12 @@ public:
 		poste.ID = 2;
 		poste.largeur = 0;
 		poste.position = { 0, 0, 5 };
-		poste.rotation = 90;
+		poste.rotation = { 0, 90, 0 };
 		poste.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(poste);
-		
-			// Plate
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(poste));
+
+		// Plate
 		InfoObjet plate;
 		plate.cheminModele = "Ressources/Modele/plate.obj";
 		plate.cheminTexture = "Ressources/Texture/plate.png";
@@ -1139,57 +1192,57 @@ public:
 		plate.ID = 3;
 		plate.largeur = 0;
 		plate.position = { 0.93, 0.96, 4.7 };
-		plate.rotation = 90;
+		plate.rotation = { 0, 90, 0 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
 		plate.ID = 4;
 		plate.position = { 0.73, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
 		plate.ID = 5;
 		plate.position = { 0.53, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
 		plate.ID = 6;
 		plate.position = { 0.33, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
-		
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
+
+
 		plate.ID = 7;
 		plate.position = { -0.13, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
 		plate.ID = 10;
 		plate.position = { -0.73, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
 		plate.ID = 9;
 		plate.position = { -0.53, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
 		plate.ID = 8;
 		plate.position = { -0.33, 0.96, 4.7 };
 		plate.type = FIXE;
-		
-		salleTeleporteur.Objet.push_back(plate);
-		
-			//Switch
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(plate));
+
+		//Switch
+
 		InfoObjet com;
 		com.cheminModele = "Ressources/Modele/switch.obj";
 		com.cheminTexture = "Ressources/Texture/switch.png";
@@ -1197,56 +1250,56 @@ public:
 		com.ID = 11;
 		com.largeur = 0;
 		com.position = { 0.93, 0.98, 4.72 };
-		com.rotation = 90;
+		com.rotation = { 0, 90, 0 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
 		com.ID = 12;
 		com.position = { 0.73, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
 		com.ID = 13;
 		com.position = { 0.53, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
 		com.ID = 14;
 		com.position = { 0.33, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
-		
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
+
+
 		com.ID = 15;
 		com.position = { -0.13, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
 		com.ID = 18;
 		com.position = { -0.73, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
 		com.ID = 17;
 		com.position = { -0.53, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
-		
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
+
 		com.ID = 16;
 		com.position = { -0.33, 0.98, 4.72 };
 		com.type = COMMUTATEUR;
-		
-		salleTeleporteur.Objet.push_back(com);
+
+		salleTeleporteur.Objet.push_back(new InfoObjet(com));
 		int IDsalle, IDporte;
-		
+
 		InfoObjet obj;
 		obj.largeur = 0;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
@@ -1259,70 +1312,70 @@ public:
 				mod->defEchelle(it.echelle.x, it.echelle.y, it.echelle.z);
 				it.nbrPorte++;
 				positionnerPorte(*mod, it, obj);
-				it.Objet.push_back(obj);
+				it.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
 		}
-		
+
 		ajouterLien(Entree(IDsalle, IDporte, false), Sortie(salleTeleporteur.ID, 0));
-		
+
 		infosSalles.push_back(salleTeleporteur);
 	}
 
 	void fin(){
-			// Salle de fin
-		
+		// Salle de fin
+
 		InfoSalle salleFin;
 		salleFin.cheminModele = "Ressources/Modele/SalleFinStuff.obj";
 		salleFin.cheminTexture = "Ressources/Texture/salleFinStuff.png";
 		salleFin.echelle = { 1.0, 1.0, 1.0 };
 		salleFin.ID = infosSalles.size();
 		salleFin.nbrPorte = 1;
-		
-			// Création objets salle finale
-		
-			//Demi sphère
-		
+
+		// Création objets salle finale
+
+		//Demi sphère
+
 		InfoObjet demiSphere;
 		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
 		demiSphere.position = { -56.175, 0, -74.7745 };
-		demiSphere.rotation = 0;
+		demiSphere.rotation = { 0, 0, 0 };
 		demiSphere.type = FIXE;
-		
-		salleFin.Objet.push_back(demiSphere);
-		
-			// Porte
-		
+
+		salleFin.Objet.push_back(new InfoObjet(demiSphere));
+
+		// Porte
+
 		InfoObjet porteFin;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 0;
 		porteFin.largeur = 0;
 		porteFin.position = { -57.475, 0, -74.7745 };
-		porteFin.rotation = -38;
-		
-		salleFin.Objet.push_back(porteFin);
-		
-		
-			// Création de l'avion
-		
+		porteFin.rotation = { 0, -38, 0 };
+
+		salleFin.Objet.push_back(new InfoObjet(porteFin));
+
+
+		// Création de l'avion
+
 		InfoObjet avion;
 		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);
 		avion.direction = { 0, 0, 0 };
 		avion.ID = 1;
 		avion.largeur = 0;
 		avion.position = { -16.0395, 0, 61.8221 };
-		avion.rotation = 90;
+		avion.rotation = { 0, 90, 0 };
 		avion.type = 180;
-		
-		salleFin.Objet.push_back(avion);
-		
+
+		salleFin.Objet.push_back(new InfoObjet(avion));
+
 		infosSalles.push_back(salleFin);
 	}
-	
+
 	bool animationLeverLit(Joueur* joueur, float frameTime) {
 		if (enLeverLit) {
 			if (frameTime < 0.5) { // À cause du frametime accumulé
@@ -1400,6 +1453,7 @@ public:
 		chargement = 0;
 
 	}
+
 	void defNbrSalle(unsigned int nbrSalles) {
 		nombreDeSalle = nbrSalles;
 	}

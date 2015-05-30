@@ -2,7 +2,7 @@
 #include "BoiteCollision.h"
 
 
-enum objet_type{ PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR, VENTILATEUR, COMMUTATEUR, PLAFONDTUEUR };
+enum objet_type{ PORTE, PENDULE, FIXE, PHYSIQUE, ITEM, REMPLISSEUR, VENTILATEUR, COMMUTATEUR, PLAFONDTUEUR, PEINTURE };
 enum position_type{MURS = 101, SOLS=102, PLAFONDS=103, MURS_SOLS=104, MURS_PLAFONDS=105};
 
 
@@ -10,7 +10,7 @@ struct InfoObjet {
 	unsigned int ID;
 	Vecteur3d position;
 	Vecteur3d direction;
-	double rotation;
+	Vecteur3d rotation;
 	char* cheminModele;
 	char* cheminTexture;
 	int type;
@@ -70,7 +70,7 @@ struct InfoSalle {
 	char* cheminModele;
 	char* cheminTexture;
 	InfoPuzzle puzzle;
-	std::list<InfoObjet> Objet;
+	std::list<InfoObjet*> Objet;
 	std::list<BoiteCollision<double>> boitesCollision;
 	
 	BoiteCollision<double> obtBoiteCollisionModifie(int ID){

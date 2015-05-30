@@ -32,6 +32,7 @@ public:
 		salleActive = nullptr;
 	}
 
+	virtual void reinitialiserListePeinture() = 0;
 	virtual void utiliser(Joueur* joueur) = 0;
 	virtual void utiliser2(Joueur* joueur) = 0;
 	virtual void equiper(Joueur* joueur) = 0;

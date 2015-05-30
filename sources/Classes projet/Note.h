@@ -27,6 +27,8 @@ public:
 
 	}
 
+	void reinitialiserListePeinture() {}
+
 	void animer(Joueur* joueur){
 		float vitesseJoueur = joueur->obtVitesseDeplacement();
 		if (vitesseJoueur == 4.0f)

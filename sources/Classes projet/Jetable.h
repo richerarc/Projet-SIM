@@ -22,6 +22,8 @@ struct Jetable : public Item{
 		joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
 	}
 	void equiper(Joueur* joueur){}
+
+	void reinitialiserListePeinture() {}
 };
 
 class Companion : public Jetable{

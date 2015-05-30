@@ -167,7 +167,7 @@ public:
 						if (it_Objet->obtModele3D()->obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D()->obtPosition().x <= it->obtPosition().x + it_Vent->obtDimensions().x) {
 							if (it_Objet->obtModele3D()->obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D()->obtPosition().y <= it->obtPosition().y + it_Vent->obtDimensions().y) {
 								if (it_Objet->obtModele3D()->obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D()->obtPosition().z <= it->obtPosition().z + it_Vent->obtDimensions().z) {
-									Physique::obtInstance().appliquerVent(it->obtVitesse(), (*it_Objet).obtVitesse(), (*it_Objet).obtModele3D(), it->obtMasse(), frameTime);
+									appliquerForceVent(it_Objet, it->obtVitesse());
 								}
 							}
 						}
@@ -178,7 +178,7 @@ public:
 			if (it_Aimant != nullptr) {
 				for (auto it_Objet : objets) {
 					if (it_Objet->obtMasse() != 0) {
-						appliquerMagnetisme(*it_Objet, it_Aimant->obtPosition(), it_Aimant->obtForce(), frameTime);
+						appliquerForceMagnetique(it_Objet, it_Aimant);
 					}
 				}
 			}
@@ -205,24 +205,34 @@ public:
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
-				if (!it_ObjetPhysique->estStable()) {
-					if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it, frameTime)) {
-						appliquerGravite(it->obtVitesse(), frameTime);
-						it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
-						it->obtModele3D()->defOrientation(it->obtModele3D()->obtOrientation() - (it->obtVitesseAngulaire() * 180 * frameTime / M_PI));
-					}
+				//if (!it_ObjetPhysique->estStable()) {
+				appliquerForceGravite(it_ObjetPhysique);
+				if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it, frameTime)) {
+
+					it->obtVitesse() += it->obtForceTotale() * (frameTime / it->obtMasse());
+
+					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
+					it->obtModele3D()->defOrientation(it->obtModele3D()->obtOrientation() - (it->obtVitesseAngulaire() * 180 * frameTime / M_PI));
+					it->obtForceTotale() = { 0, 0, 0 };
 				}
+				else
+				{
+					it->obtVitesse() += it->obtForceTotale() * (frameTime / it->obtMasse());
+					it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
+					it->obtModele3D()->defOrientation(it->obtModele3D()->obtOrientation() - (it->obtVitesseAngulaire() * 180 * frameTime / M_PI));
+				}
+				//}
 			}
 		}
 	}
 
-	void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
+	/*void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
 		Vent* it_Vent = dynamic_cast<Vent*>(objet);
 		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
 		Pendule* it_Pendule = dynamic_cast<Pendule*>(objet);
 		if (it_Pendule != nullptr) {
 		}
-	}
+	}*/
 
 	void rebondObjetCarte(Objet& objet, Vecteur3d normale, Vecteur3d pointdeCollision, double frameTime) {
 
@@ -353,26 +363,30 @@ public:
 		objet2.defStable(false);
 	}
 
-	double obtenirForceNormale(double masse, Vecteur3d& vitesse, Vecteur3d normale) {
+	void appliquerForceNormale(Objet* objet, Vecteur3d normale) {
 
-		return masse * gravite * SDL_cos(vitesse.angleEntreVecteurs(normale) - 90);
+		objet->obtForceTotale() += normale * (objet->obtMasse() * -9.8 * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
+	}
+
+	void appliquerForceGravite(Objet* objet) {
+		objet->obtForceTotale() += Vecteur3d(0, -1, 0) * (objet->obtMasse() * 9.8);
 	}
 
 	void appliquerGravite(Vecteur3d &vecteurVitesseObjet, double frametime) {
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void appliquerVent(Vecteur3d vecteurVitesseVent, Vecteur3d& vitesseObjet, gfx::Modele3D* modele, double masse, double frametime) {
+	void appliquerForceVent(Objet* objet, Vecteur3d vitesseVent) {
 
-		double* tableaunormale = modele->obtNormalesModifies(); //À MODIFIER LORSQUE LES MODIF DE normale FONCTIONNENT!
-		double* tableauVertices = modele->obtSommetsModifies();
+		double* tableaunormale = objet->obtModele3D()->obtNormalesModifies();
+		double* tableauVertices = objet->obtModele3D()->obtSommetsModifies();
 
-		double accelerationSelonForceVent = 0.5 * 1.204 * pow(vecteurVitesseVent.norme(), 2);
+		Vecteur3d ForceVent;
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreVertice = modele->obtModele()->obtNbrVertices();
+		double nombreVertice = objet->obtModele3D()->obtModele()->obtNbrVertices();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -384,7 +398,7 @@ public:
 				(tableaunormale[parcoursFace + 1] + tableaunormale[parcoursFace + 4] + tableaunormale[parcoursFace + 7]) / 3,
 				(tableaunormale[parcoursFace + 2] + tableaunormale[parcoursFace + 5] + tableaunormale[parcoursFace + 8]) / 3 };
 
-			double angleEntreVecteursVentNormale = (vecteurVitesseVent.produitScalaire(vecteurNormale)) / (vecteurVitesseVent.norme() * vecteurNormale.norme());
+			double angleEntreVecteursVentNormale = (vitesseVent.produitScalaire(vecteurNormale)) / (vitesseVent.norme() * vecteurNormale.norme());
 
 			// Si l'angle entre le vecteur normal et le vecteur du vent est négatif
 			if (angleEntreVecteursVentNormale < 0) {
@@ -420,38 +434,21 @@ public:
 
 		coefficientTrainer /= nombreFaceSousPression;
 
-		// Fin du calcul...
-		accelerationSelonForceVent *= (coefficientTrainer * surface / masse);
+		vitesseVent.normaliser();
 
-		// Mise en proportion pour l'addition...
-		vecteurVitesseVent.normaliser();
-
-		// Nécéssite l'ajout d'un division par le temps...
-		Vecteur3d vecteurVitesseAppliquer = { accelerationSelonForceVent * vecteurVitesseVent.x, accelerationSelonForceVent * vecteurVitesseVent.y, accelerationSelonForceVent * vecteurVitesseVent.z };
-
-		vitesseObjet += vecteurVitesseAppliquer * frametime;
+		objet->obtForceTotale() += vitesseVent * (0.5 * coefficientTrainer * 1.293 * pow(vitesseVent.norme(), 2) * surface);
 	}
 
-	void appliquerFrottement(Objet& objet, Vecteur3d& normale) {
-		objet.obtVitesse().soustraire(constanteDeFriction * obtenirForceNormale(objet.obtMasse(), objet.obtPosition(), normale));
+	void appliquerForceFrottement(Objet* objet, Vecteur3d normale) {
+
+		objet->obtForceTotale() += (objet->obtVitesse().produitVectoriel(normale)).produitVectoriel(normale) * (constanteDeFriction * objet->obtMasse() * -9.8 * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
 	}
 
 	// Procédure qui applique la force d'attraction magnétique sur un objet
 	// (La force du champs et la sensibilité magnétique de l'objet sont constant).
-	void appliquerMagnetisme(Objet& objet, Vecteur3d positionAimant, double force, double frametime) {
+	void appliquerForceMagnetique(Objet* objet, Aimant* aimant) {
 
-		double distanceObjetAimant = Maths::distanceEntreDeuxPoints(positionAimant, objet.obtPosition());
-		double accelerationMagnetique = (6 * sensibiliteMagnetique * force) / (objet.obtMasse() * distanceObjetAimant);
-
-		Vecteur3d vecteurProportionnel = { positionAimant.x - objet.obtPosition().x, positionAimant.y - objet.obtPosition().y, positionAimant.z - objet.obtPosition().z };
-		vecteurProportionnel.normaliser();
-
-		Vecteur3d vecteurAcceleration = { accelerationMagnetique, accelerationMagnetique, accelerationMagnetique };
-
-		vecteurAcceleration.produitParUnVecteur(vecteurProportionnel);
-
-		objet.obtVitesse() += vecteurAcceleration * frametime;
-
+		objet->obtForceTotale() += Maths::vecteurEntreDeuxPoints(objet->obtPosition(), aimant->obtPosition()) * ((6 * sensibiliteMagnetique * aimant->obtForce()) / objet->obtMasse());
 	}
 
 	double obtenirAnglePenduleSimple(double angleMaximal, double omega, double phase, double frametime) {
@@ -522,6 +519,8 @@ public:
 			normaleDeCollision /= nbrCollision;
 			normale.normaliser();
 			rebondObjetCarte(objet, normaleDeCollision, pointDeCollision, frameTime);
+			appliquerForceNormale(&objet, normaleDeCollision);
+			appliquerForceFrottement(&objet, normaleDeCollision);
 			return true;
 		}
 

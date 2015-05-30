@@ -105,7 +105,7 @@ namespace LecteurFichier{
 							if (!strcmp(ligne, "p")){
 								objet.position = Vecteur3d(x, y, z);
 							}
-							objet.rotation = 0.0;
+							objet.rotation = { 0.0, 0.0, 0.0 };
 							objet.largeur = 0;
 							info.objet.push_back(objet);
 							fichier.getline(ligne, 255);

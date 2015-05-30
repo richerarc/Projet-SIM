@@ -59,6 +59,8 @@ public:
 			etatEquipe = false;
 		}
 	}
+
+	void reinitialiserListePeinture() {}
 	void equiper(Joueur* joueur){}
 	void animer(Joueur* joueur) {}
 

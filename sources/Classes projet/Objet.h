@@ -14,6 +14,7 @@ protected:
 	bool stable;
 	Vecteur3d position;
 	Vecteur3d vitesseAngulaire;
+	Vecteur3d ForceTotale;
 
 public:
 
@@ -37,6 +38,13 @@ public:
 		//delete modele;
 	}
 
+	void reinitialiser() {
+		vitesse = { 0, 0, 0 };
+		vitesseAngulaire = { 0, 0, 0 };
+		stable = false;
+	}
+
+	Vecteur3d& obtForceTotale() { return ForceTotale; }
 	
 	virtual bool obtSiPorte() = 0;
 	//virtual void ajouterScene() = 0;

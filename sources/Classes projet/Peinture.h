@@ -6,9 +6,11 @@ class Peinture : public ObjetFixe{
 private:
 	Vecteur3d normale;
 public:
+
+	Peinture(unsigned int ID, gfx::Modele3D* modele, Vecteur3d position) : ObjetFixe(modele, ID, "carton", position, Vecteur3d(), false, false) {}
+
 	Peinture(unsigned int ID, gfx::Modele3D* modele, Vecteur3d position, Vecteur3d normale) : ObjetFixe(modele, ID, "carton", position, Vecteur3d(), false, false){
 		this->modele->defPosition(position + normale * 0.005);
-		this->modele->defEchelle(2, 2, 2);
 		double vRot = Maths::radianADegre(normale.angleEntreVecteurs(Vecteur3d(this->modele->obtModele()->obtNormales()[0], this->modele->obtModele()->obtNormales()[1], this->modele->obtModele()->obtNormales()[2])));
 
 		Vecteur3d normaleModele = Vecteur3d(1, 0, 0);
