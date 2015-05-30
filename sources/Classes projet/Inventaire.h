@@ -91,14 +91,18 @@ public:
 	}
 
 	Item* retirerObjetSacADos(int position){
-		sacADos[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(45, 0, 45));
+		sacADos[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(0, 0, -45));
+		sacADos[position]->obtObjet()->reinitialiser();
 		sacADos[position]->obtObjet()->defStable(false);
+		sacADos[position]->obtObjet()->defVitesse(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 5);
 		return sacADos[position]->retirerObjet();
 	}
 
 	Item* retirerObjetAccesRapide(int position){
-		menuAccesRapide[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(45, 0, 45));
+		menuAccesRapide[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(0, 0, -45));
+		menuAccesRapide[position]->obtObjet()->reinitialiser();
 		menuAccesRapide[position]->obtObjet()->defStable(false);
+		menuAccesRapide[position]->obtObjet()->defVitesse(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 10);
 		return menuAccesRapide[position]->retirerObjet();
 	}
 

@@ -62,6 +62,7 @@ public:
 	}
 	void equiper(Joueur* joueur){}
 	void animer(Joueur* joueur) {}
+	void reinitialiserListePeinture() {}
 
 	bool estEquipe(){ return etatEquipe; }
 	void user(){

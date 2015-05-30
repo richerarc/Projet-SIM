@@ -22,10 +22,12 @@ public:
 		delete peintures;
 		peintures = new std::list<Peinture*>();
 
-		for (auto it : salleActive->obtListeObjet()) {
-			Peinture* peinture = dynamic_cast<Peinture*>(it);
-			if (peinture) {
-				peintures->push_back(peinture);
+		if (salleActive) {
+			for (auto it : salleActive->obtListeObjet()) {
+				Peinture* peinture = dynamic_cast<Peinture*>(it);
+				if (peinture) {
+					peintures->push_back(peinture);
+				}
 			}
 		}
 	}
