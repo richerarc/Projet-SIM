@@ -40,7 +40,7 @@ private:
 	Vecteur3d translations[2],
 		positions[3];
 
-	double orientationCamera[2],
+	double orientationCamera[3],
 		vitesseRotationHV[2];
 
 	float temps;
@@ -49,7 +49,8 @@ private:
 		enChangementDeSalle,
 		enLeverLit,
 		ouvrirYeux,
-		teleporte;
+		teleporte,
+		enFinPartie;
 
 	Sortie salleSuivante;
 
@@ -1327,6 +1328,65 @@ public:
 		infosSalles.push_back(salleTeleporteur);
 	}
 
+	/*
+	void salleBasseGravite(){
+		InfoSalle salleBasseGravite;
+		salleBasseGravite.cheminModele = "Ressources/Modele/SalleBasseGravite.obj";
+		salleBasseGravite.cheminTexture = "Ressources/Texture/SalleBasseGravite.png";
+		salleBasseGravite.echelle = { 1.0, 1.0, 1.0 };
+		salleBasseGravite.ID = infosSalles.size();
+		salleBasseGravite.nbrPorte = 1;
+
+		// Création des objets de la salle
+
+		// Porte (Entree)
+
+		InfoObjet porte;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
+		porte.direction = { 1, 0, 0 };
+		porte.ID = 0;
+		porte.largeur = 0;
+		porte.position = { -0.73582, 2.19928, -10.92071 };
+		porte.rotation = { 0, -90, 0 };
+
+		salleBasseGravite.Objet.push_back(new InfoObjet(porte));
+
+
+		// Porte (Sortie)
+		InfoObjet porte2;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
+		porte2.direction = { -1, 0, 0 };
+		porte2.ID = 1;
+		porte2.largeur = 0;
+		porte2.position = { -0.67482, 6.21597, 6.39771 };
+		porte2.rotation = { 0, 90, 0 };
+
+		salleBasseGravite.Objet.push_back(new InfoObjet(porte2));
+
+		// Plate
+		InfoObjet plate;
+		plate.cheminModele = "Ressources/Modele/plate.obj";
+		plate.cheminTexture = "Ressources/Texture/plate.png";
+		plate.direction = { 0, 0, 0 };
+		plate.ID = 3;
+		plate.largeur = 0;
+		plate.position = { -2.17252, 3.89872, -10.41128 };
+		plate.rotation = { 90, 90, 0 };
+		plate.type = FIXE;
+
+		//Commutateur
+		InfoObjet com;
+		com.cheminModele = "Ressources/Modele/switch.obj";
+		com.cheminTexture = "Ressources/Texture/switch.png";
+		com.direction = { 0, 0, 0 };
+		com.ID = 11;
+		com.largeur = 0;
+		com.position = { -2.15766, 3.91831, -10.41235 };
+		com.rotation = { 0, 90, 0 };
+		com.type = COMMUTATEUR;
+	}
+	*/
+
 	void fin(){
 		// Salle de fin
 
@@ -1357,7 +1417,7 @@ public:
 		InfoObjet porteFin;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porteFin);
 		porteFin.direction = { 0, 0, 0 };
-		porteFin.ID = 0;
+		porteFin.ID = 1;
 		porteFin.largeur = 0;
 		porteFin.position = { -57.475, 0, -74.7745 };
 		porteFin.rotation = { 0, -38, 0 };
@@ -1370,11 +1430,11 @@ public:
 		InfoObjet avion;
 		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);
 		avion.direction = { 0, 0, 0 };
-		avion.ID = 1;
+		avion.ID = 2;
 		avion.largeur = 0;
-		avion.position = { -16.0395, 0, 61.8221 };
-		avion.rotation = { 0, 90, 0 };
-		avion.type = 180;
+		avion.position = { -17, 0, -74.7745 };
+		avion.rotation = { 0, 0, 0 };
+		avion.type = 2;
 
 		salleFin.Objet.push_back(new InfoObjet(avion));
 		
@@ -1470,6 +1530,61 @@ public:
 		return false;
 	}
 
+	void calculAnimationFinPartie(Joueur* joueur){
+		joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
+		joueur->bloquer();
+		auto it = salleActive->obtListeObjet().back();
+		Vecteur3d vec1 = (it)->obtPosition();
+		vec1.x -= 1.174;
+		vec1.y = 0;
+		vec1.z += 0.32904;
+		translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), vec1);
+		orientationCamera[0] = joueur->obtDevant().angleEntreVecteurs(translations[0]) * 180 / M_PI;
+		positions[0] = vec1;
+
+		vec1 = (it)->obtPosition();
+		vec1.z += 1.3;
+		vec1.y += 0.1;
+
+		positions[1] = vec1;
+		translations[1] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition() + translations[0], positions[1]);
+		orientationCamera[1] = translations[0].angleEntreVecteurs(Vecteur3d(0, 0, 1)) * 180 / M_PI + 18;
+		orientationCamera[2] = 20;
+		enFinPartie = true;
+
+	}
+
+	void animationFinPartie(Joueur* joueur, float frameTime){
+		if (enFinPartie){
+			if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0])) > 0){
+				joueur->defPosition(joueur->obtPosition() + translations[0] * frameTime * 0.10f);
+
+				if (orientationCamera[0] > 0){
+					joueur->defHAngle(joueur->obtHAngle() + 1);
+					orientationCamera[0] -= 1;
+				}
+			}
+			else{
+				if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[1])) > 0) {
+					joueur->defPosition(joueur->obtPosition() + translations[1] * frameTime * 0.5f);
+
+					if (orientationCamera[1] > 0){
+						joueur->defHAngle(joueur->obtHAngle() - 1);
+						orientationCamera[1] -= 1;
+					}
+					if (orientationCamera[2] > 0){
+						joueur->defHAngle(joueur->obtHAngle() + 1);
+						orientationCamera[2] -= 1;
+					}
+				}
+			}
+
+
+		}
+
+
+	}
+
 	void recommencer() {
 		delete modeleMur;
 		delete modelePorte;
@@ -1487,4 +1602,5 @@ public:
 	void defNbrSalle(unsigned int nbrSalles) {
 		nombreDeSalle = nbrSalles;
 	}
+
 };
