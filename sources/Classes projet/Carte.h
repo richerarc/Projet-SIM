@@ -360,7 +360,7 @@ private:
 			}
 			
 			gfx::Modele3D modele(gfx::GestionnaireRessources::obtInstance().obtModele(objet.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(objet.cheminTexture));
-			modele.defOrientation(0, objet.rotation, 0);
+			modele.defOrientation(0, objet.rotation.y, 0);
 			BoiteCollision<double> boite(modele.obtBoiteDeCollisionModifiee());
 			double x(0.0f),y(0.0f),z(0.0f);
 			
@@ -406,7 +406,7 @@ private:
 			if (boite.obtGrandeurX() <= largeurX && boite.obtGrandeurZ() <= largeurZ){
 				bool memePosition = false;
 				for (auto it : salle.Objet){
-					if (it.position.x == p.x && it.position.y == p.y && it.position.z == p.z){
+					if (it->position.x == p.x && it->position.y == p.y && it->position.z == p.z){
 						memePosition = true;
 						break;
 					}
@@ -928,7 +928,7 @@ public:
 				objet.largeur = 0;
 				LecteurFichier::lireObjet(cheminsObjet[rand() % nbrObjet], objet);
 				if(positionnerObjet(*modeleSalle, it, objet))
-					it.Objet.push_back(objet);
+					it.Objet.push_back(new InfoObjet(objet));
 			}
 
 			// Ajout et réinitialisation de la salle.

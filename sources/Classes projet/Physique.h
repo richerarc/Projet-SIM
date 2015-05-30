@@ -413,7 +413,7 @@ public:
 	Vecteur3d obtMomentDeForceFrottement(Objet* objet, Vecteur3d normale, Vecteur3d rayon) {
 		Vecteur3d vitesse = objet->obtVitesse();
 		vitesse.normaliser();
-		return rayon.produitVectoriel((vitesse.produitVectoriel(normale)).produitVectoriel(normale) * (constanteDeFriction * obtForceNormale(objet, normale).norme()));
+		return rayon.produitVectoriel((vitesse.produitVectoriel(normale)).produitVectoriel(normale) * (constanteDeFriction * obtForceNormale(objet->obtMasse(), normale).norme()));
 	}
 
 	// Procédure qui applique la force d'attraction magnétique sur un objet

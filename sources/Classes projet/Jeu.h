@@ -162,7 +162,6 @@ public:
 
 			fenetre->rafraichir();
 		}
-		delete lumiereAmbiente;
 		GestionnaireSucces::obtInstance().tuerGestionnaireSucces();
 		delete fenetre;
 		ControlleurAudio::obtInstance().fermer();
