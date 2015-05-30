@@ -390,19 +390,23 @@ private:
 			}
 			
 			Vecteur3d p;
-			p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
-			
-			while([&]() -> bool
-				  {
-					  Plan plan(point[0],point[1],point[2]);
-					  Droite dr(p, normale * -1);
-					  
-					  return !plan.insertionDroitePlan(dr, p);
-					  
-				  }()){
-					  p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
-					  
-				  }
+			if (largeurX > 4 && largeurZ > 4){
+				p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
+				while([&]() -> bool
+					  {
+						  Plan plan(point[0],point[1],point[2]);
+						  Droite dr(p, normale * -1);
+						  
+						  return !plan.insertionDroitePlan(dr, p);
+						  
+					  }()){
+						  p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
+						  
+					  }
+			}
+			else
+				p = {(x / 3), (y / 3), (z / 3)};
+
 			if (boite.obtGrandeurX() <= largeurX && boite.obtGrandeurZ() <= largeurZ){
 				bool memePosition = false;
 				for (auto it : salle.Objet){
