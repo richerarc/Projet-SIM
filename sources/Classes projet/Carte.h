@@ -1394,7 +1394,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				itt.Objet.push_back(obj);
+				itt.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
 		}

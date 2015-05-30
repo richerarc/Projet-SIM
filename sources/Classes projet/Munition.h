@@ -19,6 +19,7 @@ public:
 	void utiliser2(Joueur* joueur){}
 	void equiper(Joueur* joueur){}
 	void animer(Joueur* joueur){}
+	void reinitialiserListePeinture() {}
 	int obtQuant(){ return quantite; }
 };
 

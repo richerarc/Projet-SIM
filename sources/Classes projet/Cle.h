@@ -10,6 +10,7 @@ public:
 	void utiliser2(Joueur* joueur){}
 	void equiper(Joueur* joueur){}
 	void animer(Joueur* joueur){}
+	void reinitialiserListePeinture() {}
 };
 
 class CleRoulliee : public Cle{
