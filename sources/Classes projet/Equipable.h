@@ -60,15 +60,14 @@ public:
 			etatEquipe = false;
 		}
 	}
-
-	void reinitialiserListePeinture() {}
 	void equiper(Joueur* joueur){}
 	void animer(Joueur* joueur) {}
 
 	bool estEquipe(){ return etatEquipe; }
 	void user(){
-		etatEquipe = (--durabilite >= 0);
-		if (!etatEquipe){
+		--durabilite;
+		if (durabilite == 0){
+			etatEquipe = false;
 			gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
 			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
 		}

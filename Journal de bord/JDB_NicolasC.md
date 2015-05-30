@@ -140,3 +140,10 @@
 	-finitions sur la salle à 2 étages et cération d'icones.  
 **26 mai** durée 4h  
 	-modifications des textures de fusils et complétion dans leur totalité des consommable et presque des jetables avec Brandon.
+**27 mai au 29 mai** durée 16h  
+	-travail pour plusieurs items, soit implématation, animation ou texturisation.  
+	-fonctionnement des munitions pour les fusils.  
+	-implémentation du masque à gaz.
+	-discussions de groupe (tâche restants et préparation oral).  
+**30 mai** durée 50 min  
+	-affichage des compteurs et edit du fonctionnement du masque pour Kevin.
