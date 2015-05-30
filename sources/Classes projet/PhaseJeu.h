@@ -258,8 +258,8 @@ public:
 		compteurGaz = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
 		munitionLugerRestantes = new gfx::Texte2D(new std::string("0/8"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 42));
 		munitionThompsonRestantes = new gfx::Texte2D(new std::string("0/20"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 74));
-		compteurMunitionLuger = new gfx::Sprite2D(Vecteur2f(15, 42), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/ACP45Icone32.png"));
-		compteurMunitionThompson = new gfx::Sprite2D(Vecteur2f(15, 74), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/PARABELLUMIcone32.png"));
+		compteurMunitionLuger = new gfx::Sprite2D(Vecteur2f(15, 42), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/PARABELLUMIcone32.png"));
+		compteurMunitionThompson = new gfx::Sprite2D(Vecteur2f(15, 74), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/ACP45Icone32.png"));
 		mettreAJourTextesSante();
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
@@ -396,28 +396,28 @@ public:
 				}
 				else
 					mettreAJourTextesSante();
-				tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				Item* masqueTmp = joueur->obtInventaire()->obtItemParType(50);
+				if (masqueTmp != nullptr){
+					MasqueGaz* masque = dynamic_cast<MasqueGaz*>(masqueTmp);
+					if (masque->estEquipe())
+						tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes() * (100. - masque->obtDurabilite()) / 100;
+					else
+						tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				}
+				else
+					tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
 				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
-				if (compteurViePhysique >= 5){
+				if (compteurViePhysique >= 1){
 					compteurViePhysique = 0;
 					Item* itemTmp = joueur->obtInventaire()->obtItemParType(50);
 					if (itemTmp != nullptr){
 						MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
 						if (tmp != nullptr){
-							if (!tmp->estEquipe()){
-								joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
-							}
-							else{
+							if (tmp->estEquipe()){
 								tmp->user();
 								mettreAJourGazRestant(tmp->obtDurabilite());
 							}
 						}
-						else{
-							joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
-						}
-					}
-					else{
-						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
 					}
 				}
 				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
