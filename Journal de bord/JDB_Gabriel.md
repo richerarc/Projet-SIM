@@ -604,3 +604,21 @@ Je crois que ces calculs devront s'additionner à ce que j'ai déjà, ça devrai
 ###27 mai 2015
 
 **0h10**: Haha je viens de tester les rebonds ce matin et c'est super (même dans les escaliers)!
+
+**2h00**: Gros travail sur la salleMonteDescend à Julien, disons que ça été pénible.
+
+**3h00**: Travail avec Charles sur les rebonds, étant donné qu'il ne pourra pas être là la journée de la présentation, je lui est fais jouer à notre jeu, même s'il n'est pas encore complet, il a bien aimé ça!
+
+###28 mai 2015
+
+**5h00**: Travail sur les rebonds, j'ai fait d'autres calculs, j'ai travaillé sur les rebonds afin qu'il me donne tous les point de la boîte qui sont en collision. Ainsi, si un objet(Sa boîte) est penchée d'un côté, mais que deux points touchent au sol, je vais calculer le rebonds beaucoup mieux:
+
+![](http://i.imgur.com/i0CuSkm.png)
+
+**1h00**: J'ai révisé l'application de la physique sur les objets. Maintenant, il n'y aura qu'une modification de la vitesse des objets. J'ai ajouté une variable ForceTotale dans Objet. Celle-ci se remet à zéro à chaque appliquerPhysiqueSurListeObjet(). Dans l'appliquer physique, j'additionne toutes les forces qui sont en jeu sur l'objet, par exemple, si l'objet n'est pas en collision, seulement la force de gravité, la force du vent et la force magnétique devrait s'appliquer. Alors que s'il est en collision, il y a aussi une force normale (qui annule en partie la gravité dépendamment de l'inclinaison) et la force de frottement. Ceci devrait permettre aux objets de descendre des pentes trop à pique (espérons-le).
+
+###29 mai 2015
+
+**8h30**: Durant cette période de travail, j'ai pu compléter mon objet Canon à peinture. Au final, l'objet permet de fait afficher au maximum quatre "me gusta" par salle et ceux-ci restent dans les salles, même si elles sont quittées. Il me reste un bug où il semble y avoir des rotation sur les modèles qui ne devraient pas avoir lieux. Je dirai que ça c'est bien passé, j'ai du regardé et comprendre ce qui avait été fait avec les items. Le plus difficile a été de conserver les "me gusta" quand on quitte une salle, j'ai eu beaucoup de problèmes de pointeurs, mais je crois y être parvenus sans créer de fuite. Sinon j'ai aussi beaucoup aidé Xavier dans son travail sur les cibles, j'ai aussi aidé quelques autres personnes durant le temps.
+
+**1h00**: Nous avons parlé de l'oral, je vais essayé de me trouver un temps pour me préparer, mais je ne crois pas manqué de chose à dire!
