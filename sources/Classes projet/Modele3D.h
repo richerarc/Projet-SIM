@@ -181,22 +181,28 @@ namespace gfx{
 		Vecteur3f* obtNormaleBoiteDeCollision() {
 			if (bN_Est_Transformee)
 			{
-				calculerMatriceTransformation(false);
-				matriceTransformation.inverser();
-				matriceTransformation.transposer();
-				double bteCol[4];
-				double bteColTemp[4];
-				bteColTemp[3] = 1;
+				double mat[16];
+				glMatrixMode(GL_MODELVIEW);
+				glPushMatrix();
+				glLoadIdentity();
+				glRotated(orientation.x, 1, 0, 0);
+				glRotated(orientation.y, 0, 1, 0);
+				glRotated(orientation.z, 0, 0, 1);
+				glScaled(echelle.z, echelle.y, echelle.x);
+				glGetDoublev(GL_MODELVIEW_MATRIX, mat);
+				glPopMatrix();
+
+				double bteCol[3];
+				double bteColTemp[3];
 				for (int i = 0; i < 6; i++)
 				{
 					bteColTemp[0] = modele->obtNormalesBoiteDeCollision()[i].x;
 					bteColTemp[1] = modele->obtNormalesBoiteDeCollision()[i].y;
 					bteColTemp[2] = modele->obtNormalesBoiteDeCollision()[i].z;
-					
-					bteCol[0] = (matriceTransformation[0] * bteColTemp[0]) + (matriceTransformation[4] * bteColTemp[1]) + (matriceTransformation[8] * bteColTemp[2]) + (matriceTransformation[12] * bteColTemp[3]);
-					bteCol[1] = (matriceTransformation[1] * bteColTemp[0]) + (matriceTransformation[5] * bteColTemp[1]) + (matriceTransformation[9] * bteColTemp[2]) + (matriceTransformation[13] * bteColTemp[3]);
-					bteCol[2] = (matriceTransformation[2] * bteColTemp[0]) + (matriceTransformation[6] * bteColTemp[1]) + (matriceTransformation[10] * bteColTemp[2]) + (matriceTransformation[14] * bteColTemp[3]);
-					bteCol[3] = (matriceTransformation[3] * bteColTemp[0]) + (matriceTransformation[7] * bteColTemp[1]) + (matriceTransformation[11] * bteColTemp[2]) + (matriceTransformation[15] * bteColTemp[3]);
+
+					bteCol[0] = (matriceTransformation[0] * bteColTemp[0]) + (matriceTransformation[4] * bteColTemp[1]) + (matriceTransformation[8] * bteColTemp[2]);
+					bteCol[1] = (matriceTransformation[1] * bteColTemp[0]) + (matriceTransformation[5] * bteColTemp[1]) + (matriceTransformation[9] * bteColTemp[2]);
+					bteCol[2] = (matriceTransformation[2] * bteColTemp[0]) + (matriceTransformation[6] * bteColTemp[1]) + (matriceTransformation[10] * bteColTemp[2]);
 
 					normaleBoiteDeCollision[i].x = bteCol[0];
 					normaleBoiteDeCollision[i].y = bteCol[1];

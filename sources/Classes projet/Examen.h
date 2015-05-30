@@ -70,6 +70,4 @@ public:
 	void animer(Joueur* joueur){
 
 	}
-
-	void reinitialiserListePeinture() {}
 };
