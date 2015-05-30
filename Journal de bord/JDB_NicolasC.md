@@ -145,5 +145,6 @@
 	-fonctionnement des munitions pour les fusils.  
 	-implémentation du masque à gaz.
 	-discussions de groupe (tâche restants et préparation oral).  
-**30 mai** durée 50 min  
+**30 mai** durée 1h 20 min  
 	-affichage des compteurs et edit du fonctionnement du masque pour Kevin.
+	-redimensionnage de la balle de tenis et de la clé + edit texture rouillée

@@ -11,3 +11,4 @@ Ressources/Modele/SalleMulti.obj Ressources/Texture/SalleMulti.png Ressources/In
 Ressources/Modele/SalleCafette.obj Ressources/Texture/SalleCafette.png Ressources/Info/SalleCafette.txt
 Ressources/Modele/SalleTrompeuse.obj Ressources/Texture/SalleTrompeuse.png Ressources/Info/SalleTrompeuse.txt
 Ressources/Modele/SallePodium.obj Ressources/Texture/SallePodium.png Ressources/Info/SallePodium.txt
+Ressources/Modele/SalleU.obj Ressources/Texture/SalleU.png Ressources/Info/SalleU.txt

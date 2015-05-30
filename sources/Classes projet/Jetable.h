@@ -22,8 +22,6 @@ struct Jetable : public Item{
 		joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
 	}
 	void equiper(Joueur* joueur){}
-
-	void reinitialiserListePeinture() {}
 };
 
 class Companion : public Jetable{
@@ -33,7 +31,7 @@ private:
 	gfx::Modele3D* companion;
 	gfx::Modele3D* modeleActuel;
 public:
-	Companion(int ID) : Jetable(40, "Companion", "Your trustworthy companion", "Ressources/Texture/CompanionIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Companion.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Companion.png")), ID, "roche", 1){
+	Companion(int ID) : Jetable(42, "Companion", "Your trustworthy companion", "Ressources/Texture/CompanionIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Companion.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Companion.png")), ID, "roche", 1){
 		batman = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/batman.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/batman.png"));
 		joker = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Joker.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Joker.png"));
 		companion = this->obtModele3D();

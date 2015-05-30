@@ -129,8 +129,6 @@ public:
 		this->munition += munition;
 	}
 
-	void reinitialiserListePeinture() {}
-
 	short obtChargeur(){ return chargeur; }
 	short obtballesRestantes() { return munition; }
 };
