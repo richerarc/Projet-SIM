@@ -786,8 +786,9 @@ public:
 						creerSalle(*debut);
 
 						Item* canon = joueur->obtInventaire()->obtItemParType(12);
-						if (canon)
-							canon->reinitialiserListePeinture();
+						CanonAPeinture* it_Canon = dynamic_cast<CanonAPeinture*>(canon);
+						if (it_Canon != nullptr)
+							it_Canon->reinitialiserListePeinture();
 
 						ajouterMur();
 						joueur->defPosition(positions[1]);
@@ -1315,7 +1316,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				it.Objet.push_back(new InfoObjet(obj));
+				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
 		}
