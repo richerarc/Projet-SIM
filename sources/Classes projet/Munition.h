@@ -78,7 +78,7 @@ class CartoucheGaz : public Munition{
 		}
 	}
 public:
-	CartoucheGaz(unsigned int ID) : Munition(62, "Gas mask's filter", "A brand new filter for your mask!", "Ressources/Texture/filtreGasIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/cartoucheGaz.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/cartoucheGaz.png")), ID, 0.2){
+	CartoucheGaz(unsigned int ID) : Munition(62, "Gas mask's filter", "A brand new filter for your mask!", "Ressources/Texture/filtreGasIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/cartoucheGas.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/cartoucheGas.png")), ID, 0.2){
 		quantite = 1;
 	}
 };
