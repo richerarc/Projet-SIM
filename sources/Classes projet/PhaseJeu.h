@@ -151,7 +151,7 @@ private:
 	void mettreAJourGazRestant(short gaz){
 		std::string str;
 		str = SDL_itoa(gaz, chritoa, 10);
-		str.append(" %");
+		str.append("%");
 		gazRestant->defTexte(&str);
 	}
 	void mettreAJourMunitionRestant(short munition, short chargeur){
