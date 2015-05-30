@@ -16,7 +16,7 @@ struct InfoObjet {
 	int type;
 	double largeur;
 	int IDitem;
-	position_type positionement;
+	int positionement;
 };
 
 
