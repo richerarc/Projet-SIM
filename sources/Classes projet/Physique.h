@@ -679,20 +679,23 @@ public:
 							joueur->defEtat(CHUTE);
 							Vecteur3d pointDifference = pointCollision - point;
 							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
-							return true;
 						}
 
 						// Collision sur un mur
 						if (normale.y == 0) {
 							joueur->defNormaleMur(normale);
 							typeCollision = MUR;
-							mur = true;
 							Vecteur3d pointDifference = pointCollision - point;
-							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + pointDifference.x, joueur->obtPosition().y, joueur->obtPosition().z + pointDifference.z));
+							if (pointDifference.y != 0)
+								pointDifference.y = 0;
+							double normePointDifference = pointDifference.norme();
+							Vecteur3d normaleReposition = normale;
+							normaleReposition *= normePointDifference;
+							joueur->defPosition(Vecteur3d(joueur->obtPosition().x + normaleReposition.x, joueur->obtPosition().y, joueur->obtPosition().z + normaleReposition.z));
 						}
 						joueur->obtVitesse().x = 0.;
 						joueur->obtVitesse().z = 0.;
-						break;
+						return true;
 					}
 				}
 
@@ -705,20 +708,25 @@ public:
 						else if (j == 2)
 							point.z = joueur->obtModele3D()->obtSommetsModifies()[i * 3 + j];
 					}
-					rayonCollision = Droite(point, joueur->obtVitesse());
+					if (joueur->obtVitesse().x != 0 && joueur->obtVitesse().z != 0)
+						rayonCollision = Droite(point, joueur->obtVitesse());
 					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
 						if (fabs(normale.x) < 0.05f)
 							normale.x = 0.f;
 						if (fabs(normale.z) < 0.05f)
 							normale.z = 0.f;
 						normale.normaliser();
-						joueur->defNormale(normale);
-						joueur->defPointCollision(pointCollision);
+
 						if (normale.y == 1) {
 							typeCollision = SOLDROIT;
+							joueur->defNormale(normale);
+							joueur->defPointCollision(pointCollision);
 						}
-						if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f))
+						if (normale.y != 0.f && (normale.x != 0.f || normale.z != 0.f)) {
 							typeCollision = SOLCROCHE;
+							joueur->defNormale(normale);
+							joueur->defPointCollision(pointCollision);
+						}
 
 						if (typeCollision != MUR) {
 							if (joueur->obtVitesse().y <= -12 && joueur->obtVitesse().y >= -35) {
