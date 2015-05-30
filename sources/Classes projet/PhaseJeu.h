@@ -236,7 +236,7 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(42, 0);
+		test = UsineItem::obtInstance().obtItemParType(40, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
@@ -418,6 +418,8 @@ public:
 								mettreAJourGazRestant(tmp->obtDurabilite());
 							}
 						}
+						else
+							mettreAJourGazRestant(0);
 					}
 				}
 				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
@@ -425,11 +427,15 @@ public:
 					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
 					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
 				}
+				else
+					mettreAJourMunitionRestant(0, 8);
 				itemTmp = joueur->obtInventaire()->obtItemParType(11);
 				if (itemTmp != nullptr){
 					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
 					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
 				}
+				else
+					mettreAJourMunitionRestant(0, 20);
 				if (joueur->obtSantePhysique() <= 0)
 					GestionnaireSucces::obtInstance().obtSucces(14);
 				mettreAJourtexteChrono();
