@@ -30,7 +30,9 @@ private:
 	gfx::Texte2D* texte_ID_Salle;
 	gfx::Texte2D* vie;
 	gfx::Texte2D* vieMentale;
-	gfx::Texte2D* munitionRestantes;
+	gfx::Texte2D* munitionLugerRestantes;
+	gfx::Texte2D* munitionThompsonRestantes;
+	gfx::Texte2D* gazRestant;
 	double tempsRestant;
 	double compteurViePhysique;
 	Item *itemEquipe;
@@ -40,7 +42,9 @@ private:
 	char chritoa[255];
 	MenuAccesRapide* accesRapide;
 	gfx::Sprite2D* point;
-	gfx::Sprite2D* compteurMunition;
+	gfx::Sprite2D* compteurMunitionLuger;
+	gfx::Sprite2D* compteurMunitionThompson;
+	gfx::Sprite2D* compteurGaz;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
@@ -144,11 +148,18 @@ private:
 		vieMentale->defTexte(&nouvVieMentale);
 	}
 
-	void mettreAJourMunitionsRestante(short munitions){
+	void mettreAJourGazRestant(short gaz){
 		std::string str;
-		str = SDL_itoa(munitions, chritoa, 10);
+		str = SDL_itoa(gaz, chritoa, 10);
 		str.append(" %");
-		munitionRestantes->defTexte(&str);
+		gazRestant->defTexte(&str);
+	}
+	void mettreAJourMunitionRestant(short munition, short chargeur){
+		std::string str;
+		str = SDL_itoa(munition, chritoa, 10);
+		str.append("/");
+		str.append(SDL_itoa(chargeur, chritoa, 10));
+		chargeur == 8 ? munitionLugerRestantes->defTexte(&str) : munitionThompsonRestantes->defTexte(&str);
 	}
 
 	void appliquerPhysique(float frameTime) {
@@ -230,11 +241,6 @@ public:
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(61, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(21, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(22, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(23, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(24, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(25, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 
@@ -247,15 +253,23 @@ public:
 		texteChrono = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(RESOLUTION_DEFAUT_X / 2 - 40, 670));
 		vie = new gfx::Texte2D(new std::string(""), { 255, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(200, 10));
 		vieMentale = new gfx::Texte2D(new std::string(""), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(350, 10));
-		munitionRestantes = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 10));
+		gazRestant = new gfx::Texte2D(new std::string("0%"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 10));
 		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
+		compteurGaz = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
+		munitionLugerRestantes = new gfx::Texte2D(new std::string("0/8"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 42));
+		munitionThompsonRestantes = new gfx::Texte2D(new std::string("0/20"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 74));
+		compteurMunitionLuger = new gfx::Sprite2D(Vecteur2f(15, 42), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/ACP45Icone32.png"));
+		compteurMunitionThompson = new gfx::Sprite2D(Vecteur2f(15, 74), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/PARABELLUMIcone32.png"));
 		mettreAJourTextesSante();
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionRestantes);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(gazRestant);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionLugerRestantes);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionThompsonRestantes);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(point);
-		gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunition);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurGaz);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunitionLuger);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunitionThompson);
 
 		std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
 		texte_ID_Salle->defTexte(&str);
@@ -319,7 +333,7 @@ public:
 		if (pause)
 			return;
 		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
-		if ((Clavier::toucheAppuyee(SDLK_g)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
+		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				GestionnaireSucces::obtInstance().defItemOuiNonLache(joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne()));
@@ -395,7 +409,7 @@ public:
 							}
 							else{
 								tmp->user();
-								mettreAJourMunitionsRestante(tmp->obtDurabilite());
+								mettreAJourGazRestant(tmp->obtDurabilite());
 							}
 						}
 						else{
@@ -405,6 +419,16 @@ public:
 					else{
 						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
 					}
+				}
+				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				itemTmp = joueur->obtInventaire()->obtItemParType(11);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
 				}
 				if (joueur->obtSantePhysique() <= 0)
 					GestionnaireSucces::obtInstance().obtSucces(14);
@@ -560,6 +584,12 @@ public:
 			gfx::Gestionnaire2D().obtInstance().ajouterObjet(point);
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(gazRestant);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionLugerRestantes);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(munitionThompsonRestantes);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurGaz);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunitionLuger);
+			gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunitionThompson);
 		}
 		this->pause = pause;
 	}
