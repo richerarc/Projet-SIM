@@ -66,6 +66,4 @@ public:
 	virtual void equiper(Joueur* joueur){
 		ControlleurAudio::obtInstance().jouer(EQUIPERCOUTEAU, joueur);
 	}
-
-	void reinitialiserListePeinture() {}
 };
