@@ -85,15 +85,15 @@ public:
 				return new Lait(ID);
 			case(5) ://chocolat
 				return new Chocolat(ID);
-			case(6) ://lait
+			case(6) ://vin
 				return new Vin(ID);
-			case(7) ://chocolat
+			case(7) ://seringue
 				return new Seringue(ID);
 		}
 		case (4) :
 			switch (type % 10){
 			case(0) ://balle
-				return new Jetable(type, "Tennis ball", "Who knew that the Führer had a tennis court", "Ressources/Texture/TennisIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/BalleDeTennis.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Tennis.png")), ID, "ballerebondissante", 0.0585);
+				return new Jetable(type, "Tennis ball", "Who knew that the FÃ¼hrer had a tennis court", "Ressources/Texture/TennisIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/BalleDeTennis.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Tennis.png")), ID, "ballerebondissante", 0.0585);
 			case(1) ://roche
 				return new Jetable(type, "Rock", "Paper Scissors", "Ressources/Texture/RocheIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Roche.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Roche.png")), ID, "metal", 0.5);
 			case(2) ://companion
@@ -115,11 +115,11 @@ public:
 		}
 		case (7) :
 			switch (type % 10){
-			case(0) ://Clé roulliée
+			case(0) ://ClÃ© roulliÃ©e
 				return new CleRoulliee(ID);
-			case(1) ://Clé en fer
+			case(1) ://ClÃ© en fer
 				return new CleFer(ID);
-			case(2) ://Clé finale
+			case(2) ://ClÃ© finale
 				return new CleFinale(ID);
 		}
 		}
