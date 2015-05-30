@@ -4,14 +4,14 @@
 
 class Melee : public Item{
 protected:
-	double portee, degats;
-
+	double portee;
+	int degats;
 	Chrono dps;
 
 	int animationActuelle;
 	Chrono animationMelee;
 public:
-	Melee(double portee, double degats, int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse) : Item(type, nom, description, cheminIcone, maxPile, modele, ID, materiaux, masse){
+	Melee(double portee, int degats, int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse) : Item(type, nom, description, cheminIcone, maxPile, modele, ID, materiaux, masse){
 		this->portee = portee;
 		this->degats = degats;
 	}

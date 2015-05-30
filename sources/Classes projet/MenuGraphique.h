@@ -13,9 +13,14 @@ private:
 	std::list<gfx::Texte2D*> resolutions;
 	std::list<gfx::Texte2D*>::iterator iterateur;
 	std::list<gfx::Texte2D*>::iterator resolutionDefaut;
+	std::list<gfx::Texte2D*> pleinEcrans;
+	std::list<gfx::Texte2D*>::iterator pleinEcranActuel;
 	gfx::Texte2D* resolution;
+	gfx::Texte2D* pleinEcran;
 	Bouton* flecheGauche;
 	Bouton* flecheDroite;
+	Bouton* flecheGauche2;
+	Bouton* flecheDroite2;
 	Bouton* appliquer;
 
 	gfx::ModeVideo modeDefaut;
@@ -52,11 +57,17 @@ public:
 			}
 		}
 
+		pleinEcrans.push_back(new gfx::Texte2D(new std::string("Windowed"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 403)));
+		pleinEcrans.push_back(new gfx::Texte2D(new std::string("Fullscreen"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 403)));
+		pleinEcrans.push_back(new gfx::Texte2D(new std::string("No border"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 403)));
+
 		iterateur = resolutionDefaut;
 		modeVideo = modeVideoDefaut;
+		pleinEcranActuel = pleinEcrans.begin();
 
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
 		resolution = new gfx::Texte2D(new std::string("Resolutions"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(50, 560));
+		pleinEcran = new gfx::Texte2D(new std::string("WindowMode"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(50, 450));
 
 		appliquer = new Bouton(std::bind(&MenuGraphique::enClicAppliquer, this, std::placeholders::_1),
 			std::bind(&MenuGraphique::survol, this, std::placeholders::_1),
@@ -76,6 +87,17 @@ public:
 			Vecteur2f(300, 500),
 			new std::string(">"), 60);
 
+		flecheGauche2 = new Bouton(std::bind(&MenuGraphique::enClicGauche2, this, std::placeholders::_1),
+			std::bind(&MenuGraphique::survol, this, std::placeholders::_1),
+			std::bind(&MenuGraphique::defaut, this, std::placeholders::_1),
+			Vecteur2f(50, 390),
+			new std::string("<"), 60);
+
+		flecheDroite2 = new Bouton(std::bind(&MenuGraphique::enClicDroite2, this, std::placeholders::_1),
+			std::bind(&MenuGraphique::survol, this, std::placeholders::_1),
+			std::bind(&MenuGraphique::defaut, this, std::placeholders::_1),
+			Vecteur2f(300, 390),
+			new std::string(">"), 60);
 		
 		retour = new Bouton(std::bind(&MenuGraphique::enClicRetour, this, std::placeholders::_1),
 			std::bind(&MenuGraphique::survol, this, std::placeholders::_1),
@@ -128,6 +150,35 @@ public:
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet((*iterateur));
 	}
 
+	void enClicDroite2(Bouton* envoi) {
+		if (pause)
+			return;
+		gfx::Gestionnaire2D::obtInstance().retObjet((*pleinEcranActuel));
+
+		++pleinEcranActuel;
+
+		if (pleinEcranActuel == pleinEcrans.end()) {
+			pleinEcranActuel = pleinEcrans.begin();
+		}
+
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet((*pleinEcranActuel));
+	}
+
+	void enClicGauche2(Bouton* envoi) {
+		if (pause)
+			return;
+		gfx::Gestionnaire2D::obtInstance().retObjet((*pleinEcranActuel));
+
+		if (pleinEcranActuel != pleinEcrans.begin()) {
+			--pleinEcranActuel;
+		}
+		else {
+			pleinEcranActuel = pleinEcrans.end();
+			--pleinEcranActuel;
+		}
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet((*pleinEcranActuel));
+	}
+
 	void enClicAppliquer(Bouton* envoi) {
 		if (pause)
 			return;
@@ -137,11 +188,17 @@ public:
 		float ratioh = h / modeDefaut.h;
 		resolutionDefaut = iterateur;
 		modeVideoDefaut = modeVideo;
-		Rect<float>::defDimension((*modeVideo).l, (*modeVideo).h);
 		for (auto it : GestionnairePhases::obtInstance().obtListePhases())
 			it->actualiserEchelle(Vecteur2f(ratiol, ratioh));
 		glViewport(0, 0, modeVideo->l, modeVideo->h);
 		fenetre->defModeVideo(gfx::ModeVideo(*modeVideo));
+		fenetre->defPleinEcran(false);
+		fenetre->defBordure(true);
+
+		if (!strcmp((*pleinEcranActuel)->texte->obtTexte(), "Fullscreen"))
+			fenetre->defPleinEcran(true);
+		else if (!strcmp((*pleinEcranActuel)->texte->obtTexte(), "No border"))
+			fenetre->defBordure(false);
 	}
 
 	void survol(Bouton* envoi){
@@ -158,10 +215,12 @@ public:
 
 	void remplir(void) {
 
-		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, resolution, (*iterateur) });
+		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ spriteFond, resolution, (*iterateur), pleinEcran, (*pleinEcranActuel) });
 		retour->remplir();
 		flecheDroite->remplir();
 		flecheGauche->remplir();
+		flecheDroite2->remplir();
+		flecheGauche2->remplir();
 		appliquer->remplir();
 
 	}
@@ -172,12 +231,16 @@ public:
 			appliquer->defEtat(PAUSE);
 			flecheDroite->defEtat(PAUSE);
 			flecheGauche->defEtat(PAUSE);
+			flecheDroite2->defEtat(DEFAUT);
+			flecheGauche2->defEtat(DEFAUT);
 		}
 		else {
 			retour->defEtat(DEFAUT);
 			appliquer->defEtat(DEFAUT);
 			flecheDroite->defEtat(DEFAUT);
 			flecheGauche->defEtat(DEFAUT);
+			flecheDroite2->defEtat(DEFAUT);
+			flecheGauche2->defEtat(DEFAUT);
 		}
 	}
 
@@ -188,7 +251,12 @@ public:
 		flecheGauche->defEchelle(vecteurEchelle);
 		flecheDroite->defEchelle(vecteurEchelle);
 		appliquer->defEchelle(vecteurEchelle);
+		flecheGauche2->defEchelle(vecteurEchelle);
+		flecheDroite2->defEchelle(vecteurEchelle);
+		pleinEcran->defEchelle(vecteurEchelle);
 		for (auto it : resolutions)
+			it->defEchelle(vecteurEchelle);
+		for (auto it : pleinEcrans)
 			it->defEchelle(vecteurEchelle);
 	}
 

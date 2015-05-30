@@ -74,3 +74,7 @@ Début de l'animation du fusil avec Nicolas et recherche des fonctions associée
 Continuation de l'implémentation des animations de fusil, ajout du "scoping", du recul et du spread des fusils. Ajout de sons.
 #26 mai pendant 2h#
 Commencement des animations d'armes de mêlée et ajout des sons et des trous. J'ai aussi redimensionné les modèles utilisés pour les armes de mêlée et les consommables avec mon grand talent de Blender afin qu'ils soient bien visibles et animables.
+#27 mai pendant 2h#
+J'ai aidé Nicolas à ajouter des consommables au jeu.
+#29 mai pendant 3h#
+Nous nous sommes rencontrés pour parler de l'oral et j'ai fini l'ajout des notes dans les items et j'ai ajouté des fonctions au menu accès rapide telles que changer d'item avec les chiffres sur le clavier ainsi que la fonction de revenir à l'item précédent avec la touche q.

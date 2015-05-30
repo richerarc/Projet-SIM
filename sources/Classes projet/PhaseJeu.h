@@ -225,9 +225,16 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(37, 0);
+		test = UsineItem::obtInstance().obtItemParType(42, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(61, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(21, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(22, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(23, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(24, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(25, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 
@@ -242,8 +249,7 @@ public:
 		vieMentale = new gfx::Texte2D(new std::string(""), { 0, 0, 255, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 23), Vecteur2f(350, 10));
 		munitionRestantes = new gfx::Texte2D(new std::string(""), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 10));
 		point = new gfx::Sprite2D(Vecteur2f(638, 358), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/point.png"));
-		//compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
-		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/masqueAGazIcone.png"));
+		compteurMunition = new gfx::Sprite2D(Vecteur2f(15, 10), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/cartoucheGazIcone.png"));
 		mettreAJourTextesSante();
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
@@ -306,12 +312,14 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
-		GestionnaireSucces::obtInstance().verifierPacifisme();
+		if (salleActive != nullptr)
+			if (salleActive->obtID() == difficulte + 2)
+				GestionnaireSucces::obtInstance().verifierPacifisme();
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
 		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
-		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
+		if ((Clavier::toucheAppuyee(SDLK_g)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				GestionnaireSucces::obtInstance().defItemOuiNonLache(joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne()));
@@ -398,6 +406,8 @@ public:
 						joueur->defSantePhysique(joueur->obtSantePhysique() - 1);
 					}
 				}
+				if (joueur->obtSantePhysique() <= 0)
+					GestionnaireSucces::obtInstance().obtSucces(14);
 				mettreAJourtexteChrono();
 
 				if (tempsRestant <= 0) {
@@ -464,24 +474,28 @@ public:
 						char* nom = dynamic_cast<Item*>(objetVise)->obtNom();
 						GestionnaireSucces::obtInstance().verifierOuiNon((Item*)objetVise);
 						GestionnaireSucces::obtInstance().obtSucces(1);
-						if (nom == "Water")
+						if (nom == "Water bottle")
 							GestionnaireSucces::obtInstance().obtSucces(18);
-						if (nom == "Holy Rod")
+						if (nom == "HolyRod")
 							GestionnaireSucces::obtInstance().obtSucces(17);
-						if (nom == "Luger P08" || nom == "Thompson M1")
+						if (nom == "Luger P08" || nom == "Thompson M1"){
 							GestionnaireSucces::obtInstance().obtSucces(8);
+							GestionnaireSucces::obtInstance().defPacifisme(false);
+						}
 						if (nom == "Grenade")
 							GestionnaireSucces::obtInstance().obtSucces(9);
 						if (nom == "Note")
 							GestionnaireSucces::obtInstance().obtSucces(13);
 						if (nom == "Corrections")
 							GestionnaireSucces::obtInstance().obtSucces(24);
-						if (nom == "Thai")
+						if (nom == "Felix's thai box")
 							GestionnaireSucces::obtInstance().obtSucces(21);
 						if (nom == "Chicken drumstick")
 							GestionnaireSucces::obtInstance().obtSucces(25);
 						if (nom == "Companion")
 							GestionnaireSucces::obtInstance().obtSucces(11);
+						if (nom == "Exam")
+							GestionnaireSucces::obtInstance().obtSucces(24);
 						objetVise = nullptr;
 					}
 					else if (dynamic_cast<Commutateur*>(objetVise)){

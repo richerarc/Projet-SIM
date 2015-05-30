@@ -91,8 +91,8 @@ public:
 	}
 
 	Item* retirerObjetSacADos(int position){
-		menuAccesRapide[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(45, 0, 45));
-		menuAccesRapide[position]->obtObjet()->defStable(false);
+		sacADos[position]->obtObjet()->obtModele3D()->defOrientation(Vecteur3d(45, 0, 45));
+		sacADos[position]->obtObjet()->defStable(false);
 		return sacADos[position]->retirerObjet();
 	}
 

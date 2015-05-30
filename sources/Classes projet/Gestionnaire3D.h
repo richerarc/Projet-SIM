@@ -66,8 +66,8 @@ namespace gfx{
 				//camera->rafraichir();
 			}
 			for (auto &i : objets){
-				//glEnable(GL_LIGHTING);
-				//glEnable(GL_LIGHT0);
+				glEnable(GL_LIGHTING);
+				glEnable(GL_LIGHT0);
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 				glEnableClientState(GL_NORMAL_ARRAY);
@@ -79,8 +79,8 @@ namespace gfx{
 				glDisableClientState(GL_VERTEX_ARRAY);
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_NORMAL_ARRAY);
-				//glDisable(GL_LIGHTING);
-				//glDisable(GL_LIGHT0);
+				glDisable(GL_LIGHTING);
+				glDisable(GL_LIGHT0);
 			}
 		}
 

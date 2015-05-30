@@ -87,11 +87,13 @@ public:
 			if (Souris::boutonAppuye(SDL_BUTTON_RIGHT)){
 				utiliser2(joueur);
 			}
-			modele->defOrientation(0, 0, 0);
-			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut(), angleHorizontal + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle());
-			animer(joueur);
-			if (etat == EtatItem::EQUIPE)
-			modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
+			if (etat == EtatItem::EQUIPE){
+				modele->defOrientation(0, 0, 0);
+				modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut(), angleHorizontal + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHAngle());
+				animer(joueur);
+				if (etat == EtatItem::EQUIPE)
+					modele->rotationner(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle());
+			}
 		}
 	}
 
