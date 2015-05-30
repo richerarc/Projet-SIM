@@ -350,6 +350,8 @@ public:
 
 	void defEtat(unsigned int etatDynamique){ if (etatDynamique <= 5) this->etatDynamique = etatDynamique; }
 
+	void defDevant(Vecteur3d devant) { camera->defDevant(devant); }
+
 	void bloquer(){
 		this->bloque = true;
 		camera->bloquer();

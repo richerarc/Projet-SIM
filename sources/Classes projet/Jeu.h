@@ -92,7 +92,7 @@ public:
 		frameTime = chrono.repartir().enSecondes();
 		GestionnaireSucces::obtInstance().initialiser();
 
-		float lumiereAmbiente[] = { 1.255f, 1.255f, 1.255f, 1.f };
+		float lumiereAmbiente[4] = { 1.255f, 1.255f, 1.255f, 1.f };
 		glLightfv(GL_LIGHT0, GL_AMBIENT, lumiereAmbiente);
 
 		while (fenetre->estOuverte())
@@ -162,7 +162,7 @@ public:
 
 			fenetre->rafraichir();
 		}
-		delete[] lumiereAmbiente;
+		delete lumiereAmbiente;
 		GestionnaireSucces::obtInstance().tuerGestionnaireSucces();
 		delete fenetre;
 		ControlleurAudio::obtInstance().fermer();
