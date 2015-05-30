@@ -325,6 +325,15 @@ public:
 		objet2.defStable(false);
 	}
 
+	void appliquerForceNormale(Objet* objet, Vecteur3d normale) {
+
+		objet->obtForceTotale() += normale * (objet->obtMasse() * gravite * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
+	}
+
+	Vecteur3d obtForceNormale(double masse, Vecteur3d normale) {
+		return normale * (masse * gravite * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
+	}
+
 	void appliquerForceGravite(Objet* objet) {
 		objet->obtForceTotale() += Vecteur3d(0, -1, 0) * (objet->obtMasse() * 9.8);
 	}
