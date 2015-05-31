@@ -382,7 +382,7 @@ public:
 
 	Vecteur3d obtPositionCamera(){ return camera->obtPosition(); }
 
-	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
+	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; if (this->santePhysique > 100) this->santePhysique = 100; }
 
 	void defSanteMentale(short santeMentale) { this->santeMentale = santeMentale; if (this->santeMentale > 100)this->santeMentale = 100; }
 
