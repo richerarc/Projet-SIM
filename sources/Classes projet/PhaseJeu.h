@@ -456,7 +456,7 @@ public:
 					GestionnaireSucces::obtInstance().obtSucces(14);
 				mettreAJourtexteChrono();
 
-				if (tempsRestant <= 0) {
+				if (tempsRestant <= 0 || joueur->obtSanteMentale() <= 0 || joueur->obtSantePhysique() <= 0 || Carte::obtInstance().animationFinPartie(joueur, frameTime) == 2) {
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
