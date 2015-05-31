@@ -46,7 +46,7 @@ public:
 				Vecteur3d normale;
 				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
 					if (Maths::distanceEntreDeuxPoints(pointCollision, gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition()) < portee){
-						Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeMelee.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeMelee.png")), pointCollision, normale);
+						Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeMelee.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeMelee.png")), pointCollision, normale, false);
 						salleActive->ajoutObjet(trou);
 						gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
 						ControlleurAudio::obtInstance().jouer(COUPCOUTEAU, joueur);

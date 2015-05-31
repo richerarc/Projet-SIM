@@ -52,6 +52,7 @@ private:
 		ouvrirYeux,
 		teleporte,
 		enFinPartie,
+		dejaCalculee,
 		alavion;
 
 	Sortie salleSuivante;
@@ -344,7 +345,7 @@ private:
 			if (objet.positionement == SOLS){
 				do{
 					depart = (rand() % modeleSalle.obtModele()->obtNbrFaces()) * 9;
-					normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
+					normale = { normales[depart] + normales[depart + 3] + normales[depart + 6], normales[depart + 1] + normales[depart + 4] + normales[depart + 7], normales[depart + 2] + normales[depart + 5] + normales[depart + 8]};
 				}while(normale.y <= 0.5);
 				
 				for (int i = 0; i < 3; ++i) {
@@ -404,9 +405,10 @@ private:
 						  }()){
 							  p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
 						  }
-					if (d.y < p.y){
+					if (p.y < 0)
+						p.y = 0;
+					if (d.y > p.y)
 						p.y = d.y;
-					}
 				}
 				else
 					p = {(x / 3), (y / 3), (z / 3)};
@@ -437,174 +439,174 @@ private:
 					}
 				}
 			}
-			else if(objet.positionement == MURS){
-				unsigned int depart;
-				Vecteur3d normale;
-				Vecteur3d point[3];
-				Vecteur3d swap;
-				
-				bool PorteAuMur = false;
-				double* vertices = modeleSalle.obtSommetsModifies();
-				double* normales = modeleSalle.obtNormalesModifies();
-				while (!PorteAuMur)
-				{
-					PorteAuMur = true;
-					do{
-						double y;
-						do{
-							depart = (rand() % modeleSalle.obtModele()->obtNbrFaces()) * 9;
-							normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
-						} while (normale.y != 0);
-						for (int i = 0; i < 3; ++i) {
-							
-							point[i] = { vertices[depart + i * 3], vertices[depart + i * 3 + 1], vertices[depart + i * 3 + 2] };
-							
-						}
-					} while (!espacePorte(point[0], point[1], point[2]));
-					normale.normaliser();
-						// Angle de la porte...
-					objet.rotation.y = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
-					: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
-					
-					objet.direction = normale * -1;
-					
-					double y1 = point[0].y;
-					double y2;
-					do {
-						y2 = point[rand() % 2 + 1].y;
-					} while (y1 == y2);
-					
-					objet.position.y = (y1 < y2) ? y1 : y2;
-					
-					unsigned int i;
-					unsigned int j;
-					do {
-						do{
-							i = rand() % 3;
-							j = rand() % 3;
-						} while (i == j);
-					} while (point[i].y != point[j].y);
-					
-						// Positionnement des points de blender dans le même sens...
-					if (abs(normale.x) != 1 && abs(normale.z) != 1) {
-						if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
-							if (point[i].x > point[j].x) {
-								swap = point[i];
-								point[i] = point[j];
-								point[j] = swap;
-							}
-						}
-						else if ((normale.x < 0 && normale.z < 0) || (normale.x >= 0 && normale.z < 0)) {
-							if (point[i].x < point[j].x) {
-								swap = point[i];
-								point[i] = point[j];
-								point[j] = swap;
-							}
-						}
-					}
-					else
-					{
-						switch ((int)normale.x) {
-							case 1:
-								if (point[i].z < point[j].z) {
-									swap = point[i];
-									point[i] = point[j];
-									point[j] = swap;
-								}
-								break;
-							case -1:
-								if (point[i].z > point[j].z) {
-									swap = point[i];
-									point[i] = point[j];
-									point[j] = swap;
-								}
-								break;
-						}
-						switch ((int)normale.z) {
-							case 1:
-								if (point[i].x > point[j].x) {
-									swap = point[i];
-									point[i] = point[j];
-									point[j] = swap;
-								}
-								break;
-							case -1:
-								if (point[i].x < point[j].x) {
-									swap = point[i];
-									point[i] = point[j];
-									point[j] = swap;
-								}
-								break;
-						}
-					}
-					
-					gfx::Modele3D modele(gfx::GestionnaireRessources::obtInstance().obtModele(objet.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(objet.cheminTexture));
-					modele.defOrientation(0, objet.rotation.y, 0);
-					BoiteCollision<double> boite(modele.obtBoiteDeCollisionModifiee());
-					
-					Vecteur3d vecteurRatio = Maths::vecteurEntreDeuxPoints(point[i], point[j]);
-					vecteurRatio *= ((vecteurRatio.norme() - boite.obtGrandeurX()) / vecteurRatio.norme());
-					vecteurRatio *= ((double)rand() / RAND_MAX);
-					vecteurRatio = point[i] + vecteurRatio;
-					objet.position.x = vecteurRatio.x;
-					objet.position.z = vecteurRatio.z;
-					
-						// Boucle qui vérifie si une porte sera en collision avec une autre...
-					Vecteur3d pivot = { 0, 1, 0 };
-					for (auto it : salle.Objet) {
-						
-						if ((*it).largeur != 0) {
-							
-							if ((*it).rotation.y == 0) {
-								if (objet.position.z >= (*it).position.z && (objet.position.x <= (*it).position.x && objet.position.x >= (*it).position.x + (*it).largeur))
-									PorteAuMur = false;
-							}
-							else if ((*it).rotation.y == 180) {
-								if (objet.position.z <= (*it).position.z && (objet.position.x >= (*it).position.x && objet.position.x <= (*it).position.x + (*it).largeur))
-									PorteAuMur = false;
-							}
-							else if ((*it).rotation.y == 270) {
-								if (objet.position.x <= (*it).position.x && (objet.position.z >= (*it).position.z + (*it).largeur && objet.position.z <= (*it).position.z))
-									PorteAuMur = false;
-							}
-							else if ((*it).rotation.y == 90) {
-								if (objet.position.x >= (*it).position.x && (objet.position.z <= (*it).position.z + (*it).largeur && objet.position.z >= (*it).position.z))
-									PorteAuMur = false;
-							}
-							Remplisseur* remp;
-							for (auto it_boite : salle.Objet){
-								if ((*it_boite).type == REMPLISSEUR){
-									remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it_boite).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it_boite).cheminTexture)), (*it_boite).largeur, (*it_boite).position, (*it_boite).ID);
-									if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
-										PorteAuMur = false;
-										break;
-									}
-									delete remp;
-								}
-							}
-						}
-						
-							// Si les portes ont la même direction...
-						else if ((objet.direction == (*it).direction) && !(objet.position == (*it).position)) {
-							
-							if (Maths::distanceEntreDeuxPoints(objet.position, (*it).position) <= boite.obtGrandeurX()) {
-								PorteAuMur = false;
-							}
-							Remplisseur* remp;
-							for (auto it_boite : salle.Objet){
-								if ((*it_boite).type == REMPLISSEUR){
-									remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it_boite).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it_boite).cheminTexture)), (*it_boite).largeur, (*it_boite).position, (*it_boite).ID);
-									if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
-										PorteAuMur = false;
-										break;
-									}
-									delete remp;
-								}
-							}
-						}
-					}
-				}
-			}
+//			else if(objet.positionement == MURS){
+//				unsigned int depart;
+//				Vecteur3d normale;
+//				Vecteur3d point[3];
+//				Vecteur3d swap;
+//				
+//				bool PorteAuMur = false;
+//				double* vertices = modeleSalle.obtSommetsModifies();
+//				double* normales = modeleSalle.obtNormalesModifies();
+//				while (!PorteAuMur)
+//				{
+//					PorteAuMur = true;
+//					do{
+//						double y;
+//						do{
+//							depart = (rand() % modeleSalle.obtModele()->obtNbrFaces()) * 9;
+//							normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
+//						} while (normale.y != 0);
+//						for (int i = 0; i < 3; ++i) {
+//							
+//							point[i] = { vertices[depart + i * 3], vertices[depart + i * 3 + 1], vertices[depart + i * 3 + 2] };
+//							
+//						}
+//					} while (!espacePorte(point[0], point[1], point[2]));
+//					normale.normaliser();
+//						// Angle de la porte...
+//					objet.rotation.y = (Vecteur3d({ -1, 0, 0 }).produitScalaire(normale) < 0) ? (90 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, 1, 0 })).angleEntreVecteurs(normale)))
+//					: (270 - Maths::radianADegre(Vecteur3d({ -1, 0, 0 }).produitVectoriel(Vecteur3d({ 0, -1, 0 })).angleEntreVecteurs(normale)));
+//					
+//					objet.direction = normale * -1;
+//					
+//					double y1 = point[0].y;
+//					double y2;
+//					do {
+//						y2 = point[rand() % 2 + 1].y;
+//					} while (y1 == y2);
+//					
+//					objet.position.y = (y1 < y2) ? y1 : y2;
+//					
+//					unsigned int i;
+//					unsigned int j;
+//					do {
+//						do{
+//							i = rand() % 3;
+//							j = rand() % 3;
+//						} while (i == j);
+//					} while (point[i].y != point[j].y);
+//					
+//						// Positionnement des points de blender dans le même sens...
+//					if (abs(normale.x) != 1 && abs(normale.z) != 1) {
+//						if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
+//							if (point[i].x > point[j].x) {
+//								swap = point[i];
+//								point[i] = point[j];
+//								point[j] = swap;
+//							}
+//						}
+//						else if ((normale.x < 0 && normale.z < 0) || (normale.x >= 0 && normale.z < 0)) {
+//							if (point[i].x < point[j].x) {
+//								swap = point[i];
+//								point[i] = point[j];
+//								point[j] = swap;
+//							}
+//						}
+//					}
+//					else
+//					{
+//						switch ((int)normale.x) {
+//							case 1:
+//								if (point[i].z < point[j].z) {
+//									swap = point[i];
+//									point[i] = point[j];
+//									point[j] = swap;
+//								}
+//								break;
+//							case -1:
+//								if (point[i].z > point[j].z) {
+//									swap = point[i];
+//									point[i] = point[j];
+//									point[j] = swap;
+//								}
+//								break;
+//						}
+//						switch ((int)normale.z) {
+//							case 1:
+//								if (point[i].x > point[j].x) {
+//									swap = point[i];
+//									point[i] = point[j];
+//									point[j] = swap;
+//								}
+//								break;
+//							case -1:
+//								if (point[i].x < point[j].x) {
+//									swap = point[i];
+//									point[i] = point[j];
+//									point[j] = swap;
+//								}
+//								break;
+//						}
+//					}
+//					
+//					gfx::Modele3D modele(gfx::GestionnaireRessources::obtInstance().obtModele(objet.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(objet.cheminTexture));
+//					modele.defOrientation(0, objet.rotation.y, 0);
+//					BoiteCollision<double> boite(modele.obtBoiteDeCollisionModifiee());
+//					
+//					Vecteur3d vecteurRatio = Maths::vecteurEntreDeuxPoints(point[i], point[j]);
+//					vecteurRatio *= ((vecteurRatio.norme() - boite.obtGrandeurX()) / vecteurRatio.norme());
+//					vecteurRatio *= ((double)rand() / RAND_MAX);
+//					vecteurRatio = point[i] + vecteurRatio;
+//					objet.position.x = vecteurRatio.x;
+//					objet.position.z = vecteurRatio.z;
+//					
+//						// Boucle qui vérifie si une porte sera en collision avec une autre...
+//					Vecteur3d pivot = { 0, 1, 0 };
+//					for (auto it : salle.Objet) {
+//						
+//						if ((*it).largeur != 0) {
+//							
+//							if ((*it).rotation.y == 0) {
+//								if (objet.position.z >= (*it).position.z && (objet.position.x <= (*it).position.x && objet.position.x >= (*it).position.x + (*it).largeur))
+//									PorteAuMur = false;
+//							}
+//							else if ((*it).rotation.y == 180) {
+//								if (objet.position.z <= (*it).position.z && (objet.position.x >= (*it).position.x && objet.position.x <= (*it).position.x + (*it).largeur))
+//									PorteAuMur = false;
+//							}
+//							else if ((*it).rotation.y == 270) {
+//								if (objet.position.x <= (*it).position.x && (objet.position.z >= (*it).position.z + (*it).largeur && objet.position.z <= (*it).position.z))
+//									PorteAuMur = false;
+//							}
+//							else if ((*it).rotation.y == 90) {
+//								if (objet.position.x >= (*it).position.x && (objet.position.z <= (*it).position.z + (*it).largeur && objet.position.z >= (*it).position.z))
+//									PorteAuMur = false;
+//							}
+//							Remplisseur* remp;
+//							for (auto it_boite : salle.Objet){
+//								if ((*it_boite).type == REMPLISSEUR){
+//									remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it_boite).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it_boite).cheminTexture)), (*it_boite).largeur, (*it_boite).position, (*it_boite).ID);
+//									if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
+//										PorteAuMur = false;
+//										break;
+//									}
+//									delete remp;
+//								}
+//							}
+//						}
+//						
+//							// Si les portes ont la même direction...
+//						else if ((objet.direction == (*it).direction) && !(objet.position == (*it).position)) {
+//							
+//							if (Maths::distanceEntreDeuxPoints(objet.position, (*it).position) <= boite.obtGrandeurX()) {
+//								PorteAuMur = false;
+//							}
+//							Remplisseur* remp;
+//							for (auto it_boite : salle.Objet){
+//								if ((*it_boite).type == REMPLISSEUR){
+//									remp = new Remplisseur(new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele((*it_boite).cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture((*it_boite).cheminTexture)), (*it_boite).largeur, (*it_boite).position, (*it_boite).ID);
+//									if (remp->obtModele3D()->obtBoiteCollision().pointDansBoite(objet.position)){
+//										PorteAuMur = false;
+//										break;
+//									}
+//									delete remp;
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
 			
 			if (nbrIt > 20)
 				return false;
@@ -691,7 +693,7 @@ private:
 				salleActive->ajoutObjet(new ObjetFixe(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, false));
 				break;
 			case PEINTURE:
-				salleActive->ajoutObjet(new Peinture((*it).ID, modeleObjet, (*it).position));
+				salleActive->ajoutObjet(new Peinture((*it).ID, modeleObjet, (*it).position, true));
 				break;
 			case REMPLISSEUR:
 				salleActive->ajoutObjet(new Remplisseur(modeleObjet, (*it).largeur, (*it).position, (*it).ID));
@@ -708,7 +710,8 @@ private:
 			case ITEM:
 				Item *itm = UsineItem::obtInstance().obtItemParType((*it).IDitem, (*it).ID);
 				itm->defPosition((*it).position);
-				itm->defVitesse({ 0, 0.1, 0 });
+				itm->defVitesse({ 0, -0.1, 0 });
+				itm->defStable(false);
 				salleActive->ajoutObjet(itm);
 				break;
 			}
@@ -748,6 +751,82 @@ public:
 		liens[entree] = sortie;
 	}
 
+	void mettreAJourInfoSalle(InfoSalle& sallePrecedente) {
+		bool estDansListe = false;
+
+		std::vector<InfoObjet*> infosObjetARetirer;
+		unsigned int nbrinfosObjARet = 0;
+
+		for (auto it : sallePrecedente.Objet) {
+			if (it->type == ITEM) {
+				for (auto it_SalleActive : salleActive->obtListeObjet()) {
+					Item* item = dynamic_cast<Item*>(it_SalleActive);
+					if (item) {
+						if (it->position == item->obtPosition()) {
+							salleActive->retirerObjet(it_SalleActive);
+							delete it_SalleActive;
+							it_SalleActive = nullptr;
+							estDansListe = true;
+							break;
+						}
+					}
+				}
+				if (!estDansListe) {
+					infosObjetARetirer.push_back(it);
+					++nbrinfosObjARet;
+				}
+				else
+					estDansListe = false;
+			}
+		}
+
+		for (; nbrinfosObjARet > 0; --nbrinfosObjARet) {
+			sallePrecedente.Objet.remove(infosObjetARetirer[nbrinfosObjARet - 1]);
+		}
+
+		for (auto it : salleActive->obtListeObjet()) {
+			Item* item = dynamic_cast<Item*>(it);
+			if (item) {
+
+				InfoObjet leitem;
+				leitem.ID = sallePrecedente.Objet.size();
+				leitem.cheminModele = "Ressources/Modele/Peinture.obj";
+				leitem.cheminTexture = "Ressources/Texture/Peinture.png";
+				leitem.position = item->obtPosition();
+				leitem.rotation = item->obtModele3D()->obtOrientation();
+				leitem.type = PEINTURE;
+				sallePrecedente.Objet.push_back(new InfoObjet(leitem));
+			}
+			else
+			{
+
+				Peinture* peinture = dynamic_cast<Peinture*>(it);
+				if (peinture) {
+
+					if (peinture->estPermanente()) {
+
+						InfoObjet lapeinture;
+						lapeinture.ID = sallePrecedente.Objet.size();
+						lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
+						lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
+						lapeinture.position = peinture->obtPosition();
+						lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
+						lapeinture.type = PEINTURE;
+						sallePrecedente.Objet.push_back(new InfoObjet(lapeinture));
+					}
+				}
+			}
+		}
+
+		unsigned int ID = 0;
+
+		for (auto it : sallePrecedente.Objet) {
+			if (it->ID != ID)
+				it->ID = ID;
+			++ID;
+		}
+
+	}
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
@@ -758,54 +837,10 @@ public:
 		auto sallePrecedente = infosSalles.begin();
 		std::advance(sallePrecedente, std::get<0>(entree));
 
-		bool estDansListe = false;
-
-		InfoObjet* infosObjetARetirer[4] = { nullptr, nullptr, nullptr, nullptr };
-		unsigned int nbrinfosObjARet = 0;
-
-		for (auto it : sallePrecedente->Objet) {
-			if (it->type == PEINTURE) {
-				for (auto it_SalleActive : salleActive->obtListeObjet()) {
-					Peinture* peinture = dynamic_cast<Peinture*>(it_SalleActive);
-					if (peinture) {
-						if (it->position == peinture->obtPosition()) {
-							salleActive->retirerObjet(it_SalleActive);
-							delete it_SalleActive;
-							it_SalleActive = nullptr;
-							estDansListe = true;
-							break;
-						}
-					}
-				}
-				if (!estDansListe) {
-					infosObjetARetirer[nbrinfosObjARet++] = it;
-				}
-				else
-					estDansListe = false;
-			}
-		}
-
-		for (; nbrinfosObjARet > 0; --nbrinfosObjARet) {
-			sallePrecedente->Objet.remove(infosObjetARetirer[nbrinfosObjARet - 1]);
-		}
-
-		for (auto it : salleActive->obtListeObjet()) {
-			Peinture* peinture = dynamic_cast<Peinture*>(it);
-			if (peinture) {
-
-				InfoObjet lapeinture;
-				lapeinture.ID = peinture->obtID();
-				lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
-				lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
-				lapeinture.position = peinture->obtPosition();
-				lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
-				lapeinture.type = PEINTURE;
-				sallePrecedente->Objet.push_back(new InfoObjet(lapeinture));
-			}
-		}
-
 		auto portePrecedente = (*sallePrecedente).Objet.begin();
 		std::advance(portePrecedente, std::get<1>(entree));
+
+		mettreAJourInfoSalle((*sallePrecedente));
 
 		// Calcul de la rotation de camÃ©ra Ã  appliquer:
 		// {
@@ -1715,30 +1750,33 @@ public:
 	}
 
 	void calculAnimationFinPartie(Joueur* joueur){
-		joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
-		joueur->bloquer();
-		avion = salleActive->obtListeObjet().back();
-		Vecteur3d vec1 = avion->obtPosition();
-		vec1.x -= 1.174;
-		vec1.y = 0;
-		vec1.z += 0.32904;
-		translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), vec1);
-		orientationCamera[0] = joueur->obtDevant().angleEntreVecteurs(translations[0]) * 180 / M_PI;
-		positions[0] = vec1;
+		if (!dejaCalculee){
+			joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
+			joueur->bloquer();
+			avion = salleActive->obtListeObjet().back();
+			Vecteur3d vec1 = avion->obtPosition();
+			vec1.x -= 1.174;
+			vec1.y = 0;
+			vec1.z += 0.32904;
+			translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), vec1);
+			orientationCamera[0] = joueur->obtDevant().angleEntreVecteurs(translations[0]) * 180 / M_PI;
+			positions[0] = vec1;
 
-		vec1 = (avion)->obtPosition();
-		vec1.z += 1.3;
-		vec1.y += 0.1;
+			vec1 = (avion)->obtPosition();
+			vec1.z += 1.3;
+			vec1.y += 0.1;
 
-		positions[1] = vec1;
-		translations[1] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition() + translations[0], positions[1]);
-		orientationCamera[1] = translations[0].angleEntreVecteurs(Vecteur3d(0, 0, 1)) * 180 / M_PI + 18;
-		orientationCamera[2] = 20;
-		enFinPartie = true;
-		alavion = false;
+			positions[1] = vec1;
+			translations[1] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition() + translations[0], positions[1]);
+			orientationCamera[1] = translations[0].angleEntreVecteurs(Vecteur3d(0, 0, 1)) * 180 / M_PI + 18;
+			orientationCamera[2] = 20;
+			enFinPartie = true;
+			alavion = false;
+			dejaCalculee = true;
+		}
 	}
 
-	void animationFinPartie(Joueur* joueur, float frameTime){
+	unsigned int animationFinPartie(Joueur* joueur, float frameTime){
 		if (enFinPartie){
 			if (!alavion) {
 				if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0])) > 0){
@@ -1748,8 +1786,9 @@ public:
 						joueur->defHAngle(joueur->obtHAngle() + 1);
 						orientationCamera[0] -= 1;
 					}
+					return 1;
 				}
-				else{
+				else {
 					if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[1])) > 0) {
 						joueur->defPosition(joueur->obtPosition() + translations[1] * frameTime * 0.5f);
 
@@ -1761,6 +1800,7 @@ public:
 							joueur->defHAngle(joueur->obtHAngle() + 1);
 							orientationCamera[2] -= 1;
 						}
+						return 1;
 					}
 					else
 					{
@@ -1769,6 +1809,7 @@ public:
 						ControlleurAudio::obtInstance().jouer(AVION, joueur);
 						temps = 0;
 						alavion = true;
+						return 1;
 					}
 				}
 			}
@@ -1779,22 +1820,21 @@ public:
 					avion->defPosition(avion->obtPosition() + translations[0] * temps / 1000);
 					joueur->defPosition(joueur->obtPosition() + translations[0] * temps / 1000);
 					if (temps >= 1) {
-						avion->defPosition(avion->obtPosition() + Vecteur3d(0, (temps-1) / 25, 0));
-						joueur->defPosition(joueur->obtPosition() + Vecteur3d(0, (temps-1) / 25, 0));
+						avion->defPosition(avion->obtPosition() + Vecteur3d(0, (temps - 1) / 25, 0));
+						joueur->defPosition(joueur->obtPosition() + Vecteur3d(0, (temps - 1) / 25, 0));
 					}
+					return 1;
 				}
 				else
 				{
 					avion = nullptr;
 					enFinPartie = false;
 					///Terminée
+					return 2;
 				}
 			}
-
-
 		}
-
-
+		return 0;
 	}
 
 	void recommencer() {
