@@ -751,7 +751,7 @@ public:
 		liens[entree] = sortie;
 	}
 
-	void mettreAJourInfoSalle(InfoSalle& sallePrecedente) {
+	void mettreAJourInfoSalle(InfoSalle& sallePrecedente, Entree entree) {
 		bool estDansListe = false;
 
 		std::vector<InfoObjet*> infosObjetARetirer;
@@ -790,16 +790,14 @@ public:
 
 				InfoObjet leitem;
 				leitem.ID = sallePrecedente.Objet.size();
-				leitem.cheminModele = "Ressources/Modele/Peinture.obj";
-				leitem.cheminTexture = "Ressources/Texture/Peinture.png";
 				leitem.position = item->obtPosition();
 				leitem.rotation = item->obtModele3D()->obtOrientation();
-				leitem.type = PEINTURE;
+				leitem.type = ITEM;
+				leitem.IDitem = item->obtType();
 				sallePrecedente.Objet.push_back(new InfoObjet(leitem));
 			}
 			else
 			{
-
 				Peinture* peinture = dynamic_cast<Peinture*>(it);
 				if (peinture) {
 
@@ -821,12 +819,21 @@ public:
 		unsigned int ID = 0;
 
 		for (auto it : sallePrecedente.Objet) {
-			if (it->ID != ID)
+			if (it->ID != ID) {
+				if (it->type == PORTE) {
+					Sortie sortie(sallePrecedente.ID, ID);
+					Entree entreetmp(sallePrecedente.ID, ID, false);
+					Sortie sortietmp = liens[entree];
+					liens[Entree(std::get<0>(sortietmp), std::get<1>(sortietmp), false)] = sortie;
+					liens.erase(entree);
+					ajouterLien(entreetmp, sortietmp);
+				}
 				it->ID = ID;
+			}
 			++ID;
 		}
-
 	}
+
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
