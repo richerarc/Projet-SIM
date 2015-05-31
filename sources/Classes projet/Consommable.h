@@ -41,11 +41,13 @@ struct Thai : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -68,17 +70,19 @@ struct Eau : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
 };
 struct Poulet : public Melee, public Consommable{
-	Poulet(unsigned int ID) : Melee(1.0, 2, 32, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
+	Poulet(unsigned int ID) : Melee(1.5, 2, 32, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
@@ -109,11 +113,13 @@ struct Poulet : public Melee, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -139,11 +145,13 @@ struct Pilule : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -166,11 +174,13 @@ struct Lait : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -193,11 +203,13 @@ struct Chocolat : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -220,11 +232,13 @@ struct Vin : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -248,11 +262,13 @@ struct Biere : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -281,11 +297,13 @@ struct Seringue : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}

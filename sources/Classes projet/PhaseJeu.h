@@ -21,6 +21,7 @@ private:
 	bool toucheRelachee;
 	bool retour;
 	bool finAnimationDebut, finTransitionSalle, santeEstAffichee;
+	bool masqueEquipe;
 	unsigned int difficulte;
 	std::stack<unsigned int> cheminRecursif;
 	std::list<unsigned int> cheminLogique;
@@ -45,6 +46,7 @@ private:
 	gfx::Sprite2D* compteurMunitionLuger;
 	gfx::Sprite2D* compteurMunitionThompson;
 	gfx::Sprite2D* compteurGaz;
+	gfx::Objet2D* filtre;
 
 	double exponentielle(double a, double b, double h, double k, double x, int limite){
 		double temp = a * pow(M_E, b * (x - h)) + k;
@@ -236,12 +238,13 @@ public:
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
 
-		test = UsineItem::obtInstance().obtItemParType(40, 0);
+		test = UsineItem::obtInstance().obtItemParType(50, 0);
 		joueur->obtInventaire()->ajouterObjet(test);
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(1, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(12, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(2, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(3, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(32, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(33, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 
@@ -261,6 +264,8 @@ public:
 		munitionThompsonRestantes = new gfx::Texte2D(new std::string("0/20"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 25), Vecteur2f(45, 74));
 		compteurMunitionLuger = new gfx::Sprite2D(Vecteur2f(15, 42), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/PARABELLUMIcone32.png"));
 		compteurMunitionThompson = new gfx::Sprite2D(Vecteur2f(15, 74), gfx::GestionnaireRessources().obtTexture("Ressources/Texture/ACP45Icone32.png"));
+		filtre = new gfx::Sprite2D(Vecteur2f(), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/filtreMasqueAGaz.png"));
+		filtre->defEchelle(Vecteur2f(fenetre->obtTaille().x / 1024.0, fenetre->obtTaille().y / 1024.0));
 		mettreAJourTextesSante();
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vie);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjet(vieMentale);
@@ -425,12 +430,22 @@ public:
 							if (tmp->estEquipe()){
 								tmp->user();
 								mettreAJourGazRestant(tmp->obtDurabilite());
+								masqueEquipe = true;
 							}
+							else
+								masqueEquipe = false;
 						}
-						else
+						else{
 							mettreAJourGazRestant(0);
+							masqueEquipe = false;
+						}
 					}
+					else
+						masqueEquipe = false;
 				}
+				gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
+				if (masqueEquipe)
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
 				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
 				if (itemTmp != nullptr){
 					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
@@ -605,6 +620,10 @@ public:
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurGaz);
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunitionLuger);
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(compteurMunitionThompson);
+			if (masqueEquipe){
+				gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
+			}
+			remplir();
 		}
 		this->pause = pause;
 	}

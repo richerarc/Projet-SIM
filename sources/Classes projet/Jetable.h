@@ -12,14 +12,18 @@ struct Jetable : public Item{
 
 	}
 	void utiliser(Joueur* joueur){
-		this->defEtat(EtatItem::DEPOSE);
-		this->defVitesse(joueur->obtDevant() * 10);
-		joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+		if (!joueur->obtBloque()){
+			this->defEtat(EtatItem::DEPOSE);
+			this->defVitesse(joueur->obtDevant() * 10);
+			joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+		}
 	}
 	virtual void utiliser2(Joueur* joueur){
-		this->defEtat(EtatItem::DEPOSE);
-		this->defVitesse(joueur->obtDevant() * 25);
-		joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+		if (!joueur->obtBloque()){
+			this->defEtat(EtatItem::DEPOSE);
+			this->defVitesse(joueur->obtDevant() * 25);
+			joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+		}
 	}
 	void equiper(Joueur* joueur){}
 };

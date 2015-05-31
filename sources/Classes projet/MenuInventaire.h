@@ -51,7 +51,7 @@ public:
 
 		fondTexte = new gfx::Sprite2D(Vecteur2f(300, 405), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondTexteInventaire.png"));
 
-		pause = false;
+		defPause(true);
 		objetCurseur = nullptr;
 		spriteObjetCurseur = new gfx::Sprite2D();
 		actualiserAffichage();
