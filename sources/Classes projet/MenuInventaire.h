@@ -117,7 +117,7 @@ public:
 	void toucheAppuyee(SDL_Event &event){
 		if (pause)
 			return;
-		if ((event.key.keysym.sym == SDLK_ESCAPE) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)){
+		if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCESINVENTAIRE)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)){
 			if (objetCurseur != nullptr){
 				inventaire->ajouterObjet(objetCurseur);
 				objetCurseur = nullptr;
