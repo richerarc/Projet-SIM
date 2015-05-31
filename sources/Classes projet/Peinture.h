@@ -20,7 +20,7 @@ public:
 		this->modele->rotationner(normaleModele.produitVectoriel(normale), vRot);
 		this->modele->rotationner(normaleModele, rand() % 360 - 180);
 
-		this->permanente = permanent;
+		this->permanente = permanente;
 	}
 
 	bool estPermanente() {
