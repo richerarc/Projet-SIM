@@ -22,6 +22,7 @@ private:
 	double sensibiliteMagnetique;
 	std::map<char*, double> mapRestitution;
 	bool collision;
+	bool plafondTueur;
 
 	bool collisionDroiteObjet(Objet& objet, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale) {
 
@@ -84,6 +85,7 @@ public:
 		gravite = -9.8;
 		sensibiliteMagnetique = 0.0072;
 		collision = false;
+		plafondTueur = false;
 
 		// Ajout des coefficients de restitution des différents matériaux
 		mapRestitution["metal"] = 0.9;
@@ -546,6 +548,8 @@ public:
 				rayonCollision.obtenirVecteurDirecteur().y = 0;
 
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+				if (plafondTueur)
+					joueur->defSantePhysique(0);
 				if (fabs(normale.x) < 0.05f)
 					normale.x = 0.f;
 				if (fabs(normale.z) < 0.05f)
@@ -604,6 +608,8 @@ public:
 			rayonCollision = Droite(point, { 0, -9.8, 0 });
 
 			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+				if (plafondTueur)
+					joueur->defSantePhysique(0);
 				normale.normaliser();
 				joueur->defNormale(normale);
 				joueur->defPointCollision(pointCollision);
@@ -665,6 +671,8 @@ public:
 					}
 					rayonCollision = Droite(point, joueur->obtVitesse());
 					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
+						if (dynamic_cast<Pendule*>(it))
+							joueur->defSantePhysique(joueur->obtSantePhysique() - 60);
 						if (fabs(normale.x) < 0.05f)
 							normale.x = 0.f;
 						if (fabs(normale.z) < 0.05f)
@@ -746,6 +754,10 @@ public:
 				}
 			}
 			if (it->obtCollisionInterne() || dynamic_cast<Remplisseur*>(it)) {
+				if (dynamic_cast<PlafondTueur*>(it))
+					plafondTueur = true;
+				else
+					plafondTueur = false;
 				/*collisionJoueurSalle(it->obtModele3D(), joueur);*/
 				return true;
 			}
