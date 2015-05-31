@@ -1928,7 +1928,7 @@ public:
 				else
 				{
 					avion = nullptr;
-					enFinPartie = false;
+					enFinPartie = true;
 					///Terminée
 					return 2;
 				}
@@ -1955,4 +1955,7 @@ public:
 		nombreDeSalle = nbrSalles;
 	}
 
+	bool obtEnFinPartie() {
+		return enFinPartie;
+	}
 };

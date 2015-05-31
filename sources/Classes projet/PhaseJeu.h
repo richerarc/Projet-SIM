@@ -462,6 +462,8 @@ public:
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
+					if (Carte::obtInstance().obtEnFinPartie())
+						tmp->defPerdu(false);
 					GestionnairePhases::obtInstance().retirerPhase();
 					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
