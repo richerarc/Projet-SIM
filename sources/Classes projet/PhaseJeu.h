@@ -37,7 +37,6 @@ private:
 	double tempsRestant;
 	double compteurViePhysique;
 	Item *itemEquipe;
-	Item *test;
 	char dizaine[5];
 	char unite[5];
 	char chritoa[255];
