@@ -14,7 +14,6 @@ protected:
 	char* cheminIcone;
 	int maxPile;
 	EtatItem etat;
-	Salle* salleActive;
 
 	Chrono animation;
 	double angleHorizontal;
@@ -22,6 +21,7 @@ protected:
 	bool equipe;
 
 public:
+	static Salle* salleActive;
 	Item(int type, char* nom, char* description, char* cheminIcone, int maxPile, gfx::Modele3D* modele, unsigned int ID, char* materiaux, double masse) : ObjetPhysique(modele, ID, materiaux, masse, Vecteur3d(), Vecteur3d(), Vecteur3d(), false){
 		this->type = type;
 		this->nom = nom;
@@ -125,3 +125,5 @@ public:
 	}
 
 };
+Salle* Item::salleActive = nullptr;
+
