@@ -563,10 +563,10 @@ public:
 						Vecteur3d normaleReposition = normale;
 						normaleReposition *= normePointDifference;
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + normaleReposition.x, joueur->obtPosition().y, joueur->obtPosition().z + normaleReposition.z));
+						joueur->obtVitesse().x = 0.;
+						joueur->obtVitesse().z = 0.;
 					}
 				}
-				joueur->obtVitesse().x = 0.;
-				joueur->obtVitesse().z = 0.;
 			}
 		}
 
