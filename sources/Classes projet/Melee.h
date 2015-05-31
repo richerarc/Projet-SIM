@@ -55,6 +55,15 @@ public:
 						ControlleurAudio::obtInstance().jouer(COUPCOUTEAUVIDE, joueur);
 					}
 				}
+				for (auto it : salleActive->obtListeObjet()){
+					if (it->obtMateriaux() == "personnage" && (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false))){
+					salleActive->retirerObjet(it);
+					delete it;
+					ControlleurAudio::obtInstance().jouer(AH, joueur);
+					GestionnaireSucces::obtInstance().obtSucces(27);
+					break;
+					}
+				}
 				animationActuelle = 1;
 				animationMelee.repartir();
 			}

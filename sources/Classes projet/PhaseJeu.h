@@ -462,6 +462,8 @@ public:
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
+					if (Carte::obtInstance().obtEnFinPartie())
+						tmp->defPerdu(false);
 					GestionnairePhases::obtInstance().retirerPhase();
 					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -481,6 +483,7 @@ public:
 							if (Carte::obtInstance().salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 1){
 								if (objetVise->obtID()){
 									Commutateur* com = nullptr;
+									bool personnage = false;
 									for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
 										com = dynamic_cast<Commutateur*>(it);
 										if (com){
@@ -498,6 +501,14 @@ public:
 									diz = strtoull(dizaine, NULL, 2);
 									uni = strtoull(unite, NULL, 2);
 									Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni, 0));
+								}
+							}
+							for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
+								if (it->obtMateriaux() == "personnage"){
+									GestionnaireSucces::obtInstance().obtSucces(28);
+									Carte::obtInstance().salleActive->retirerObjet(it);
+									delete it;
+									break;
 								}
 							}
 							Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
