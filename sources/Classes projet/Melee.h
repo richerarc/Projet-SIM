@@ -61,6 +61,7 @@ public:
 					delete it;
 					ControlleurAudio::obtInstance().jouer(AH, joueur);
 					GestionnaireSucces::obtInstance().obtSucces(27);
+					joueur->defSanteMentale(joueur->obtSanteMentale() - 15);
 					break;
 					}
 				}
