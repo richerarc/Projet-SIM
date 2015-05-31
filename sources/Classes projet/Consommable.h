@@ -47,7 +47,7 @@ struct Thai : public Jetable, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();
@@ -80,7 +80,7 @@ struct Eau : public Jetable, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();
@@ -127,7 +127,7 @@ struct Poulet : public Melee, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();
@@ -196,7 +196,7 @@ struct Lait : public Jetable, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();
@@ -262,7 +262,7 @@ struct Vin : public Jetable, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();
@@ -296,7 +296,7 @@ struct Biere : public Jetable, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();
@@ -335,7 +335,7 @@ struct Seringue : public Jetable, public Consommable{
 	}
 	void utiliser2(Joueur* joueur){
 		if (!joueur->obtBloque()){
-			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0 && joueur->obtEtat() == STABLE){
 				etatAnimation = true;
 				posDepart = position;
 				joueur->bloquer();

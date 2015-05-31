@@ -45,7 +45,7 @@ public:
 				if (Maths::vecteurEntreDeuxPoints(joueur->obtPositionCamera(), pointCollision).norme() < 3) {
 					intervalPeinture.repartir();
 					ControlleurAudio::obtInstance().jouer(CANONAPEINTURE, joueur);
-					Peinture* peinture = new Peinture(124, new gfx::Modele3D(new gfx::Modele("Ressources/Modele/Peinture.obj"), new gfx::Texture("Ressources/Texture/Peinture.png")), pointCollision, normale);
+					Peinture* peinture = new Peinture(124, new gfx::Modele3D(new gfx::Modele("Ressources/Modele/Peinture.obj"), new gfx::Texture("Ressources/Texture/Peinture.png")), pointCollision, normale, true);
 					if (peintures->size() == 4) {
 						gfx::Gestionnaire3D::obtInstance().retObjet((*peintures->begin())->obtModele3D());
 						salleActive->retirerObjet((*peintures->begin()));

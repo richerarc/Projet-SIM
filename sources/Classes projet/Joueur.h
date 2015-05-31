@@ -384,7 +384,7 @@ public:
 
 	void defSantePhysique(short santePhysique) { this->santePhysique = santePhysique; }
 
-	void defSanteMentale(short santeMentale) { this->santeMentale = santeMentale; }
+	void defSanteMentale(short santeMentale) { this->santeMentale = santeMentale; if (this->santeMentale > 100)this->santeMentale = 100; }
 
 	short obtSantePhysique(){ return santePhysique; }
 

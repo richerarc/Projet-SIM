@@ -221,6 +221,7 @@ public:
 						it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 						it->obtModele3D()->defOrientation(it->obtModele3D()->obtOrientation() - (it->obtVitesseAngulaire() * 180 * frameTime / M_PI));
 						it->obtForceTotale() = { 0, 0, 0 };
+
 					}
 				}
 			}
@@ -320,13 +321,13 @@ public:
 		double dcoteY = abs(coteY.produitScalaire(axederotation));
 		double dcoteZ = abs(coteZ.produitScalaire(axederotation));
 
-		if (dcoteX > dcoteY && dcoteX > dcoteZ) {
+		if (dcoteX >= dcoteY && dcoteX >= dcoteZ) {
 			return (masse * (pow(longueurcoteY, 2) + pow(longueurcoteZ, 2))) / 12;
 		}
-		if (dcoteY > dcoteX && dcoteY > dcoteZ) {
+		if (dcoteY >= dcoteX && dcoteY >= dcoteZ) {
 			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteZ, 2))) / 12;
 		}
-		if (dcoteZ > dcoteX && dcoteZ > dcoteY) {
+		if (dcoteZ >= dcoteX && dcoteZ >= dcoteY) {
 			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteY, 2))) / 12;
 		}
 		return NULL;
@@ -652,7 +653,7 @@ public:
 		bool mur = false;
 
 		for (auto it : listeObjet) {
-			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it)) {
+			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it) && !dynamic_cast<Item*>(it)) {
 				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
 					for (unsigned int j = 0; j < 3; j++) {
 						if (j == 0)

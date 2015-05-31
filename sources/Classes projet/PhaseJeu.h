@@ -37,7 +37,6 @@ private:
 	double tempsRestant;
 	double compteurViePhysique;
 	Item *itemEquipe;
-	Item *test;
 	char dizaine[5];
 	char unite[5];
 	char chritoa[255];
@@ -457,7 +456,7 @@ public:
 					GestionnaireSucces::obtInstance().obtSucces(14);
 				mettreAJourtexteChrono();
 
-				if (tempsRestant <= 0) {
+				if (tempsRestant <= 0 || joueur->obtSanteMentale() <= 0 || joueur->obtSantePhysique() <= 0 || Carte::obtInstance().animationFinPartie(joueur, frameTime) == 2) {
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
@@ -578,7 +577,7 @@ public:
 	}
 
 	void toucheAppuyee(SDL_Event &event){
-		if (pause)
+		if (pause || joueur->obtBloque())
 			return;
 		if (retour){
 			retour = false;
@@ -593,7 +592,7 @@ public:
 			Curseur::defPosition(Vecteur2f(fenetre->obtTaille().x / 2, fenetre->obtTaille().y / 2));
 			curseur->remplir();
 		}
-		if ((event.key.keysym.sym == SDLK_TAB) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)) {
+		if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCESINVENTAIRE)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)) {
 			defPause(true);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUINVENTAIRE);
