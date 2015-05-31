@@ -119,7 +119,7 @@ public:
 			Vecteur2f(400, 257),
 			GestionnaireControle::obtInstance().obtTouche(COURIR), 45);
 
-		tirer = new gfx::Texte2D(new std::string("Shoot"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(100, 189));
+		tirer = new gfx::Texte2D(new std::string("Action 1"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(100, 189));
 		ctrlTirer = new Bouton(std::bind(&MenuControle::enClickTirer, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(400, 189),
@@ -143,7 +143,7 @@ public:
 			Vecteur2f(900, 665),
 			GestionnaireControle::obtInstance().obtTouche(DEPOSER), 45);
 
-		viser = new gfx::Texte2D(new std::string("Aim"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(600, 597));
+		viser = new gfx::Texte2D(new std::string("Action 2"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 55), Vecteur2f(600, 597));
 		ctrlViser = new Bouton(std::bind(&MenuControle::enClickViser, this, std::placeholders::_1), std::bind(&MenuControle::survol, this, std::placeholders::_1),
 			std::bind(&MenuControle::defaut, this, std::placeholders::_1),
 			Vecteur2f(900, 597),
