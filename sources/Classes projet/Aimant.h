@@ -9,7 +9,7 @@ private:
 	double force;
 
 public:
-	Aimant(gfx::Modele3D* modele, unsigned int ID, Vecteur3d position, double force) : Objet(modele, ID, "metal", 0., Vecteur3d(0.f, 0.f, 0.f), position, Vecteur3d(0.,0.,0.), false){
+	Aimant(gfx::Modele3D* modele, unsigned int ID, Vecteur3d position, double force) : ObjetPhysique(modele, ID, "metal", 0., Vecteur3d(0.f, 0.f, 0.f), position, Vecteur3d(0.,0.,0.), false){
 		this->force = force;
 	}
 
