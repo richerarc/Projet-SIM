@@ -344,7 +344,7 @@ private:
 			if (objet.positionement == SOLS){
 				do{
 					depart = (rand() % modeleSalle.obtModele()->obtNbrFaces()) * 9;
-					normale = { normales[depart], normales[depart + 1], normales[depart + 2] };
+					normale = { normales[depart] + normales[depart + 3] + normales[depart + 6], normales[depart + 1] + normales[depart + 4] + normales[depart + 7], normales[depart + 2] + normales[depart + 5] + normales[depart + 8]};
 				}while(normale.y <= 0.5);
 				
 				for (int i = 0; i < 3; ++i) {
@@ -404,9 +404,10 @@ private:
 						  }()){
 							  p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
 						  }
-					if (d.y < p.y){
+					if (p.y < 0)
+						p.y = 0;
+					if (d.y > p.y)
 						p.y = d.y;
-					}
 				}
 				else
 					p = {(x / 3), (y / 3), (z / 3)};
