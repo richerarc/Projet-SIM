@@ -28,7 +28,7 @@ public:
 		this->description = description;
 		this->cheminIcone = cheminIcone;
 		this->maxPile = maxPile;
-		etat = EQUIPE;
+		etat = DEPOSE;
 		salleActive = nullptr;
 	}
 
