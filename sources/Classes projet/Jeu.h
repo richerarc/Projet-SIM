@@ -138,6 +138,8 @@ public:
 
 
 			frameTime = chrono.repartir().enSecondes();
+			if (frameTime > 0.66666f)
+				frameTime = 0.016;
 			curseur->rafraichir();
 			while (fenetre->sonderEvenements(evenement))
 			{
