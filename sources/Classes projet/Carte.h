@@ -1626,7 +1626,7 @@ public:
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { -31.9405, 0, 74.5517/*-56.175, 0, -74.7745*/ };
+		demiSphere.position = { -32.9405, 0, -74.5517 };
 		demiSphere.rotation = { 0, 0, 0 };
 		demiSphere.type = FIXE;
 
@@ -1639,7 +1639,7 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 1;
 		porteFin.largeur = 0;
-		porteFin.position = { -32.9405, 0, 74.5517/*-57.475, 0, -74.7745*/ };
+		porteFin.position = { -32.9405, 0, -74.5517 };
 		porteFin.rotation = { 0, -38, 0 };
 
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
@@ -1751,7 +1751,7 @@ public:
 
 	void calculAnimationFinPartie(Joueur* joueur){
 		if (!dejaCalculee){
-			joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
+			joueur->defPosition(Vecteur3d(-32.9405, 0, -74.5517));
 			joueur->bloquer();
 			avion = salleActive->obtListeObjet().back();
 			Vecteur3d vec1 = avion->obtPosition();
