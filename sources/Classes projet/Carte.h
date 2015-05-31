@@ -851,7 +851,7 @@ public:
 		auto portePrecedente = (*sallePrecedente).Objet.begin();
 		std::advance(portePrecedente, std::get<1>(entree));
 
-		mettreAJourInfoSalle((*sallePrecedente));
+		mettreAJourInfoSalle((*sallePrecedente), entree);
 
 		// Calcul de la rotation de caméra à appliquer:
 		// {
