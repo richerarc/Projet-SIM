@@ -1,1 +1,4 @@
-Ressources/Modele/portePlate.obj Ressources/Texture/portePlate.png
+Ressources/Info/seringue.txt
+Ressources/Info/Roche.txt
+Ressources/Info/thai.txt
+Ressources/Info/poulet.txt

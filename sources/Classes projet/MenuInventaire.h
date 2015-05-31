@@ -18,6 +18,8 @@ private:
 	gfx::Texte2D* texteNom;
 	gfx::Texte2D* texteDescription;
 
+	gfx::Sprite2D* fondTexte;
+
 public:
 	MenuInventaire(Inventaire *inventaire){
 		Vecteur2f position;
@@ -44,8 +46,10 @@ public:
 			else
 				objetsAccesRapide.push_back(new gfx::Sprite2D(position, nullptr));
 		}
-		texteNom = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(300, 425));
-		texteDescription = new gfx::Texte2D(new std::string(""), { 62, 62, 62, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(300, 405));
+		texteNom = new gfx::Texte2D(new std::string(""), { 40, 40, 40, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(305, 430));
+		texteDescription = new gfx::Texte2D(new std::string(""), { 40, 40, 40, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(305, 410));
+
+		fondTexte = new gfx::Sprite2D(Vecteur2f(300, 405), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondTexteInventaire.png"));
 
 		pause = false;
 		objetCurseur = nullptr;
@@ -265,6 +269,7 @@ public:
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(sprite);
 		for (gfx::Sprite2D* sprite : objetsAccesRapide)
 			gfx::Gestionnaire2D::obtInstance().ajouterObjet(sprite);
+		gfx::Gestionnaire2D::obtInstance().ajouterObjet(fondTexte);
 		gfx::Gestionnaire2D::obtInstance().ajouterObjets({ texteNom, texteDescription, spriteObjetCurseur });
 	}
 
@@ -278,6 +283,7 @@ public:
 			gfx::Gestionnaire2D::obtInstance().retObjet(sprite);
 		for (gfx::Sprite2D* sprite : objetsAccesRapide)
 			gfx::Gestionnaire2D::obtInstance().retObjet(sprite);
+		gfx::Gestionnaire2D::obtInstance().retObjet(fondTexte);
 		gfx::Gestionnaire2D::obtInstance().retObjets({ texteNom, texteDescription, spriteObjetCurseur });
 	}
 

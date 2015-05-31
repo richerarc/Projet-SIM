@@ -1,1 +1,1 @@
-Ressources/Modele/bureau.obj Ressources/Texture/bureau.png 2
+Ressources/Modele/bureau.obj Ressources/Texture/bureau.png 2 102

@@ -240,7 +240,8 @@ public:
 		joueur->obtInventaire()->ajouterObjet(test);
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(50, 0));
 		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(10, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(61, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(1, 0));
+		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(12, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 
@@ -333,7 +334,7 @@ public:
 		if (pause)
 			return;
 		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
-		if ((Clavier::toucheAppuyee(SDLK_q)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
+		if ((Clavier::toucheAppuyee(SDLK_g)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				GestionnaireSucces::obtInstance().defItemOuiNonLache(joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne()));
@@ -369,11 +370,16 @@ public:
 
 			// On regarde si les animation de début et de transisiton de salle sont fini pour ajouter les textes a afficher.
 			if (!Carte::obtInstance().animationTransitionSalle(joueur, frameTime) && !finTransitionSalle){
-				std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
-				texte_ID_Salle->defTexte(&str);
-				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
-				tempsAffichageID.repartir();
-				finTransitionSalle = true;
+				if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
+					Carte::obtInstance().calculAnimationFinPartie(joueur);
+				}
+				else{
+					std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
+					texte_ID_Salle->defTexte(&str);
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
+					tempsAffichageID.repartir();
+					finTransitionSalle = true;
+				}
 			}
 
 			if (!Carte::obtInstance().animationLeverLit(joueur, frameTime) && !finAnimationDebut){
@@ -381,8 +387,11 @@ public:
 				gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
 				tempsAffichageID.repartir();
 				finAnimationDebut = true;
+				//if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
+				//	Carte::obtInstance().calculAnimationFinPartie(joueur);
+				//}
 			}
-
+			Carte::obtInstance().animationFinPartie(joueur, frameTime);
 			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
 				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
 				tempsAffichageID.repartir();

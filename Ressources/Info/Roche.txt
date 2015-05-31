@@ -1,0 +1,1 @@
+Ressources/Modele/Roche.obj Ressources/Modele/Roche.png 4 102 41
