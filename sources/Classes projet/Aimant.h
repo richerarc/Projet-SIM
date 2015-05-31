@@ -3,7 +3,7 @@
 #include "Modele3D.h"
 #include <list>
 
-class Aimant : public Objet{
+class Aimant : public ObjetPhysique{
 private:
 
 	double force;
