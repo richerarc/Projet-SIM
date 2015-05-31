@@ -3,7 +3,7 @@
 #include "Jetable.h"
 class Consommable{
 protected:
-	bool etatAnimation;
+	bool etatAnimation, sonAnimation;
 	Vecteur3d posAnimation;
 	Vecteur3d posDepart;
 	Vecteur3d rotAnimation;
@@ -20,6 +20,7 @@ protected:
 public:
 	Consommable(){
 		etatAnimation = false;
+		sonAnimation = false;
 	};
 };
 
@@ -29,6 +30,10 @@ struct Thai : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(MUNCH_1, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -41,11 +46,13 @@ struct Thai : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -56,6 +63,10 @@ struct Eau : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -68,21 +79,27 @@ struct Eau : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
 };
 struct Poulet : public Melee, public Consommable{
-	Poulet(unsigned int ID) : Melee(1.0, 2, 32, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
+	Poulet(unsigned int ID) : Melee(1.5, 2, 32, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
 	void animer(Joueur* joueur){
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(MUNCH_2, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -109,11 +126,13 @@ struct Poulet : public Melee, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -124,6 +143,10 @@ struct Pilule : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(TOUX_1, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -139,11 +162,13 @@ struct Pilule : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -154,6 +179,10 @@ struct Lait : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -166,11 +195,13 @@ struct Lait : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -181,6 +212,10 @@ struct Chocolat : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(MUNCH_3, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -193,11 +228,13 @@ struct Chocolat : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -208,6 +245,10 @@ struct Vin : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -220,11 +261,13 @@ struct Vin : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -236,6 +279,10 @@ struct Biere : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -248,11 +295,13 @@ struct Biere : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}
@@ -268,6 +317,10 @@ struct Seringue : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(Sons_t::RESPIRATION , joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -281,11 +334,13 @@ struct Seringue : public Jetable, public Consommable{
 		}
 	}
 	void utiliser2(Joueur* joueur){
-		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
-			etatAnimation = true;
-			posDepart = position;
-			joueur->bloquer();
-			animation.repartir();
+		if (!joueur->obtBloque()){
+			if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+				etatAnimation = true;
+				posDepart = position;
+				joueur->bloquer();
+				animation.repartir();
+			}
 		}
 	}
 	void equiper(Joueur* joueur){}

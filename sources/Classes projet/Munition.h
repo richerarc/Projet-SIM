@@ -8,12 +8,14 @@ protected:
 public:
 	Munition(int type, char* nom, char* description, char* cheminIcone, gfx::Modele3D* modele, unsigned int ID, double masse) : Item(type, nom, description, cheminIcone, INT_MAX, modele, ID, "metal", masse){	}
 	void utiliser(Joueur* joueur){
-		if (quantite)
-			recharger(joueur);
-		if (!quantite){
-			Item* item = joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
-			item->defEtat(EtatItem::RANGE);
-			delete item;
+		if (!joueur->obtBloque()){
+			if (quantite)
+				recharger(joueur);
+			if (!quantite){
+				Item* item = joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+				item->defEtat(EtatItem::RANGE);
+				delete item;
+			}
 		}
 	}
 	void utiliser2(Joueur* joueur){}

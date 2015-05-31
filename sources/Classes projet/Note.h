@@ -13,10 +13,12 @@ public:
 	}
 
 	void utiliser(Joueur* joueur){
-		Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8;
-		this->position = newPosition;
-		modele->defPosition(position);
-		angleHorizontal = 120;
+		if (!joueur->obtBloque()){
+			Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.8;
+			this->position = newPosition;
+			modele->defPosition(position);
+			angleHorizontal = 120;
+		}
 	}
 
 	void utiliser2(Joueur* joueur){
