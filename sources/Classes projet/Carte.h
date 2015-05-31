@@ -35,6 +35,7 @@ private:
 	std::list<InfoSalle> infosSalles;
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
+	Objet* avion;
 
 	// Variables d'animation...
 	Vecteur3d translations[2],
@@ -50,7 +51,8 @@ private:
 		enLeverLit,
 		ouvrirYeux,
 		teleporte,
-		enFinPartie;
+		enFinPartie,
+		alavion;
 
 	Sortie salleSuivante;
 
@@ -1057,7 +1059,7 @@ public:
 			salle.Objet.clear();
 		}
 
-		int IDSalle(0);
+		/*int IDSalle(0);
 		int prochaineSalle;
 		bool salleCorrecte;
 		std::list<int> salleSuivante;
@@ -1094,7 +1096,7 @@ public:
 			} while (!creerPuzzle(nbrPuzzle, prochaineSalle));
 			IDSalle = prochaineSalle;
 			salleAvecPuzzle.push_back(IDSalle);
-		}
+		}*/
 
 		for (auto &it : infosSalles) {
 
@@ -1487,7 +1489,6 @@ public:
 		infosSalles.push_back(salleTeleporteur);
 	}
 
-	/*
 	void salleBasseGravite(){
 		InfoSalle salleBasseGravite;
 		salleBasseGravite.cheminModele = "Ressources/Modele/SalleBasseGravite.obj";
@@ -1507,7 +1508,6 @@ public:
 		porte.largeur = 0;
 		porte.position = { -0.73582, 2.19928, -10.92071 };
 		porte.rotation = { 0, -90, 0 };
-
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1519,7 +1519,6 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { -0.67482, 6.21597, 6.39771 };
 		porte2.rotation = { 0, 90, 0 };
-
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte2));
 
 		// Plate
@@ -1527,24 +1526,52 @@ public:
 		plate.cheminModele = "Ressources/Modele/plate.obj";
 		plate.cheminTexture = "Ressources/Texture/plate.png";
 		plate.direction = { 0, 0, 0 };
-		plate.ID = 3;
+		plate.ID = 2;
 		plate.largeur = 0;
 		plate.position = { -2.17252, 3.89872, -10.41128 };
 		plate.rotation = { 90, 90, 0 };
 		plate.type = FIXE;
+		salleBasseGravite.Objet.push_back(new InfoObjet(plate));
 
 		//Commutateur
 		InfoObjet com;
 		com.cheminModele = "Ressources/Modele/switch.obj";
 		com.cheminTexture = "Ressources/Texture/switch.png";
 		com.direction = { 0, 0, 0 };
-		com.ID = 11;
+		com.ID = 3;
 		com.largeur = 0;
 		com.position = { -2.15766, 3.91831, -10.41235 };
 		com.rotation = { 0, 90, 0 };
 		com.type = COMMUTATEUR;
+		salleBasseGravite.Objet.push_back(new InfoObjet(com));
+
+		int IDporte;
+
+		auto it = infosSalles.begin();
+
+		std::advance(it, rand() % nombreDeSalle);
+
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				(*it).Objet.push_back(new InfoObjet(obj));
+				break;
+			}
+		}
+
+		ajouterLien(Entree(salleBasseGravite.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleBasseGravite.ID, 0));
+
+		infosSalles.push_back(salleBasseGravite);
 	}
-	*/
 
 	void fin(){
 		// Salle de fin
@@ -1692,8 +1719,8 @@ public:
 	void calculAnimationFinPartie(Joueur* joueur){
 		joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
 		joueur->bloquer();
-		auto it = salleActive->obtListeObjet().back();
-		Vecteur3d vec1 = (it)->obtPosition();
+		avion = salleActive->obtListeObjet().back();
+		Vecteur3d vec1 = avion->obtPosition();
 		vec1.x -= 1.174;
 		vec1.y = 0;
 		vec1.z += 0.32904;
@@ -1701,7 +1728,7 @@ public:
 		orientationCamera[0] = joueur->obtDevant().angleEntreVecteurs(translations[0]) * 180 / M_PI;
 		positions[0] = vec1;
 
-		vec1 = (it)->obtPosition();
+		vec1 = (avion)->obtPosition();
 		vec1.z += 1.3;
 		vec1.y += 0.1;
 
@@ -1710,31 +1737,59 @@ public:
 		orientationCamera[1] = translations[0].angleEntreVecteurs(Vecteur3d(0, 0, 1)) * 180 / M_PI + 18;
 		orientationCamera[2] = 20;
 		enFinPartie = true;
-
+		alavion = false;
 	}
 
 	void animationFinPartie(Joueur* joueur, float frameTime){
 		if (enFinPartie){
-			if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0])) > 0){
-				joueur->defPosition(joueur->obtPosition() + translations[0] * frameTime * 0.10f);
+			if (!alavion) {
+				if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0])) > 0){
+					joueur->defPosition(joueur->obtPosition() + translations[0] * frameTime * 0.10f);
 
-				if (orientationCamera[0] > 0){
-					joueur->defHAngle(joueur->obtHAngle() + 1);
-					orientationCamera[0] -= 1;
+					if (orientationCamera[0] > 0){
+						joueur->defHAngle(joueur->obtHAngle() + 1);
+						orientationCamera[0] -= 1;
+					}
+				}
+				else{
+					if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[1])) > 0) {
+						joueur->defPosition(joueur->obtPosition() + translations[1] * frameTime * 0.5f);
+
+						if (orientationCamera[1] > 0){
+							joueur->defHAngle(joueur->obtHAngle() - 1);
+							orientationCamera[1] -= 1;
+						}
+						if (orientationCamera[2] > 0){
+							joueur->defHAngle(joueur->obtHAngle() + 1);
+							orientationCamera[2] -= 1;
+						}
+					}
+					else
+					{
+						translations[0] = Maths::vecteurEntreDeuxPoints(avion->obtPosition(), Vecteur3d(avion->obtPosition().x + 10, 0, avion->obtPosition().z + 600));
+						positions[0] = Vecteur3d(avion->obtPosition().x, 15, avion->obtPosition().z + 600);
+						ControlleurAudio::obtInstance().jouer(AVION, joueur);
+						temps = 0;
+						alavion = true;
+					}
 				}
 			}
-			else{
-				if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[1])) > 0) {
-					joueur->defPosition(joueur->obtPosition() + translations[1] * frameTime * 0.5f);
-
-					if (orientationCamera[1] > 0){
-						joueur->defHAngle(joueur->obtHAngle() - 1);
-						orientationCamera[1] -= 1;
+			else
+			{
+				temps += frameTime;
+				if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(avion->obtPosition(), positions[0])) > 0) {
+					avion->defPosition(avion->obtPosition() + translations[0] * temps / 1000);
+					joueur->defPosition(joueur->obtPosition() + translations[0] * temps / 1000);
+					if (temps >= 1) {
+						avion->defPosition(avion->obtPosition() + Vecteur3d(0, (temps-1) / 25, 0));
+						joueur->defPosition(joueur->obtPosition() + Vecteur3d(0, (temps-1) / 25, 0));
 					}
-					if (orientationCamera[2] > 0){
-						joueur->defHAngle(joueur->obtHAngle() + 1);
-						orientationCamera[2] -= 1;
-					}
+				}
+				else
+				{
+					avion = nullptr;
+					enFinPartie = false;
+					///Terminée
 				}
 			}
 

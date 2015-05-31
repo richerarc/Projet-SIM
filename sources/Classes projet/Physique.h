@@ -167,7 +167,7 @@ public:
 						if (it_Objet->obtModele3D()->obtPosition().x >= it->obtPosition().x && it_Objet->obtModele3D()->obtPosition().x <= it->obtPosition().x + it_Vent->obtDimensions().x) {
 							if (it_Objet->obtModele3D()->obtPosition().y >= it->obtPosition().y && it_Objet->obtModele3D()->obtPosition().y <= it->obtPosition().y + it_Vent->obtDimensions().y) {
 								if (it_Objet->obtModele3D()->obtPosition().z >= it->obtPosition().z && it_Objet->obtModele3D()->obtPosition().z <= it->obtPosition().z + it_Vent->obtDimensions().z) {
-									appliquerForceVent(it_Objet, it->obtVitesse());
+									appliquerForceVent(it_Objet->obtForceTotale(), it_Objet->obtModele3D(), it->obtVitesse());
 								}
 							}
 						}
@@ -206,7 +206,7 @@ public:
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
 				if (!it_ObjetPhysique->estStable()) {
-					appliquerForceGravite(it_ObjetPhysique);
+					appliquerForceGravite(it_ObjetPhysique->obtForceTotale(), it_ObjetFixe->obtMasse());
 					if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it, frameTime)) {
 
 						it->obtVitesse() += it->obtForceTotale() * (frameTime / it->obtMasse());
@@ -227,6 +227,33 @@ public:
 		}
 	}
 
+	void appliquerPhysiqueSurJoueur(Joueur* joueur, std::list<Objet*> objets, double frameTime) {
+		Vecteur3d ForceTotale;
+		if (joueur->obtNormale().y != 1) {
+			appliquerForceGravite(ForceTotale, joueur->obtMasse());
+		}
+
+		gfx::Modele3D* modeleJoueur = joueur->obtModele3D();
+
+		for (auto it : objets) {
+			Vent* it_Vent = dynamic_cast<Vent*>(it);
+			if (it_Vent != nullptr) {
+				for (auto it_Objet : objets) {
+					if (it_Objet->obtMasse() != 0) {
+						if (modeleJoueur->obtPosition().x >= it->obtPosition().x && modeleJoueur->obtPosition().x <= it->obtPosition().x + it_Vent->obtDimensions().x) {
+							if (modeleJoueur->obtPosition().y >= it->obtPosition().y && modeleJoueur->obtPosition().y <= it->obtPosition().y + it_Vent->obtDimensions().y) {
+								if (modeleJoueur->obtPosition().z >= it->obtPosition().z && modeleJoueur->obtPosition().z <= it->obtPosition().z + it_Vent->obtDimensions().z) {
+									appliquerForceVent(it_Objet->obtForceTotale(), modeleJoueur, it->obtVitesse());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		joueur->obtVitesse() += ForceTotale * (frameTime / joueur->obtMasse());
+
+	}
 	/*void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
 		Vent* it_Vent = dynamic_cast<Vent*>(objet);
 		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
@@ -325,34 +352,34 @@ public:
 		objet2.defStable(false);
 	}
 
-	void appliquerForceNormale(Objet* objet, Vecteur3d normale) {
+	void appliquerForceNormale(Vecteur3d& Force, Vecteur3d normale, double masse) {
 
-		objet->obtForceTotale() += normale * (objet->obtMasse() * gravite * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
+		Force += normale * (masse * gravite * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
 	}
 
 	Vecteur3d obtForceNormale(double masse, Vecteur3d normale) {
 		return normale * (masse * gravite * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
 	}
 
-	void appliquerForceGravite(Objet* objet) {
-		objet->obtForceTotale() += Vecteur3d(0, -1, 0) * (objet->obtMasse() * 9.8);
+	void appliquerForceGravite(Vecteur3d& Force, double masse) {
+		Force += Vecteur3d(0, -1, 0) * (masse * -gravite);
 	}
 
 	void appliquerGravite(Vecteur3d &vecteurVitesseObjet, double frametime) {
 		vecteurVitesseObjet.y += gravite * frametime;
 	}
 
-	void appliquerForceVent(Objet* objet, Vecteur3d vitesseVent) {
+	void appliquerForceVent(Vecteur3d& Force, gfx::Modele3D* modele, Vecteur3d vitesseVent) {
 
-		double* tableaunormale = objet->obtModele3D()->obtNormalesModifies();
-		double* tableauVertices = objet->obtModele3D()->obtSommetsModifies();
+		double* tableaunormale = modele->obtNormalesModifies();
+		double* tableauVertices = modele->obtSommetsModifies();
 
 		Vecteur3d ForceVent;
 
 		double coefficientTrainer = 0;
 		double surface = 0;
 
-		double nombreVertice = objet->obtModele3D()->obtModele()->obtNbrVertices();
+		double nombreVertice = modele->obtModele()->obtNbrVertices();
 
 		unsigned int nombreFaceSousPression = 0;
 
@@ -402,12 +429,12 @@ public:
 
 		vitesseVent.normaliser();
 
-		objet->obtForceTotale() += vitesseVent * (0.5 * coefficientTrainer * 1.293 * pow(vitesseVent.norme(), 2) * surface);
+		Force += vitesseVent * (0.5 * coefficientTrainer * 1.293 * pow(vitesseVent.norme(), 2) * surface);
 	}
 
-	void appliquerForceFrottement(Objet* objet, Vecteur3d normale) {
+	void appliquerForceFrottement(Vecteur3d Force, Vecteur3d vitesse, double masse, Vecteur3d normale) {
 
-		objet->obtForceTotale() += (objet->obtVitesse().produitVectoriel(normale)).produitVectoriel(normale) * (constanteDeFriction * objet->obtMasse() * -9.8 * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
+		Force += (vitesse.produitVectoriel(normale)).produitVectoriel(normale) * (constanteDeFriction * masse * gravite * cos((normale).angleEntreVecteurs(Vecteur3d(0, -1, 0))));
 	}
 
 	Vecteur3d obtMomentDeForceFrottement(Objet* objet, Vecteur3d normale, Vecteur3d rayon) {
@@ -491,8 +518,8 @@ public:
 			normaleDeCollision /= nbrCollision;
 			normale.normaliser();
 			rebondObjetCarte(objet, normaleDeCollision, pointDeCollision, frameTime);
-			appliquerForceNormale(&objet, normaleDeCollision);
-			appliquerForceFrottement(&objet, normaleDeCollision);
+			appliquerForceNormale(objet.obtForceTotale(), normaleDeCollision, objet.obtMasse());
+			appliquerForceFrottement(objet.obtForceTotale(), objet.obtVitesse(), objet.obtMasse(), normaleDeCollision);
 			return true;
 		}
 
