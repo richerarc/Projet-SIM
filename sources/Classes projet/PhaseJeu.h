@@ -237,14 +237,6 @@ public:
 		joueur = new Joueur(positionJoueur, hAngle, vAngle);
 		joueur->defEtat(CHUTE);
 		joueur->ajouterScene();
-
-		test = UsineItem::obtInstance().obtItemParType(50, 0);
-		joueur->obtInventaire()->ajouterObjet(test);
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(1, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(2, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(3, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(32, 0));
-		joueur->obtInventaire()->ajouterObjet(UsineItem::obtInstance().obtItemParType(33, 0));
 		accesRapide = new MenuAccesRapide(joueur->obtInventaire());
 		accesRapide->remplir();
 

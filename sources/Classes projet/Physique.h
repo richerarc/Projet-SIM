@@ -206,7 +206,7 @@ public:
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);
 			if (it_ObjetPhysique != nullptr) {
 				if (!it_ObjetPhysique->estStable()) {
-					appliquerForceGravite(it_ObjetPhysique->obtForceTotale(), it_ObjetFixe->obtMasse());
+					appliquerForceGravite(it_ObjetPhysique->obtForceTotale(), it_ObjetPhysique->obtMasse());
 					if (it->obtVitesse().norme() > 0 && !collisionObjetSalle(modeleSalle, objets, *it, frameTime)) {
 
 						it->obtVitesse() += it->obtForceTotale() * (frameTime / it->obtMasse());
