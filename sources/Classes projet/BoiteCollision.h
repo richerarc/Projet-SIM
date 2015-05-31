@@ -77,7 +77,7 @@ public:
 	}
 
 	bool pointDansBoite(Vecteur3d point, Droite rayonCollision, Vecteur3d &normale, Vecteur3d vitesse, Vecteur3d &pointCollision) {
-		bool collision = (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
+		bool collision = (point.x < obtXMax2() && point.x > obtXMin2() && point.y < obtYMax2() && point.y > obtYMin2() && point.z < obtZMax2() && point.z > obtZMin2());
 		if (collision) {
 			double distanceX = fabs(obtBoite()[0].x - point.x);
 			double distanceY = fabs(obtBoite()[0].y - point.y);
