@@ -229,6 +229,35 @@ struct Vin : public Jetable, public Consommable{
 	}
 	void equiper(Joueur* joueur){}
 };
+
+struct Biere : public Jetable, public Consommable{
+	Biere(unsigned int ID) : Jetable(38, "Ice Cold Beer", "Because it needs to be cold.", "Ressources/Texture/bouteilleBiereIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/bouteilleBiere.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/bouteilleBiere.png")), ID, "metal", 2.1){}
+	void animer(Joueur* joueur){
+		if (etatAnimation){
+			if (animation.obtTempsEcoule().enSecondes() < 1.5){
+				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (etat == EtatItem::EQUIPE){
+					this->modele->rotationner(rotAnimation);
+					this->defPosition(posAnimation);
+				}
+			}
+			else{
+				joueur->saouler();
+				finConsommation(joueur);
+			}
+		}
+	}
+	void utiliser2(Joueur* joueur){
+		if (!etatAnimation && joueur->obtVitesseDeplacement() == 0){
+			etatAnimation = true;
+			posDepart = position;
+			joueur->bloquer();
+			animation.repartir();
+		}
+	}
+	void equiper(Joueur* joueur){}
+};
+
 struct Seringue : public Jetable, public Consommable{
 	Seringue(unsigned int ID) : Jetable(37, "Seringe", "50cc of pure expirementation", "Ressources/Texture/seringueIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/seringue.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/seringue.png")), ID, "metal", 2.1){}
 	void consommer(double temps, Joueur* joueur){

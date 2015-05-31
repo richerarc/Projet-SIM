@@ -23,7 +23,7 @@ public:
 			case(0) ://couteau
 				return new Melee(0.3, 15, type, "Knife", "Don't cut yourself, bro.", "Ressources/Texture/couteauIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/couteau.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/couteau.png")), ID, "metal", 0.545);
 			case(1) ://chandelier
-				return new Melee(0.7, 10, type, "Candlestick", "Use it to guide your path, or simply smash things...", "Ressources/Texture/chandelierIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chandelier.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chandelier.png")), ID, "metal", 3.0);
+				return new Melee(0.7, 20, type, "Candlestick", "Use it to guide your path, or simply smash things...", "Ressources/Texture/chandelierIcone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chandelier.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chandelier.png")), ID, "metal", 3.0);
 			case(2) ://HolyRod
 				return new Melee(1.5, 236, type, "HolyRod", "The divine window opener!", "Ressources/Texture/HolyRod236Icone.png", 1, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/HolyRod236.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/HolyRod236.png")), ID, "metal", 1.4);
 			case(3) ://Mac a Patrick
@@ -36,40 +36,38 @@ public:
 			case(1) ://thompson
 				return new Fusil(type, "Thompson M1", "PPPPPow", "Ressources/Texture/thompsonIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thompson.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thompson.png")), ID, "metal", 4.47, 12, 20, 2.0, 1, 30, true);
 			case(2) ://CanonAPeinture
-				return new CanonAPeinture(type, "Paint sprayer", "tchhhhhhh", "Ressources/Texture/CanonAPeintureIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/CanonAPeinture.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/CanonAPeinture.png")), ID, "metal", 2);
+				return new CanonAPeinture(type, "Spray Painter", "tchhhhhhh", "Ressources/Texture/CanonAPeintureIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/CanonAPeinture.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/CanonAPeinture.png")), ID, "metal", 2);
 		}
 		case (2) :
 			switch (type % 10){
-					 switch (type % 10){
-					 case(0) :
-					 {bool nouveau = false;
-						 unsigned short aleatoire = 0;
-						 while (!nouveau){
-							 aleatoire = rand() % 14;
-							 if (examensUtilises[aleatoire] == false){
-								 nouveau = true;
-								 examensUtilises[aleatoire] = true;
-							 }
-						 }
-						 return new Examen(ID, aleatoire);
-					 }
-					 case(1) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Why.png"));
-					 case(2) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Sorry.png"));
-					 case(3) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/HurryUp.png"));
-					 case(4) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
-					 case(5) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/BehindYou.png"));
-					 case(6) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
-					 case(7) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
-					 case(8) :
-						 return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
-					 }
+			case(0) :
+			{bool nouveau = false;
+				unsigned short aleatoire = 0;
+				while (!nouveau){
+					aleatoire = rand() % 14;
+					if (examensUtilises[aleatoire] == false){
+						nouveau = true;
+						examensUtilises[aleatoire] = true;
+					}
+				}
+				return new Examen(ID, aleatoire);
+			}
+			case(1) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Why.png"));
+			case(2) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Sorry.png"));
+			case(3) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/HurryUp.png"));
+			case(4) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+			case(5) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/BehindYou.png"));
+			case(6) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+			case(7) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
+			case(8) :
+				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/IsThereAProblem.png"));
 		}
 		case (3) :
 			switch (type % 10){
@@ -89,11 +87,14 @@ public:
 				return new Vin(ID);
 			case(7) ://seringue
 				return new Seringue(ID);
+			case(8) :
+				return new Biere(ID);
+
 		}
 		case (4) :
 			switch (type % 10){
 			case(0) ://balle
-				return new Jetable(type, "Tennis ball", "Who knew that the Führer had a tennis court", "Ressources/Texture/TennisIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/BalleDeTennis.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Tennis.png")), ID, "ballerebondissante", 0.0585);
+				return new Jetable(type, "Tennis ball", "Who knew that the Fuhrer had a tennis court", "Ressources/Texture/TennisIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/BalleDeTennis.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Tennis.png")), ID, "ballerebondissante", 0.0585);
 			case(1) ://roche
 				return new Jetable(type, "Rock", "Paper Scissors", "Ressources/Texture/RocheIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Roche.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Roche.png")), ID, "metal", 0.5);
 			case(2) ://companion
