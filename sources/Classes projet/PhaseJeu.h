@@ -338,8 +338,7 @@ public:
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
-		// Il vas falloir creer un bouton dans le gestionnaire de controles pour ça...
-		if ((Clavier::toucheAppuyee(SDLK_g)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
+		if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DEPOSER))) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
 			if (itemEquipe != nullptr){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				GestionnaireSucces::obtInstance().defItemOuiNonLache(joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne()));

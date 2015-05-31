@@ -1488,7 +1488,6 @@ public:
 		infosSalles.push_back(salleTeleporteur);
 	}
 
-	/*
 	void salleBasseGravite(){
 		InfoSalle salleBasseGravite;
 		salleBasseGravite.cheminModele = "Ressources/Modele/SalleBasseGravite.obj";
@@ -1508,7 +1507,6 @@ public:
 		porte.largeur = 0;
 		porte.position = { -0.73582, 2.19928, -10.92071 };
 		porte.rotation = { 0, -90, 0 };
-
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1520,7 +1518,6 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { -0.67482, 6.21597, 6.39771 };
 		porte2.rotation = { 0, 90, 0 };
-
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte2));
 
 		// Plate
@@ -1528,24 +1525,52 @@ public:
 		plate.cheminModele = "Ressources/Modele/plate.obj";
 		plate.cheminTexture = "Ressources/Texture/plate.png";
 		plate.direction = { 0, 0, 0 };
-		plate.ID = 3;
+		plate.ID = 2;
 		plate.largeur = 0;
 		plate.position = { -2.17252, 3.89872, -10.41128 };
 		plate.rotation = { 90, 90, 0 };
 		plate.type = FIXE;
+		salleBasseGravite.Objet.push_back(new InfoObjet(plate));
 
 		//Commutateur
 		InfoObjet com;
 		com.cheminModele = "Ressources/Modele/switch.obj";
 		com.cheminTexture = "Ressources/Texture/switch.png";
 		com.direction = { 0, 0, 0 };
-		com.ID = 11;
+		com.ID = 3;
 		com.largeur = 0;
 		com.position = { -2.15766, 3.91831, -10.41235 };
 		com.rotation = { 0, 90, 0 };
 		com.type = COMMUTATEUR;
+		salleBasseGravite.Objet.push_back(new InfoObjet(com));
+
+		int IDporte;
+
+		auto it = infosSalles.begin();
+
+		std::advance(it, rand() % nombreDeSalle);
+
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				(*it).Objet.push_back(new InfoObjet(obj));
+				break;
+			}
+		}
+
+		ajouterLien(Entree(salleBasseGravite.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleBasseGravite.ID, 0));
+
+		infosSalles.push_back(salleBasseGravite);
 	}
-	*/
 
 	void fin(){
 		// Salle de fin
