@@ -17,6 +17,7 @@
 #include "Joueur.h"
 #include "Physique.h"
 #include "Remplisseur.h"
+#include "Personnage.h"
 //#include "Balance.h"
 #include "ControlleurAudio.h"
 #include "Vent.h"
@@ -695,6 +696,9 @@ private:
 			case PEINTURE:
 				salleActive->ajoutObjet(new Peinture((*it).ID, modeleObjet, (*it).position, true));
 				break;
+			case PERSONNAGE:
+				salleActive->ajoutObjet(new Personnage((*it).ID, modeleObjet, (*it).position));
+				break;
 			case REMPLISSEUR:
 				salleActive->ajoutObjet(new Remplisseur(modeleObjet, (*it).largeur, (*it).position, (*it).ID));
 				break;
@@ -1303,6 +1307,7 @@ public:
 			}
 		}
 
+		//ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(infosSalles.size()+4, 0));
 		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
 		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
@@ -1339,6 +1344,7 @@ public:
 		teleporteur();
 		fin();
 		salleBasseGravite();
+		sallePhilo();
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 
@@ -1531,7 +1537,101 @@ public:
 		
 		infosSalles.push_back(salleTeleporteur);
 	}
+	
+	void sallePhilo(){
+		InfoSalle sallePhilo;
+		sallePhilo.cheminModele = "Ressources/Modele/PiecePhilo.obj";
+		sallePhilo.cheminTexture = "Ressources/Texture/PiecePhilo.png";
+		sallePhilo.echelle = { 1.0, 1.0, 1.0 };
+		sallePhilo.ID = infosSalles.size();
+		sallePhilo.nbrPorte = 3;
 
+		// Création des objets de la salle
+
+		// Porte (Entree)
+
+		InfoObjet porte;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
+		porte.direction = { 0, 0, 1 };
+		porte.ID = 0;
+		porte.largeur = 0;
+		porte.position = { 0., 0., 4.88968};
+		porte.rotation = { 0, 90, 0 };
+		sallePhilo.Objet.push_back(new InfoObjet(porte));
+
+
+		// Porte (Sortie1)
+		InfoObjet porte2;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
+		porte2.direction = { 0, 0, -1 };
+		porte2.ID = 1;
+		porte2.largeur = 0;
+		porte2.position = { 1.5, 0., -4.88968 };
+		porte2.rotation = { 0, 270, 0 };
+		sallePhilo.Objet.push_back(new InfoObjet(porte2));
+
+		// Porte (Sortie2)
+		InfoObjet porte3;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte3);
+		porte3.direction = { 0, 0, -1 };
+		porte3.ID = 2;
+		porte3.largeur = 0;
+		porte3.position = { -3., 0., -4.88968 };
+		porte3.rotation = { 0, 270, 0 };
+		sallePhilo.Objet.push_back(new InfoObjet(porte3));
+
+		// Personnage à tuer/sauver
+		InfoObjet personnage;
+		personnage.largeur = 100;
+		personnage.cheminModele = "Ressources/Modele/Kevin.obj";
+		personnage.cheminTexture = "Ressources/Texture/Kevin.png";
+		personnage.direction = { 0, 0, 0 };
+		personnage.ID = 3;
+		personnage.largeur = 0;
+		personnage.position = { 2.25, 0., -4.5 };
+		personnage.rotation = { 0, 0, 0 };
+		personnage.type = PERSONNAGE;
+		sallePhilo.Objet.push_back(new InfoObjet(personnage));
+
+		//Arme
+		InfoObjet arme;
+		arme.direction = { 0, 0, 0 };
+		arme.ID = 4;
+		arme.position = { 0., 2., 0. };
+		arme.rotation = { 0, 0, 0 };
+		arme.type = ITEM;
+		arme.IDitem = 32;
+		arme.positionement = SOLS;
+		sallePhilo.Objet.push_back(new InfoObjet(arme));
+
+
+		int IDporte;
+
+		auto it = infosSalles.begin();
+
+		std::advance(it, rand() % nombreDeSalle);
+
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				(*it).Objet.push_back(new InfoObjet(obj));
+				break;
+			}
+		}
+
+		ajouterLien(Entree(sallePhilo.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(sallePhilo.ID, 0));
+
+		infosSalles.push_back(sallePhilo);
+	}
 	void salleBasseGravite(){
 		InfoSalle salleBasseGravite;
 		salleBasseGravite.cheminModele = "Ressources/Modele/SalleBasseGravite.obj";
@@ -1628,14 +1728,12 @@ public:
 
 		// Création objets salle finale
 
-		//Demi sphère
-
 		InfoObjet demiSphere;
 		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { -56.175, 0, -74.7745 };
+		demiSphere.position = { -32.9405, 0, -74.5517 };
 		demiSphere.rotation = { 0, 0, 0 };
 		demiSphere.type = FIXE;
 
@@ -1648,11 +1746,10 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 1;
 		porteFin.largeur = 0;
-		porteFin.position = { -57.475, 0, -74.7745 };
+		porteFin.position = { -32.9405, 0, -74.5517 };
 		porteFin.rotation = { 0, -38, 0 };
 
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
-
 
 		// Création de l'avion
 
@@ -1761,7 +1858,7 @@ public:
 
 	void calculAnimationFinPartie(Joueur* joueur){
 		if (!dejaCalculee){
-			joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
+			joueur->defPosition(Vecteur3d(-32.9405, 0, -74.5517));
 			joueur->bloquer();
 			avion = salleActive->obtListeObjet().back();
 			Vecteur3d vec1 = avion->obtPosition();
@@ -1838,7 +1935,7 @@ public:
 				else
 				{
 					avion = nullptr;
-					enFinPartie = false;
+					enFinPartie = true;
 					///Terminée
 					return 2;
 				}
@@ -1865,4 +1962,7 @@ public:
 		nombreDeSalle = nbrSalles;
 	}
 
+	bool obtEnFinPartie() {
+		return enFinPartie;
+	}
 };
