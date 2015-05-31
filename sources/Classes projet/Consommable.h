@@ -73,7 +73,7 @@ struct Eau : public Jetable, public Consommable{
 				}
 			}
 			else{
-				//réduit la température corporelle, bref fait rien dans le jeu, mais on plogue Éduc1
+				//rÃ©duit la tempÃ©rature corporelle, bref fait rien dans le jeu, mais on plogue Ã‰duc1
 				finConsommation(joueur);
 			}
 		}
@@ -308,7 +308,7 @@ struct Biere : public Jetable, public Consommable{
 };
 
 struct Seringue : public Jetable, public Consommable{
-	Seringue(unsigned int ID) : Jetable(37, "Seringe", "50cc of pure expirementation", "Ressources/Texture/seringueIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/seringue.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/seringue.png")), ID, "metal", 2.1){}
+	Seringue(unsigned int ID) : Jetable(37, "Syringe", "50cc of pure expirementation", "Ressources/Texture/seringueIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/seringue.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/seringue.png")), ID, "metal", 2.1){}
 	void consommer(double temps, Joueur* joueur){
 		rotAnimation = Vecteur3d(90 * temps, 0, 0);
 		posAnimation = Vecteur3d(posDepart + (joueur->obtHaut() * 0.30 - joueur->obtCote() * 0.50) * (temps / 2));
