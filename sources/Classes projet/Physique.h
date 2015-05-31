@@ -221,6 +221,7 @@ public:
 						it->defPosition(it->obtPosition() + it->obtVitesse() * frameTime);
 						it->obtModele3D()->defOrientation(it->obtModele3D()->obtOrientation() - (it->obtVitesseAngulaire() * 180 * frameTime / M_PI));
 						it->obtForceTotale() = { 0, 0, 0 };
+
 					}
 				}
 			}
@@ -320,13 +321,13 @@ public:
 		double dcoteY = abs(coteY.produitScalaire(axederotation));
 		double dcoteZ = abs(coteZ.produitScalaire(axederotation));
 
-		if (dcoteX > dcoteY && dcoteX > dcoteZ) {
+		if (dcoteX >= dcoteY && dcoteX >= dcoteZ) {
 			return (masse * (pow(longueurcoteY, 2) + pow(longueurcoteZ, 2))) / 12;
 		}
-		if (dcoteY > dcoteX && dcoteY > dcoteZ) {
+		if (dcoteY >= dcoteX && dcoteY >= dcoteZ) {
 			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteZ, 2))) / 12;
 		}
-		if (dcoteZ > dcoteX && dcoteZ > dcoteY) {
+		if (dcoteZ >= dcoteX && dcoteZ >= dcoteY) {
 			return (masse * (pow(longueurcoteX, 2) + pow(longueurcoteY, 2))) / 12;
 		}
 		return NULL;

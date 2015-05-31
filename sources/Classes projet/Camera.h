@@ -148,6 +148,8 @@ namespace gfx{
 		void bloquer() { pause = true; }
 
 		void deBloquer(){ pause = false; }
+		
+		bool obtBloquer() { return pause; }
 
 		double obtHAngle(){	return hAngle; }
 

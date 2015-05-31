@@ -52,6 +52,7 @@ private:
 		ouvrirYeux,
 		teleporte,
 		enFinPartie,
+		dejaCalculee,
 		alavion;
 
 	Sortie salleSuivante;
@@ -1752,30 +1753,33 @@ public:
 	}
 
 	void calculAnimationFinPartie(Joueur* joueur){
-		joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
-		joueur->bloquer();
-		avion = salleActive->obtListeObjet().back();
-		Vecteur3d vec1 = avion->obtPosition();
-		vec1.x -= 1.174;
-		vec1.y = 0;
-		vec1.z += 0.32904;
-		translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), vec1);
-		orientationCamera[0] = joueur->obtDevant().angleEntreVecteurs(translations[0]) * 180 / M_PI;
-		positions[0] = vec1;
+		if (!dejaCalculee){
+			joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
+			joueur->bloquer();
+			avion = salleActive->obtListeObjet().back();
+			Vecteur3d vec1 = avion->obtPosition();
+			vec1.x -= 1.174;
+			vec1.y = 0;
+			vec1.z += 0.32904;
+			translations[0] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), vec1);
+			orientationCamera[0] = joueur->obtDevant().angleEntreVecteurs(translations[0]) * 180 / M_PI;
+			positions[0] = vec1;
 
-		vec1 = (avion)->obtPosition();
-		vec1.z += 1.3;
-		vec1.y += 0.1;
+			vec1 = (avion)->obtPosition();
+			vec1.z += 1.3;
+			vec1.y += 0.1;
 
-		positions[1] = vec1;
-		translations[1] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition() + translations[0], positions[1]);
-		orientationCamera[1] = translations[0].angleEntreVecteurs(Vecteur3d(0, 0, 1)) * 180 / M_PI + 18;
-		orientationCamera[2] = 20;
-		enFinPartie = true;
-		alavion = false;
+			positions[1] = vec1;
+			translations[1] = Maths::vecteurEntreDeuxPoints(joueur->obtPosition() + translations[0], positions[1]);
+			orientationCamera[1] = translations[0].angleEntreVecteurs(Vecteur3d(0, 0, 1)) * 180 / M_PI + 18;
+			orientationCamera[2] = 20;
+			enFinPartie = true;
+			alavion = false;
+			dejaCalculee = true;
+		}
 	}
 
-	void animationFinPartie(Joueur* joueur, float frameTime){
+	unsigned int animationFinPartie(Joueur* joueur, float frameTime){
 		if (enFinPartie){
 			if (!alavion) {
 				if (translations[0].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[0])) > 0){
@@ -1785,8 +1789,9 @@ public:
 						joueur->defHAngle(joueur->obtHAngle() + 1);
 						orientationCamera[0] -= 1;
 					}
+					return 1;
 				}
-				else{
+				else {
 					if (translations[1].produitScalaire(Maths::vecteurEntreDeuxPoints(joueur->obtPosition(), positions[1])) > 0) {
 						joueur->defPosition(joueur->obtPosition() + translations[1] * frameTime * 0.5f);
 
@@ -1798,6 +1803,7 @@ public:
 							joueur->defHAngle(joueur->obtHAngle() + 1);
 							orientationCamera[2] -= 1;
 						}
+						return 1;
 					}
 					else
 					{
@@ -1806,6 +1812,7 @@ public:
 						ControlleurAudio::obtInstance().jouer(AVION, joueur);
 						temps = 0;
 						alavion = true;
+						return 1;
 					}
 				}
 			}
@@ -1816,22 +1823,21 @@ public:
 					avion->defPosition(avion->obtPosition() + translations[0] * temps / 1000);
 					joueur->defPosition(joueur->obtPosition() + translations[0] * temps / 1000);
 					if (temps >= 1) {
-						avion->defPosition(avion->obtPosition() + Vecteur3d(0, (temps-1) / 25, 0));
-						joueur->defPosition(joueur->obtPosition() + Vecteur3d(0, (temps-1) / 25, 0));
+						avion->defPosition(avion->obtPosition() + Vecteur3d(0, (temps - 1) / 25, 0));
+						joueur->defPosition(joueur->obtPosition() + Vecteur3d(0, (temps - 1) / 25, 0));
 					}
+					return 1;
 				}
 				else
 				{
 					avion = nullptr;
 					enFinPartie = false;
 					///Terminée
+					return 2;
 				}
 			}
-
-
 		}
-
-
+		return 0;
 	}
 
 	void recommencer() {

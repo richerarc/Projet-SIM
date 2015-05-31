@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.h"
 #include "Inventaire.h"
+#include "Gestionnaire3D.h"
 
 class MenuAccesRapide : public Menu{
 private:
@@ -27,7 +28,7 @@ public:
 				objets.push_back(new gfx::Sprite2D(position + Vecteur2f(70, 0), nullptr));
 		}
 		spriteSurvol = new gfx::Sprite2D(cases[0]->obtPosition() + Vecteur2f(-51, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/caseAccesRapideSurvol.png"));
-
+		
 		pause = false;
 		itemSelectionne = 0;
 		//dernierItemSelectionne = itemSelectionne + 1;
@@ -60,6 +61,8 @@ public:
 	}
 
 	void molette(SDL_Event &event){
+		if (gfx::Gestionnaire3D::obtInstance().obtCamera()->obtBloquer())
+			return;
 		//dernierItemSelectionne = itemSelectionne;
 		itemSelectionne = inventaire->obtItemSelectionne() + event.wheel.y;
 		itemSelectionne %= inventaire->obtTailleAccesRapide();
