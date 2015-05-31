@@ -1,0 +1,2 @@
+Ressources/Modele/chaise.obj
+Ressources/Texture/chaise.png 2
