@@ -222,7 +222,79 @@ public:
 		return (z >= obtZMin() && z <= obtZMax());
 	}
 
-	T obtXMin() {
+	double obtXMin() {
+		int xDebut = boiteCollision[0].x + 0.5f;
+		int xAutre;
+		int i;
+		for (i = 1; i < 8; ++i){
+			xAutre = boiteCollision[i].x + 0.5f;
+			if (xAutre != xDebut)
+				return (xDebut < xAutre) ? boiteCollision[0].x : boiteCollision[i].x;
+		}
+		return NULL;
+	}
+
+	T obtXMax() {
+		int xDebut = boiteCollision[0].x + 0.5f;
+		int xAutre;
+		int i;
+		for (i = 1; i < 8; ++i){
+			xAutre = boiteCollision[i].x + 0.5f;
+			if (xAutre != xDebut)
+				return (xDebut > xAutre) ? boiteCollision[0].x : boiteCollision[i].x;
+		}
+		return NULL;
+	}
+
+	T obtYMin() {
+		int yDebut = boiteCollision[0].y + 0.5f;
+		int yAutre;
+		int i;
+		for (i = 1; i < 8; ++i){
+			yAutre = boiteCollision[i].y + 0.5f;
+			if (yAutre != yDebut)
+				return (yDebut < yAutre) ? boiteCollision[0].y : boiteCollision[i].y;
+		}
+		return NULL;
+	}
+
+	T obtYMax() {
+		int yDebut = boiteCollision[0].y + 0.5f;
+		int yAutre;
+		int i;
+		for (i = 1; i < 8; ++i){
+			yAutre = boiteCollision[i].y + 0.5f;
+			if (yAutre != yDebut)
+				return (yDebut > yAutre) ? boiteCollision[0].y : boiteCollision[i].y;
+		}
+		return NULL;
+	}
+
+	T obtZMin() {
+		int zDebut = boiteCollision[0].z + 0.5f;
+		int zAutre;
+		int i;
+		for (i = 1; i < 8; ++i){
+			zAutre = boiteCollision[i].z + 0.5f;
+			if (zAutre != zDebut)
+				return (zDebut < zAutre) ? boiteCollision[0].z : boiteCollision[i].z;
+		}
+		return NULL;
+	}
+
+	T obtZMax() {
+		int zDebut = boiteCollision[0].z + 0.5f;
+		int zAutre;
+		int i;
+		for (i = 1; i < 8; ++i){
+			zAutre = boiteCollision[i].z + 0.5f;
+			if (zAutre != zDebut)
+				return (zDebut > zAutre) ? boiteCollision[0].z : boiteCollision[i].z;
+		}
+		return NULL;
+	}
+
+	T obtXMin2() {
 		T pointX = boiteCollision[0].x;
 		T pointMinX = boiteCollision[0].x;
 		for (int i = 0; i < 8; ++i) {
@@ -234,7 +306,7 @@ public:
 		return pointMinX;
 	}
 
-	T obtXMax() {
+	T obtXMax2() {
 		T pointX = boiteCollision[0].x;
 		T pointMaxX = boiteCollision[0].x;
 		for (int i = 0; i < 8; ++i) {
@@ -246,7 +318,7 @@ public:
 		return pointMaxX;
 	}
 
-	T obtYMin() {
+	T obtYMin2() {
 		T pointY = boiteCollision[0].y;
 		T pointMinY = boiteCollision[0].y;
 		for (int i = 0; i < 8; ++i) {
@@ -258,7 +330,7 @@ public:
 		return pointMinY;
 	}
 
-	T obtYMax() {
+	T obtYMax2() {
 		T pointY = boiteCollision[0].y;
 		T pointMaxY = boiteCollision[0].y;
 		for (int i = 0; i < 8; ++i) {
@@ -270,7 +342,7 @@ public:
 		return pointMaxY;
 	}
 
-	T obtZMin() {
+	T obtZMin2() {
 		T pointZ = boiteCollision[0].z;
 		T pointMinZ = boiteCollision[0].z;
 		for (int i = 0; i < 8; ++i) {
@@ -282,7 +354,7 @@ public:
 		return pointMinZ;
 	}
 
-	T obtZMax() {
+	T obtZMax2() {
 		T pointZ = boiteCollision[0].z;
 		T pointMaxZ = boiteCollision[0].z;
 		for (int i = 0; i < 8; ++i) {
