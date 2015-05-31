@@ -51,7 +51,8 @@ private:
 		enLeverLit,
 		ouvrirYeux,
 		teleporte,
-		enFinPartie;
+		enFinPartie,
+		alavion;
 
 	Sortie salleSuivante;
 
@@ -1266,7 +1267,7 @@ public:
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
 
-		//creerSalle(salleDebut);
+		creerSalle(salleDebut);
 
 		modeleMur = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/murSalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/murSalle.png"));
 		modelePorte = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/portePlate.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/portePlate.png"));
@@ -1649,8 +1650,6 @@ public:
 		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleFin.ID, 0));
 		
 		infosSalles.push_back(salleFin);
-
-		creerSalle(salleFin);
 	}
 
 	bool animationLeverLit(Joueur* joueur, float frameTime) {
@@ -1740,8 +1739,6 @@ public:
 		enFinPartie = true;
 		alavion = false;
 	}
-
-	bool alavion;
 
 	void animationFinPartie(Joueur* joueur, float frameTime){
 		if (enFinPartie){
