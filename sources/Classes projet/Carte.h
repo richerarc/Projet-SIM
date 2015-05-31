@@ -1296,6 +1296,7 @@ public:
 
 		teleporteur();
 		fin();
+		salleBasseGravite();
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 
