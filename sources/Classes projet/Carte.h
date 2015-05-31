@@ -1586,14 +1586,12 @@ public:
 
 		// Création objets salle finale
 
-		//Demi sphère
-
 		InfoObjet demiSphere;
 		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { -56.175, 0, -74.7745 };
+		demiSphere.position = { -31.9405, 0, 74.5517/*-56.175, 0, -74.7745*/ };
 		demiSphere.rotation = { 0, 0, 0 };
 		demiSphere.type = FIXE;
 
@@ -1606,11 +1604,10 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 1;
 		porteFin.largeur = 0;
-		porteFin.position = { -57.475, 0, -74.7745 };
+		porteFin.position = { -32.9405, 0, 74.5517/*-57.475, 0, -74.7745*/ };
 		porteFin.rotation = { 0, -38, 0 };
 
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
-
 
 		// Création de l'avion
 
