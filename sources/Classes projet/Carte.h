@@ -1300,8 +1300,8 @@ public:
 			}
 		}
 
-		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(infosSalles.size()+4, 0));
-		//ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
+		//ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(infosSalles.size()+4, 0));
+		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
 		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
 		// Ajout/Création de la salle et autre
