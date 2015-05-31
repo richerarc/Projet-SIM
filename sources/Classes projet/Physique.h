@@ -652,7 +652,7 @@ public:
 		bool mur = false;
 
 		for (auto it : listeObjet) {
-			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it)) {
+			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it) && !dynamic_cast<Item*>(it)) {
 				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
 					for (unsigned int j = 0; j < 3; j++) {
 						if (j == 0)
