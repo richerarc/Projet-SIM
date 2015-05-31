@@ -39,8 +39,6 @@ public:
 		sender->defCouleur({ 0, 0, 0, 255 });
 	}
 
-	
-
 	void enClickSuivant(Bouton* sender) {
 		if (pause)
 			return;
@@ -56,7 +54,6 @@ public:
 				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle, vAngle));
 				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
 				Carte::obtInstance().finChargement = false;
-				Carte::obtInstance().salleActive->remplir();
 				premierMenu = true;
 				suivant->defTexte(new std::string("Next"));
 				this->spriteFond->defTexture(new gfx::Texture("Ressources/Texture/Journa2l_000000.png"));

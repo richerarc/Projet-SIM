@@ -692,7 +692,7 @@ private:
 				salleActive->ajoutObjet(new ObjetFixe(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, false));
 				break;
 			case PEINTURE:
-				salleActive->ajoutObjet(new Peinture((*it).ID, modeleObjet, (*it).position));
+				salleActive->ajoutObjet(new Peinture((*it).ID, modeleObjet, (*it).position, true));
 				break;
 			case REMPLISSEUR:
 				salleActive->ajoutObjet(new Remplisseur(modeleObjet, (*it).largeur, (*it).position, (*it).ID));
@@ -750,6 +750,82 @@ public:
 		liens[entree] = sortie;
 	}
 
+	void mettreAJourInfoSalle(InfoSalle& sallePrecedente) {
+		bool estDansListe = false;
+
+		std::vector<InfoObjet*> infosObjetARetirer;
+		unsigned int nbrinfosObjARet = 0;
+
+		for (auto it : sallePrecedente.Objet) {
+			if (it->type == ITEM) {
+				for (auto it_SalleActive : salleActive->obtListeObjet()) {
+					Item* item = dynamic_cast<Item*>(it_SalleActive);
+					if (item) {
+						if (it->position == item->obtPosition()) {
+							salleActive->retirerObjet(it_SalleActive);
+							delete it_SalleActive;
+							it_SalleActive = nullptr;
+							estDansListe = true;
+							break;
+						}
+					}
+				}
+				if (!estDansListe) {
+					infosObjetARetirer.push_back(it);
+					++nbrinfosObjARet;
+				}
+				else
+					estDansListe = false;
+			}
+		}
+
+		for (; nbrinfosObjARet > 0; --nbrinfosObjARet) {
+			sallePrecedente.Objet.remove(infosObjetARetirer[nbrinfosObjARet - 1]);
+		}
+
+		for (auto it : salleActive->obtListeObjet()) {
+			Item* item = dynamic_cast<Item*>(it);
+			if (item) {
+
+				InfoObjet leitem;
+				leitem.ID = sallePrecedente.Objet.size();
+				leitem.cheminModele = "Ressources/Modele/Peinture.obj";
+				leitem.cheminTexture = "Ressources/Texture/Peinture.png";
+				leitem.position = item->obtPosition();
+				leitem.rotation = item->obtModele3D()->obtOrientation();
+				leitem.type = PEINTURE;
+				sallePrecedente.Objet.push_back(new InfoObjet(leitem));
+			}
+			else
+			{
+
+				Peinture* peinture = dynamic_cast<Peinture*>(it);
+				if (peinture) {
+
+					if (peinture->estPermanente()) {
+
+						InfoObjet lapeinture;
+						lapeinture.ID = sallePrecedente.Objet.size();
+						lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
+						lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
+						lapeinture.position = peinture->obtPosition();
+						lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
+						lapeinture.type = PEINTURE;
+						sallePrecedente.Objet.push_back(new InfoObjet(lapeinture));
+					}
+				}
+			}
+		}
+
+		unsigned int ID = 0;
+
+		for (auto it : sallePrecedente.Objet) {
+			if (it->ID != ID)
+				it->ID = ID;
+			++ID;
+		}
+
+	}
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
@@ -760,54 +836,10 @@ public:
 		auto sallePrecedente = infosSalles.begin();
 		std::advance(sallePrecedente, std::get<0>(entree));
 
-		bool estDansListe = false;
-
-		InfoObjet* infosObjetARetirer[4] = { nullptr, nullptr, nullptr, nullptr };
-		unsigned int nbrinfosObjARet = 0;
-
-		for (auto it : sallePrecedente->Objet) {
-			if (it->type == PEINTURE) {
-				for (auto it_SalleActive : salleActive->obtListeObjet()) {
-					Peinture* peinture = dynamic_cast<Peinture*>(it_SalleActive);
-					if (peinture) {
-						if (it->position == peinture->obtPosition()) {
-							salleActive->retirerObjet(it_SalleActive);
-							delete it_SalleActive;
-							it_SalleActive = nullptr;
-							estDansListe = true;
-							break;
-						}
-					}
-				}
-				if (!estDansListe) {
-					infosObjetARetirer[nbrinfosObjARet++] = it;
-				}
-				else
-					estDansListe = false;
-			}
-		}
-
-		for (; nbrinfosObjARet > 0; --nbrinfosObjARet) {
-			sallePrecedente->Objet.remove(infosObjetARetirer[nbrinfosObjARet - 1]);
-		}
-
-		for (auto it : salleActive->obtListeObjet()) {
-			Peinture* peinture = dynamic_cast<Peinture*>(it);
-			if (peinture) {
-
-				InfoObjet lapeinture;
-				lapeinture.ID = peinture->obtID();
-				lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
-				lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
-				lapeinture.position = peinture->obtPosition();
-				lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
-				lapeinture.type = PEINTURE;
-				sallePrecedente->Objet.push_back(new InfoObjet(lapeinture));
-			}
-		}
-
 		auto portePrecedente = (*sallePrecedente).Objet.begin();
 		std::advance(portePrecedente, std::get<1>(entree));
+
+		mettreAJourInfoSalle((*sallePrecedente));
 
 		// Calcul de la rotation de caméra à appliquer:
 		// {
