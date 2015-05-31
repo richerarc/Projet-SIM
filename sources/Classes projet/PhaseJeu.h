@@ -568,7 +568,7 @@ public:
 	}
 
 	void toucheAppuyee(SDL_Event &event){
-		if (pause)
+		if (pause || joueur->obtBloque())
 			return;
 		if (retour){
 			retour = false;
