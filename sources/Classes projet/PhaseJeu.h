@@ -369,11 +369,16 @@ public:
 
 			// On regarde si les animation de début et de transisiton de salle sont fini pour ajouter les textes a afficher.
 			if (!Carte::obtInstance().animationTransitionSalle(joueur, frameTime) && !finTransitionSalle){
-				std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
-				texte_ID_Salle->defTexte(&str);
-				gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
-				tempsAffichageID.repartir();
-				finTransitionSalle = true;
+				if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
+					Carte::obtInstance().calculAnimationFinPartie(joueur);
+				}
+				else{
+					std::string str = SDL_uitoa(Carte::obtInstance().salleActive->obtID(), chritoa, 10);
+					texte_ID_Salle->defTexte(&str);
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
+					tempsAffichageID.repartir();
+					finTransitionSalle = true;
+				}
 			}
 
 			if (!Carte::obtInstance().animationLeverLit(joueur, frameTime) && !finAnimationDebut){
@@ -381,8 +386,11 @@ public:
 				gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
 				tempsAffichageID.repartir();
 				finAnimationDebut = true;
+				//if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
+				//	Carte::obtInstance().calculAnimationFinPartie(joueur);
+				//}
 			}
-
+			Carte::obtInstance().animationFinPartie(joueur, frameTime);
 			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
 				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
 				tempsAffichageID.repartir();

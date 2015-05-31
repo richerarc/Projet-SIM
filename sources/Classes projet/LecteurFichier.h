@@ -47,15 +47,22 @@ namespace LecteurFichier{
 
 	bool lireObjet(const char* cheminAcces, InfoObjet &info) {
 		std::ifstream fichier(cheminAcces);
-
+		
 		if (fichier.is_open()) {
 			char *cheminOBJ = new char[255];
 			char *cheminTEXTURE = new char[255];
 			int type;
-			fichier >> cheminOBJ >> cheminTEXTURE >> type;
+			int Positionnement;
+			int IDitem;
+			fichier >> cheminOBJ >> cheminTEXTURE >> type >> Positionnement;
 			info.cheminModele = cheminOBJ;
 			info.cheminTexture = cheminTEXTURE;
 			info.type = type;
+			info.positionement = Positionnement;
+			if (type == ITEM){
+				fichier >> IDitem;
+				info.IDitem = IDitem;
+			}
 			return true;
 		}
 		return false;
