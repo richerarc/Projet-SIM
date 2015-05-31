@@ -755,7 +755,7 @@ public:
 		liens[entree] = sortie;
 	}
 
-	void mettreAJourInfoSalle(InfoSalle& sallePrecedente) {
+	void mettreAJourInfoSalle(InfoSalle& sallePrecedente, Entree entree) {
 		bool estDansListe = false;
 
 		std::vector<InfoObjet*> infosObjetARetirer;
@@ -794,16 +794,14 @@ public:
 
 				InfoObjet leitem;
 				leitem.ID = sallePrecedente.Objet.size();
-				leitem.cheminModele = "Ressources/Modele/Peinture.obj";
-				leitem.cheminTexture = "Ressources/Texture/Peinture.png";
 				leitem.position = item->obtPosition();
 				leitem.rotation = item->obtModele3D()->obtOrientation();
-				leitem.type = PEINTURE;
+				leitem.type = ITEM;
+				leitem.IDitem = item->obtType();
 				sallePrecedente.Objet.push_back(new InfoObjet(leitem));
 			}
 			else
 			{
-
 				Peinture* peinture = dynamic_cast<Peinture*>(it);
 				if (peinture) {
 
@@ -825,12 +823,21 @@ public:
 		unsigned int ID = 0;
 
 		for (auto it : sallePrecedente.Objet) {
-			if (it->ID != ID)
+			if (it->ID != ID) {
+				if (it->type == PORTE) {
+					Sortie sortie(sallePrecedente.ID, ID);
+					Entree entreetmp(sallePrecedente.ID, ID, false);
+					Sortie sortietmp = liens[entree];
+					liens[Entree(std::get<0>(sortietmp), std::get<1>(sortietmp), false)] = sortie;
+					liens.erase(entree);
+					ajouterLien(entreetmp, sortietmp);
+				}
 				it->ID = ID;
+			}
 			++ID;
 		}
-
 	}
+
 	int destination(Entree entree, Joueur *joueur) {
 
 		joueur->bloquer();
@@ -844,7 +851,7 @@ public:
 		auto portePrecedente = (*sallePrecedente).Objet.begin();
 		std::advance(portePrecedente, std::get<1>(entree));
 
-		mettreAJourInfoSalle((*sallePrecedente));
+		mettreAJourInfoSalle((*sallePrecedente), entree);
 
 		// Calcul de la rotation de caméra à appliquer:
 		// {
@@ -1151,13 +1158,11 @@ public:
 				it.Objet.push_front(new InfoObjet(objet));
 			}
 			
-			for (unsigned short i = 0; i < 10; ++i) {
-				objet.ID = it.Objet.size();
-				objet.largeur = 0;
-				LecteurFichier::lireObjet(cheminsObjet[rand() % nbrObjet], objet);
-				if(positionnerObjet(*modeleSalle, it, objet))
-					it.Objet.push_back(new InfoObjet(objet));
-			}
+			objet.ID = it.Objet.size();
+			objet.largeur = 0;
+			LecteurFichier::lireObjet(cheminsObjet[rand() % nbrObjet], objet);
+			if(positionnerObjet(*modeleSalle, it, objet))
+				it.Objet.push_back(new InfoObjet(objet));
 
 			// Ajout et r�initialisation de la salle.
 			delete modeleSalle;
@@ -1726,7 +1731,7 @@ public:
 		demiSphere.direction = { 0, 0, 0 };
 		demiSphere.ID = 0;
 		demiSphere.largeur = 0;
-		demiSphere.position = { -31.9405, 0, 74.5517/*-56.175, 0, -74.7745*/ };
+		demiSphere.position = { -32.9405, 0, -74.5517 };
 		demiSphere.rotation = { 0, 0, 0 };
 		demiSphere.type = FIXE;
 
@@ -1739,7 +1744,7 @@ public:
 		porteFin.direction = { 0, 0, 0 };
 		porteFin.ID = 1;
 		porteFin.largeur = 0;
-		porteFin.position = { -32.9405, 0, 74.5517/*-57.475, 0, -74.7745*/ };
+		porteFin.position = { -32.9405, 0, -74.5517 };
 		porteFin.rotation = { 0, -38, 0 };
 
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
@@ -1851,7 +1856,7 @@ public:
 
 	void calculAnimationFinPartie(Joueur* joueur){
 		if (!dejaCalculee){
-			joueur->defPosition(Vecteur3d(-56.1774, 0, -75));
+			joueur->defPosition(Vecteur3d(-32.9405, 0, -74.5517));
 			joueur->bloquer();
 			avion = salleActive->obtListeObjet().back();
 			Vecteur3d vec1 = avion->obtPosition();

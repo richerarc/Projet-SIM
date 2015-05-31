@@ -332,7 +332,7 @@ public:
 		if (pause)
 			return;
 		if ((Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(DEPOSER))) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)){
-			if (itemEquipe != nullptr){
+			if (itemEquipe != nullptr && !joueur->obtBloque()){
 				itemEquipe->defEtat(EtatItem::DEPOSE);
 				GestionnaireSucces::obtInstance().defItemOuiNonLache(joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne()));
 				joueur->obtInventaire()->retirerObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
@@ -474,7 +474,7 @@ public:
 			tempsJeu.repartir();
 		}
 		if (tempsRestant > 0) {
-			if (detectionObjet()){
+			if (detectionObjet() && !joueur->obtBloque()){
 				if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(UTILISER)) && Manette::boutonRelacher(SDL_CONTROLLER_BUTTON_Y)) && toucheRelachee){
 					if (objetVise->obtSiPorte()){
 						if (!(dynamic_cast<Porte*>(objetVise))->obtVerrouillee()){
