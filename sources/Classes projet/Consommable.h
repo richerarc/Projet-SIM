@@ -3,7 +3,7 @@
 #include "Jetable.h"
 class Consommable{
 protected:
-	bool etatAnimation;
+	bool etatAnimation, sonAnimation;
 	Vecteur3d posAnimation;
 	Vecteur3d posDepart;
 	Vecteur3d rotAnimation;
@@ -20,6 +20,7 @@ protected:
 public:
 	Consommable(){
 		etatAnimation = false;
+		sonAnimation = false;
 	};
 };
 
@@ -29,6 +30,10 @@ struct Thai : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(MUNCH_1, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -58,6 +63,10 @@ struct Eau : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -87,6 +96,10 @@ struct Poulet : public Melee, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(MUNCH_2, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -130,6 +143,10 @@ struct Pilule : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(TOUX_1, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -162,6 +179,10 @@ struct Lait : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -191,6 +212,10 @@ struct Chocolat : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(MUNCH_3, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -220,6 +245,10 @@ struct Vin : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -250,6 +279,10 @@ struct Biere : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(BOIRE, joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
@@ -284,6 +317,10 @@ struct Seringue : public Jetable, public Consommable{
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
+				if (!sonAnimation){
+					sonAnimation = true;
+					ControlleurAudio::obtInstance().jouer(Sons_t::RESPIRATION , joueur);
+				}
 				if (etat == EtatItem::EQUIPE){
 					this->modele->rotationner(rotAnimation);
 					this->defPosition(posAnimation);
