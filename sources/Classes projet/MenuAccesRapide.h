@@ -30,7 +30,7 @@ public:
 
 		pause = false;
 		itemSelectionne = 0;
-		dernierItemSelectionne = itemSelectionne + 1;
+		//dernierItemSelectionne = itemSelectionne + 1;
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_MOUSEWHEEL, std::bind(&MenuAccesRapide::molette, this, std::placeholders::_1));
 		//GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&MenuAccesRapide::toucheAppuyee, this, std::placeholders::_1));
 	}
@@ -60,7 +60,7 @@ public:
 	}
 
 	void molette(SDL_Event &event){
-		dernierItemSelectionne = itemSelectionne;
+		//dernierItemSelectionne = itemSelectionne;
 		itemSelectionne = inventaire->obtItemSelectionne() + event.wheel.y;
 		itemSelectionne %= inventaire->obtTailleAccesRapide();
 		if (itemSelectionne < 0)
