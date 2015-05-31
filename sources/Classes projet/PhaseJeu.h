@@ -332,6 +332,7 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
+		salleActive = Carte::obtInstance().salleActive;
 		if (salleActive != nullptr)
 			if (salleActive->obtID() == difficulte + 2)
 				GestionnaireSucces::obtInstance().verifierPacifisme();
