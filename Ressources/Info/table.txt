@@ -1,0 +1,2 @@
+Ressources/Modele/table.obj
+Ressources/Texture/table.png 2
