@@ -32,9 +32,9 @@ public:
 		case (1) :
 			switch (type % 10){
 			case(0) ://luger
-				return new Fusil(type, "Luger P08", "Pow, Pow", "Ressources/Texture/lugerIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), ID, "metal", 0.871, 2.5, 10.0, 0.1, 1, 8, false);;
+				return new Fusil(type, "Luger P08", "Pow, Pow", "Ressources/Texture/lugerIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/luger.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/luger.png")), ID, "metal", 0.871, 2.5, 10.0, 0.1, 0.2, 8, false);;
 			case(1) ://thompson
-				return new Fusil(type, "Thompson M1", "PPPPPow", "Ressources/Texture/thompsonIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thompson.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thompson.png")), ID, "metal", 4.47, 12, 20, 2.0, 1, 30, true);
+				return new Fusil(type, "Thompson M1", "PPPPPow", "Ressources/Texture/thompsonIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thompson.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thompson.png")), ID, "metal", 4.47, 12, 20, 2.0, 0.3, 30, true);
 			case(2) ://CanonAPeinture
 				return new CanonAPeinture(type, "Spray Painter", "tchhhhhhh", "Ressources/Texture/CanonAPeintureIcone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/CanonAPeinture.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/CanonAPeinture.png")), ID, "metal", 2);
 		}
