@@ -35,16 +35,16 @@ public:
 			pointBase.y,
 			pointBase.z + 0.2); // Avant en bas à droite.
 
-		tabVecteur[4] = Vecteur3d(pointBase.x - 0.2,
+		tabVecteur[4] = Vecteur3d(pointBase.x - 1.0,
 			pointBase.y + 0.2,
 			pointBase.z); // Arriere en haut à gauche.
-		tabVecteur[5] = Vecteur3d(pointBase.x - 0.2,
+		tabVecteur[5] = Vecteur3d(pointBase.x - 1.0,
 			pointBase.y,
 			pointBase.z); // Arriere en bas à gauche.
-		tabVecteur[6] = Vecteur3d(pointBase.x - 0.2,
+		tabVecteur[6] = Vecteur3d(pointBase.x - 1.0,
 			0.2 + pointBase.y,
 			pointBase.z + 0.2); // Arriere en haut à droite.
-		tabVecteur[7] = Vecteur3d(pointBase.x - 0.2,
+		tabVecteur[7] = Vecteur3d(pointBase.x - 1.0,
 			pointBase.y,
 			pointBase.z + 0.2); // Arriere en bas à droite.
 		for (int i = 0; i < 8; ++i) {
