@@ -18,7 +18,6 @@
 #include "Physique.h"
 #include "Remplisseur.h"
 #include "Personnage.h"
-//#include "Balance.h"
 #include "ControlleurAudio.h"
 #include "Vent.h"
 #include "Commutateur.h"
@@ -66,107 +65,6 @@ private:
 	std::vector<Modele_Text> cheminsModeleText;
 	std::vector<char*> cheminsPuzzle;
 	std::vector<char*> cheminsObjet;
-
-	int obtElementListe(std::list<int> liste, int ID) {
-		auto it = liste.begin();
-
-		for (int i = 0; i < ID; ++i)
-			++it;
-
-		return *it;
-	}
-
-	bool positionnerPuzzle(InfoSalle& salle, InfoPuzzle& puzzle) {
-
-		bool puzzlePlace = false;
-		std::vector<int> nombreBoite;
-		std::vector<int>::iterator itBoites;
-		BoiteCollision<double> boiteSalle;
-		BoiteCollision<double> boitePuzzleTemp;
-		InfoObjet remplisseur;
-
-		remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
-		remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
-		remplisseur.type = REMPLISSEUR;
-
-		for (int i = 0; i < salle.boitesCollision.size(); ++i)
-			nombreBoite.push_back(i);
-
-		int aleatoire = rand() % nombreBoite.size();
-		boiteSalle = salle.obtBoiteCollisionModifie(nombreBoite[aleatoire]);
-		itBoites = nombreBoite.begin();
-		for (int i = 0; i < aleatoire; ++i) ++itBoites;
-
-		while (!puzzlePlace && nombreBoite.size() != 0) {
-
-			nombreBoite.erase(itBoites);
-			puzzle.position = boiteSalle.distanceEntreDeuxCentre(puzzle.boiteCollision);
-			boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
-
-			if (!boiteSalle.boiteDansBoite(boitePuzzleTemp)){
-
-				if (boiteSalle.obtGrandeurX() - boiteSalle.obtGrandeurZ() < 0){
-					double deltaXmen;
-					for (auto &it : puzzle.objet){
-						deltaXmen = fabs(it.position.x - puzzle.boiteCollision.obtCentreBoite().x);
-						it.rotation = { 0, 270, 0 };
-						if (it.position.x < 0){
-							it.position.x += deltaXmen;
-							it.position.z -= deltaXmen;
-						}
-						else{
-							it.position.x -= deltaXmen;
-							it.position.z += deltaXmen;
-						}
-					}
-					puzzle.rotation = 270;
-				}
-				else{
-					puzzle.rotation = 0;
-				}
-				boitePuzzleTemp = puzzle.obtBoiteCollisionModifie();
-			}
-
-			for (auto &it : puzzle.objet)
-				it.position += puzzle.position;
-
-			if (boiteSalle.boiteDansBoite(boitePuzzleTemp)){
-				if ((puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 0) || (!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 270)) {
-					remplisseur.largeur = boiteSalle.obtGrandeurX();
-					remplisseur.rotation = { 0, 0, 0 };
-					remplisseur.position = Vecteur3d(boiteSalle.obtXMin(), 1, boitePuzzleTemp.obtZMin());
-					puzzle.objet.push_back(remplisseur);
-					remplisseur.rotation = { 0, 180, 0 };
-					remplisseur.position = Vecteur3d(boiteSalle.obtXMax(), 1, boitePuzzleTemp.obtZMax());
-					puzzle.objet.push_back(remplisseur);
-				}
-
-				else if ((!puzzle.entrees[0] && !puzzle.entrees[2] && puzzle.entrees[1] && puzzle.entrees[3] && puzzle.rotation == 0) || (puzzle.entrees[0] && puzzle.entrees[2] && !puzzle.entrees[1] && !puzzle.entrees[3] && puzzle.rotation == 270)) {
-					remplisseur.largeur = boiteSalle.obtGrandeurZ();
-					remplisseur.rotation = { 0, 270, 0 };
-					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMax(), 1, boiteSalle.obtZMin());
-					puzzle.objet.push_back(remplisseur);
-					remplisseur.rotation = { 0, 90, 0 };
-					remplisseur.position = Vecteur3d(boitePuzzleTemp.obtXMin(), 1, boiteSalle.obtZMax());
-					puzzle.objet.push_back(remplisseur);
-				}
-
-				for (auto &it : puzzle.objet){
-					salle.Objet.push_back(new InfoObjet(it));
-				}
-				return true;
-			}
-			else {
-				if (nombreBoite.size() > 0) {
-					aleatoire = rand() % nombreBoite.size();
-					boiteSalle = salle.obtBoiteCollisionModifie(nombreBoite[aleatoire]);
-					itBoites = nombreBoite.begin();
-					for (int i = 0; i < aleatoire; ++i) ++itBoites;
-				}
-			}
-		}
-		return false;
-	}
 
 	void positionnerPorte(gfx::Modele3D& modeleSalle, InfoSalle& salle, InfoObjet& objet) {
 		unsigned int depart;
@@ -732,21 +630,24 @@ private:
 		salleActive->remplir();
 	}
 
-	bool creerPuzzle(int &nbrPuzzle, int IDSalle) {
+	bool creerPuzzle(InfoSalle& salle, int &nbrPuzzle) {
 
-		InfoSalle& salle = *std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; });
-		InfoPuzzle puzzle;
-		bool puzzlePlace = false;
-		int aleatoire;
+		int IDPuzzle = rand() % nbrPuzzle;
+		char* nomPuzzle = cheminsPuzzle[IDPuzzle];
 
-		aleatoire = rand() % nbrPuzzle;
-		LecteurFichier::lirePuzzle(cheminsPuzzle[aleatoire], puzzle);
-		puzzle.rotation = 0;
-
-		if (positionnerPuzzle(salle, puzzle)) {
-			--nbrPuzzle;
-			cheminsPuzzle.erase(std::find_if(cheminsPuzzle.begin(), cheminsPuzzle.end(), [&](char* chemin){return !strcmp(chemin, cheminsPuzzle[aleatoire]); }));
-			return true;
+		if (!strcmp(nomPuzzle, "Ressources/Info/Pendules.pzl")) {
+			if (pendules(salle)) {
+				cheminsPuzzle.erase(std::find(cheminsPuzzle.begin(), cheminsPuzzle.end(), nomPuzzle));
+				--nbrPuzzle;
+				return true;
+			}
+		}
+		if (!strcmp(nomPuzzle, "Ressources/Info/Plafond.pzl")) {
+			if (plafond(salle)) {
+				cheminsPuzzle.erase(std::find(cheminsPuzzle.begin(), cheminsPuzzle.end(), nomPuzzle));
+				--nbrPuzzle;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -1195,44 +1096,53 @@ public:
 			salle.Objet.clear();
 		}
 
-		/*int IDSalle(0);
+		int IDSalle(0);
 		int prochaineSalle;
 		bool salleCorrecte;
 		std::list<int> salleSuivante;
+		std::list<int> sallePrecedente;
 		std::vector<int> salleAvecPuzzle;
 
 		do {
 			IDSalle = rand() % nombreDeSalle;
-		} while (!creerPuzzle(nbrPuzzle, IDSalle));
+		} while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; }), nbrPuzzle));
 		salleAvecPuzzle.push_back(IDSalle);
 
-		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
+		int essai(0);
 
-			do {
-				salleSuivante = carte.obtListeAdjacence(IDSalle);
-				prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
-				salleSuivante = carte.obtListeAdjacence(prochaineSalle);
-				int nbrEssais(0);
+		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
+			prochaineSalle = rand() % nombreDeSalle;
+			while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == prochaineSalle; }), nbrPuzzle)){
 				do {
+					prochaineSalle = rand() % nombreDeSalle;
 					salleCorrecte = true;
-					if (nbrEssais > 10) {
-						salleSuivante = carte.obtListeAdjacence(IDSalle);
-						prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
-						salleSuivante = carte.obtListeAdjacence(prochaineSalle);
-						nbrEssais = 0;
-					}
-					prochaineSalle = obtElementListe(salleSuivante, rand() % salleSuivante.size());
 					salleSuivante = carte.obtListeAdjacence(prochaineSalle);
 
-					for (int j = 0; j < salleAvecPuzzle.size() && salleCorrecte; ++j) {
-						salleCorrecte = !((salleAvecPuzzle[j] == prochaineSalle));
-						++nbrEssais;
+					for (int j = 0; j < salleAvecPuzzle.size(); ++j) {
+						salleSuivante = carte.obtListeAdjacence(salleAvecPuzzle[j]);
+						sallePrecedente = carte.obtListeAdjacenceInverse(salleAvecPuzzle[j]);
+						if (essai < 15) {
+							for (auto s : salleSuivante) {
+								if (s == prochaineSalle)
+									salleCorrecte = false;
+							}
+
+							for (auto p : sallePrecedente) {
+								if (p == prochaineSalle)
+									salleCorrecte = false;
+							}
+						}
+						if ((salleAvecPuzzle[j] == prochaineSalle))
+							salleCorrecte = !true; // Parce que pourquoi pas...
+
+						++essai;
 					}
 				} while (!salleCorrecte);
-			} while (!creerPuzzle(nbrPuzzle, prochaineSalle));
+			}
 			IDSalle = prochaineSalle;
 			salleAvecPuzzle.push_back(IDSalle);
-		}*/
+			essai = 0;
+		}
 
 		for (auto &it : infosSalles) {
 
@@ -2153,5 +2063,862 @@ public:
 
 	bool obtEnFinPartie() {
 		return enFinPartie;
+	}
+
+	bool pendules(InfoSalle& salle) {
+
+		if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleL.obj")) {
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-0.23306, 4.41787, 8.71071);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-4.79973, 4.41787, 8.71071);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-10.15104, 4.41787, 8.71071);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-15.40232, 4.41787, 8.71071);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-0.23306, 4.41787, 8.8136);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-4.79973, 4.3465, 8.8136);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-10.15104, 4.3465, 8.8136);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-15.40232, 4.3465, 8.8136);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-17.97485, 0, 5.50875);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-0.12652, 0, 12.19997);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleU.obj")){
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(1.29921, 4.41787, -4.32525);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-3.26746, 4.41787, -4.32525);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-8.61877, 4.41787, -4.32525);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-13.87005, 4.41787, -4.32525);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(1.29922, 4.34650, -4.22235);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-3.26746, 4.34650, -4.22235);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-8.61877, 4.34650, -4.22235);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-13.87005, 4.34650, -4.22235);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-16.44258, 0.00000, -7.52721);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 21.111;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(1.40575, 0.00000, -0.83598);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);;
+			remplisseur.largeur = 20.970;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleConvergente.obj")) {
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(8.40195, 4.41787, 0);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(13.65323, 4.41787, 0);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(19.00454, 4.41787, 0);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(23.57121, 4.41787, 0);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(8.40195, 4.41787, 0);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(13.65323, 4.3465, 0);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(19.00454, 4.3465, 0);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(23.57122, 4.3465, 0);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(5.82942, 0, -3.3139);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(23.67775, 0, 3.37732);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);;
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleHexagonale.obj")) {
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-6.56341, 4.41787, -0.38614);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-1.31212, 4.41787, -0.38614);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(4.03919, 4.41787, -0.38614);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(8.60586, 4.41787, -0.38614);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-6.56341, 4.41787, -0.28324);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-1.31212, 4.3465, -0.28324);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(4.03919, 4.3465, -0.28324);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(8.60586, 4.3465, -0.28324);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-8.76929, 0, -3.74245);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 22.917;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(8.7124, 0, 3.10313);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);;
+			remplisseur.largeur = 22.917;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleCegep.obj")) {
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(0.40152, 4.41787, 51.65161);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d(0, 0, 90);
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(0.40152, 4.41787, 46.40033);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d(0, 90, 0);
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(0.40152, 4.41787, 41.04902);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d(0, 90, 0);
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(0.40152, 4.41787, 36.48234);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d(0, 90, 0);
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(0.50442, 4.34650, 51.65161);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d(0, 90, 0);
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(0.50442, 4.34650, 46.40033);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d(0, 90, 0);
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(0.50442, 4.34650, 41.04902);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d(0, 90, 0);
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(0.50442, 4.34650, 36.48234);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d(0, 90, 0);
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-2.80044, 0.00000, 54.22414);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 90, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(3.89079, 0.00000, 36.37581);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 270, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleOctogonale.obj")) {
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(8.39268, 4.41787, -0.10854);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(3.82601, 4.41787, -0.10854);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-1.5253, 4.41787, -0.10854);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-6.77659, 4.41787, -0.10854);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(8.39268, 4.3465, -0.00565);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(3.82601, 4.3465, -0.00565);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-1.5253, 4.3465, -0.00565);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-6.77659, 4.3465, -0.00565);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-9.34912, 0.00000, -3.31051);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 20.735;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(8.49922, 0.00000, 3.38072);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);;
+			remplisseur.largeur = 21.000;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleEscalier.obj")) {
+
+			InfoObjet pendule;
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(8.06997, 3.41787, 0.32109);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(3.50330, 3.41787, 0.32108);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-1.84801, 3.41787, 0.32108);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+			pendule.cheminModele = "Ressources/Modele/Pendule.obj";
+			pendule.cheminTexture = "Ressources/Texture/Pendule.png";
+			pendule.position = Vecteur3d(-7.09929, 3.41787, 0.32109);
+			pendule.ID = salle.Objet.size();
+			pendule.rotation = Vecteur3d();
+			pendule.type = PENDULE;
+			salle.Objet.push_back(new InfoObjet(pendule));
+
+
+			InfoObjet poutre;
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(8.06997, 3.34650, 0.42398);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(3.50330, 3.34650, 0.42398);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-1.84801, 3.34650, 0.42398);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+			poutre.cheminModele = "Ressources/Modele/PoutreVerticale.obj";
+			poutre.cheminTexture = "Ressources/Texture/PoutreVerticale.png";
+			poutre.position = Vecteur3d(-7.09929, 3.34650, 0.42398);
+			poutre.ID = salle.Objet.size();
+			poutre.rotation = Vecteur3d();
+			poutre.type = FIXE;
+			salle.Objet.push_back(new InfoObjet(poutre));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-9.67182, -1.00000, -2.88087);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 20.000;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(8.17651, -1.00000, 3.81035);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);;
+			remplisseur.largeur = 20.000;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+		return false;
+	}
+
+	bool plafond(InfoSalle& salle) {
+
+		if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleU.obj")) {
+
+			InfoObjet plafondTueur;
+			plafondTueur.cheminModele = "Ressources/Modele/DeathCeiling.obj";
+			plafondTueur.cheminTexture = "Ressources/Texture/DeathCeiling.png";
+			plafondTueur.position = Vecteur3d(-4.65045, 0.85373, -4.20551);
+			plafondTueur.ID = salle.Objet.size();
+			plafondTueur.rotation = Vecteur3d();
+			plafondTueur.type = PLAFONDTUEUR;
+			salle.Objet.push_back(new InfoObjet(plafondTueur));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-13.48986, 0.85373, -9.49320);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 14.014;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(4.49040, 0.85373, 0.91105);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);
+			remplisseur.largeur = 13.973;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleCegep.obj")) {
+
+			InfoObjet plafondTueur;
+			plafondTueur.cheminModele = "Ressources/Modele/DeathCeiling.obj";
+			plafondTueur.cheminTexture = "Ressources/Texture/DeathCeiling.png";
+			plafondTueur.position = Vecteur3d(52.73269, 12.37467, 12.45685);
+			plafondTueur.ID = salle.Objet.size();
+			plafondTueur.rotation = Vecteur3d(0, 90, 0);
+			plafondTueur.type = PLAFONDTUEUR;
+			salle.Objet.push_back(new InfoObjet(plafondTueur));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(47.44500, 12.37467, 21.29626);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 90, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(57.84925, 12.37467, 3.31600);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 270, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleEscalier.obj")) {
+
+			InfoObjet plafondTueur;
+			plafondTueur.cheminModele = "Ressources/Modele/DeathCeiling.obj";
+			plafondTueur.cheminTexture = "Ressources/Texture/DeathCeiling.png";
+			plafondTueur.position = Vecteur3d(0.00000, -1.00000, 0.00000);
+			plafondTueur.ID = salle.Objet.size();
+			plafondTueur.rotation = Vecteur3d();
+			plafondTueur.type = PLAFONDTUEUR;
+			salle.Objet.push_back(new InfoObjet(plafondTueur));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-8.83941, -1.00000, -5.28769);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 20.581;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(9.14085, -1.00000, 5.11656);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);
+			remplisseur.largeur = 20.481;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleHexagonale.obj")) {
+
+			InfoObjet plafondTueur;
+			plafondTueur.cheminModele = "Ressources/Modele/DeathCeiling.obj";
+			plafondTueur.cheminTexture = "Ressources/Texture/DeathCeiling.png";
+			plafondTueur.position = Vecteur3d(0.00000, 0.00000, 0.00000);
+			plafondTueur.ID = salle.Objet.size();
+			plafondTueur.rotation = Vecteur3d();
+			plafondTueur.type = PLAFONDTUEUR;
+			salle.Objet.push_back(new InfoObjet(plafondTueur));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-8.83941, 0.00000, -5.28769);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 14.098;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(9.14085, 0.00000, 5.11656);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);
+			remplisseur.largeur = 14.128;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleL.obj")) {
+
+			InfoObjet plafondTueur;
+			plafondTueur.cheminModele = "Ressources/Modele/DeathCeiling.obj";
+			plafondTueur.cheminTexture = "Ressources/Texture/DeathCeiling.png";
+			plafondTueur.position = Vecteur3d(9.06909, 0.00000, -7.32023);
+			plafondTueur.ID = salle.Objet.size();
+			plafondTueur.rotation = Vecteur3d(0, 90, 0);
+			plafondTueur.type = PLAFONDTUEUR;
+			salle.Objet.push_back(new InfoObjet(plafondTueur));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(3.7814, 0.00000, -0.02792);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 90, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(14.18565, 0.00000, -18.00817);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 270, 0);
+			remplisseur.largeur = 17.981;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+		else if (!strcmp(salle.cheminModele, "Ressources/Modele/SalleOctogonale.obj")) {
+
+			InfoObjet plafondTueur;
+			plafondTueur.cheminModele = "Ressources/Modele/DeathCeiling.obj";
+			plafondTueur.cheminTexture = "Ressources/Texture/DeathCeiling.png";
+			plafondTueur.position = Vecteur3d(0.00000, 0.00000, 0.00000);
+			plafondTueur.ID = salle.Objet.size();
+			plafondTueur.rotation = Vecteur3d();
+			plafondTueur.type = PLAFONDTUEUR;
+			salle.Objet.push_back(new InfoObjet(plafondTueur));
+
+
+			InfoObjet remplisseur;
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(-8.83941, 0.00000, -5.28769);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d();
+			remplisseur.largeur = 14.071;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			remplisseur.cheminModele = "Ressources/Modele/Remplisseur.obj";
+			remplisseur.cheminTexture = "Ressources/Texture/Remplisseur.png";
+			remplisseur.position = Vecteur3d(9.14085, 0.00000, 5.11656);
+			remplisseur.ID = salle.Objet.size();
+			remplisseur.rotation = Vecteur3d(0, 180, 0);
+			remplisseur.largeur = 14.066;
+			remplisseur.type = REMPLISSEUR;
+			salle.Objet.push_back(new InfoObjet(remplisseur));
+
+			return true;
+		}
+		return false;
 	}
 };
