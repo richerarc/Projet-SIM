@@ -91,3 +91,5 @@
 28/05/2015 (4-5 heures dans la journée) : J'ai corrigé des problèmes liées au succès, notamment un qui causait une inclusion circulaire avec les items. J'ai ensuite fini de modeliser l'être humain qui sera utilisé pour un choix philosophique. À noter que Kevin s'est porté volontaire pour servir de texture, je ne l'ai pas forcé. J'ai aussi ajouté des succès associés à la philosophie. J'ai aussi commmencer à préparer ma partie de la présentation.
 
 29/05/2015 (3-4 heures dans la journée) : J'ai ajouté une pièce au projet, qui est vérifiée et fonctionne bien. J'ai aussi ajouté des vérifications de succès dans le code et crée l'objet examen.
+
+31/05/2015 (2h15 à 9h30) : J'ai créé la pièce de philo et tout placé ce qui était pertinent à l'intérieur. J'ai aussi complètement fini les succès, ils devraient tous être vérifiés et se sauvegarder.
