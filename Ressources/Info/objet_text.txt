@@ -2,3 +2,8 @@ Ressources/Info/seringue.txt
 Ressources/Info/Roche.txt
 Ressources/Info/thai.txt
 Ressources/Info/poulet.txt
+Ressources/Info/cadre.txt
+Ressources/Info/cadre1.txt
+Ressources/Info/cadre2.txt
+Ressources/Info/cadre3.txt
+Ressources/Info/cadre4.txt

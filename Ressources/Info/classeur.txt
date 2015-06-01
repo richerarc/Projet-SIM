@@ -1,2 +1,2 @@
 Ressources/Modele/classeur.obj
-Ressources/Texture/classeur.png 2
+Ressources/Texture/classeur.png 2 102
