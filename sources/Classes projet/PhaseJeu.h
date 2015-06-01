@@ -384,6 +384,7 @@ public:
 				joueur->defHAngle(0);
 				joueur->defVAngle(0);
 				joueur->defSantePhysique(joueur->obtSantePhysique() - 25);
+				GestionnaireSucces::obtInstance().obtSucces(19);
 			}
 
 			// On regarde si les animation de début et de transisiton de salle sont fini pour ajouter les textes a afficher.

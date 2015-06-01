@@ -56,7 +56,7 @@ public:
 					}
 				}
 				for (auto it : salleActive->obtListeObjet()){
-					if (it->obtMateriaux() == "personnage" && (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false))){
+					if (it->obtMateriaux() == "personnage" && (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, false))){
 					salleActive->retirerObjet(it);
 					delete it;
 					ControlleurAudio::obtInstance().jouer(AH, joueur);
