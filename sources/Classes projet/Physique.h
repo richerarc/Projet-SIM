@@ -663,7 +663,7 @@ public:
 		bool collisionPiege = false;
 
 		for (auto it : listeObjet) {
-			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it) && !dynamic_cast<Item*>(it)) {
+			if ((!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it) && !dynamic_cast<Item*>(it)) || (dynamic_cast<Remplisseur*>(it) || dynamic_cast<PlafondTueur*>(it))) {
 				for (unsigned int i = 0; i < (joueur->obtModele3D()->obtModele()->obtNbrVertices() / 3); i++) {
 					for (unsigned int j = 0; j < 3; j++) {
 						if (j == 0)
@@ -677,6 +677,10 @@ public:
 					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
 						if (dynamic_cast<Pendule*>(it) && !collisionPiege) {
 							joueur->defSantePhysique(joueur->obtSantePhysique() - 60);
+							collisionPiege = true;
+						}
+						if (dynamic_cast<PlafondTueur*>(it) && !collisionPiege) {
+							joueur->defSantePhysique(0);
 							collisionPiege = true;
 						}
 						if (fabs(normale.x) < 0.05f)
@@ -759,14 +763,14 @@ public:
 					}
 				}
 			}
-			if (it->obtCollisionInterne() || dynamic_cast<Remplisseur*>(it)) {
-				if (dynamic_cast<PlafondTueur*>(it))
-					plafondTueur = true;
-				else
-					plafondTueur = false;
-				/*collisionJoueurSalle(it->obtModele3D(), joueur);*/
-				return true;
-			}
+			//if (it->obtCollisionInterne() || dynamic_cast<Remplisseur*>(it)) {
+			//	if (dynamic_cast<PlafondTueur*>(it))
+			//		plafondTueur = true;
+			//	else
+			//		plafondTueur = false;
+			//	collisionJoueurSalle(it->obtModele3D(), joueur);
+			//	return true;
+			//}
 		}
 		return false;
 	}
