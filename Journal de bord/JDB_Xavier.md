@@ -80,3 +80,5 @@ J'ai fait le menu de fin et la phase menu fin. Il reste a clarifier comment qu'o
 J'ai fait une piece (c'est l'entrée du cegep) vraiment original. J'ai aussi fait un autre note disant :"Behind you :)". J'ai rajouter une rampe dans ma pièce parce que c'est important la sécurité. J'ai rien fait de plus à cause d'un mal de tête qui m'empêche de me concentrer.
 ### Depuis les 5 derniers jours ~8h/jours ou +
 J'ai fait beaucoup de chose, donc je me rappelle pas de tout ce que j'ai fait. J'ai retexturer ma salle. J'ai ajouter une fonctionnalité dans les controles (le drop et le viser). J'ai fait le menu de fin, il ne marche pas encore mais on y est presque. J'ai fait 2-3 notes. Depuis hier je travail sur la cible où je dois tirer sur la poigné et on pourra ouvrir la porte, ce sera bientot implementé.
+###31 mai - 1 juin ~3h
+J'ai fini la boite de collision. J'ai implementer le coup de melee sur les portes. Tout fonctionne bien. Il ne reste que la clé qui devrait être similaire aux fusils et le melee.
