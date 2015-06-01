@@ -59,10 +59,6 @@ public:
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
-		if (!munition){
-			ControlleurAudio::obtInstance().jouer(FUSILVIDE, joueur);
-			return;
-		}
 
 		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde){
 			dps.repartir();
