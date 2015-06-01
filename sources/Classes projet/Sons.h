@@ -60,7 +60,13 @@ public:
 	int obtChaine(){
 		return idChaine;
 	}
-	
+
+	virtual void jouer(){
+		if (!Mix_Playing(idChaine)){
+			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);
+		}
+	}
+
 	virtual void jouer(Joueur* joueur){
 		if (!Mix_Playing(idChaine)){
 			Mix_FadeInChannelTimed(idChaine, audio, 0, 1, -1);

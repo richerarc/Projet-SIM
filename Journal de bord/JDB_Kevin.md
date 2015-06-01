@@ -180,7 +180,7 @@ J'ai réglé les problèmes d'inclusion. J'ai fait le minimum pour qu'une fenetr
 ##**`3 Avril 2015`**
 
 ###`de 1h30 a 2h30 et de 4h30 a 17h30`###
-
+3
 Ce matin je suis allé à l'école pour vérifier que j'avais bien tout mes classes a jour avec moi. J'ai arranger quelque trucs. Plus tard, chez moi, j'ai tentre d'inclure la physique au projet mais rien ne compile et rien ne fonctionne ce qui me prouve que les classes des pieces, des objets, du joueur et de la physique ne sont pas a jour en ne sont pas tous testés correctement, un ménage s'impoose dans le dossier sources du projet.
 
 **Temps 2h**
@@ -343,4 +343,8 @@ Richer Gabriel(nouveau sous-chef remplacant) et moi avons discuté de ce qu'il r
 **Temps 4h**
 
 ##**`31 mai 2015`**
-//Mise a jour demain promis
+J'ai fait une pièce puzzle pour la gravité. J'ai optimiser des trucs. J'ai ajouter des sons pour quand on tombe de haut.
+
+**temps 7h**
+
+**Total:156h**

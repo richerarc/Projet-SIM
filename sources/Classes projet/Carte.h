@@ -300,22 +300,17 @@ private:
 					while([&]() -> bool
 						  {
 							  Plan plan(point[0],point[1],point[2], normale);
-							  Droite dr(p, normale * -1);
+							  Droite dr(p, {0,-1,0});
 							  
 							  return !plan.insertionDroitePlan(dr, d);
 							  
 						  }()){
 							  p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
 						  }
-					if (objet.type == ITEM){
-						if (p.y < 0)
-							p.y = 0;
-						if (d.y > p.y)
-							p.y = d.y;
-					}
-					else{
+					if (p.y < 0)
 						p.y = 0;
-					}
+					if (d.y > p.y)
+						p.y = d.y;
 				}
 				else
 					p = {(x / 3), (y / 3), (z / 3)};
