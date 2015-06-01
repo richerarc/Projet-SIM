@@ -1114,53 +1114,53 @@ public:
 			salle.Objet.clear();
 		}
 
-		//int IDSalle(0);
-		//int prochaineSalle;
-		//bool salleCorrecte;
-		//std::list<int> salleSuivante;
-		//std::list<int> sallePrecedente;
-		//std::vector<int> salleAvecPuzzle;
+		int IDSalle(0);
+		int prochaineSalle;
+		bool salleCorrecte;
+		std::list<int> salleSuivante;
+		std::list<int> sallePrecedente;
+		std::vector<int> salleAvecPuzzle;
 
-		//do {
-		//	IDSalle = rand() % nombreDeSalle;
-		//} while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; }), nbrPuzzle));
-		//salleAvecPuzzle.push_back(IDSalle);
+		do {
+			IDSalle = rand() % nombreDeSalle;
+		} while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; }), nbrPuzzle));
+		salleAvecPuzzle.push_back(IDSalle);
 
-		//int essai(0);
+		int essai(0);
 
-		//for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
-		//	prochaineSalle = rand() % nombreDeSalle;
-		//	while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == prochaineSalle; }), nbrPuzzle)){
-		//		do {
-		//			prochaineSalle = rand() % nombreDeSalle;
-		//			salleCorrecte = true;
-		//			salleSuivante = carte.obtListeAdjacence(prochaineSalle);
+		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
+			prochaineSalle = rand() % nombreDeSalle;
+			while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == prochaineSalle; }), nbrPuzzle)){
+				do {
+					prochaineSalle = rand() % nombreDeSalle;
+					salleCorrecte = true;
+					salleSuivante = carte.obtListeAdjacence(prochaineSalle);
 
-		//			for (int j = 0; j < salleAvecPuzzle.size(); ++j) {
-		//				salleSuivante = carte.obtListeAdjacence(salleAvecPuzzle[j]);
-		//				sallePrecedente = carte.obtListeAdjacenceInverse(salleAvecPuzzle[j]);
-		//				if (essai < 15) {
-		//					for (auto s : salleSuivante) {
-		//						if (s == prochaineSalle)
-		//							salleCorrecte = false;
-		//					}
+					for (int j = 0; j < salleAvecPuzzle.size(); ++j) {
+						salleSuivante = carte.obtListeAdjacence(salleAvecPuzzle[j]);
+						sallePrecedente = carte.obtListeAdjacenceInverse(salleAvecPuzzle[j]);
+						if (essai < 15) {
+							for (auto s : salleSuivante) {
+								if (s == prochaineSalle)
+									salleCorrecte = false;
+							}
 
-		//					for (auto p : sallePrecedente) {
-		//						if (p == prochaineSalle)
-		//							salleCorrecte = false;
-		//					}
-		//				}
-		//				if ((salleAvecPuzzle[j] == prochaineSalle))
-		//					salleCorrecte = !true; // Parce que pourquoi pas...
+							for (auto p : sallePrecedente) {
+								if (p == prochaineSalle)
+									salleCorrecte = false;
+							}
+						}
+						if ((salleAvecPuzzle[j] == prochaineSalle))
+							salleCorrecte = !true; // Parce que pourquoi pas...
 
-		//				++essai;
-		//			}
-		//		} while (!salleCorrecte);
-		//	}
-		//	IDSalle = prochaineSalle;
-		//	salleAvecPuzzle.push_back(IDSalle);
-		//	essai = 0;
-		//}
+						++essai;
+					}
+				} while (!salleCorrecte);
+			}
+			IDSalle = prochaineSalle;
+			salleAvecPuzzle.push_back(IDSalle);
+			essai = 0;
+		}
 
 		for (auto &it : infosSalles) {
 
