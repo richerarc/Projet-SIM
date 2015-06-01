@@ -162,3 +162,13 @@ de 15h à 16h(1h)
 28 mai de 22h à 23h30 (1h30)
 -J'ai réglé des problèmes de transparence et quelques modifications sur le pot de pillule
 
+29 mai de 13h à 15h(2h)
+-Nous avons préparé l'exposé oral
+
+31 mai de 19h30 à 21h30(2h)
+-J'ai fais de la documentation, le diagramme de classe de toute la section interface qui était à revoir au complet, ainsi que celui de ma manette. 
+
+1 mai de 9h30 à 12h(2h30)
+-J'ai continué la documentation
+
+Nombre d'heure total: 114h30

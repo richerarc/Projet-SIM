@@ -223,7 +223,40 @@ J'ai aidé Jessy avec les controlles de la manette car il avait des bugs et comm
 
 ###14:30 à 17:30
 
-J'ai commencé en travaillant sur mon fil barbelé sur blender, je suis bientôt rendu à la version finale. Ensuite j'ai continué à aider Jessy un peu avec les contrôles, le joystick est encore un peu trop sensible mais et on sait maintenant et la rotation de la caméra ne bloque que quand le joystick est poussé au max car il arrête de détecter des événements. Après on a fait les événements pour l'action qui est rattaché à chaque bouton. On a trouvé un autre bug que quand on ouvre une porte en bougeant le joystick ça fait des... Petits pépins mais on était pas capable de résoudre cela. Puisque la manette n'est pas la plus grande priorité on reviendra sur ce bug plus tard si on a le temps. 
+J'ai commencé en travaillant sur mon fil barbelé sur blender, je suis bientôt rendu à la version finale. Ensuite j'ai continué à aider Jessy un peu avec les contrôles, le joystick est encore un peu trop sensible mais et on sait maintenant et la rotation de la caméra ne bloque que quand le joystick est poussé au max car il arrête de détecter des événements. Après on a fait les événements pour l'action qui est rattaché à chaque bouton. On a trouvé un autre bug que quand on ouvre une porte en bougeant le joystick ça fait des... Petits pépins mais on n'était pas capable de résoudre cela. Puisque la manette n'est pas la plus grande priorité on reviendra sur ce bug plus tard si on a le temps. 
+
 ###Durée: 3h
 
-##Durée Totale: 69h30
+##Mardi 26 mai 2015
+
+###15:00 à 18:00
+
+ J'ai commencé à faire les classes note/journal pour qu'on puisse les mettre dans le jeu mais je me suis vite rendu compte que je ne savais pas trop comment gérer les items, puisque Brandon l'a codé il est plus à l'aise avec donc je lui ai demandé de le faire. J'ai aussi aidé Xavier avec un bug dans le menu intro qui faisait qu'il ne se réinitialisait pas après qu'on ait passé dedans. Je l'ai ensuite aidé à faire fonctionner le menu fin de partie mais on n'était pas capable de régler le bug où on ne peut pas commencer une nouvelle partie après en avoir fini une.
+
+###Durée: 3h
+
+###Jeudi 28 mai 2015
+
+##15:00 à 18:00
+
+J'ai fait mon piège sur blender qui est un plafond qui va monter et descendre dans lequel il y aura des trous. Il faudra se pencher en allant dans les trous et bouger quand le plafond commencera à monter pour passer au travers. J'ai fait les étapes nécéssaires pour que mon plafond puisse être pris en compte par le jeu (fichiers textes, obj, etc.)
+
+###Durée: 3h 
+
+###Vendredi 29 mai 2015
+
+##16:00 à 20:00
+
+J'ai codé mon plafond tueur dans le jeu avec l'aide de Richer, il a été ajouté aux puzzles et je me suis arrangé pour qu'il monte et qu'il descende. En essai/erreur j'ai ajusté la formule du mouvement du plafond pour qu'il ait une bonne vitesse et amplitude. J'ai activé les collisions internes pour qu'on ne fasse pas que rebondir sur la bounding box mais maintenant on fait juste passer au travers, les collisions ne fonctionnent donc pas vraiment il semble.
+
+###Durée: 4h
+
+###Dimanche 31 mai 2015
+
+##19:30 à 12:30
+
+J'ai aidé Julien avec les puzzle, surtout s'arranger pour que les pendules et le plafond tueur apparaissent à un bon endroit au lieu d'exister n'importe où.
+
+###Durée: 5h
+
+##Durée Totale: 84h30
