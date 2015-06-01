@@ -97,6 +97,10 @@ public:
 		}
 	}
 	
+	void stopper(int type){
+		Mix_FadeOutChannel(type, 10);
+	}
+	
 	void defVolumePrinc(int vol){
 		Mix_Volume(-1, vol);
 	}
