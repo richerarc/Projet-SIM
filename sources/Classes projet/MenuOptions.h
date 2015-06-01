@@ -37,7 +37,7 @@ public:
 			std::bind(&MenuOptions::survol, this, std::placeholders::_1),
 			std::bind(&MenuOptions::defaut, this, std::placeholders::_1),
 			Vecteur2f(300, 300),
-			new std::string("Controles"),
+			new std::string("Controls"),
 			50);
 
 		this->retour = new Bouton(std::bind(&MenuOptions::enClicRetour, this, std::placeholders::_1),
