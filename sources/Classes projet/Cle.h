@@ -52,7 +52,17 @@ public:
 	}
 	void utiliser2(Joueur* joueur){}
 	void equiper(Joueur* joueur){}
-	void animer(Joueur* joueur){}
+	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 6 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+	}
 };
 
 class CleRoulliee : public Cle{

@@ -317,6 +317,16 @@ public:
 		delete texte_ID_Salle;
 		delete vie;
 		delete vieMentale;
+		delete munitionLugerRestantes;
+		delete munitionThompsonRestantes;
+		delete gazRestant;
+
+		delete accesRapide;
+		delete point;
+		delete compteurMunitionLuger;
+		delete compteurMunitionThompson;
+		delete compteurGaz;
+		delete filtre;
 	}
 
 	void rafraichir(float frameTime) {
@@ -586,7 +596,7 @@ public:
 									diz = strtoull(dizaine, NULL, 2);
 									uni = strtoull(unite, NULL, 2);
 
-									Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple((diz * 10 + uni) % nbrSalle, 0));
+									Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple((diz * 10 + uni) % Carte::obtInstance().nombreDeSalle, 0));
 								}
 							}
 							for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
