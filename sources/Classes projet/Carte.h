@@ -743,6 +743,29 @@ private:
 		return false;
 	}
 
+	/*void etablirPorteVerrouille(Entree porteSalleSuivante, std::vector<Entree> portesSalleActuelle, unsigned int itteration) {
+
+		Sortie sortie = liens[porteSalleSuivante];
+
+		std::vector<Entree> entrees;
+		bool porteDejaVerrouille = false;
+		auto it_Salle = infosSalles.begin();
+		std::advance(it_Salle, std::get<0>(porteSalleSuivante));
+		for (auto it_Porte : it_Salle->Objet) {
+			if (it_Porte->type == PORTE) {
+				entrees.push_back(Entree(it_Porte->ID, it_Porte->ID, false));
+				if (it_Porte->estVerrouille)
+					porteDejaVerrouille = true;
+			}
+		}
+
+		if (!porteDejaVerrouille) {
+			for (auto it_Porte : it_Salle->Objet) {
+				rand() % 10
+			}
+		}
+	}*/
+
 public:
 
 	Salle *salleActive;
@@ -1046,7 +1069,6 @@ public:
 					entree = std::make_tuple(i, itterateurPorte++, false);
 					sortie = std::make_tuple(j, rand() % porte[j]);
 					ajouterLien(entree, sortie);
-					Sortie pieceSuivante = liens[entree];
 				}
 			}
 		}
@@ -1155,6 +1177,7 @@ public:
 				objet.largeur = 0;
 				LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
+				objet.estVerrouille = false;
 				it.Objet.push_front(new InfoObjet(objet));
 			}
 			
@@ -1195,7 +1218,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 4.1, 0, 2.57 };
 		porte.rotation = { 0, 90, 0 };
-
+		porte.estVerrouille = false;
 		salleDebut.Objet.push_back(new InfoObjet(porte));
 
 		// Lit
@@ -1302,6 +1325,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
+				obj.estVerrouille = false;
 				itt.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1368,7 +1392,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 21.1, 0, -1.470588235 / 2 };
 		porte.rotation = { 0, 180, 0 };
-
+		porte.estVerrouille = false;
 		salleTeleporteur.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1380,7 +1404,7 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { -21.1, 0, 1.470588235 / 2 };
 		porte2.rotation = { 0, 0, 0 };
-
+		porte2.estVerrouille = false;
 		salleTeleporteur.Objet.push_back(new InfoObjet(porte2));
 
 		// Poste
@@ -1527,6 +1551,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
+				obj.estVerrouille = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1557,6 +1582,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 0., 0., 4.88968};
 		porte.rotation = { 0, 90, 0 };
+		porte.estVerrouille = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1568,6 +1594,7 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { 1.5, 0., -4.88968 };
 		porte2.rotation = { 0, 270, 0 };
+		porte2.estVerrouille = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte2));
 
 		// Porte (Sortie2)
@@ -1578,6 +1605,7 @@ public:
 		porte3.largeur = 0;
 		porte3.position = { -3., 0., -4.88968 };
 		porte3.rotation = { 0, 270, 0 };
+		porte3.estVerrouille = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte3));
 
 		// Personnage à tuer/sauver
@@ -1622,6 +1650,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
+				obj.estVerrouille = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1651,6 +1680,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { -0.73582, 2.19928, -10.92071 };
 		porte.rotation = { 0, -90, 0 };
+		porte.estVerrouille = false;
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1662,6 +1692,7 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { -0.67482, 6.21597, 6.39771 };
 		porte2.rotation = { 0, 90, 0 };
+		porte2.estVerrouille = false;
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte2));
 
 		// Plate
@@ -1705,6 +1736,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
+				obj.estVerrouille = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1748,7 +1780,7 @@ public:
 		porteFin.largeur = 0;
 		porteFin.position = { -32.9405, 0, -74.5517 };
 		porteFin.rotation = { 0, -38, 0 };
-
+		porteFin.estVerrouille = false;
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
 
 		// Création de l'avion
@@ -1781,6 +1813,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
+				obj.estVerrouille = false;
 				itt.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
