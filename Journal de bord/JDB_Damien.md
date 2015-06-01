@@ -107,3 +107,7 @@
 	Finalisation de salles et clean de certaines choses.
 #Vendredi 29 mai (10:00 à 16:00)
 	Création de la salle SalleAccroupie et discution pour la présentation (Stress pour moi...j'espère que le travail que j'ai fait est bien)
+#Dimanche 31 mai (14:00 à 21:30)
+	Modification de certaines partie du projet tel que repositionnement de la pièce finale, fait en sorte que la santée et la santée mentale ne dépasse pas 100, ajout de delete, test de jeux et ajout de delete et report de bugs au groupe.
+	
+	Heures : 126.5 heures
