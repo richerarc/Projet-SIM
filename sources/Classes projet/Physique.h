@@ -95,7 +95,7 @@ public:
 		mapRestitution["carton"] = 0.55;
 	}
 
-	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, Vecteur3d* verticesCollision, bool collisionReelle) {
+	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, bool collisionReelle) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -257,13 +257,6 @@ public:
 		joueur->obtVitesse() += ForceTotale * (frameTime / joueur->obtMasse());
 
 	}
-	/*void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
-		Vent* it_Vent = dynamic_cast<Vent*>(objet);
-		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
-		Pendule* it_Pendule = dynamic_cast<Pendule*>(objet);
-		if (it_Pendule != nullptr) {
-		}
-	}*/
 
 	void rebondObjetCarte(Objet& objet, Vecteur3d normale, Vecteur3d pointdeCollision, double frameTime) {
 
@@ -480,7 +473,7 @@ public:
 			point = tabObjet[i];
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
