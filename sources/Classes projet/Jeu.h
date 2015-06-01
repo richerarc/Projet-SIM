@@ -66,7 +66,7 @@ public:
 		ControlleurAudio::obtInstance().initialiser(100);
 		
 		
-		fenetre = new gfx::Fenetre(gfx::ModeVideo(RESOLUTION_DEFAUT_X, RESOLUTION_DEFAUT_Y), "CoffeeTrip", false);
+		fenetre = new gfx::Fenetre(gfx::ModeVideo(RESOLUTION_DEFAUT_X, RESOLUTION_DEFAUT_Y), "The Journalist", false);
 
 		fps = new gfx::Texte2D(new std::string("0"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 15), Vecteur2f(0, 700));
 
@@ -119,24 +119,6 @@ public:
 				fps->defTexte(new std::string(ss.str()));
 				fps->defEchelle(Vecteur2f((float)fenetre->obtTaille().x / RESOLUTION_DEFAUT_X, (float)fenetre->obtTaille().y / RESOLUTION_DEFAUT_Y));
 			}
-			PhaseJeu* phase = dynamic_cast<PhaseJeu*>(GestionnairePhases::obtInstance().obtDerniere());
-			if (phase != nullptr) {
-				char chr[100];
-					fenetre->defTitre(std::string(SDL_itoa(Carte::obtInstance().obtInstance().salleActive->obtID(), chr, 10)));
-			}
-
-			/*if (Carte::obtInstance().finChargement) {
-				double hAngle;
-				Vecteur3d positionJoueur = Carte::obtInstance().debut(hAngle);
-				gfx::Gestionnaire2D::obtInstance().vider();
-				GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
-				GestionnairePhases::obtInstance().ajouterPhase(new PhaseJeu(positionJoueur, hAngle));
-				GestionnairePhases::obtInstance().defPhaseActive(PHASEJEU);
-				Carte::obtInstance().finChargement = false;
-				Carte::obtInstance().salleActive->remplir();
-			}*/
-
-
 			frameTime = chrono.repartir().enSecondes();
 			if (frameTime > 0.66666f)
 				frameTime = 0.016;

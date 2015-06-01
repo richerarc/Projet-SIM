@@ -41,3 +41,4 @@ Ressources/Info/thai.txt
 Ressources/Info/thompson.txt
 Ressources/Info/vase.txt
 Ressources/Info/vin.txt
+Ressources/Info/illumi.txt

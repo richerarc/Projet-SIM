@@ -114,7 +114,7 @@ private:
 				} while (i == j);
 			} while (point[i].y != point[j].y);
 
-			// Positionnement des points de blender dans le même sens...
+			// Positionnement des points de blender dans le mÃªme sens...
 			if (abs(normale.x) != 1 && abs(normale.z) != 1) {
 				if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 					if (point[i].x > point[j].x) {
@@ -174,7 +174,7 @@ private:
 			objet.position.x = vecteurRatio.x;
 			objet.position.z = vecteurRatio.z;
 
-			// Boucle qui vérifie si une porte sera en collision avec une autre...
+			// Boucle qui vÃ©rifie si une porte sera en collision avec une autre...
 			Vecteur3d pivot = { 0, 1, 0 };
 			for (auto it_Porte : salle.Objet) {
 
@@ -209,7 +209,7 @@ private:
 					}
 				}
 
-				// Si les portes ont la même direction...
+				// Si les portes ont la mÃªme direction...
 				else if ((objet.direction == (*it_Porte).direction) && !(objet.position == (*it_Porte).position)) {
 
 					if (Maths::distanceEntreDeuxPoints(objet.position, (*it_Porte).position) <= 1.471) {
@@ -299,7 +299,7 @@ private:
 					p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
 					while([&]() -> bool
 						  {
-							  Plan plan(point[0],point[1],point[2], normale);
+							  Plan plan(point[0],point[1],point[2]);
 							  Droite dr(p, {0,-1,0});
 							  
 							  return !plan.insertionDroitePlan(dr, d);
@@ -389,7 +389,7 @@ private:
 //						} while (i == j);
 //					} while (point[i].y != point[j].y);
 //					
-//						// Positionnement des points de blender dans le même sens...
+//						// Positionnement des points de blender dans le mÃªme sens...
 //					if (abs(normale.x) != 1 && abs(normale.z) != 1) {
 //						if ((normale.x >= 0 && normale.z >= 0) || (normale.x < 0 && normale.z >= 0)) {
 //							if (point[i].x > point[j].x) {
@@ -453,7 +453,7 @@ private:
 //					objet.position.x = vecteurRatio.x;
 //					objet.position.z = vecteurRatio.z;
 //					
-//						// Boucle qui vérifie si une porte sera en collision avec une autre...
+//						// Boucle qui vÃ©rifie si une porte sera en collision avec une autre...
 //					Vecteur3d pivot = { 0, 1, 0 };
 //					for (auto it : salle.Objet) {
 //						
@@ -488,7 +488,7 @@ private:
 //							}
 //						}
 //						
-//							// Si les portes ont la même direction...
+//							// Si les portes ont la mÃªme direction...
 //						else if ((objet.direction == (*it).direction) && !(objet.position == (*it).position)) {
 //							
 //							if (Maths::distanceEntreDeuxPoints(objet.position, (*it).position) <= boite.obtGrandeurX()) {
@@ -839,7 +839,7 @@ public:
 
 		mettreAJourInfoSalle((*sallePrecedente), entree);
 
-		// Calcul de la rotation de camÃ©ra Ã  appliquer:
+		// Calcul de la rotation de camÃƒÂ©ra ÃƒÂ  appliquer:
 		// {
 
 		orientationCamera[0] = vitesseRotationHV[0] = (*portePrecedente)->rotation.y + 270;
@@ -860,7 +860,7 @@ public:
 
 		// }
 
-		// Calcul de la translation Ã  appliquer sur le joueur...
+		// Calcul de la translation ÃƒÂ  appliquer sur le joueur...
 		// {
 
 		positions[0] = (*portePrecedente)->position + ((*portePrecedente)->direction.produitVectoriel(Vecteur3d(0, 1, 0)) * 0.7352941176) - ((*portePrecedente)->direction * 1.5);
@@ -879,7 +879,7 @@ public:
 		auto it = (*debut).Objet.begin();
 		std::advance(it, std::get<1>(salleSuivante));
 
-		// DÃ©finition de la position du faux mur, de la fausse porte et du joueur...
+		// DÃƒÂ©finition de la position du faux mur, de la fausse porte et du joueur...
 		Vecteur3d positionMur = (*it)->position - ((*it)->direction * 1.68);
 
 		modeleMur->defPosition(positionMur);
@@ -1008,11 +1008,11 @@ public:
 		gfx::Gestionnaire3D::obtInstance().retObjet(modelePorte);
 	}
 
-	// Procédure qui permet de créer le graphe et la première salle dans laquelle le joueur commence...
+	// ProcÃ©dure qui permet de crÃ©er le graphe et la premiÃ¨re salle dans laquelle le joueur commence...
 	void creer() {
 		srand(time(NULL));
 
-		// Création du graphe
+		// CrÃ©ation du graphe
 		carte.creer(nombreDeSalle);
 		int itterateurPorte(0);
 
@@ -1071,7 +1071,7 @@ public:
 			InfoObjet obj;
 			LecteurFichier::lireObjet(cheminsObjet[i], obj);
 			if (obj.type == ITEM){
-				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 20){
+				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 20 || obj.IDitem == 80 || obj.IDitem == 72){
 					ItemsUniques.push(obj);
 				}
 				else
@@ -1190,7 +1190,7 @@ public:
 					it.Objet.push_back(new InfoObjet(objet));
 			}
 
-			// Ajout et réinitialisation de la salle.
+			// Ajout et rÃ©initialisation de la salle.
 			delete modeleSalle;
 			chargement += (100.0f / nombreDeSalle);
 		}
@@ -1199,7 +1199,7 @@ public:
 
 	Vecteur3d debut(double& hAngle, double& vAngle) {
 
-		// Salle de début
+		// Salle de dÃ©but
 
 		InfoSalle salleDebut;
 		salleDebut.cheminModele = "Ressources/Modele/SalleDebut.obj";
@@ -1208,7 +1208,7 @@ public:
 		salleDebut.ID = infosSalles.size();
 		salleDebut.nbrPorte = 1;
 
-		// Création des objets de la salle
+		// CrÃ©ation des objets de la salle
 
 		// Porte (En premier)
 
@@ -1320,7 +1320,7 @@ public:
 
 		salleDebut.Objet.push_back(new InfoObjet(masque));
 
-		// Ajout du lien de sortie de la salle de début
+		// Ajout du lien de sortie de la salle de dÃ©but
 
 		int IDporte;
 
@@ -1349,7 +1349,7 @@ public:
 		ajouterLien(Entree(salleDebut.ID, 0, false), Sortie(it->ID, IDporte));
 		ajouterLien(Entree(it->ID, IDporte, false), Sortie(salleDebut.ID, 0));
 
-		// Ajout/Création de la salle et autre
+		// Ajout/CrÃ©ation de la salle et autre
 		infosSalles.push_back(salleDebut);
 
 		// Verrouillage des portes...
@@ -1403,9 +1403,9 @@ public:
 		salleTeleporteur.ID = infosSalles.size();
 		salleTeleporteur.nbrPorte = 1;
 
-		// Création des objets de la salle
+		// CrÃ©ation des objets de la salle
 
-		// Porte (EntrŽe)
+		// Porte (EntrÂŽe)
 
 		InfoObjet porte;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
@@ -1593,7 +1593,7 @@ public:
 		sallePhilo.ID = infosSalles.size();
 		sallePhilo.nbrPorte = 3;
 
-		// Création des objets de la salle
+		// CrÃ©ation des objets de la salle
 
 		// Porte (Entree)
 
@@ -1630,7 +1630,7 @@ public:
 		porte3.Verrouillage[0] = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte3));
 
-		// Personnage à tuer/sauver
+		// Personnage Ã  tuer/sauver
 		InfoObjet personnage;
 		personnage.largeur = 100;
 		personnage.cheminModele = "Ressources/Modele/Kevin.obj";
@@ -1692,7 +1692,7 @@ public:
 		salleBasseGravite.ID = infosSalles.size();
 		salleBasseGravite.nbrPorte = 2;
 
-		// Création des objets de la salle
+		// CrÃ©ation des objets de la salle
 
 		// Porte (Entree)
 
@@ -1781,7 +1781,7 @@ public:
 		salleFin.ID = infosSalles.size();
 		salleFin.nbrPorte = 1;
 
-		// Création objets salle finale
+		// CrÃ©ation objets salle finale
 
 		InfoObjet demiSphere;
 		LecteurFichier::lireObjet("Ressources/Info/demiSphere.txt", demiSphere);
@@ -1807,7 +1807,7 @@ public:
 		porteFin.Verrouillage[1] = INT_MAX;
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
 
-		// Création de l'avion
+		// CrÃ©ation de l'avion
 
 		InfoObjet avion;
 		LecteurFichier::lireObjet("Ressources/Info/avion.txt", avion);
@@ -1851,7 +1851,7 @@ public:
 
 	bool animationLeverLit(Joueur* joueur, float frameTime) {
 		if (enLeverLit) {
-			if (frameTime < 0.5) { // À cause du frametime accumulé
+			if (frameTime < 0.5) { // Ã€ cause du frametime accumulÃ©
 				temps += frameTime;
 				if (ouvrirYeux) {
 					if (temps < 4.2) {
@@ -1993,7 +1993,7 @@ public:
 				{
 					avion = nullptr;
 					enFinPartie = true;
-					///Terminée
+					///TerminÃ©e
 					return 2;
 				}
 			}
@@ -2009,7 +2009,7 @@ public:
 		illumi.ID = infosSalles.size();
 		illumi.nbrPorte = 3;
 		
-			// Création des objets de la salle
+			// CrÃ©ation des objets de la salle
 		
 			// Porte (Entree)
 		

@@ -58,7 +58,7 @@ private:
 			normale.y = normales[nbrFace / 2].y;
 			normale.z = normales[nbrFace / 2].z;
 
-			plan.calculerPlan(point1, point2, point3, normale);
+			plan.calculerPlan(point1, point2, point3);
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
 				if (Maths::pointDansFace1(point1, point2, point3, pointCollision, normale)) {
@@ -129,7 +129,7 @@ public:
 			}
 
 			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
-			plan.calculerPlan(point1, point2, point3, normale);
+			plan.calculerPlan(point1, point2, point3);
 
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 				if (abs(normale.x == abs(normale.z))) {
