@@ -32,6 +32,8 @@ public:
 		std::string* str = new std::string();
 		char chr[20];
 
+		bool ok = false;
+
 		for (int i = 0; i < gfx::ModeVideo::obtModes().size() && i < 60; ++i) {
 			
 			double l = gfx::ModeVideo::obtModes()[i].l;
@@ -53,16 +55,30 @@ public:
 					--resolutionDefaut;
 					modeVideoDefaut = modesVideo.end();
 					--modeVideoDefaut;
+					ok = true;
 				}
 			}
+		}
+
+		if (!ok) {
+			resolutionDefaut = resolutions.end();
+			--resolutionDefaut;
+			modeVideoDefaut = modesVideo.end();
+			--modeVideoDefaut;
+			iterateur = resolutionDefaut;
+			modeVideo = modeVideoDefaut;
+			enClicAppliquer(nullptr);
+		}
+
+		else {
+			iterateur = resolutionDefaut;
+			modeVideo = modeVideoDefaut;
 		}
 
 		pleinEcrans.push_back(new gfx::Texte2D(new std::string("Windowed"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 403)));
 		pleinEcrans.push_back(new gfx::Texte2D(new std::string("Fullscreen"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 403)));
 		pleinEcrans.push_back(new gfx::Texte2D(new std::string("No border"), { 0, 0, 0, 255 }, gfx::GestionnaireRessources::obtInstance().obtPolice("Ressources/Font/arial.ttf", 40), Vecteur2f(95, 403)));
 
-		iterateur = resolutionDefaut;
-		modeVideo = modeVideoDefaut;
 		pleinEcranActuel = pleinEcrans.begin();
 
 		spriteFond = new gfx::Sprite2D(Vecteur2f(0, 0), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/fondMenu.png"));
