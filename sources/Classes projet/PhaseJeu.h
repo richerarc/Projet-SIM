@@ -325,6 +325,9 @@ public:
 			if (salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 5){
 				ControlleurAudio::obtInstance().jouer(XFILE, joueur);
 			}
+			else{
+				Mix_FadeOutChannel(XFILE, 1000);
+			}
 			if (joueur->obtPosition().y < -3. && salleActive->obtID() == difficulte + 1)
 				GestionnaireSucces::obtInstance().obtSucces(15);
 			if (salleActive->obtID() == difficulte + 2)
