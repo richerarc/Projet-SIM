@@ -56,6 +56,10 @@
 
 21 mai: liste des achievbements, ne reste plus qua les afficher dans un menu (2h)
 
-26 mai: creation de la cartouche de gas et creation de la salle illuminati (4h)
+26 mai: creation de la cartouche de gas et creation de la salle illuminati (6h)
 
-27 mai: deverrouillage de portes, creation de la seringue, creation de la cible, de la salle sérieuse et la table serieuse, ajout d'une tour de controle a la salle de fin.
+27 mai: deverrouillage de portes, creation de la seringue, creation de la cible, de la salle sérieuse et la table serieuse, ajout d'une tour de controle a la salle de fin. (6h)
+
+29 mai: meeting pour l'oral (2h)
+
+31 juin: travail sur la documentation (2h)
