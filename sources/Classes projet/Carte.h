@@ -299,7 +299,7 @@ private:
 					p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
 					while([&]() -> bool
 						  {
-							  Plan plan(point[0],point[1],point[2], normale);
+							  Plan plan(point[0],point[1],point[2]);
 							  Droite dr(p, {0,-1,0});
 							  
 							  return !plan.insertionDroitePlan(dr, d);
