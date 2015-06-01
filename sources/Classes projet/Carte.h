@@ -649,63 +649,68 @@ private:
 
 	void etablirPorteVerrouille(unsigned int IDPiece, unsigned int IDPiecePrecedente, unsigned int itteration, std::map<unsigned int, unsigned int>& itterateurs) {
 
+		if (IDPiece != nombreDeSalle) {
 
-		std::vector<Entree> entrees;
-		bool porteDejaVerrouille = false;
-		unsigned int nbrPorte = 0;
-		auto it_Salle = infosSalles.begin();
-		std::advance(it_Salle, IDPiece);
-		for (auto it_Porte : it_Salle->Objet) {
-			if (it_Porte->type == PORTE) {
-				Entree entree(IDPiece, it_Porte->ID, false);
-				if (std::get<0>(liens[entree]) != IDPiecePrecedente)
-				if (std::get<0>(liens[entree]) != (nombreDeSalle + 2)) {
-					entrees.push_back(entree);
-				}
-				else
-				{
-					it_Porte->Verrouillage[0] = true;
-					it_Porte->Verrouillage[1] = INT_MAX;
-				}
-				if (it_Porte->Verrouillage[0])
-					porteDejaVerrouille = true;
-				++nbrPorte;
-			}
-		}
-
-		if (itterateurs[IDPiece] != 1) {
-			if (itteration > 2) {
-				if (!porteDejaVerrouille) {
-					for (auto it_Porte : it_Salle->Objet) {
-						if (it_Porte->type == PORTE && it_Porte->Verrouillage[1] != INT_MAX) {
-							unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
-							it_Porte->Verrouillage[0] = (pos >= (itteration)) ? true : false;
-						}
+			std::vector<Entree> entrees;
+			bool porteDejaVerrouille = false;
+			unsigned int nbrPorte = 0;
+			auto it_Salle = infosSalles.begin();
+			std::advance(it_Salle, IDPiece);
+			for (auto it_Porte : it_Salle->Objet) {
+				if (it_Porte->type == PORTE) {
+					Entree entree(IDPiece, it_Porte->ID, false);
+					if (std::get<0>(liens[entree]) != IDPiecePrecedente)
+					if (std::get<0>(liens[entree]) != (nombreDeSalle + 2)) {
+						entrees.push_back(entree);
 					}
-					itterateurs[IDPiece] = itteration;
+					else
+					{
+						it_Porte->Verrouillage[0] = true;
+						it_Porte->Verrouillage[1] = INT_MAX;
+					}
+					if (it_Porte->Verrouillage[0])
+						porteDejaVerrouille = true;
+					++nbrPorte;
 				}
-				else {
-					if (itterateurs[IDPiece] > itteration) {
+			}
+
+			if (itterateurs[IDPiece] != 1) {
+				if (itteration > 2) {
+					if (!porteDejaVerrouille) {
 						for (auto it_Porte : it_Salle->Objet) {
-							if (it_Porte->type == PORTE) {
+							if (it_Porte->type == PORTE && it_Porte->Verrouillage[1] != INT_MAX) {
 								unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
 								it_Porte->Verrouillage[0] = (pos >= (itteration)) ? true : false;
 								it_Porte->Verrouillage[1] = rand() % (nbrPorte * itteration * 2);
 							}
+							else
+								int i = 0;
 						}
 						itterateurs[IDPiece] = itteration;
 					}
+					else {
+						if (itterateurs[IDPiece] > itteration) {
+							for (auto it_Porte : it_Salle->Objet) {
+								if (it_Porte->type == PORTE) {
+									unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
+									it_Porte->Verrouillage[0] = (pos >= (itteration)) ? true : false;
+									it_Porte->Verrouillage[1] = rand() % (nbrPorte * itteration * 2);
+								}
+							}
+							itterateurs[IDPiece] = itteration;
+						}
+					}
+				}
+				else
+				{
+					itterateurs[IDPiece] = 1;
 				}
 			}
-			else
-			{
-				itterateurs[IDPiece] = 1;
-			}
-		}
 
-		if (!porteDejaVerrouille) {
-			for (unsigned int ui = 0; ui < entrees.size(); ++ui) {
-				etablirPorteVerrouille(std::get<0>(liens[entrees[ui]]), IDPiece, itteration + 1, itterateurs);
+			if (!porteDejaVerrouille) {
+				for (unsigned int ui = 0; ui < entrees.size(); ++ui) {
+					etablirPorteVerrouille(std::get<0>(liens[entrees[ui]]), IDPiece, itteration + 1, itterateurs);
+				}
 			}
 		}
 	}
@@ -1799,6 +1804,7 @@ public:
 		porteFin.position = { -32.9405, 0, -74.5517 };
 		porteFin.rotation = { 0, -38, 0 };
 		porteFin.Verrouillage[0] = false;
+		porteFin.Verrouillage[1] = INT_MAX;
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
 
 		// Création de l'avion
