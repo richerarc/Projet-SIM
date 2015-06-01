@@ -622,3 +622,25 @@ Je crois que ces calculs devront s'additionner à ce que j'ai déjà, ça devrai
 **8h30**: Durant cette période de travail, j'ai pu compléter mon objet Canon à peinture. Au final, l'objet permet de fait afficher au maximum quatre "me gusta" par salle et ceux-ci restent dans les salles, même si elles sont quittées. Il me reste un bug où il semble y avoir des rotation sur les modèles qui ne devraient pas avoir lieux. Je dirai que ça c'est bien passé, j'ai du regardé et comprendre ce qui avait été fait avec les items. Le plus difficile a été de conserver les "me gusta" quand on quitte une salle, j'ai eu beaucoup de problèmes de pointeurs, mais je crois y être parvenus sans créer de fuite. Sinon j'ai aussi beaucoup aidé Xavier dans son travail sur les cibles, j'ai aussi aidé quelques autres personnes durant le temps.
 
 **1h00**: Nous avons parlé de l'oral, je vais essayé de me trouver un temps pour me préparer, mais je ne crois pas manqué de chose à dire!
+
+###30 mai 2015
+
+**3h00**: Étant donné ma nuit blanche, j'étais très fatigué. Donc en cette journée, j'ai pu finir mes rebonds pour ensuite m'endormir sur mon ordi jusqu'à ce que mes parents me réveille à leur retour.
+
+###31 mai 2015
+
+**3h00**: J'ai modeler, texture et créé des info objet pour 8 nouveau objet(pour Richer)
+
+**0h15**: J'ai fait une procédure dans Physique pour appliquer la physique sur le joueur.
+
+**3h00**: J'ai fait l'animation de fin de partie, j'ai eu à apporte plusieurs modifications au blend de la salle de fin et à la skysphere. Le joueur embarque dans l'avion et elle décolleen accélérant.
+
+**0h30**: J'ai réglé le problème des loops dans la génération de puzzle et aussi celui du drop d'item.
+
+**0h30**: J'ai réglé le bug d'absence de physique normale au début du jeu, le frametime s'accumulait durant le load, ce qui engendrait plusieurs problème. Maintenant il ne s'accumule plus jamais tout au long du jeu.
+
+**4h00**: J'ai fait la gestion des items lorsqu'on se déplace entre les salles(J'ai aussi arrangé le bug où les peintures de trou de balle étaient conservées en "Me gusta"). Durant ce temps j'ai aussi aidé plusieurs personne sur plusieurs problèmes.
+
+**3h00**: Travail sur le verrouillage des portes. J'ai créée une procédure récursive dans carte qui passe sur toute les portes et les verrouille selon plusieurs paramètre.
+
+**1h00**: Correction d'un erreur dans plan où l'insertionDroitePlan ne semble pas fonctionner normalement, l'objet n'accumule plus de vitesse/vitesseAngulaire quand il est pris et relâché plusieurs fois et le rebonds sont légèrement mieux!
