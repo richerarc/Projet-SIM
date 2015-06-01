@@ -479,6 +479,12 @@ public:
 				if (tempsRestant <= 0 || joueur->obtSanteMentale() <= 0 || joueur->obtSantePhysique() <= 0 || Carte::obtInstance().animationFinPartie(joueur, frameTime) == 2) {
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+					if (joueur->obtSanteMentale() <= 0){
+						GestionnaireSucces::obtInstance().obtSucces(20);
+					}
+					if (joueur->obtSantePhysique() <= 0){
+						GestionnaireSucces::obtInstance().obtSucces(23);
+					}
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
