@@ -64,7 +64,14 @@ public:
 	}
 
 	void equiper(Joueur* joueur){
-
+		switch (rand() % 3){
+		case (0):
+			return ControlleurAudio::obtInstance().jouer(PAPIER_1, joueur);
+		case (1) :
+			return ControlleurAudio::obtInstance().jouer(PAPIER_2, joueur);
+		case (2) :
+			return ControlleurAudio::obtInstance().jouer(PAPIER_3, joueur);
+		}
 	}
 
 	void animer(Joueur* joueur){
