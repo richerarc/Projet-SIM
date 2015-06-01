@@ -91,3 +91,10 @@ Durée: environ 2h
 J'a créé une nouvelle salle, la salle de debut. Elle est pas finie, ais c'est un bon début
 
 Durée, environ 1h50
+
+-- 15 Mai à 1er juin --
+
+Bon j'ai fait beaucoup de blender, quelques objets et salles, J'ai aussi travaillé avec quelques collègues dans leurs codes respectifs.
+J'ai complètement oublié encore e mettre a jour mon journal de bord..
+
+Durée environ une vingtaine d'heures dans les dernieres deux semaines.
