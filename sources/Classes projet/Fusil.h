@@ -59,7 +59,12 @@ public:
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
-		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde && munition){
+		if (!munition){
+			ControlleurAudio::obtInstance().jouer(FUSILVIDE, joueur);
+			return;
+		}
+
+		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde){
 			dps.repartir();
 			--munition;
 			if (type == 10)
@@ -94,9 +99,7 @@ public:
 					if (it->obtMateriaux() == "personnage"){
 						salleActive->retirerObjet(it);
 						delete it;
-						GestionnaireSucces::obtInstance().obtSucces(27);
 						ControlleurAudio::obtInstance().jouer(AH, joueur);
-						joueur->defSanteMentale(joueur->obtSanteMentale() - 15);
 						break;
 					}
 					else{
