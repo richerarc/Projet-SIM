@@ -43,17 +43,7 @@ public:
 		case (2) :
 			switch (type % 10){
 			case(0) :
-			{bool nouveau = false;
-				unsigned short aleatoire = 0;
-				while (!nouveau){
-					aleatoire = rand() % 14;
-					if (examensUtilises[aleatoire] == false){
-						nouveau = true;
-						examensUtilises[aleatoire] = true;
-					}
-				}
-				return new Examen(ID, aleatoire);
-			}
+				return new Examen(ID, rand() % 14);
 			case(1) :
 				return new Note(ID, gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/Why.png"));
 			case(2) :
