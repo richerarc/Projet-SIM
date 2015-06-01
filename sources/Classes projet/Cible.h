@@ -15,10 +15,10 @@ public:
 		Vecteur3d pointBase(0.14, 1.44648, -1.25);
 		this->force = force;
 		double mat[4];
-		mat[0] = cos(Maths::degreARadian(-porte.rotation));
-		mat[1] = -sin(Maths::degreARadian(-porte.rotation));
-		mat[2] = sin(Maths::degreARadian(-porte.rotation));
-		mat[3] = cos(Maths::degreARadian(-porte.rotation));
+		mat[0] = cos(Maths::degreARadian(-porte.rotation.y));
+		mat[1] = -sin(Maths::degreARadian(-porte.rotation.y));
+		mat[2] = sin(Maths::degreARadian(-porte.rotation.y));
+		mat[3] = cos(Maths::degreARadian(-porte.rotation.y));
 
 
 		Vecteur3d tabVecteur[8];
