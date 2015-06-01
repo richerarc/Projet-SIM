@@ -44,19 +44,32 @@ public:
 				Droite rayon(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition(), gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant());
 				Vecteur3d pointCollision;
 				Vecteur3d normale;
-				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
+				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, false)){
 					if (Maths::distanceEntreDeuxPoints(pointCollision, gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition()) < portee){
 						Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeMelee.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeMelee.png")), pointCollision, normale, false);
 						salleActive->ajoutObjet(trou);
 						gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
 						ControlleurAudio::obtInstance().jouer(COUPCOUTEAU, joueur);
+						for (auto it : salleActive->obtListeObjet()) {
+							if (it->obtSiPorte()) {
+								Porte* porte = dynamic_cast<Porte*>(it);
+								if (porte->obtCible()->obtBoiteCollision().pointDansBoite2(pointCollision)) {
+									if (porte->obtCible()->obtForce() > degats)
+										porte->obtCible()->defForce(porte->obtCible()->obtForce() - degats);
+									else {
+										porte->obtCible()->defForce(0);
+										porte->defVerrouillee(false);
+									}
+								}
+							}
+						}
 					}
 					else{
 						ControlleurAudio::obtInstance().jouer(COUPCOUTEAUVIDE, joueur);
 					}
 				}
 				for (auto it : salleActive->obtListeObjet()){
-					if (it->obtMateriaux() == "personnage" && (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false))){
+					if (it->obtMateriaux() == "personnage" && (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, false))){
 					salleActive->retirerObjet(it);
 					delete it;
 					ControlleurAudio::obtInstance().jouer(AH, joueur);

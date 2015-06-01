@@ -21,6 +21,10 @@ namespace gfx{
 
 		bool pause;
 
+		bool changement;
+		double dernierHAngle;
+		double dernierVAngle;
+
 		void construireMatrice(){
 			matriceVue[0][0] = cote.x;
 			matriceVue[1][0] = cote.y;
@@ -96,6 +100,8 @@ namespace gfx{
 
 			this->hAngle = 0;
 			this->vAngle = 0;
+			this->dernierHAngle = hAngle;
+			this->dernierVAngle = vAngle;
 
 			this->pause = false;
 
@@ -138,12 +144,19 @@ namespace gfx{
 		void rafraichir(){
 			hAngle -= valeurx;
 			vAngle -= valeury;
+			
+			changement = dernierHAngle != hAngle || dernierVAngle != vAngle;
+			dernierHAngle = hAngle;
+			dernierVAngle = vAngle;
+
 			calculerVecteurs();
 		}
 		void appliquer(){
 			glMultMatrixd(&matriceVue[0][0]);
 			glTranslated(-position.x, -position.y, -position.z);
 		}
+
+		bool obtChangement(){ return this->changement; }
 
 		void bloquer() { pause = true; }
 

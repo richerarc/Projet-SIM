@@ -165,12 +165,7 @@ private:
 
 	void appliquerPhysique(float frameTime) {
 		if (joueur->obtVitesse().norme() != 0) {
-			if (joueur->obtNormale().y != 1) {
-				Physique::obtInstance().appliquerGravite(joueur->obtVitesse(), frameTime);
-			}
-			//if (joueur->obtNormaleMur().y == 0. && (joueur->obtNormaleMur().x != 0. || joueur->obtNormaleMur().z != 0.)){
-			//	joueur->longer();
-			//}
+			Physique::obtInstance().appliquerPhysiqueSurJoueur(joueur, Carte::obtInstance().salleActive->obtListeObjet(), frameTime);
 			joueur->defPosition(joueur->obtPosition() + joueur->obtVitesse() * frameTime);
 			iterateur_x += joueur->obtVitesse().x * frameTime;
 			iterateur_z += joueur->obtVitesse().z * frameTime;
@@ -193,7 +188,7 @@ private:
 			if (it_Porte || !it_fixe){
 				Vecteur3d pointCollision, normale;
 				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtDevant());
-				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, nullptr, false)) {
+				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, false)) {
 
 					std::string str1 = "Press ";
 					str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
@@ -326,9 +321,15 @@ public:
 	void rafraichir(float frameTime) {
 		salleActive = Carte::obtInstance().salleActive;
 		Item::salleActive = salleActive;
-		if (salleActive != nullptr)
+		if (salleActive != nullptr){
+			if (salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 5){
+				ControlleurAudio::obtInstance().jouer(XFILE, joueur);
+			}
+			if (joueur->obtPosition().y < -3. && salleActive->obtID() == difficulte + 1)
+				GestionnaireSucces::obtInstance().obtSucces(15);
 			if (salleActive->obtID() == difficulte + 2)
 				GestionnaireSucces::obtInstance().verifierPacifisme();
+		}
 		GestionnaireSucces::obtInstance().obtSucces(2);
 		if (pause)
 			return;
@@ -347,6 +348,20 @@ public:
 				Carte::obtInstance().salleActive->obtObjet(0)->defCollisionInterne(true);
 				GestionnaireSucces::obtInstance().obtSucces(12);
 			}
+
+			Commutateur* com = nullptr;
+			for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
+				com = dynamic_cast<Commutateur*>(it);
+				if (com){
+					if (com->obtEtat() && Physique::obtInstance().obtGravite() != -4.f && salleActive->obtID() == difficulte + 3){
+						Physique::obtInstance().defGravite(-4.f);
+					}
+				}
+				else if (Physique::obtInstance().obtGravite() != -9.8f){
+					Physique::obtInstance().defGravite(-9.8f);
+				}
+			}
+
 			joueur->deplacement();
 			appliquerPhysique(frameTime);
 			joueur->obtInventaire()->actualiser();
@@ -366,9 +381,24 @@ public:
 			detectionObjet();
 			ControlleurAudio::obtInstance().jouerTout(joueur);
 
+			if (salleActive->obtID() == difficulte + 3 && joueur->obtPosition().y < -10.0){
+				joueur->obtVitesse() = Vecteur3d(0, 0, 0);
+				joueur->defPosition(Vecteur3d(-0.76278, 2.18987, -10.92852));
+				joueur->defHAngle(0);
+				joueur->defVAngle(0);
+				ControlleurAudio::obtInstance().jouer(CRACK_1, joueur);
+				joueur->defSantePhysique(joueur->obtSantePhysique() - 25);
+				GestionnaireSucces::obtInstance().obtSucces(19);
+			}
+
 			// On regarde si les animation de début et de transisiton de salle sont fini pour ajouter les textes a afficher.
 			if (!Carte::obtInstance().animationTransitionSalle(joueur, frameTime) && !finTransitionSalle){
 				if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
+					if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
+						float lumiereAmbiente[4] = { 4.f, 4., 4., 1.f };
+						glLightfv(GL_LIGHT0, GL_AMBIENT, lumiereAmbiente);
+						Carte::obtInstance().calculAnimationFinPartie(joueur);
+					}
 					Carte::obtInstance().calculAnimationFinPartie(joueur);
 				}
 				else{
@@ -385,11 +415,7 @@ public:
 				gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
 				tempsAffichageID.repartir();
 				finAnimationDebut = true;
-				//if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
-				//	Carte::obtInstance().calculAnimationFinPartie(joueur);
-				//}
 			}
-			Carte::obtInstance().animationFinPartie(joueur, frameTime);
 			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
 				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
 				tempsAffichageID.repartir();
@@ -467,6 +493,20 @@ public:
 					else
 						masqueEquipe = false;
 				}
+				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				else
+					mettreAJourMunitionRestant(0, 8);
+				itemTmp = joueur->obtInventaire()->obtItemParType(11);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				else
+					mettreAJourMunitionRestant(0, 20);
 				gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
 				if (masqueEquipe)
 					gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
@@ -477,6 +517,12 @@ public:
 				if (tempsRestant <= 0 || joueur->obtSanteMentale() <= 0 || joueur->obtSantePhysique() <= 0 || Carte::obtInstance().animationFinPartie(joueur, frameTime) == 2) {
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
+					if (joueur->obtSanteMentale() <= 0){
+						GestionnaireSucces::obtInstance().obtSucces(20);
+					}
+					if (joueur->obtSantePhysique() <= 0){
+						GestionnaireSucces::obtInstance().obtSucces(23);
+					}
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
@@ -614,6 +660,7 @@ public:
 		}
 		if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCESINVENTAIRE)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)) {
 			defPause(true);
+			ControlleurAudio::obtInstance().jouer(INVENTAIRE, joueur);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUINVENTAIRE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);

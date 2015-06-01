@@ -40,7 +40,22 @@ public:
 		envoi->defCouleur({ 0, 0, 0, 255 });
 	}
 	void enClickCredits(Bouton* envoi) {
-		enCredits = true;
+		if (!enCredits) {
+			enCredits = true;
+			this->spriteFond->defTexture(new gfx::Texture("Ressources\\Texture\\CreditProjetSim.png"));
+			this->credits->defTexte(new std::string("Back"));
+		}
+		else if (enCredits && !perdu) {
+			this->credits->defTexte(new std::string("Credits"));
+			enCredits = false;
+			this->spriteFond->defTexture(new gfx::Texture("Ressources\\Texture\\JournalGagner.png"));
+
+		}
+		else if (enCredits && perdu) {
+			this->credits->defTexte(new std::string("Credits"));
+			enCredits = false;
+			this->spriteFond->defTexture(new gfx::Texture("Ressources\\Texture\\JournalPerdu.png"));
+		}
 	}
 
 	void enClickRecommencer(Bouton* envoi) {

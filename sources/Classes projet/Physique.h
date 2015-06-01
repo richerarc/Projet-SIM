@@ -95,7 +95,7 @@ public:
 		mapRestitution["carton"] = 0.55;
 	}
 
-	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, Vecteur3d* verticesCollision, bool collisionReelle) {
+	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, bool collisionReelle) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -160,7 +160,7 @@ public:
 		return false;
 	}
 
-	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> objets, float frameTime, double temps) {
+	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> &objets, float frameTime, double temps) {
 		for (auto it : objets) {
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
 			if (it_Vent != nullptr) {
@@ -230,7 +230,7 @@ public:
 		}
 	}
 
-	void appliquerPhysiqueSurJoueur(Joueur* joueur, std::list<Objet*> objets, double frameTime) {
+	void appliquerPhysiqueSurJoueur(Joueur* joueur, std::list<Objet*> &objets, double frameTime) {
 		Vecteur3d ForceTotale;
 		if (joueur->obtNormale().y != 1) {
 			appliquerForceGravite(ForceTotale, joueur->obtMasse());
@@ -257,13 +257,6 @@ public:
 		joueur->obtVitesse() += ForceTotale * (frameTime / joueur->obtMasse());
 
 	}
-	/*void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
-		Vent* it_Vent = dynamic_cast<Vent*>(objet);
-		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
-		Pendule* it_Pendule = dynamic_cast<Pendule*>(objet);
-		if (it_Pendule != nullptr) {
-		}
-	}*/
 
 	void rebondObjetCarte(Objet& objet, Vecteur3d normale, Vecteur3d pointdeCollision, double frameTime) {
 
@@ -461,7 +454,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet, double frameTime) {
+	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> &listeObjet, Objet& objet, double frameTime) {
 
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
@@ -480,7 +473,7 @@ public:
 			point = tabObjet[i];
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
@@ -536,7 +529,6 @@ public:
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
-		Vecteur3d verticesCollision[3];
 		collisions typeCollision = AUCUNE;
 		bool mur = false;
 		bool escalier = false;
@@ -547,7 +539,7 @@ public:
 			if (joueur->obtVitesse().y < 0.f)
 				rayonCollision.obtenirVecteurDirecteur().y = 0;
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 				if (plafondTueur)
 					joueur->defSantePhysique(0);
 				if (fabs(normale.x) < 0.05f)
@@ -571,8 +563,8 @@ public:
 				if (normale.y == 0) {
 					if (point.y < joueur->obtPosition().y + 1) {
 						collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
-						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, verticesCollision, true)) {
-							double hauteur = 0.f;
+						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, true)) {
+							/*double hauteur = 0.f;
 							if (verticesCollision[0].x == verticesCollision[1].x && verticesCollision[0].z == verticesCollision[1].z)
 								hauteur = fabs(verticesCollision[0].y - verticesCollision[1].y);
 							if (verticesCollision[0].x == verticesCollision[2].x && verticesCollision[0].z == verticesCollision[2].z)
@@ -581,6 +573,7 @@ public:
 								hauteur = fabs(verticesCollision[1].y - verticesCollision[2].y);
 							if (hauteur != 0.f)
 								joueur->defPositionY(joueur->obtPosition().y + hauteur + .03);
+								*/
 							escalier = true;
 						}
 					}
@@ -595,8 +588,10 @@ public:
 						Vecteur3d normaleReposition = normale;
 						normaleReposition *= normePointDifference;
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + normaleReposition.x, joueur->obtPosition().y, joueur->obtPosition().z + normaleReposition.z));
-						joueur->obtVitesse().x = 0.;
-						joueur->obtVitesse().z = 0.;
+						if (joueur->obtEtat() != CHUTE){
+							joueur->obtVitesse().x = 0.;
+							joueur->obtVitesse().z = 0.;
+						}
 					}
 				}
 			}
@@ -607,7 +602,7 @@ public:
 			point = tabJoueur[i];
 			rayonCollision = Droite(point, { 0, -9.8, 0 });
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 				if (plafondTueur)
 					joueur->defSantePhysique(0);
 				normale.normaliser();
@@ -622,9 +617,14 @@ public:
 				if (typeCollision != MUR) {
 					if (joueur->obtVitesse().y <= -12 && joueur->obtVitesse().y >= -35) {
 						joueur->defSantePhysique(joueur->obtSantePhysique() - fabs(joueur->obtVitesse().y * 0.5));
+						ControlleurAudio::obtInstance().jouer(CRACK_1, joueur);
+						ControlleurAudio::obtInstance().jouer(CRACK_2, joueur);
 					}
-					if (joueur->obtVitesse().y < -35)
+					if (joueur->obtVitesse().y < -35){
 						joueur->defSantePhysique(0);
+						ControlleurAudio::obtInstance().jouer(CRACK_1, joueur);
+						ControlleurAudio::obtInstance().jouer(CRACK_2, joueur);
+					}
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
@@ -648,7 +648,7 @@ public:
 		return typeCollision;
 	}
 
-	bool collisionJoueurObjet(Joueur* joueur, std::list<Objet*> listeObjet) {
+	bool collisionJoueurObjet(Joueur* joueur, std::list<Objet*> &listeObjet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;
@@ -657,6 +657,7 @@ public:
 		Vecteur3d* tabJoueur;
 		collisions typeCollision = AUCUNE;
 		bool mur = false;
+		bool collisionPiege = false;
 
 		for (auto it : listeObjet) {
 			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it) && !dynamic_cast<Item*>(it)) {
@@ -671,8 +672,10 @@ public:
 					}
 					rayonCollision = Droite(point, joueur->obtVitesse());
 					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
-						if (dynamic_cast<Pendule*>(it))
+						if (dynamic_cast<Pendule*>(it) && !collisionPiege) {
 							joueur->defSantePhysique(joueur->obtSantePhysique() - 60);
+							collisionPiege = true;
+						}
 						if (fabs(normale.x) < 0.05f)
 							normale.x = 0.f;
 						if (fabs(normale.z) < 0.05f)
@@ -763,6 +766,14 @@ public:
 			}
 		}
 		return false;
+	}
+
+	double obtGravite(){
+		return gravite;
+	}
+
+	void defGravite(double gravite){
+		this->gravite = gravite;
 	}
 
 };

@@ -34,10 +34,14 @@ public:
 			angleHorizontal = 80;
 
 		float vitesseJoueur = joueur->obtVitesseDeplacement();
-		if (vitesseJoueur == 4.0f)
+		if (vitesseJoueur == 4.0f){
 			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
-		if (vitesseJoueur == 10.0f)
+			modele->deplacer(0, 3 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
 			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 2 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 
 		if (animationActuelle == 0)
 			return;
@@ -57,10 +61,6 @@ public:
 	void utiliser(Joueur* joueur){
 		if (!automatique && dernierCoup){
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
-			return;
-		}
-		if (!munition){
-			ControlleurAudio::obtInstance().jouer(FUSILVIDE, joueur);
 			return;
 		}
 
@@ -94,7 +94,7 @@ public:
 			for (auto &it : salleActive->obtListeObjet()){
 				if (dynamic_cast<Peinture*>(it))
 					continue;
-				if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false)){
+				if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, false)){
 
 					if (it->obtMateriaux() == "personnage"){
 						salleActive->retirerObjet(it);
@@ -113,10 +113,23 @@ public:
 						}
 					}
 				}
-				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
+				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, false)){
 					Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale, false);
 					salleActive->ajoutObjet(trou);
 					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
+					for (auto it : salleActive->obtListeObjet()) {
+						if (it->obtSiPorte()) {
+							Porte* porte = dynamic_cast<Porte*>(it);
+							if (porte->obtCible()->obtBoiteCollision().pointDansBoite2(pointCollision)) {
+								if (porte->obtCible()->obtForce() > degat)
+									porte->obtCible()->defForce(porte->obtCible()->obtForce() - degat);
+								else {
+									porte->obtCible()->defForce(0);
+									porte->defVerrouillee(false);
+								}
+							}
+						}
+					}
 				}
 				gfx::Gestionnaire3D::obtInstance().obtCamera()->defVAngle(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle() + recul);
 				double hRecul = (rand() % int(recul * 100) - (recul * 50)) / 100;

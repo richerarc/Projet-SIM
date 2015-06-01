@@ -341,3 +341,6 @@ J'ai mis un peu d'ordre dans le constructeur de phase jeu. J'ai des éclaircisse
 Richer Gabriel(nouveau sous-chef remplacant) et moi avons discuté de ce qu'il restait à faire. J'ai aussi répondu à quelques questions.
 
 **Temps 4h**
+
+##**`31 mai 2015`**
+//Mise a jour demain promis
