@@ -809,6 +809,7 @@ public:
 
 		for (; nbrinfosObjARet > 0; --nbrinfosObjARet) {
 			sallePrecedente.Objet.remove(infosObjetARetirer[nbrinfosObjARet - 1]);
+			delete infosObjetARetirer[nbrinfosObjARet - 1];
 		}
 
 		for (auto it : salleActive->obtListeObjet()) {
