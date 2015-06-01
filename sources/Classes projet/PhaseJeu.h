@@ -410,6 +410,13 @@ public:
 					gfx::Gestionnaire2D::obtInstance().ajouterObjet(texte_ID_Salle);
 					tempsAffichageID.repartir();
 					finTransitionSalle = true;
+					if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
+						for (int i = 0; i < cheminRecursif.size(); ++i)
+							cheminRecursif.pop();
+					}
+					cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
+					cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
+					santeMentale();
 				}
 			}
 
@@ -579,13 +586,6 @@ public:
 								}
 							}
 							Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
-							if (Carte::obtInstance().salleActive->obtID() != cheminRecursif.top()){
-								for (int i = 0; i < cheminRecursif.size(); ++i)
-									cheminRecursif.pop();
-							}
-							cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
-							cheminLogique.push_front(Carte::obtInstance().salleActive->obtID());
-							santeMentale();
 							finTransitionSalle = false;
 						}
 						else{ //a ajouter: verification si le joeueur a une cle
