@@ -1067,14 +1067,12 @@ public:
 			cheminsObjet.push_back(curseur1);
 			++nbrObjet;
 		}
-		int unique = 0;
 		for (int i = 0; i < cheminsObjet.size(); ++i){
 			InfoObjet obj;
 			LecteurFichier::lireObjet(cheminsObjet[i], obj);
 			if (obj.type == ITEM){
-				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 20 || obj.IDitem == 80 || obj.IDitem == 72){
+				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 80 || obj.IDitem == 72){
 					ItemsUniques.push_back(obj);
-					++unique;
 				}
 				else
 					Items.push_back(obj);
@@ -1180,10 +1178,10 @@ public:
 			objet.ID = it.Objet.size();
 			objet.largeur = 0;
 			if (ItemsUniques.size()){
-				objet = ItemsUniques[unique];
-				if(positionnerObjet(*modeleSalle, it, objet)){
+				objet = ItemsUniques.back();
+				if (positionnerObjet(*modeleSalle, it, objet)){
 					it.Objet.push_back(new InfoObjet(objet));
-					--unique;
+					ItemsUniques.pop_back();
 				}
 			}
 			objet.ID = it.Objet.size();

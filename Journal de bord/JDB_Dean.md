@@ -259,4 +259,12 @@ J'ai aidé Julien avec les puzzle, surtout s'arranger pour que les pendules et l
 
 ###Durée: 5h
 
-##Durée Totale: 84h30
+###Lundi 1 juin 2015
+
+##11:00 à 16:30
+
+Préparation de l'oral et travail sur les documents qu'il faut remettre avec le projet.
+
+###Durée: 5h30
+
+##Durée Totale: 90h
