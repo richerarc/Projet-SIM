@@ -17,7 +17,7 @@ struct InfoObjet {
 	double largeur;
 	int IDitem;
 	int positionement;
-	bool estVerrouille;
+	unsigned int Verrouillage[2];
 };
 
 

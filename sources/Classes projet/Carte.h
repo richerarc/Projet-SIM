@@ -583,7 +583,7 @@ private:
 			}
 			switch ((*it).type) {
 			case PORTE:
-				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, (*it).estVerrouille, false, new Cible(10, *it)));
+				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, (*it).Verrouillage[0], false, new Cible(10, *it)));
 				break;
 			case PENDULE:
 				if (!(*it).rotation.y)
@@ -659,8 +659,15 @@ private:
 			if (it_Porte->type == PORTE) {
 				Entree entree(IDPiece, it_Porte->ID, false);
 				if (std::get<0>(liens[entree]) != IDPiecePrecedente)
+				if (std::get<0>(liens[entree]) != (nombreDeSalle + 2)) {
 					entrees.push_back(entree);
-				if (it_Porte->estVerrouille)
+				}
+				else
+				{
+					it_Porte->Verrouillage[0] = true;
+					it_Porte->Verrouillage[1] = INT_MAX;
+				}
+				if (it_Porte->Verrouillage[0])
 					porteDejaVerrouille = true;
 				++nbrPorte;
 			}
@@ -670,9 +677,9 @@ private:
 			if (itteration > 2) {
 				if (!porteDejaVerrouille) {
 					for (auto it_Porte : it_Salle->Objet) {
-						if (it_Porte->type == PORTE) {
+						if (it_Porte->type == PORTE && it_Porte->Verrouillage[1] != INT_MAX) {
 							unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
-							it_Porte->estVerrouille = (pos >= (/*nbrPorte + */itteration)) ? true : false;
+							it_Porte->Verrouillage[0] = (pos >= (itteration)) ? true : false;
 						}
 					}
 					itterateurs[IDPiece] = itteration;
@@ -682,7 +689,8 @@ private:
 						for (auto it_Porte : it_Salle->Objet) {
 							if (it_Porte->type == PORTE) {
 								unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
-								it_Porte->estVerrouille = (pos >= (/*nbrPorte + */itteration)) ? true : false;
+								it_Porte->Verrouillage[0] = (pos >= (itteration)) ? true : false;
+								it_Porte->Verrouillage[1] = rand() % (nbrPorte * itteration * 2);
 							}
 						}
 						itterateurs[IDPiece] = itteration;
@@ -767,7 +775,7 @@ public:
 					if (!porte->obtVerrouillee()) {
 						for (auto it : sallePrecedente.Objet) {
 							if (it->ID == porte->obtID()) {
-								it->estVerrouille = false;
+								it->Verrouillage[0] = false;
 							}
 						}
 					}
@@ -1091,53 +1099,53 @@ public:
 			salle.Objet.clear();
 		}
 
-		int IDSalle(0);
-		int prochaineSalle;
-		bool salleCorrecte;
-		std::list<int> salleSuivante;
-		std::list<int> sallePrecedente;
-		std::vector<int> salleAvecPuzzle;
+		//int IDSalle(0);
+		//int prochaineSalle;
+		//bool salleCorrecte;
+		//std::list<int> salleSuivante;
+		//std::list<int> sallePrecedente;
+		//std::vector<int> salleAvecPuzzle;
 
-		do {
-			IDSalle = rand() % nombreDeSalle;
-		} while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; }), nbrPuzzle));
-		salleAvecPuzzle.push_back(IDSalle);
+		//do {
+		//	IDSalle = rand() % nombreDeSalle;
+		//} while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == IDSalle; }), nbrPuzzle));
+		//salleAvecPuzzle.push_back(IDSalle);
 
-		int essai(0);
+		//int essai(0);
 
-		for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
-			prochaineSalle = rand() % nombreDeSalle;
-			while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == prochaineSalle; }), nbrPuzzle)){
-				do {
-					prochaineSalle = rand() % nombreDeSalle;
-					salleCorrecte = true;
-					salleSuivante = carte.obtListeAdjacence(prochaineSalle);
+		//for (int i = 1; i < nombreDeSalle / 3 && nbrPuzzle > 0; ++i) {
+		//	prochaineSalle = rand() % nombreDeSalle;
+		//	while (!creerPuzzle(*std::find_if(std::begin(infosSalles), std::end(infosSalles), [&](InfoSalle info){ return info.ID == prochaineSalle; }), nbrPuzzle)){
+		//		do {
+		//			prochaineSalle = rand() % nombreDeSalle;
+		//			salleCorrecte = true;
+		//			salleSuivante = carte.obtListeAdjacence(prochaineSalle);
 
-					for (int j = 0; j < salleAvecPuzzle.size(); ++j) {
-						salleSuivante = carte.obtListeAdjacence(salleAvecPuzzle[j]);
-						sallePrecedente = carte.obtListeAdjacenceInverse(salleAvecPuzzle[j]);
-						if (essai < 15) {
-							for (auto s : salleSuivante) {
-								if (s == prochaineSalle)
-									salleCorrecte = false;
-							}
+		//			for (int j = 0; j < salleAvecPuzzle.size(); ++j) {
+		//				salleSuivante = carte.obtListeAdjacence(salleAvecPuzzle[j]);
+		//				sallePrecedente = carte.obtListeAdjacenceInverse(salleAvecPuzzle[j]);
+		//				if (essai < 15) {
+		//					for (auto s : salleSuivante) {
+		//						if (s == prochaineSalle)
+		//							salleCorrecte = false;
+		//					}
 
-							for (auto p : sallePrecedente) {
-								if (p == prochaineSalle)
-									salleCorrecte = false;
-							}
-						}
-						if ((salleAvecPuzzle[j] == prochaineSalle))
-							salleCorrecte = !true; // Parce que pourquoi pas...
+		//					for (auto p : sallePrecedente) {
+		//						if (p == prochaineSalle)
+		//							salleCorrecte = false;
+		//					}
+		//				}
+		//				if ((salleAvecPuzzle[j] == prochaineSalle))
+		//					salleCorrecte = !true; // Parce que pourquoi pas...
 
-						++essai;
-					}
-				} while (!salleCorrecte);
-			}
-			IDSalle = prochaineSalle;
-			salleAvecPuzzle.push_back(IDSalle);
-			essai = 0;
-		}
+		//				++essai;
+		//			}
+		//		} while (!salleCorrecte);
+		//	}
+		//	IDSalle = prochaineSalle;
+		//	salleAvecPuzzle.push_back(IDSalle);
+		//	essai = 0;
+		//}
 
 		for (auto &it : infosSalles) {
 
@@ -1150,7 +1158,7 @@ public:
 				objet.largeur = 0;
 				LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", objet);
 				positionnerPorte(*modeleSalle, it, objet);
-				objet.estVerrouille = false;
+				objet.Verrouillage[0] = false;
 				it.Objet.push_front(new InfoObjet(objet));
 			}
 			
@@ -1206,7 +1214,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 4.1, 0, 2.57 };
 		porte.rotation = { 0, 90, 0 };
-		porte.estVerrouille = false;
+		porte.Verrouillage[0] = false;
 		salleDebut.Objet.push_back(new InfoObjet(porte));
 
 		// Lit
@@ -1326,7 +1334,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				obj.estVerrouille = false;
+				obj.Verrouillage[0] = false;
 				itt.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1401,7 +1409,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 21.1, 0, -1.470588235 / 2 };
 		porte.rotation = { 0, 180, 0 };
-		porte.estVerrouille = false;
+		porte.Verrouillage[0] = false;
 		salleTeleporteur.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1413,7 +1421,7 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { -21.1, 0, 1.470588235 / 2 };
 		porte2.rotation = { 0, 0, 0 };
-		porte2.estVerrouille = false;
+		porte2.Verrouillage[0] = false;
 		salleTeleporteur.Objet.push_back(new InfoObjet(porte2));
 
 		// Poste
@@ -1560,7 +1568,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				obj.estVerrouille = false;
+				obj.Verrouillage[0] = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1591,7 +1599,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 0., 0., 4.88968};
 		porte.rotation = { 0, 90, 0 };
-		porte.estVerrouille = false;
+		porte.Verrouillage[0] = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1603,7 +1611,7 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { 1.5, 0., -4.88968 };
 		porte2.rotation = { 0, 270, 0 };
-		porte2.estVerrouille = false;
+		porte2.Verrouillage[0] = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte2));
 
 		// Porte (Sortie2)
@@ -1614,7 +1622,7 @@ public:
 		porte3.largeur = 0;
 		porte3.position = { -3., 0., -4.88968 };
 		porte3.rotation = { 0, 270, 0 };
-		porte3.estVerrouille = false;
+		porte3.Verrouillage[0] = false;
 		sallePhilo.Objet.push_back(new InfoObjet(porte3));
 
 		// Personnage à tuer/sauver
@@ -1659,7 +1667,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				obj.estVerrouille = false;
+				obj.Verrouillage[0] = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1690,7 +1698,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { -0.76278, 2.18987, -10.92852 };
 		porte.rotation = { 0, -90, 0 };
-		porte.estVerrouille = false;
+		porte.Verrouillage[0] = false;
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte));
 
 
@@ -1702,7 +1710,7 @@ public:
 		porte2.largeur = 0;
 		porte2.position = { 0.71043, 3.53152, 22.30799 };
 		porte2.rotation = { 0, 90, 0 };
-		porte2.estVerrouille = false;
+		porte2.Verrouillage[0] = false;
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte2));
 
 		// Plate
@@ -1746,7 +1754,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				obj.estVerrouille = false;
+				obj.Verrouillage[0] = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -1790,7 +1798,7 @@ public:
 		porteFin.largeur = 0;
 		porteFin.position = { -32.9405, 0, -74.5517 };
 		porteFin.rotation = { 0, -38, 0 };
-		porteFin.estVerrouille = false;
+		porteFin.Verrouillage[0] = false;
 		salleFin.Objet.push_back(new InfoObjet(porteFin));
 
 		// Création de l'avion
@@ -1823,7 +1831,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				obj.estVerrouille = false;
+				obj.Verrouillage[0] = false;
 				itt.Objet.push_back(new InfoObjet(obj));
 				break;
 			}
@@ -2006,7 +2014,7 @@ public:
 		porte.largeur = 0;
 		porte.position = { 9., 0., 0.};
 		porte.rotation = { 0, 90, 0 };
-		porte.estVerrouille = false;
+		porte.Verrouillage[0] = false;
 		illumi.Objet.push_back(new InfoObjet(porte));
 		
 		int IDporte;
@@ -2026,7 +2034,7 @@ public:
 				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
 				itt.nbrPorte++;
 				positionnerPorte(*mod, itt, obj);
-				obj.estVerrouille = false;
+				obj.Verrouillage[0] = false;
 				(*it).Objet.push_back(new InfoObjet(obj));
 				break;
 			}
