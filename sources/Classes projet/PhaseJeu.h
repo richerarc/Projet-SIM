@@ -657,6 +657,7 @@ public:
 		}
 		if (Clavier::toucheAppuyee(GestionnaireControle::obtInstance().touche(ACCESINVENTAIRE)) || Manette::boutonAppuyer(SDL_CONTROLLER_BUTTON_BACK)) {
 			defPause(true);
+			ControlleurAudio::obtInstance().jouer(INVENTAIRE, joueur);
 			gfx::Gestionnaire3D::obtInstance().obtCamera()->bloquer();
 			GestionnairePhases::obtInstance().defPhaseActive(MENUINVENTAIRE);
 			GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
