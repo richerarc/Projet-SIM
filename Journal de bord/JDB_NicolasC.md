@@ -149,3 +149,10 @@
 	-affichage des compteurs et edit du fonctionnement du masque pour Kevin.  
 	-redimensionnage de la balle de tenis et de la clé + edit texture rouillée.  
 	-mise a jour digramme de classe des objets.  
+**31 mai** durée 12h  
+	-beaucoup de déboguage pour essayer de règler des fuites de mémoires.  
+	-diagrammes en liens avec les objet/item.  
+	-modification des contrôles en liens avec l'inventaire.  
+	-le joueur ne devrait plus être en mesure d'appuyer sur des controles quand il est bloqué.
+	-ajout des bruits dans les consommables.  
+	-correctifs mineurs.
