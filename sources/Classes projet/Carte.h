@@ -682,7 +682,7 @@ private:
 			}
 			switch ((*it).type) {
 			case PORTE:
-				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, false, false));
+				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, (*it).estVerrouille, false));
 				break;
 			case PENDULE:
 				if (!(*it).rotation.y)
@@ -743,28 +743,60 @@ private:
 		return false;
 	}
 
-	/*void etablirPorteVerrouille(Entree porteSalleSuivante, std::vector<Entree> portesSalleActuelle, unsigned int itteration) {
+	void etablirPorteVerrouille(unsigned int IDPiece, unsigned int IDPiecePrecedente, unsigned int itteration, std::map<unsigned int, unsigned int>& itterateurs) {
 
-		Sortie sortie = liens[porteSalleSuivante];
 
 		std::vector<Entree> entrees;
 		bool porteDejaVerrouille = false;
+		unsigned int nbrPorte = 0;
 		auto it_Salle = infosSalles.begin();
-		std::advance(it_Salle, std::get<0>(porteSalleSuivante));
+		std::advance(it_Salle, IDPiece);
 		for (auto it_Porte : it_Salle->Objet) {
 			if (it_Porte->type == PORTE) {
-				entrees.push_back(Entree(it_Porte->ID, it_Porte->ID, false));
+				Entree entree(IDPiece, it_Porte->ID, false);
+				if (std::get<0>(liens[entree]) != IDPiecePrecedente)
+					entrees.push_back(entree);
 				if (it_Porte->estVerrouille)
 					porteDejaVerrouille = true;
+				++nbrPorte;
+			}
+		}
+
+		if (itterateurs[IDPiece] != 1) {
+			if (itteration > 2) {
+				if (!porteDejaVerrouille) {
+					for (auto it_Porte : it_Salle->Objet) {
+						if (it_Porte->type == PORTE) {
+							unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
+							it_Porte->estVerrouille = (pos >= (/*nbrPorte + */itteration)) ? true : false;
+						}
+					}
+					itterateurs[IDPiece] = itteration;
+				}
+				else {
+					if (itterateurs[IDPiece] > itteration) {
+						for (auto it_Porte : it_Salle->Objet) {
+							if (it_Porte->type == PORTE) {
+								unsigned int pos = (rand() % (nbrPorte * itteration)) + 1;
+								it_Porte->estVerrouille = (pos >= (/*nbrPorte + */itteration)) ? true : false;
+							}
+						}
+						itterateurs[IDPiece] = itteration;
+					}
+				}
+			}
+			else
+			{
+				itterateurs[IDPiece] = 1;
 			}
 		}
 
 		if (!porteDejaVerrouille) {
-			for (auto it_Porte : it_Salle->Objet) {
-				rand() % 10
+			for (unsigned int ui = 0; ui < entrees.size(); ++ui) {
+				etablirPorteVerrouille(std::get<0>(liens[entrees[ui]]), IDPiece, itteration + 1, itterateurs);
 			}
 		}
-	}*/
+	}
 
 public:
 
@@ -826,19 +858,32 @@ public:
 			}
 			else
 			{
-				Peinture* peinture = dynamic_cast<Peinture*>(it);
-				if (peinture) {
+				Porte* porte = dynamic_cast<Porte*>(it);
+				if (porte) {
+					if (!porte->obtVerrouillee()) {
+						for (auto it : sallePrecedente.Objet) {
+							if (it->ID == porte->obtID()) {
+								it->estVerrouille = false;
+							}
+						}
+					}
+				}
+				else
+				{
+					Peinture* peinture = dynamic_cast<Peinture*>(it);
+					if (peinture) {
 
-					if (peinture->estPermanente()) {
+						if (peinture->estPermanente()) {
 
-						InfoObjet lapeinture;
-						lapeinture.ID = sallePrecedente.Objet.size();
-						lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
-						lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
-						lapeinture.position = peinture->obtPosition();
-						lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
-						lapeinture.type = PEINTURE;
-						sallePrecedente.Objet.push_back(new InfoObjet(lapeinture));
+							InfoObjet lapeinture;
+							lapeinture.ID = sallePrecedente.Objet.size();
+							lapeinture.cheminModele = "Ressources/Modele/Peinture.obj";
+							lapeinture.cheminTexture = "Ressources/Texture/Peinture.png";
+							lapeinture.position = peinture->obtPosition();
+							lapeinture.rotation = peinture->obtModele3D()->obtOrientation();
+							lapeinture.type = PEINTURE;
+							sallePrecedente.Objet.push_back(new InfoObjet(lapeinture));
+						}
 					}
 				}
 			}
@@ -1336,6 +1381,13 @@ public:
 
 		// Ajout/Création de la salle et autre
 		infosSalles.push_back(salleDebut);
+
+		// Verrouillage des portes...
+		std::map<unsigned int, unsigned int> itterateurs;
+		for (unsigned int i = 0; i < infosSalles.size(); ++i) {
+			itterateurs[i] = 0;
+		}
+		etablirPorteVerrouille(std::get<0>(liens[Entree(salleDebut.ID, 0, false)]), salleDebut.ID, 1, itterateurs);
 
 		creerSalle(salleDebut);
 
