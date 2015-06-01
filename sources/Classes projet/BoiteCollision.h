@@ -76,6 +76,10 @@ public:
 		return (pointDansBoiteX(point.x) && pointDansBoiteY(point.y) && pointDansBoiteZ(point.z));
 	}
 
+	bool pointDansBoite2(Vecteur3d point) {
+		return (pointDansBoiteX2(point.x) && pointDansBoiteY2(point.y) && pointDansBoiteZ2(point.z));
+	}
+
 	bool pointDansBoite(Vecteur3d point, Droite rayonCollision, Vecteur3d &normale, Vecteur3d vitesse, Vecteur3d &pointCollision) {
 		bool collision = (point.x < obtXMax2() && point.x > obtXMin2() && point.y < obtYMax2() && point.y > obtYMin2() && point.z < obtZMax2() && point.z > obtZMin2());
 		if (collision) {
@@ -220,6 +224,18 @@ public:
 
 	bool pointDansBoiteZ(T z) {
 		return (z >= obtZMin() && z <= obtZMax());
+	}
+
+	bool pointDansBoiteX2(T x) {
+		return (x >= obtXMin2() && x <= obtXMax2());
+	}
+
+	bool pointDansBoiteY2(T y) {
+		return (y >= obtYMin2() && y <= obtYMax2());
+	}
+
+	bool pointDansBoiteZ2(T z) {
+		return (z >= obtZMin2() && z <= obtZMax2());
 	}
 
 	double obtXMin() {

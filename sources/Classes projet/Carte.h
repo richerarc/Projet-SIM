@@ -690,7 +690,7 @@ private:
 			}
 			switch ((*it).type) {
 			case PORTE:
-				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, false, false));
+				salleActive->ajoutObjet(new Porte(modeleObjet, (*it).ID, "metal", (*it).position, { 0, 0, 0 }, false, true, false, false, new Cible(10, * it)));
 				break;
 			case PENDULE:
 				if (!(*it).rotation.y)

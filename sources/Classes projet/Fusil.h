@@ -113,6 +113,19 @@ public:
 					Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale, false);
 					salleActive->ajoutObjet(trou);
 					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
+					for (auto it : salleActive->obtListeObjet()) {
+						if (it->obtSiPorte()) {
+							Porte* porte = dynamic_cast<Porte*>(it);
+							if (porte->obtCible()->obtBoiteCollision().pointDansBoite2(pointCollision)) {
+								if (porte->obtCible()->obtForce() > degat)
+									porte->obtCible()->defForce(porte->obtCible()->obtForce() - degat);
+								else {
+									porte->obtCible()->defForce(0);
+									porte->defVerrouillee(false);
+								}
+							}
+						}
+					}
 				}
 				gfx::Gestionnaire3D::obtInstance().obtCamera()->defVAngle(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtVAngle() + recul);
 				double hRecul = (rand() % int(recul * 100) - (recul * 50)) / 100;

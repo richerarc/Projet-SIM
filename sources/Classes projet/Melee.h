@@ -50,6 +50,19 @@ public:
 						salleActive->ajoutObjet(trou);
 						gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
 						ControlleurAudio::obtInstance().jouer(COUPCOUTEAU, joueur);
+						for (auto it : salleActive->obtListeObjet()) {
+							if (it->obtSiPorte()) {
+								Porte* porte = dynamic_cast<Porte*>(it);
+								if (porte->obtCible()->obtBoiteCollision().pointDansBoite2(pointCollision)) {
+									if (porte->obtCible()->obtForce() > degats)
+										porte->obtCible()->defForce(porte->obtCible()->obtForce() - degats);
+									else {
+										porte->obtCible()->defForce(0);
+										porte->defVerrouillee(false);
+									}
+								}
+							}
+						}
 					}
 					else{
 						ControlleurAudio::obtInstance().jouer(COUPCOUTEAUVIDE, joueur);
