@@ -73,7 +73,13 @@ public:
 	void reinitialiserListePeinture() {}
 
 	bool estEquipe(){ return etatEquipe; }
-	void user(){ --durabilite; }
+	void user(){
+		--durabilite;
+		if (durabilite < 0){
+			durabilite = 0;
+			etatEquipe = false;
+		}
+	}
 	short obtDurabilite() { return durabilite; }
 	void recharger() { durabilite = 100; }
 };
