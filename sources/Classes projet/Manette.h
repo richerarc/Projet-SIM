@@ -127,12 +127,6 @@ public:
 	static float obtenirPositionDroiteY(){
 		return positionDroitey;
 	}
-	static void Test(bool bo){
-		orientation.erase(0);
-		orientation.erase(1);
-		orientation.erase(2);
-		orientation.erase(3);
-	}
 };
 std::set<short> Manette::boutons;
 std::set<short> Manette::orientation;
