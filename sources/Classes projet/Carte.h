@@ -1066,7 +1066,7 @@ public:
 			InfoObjet obj;
 			LecteurFichier::lireObjet(cheminsObjet[i], obj);
 			if (obj.type == ITEM){
-				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 20){
+				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 20 || obj.IDitem == 80){
 					ItemsUniques.push(obj);
 				}
 				else
