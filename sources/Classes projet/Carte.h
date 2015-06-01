@@ -1299,10 +1299,11 @@ public:
 		
 		InfoObjet companion;
 		LecteurFichier::lireObjet("Ressources/Info/thai.txt", companion);
-		bureau.direction = { 0, 0, 0 };
-		bureau.ID = 8;
-		bureau.largeur = 0;
-		bureau.position = { -4.9, 2.0, -3.0 };
+		companion.direction = { 0, 0, 0 };
+		companion.ID = 8;
+		companion.largeur = 0;
+		companion.position = { -4.9, 2.0, -3.0 };
+		companion.IDitem = 42;
 		
 		salleDebut.Objet.push_back(new InfoObjet(companion));
 
