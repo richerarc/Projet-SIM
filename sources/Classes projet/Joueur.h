@@ -25,6 +25,9 @@ private:
 	Inventaire* inventaire;
 	Vecteur3d normaleMur;
 
+	Chrono antiIdle;
+	double dernierVAngle;
+
 	/*y=-(Ax+Cz+d)/B */
 	void ajusterVitesse(){
 		Plan plan(pointCollision, normale);
@@ -84,6 +87,7 @@ public:
 	}
 
 	void deplacement(){
+		camera->rafraichir();
 		if (!bloque){
 			if ((Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(AVANCER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(RECULER)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(GAUCHE)) || Clavier::toucheRelachee(GestionnaireControle::obtInstance().touche(DROITE)) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_UP) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)) && (etatDynamique == STABLE)){
 				vitesse.x = 0.f;
@@ -222,6 +226,13 @@ public:
 				Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_LEFT) &&
 				Manette::orientationRelacher(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)))
 				vitesseDeplacement = 0;
+		}
+		
+		if (vitesseDeplacement == 0 && !camera->obtChangement()){
+			defVAngle(dernierVAngle + 0.02 * sin(antiIdle.obtTempsEcoule().enSecondes()));
+		}
+		else{
+			dernierVAngle = camera->obtVAngle();
 		}
 	}
 
