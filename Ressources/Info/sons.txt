@@ -48,3 +48,4 @@ Ressources/Son/coupCouteau.ogg
 Ressources/Son/coupCouteauVide.ogg
 Ressources/Son/CanonAPeinture.ogg
 Ressources/Son/CanonAPeintureSpray.ogg
+Ressources/Son/xfile.ogg

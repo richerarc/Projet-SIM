@@ -322,6 +322,9 @@ public:
 		salleActive = Carte::obtInstance().salleActive;
 		Item::salleActive = salleActive;
 		if (salleActive != nullptr){
+			if (salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 5){
+				ControlleurAudio::obtInstance().jouer(XFILE, joueur);
+			}
 			if (joueur->obtPosition().y < -3. && salleActive->obtID() == difficulte + 1)
 				GestionnaireSucces::obtInstance().obtSucces(15);
 			if (salleActive->obtID() == difficulte + 2)

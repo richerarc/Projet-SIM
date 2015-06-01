@@ -1420,6 +1420,7 @@ public:
 		fin();
 		salleBasseGravite();
 		sallePhilo();
+		salleIllumi();
 		return Vecteur3d(positions[0].x, positions[0].y - 1.74, positions[0].z);
 	}
 
@@ -2027,6 +2028,57 @@ public:
 			}
 		}
 		return 0;
+	}
+	
+	void salleIllumi(){
+		InfoSalle illumi;
+		illumi.cheminModele = "Ressources/Modele/SalleIlluminazi.obj";
+		illumi.cheminTexture = "Ressources/Texture/SalleIlluminazi.png";
+		illumi.echelle = { 3.0, 3.0, 3.0 };
+		illumi.ID = infosSalles.size();
+		illumi.nbrPorte = 3;
+		
+			// Création des objets de la salle
+		
+			// Porte (Entree)
+		
+		InfoObjet porte;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
+		porte.direction = { 0, 0, 1 };
+		porte.ID = 0;
+		porte.largeur = 0;
+		porte.position = { 9., 0., 0.};
+		porte.rotation = { 0, 90, 0 };
+		porte.estVerrouille = false;
+		illumi.Objet.push_back(new InfoObjet(porte));
+		
+		int IDporte;
+		
+		auto it = infosSalles.begin();
+		
+		std::advance(it, rand() % nombreDeSalle);
+		
+		InfoObjet obj;
+		obj.largeur = 0;
+		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", obj);
+		gfx::Modele3D* mod;
+		for (auto &itt : infosSalles){
+			if (itt.ID == it->ID){
+				IDporte = obj.ID = itt.Objet.size();
+				mod = new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele(itt.cheminModele), gfx::GestionnaireRessources::obtInstance().obtTexture(itt.cheminTexture));
+				mod->defEchelle(itt.echelle.x, itt.echelle.y, itt.echelle.z);
+				itt.nbrPorte++;
+				positionnerPorte(*mod, itt, obj);
+				obj.estVerrouille = false;
+				(*it).Objet.push_back(new InfoObjet(obj));
+				break;
+			}
+		}
+		
+		ajouterLien(Entree(illumi.ID, 0, false), Sortie(it->ID, IDporte));
+		ajouterLien(Entree(it->ID, IDporte, false), Sortie(illumi.ID, 0));
+		
+		infosSalles.push_back(illumi);
 	}
 
 	void recommencer() {
