@@ -326,9 +326,6 @@ public:
 			if (salleActive->obtID() == Carte::obtInstance().nombreDeSalle + 5){
 				ControlleurAudio::obtInstance().jouer(XFILE, joueur);
 			}
-			else{
-				Mix_FadeOutChannel(XFILE, 1000);
-			}
 			if (joueur->obtPosition().y < -3. && salleActive->obtID() == difficulte + 1)
 				GestionnaireSucces::obtInstance().obtSucces(15);
 			if (salleActive->obtID() == difficulte + 2)
@@ -370,9 +367,15 @@ public:
 			appliquerPhysique(frameTime);
 			joueur->obtInventaire()->actualiser();
 			itemEquipe = joueur->obtInventaire()->obtObjetAccesRapide(joueur->obtInventaire()->obtItemSelectionne());
+			if (itemEquipe == nullptr && salleActive->obtID() != Carte::obtInstance().nombreDeSalle + 5){
+				ControlleurAudio::obtInstance().stopper(XFILE);
+			}
+
 			if (itemEquipe != nullptr){
+				
 				Item* itemPrecedent = itemEquipe;
 				short typePrecedent = itemPrecedent->obtType();
+					
 				itemEquipe->actualiser(Carte::obtInstance().salleActive, joueur, frameTime);
 				if (itemPrecedent->obtType() > 29 && itemPrecedent->obtType() < 50 && itemPrecedent->obtEtat() == DEPOSE)
 					GestionnaireSucces::obtInstance().defNbrItems(GestionnaireSucces::obtInstance().obtNbrItems() - 1);
