@@ -139,7 +139,7 @@
 **22 mai** durée 30min  
 	-finitions sur la salle à 2 étages et cération d'icones.  
 **26 mai** durée 4h  
-	-modifications des textures de fusils et complétion dans leur totalité des consommable et presque des jetables avec Brandon.
+	-modifications des textures de fusils et complétion dans leur totalité des consommable et presque des jetables avec Brandon.  
 **27 mai au 29 mai** durée 16h  
 	-travail pour plusieurs items, soit implématation, animation ou texturisation.  
 	-fonctionnement des munitions pour les fusils.  
@@ -149,3 +149,12 @@
 	-affichage des compteurs et edit du fonctionnement du masque pour Kevin.  
 	-redimensionnage de la balle de tenis et de la clé + edit texture rouillée.  
 	-mise a jour digramme de classe des objets.  
+**31 mai** durée 12h  
+	-beaucoup de déboguage pour essayer de règler des fuites de mémoires.  
+	-diagrammes en liens avec les objet/item.  
+	-modification des contrôles en liens avec l'inventaire.  
+	-le joueur ne devrait plus être en mesure d'appuyer sur des controles quand il est bloqué.
+	-ajout des bruits dans les consommables.  
+	-correctifs mineurs.  
+**1 jui** durée 6h  
+	-je vais faires les préparatifs nécessaires pour la présentations.
