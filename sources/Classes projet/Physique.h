@@ -652,6 +652,7 @@ public:
 		Vecteur3d* tabJoueur;
 		collisions typeCollision = AUCUNE;
 		bool mur = false;
+		bool collisionPiege = false;
 
 		for (auto it : listeObjet) {
 			if (!it->obtCollisionInterne() && !dynamic_cast<Porte*>(it) && !dynamic_cast<Item*>(it)) {
@@ -666,8 +667,10 @@ public:
 					}
 					rayonCollision = Droite(point, joueur->obtVitesse());
 					if (it->obtModele3D()->obtBoiteCollision().pointDansBoite(point, rayonCollision, normale, joueur->obtVitesse(), pointCollision)) {
-						if (dynamic_cast<Pendule*>(it))
+						if (dynamic_cast<Pendule*>(it) && !collisionPiege) {
 							joueur->defSantePhysique(joueur->obtSantePhysique() - 60);
+							collisionPiege = true;
+						}
 						if (fabs(normale.x) < 0.05f)
 							normale.x = 0.f;
 						if (fabs(normale.z) < 0.05f)
