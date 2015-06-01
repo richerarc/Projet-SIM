@@ -415,7 +415,6 @@ public:
 				//	Carte::obtInstance().calculAnimationFinPartie(joueur);
 				//}
 			}
-			Carte::obtInstance().animationFinPartie(joueur, frameTime);
 			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
 				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
 				tempsAffichageID.repartir();

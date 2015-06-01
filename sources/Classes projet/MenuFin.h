@@ -41,6 +41,7 @@ public:
 	}
 	void enClickCredits(Bouton* envoi) {
 		enCredits = true;
+		this->spriteFond->defTexture(new gfx::Texture("Ressources\\Texture\\CreditProjetSim.png"));
 	}
 
 	void enClickRecommencer(Bouton* envoi) {
