@@ -55,7 +55,7 @@ public:
 	}
 
 	void utiliser(Joueur* joueur){
-		if (!automatique && dernierCoup){
+		if (!automatique || dernierCoup){
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
