@@ -50,3 +50,4 @@ Ressources/Son/CanonAPeinture.ogg
 Ressources/Son/CanonAPeintureSpray.ogg
 Ressources/Son/FusilVide.ogg
 Ressources/Son/xfile.ogg
+Ressources/Son/succesDebloque.ogg

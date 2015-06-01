@@ -126,6 +126,7 @@ public:
 	void obtSucces(unsigned short IDSucces){
 		for (auto it : listeSucces){
 			if (!it->obtAccompli() && it->obtID() == IDSucces){
+				ControlleurAudio::obtInstance().jouer(SUCCESDEBLOQUE);
 				it->defAccompli(true);
 				afficherSucces(it);
 				if (IDSucces == 12){
