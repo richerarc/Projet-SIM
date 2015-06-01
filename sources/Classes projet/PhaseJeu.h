@@ -324,6 +324,8 @@ public:
 	}
 
 	void rafraichir(float frameTime) {
+		if (joueur->obtPosition().y < -3.)
+			GestionnaireSucces::obtInstance().obtSucces(15);
 		salleActive = Carte::obtInstance().salleActive;
 		Item::salleActive = salleActive;
 		if (salleActive != nullptr)
