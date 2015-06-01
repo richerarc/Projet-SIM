@@ -1,1 +1,1 @@
-Ressources/Modele/Roche.obj Ressources/Modele/Roche.png 4 102 41
+Ressources/Modele/Roche.obj Ressources/Texture/Roche.png 4 102 41

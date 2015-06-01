@@ -94,7 +94,9 @@ public:
 					if (it->obtMateriaux() == "personnage"){
 						salleActive->retirerObjet(it);
 						delete it;
+						GestionnaireSucces::obtInstance().obtSucces(27);
 						ControlleurAudio::obtInstance().jouer(AH, joueur);
+						joueur->defSanteMentale(joueur->obtSanteMentale() - 15);
 						break;
 					}
 					else{

@@ -202,7 +202,7 @@ public:
 			PlafondTueur* it_Plafond = dynamic_cast<PlafondTueur*>(it);
 			if (it_Plafond){
 				Vecteur3d plafPos = it_Plafond->obtPosition();
-				plafPos.y = cos(temps) + 2;
+				plafPos.y = it_Plafond->obtPositionInitiale().y + 1.35 + 2.15*cos(temps * 2);
 				it_Plafond->defPosition(plafPos);
 			}
 			ObjetPhysique* it_ObjetPhysique = dynamic_cast<ObjetPhysique*>(it);

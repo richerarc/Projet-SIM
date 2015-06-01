@@ -1,1 +1,1 @@
-Ressources/Modele/seringue.obj Ressources/Modele/seringue.png 4 102 37
+Ressources/Modele/seringue.obj Ressources/Texture/seringue.png 4 102 37

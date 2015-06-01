@@ -874,7 +874,7 @@ public:
 		auto portePrecedente = (*sallePrecedente).Objet.begin();
 		std::advance(portePrecedente, std::get<1>(entree));
 
-		mettreAJourInfoSalle((*sallePrecedente));
+		mettreAJourInfoSalle((*sallePrecedente), entree);
 
 		// Calcul de la rotation de cam√©ra √† appliquer:
 		// {
@@ -1181,13 +1181,11 @@ public:
 				it.Objet.push_front(new InfoObjet(objet));
 			}
 			
-			for (unsigned short i = 0; i < 10; ++i) {
-				objet.ID = it.Objet.size();
-				objet.largeur = 0;
-				LecteurFichier::lireObjet(cheminsObjet[rand() % nbrObjet], objet);
-				if(positionnerObjet(*modeleSalle, it, objet))
-					it.Objet.push_back(new InfoObjet(objet));
-			}
+			objet.ID = it.Objet.size();
+			objet.largeur = 0;
+			LecteurFichier::lireObjet(cheminsObjet[rand() % nbrObjet], objet);
+			if(positionnerObjet(*modeleSalle, it, objet))
+				it.Objet.push_back(new InfoObjet(objet));
 
 			// Ajout et rÈinitialisation de la salle.
 			delete modeleSalle;
@@ -1968,7 +1966,7 @@ public:
 				else
 				{
 					avion = nullptr;
-					enFinPartie = true;
+					enFinPartie = false;
 					///TerminÈe
 					return 2;
 				}
@@ -1995,7 +1993,4 @@ public:
 		nombreDeSalle = nbrSalles;
 	}
 
-	bool obtEnFinPartie() {
-		return enFinPartie;
-	}
 };
