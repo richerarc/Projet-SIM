@@ -1660,13 +1660,14 @@ public:
 
 		infosSalles.push_back(sallePhilo);
 	}
+
 	void salleBasseGravite(){
 		InfoSalle salleBasseGravite;
 		salleBasseGravite.cheminModele = "Ressources/Modele/SalleBasseGravite.obj";
 		salleBasseGravite.cheminTexture = "Ressources/Texture/SalleBasseGravite.png";
 		salleBasseGravite.echelle = { 1.0, 1.0, 1.0 };
 		salleBasseGravite.ID = infosSalles.size();
-		salleBasseGravite.nbrPorte = 1;
+		salleBasseGravite.nbrPorte = 2;
 
 		// Création des objets de la salle
 
@@ -1674,10 +1675,10 @@ public:
 
 		InfoObjet porte;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte);
-		porte.direction = { 1, 0, 0 };
+		porte.direction = { 0, 0, -1 };
 		porte.ID = 0;
 		porte.largeur = 0;
-		porte.position = { -0.73582, 2.19928, -10.92071 };
+		porte.position = { -0.76278, 2.18987, -10.92852 };
 		porte.rotation = { 0, -90, 0 };
 		porte.estVerrouille = false;
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte));
@@ -1686,10 +1687,10 @@ public:
 		// Porte (Sortie)
 		InfoObjet porte2;
 		LecteurFichier::lireObjet("Ressources/Info/portePlate.txt", porte2);
-		porte2.direction = { -1, 0, 0 };
+		porte2.direction = { 0, 0, 1 };
 		porte2.ID = 1;
 		porte2.largeur = 0;
-		porte2.position = { -0.67482, 6.21597, 6.39771 };
+		porte2.position = { 0.71043, 3.53152, 22.30799 };
 		porte2.rotation = { 0, 90, 0 };
 		porte2.estVerrouille = false;
 		salleBasseGravite.Objet.push_back(new InfoObjet(porte2));
@@ -1701,8 +1702,8 @@ public:
 		plate.direction = { 0, 0, 0 };
 		plate.ID = 2;
 		plate.largeur = 0;
-		plate.position = { -2.17252, 3.89872, -10.41128 };
-		plate.rotation = { 90, 90, 0 };
+		plate.position = { -2.15766, 3.90031, -7.41128 };
+		plate.rotation = { 0, 90, -90 };
 		plate.type = FIXE;
 		salleBasseGravite.Objet.push_back(new InfoObjet(plate));
 
@@ -1713,8 +1714,8 @@ public:
 		com.direction = { 0, 0, 0 };
 		com.ID = 3;
 		com.largeur = 0;
-		com.position = { -2.15766, 3.91831, -10.41235 };
-		com.rotation = { 0, 90, 0 };
+		com.position = { -2.14066, 3.90031, -7.41128 };
+		com.rotation = { -90, 0, 0 };
 		com.type = COMMUTATEUR;
 		salleBasseGravite.Objet.push_back(new InfoObjet(com));
 
