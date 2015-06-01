@@ -1,0 +1,1 @@
+Ressources/Modele/luger.obj Ressources/Texture/luger.png 4 102 34
