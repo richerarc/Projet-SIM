@@ -5,6 +5,7 @@
 #include <list>
 #include <fstream>
 #include <cmath>
+#include <algorithm>
 #include "Modele3D.h"
 #include "Porte.h"
 #include "Salle.h"
@@ -1076,6 +1077,10 @@ public:
 				Fixes.push_back(obj);
 		}
 		
+		if (ItemsUniques.size()){
+			std::random_shuffle (ItemsUniques.begin(), ItemsUniques.end());
+		}
+		
 		unsigned int aleatoire;
 		InfoObjet objet;
 		InfoSalle salle;
@@ -1251,6 +1256,20 @@ public:
 		bureau.position = { -4.9, 0.0, -3.0 };
 		bureau.rotation = { 0, -90, 0 };
 
+		salleDebut.Objet.push_back(new InfoObjet(bureau));
+		
+			// cle rouillée (bien écrit)
+		
+		InfoObjet cle;
+		LecteurFichier::lireObjet("Ressources/Info/bureau.txt", bureau);
+		cle.direction = { 0, 0, 0 };
+		cle.ID = 3;
+		cle.largeur = 0;
+		cle.position = { -4.9, 0.1, -3.0 };
+		cle.rotation = { 0, -90, 0 };
+		cle.type = ITEM;
+		cle.IDitem = 70;
+		
 		salleDebut.Objet.push_back(new InfoObjet(bureau));
 		
 			// Companion
