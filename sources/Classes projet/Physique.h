@@ -95,7 +95,7 @@ public:
 		mapRestitution["carton"] = 0.55;
 	}
 
-	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, Vecteur3d* verticesCollision, bool collisionReelle) {
+	bool collisionDroiteModele(gfx::Modele3D* modele3D, Droite& rayonCollision, Vecteur3d& pointCollision, Vecteur3d& normale, bool collisionReelle) {
 
 		Vecteur3d point1;
 		Vecteur3d point2;
@@ -257,13 +257,6 @@ public:
 		joueur->obtVitesse() += ForceTotale * (frameTime / joueur->obtMasse());
 
 	}
-	/*void appliquerSurJoueur(gfx::Modele3D* modeleJoeur, Vecteur3d& vitesseJoueur, Objet* objet, float frameTime, double temps){
-		Vent* it_Vent = dynamic_cast<Vent*>(objet);
-		appliquerVent(it_Vent->obtVitesse(), vitesseJoueur, modeleJoeur, 87, frameTime);
-		Pendule* it_Pendule = dynamic_cast<Pendule*>(objet);
-		if (it_Pendule != nullptr) {
-		}
-	}*/
 
 	void rebondObjetCarte(Objet& objet, Vecteur3d normale, Vecteur3d pointdeCollision, double frameTime) {
 
@@ -480,7 +473,7 @@ public:
 			point = tabObjet[i];
 			rayonCollision = Droite(point, objet.obtVitesse());
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 
 				difference = pointCollision - point;
 				objet.defPosition(objet.obtPosition() + difference);
@@ -536,7 +529,6 @@ public:
 		Vecteur3d point;
 		Vecteur3d normale;
 		Vecteur3d* tabJoueur = joueur->obtModele3D()->obtBoiteDeCollisionModifiee();
-		Vecteur3d verticesCollision[3];
 		collisions typeCollision = AUCUNE;
 		bool mur = false;
 		bool escalier = false;
@@ -547,7 +539,7 @@ public:
 			if (joueur->obtVitesse().y < 0.f)
 				rayonCollision.obtenirVecteurDirecteur().y = 0;
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 				if (plafondTueur)
 					joueur->defSantePhysique(0);
 				if (fabs(normale.x) < 0.05f)
@@ -571,8 +563,8 @@ public:
 				if (normale.y == 0) {
 					if (point.y < joueur->obtPosition().y + 1) {
 						collisionEscalier = Droite(Vecteur3d(point.x, point.y + 0.5, point.z), joueur->obtVitesse());
-						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, verticesCollision, true)) {
-							double hauteur = 0.f;
+						if (!collisionDroiteModele(modeleSalle, collisionEscalier, pointCollision, normale, true)) {
+							/*double hauteur = 0.f;
 							if (verticesCollision[0].x == verticesCollision[1].x && verticesCollision[0].z == verticesCollision[1].z)
 								hauteur = fabs(verticesCollision[0].y - verticesCollision[1].y);
 							if (verticesCollision[0].x == verticesCollision[2].x && verticesCollision[0].z == verticesCollision[2].z)
@@ -581,6 +573,7 @@ public:
 								hauteur = fabs(verticesCollision[1].y - verticesCollision[2].y);
 							if (hauteur != 0.f)
 								joueur->defPositionY(joueur->obtPosition().y + hauteur + .03);
+								*/
 							escalier = true;
 						}
 					}
@@ -595,8 +588,10 @@ public:
 						Vecteur3d normaleReposition = normale;
 						normaleReposition *= normePointDifference;
 						joueur->defPosition(Vecteur3d(joueur->obtPosition().x + normaleReposition.x, joueur->obtPosition().y, joueur->obtPosition().z + normaleReposition.z));
-						joueur->obtVitesse().x = 0.;
-						joueur->obtVitesse().z = 0.;
+						if (joueur->obtEtat() != CHUTE){
+							joueur->obtVitesse().x = 0.;
+							joueur->obtVitesse().z = 0.;
+						}
 					}
 				}
 			}
@@ -607,7 +602,7 @@ public:
 			point = tabJoueur[i];
 			rayonCollision = Droite(point, { 0, -9.8, 0 });
 
-			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, nullptr, true)) {
+			if (collisionDroiteModele(modeleSalle, rayonCollision, pointCollision, normale, true)) {
 				if (plafondTueur)
 					joueur->defSantePhysique(0);
 				normale.normaliser();
@@ -763,6 +758,14 @@ public:
 			}
 		}
 		return false;
+	}
+
+	double obtGravite(){
+		return gravite;
+	}
+
+	void defGravite(double gravite){
+		this->gravite = gravite;
 	}
 
 };

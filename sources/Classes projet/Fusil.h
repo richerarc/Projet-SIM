@@ -59,10 +59,6 @@ public:
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
 			return;
 		}
-		if (!munition){
-			ControlleurAudio::obtInstance().jouer(FUSILVIDE, joueur);
-			return;
-		}
 
 		if (dps.obtTempsEcoule().enSecondes() > 1 / ballesParSeconde){
 			dps.repartir();
@@ -94,7 +90,7 @@ public:
 			for (auto &it : salleActive->obtListeObjet()){
 				if (dynamic_cast<Peinture*>(it))
 					continue;
-				if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, nullptr, false)){
+				if (Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), rayon, pointCollision, normale, false)){
 
 					if (it->obtMateriaux() == "personnage"){
 						salleActive->retirerObjet(it);
@@ -113,7 +109,7 @@ public:
 						}
 					}
 				}
-				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, nullptr, false)){
+				if (Physique::obtInstance().collisionDroiteModele(salleActive->obtModele(), rayon, pointCollision, normale, false)){
 					Peinture* trou = new Peinture(123, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/trouDeBalle.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/trouDeBalle.png")), pointCollision, normale, false);
 					salleActive->ajoutObjet(trou);
 					gfx::Gestionnaire3D::obtInstance().ajouterObjet(trou->obtModele3D());
