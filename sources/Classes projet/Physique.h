@@ -58,7 +58,7 @@ private:
 			normale.y = normales[nbrFace / 2].y;
 			normale.z = normales[nbrFace / 2].z;
 
-			plan.calculerPlan(point1, point2, point3);
+			plan.calculerPlan(point1, point2, point3, normale);
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 
 				if (Maths::pointDansFace1(point1, point2, point3, pointCollision, normale)) {
@@ -128,9 +128,9 @@ public:
 				}
 			}
 
-			plan.calculerPlan(point1, point2, point3);
-
 			normale = { modele3D->obtNormalesModifies()[Nbrface * 3], modele3D->obtNormalesModifies()[Nbrface * 3 + 1], modele3D->obtNormalesModifies()[Nbrface * 3 + 2] };
+			plan.calculerPlan(point1, point2, point3, normale);
+
 			if (plan.insertionDroitePlan(rayonCollision, pointCollision)) {
 				if (abs(normale.x == abs(normale.z))) {
 					normale.z += 0.01;
@@ -306,6 +306,9 @@ public:
 
 			double dScalaire = (2 - mapRestitution[objet.obtMateriaux()]) * objet.obtVitesse().produitScalaire(normale);
 			objet.obtVitesse() -= normale * dScalaire;
+		}
+		if (objet.obtVitesseAngulaire().norme() > 25) {
+			objet.defStable(true);
 		}
 	}
 

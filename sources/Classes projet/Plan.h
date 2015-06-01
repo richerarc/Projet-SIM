@@ -13,7 +13,12 @@ public:
 
 	Plan() {}
 
-	Plan(Vecteur3d& point1, Vecteur3d& normale){
+	Plan(Vecteur3d point1, Vecteur3d normale){
+		this->normale = normale;
+		d = -(normale.x * point1.x + normale.y * point1.y + normale.z * point1.z);
+	}
+
+	Plan(Vecteur3d point1, Vecteur3d point2, Vecteur3d point3, Vecteur3d normale) {
 		this->normale = normale;
 		d = -(normale.x * point1.x + normale.y * point1.y + normale.z * point1.z);
 	}
@@ -22,8 +27,8 @@ public:
 		calculerPlan(point1, point2, point3);
 	}
 
-	bool insertionDroitePlan(Droite& droite,Vecteur3d& pointCollision) {
-		if (normale.produitScalaire(droite.obtenirVecteurDirecteur()) != 0) {
+	bool insertionDroitePlan(Droite droite,Vecteur3d& pointCollision) {
+		if (normale.produitScalaire(droite.obtenirVecteurDirecteur()) < 0) {
 			
 			double nombre = (normale.x * droite.obtenirPoint().x) + (normale.y * droite.obtenirPoint().y) + (normale.z * droite.obtenirPoint().z) + d;
 			double k = (normale.x * droite.obtenirVecteurDirecteur().x) + (normale.y * droite.obtenirVecteurDirecteur().y) + (normale.z * droite.obtenirVecteurDirecteur().z);
@@ -34,6 +39,11 @@ public:
 			return true;
 		}
 		return false;
+	}
+
+	void calculerPlan(Vecteur3d point1, Vecteur3d point2, Vecteur3d point3, Vecteur3d normale) {
+		this->normale = normale;
+		d = -(normale.x * point1.x + normale.y * point1.y + normale.z * point1.z);
 	}
 
 	void calculerPlan(Vecteur3d& point1, Vecteur3d& point2, Vecteur3d& point3) {
@@ -49,6 +59,10 @@ public:
 
 	Vecteur3d obtenirNormale() {
 		return normale;
+	}
+
+	void defNormale(Vecteur3d normale) {
+		this->normale = normale;
 	}
 
 	double obtenirD() {

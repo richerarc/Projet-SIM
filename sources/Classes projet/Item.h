@@ -44,7 +44,6 @@ public:
 		gfx::Gestionnaire3D::obtInstance().retObjet(modele);
 
 		if (etat == EtatItem::EQUIPE){
-			vitesse = Vecteur3d(0, 0, 0);
 			Vecteur3d position = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant()*0.8 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut()*0.13 + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtCote()*0.5;
 			modele->defPosition(position);
 			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
@@ -55,13 +54,15 @@ public:
 		else if (etat == EtatItem::DEPOSE){
 			if (!salleActive)
 				return;
-			vitesse = Vecteur3d(0.1, 0, 0);
+			this->defVitesse(gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 10);
+			this->defVitesseAngulaire(Vecteur3d(0, 0, 0));
+			this->obtModele3D()->defOrientation(Vecteur3d(0, 0, -45));
+			this->defStable(false);
 			salleActive->ajoutObjet(this);
 			gfx::Gestionnaire3D::obtInstance().ajouterObjet(modele);
 			equipe = false;
 		}
 		else if (etat == EtatItem::RANGE){
-			vitesse = Vecteur3d(0, 0, 0);
 			if (this->etat == EtatItem::DEPOSE)
 				salleActive->retirerObjet(this);
 			gfx::Gestionnaire3D::obtInstance().retObjet(modele);
