@@ -11,6 +11,8 @@
 #include "Examen.h"
 #include "Munition.h"
 #include "Cle.h"
+#include "Illuminati.h"
+
 
 class UsineItem : public Singleton < UsineItem > {
 private:
@@ -123,7 +125,14 @@ public:
 			case(2) ://Clé finale
 				return new CleFinale(ID);
 		}
+		case (8) :
+			switch (type % 10){
+			case(0) ://Clé roulliée
+				return new Illuminati(ID);
 		}
+		}
+
+
 		return nullptr;
 	}
 };
