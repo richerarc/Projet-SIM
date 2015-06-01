@@ -160,7 +160,7 @@ public:
 		return false;
 	}
 
-	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> objets, float frameTime, double temps) {
+	void appliquerPhysiqueSurListeObjet(gfx::Modele3D* modeleSalle, std::list<Objet*> &objets, float frameTime, double temps) {
 		for (auto it : objets) {
 			Vent* it_Vent = dynamic_cast<Vent*>(it);
 			if (it_Vent != nullptr) {
@@ -230,7 +230,7 @@ public:
 		}
 	}
 
-	void appliquerPhysiqueSurJoueur(Joueur* joueur, std::list<Objet*> objets, double frameTime) {
+	void appliquerPhysiqueSurJoueur(Joueur* joueur, std::list<Objet*> &objets, double frameTime) {
 		Vecteur3d ForceTotale;
 		if (joueur->obtNormale().y != 1) {
 			appliquerForceGravite(ForceTotale, joueur->obtMasse());
@@ -454,7 +454,7 @@ public:
 		return 0.5 * masse * SDL_pow(vecteurVitesseObjet.norme(), 2);
 	}
 
-	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> listeObjet, Objet& objet, double frameTime) {
+	bool collisionObjetSalle(gfx::Modele3D* modeleSalle, std::list<Objet*> &listeObjet, Objet& objet, double frameTime) {
 
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
@@ -643,7 +643,7 @@ public:
 		return typeCollision;
 	}
 
-	bool collisionJoueurObjet(Joueur* joueur, std::list<Objet*> listeObjet) {
+	bool collisionJoueurObjet(Joueur* joueur, std::list<Objet*> &listeObjet) {
 		Droite rayonCollision;
 		Vecteur3d pointCollision;
 		Vecteur3d point;

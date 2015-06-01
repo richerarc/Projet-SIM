@@ -37,6 +37,9 @@ private:
 	gfx::Modele3D *modeleMur;
 	gfx::Modele3D *modelePorte;
 	Objet* avion;
+	std::stack<InfoObjet> ItemsUniques;
+	std::vector<InfoObjet> Fixes;
+	std::vector<InfoObjet> Items;
 
 	// Variables d'animation...
 	Vecteur3d translations[2],
@@ -406,10 +409,15 @@ private:
 						  }()){
 							  p = {((x / 3) + (rand()%2 * -1)*(rand() % (int)largeurX/4)), (y / 3), ((z / 3) + (rand()%2 * -1)*(rand() % (int)largeurZ/4))};
 						  }
-					if (p.y < 0)
+					if (objet.type == ITEM){
+						if (p.y < 0)
+							p.y = 0;
+						if (d.y > p.y)
+							p.y = d.y;
+					}
+					else{
 						p.y = 0;
-					if (d.y > p.y)
-						p.y = d.y;
+					}
 				}
 				else
 					p = {(x / 3), (y / 3), (z / 3)};
@@ -1105,6 +1113,20 @@ public:
 			++nbrObjet;
 		}
 		
+		for (int i = 0; i < cheminsObjet.size(); ++i){
+			InfoObjet obj;
+			LecteurFichier::lireObjet(cheminsObjet[i], obj);
+			if (obj.type == ITEM){
+				if (obj.IDitem == 0 || obj.IDitem == 1 || obj.IDitem == 2 || obj.IDitem == 3 || obj.IDitem == 10 || obj.IDitem == 11 || obj.IDitem == 12 || obj.IDitem == 20){
+					ItemsUniques.push(obj);
+				}
+				else
+					Items.push_back(obj);
+			}
+			else
+				Fixes.push_back(obj);
+		}
+		
 		unsigned int aleatoire;
 		InfoObjet objet;
 		InfoSalle salle;
@@ -1184,9 +1206,26 @@ public:
 			
 			objet.ID = it.Objet.size();
 			objet.largeur = 0;
-			LecteurFichier::lireObjet(cheminsObjet[rand() % nbrObjet], objet);
-			if(positionnerObjet(*modeleSalle, it, objet))
+			if (ItemsUniques.size()){
+				objet = ItemsUniques.top();
+				if(positionnerObjet(*modeleSalle, it, objet)){
+					it.Objet.push_back(new InfoObjet(objet));
+					ItemsUniques.pop();
+				}
+			}
+			objet.ID = it.Objet.size();
+			objet.largeur = 0;
+			objet = Items[rand() % Items.size()];
+			if(positionnerObjet(*modeleSalle, it, objet)){
 				it.Objet.push_back(new InfoObjet(objet));
+			}
+			for (unsigned short i = 0; i < 3; ++i) {
+				objet.ID = it.Objet.size();
+				objet.largeur = 0;
+				objet = Fixes[rand() % Fixes.size()];
+				if(positionnerObjet(*modeleSalle, it, objet))
+					it.Objet.push_back(new InfoObjet(objet));
+			}
 
 			// Ajout et réinitialisation de la salle.
 			delete modeleSalle;
@@ -1255,6 +1294,19 @@ public:
 		bureau.rotation = { 0, -90, 0 };
 
 		salleDebut.Objet.push_back(new InfoObjet(bureau));
+		
+			// Companion
+		
+		InfoObjet companion;
+		LecteurFichier::lireObjet("Ressources/Info/thai.txt", companion);
+		companion.direction = { 0, 0, 0 };
+		companion.ID = 8;
+		companion.largeur = 0;
+		companion.position = { -4.9, 2.0, -3.0 };
+		companion.IDitem = 42;
+		
+		salleDebut.Objet.push_back(new InfoObjet(companion));
+
 
 		// Poubelle
 
@@ -1273,7 +1325,7 @@ public:
 		InfoObjet etagere;
 		LecteurFichier::lireObjet("Ressources/Info/etagere.txt", etagere);
 		etagere.direction = { 0, 0, 0 };
-		etagere.ID = 4;
+		etagere.ID = 5;
 		etagere.largeur = 0;
 		etagere.position = { -1.7, 0.0, 1.55 };
 		etagere.rotation = { 0, 180, 0 };
@@ -1285,7 +1337,7 @@ public:
 		InfoObjet tabledechevet;
 		LecteurFichier::lireObjet("Ressources/Info/tabledechevet.txt", tabledechevet);
 		tabledechevet.direction = { 0, 0, 0 };
-		tabledechevet.ID = 4;
+		tabledechevet.ID = 6;
 		tabledechevet.largeur = 0;
 		tabledechevet.position = { 1.0, 1.0, -10.5 };
 		tabledechevet.rotation = { 0, 0, 0 };
@@ -1296,7 +1348,7 @@ public:
 
 		InfoObjet masque;
 		masque.direction = { 0, 0, 0 };
-		masque.ID = 5;
+		masque.ID = 7;
 		masque.largeur = 0;
 		masque.position = { 1.0, 2.0, -10.5 };
 		masque.rotation = { 0, 0, 0 };
