@@ -190,14 +190,14 @@ private:
 			Item* it_Item = dynamic_cast<Item*>(it);
 			Commutateur* it_com = dynamic_cast<Commutateur*>(it);
 			ObjetFixe* it_fixe = dynamic_cast<ObjetFixe*>(it);
-			if(it_Porte || !it_fixe){
+			if (it_Porte || !it_fixe){
 				Vecteur3d pointCollision, normale;
 				Droite VueJoueur = Droite(joueur->obtPosition() + (Vecteur3d(0.0, joueur->obtModele3D()->obtModele()->obtTaille().y, 0.0)), joueur->obtDevant());
 				if ((Maths::distanceEntreDeuxPoints(joueur->obtPosition(), it->obtPosition()) < 2) && Physique::obtInstance().collisionDroiteModele(it->obtModele3D(), VueJoueur, pointCollision, normale, nullptr, false)) {
 
 					std::string str1 = "Press ";
 					str1.append(*GestionnaireControle::obtInstance().obtTouche((UTILISER)));
-					
+
 					if (it_Porte != nullptr){
 						if (it_Porte->obtVerrouillee())
 							str1.append(" to unlock door.");
@@ -240,6 +240,7 @@ public:
 		accesRapide->remplir();
 
 		GestionnairePhases::obtInstance().ajouterPhase(new PhaseMenuInventaire(joueur->obtInventaire()));
+
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_KEYDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 		GestionnaireEvenements::obtInstance().ajouterUnRappel(SDL_CONTROLLERBUTTONDOWN, std::bind(&PhaseJeu::toucheAppuyee, this, std::placeholders::_1));
 
@@ -393,8 +394,39 @@ public:
 				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);
 				tempsAffichageID.repartir();
 			}
-
-			if (Carte::obtInstance().salleActive->obtID() != difficulte){
+			if (Carte::obtInstance().salleActive->obtID() == difficulte){
+				Item* masqueTmp = joueur->obtInventaire()->obtItemParType(50);
+				if (masqueTmp != nullptr){
+					MasqueGaz* masqueFiltre = dynamic_cast<MasqueGaz*>(masqueTmp);
+					if (masqueFiltre != nullptr){
+						mettreAJourGazRestant(masqueFiltre->obtDurabilite());
+						if (masqueFiltre->estEquipe())
+							masqueEquipe = true;
+						else
+							masqueEquipe = false;
+					}
+					else
+						masqueEquipe = false;
+				}
+				gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
+				if (masqueEquipe)
+					gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
+				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				else
+					mettreAJourMunitionRestant(0, 8);
+				itemTmp = joueur->obtInventaire()->obtItemParType(11);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				else
+					mettreAJourMunitionRestant(0, 20);
+			}
+			else {
 				if (difficulte != FACILE && santeEstAffichee){
 					gfx::Gestionnaire2D::obtInstance().retObjet(vie);
 					gfx::Gestionnaire2D::obtInstance().retObjet(vieMentale);
@@ -438,20 +470,6 @@ public:
 				gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
 				if (masqueEquipe)
 					gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
-				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
-				if (itemTmp != nullptr){
-					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
-					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
-				}
-				else
-					mettreAJourMunitionRestant(0, 8);
-				itemTmp = joueur->obtInventaire()->obtItemParType(11);
-				if (itemTmp != nullptr){
-					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
-					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
-				}
-				else
-					mettreAJourMunitionRestant(0, 20);
 				if (joueur->obtSantePhysique() <= 0)
 					GestionnaireSucces::obtInstance().obtSucces(14);
 				mettreAJourtexteChrono();
@@ -462,6 +480,8 @@ public:
 					PhaseMenuFin* tmp = (dynamic_cast<PhaseMenuFin*>(GestionnairePhases::obtInstance().obtPhase(8)));
 					if (tmp != nullptr)
 						tmp->defPerdu(true);
+					if (Carte::obtInstance().obtEnFinPartie())
+						tmp->defPerdu(false);
 					GestionnairePhases::obtInstance().retirerPhase();
 					GestionnairePhases::obtInstance().defPhaseActive(MENUFIN);
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(false);
@@ -501,13 +521,11 @@ public:
 									Carte::obtInstance().ajouterLien(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), std::make_tuple(diz * 10 + uni, 0));
 								}
 							}
-							bool personnage = false;
 							for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
 								if (it->obtMateriaux() == "personnage"){
-									//Carte::obtInstance().salleActive->retirerObjet(it);
-									//delete it;
-									personnage = true;
 									GestionnaireSucces::obtInstance().obtSucces(28);
+									Carte::obtInstance().salleActive->retirerObjet(it);
+									delete it;
 									break;
 								}
 							}

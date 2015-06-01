@@ -1,0 +1,1 @@
+Ressources/Modele/cadre.obj Ressources/Texture/cadre3.png 2 101

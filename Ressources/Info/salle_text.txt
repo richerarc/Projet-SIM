@@ -9,7 +9,5 @@ Ressources/Modele/SalleHexagonale.obj Ressources/Texture/SalleHexagonale.png Res
 Ressources/Modele/SalleOctogonale.obj Ressources/Texture/SalleOctogonale.png Ressources/Info/SalleOctogonale.txt
 Ressources/Modele/SalleMulti.obj Ressources/Texture/SalleMulti.png Ressources/Info/SalleMulti.txt
 Ressources/Modele/SalleCafette.obj Ressources/Texture/SalleCafette.png Ressources/Info/SalleCafette.txt
-Ressources/Modele/SalleTrompeuse.obj Ressources/Texture/SalleTrompeuse.png Ressources/Info/SalleTrompeuse.txt
 Ressources/Modele/SallePodium.obj Ressources/Texture/SallePodium.png Ressources/Info/SallePodium.txt
 Ressources/Modele/SalleU.obj Ressources/Texture/SalleU.png Ressources/Info/SalleU.txt
-Ressources/Modele/SalleDiagonale.obj Ressources/Texture/SalleDiagonale.png Ressources/Info/SalleDiagonale.txt

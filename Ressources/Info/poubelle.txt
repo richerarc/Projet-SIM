@@ -1,2 +1,2 @@
 Ressources/Modele/poubelle.obj
-Ressources/Texture/poubelle.png 2
+Ressources/Texture/poubelle.png 2 102

@@ -1,0 +1,1 @@
+Ressources/Modele/Clef.obj Ressources/Texture/cleFer.png 4 102 70

@@ -1,1 +1,1 @@
-Ressources/Modele/cartoucheGaz.obj Ressources/Modele/cartoucheGaz.png 4 102 60
+Ressources/Modele/cartoucheGaz.obj Ressources/Texture/cartoucheGaz.png 4 102 60

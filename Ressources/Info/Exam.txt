@@ -1,0 +1,1 @@
+Ressources/Modele/exam.obj Ressources/Texture/examBrandon.png 4 102 20

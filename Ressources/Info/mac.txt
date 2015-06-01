@@ -1,0 +1,1 @@
+Ressources/Modele/mac.obj Ressources/Texture/mac.png 4 102 3

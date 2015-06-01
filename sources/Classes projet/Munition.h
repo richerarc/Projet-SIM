@@ -36,11 +36,12 @@ class Acp45 : public Munition{
 			if (munition){
 				tmp->charger(munition);
 				quantite -= munition;
+				ControlleurAudio::obtInstance().jouer(EQUIPERFUSIL, joueur);
 			}
 		}
 	}
 public:
-	Acp45(unsigned int ID) : Munition(60, "ACP45", "A box of 60 thompson ammo", "Ressources/Texture/ACP45Icone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Munition.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/ACP45.png")), ID, 0.2){
+	Acp45(unsigned int ID) : Munition(60, ".45 ACP", "A box of 60 thompson ammo", "Ressources/Texture/ACP45Icone.png", new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/Munition.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/ACP45.png")), ID, 0.2){
 		quantite = 60;
 	}
 };
@@ -57,7 +58,7 @@ class Parabellum : public Munition{
 			if (munition){
 				tmp->charger(munition);
 				quantite -= munition;
-				
+				ControlleurAudio::obtInstance().jouer(EQUIPERFUSIL, joueur);
 			}
 		}
 	}

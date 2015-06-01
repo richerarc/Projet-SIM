@@ -1,0 +1,1 @@
+Ressources/Modele/eau.obj Ressources/Texture/eau.png 4 102 31
