@@ -350,11 +350,11 @@ public:
 			for (auto it : Carte::obtInstance().salleActive->obtListeObjet()){
 				com = dynamic_cast<Commutateur*>(it);
 				if (com){
-					if (com->obtEtat() && Physique::obtInstance().obtGravite() != -4.f){
+					if (com->obtEtat() && Physique::obtInstance().obtGravite() != -4.f && salleActive->obtID() == difficulte + 3){
 						Physique::obtInstance().defGravite(-4.f);
 					}
 				}
-				else if (Physique::obtInstance().obtGravite() != -9.f){
+				else if (Physique::obtInstance().obtGravite() != -9.8f){
 					Physique::obtInstance().defGravite(-9.8f);
 				}
 			}
@@ -383,6 +383,7 @@ public:
 				joueur->defPosition(Vecteur3d(-0.76278, 2.18987, -10.92852));
 				joueur->defHAngle(0);
 				joueur->defVAngle(0);
+				ControlleurAudio::obtInstance().jouer(CRACK_1, joueur);
 				joueur->defSantePhysique(joueur->obtSantePhysique() - 25);
 				GestionnaireSucces::obtInstance().obtSucces(19);
 			}
@@ -411,9 +412,6 @@ public:
 				gfx::Gestionnaire2D().obtInstance().ajouterObjet(texteChrono);
 				tempsAffichageID.repartir();
 				finAnimationDebut = true;
-				//if (Carte::obtInstance().salleActive->obtID() == difficulte + 2){
-				//	Carte::obtInstance().calculAnimationFinPartie(joueur);
-				//}
 			}
 			if (tempsAffichageID.obtTempsEcoule().enSecondes() >= 4.0){
 				gfx::Gestionnaire2D::obtInstance().retObjet(texte_ID_Salle);

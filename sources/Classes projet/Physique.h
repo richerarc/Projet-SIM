@@ -617,9 +617,14 @@ public:
 				if (typeCollision != MUR) {
 					if (joueur->obtVitesse().y <= -12 && joueur->obtVitesse().y >= -35) {
 						joueur->defSantePhysique(joueur->obtSantePhysique() - fabs(joueur->obtVitesse().y * 0.5));
+						ControlleurAudio::obtInstance().jouer(CRACK_1, joueur);
+						ControlleurAudio::obtInstance().jouer(CRACK_2, joueur);
 					}
-					if (joueur->obtVitesse().y < -35)
+					if (joueur->obtVitesse().y < -35){
 						joueur->defSantePhysique(0);
+						ControlleurAudio::obtInstance().jouer(CRACK_1, joueur);
+						ControlleurAudio::obtInstance().jouer(CRACK_2, joueur);
+					}
 					Vecteur3d pointDifference = pointCollision - point;
 					joueur->defPositionY(joueur->obtPosition().y + pointDifference.y);
 				}
