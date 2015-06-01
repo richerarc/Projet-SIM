@@ -35,7 +35,7 @@ private:
 	gfx::Texte2D* munitionThompsonRestantes;
 	gfx::Texte2D* gazRestant;
 	double tempsRestant;
-	double compteurViePhysique;
+	double compteurUserMasqueAGaz, compteurViePhysique;
 	Item *itemEquipe;
 	char dizaine[5];
 	char unite[5];
@@ -273,6 +273,7 @@ public:
 		finAnimationDebut = false;
 		finTransitionSalle = true;
 		santeEstAffichee = true;
+		compteurUserMasqueAGaz = 0;
 		compteurViePhysique = 0;
 
 		cheminRecursif.push(Carte::obtInstance().salleActive->obtID());
@@ -480,9 +481,14 @@ public:
 				}
 				else
 					tempsRestant -= tempsJeu.obtTempsEcoule().enSecondes();
+				compteurUserMasqueAGaz += tempsJeu.obtTempsEcoule().enSecondes();
 				compteurViePhysique += tempsJeu.obtTempsEcoule().enSecondes();
-				if (compteurViePhysique >= 1){
+				if (compteurViePhysique >= 5 && salleActive->obtID() != difficulte){
+					joueur->defSanteMentale(joueur->obtSanteMentale() - 1);
 					compteurViePhysique = 0;
+				}
+				if (compteurUserMasqueAGaz >= 1){
+					compteurUserMasqueAGaz = 0;
 					Item* itemTmp = joueur->obtInventaire()->obtItemParType(50);
 					if (itemTmp != nullptr){
 						MasqueGaz* tmp = dynamic_cast<MasqueGaz*>(itemTmp);
@@ -517,14 +523,16 @@ public:
 				}
 				else
 					mettreAJourMunitionRestant(0, 20);
+
 				gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
 				if (masqueEquipe)
 					gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
-				if (joueur->obtSantePhysique() <= 0)
-					GestionnaireSucces::obtInstance().obtSucces(14);
+
 				mettreAJourtexteChrono();
 
 				if (tempsRestant <= 0 || joueur->obtSanteMentale() <= 0 || joueur->obtSantePhysique() <= 0 || Carte::obtInstance().animationFinPartie(joueur, frameTime) == 2) {
+					if (tempsRestant <= 0)
+						GestionnaireSucces::obtInstance().obtSucces(14);
 					gfx::Gestionnaire2D::obtInstance().vider();
 					GestionnairePhases::obtInstance().obtPhaseActive()->defPause(true);
 					if (joueur->obtSanteMentale() <= 0){
