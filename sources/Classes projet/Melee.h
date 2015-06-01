@@ -17,11 +17,14 @@ public:
 	}
 	void animer(Joueur* joueur){
 		float vitesseJoueur = joueur->obtVitesseDeplacement();
-		if (vitesseJoueur == 4.0f)
+		if (vitesseJoueur == 4.0f){
 			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
-		if (vitesseJoueur == 10.0f)
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
 			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
-
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 		if (animationActuelle == 0)
 			return;
 		if (animationActuelle == 1){

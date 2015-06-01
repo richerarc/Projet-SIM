@@ -78,3 +78,8 @@ Commencement des animations d'armes de mêlée et ajout des sons et des trous. J
 J'ai aidé Nicolas à ajouter des consommables au jeu.
 #29 mai pendant 3h#
 Nous nous sommes rencontrés pour parler de l'oral et j'ai fini l'ajout des notes dans les items et j'ai ajouté des fonctions au menu accès rapide telles que changer d'item avec les chiffres sur le clavier ainsi que la fonction de revenir à l'item précédent avec la touche q.
+#30 mai pendant 3h#
+J'ai ajouté un chandelier ainsi qu'une bière dans les items. J'ai ajouté un fond au menu Inventaire pour qu'on voit bien le texte. J'ai aussi modélisé une salle en arbre.
+J'ai conçu une charte des items avec leurs icones et leur ID pour montrer à la présentation.
+#31 mai pendant 4h#
+J'ai fixé plusieurs bugs, j'ai réglé des fuites de mémoire avec Nicolas j'ai ensuite rendu les animations plus légitimes et fixé plusieurs autres bugs. J'ai ensuite ajouté un triangle illuminati.

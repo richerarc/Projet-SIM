@@ -27,6 +27,16 @@ public:
 struct Thai : public Jetable, public Consommable{
 	Thai(unsigned int ID) : Jetable(30, "Felix's thai box", "Extremely hot General Tso's chicken", "Ressources/Texture/thaiIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/thai.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/thai.png")), ID, "carton", 0.76){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -60,6 +70,16 @@ struct Thai : public Jetable, public Consommable{
 struct Eau : public Jetable, public Consommable{
 	Eau(unsigned int ID) : Jetable(31, "Water bottle", "Fresh old water", "Ressources/Texture/eauIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/eau.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/eau.png")), ID, "plastique", 0.4){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -93,6 +113,15 @@ struct Eau : public Jetable, public Consommable{
 struct Poulet : public Melee, public Consommable{
 	Poulet(unsigned int ID) : Melee(1.5, 2, 32, "Chicken drumstick", "Colonel Sander would be proud of it", "Ressources/Texture/pouletIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/poulet.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/poulet.png")), ID, "plastique", 0.12){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -140,6 +169,15 @@ struct Poulet : public Melee, public Consommable{
 struct Pilule : public Jetable, public Consommable{
 	Pilule(unsigned int ID) : Jetable(33, "Some pills", "This is your last chance. After this, there is no turning back.", "Ressources/Texture/pilluleIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/potpillule.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/potpilluletexture.png")), ID, "plastique", 0.05){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -176,6 +214,15 @@ struct Pilule : public Jetable, public Consommable{
 struct Lait : public Jetable, public Consommable{
 	Lait(unsigned int ID) : Jetable(34, "Milk carton", "You deserve Natrel", "Ressources/Texture/PinteDeLaitIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/PinteDeLait.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/PinteDeLait.png")), ID, "carton", 2.1){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -209,6 +256,16 @@ struct Lait : public Jetable, public Consommable{
 struct Chocolat : public Jetable, public Consommable{
 	Chocolat(unsigned int ID) : Jetable(35, "Big Black Chocolate", "JEW won't belive it how good it tastes", "Ressources/Texture/chocolatIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/chocolat.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/chocolat.png")), ID, "carton", 2.1){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -242,6 +299,16 @@ struct Chocolat : public Jetable, public Consommable{
 struct Vin : public Jetable, public Consommable{
 	Vin(unsigned int ID) : Jetable(36, "Red winw", "Pray for it to be a good vintage", "Ressources/Texture/bouteillevinIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/bouteillevin.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/bouteillevin.png")), ID, "metal", 2.1){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -276,6 +343,15 @@ struct Vin : public Jetable, public Consommable{
 struct Biere : public Jetable, public Consommable{
 	Biere(unsigned int ID) : Jetable(38, "Ice Cold Beer", "Because it needs to be cold.", "Ressources/Texture/bouteilleBiereIcone.png", 16, new gfx::Modele3D(gfx::GestionnaireRessources::obtInstance().obtModele("Ressources/Modele/bouteilleBiere.obj"), gfx::GestionnaireRessources::obtInstance().obtTexture("Ressources/Texture/bouteilleBiere.png")), ID, "metal", 2.1){}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);
@@ -314,6 +390,15 @@ struct Seringue : public Jetable, public Consommable{
 		posAnimation = Vecteur3d(posDepart + (joueur->obtHaut() * 0.30 - joueur->obtCote() * 0.50) * (temps / 2));
 	}
 	void animer(Joueur* joueur){
+		float vitesseJoueur = joueur->obtVitesseDeplacement();
+		if (vitesseJoueur == 4.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
+		if (vitesseJoueur == 10.0f){
+			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+		}
 		if (etatAnimation){
 			if (animation.obtTempsEcoule().enSecondes() < 1.5){
 				consommer(animation.obtTempsEcoule().enSecondes(), joueur);

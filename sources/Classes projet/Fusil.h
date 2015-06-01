@@ -36,11 +36,11 @@ public:
 		float vitesseJoueur = joueur->obtVitesseDeplacement();
 		if (vitesseJoueur == 4.0f){
 			modele->rotationner(Vecteur3d(0, 0, 1), 3 * sin(10 * animation.obtTempsEcoule().enSecondes()));
-			modele->deplacer(0, 3 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+			modele->deplacer(0, 0.05 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
 		}
 		if (vitesseJoueur == 10.0f){
-			modele->rotationner(Vecteur3d(0, 0, 1), 20 * sin(10 * animation.obtTempsEcoule().enSecondes()));
-			modele->deplacer(0, 2 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
+			modele->rotationner(Vecteur3d(0, 0, 1), 6 * sin(10 * animation.obtTempsEcoule().enSecondes()));
+			modele->deplacer(0, 0.07 * sin(10 * animation.obtTempsEcoule().enSecondes()), 0);
 		}
 
 		if (animationActuelle == 0)
@@ -61,6 +61,10 @@ public:
 	void utiliser(Joueur* joueur){
 		if (!automatique && dernierCoup){
 			dernierCoup = Souris::boutonAppuye(SDL_BUTTON_LEFT);
+			return;
+		}
+		if (munition <= 0){
+			ControlleurAudio::obtInstance().jouer(FUSILVIDE, joueur);
 			return;
 		}
 
@@ -141,7 +145,7 @@ public:
 		ControlleurAudio::obtInstance().jouer(MIRE, joueur);
 		Vecteur3d newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.4 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.145;
 		if (nom == "Thompson M1")
-			newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.4 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.32;
+			newPosition = gfx::Gestionnaire3D::obtInstance().obtCamera()->obtPosition() + gfx::Gestionnaire3D::obtInstance().obtCamera()->obtDevant() * 0.4 - gfx::Gestionnaire3D::obtInstance().obtCamera()->obtHaut() * 0.34;
 		this->position = newPosition;
 		modele->defPosition(position);
 		angleHorizontal = 90;
