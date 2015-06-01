@@ -492,6 +492,20 @@ public:
 					else
 						masqueEquipe = false;
 				}
+				Item* itemTmp = joueur->obtInventaire()->obtItemParType(10);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				else
+					mettreAJourMunitionRestant(0, 8);
+				itemTmp = joueur->obtInventaire()->obtItemParType(11);
+				if (itemTmp != nullptr){
+					Fusil* tmp = dynamic_cast<Fusil*>(itemTmp);
+					mettreAJourMunitionRestant(tmp->obtballesRestantes(), tmp->obtChargeur());
+				}
+				else
+					mettreAJourMunitionRestant(0, 20);
 				gfx::Gestionnaire2D::obtInstance().retObjet(filtre);
 				if (masqueEquipe)
 					gfx::Gestionnaire2D::obtInstance().ajouterObjet(filtre);
