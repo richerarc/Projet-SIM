@@ -596,9 +596,6 @@ public:
 							Carte::obtInstance().destination(std::make_tuple(Carte::obtInstance().salleActive->obtID(), objetVise->obtID(), false), joueur);
 							finTransitionSalle = false;
 						}
-						else{ //a ajouter: verification si le joeueur a une cle
-							(dynamic_cast<Porte*>(objetVise))->defVerrouillee(false);
-						}
 					}
 					else if (dynamic_cast<Item*>(objetVise)){
 						joueur->obtInventaire()->ajouterObjet((Item*)objetVise);

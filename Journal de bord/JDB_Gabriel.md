@@ -641,6 +641,10 @@ Je crois que ces calculs devront s'additionner à ce que j'ai déjà, ça devrai
 
 **4h00**: J'ai fait la gestion des items lorsqu'on se déplace entre les salles(J'ai aussi arrangé le bug où les peintures de trou de balle étaient conservées en "Me gusta"). Durant ce temps j'ai aussi aidé plusieurs personne sur plusieurs problèmes.
 
-**3h00**: Travail sur le verrouillage des portes. J'ai créée une procédure récursive dans carte qui passe sur toute les portes et les verrouille selon plusieurs paramètre.
+**3h00**: Travail sur le verrouillage des portes. J'ai créée une procédure récursive de type préfixe dans carte qui passe sur toute les portes et les verrouille selon plusieurs paramètre. Le verrouillage se fait toujours avec le chemin le plus rapide à partir de la première salle.
 
 **1h00**: Correction d'un erreur dans plan où l'insertionDroitePlan ne semble pas fonctionner normalement, l'objet n'accumule plus de vitesse/vitesseAngulaire quand il est pris et relâché plusieurs fois et le rebonds sont légèrement mieux!
+
+###This is the eeeeend...
+
+Ce fut un projet très plaisant, j'ai appris énormément sur le 3D et surtout, ce qui est le plus important, c'est que je me suis développé une grande passion pour la programmation et surtout la physique. Le travail d'équipe était tou un défi, surtout à 14, les opinions divergaient, mais au final on arrivaient bien à s'entendre je crois. C'est la première fois dans un projet où je me suis mis au défi autant et j'ai bien aimé. J'espère avoir d'autres projet du genre, il est clair que cet été, maintenant que j'ai un travail dans lequel je peux faire afficher un monde 3D facilement, j'aimerais continué à programmer de la physique. J'ai passé beaucoup de temps là-dessus et je ne me suis jamais ennuyé. Mise à part les corrections tardives (who cares anyways), tu m'a donné un enseignement de qualité et pour importe la façon qui semble louche par laquelle tu est devenus un enseignant, je crois que tu fais un super de bon travaille avec tes élèves, certainement plus que d'autres personnes qui ont des formations d'enseignant! J'ai bien hâte d'allé à l'université et j'espère pouvoir être finalement accepté à la poly!
