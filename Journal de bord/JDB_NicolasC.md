@@ -139,7 +139,7 @@
 **22 mai** durée 30min  
 	-finitions sur la salle à 2 étages et cération d'icones.  
 **26 mai** durée 4h  
-	-modifications des textures de fusils et complétion dans leur totalité des consommable et presque des jetables avec Brandon.
+	-modifications des textures de fusils et complétion dans leur totalité des consommable et presque des jetables avec Brandon.  
 **27 mai au 29 mai** durée 16h  
 	-travail pour plusieurs items, soit implématation, animation ou texturisation.  
 	-fonctionnement des munitions pour les fusils.  
@@ -155,4 +155,6 @@
 	-modification des contrôles en liens avec l'inventaire.  
 	-le joueur ne devrait plus être en mesure d'appuyer sur des controles quand il est bloqué.
 	-ajout des bruits dans les consommables.  
-	-correctifs mineurs.
+	-correctifs mineurs.  
+**1 jui** durée 6h  
+	-je vais faires les préparatifs nécessaires pour la présentations.
