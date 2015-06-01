@@ -229,4 +229,46 @@ Plusieurs test de collision du joueur qui devenait une simple ligne avec une vin
 -environ 3 heures
 Commencement des collisions du joueur avec les objets. Le joueur va collisionner avec la boite de collision des objets et le modele selon les cas. Le joueur détectionne des collisions à des endroit vraiment étrange (à plus de 10 mètre d'un objet)
 
+22 mai
+
+-environ 2h30
+Ajout d'une BoiteCollision dans la classe Modele3D, commencement du travail pour les collision du joueur avec les objets
+
+23 mai
+
+-environ 2h
+Travail sur les collision du jouer avec les objet dans la classe Physique (gérer les collisions et déterminer quand il y en a une). Je n'ai pas ajouter sur le serveur ce que j'ai de fait parce que ce n'a pas été très concluant.
+
+24 mai
+
+-environ 4h
+Travail sur les collision du joueur avec les objet dans la classe physique (gérer les collision et déterminer quans il y en a une) et modification du model du joueur pour remettre la ligne de point dans celui-ci.
+
+25 mai
+
+-environ 3h30
+Ajout d'une texture sur mon modele de livre et correction de celui-ci pour le rendre plus mieux graphiquement. Je continue à travailler sur les collision entre le joueur et les objets mais je n'ai pas ajouter sur le serveur parce que ce n'est pas encore fini.
+
+28 mai
+
+-environ 5h
+Gros travail sur les collisions avec les objets et le joueur (j'ai des collsions pas trop mal), ajout de la fonction longer avec les murs du joueur (j'en ai fait une, je n'ai pas repris celle de dominique).
+
+29 mai
+
+-environ 4h
+petite modification du modele du joueur (j'avais oublier de retirer ce que blender ajoute au début de fichier), modification des fonctions pour obtenir les valeur maximum et minimum d'une boite de collision (ils ne retournait pas le minimum/maximum absolu de la boite), ça à été long avant que je trouve le problème des minimum/maximum de boite de collision.
+Travail sur les dégat de chute du joueur.
+
+30 mai
+
+-environ 4h
+Création d'une salle en U à l'aide de blender, réglage de bug qiu faisait que les collision avec les objet n'avaient pas toujours lieu, réglage du bug qui faisait que le joueur passait à travail les mur quand il fonçait dans le mur de gauche en montant une pente.
+
+31 mai
+
+-environ 10h
+Plusieurs réglage de bug dans tout le projet, ajout de menu de fin quand le partie se termine, ajout des credits, retrait des collisio du joueur avec les portes, création d'une salle en diagonale, ajoute des dégat au joueur quand il se prend un piege
+
+
 
