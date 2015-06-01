@@ -1,2 +1,2 @@
 Ressources/Modele/litEtage.obj
-Ressources/Texture/litEtage.png 2
+Ressources/Texture/litEtage.png 2 102

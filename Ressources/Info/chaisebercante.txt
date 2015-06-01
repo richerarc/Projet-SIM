@@ -1,2 +1,2 @@
 Ressources/Modele/chaisebercante.obj
-Ressources/Texture/chaisebercante.png 2
+Ressources/Texture/chaisebercante.png 2 102
