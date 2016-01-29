@@ -1,0 +1,1 @@
+Ressources/Modele/PinteDeLait.obj Ressources/Texture/PinteDeLait.png 4 102 34

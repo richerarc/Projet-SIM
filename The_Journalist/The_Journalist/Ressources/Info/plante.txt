@@ -1,0 +1,2 @@
+Ressources/Modele/plante.obj
+Ressources/Texture/plante.png 2 102

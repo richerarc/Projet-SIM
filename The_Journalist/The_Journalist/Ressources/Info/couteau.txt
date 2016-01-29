@@ -1,0 +1,1 @@
+Ressources/Modele/couteau.obj Ressources/Texture/couteau.png 4 102 0

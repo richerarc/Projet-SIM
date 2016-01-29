@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\Classes projet\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\Classes projet\Aimant.h" />
+    <ClInclude Include="sources\Classes projet\Balance.h" />
+    <ClInclude Include="sources\Classes projet\BarreProgressive.h" />
+    <ClInclude Include="sources\Classes projet\BoiteCollision.h" />
+    <ClInclude Include="sources\Classes projet\Bouton.h" />
+    <ClInclude Include="sources\Classes projet\Camera.h" />
+    <ClInclude Include="sources\Classes projet\CanonAPeinture.h" />
+    <ClInclude Include="sources\Classes projet\Carte.h" />
+    <ClInclude Include="sources\Classes projet\Case.h" />
+    <ClInclude Include="sources\Classes projet\Chrono.h" />
+    <ClInclude Include="sources\Classes projet\Cible.h" />
+    <ClInclude Include="sources\Classes projet\Clavier.h" />
+    <ClInclude Include="sources\Classes projet\Cle.h" />
+    <ClInclude Include="sources\Classes projet\Commutateur.h" />
+    <ClInclude Include="sources\Classes projet\Consommable.h" />
+    <ClInclude Include="sources\Classes projet\ControleVisuel.h" />
+    <ClInclude Include="sources\Classes projet\ControlleurAudio.h" />
+    <ClInclude Include="sources\Classes projet\Curseur.h" />
+    <ClInclude Include="sources\Classes projet\Droite.h" />
+    <ClInclude Include="sources\Classes projet\Equipable.h" />
+    <ClInclude Include="sources\Classes projet\Etiquette.h" />
+    <ClInclude Include="sources\Classes projet\Examen.h" />
+    <ClInclude Include="sources\Classes projet\Fenetre.h" />
+    <ClInclude Include="sources\Classes projet\Fusil.h" />
+    <ClInclude Include="sources\Classes projet\Gestionnaire2D.h" />
+    <ClInclude Include="sources\Classes projet\Gestionnaire3D.h" />
+    <ClInclude Include="sources\Classes projet\GestionnaireChemin.h" />
+    <ClInclude Include="sources\Classes projet\GestionnaireControle.h" />
+    <ClInclude Include="sources\Classes projet\GestionnaireEvenements.h" />
+    <ClInclude Include="sources\Classes projet\GestionnaireMenu.h" />
+    <ClInclude Include="sources\Classes projet\GestionnairePhases.h" />
+    <ClInclude Include="sources\Classes projet\GestionnaireRessources.h" />
+    <ClInclude Include="sources\Classes projet\GestionnaireSucces.h" />
+    <ClInclude Include="sources\Classes projet\Glisseur.h" />
+    <ClInclude Include="sources\Classes projet\Graphe.h" />
+    <ClInclude Include="sources\Classes projet\Illuminati.h" />
+    <ClInclude Include="sources\Classes projet\Info.h" />
+    <ClInclude Include="sources\Classes projet\Inventaire.h" />
+    <ClInclude Include="sources\Classes projet\Item.h" />
+    <ClInclude Include="sources\Classes projet\Jetable.h" />
+    <ClInclude Include="sources\Classes projet\Jeu.h" />
+    <ClInclude Include="sources\Classes projet\Joueur.h" />
+    <ClInclude Include="sources\Classes projet\Journal.h" />
+    <ClInclude Include="sources\Classes projet\LecteurFichier.h" />
+    <ClInclude Include="sources\Classes projet\Manette.h" />
+    <ClInclude Include="sources\Classes projet\Maths.h" />
+    <ClInclude Include="sources\Classes projet\Matrices.h" />
+    <ClInclude Include="sources\Classes projet\Melee.h" />
+    <ClInclude Include="sources\Classes projet\Menu.h" />
+    <ClInclude Include="sources\Classes projet\MenuAccesRapide.h" />
+    <ClInclude Include="sources\Classes projet\MenuChargement.h" />
+    <ClInclude Include="sources\Classes projet\MenuControle.h" />
+    <ClInclude Include="sources\Classes projet\MenuFin.h" />
+    <ClInclude Include="sources\Classes projet\MenuGraphique.h" />
+    <ClInclude Include="sources\Classes projet\MenuIntro.h" />
+    <ClInclude Include="sources\Classes projet\MenuInventaire.h" />
+    <ClInclude Include="sources\Classes projet\MenuNouvellePartie.h" />
+    <ClInclude Include="sources\Classes projet\MenuOptions.h" />
+    <ClInclude Include="sources\Classes projet\MenuPause.h" />
+    <ClInclude Include="sources\Classes projet\MenuPrincipal.h" />
+    <ClInclude Include="sources\Classes projet\MenuSon.h" />
+    <ClInclude Include="sources\Classes projet\MenuSucces.h" />
+    <ClInclude Include="sources\Classes projet\Modele.h" />
+    <ClInclude Include="sources\Classes projet\Modele3D.h" />
+    <ClInclude Include="sources\Classes projet\ModeVideo.h" />
+    <ClInclude Include="sources\Classes projet\Munition.h" />
+    <ClInclude Include="sources\Classes projet\Note.h" />
+    <ClInclude Include="sources\Classes projet\Objet.h" />
+    <ClInclude Include="sources\Classes projet\Objet2D.h" />
+    <ClInclude Include="sources\Classes projet\Objet3D.h" />
+    <ClInclude Include="sources\Classes projet\ObjetFixe.h" />
+    <ClInclude Include="sources\Classes projet\ObjetPhysique.h" />
+    <ClInclude Include="sources\Classes projet\Peinture.h" />
+    <ClInclude Include="sources\Classes projet\Pendule.h" />
+    <ClInclude Include="sources\Classes projet\Personnage.h" />
+    <ClInclude Include="sources\Classes projet\Phase.h" />
+    <ClInclude Include="sources\Classes projet\PhaseJeu.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuChargement.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuControle.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuFin.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuGraphique.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuIntro.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuInventaire.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuNouvellePartie.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuOptions.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuPause.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuPrincipal.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuSon.h" />
+    <ClInclude Include="sources\Classes projet\PhaseMenuSucces.h" />
+    <ClInclude Include="sources\Classes projet\Physique.h" />
+    <ClInclude Include="sources\Classes projet\PlafondTueur.h" />
+    <ClInclude Include="sources\Classes projet\Plan.h" />
+    <ClInclude Include="sources\Classes projet\Police.h" />
+    <ClInclude Include="sources\Classes projet\Porte.h" />
+    <ClInclude Include="sources\Classes projet\Rect.h" />
+    <ClInclude Include="sources\Classes projet\Remplisseur.h" />
+    <ClInclude Include="sources\Classes projet\Salle.h" />
+    <ClInclude Include="sources\Classes projet\Singleton.h" />
+    <ClInclude Include="sources\Classes projet\Sons.h" />
+    <ClInclude Include="sources\Classes projet\Souris.h" />
+    <ClInclude Include="sources\Classes projet\Sprite2D.h" />
+    <ClInclude Include="sources\Classes projet\Succes.h" />
+    <ClInclude Include="sources\Classes projet\Temps.h" />
+    <ClInclude Include="sources\Classes projet\Texte.h" />
+    <ClInclude Include="sources\Classes projet\Texte2D.h" />
+    <ClInclude Include="sources\Classes projet\Texture.h" />
+    <ClInclude Include="sources\Classes projet\UsineItem.h" />
+    <ClInclude Include="sources\Classes projet\Vecteur2.h" />
+    <ClInclude Include="sources\Classes projet\Vecteur3.h" />
+    <ClInclude Include="sources\Classes projet\Vent.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A316F485-AA2A-4AB5-9A20-AAC786A21188}</ProjectGuid>
+    <RootNamespace>The_Journalist</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

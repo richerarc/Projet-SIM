@@ -1,0 +1,2 @@
+Ressources/Modele/tabledechevet.obj
+Ressources/Texture/tabledechevet.png 2 102

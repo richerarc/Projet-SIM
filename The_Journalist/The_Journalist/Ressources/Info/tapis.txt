@@ -1,0 +1,2 @@
+Ressources/Modele/tapis.obj
+Ressources/Texture/tapis.png 2 102

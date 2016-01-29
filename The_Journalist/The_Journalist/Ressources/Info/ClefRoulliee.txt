@@ -1,0 +1,1 @@
+Ressources/Modele/Clef.obj Ressources/Texture/cleRoulliee.png 4 102 70

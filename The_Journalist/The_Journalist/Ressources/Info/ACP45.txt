@@ -1,0 +1,1 @@
+Ressources/Modele/Munition.obj Ressources/Texture/ACP45.png 4 102 60
