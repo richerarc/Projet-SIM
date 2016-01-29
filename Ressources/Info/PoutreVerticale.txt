@@ -1,1 +1,0 @@
-Ressources/Modele/PoutreVerticale.obj Ressources/Texture/PoutreVerticale.png 2

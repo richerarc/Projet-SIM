@@ -1,1 +1,0 @@
-Ressources/Modele/thompson.obj Ressources/Texture/thompson.png 4 102 11

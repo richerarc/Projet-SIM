@@ -1,1 +1,0 @@
-Ressources/Modele/Grille.obj Ressources/Texture/Grille.png 6

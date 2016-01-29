@@ -1,1 +1,0 @@
-Ressources/Modele/HolyRod236.obj Ressources/Texture/HolyRod236.png 4 102 3

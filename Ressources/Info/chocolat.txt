@@ -1,1 +1,0 @@
-Ressources/Modele/chocolat.obj Ressources/Texture/chocolat.png 4 102 35

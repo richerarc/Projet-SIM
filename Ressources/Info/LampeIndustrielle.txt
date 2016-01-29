@@ -1,2 +1,0 @@
-Ressources/Modele/LampeIndustrielle.obj
-Ressources/Texture/LampeIndustrielle.png 2

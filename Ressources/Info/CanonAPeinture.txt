@@ -1,1 +1,0 @@
-Ressources/Modele/CanonAPeinture.obj Ressources/Texture/CanonAPeinture.png 4 102 12

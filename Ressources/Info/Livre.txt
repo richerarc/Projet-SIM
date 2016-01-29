@@ -1,2 +1,0 @@
-Ressources/Modele/lit.obj
-Ressources/Texture/Livre.png 2 102

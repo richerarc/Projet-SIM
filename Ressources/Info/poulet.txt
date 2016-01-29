@@ -1,1 +1,0 @@
-Ressources/Modele/poulet.obj Ressources/Texture/poulet.png 4 102 32

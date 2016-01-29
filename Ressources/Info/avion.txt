@@ -1,1 +1,0 @@
-Ressources/Modele/avion.obj Ressources/Texture/Avion.png 2

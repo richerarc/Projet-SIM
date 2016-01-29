@@ -1,1 +1,0 @@
-Ressources/Modele/bouteilleBiere.obj Ressources/Texture/bouteilleBiere.png 4 102 38

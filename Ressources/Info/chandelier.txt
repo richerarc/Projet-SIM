@@ -1,1 +1,0 @@
-Ressources/Modele/chandelier.obj Ressources/Texture/chandelier.png 4 102 1

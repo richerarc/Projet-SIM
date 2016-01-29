@@ -1,1 +1,0 @@
-Ressources/Modele/vase.obj Ressources/Texture/vase.png 2 102

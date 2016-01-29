@@ -1,1 +1,0 @@
-Ressources/Modele/bouteillevin.obj Ressources/Texture/bouteillevin.png 4 102 38

@@ -1,1 +1,0 @@
-Ressources/Modele/Pendule.obj Ressources/Texture/Pendule.png 1
