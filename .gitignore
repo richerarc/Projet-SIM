@@ -18,12 +18,15 @@
 *.tlog
 *.lastbuiltstate
 *.idb
+*.vcxproj
+*.vcxproj.filters
 
 [Rr]elease/
 x64/
 build/
 [Bb]in/
 [Oo]bj/
+Debug/
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
