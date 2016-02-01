@@ -21,10 +21,10 @@ public:
 		peintures->resize(0);
 		delete peintures;
 		peintures = new std::list<Peinture*>();
-
+		Peinture* peinture;
 		if (salleActive) {
 			for (auto it : salleActive->obtListeObjet()) {
-				Peinture* peinture = dynamic_cast<Peinture*>(it);
+				peinture = dynamic_cast<Peinture*>(it);
 				if (peinture) {
 					peintures->push_back(peinture);
 				}
